@@ -13,18 +13,18 @@
         <title>Escuela de Historia</title>
 
         <!-- Bootstrap Core CSS -->
-        <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
+        <link rel="stylesheet" href="../css/bootstrap.min.css" type="text/css">
 
         <!-- Custom Fonts -->
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" href="css/font-awesome/css/font-awesome.min.css" type="text/css">
+        <link rel="stylesheet" href="../font-awesome/css/font-awesome.min.css" type="text/css">
 
         <!-- Plugin CSS -->
-        <link rel="stylesheet" href="css/animate.min.css" type="text/css">
+        <link rel="stylesheet" href="../css/animate.min.css" type="text/css">
 
         <!-- Custom CSS -->
-        <link rel="stylesheet" href="css/creative.css" type="text/css">
+        <link rel="stylesheet" href="../css/creative.css" type="text/css">
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -50,7 +50,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <img src="img/img1.png" width="100px" height="50px" align="left" />
+                    <img src="../img/img1.png" width="100px" height="50px" align="left" />
                     <a class="navbar-brand page-scroll" href="#page-top" style="margin-left: 10px; ">Escuela de Historia</a>
                 </div>
 
@@ -79,7 +79,7 @@
         <header>
             <div class="header-content">
                 <br/> <br/>
-                <img class="alineado" src="img/img2.png" width="200px" height="200px"/>
+                <img class="alineado" src="../img/img2.png" width="200px" height="200px"/>
                 <div class="header-content-inner">
                     <h2>Bienvenido a la Escuela de Historia</h2>
                     <center></center>
@@ -157,37 +157,37 @@
                 <div class="row no-gutter">
                     <div class="col-lg-4 col-sm-6">
                         <a href="#" class="portfolio-box">
-                            <img src="img/portfolio/1.jpg" class="img-responsive" alt="">
+                            <img src="../img/portfolio/1.jpg" class="img-responsive" alt="">
 
                         </a>
                     </div>
                     <div class="col-lg-4 col-sm-6">
                         <a href="#" class="portfolio-box">
-                            <img src="img/portfolio/2.jpg" class="img-responsive" alt="">
+                            <img src="../img/portfolio/2.jpg" class="img-responsive" alt="">
 
                         </a>
                     </div>
                     <div class="col-lg-4 col-sm-6">
                         <a href="#" class="portfolio-box">
-                            <img src="img/portfolio/3.jpg" class="img-responsive" alt="">
+                            <img src="../img/portfolio/3.jpg" class="img-responsive" alt="">
 
                         </a>
                     </div>
                     <div class="col-lg-4 col-sm-6">
                         <a href="#" class="portfolio-box">
-                            <img src="img/portfolio/4.jpg" class="img-responsive" alt="">
+                            <img src="../img/portfolio/4.jpg" class="img-responsive" alt="">
 
                         </a>
                     </div>
                     <div class="col-lg-4 col-sm-6">
                         <a href="#" class="portfolio-box">
-                            <img src="img/portfolio/5.jpg" class="img-responsive" alt="">
+                            <img src="../img/portfolio/5.jpg" class="img-responsive" alt="">
 
                         </a>
                     </div>
                     <div class="col-lg-4 col-sm-6">
                         <a href="#" class="portfolio-box">
-                            <img src="img/portfolio/6.jpg" class="img-responsive" alt="">
+                            <img src="../img/portfolio/6.jpg" class="img-responsive" alt="">
 
                         </a>
                     </div>
@@ -202,7 +202,7 @@
                         <h2 class="section-heading">Contactenos!</h2>
                         <hr class="primary">
                         <p>Escuela de Historia
-                            Universidad de San Carlos de Guatemala  â€”-USAC-â€”
+                            Universidad de San Carlos de Guatemala  â€�?-USAC-â€�?
                             Centro AmÃ©rica
                             Edificio S-1, 2do. Nivel, Ciudad Universitaria, zona 12
 
@@ -248,20 +248,21 @@
                 </div>
             </div>
         </div>
+<!-- FIN DE LOGIN -->
 
         <!-- jQuery -->
-        <script src="css/js/jquery.js"></script>
+        <script src="../js/jquery.js"></script>
 
         <!-- Bootstrap Core JavaScript -->
-        <script src="css/js/bootstrap.min.js"></script>
+        <script src="../js/bootstrap.min.js"></script>
 
         <!-- Plugin JavaScript -->
-        <script src="css/js/jquery.easing.min.js"></script>
-        <script src="css/js/jquery.fittext.js"></script>
-        <script src="css/js/wow.min.js"></script>
+        <script src="../js/jquery.easing.min.js"></script>
+        <script src="../js/jquery.fittext.js"></script>
+        <script src="../js/wow.min.js"></script>
 
         <!-- Custom Theme JavaScript -->
-        <script src="css/js/creative.js"></script>
+        <script src="../js/creative.js"></script>
 
     </body>
 
