@@ -18,7 +18,7 @@
 		 <div style="padding: 100px 0 0 550px;">
 			<div id="caja" style="height: 415px;">
 				<div id="login-box">
-					<H2>Administradores</H2>
+					<H2>Admins</H2>
 					<br />
                     <br />
                     <div id="login-box-name" style="margin-top:20px;">
