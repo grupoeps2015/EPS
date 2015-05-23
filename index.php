@@ -69,6 +69,7 @@
                             </div>
                             <div class="form-group">
                                 <button class="btn btn-danger btn-lg btn-block">Iniciar Sesi&oacute;n</button>
+                                <br/><br/>
                                 <span class="pull-right"><a href="#">Olvidaste tu password?</a></span>
                             </div>
                         </form>
