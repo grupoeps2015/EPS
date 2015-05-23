@@ -3,29 +3,29 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
         <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-        <title>Escuela de Historia - USAC</title>
+        <title>Sistema de control academico - USAC</title>
 		<link href="css/login-box.css" rel="stylesheet" type="text/css" />
     </head>
 	
     <body> 
         <div id="caja" style="width: 100%;"> 
 			<p align="center"><img class="alineado" src="img/img10.png" width="auto" height="100px" align="left" />
-                <font style="font-size: 40px;"> ESCUELA DE HISTORIA </font>
-                <img class="alineado" src="img/LogoEscuelaHistoria.png" width="100px" height="100px" align="right" style="margin-right: 22px; "/>
+                <font style="font-size: 40px;">Sistema Unificado de Control Acad&eacute;mico</font>
+                <img class="alineado" src="img/LogoDPD.png" width="150px" height="50px" align="right" style="margin-right: 22px; "/>
 			</p>
 		 </div>
 		 
-		 <div style="padding: 200px 0 0 550px;">
+		 <div style="padding: 100px 0 0 550px;">
 			<div id="caja" style="height: 415px;">
 				<div id="login-box">
 					<H2>Administradores</H2>
 					<br />
                     <br />
                     <div id="login-box-name" style="margin-top:20px;">
-						Username:
+						Usuario:
 					</div>
 					<div id="login-box-field" style="margin-top:20px;">
-						<input name="q" class="form-login" title="Username" value="" size="30" maxlength="2048" />
+						<input name="q" class="form-login" title="Usuario" value="" size="30" maxlength="2048" />
 					</div>
                     <div id="login-box-name">
 						Password:

@@ -14,10 +14,7 @@
     height: 100px;
 }
 img.alineado{
-    
-    vertical-align: middle;
-    
-    
+    vertical-align: middle;   
 }
 
 #login-box img {
@@ -55,7 +52,7 @@ img.alineado{
 	padding: 10px 4px 6px 3px;
 	
 	font-size: 16px;
-	color: #ebebeb;
+	color: #000000;
 }
 
 
@@ -71,7 +68,7 @@ img.alineado{
 }
 
 body { 
-	background:url("../img/history-wallpaper.jpg");
+	background:url("../img/rectoria.jpg");
 	background-attachment:fixed;
 	background-size:cover;
 	background-position:center top;
