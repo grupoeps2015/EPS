@@ -18,7 +18,7 @@
         <!-- Custom Fonts -->
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css" type="text/css">
+        <link rel="stylesheet" href="css/font-awesome/css/font-awesome.min.css" type="text/css">
 
         <!-- Plugin CSS -->
         <link rel="stylesheet" href="css/animate.min.css" type="text/css">
@@ -57,9 +57,6 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav navbar-right">
-						<li>
-                            <a class="page-scroll" href="Menu.php">Menu</a>
-                        </li>
                         <li>
                             <a class="page-scroll" href="#about">Acerca de</a>
                         </li>
@@ -72,7 +69,6 @@
                         <li>
                             <a class="page-scroll" href="#contact">Contacto</a>
                         </li>
-						
                     </ul>
                 </div>
                 <!-- /.navbar-collapse -->
@@ -82,30 +78,31 @@
 
         <header>
             <div class="header-content">
+                <br/> <br/>
                 <img class="alineado" src="img/img2.png" width="200px" height="200px"/>
                 <div class="header-content-inner">
                     <h2>Bienvenido a la Escuela de Historia</h2>
                     <center></center>
-                    <br/>
+
                     <hr>
 
 
-                    <p>Trabajamos en la reestructura de nuestra Escuela, con el propósito de actualizar nuestras carreras a los nuevos tiempos y desarrollos de nuestras disciplinas científicas. Concientes de que la historia real, esa que construimos en nuestra vida cotidiana, se presenta, a los que como profesión escogimos estudiarla, en su complejidad. Una evolución con retrocesos, saltos, cambios de nivel y apertura de caminos. Ello, nos obliga a observar procesos en sus distintos ritmos de duración, con objetividad y rigor científico, características que se obtienen a instancias de una correcta formación académica.</p>
+                    <p>Trabajamos en la reestructura de nuestra Escuela, con el proposito de actualizar nuestras carreras a los nuevos tiempos y desarrollos de nuestras disciplinas cientÃ­ficas. Concientes de que la historia real, esa que construimos en nuestra vida cotidiana, se presenta, a los que como profesiÃ³n escogimos estudiarla, en su complejidad. Una evoluciÃ³n con retrocesos, saltos, cambios de nivel y apertura de caminos. Ello, nos obliga a observar procesos en sus distintos ritmos de duraciÃ³n, con objetividad y rigor cientÃ­fico, caracterÃ­sticas que se obtienen a instancias de una correcta formaciÃ³n acadÃ©mica.</p>
                     <a href="#about" class="btn btn-primary btn-xl page-scroll">Acerca de</a>
                 </div>
             </div>
         </header>
-			
+
         <section class="bg-primary" id="about">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-8 col-lg-offset-2 text-center">
                         <h2 class="section-heading">Quienes somos?</h2>
                         <hr class="light">
-                        <p class="text-faded">La Escuela de Historia nació como unidad académica independiente en agosto de 1974, después de su separación del Departamento de Historia de la Facultad de Humanidades.
-                            Su creación estuvo ligada a aspiraciones académicas tendientes a superar la enseñanza tradicional de la Historia y las Ciencias Sociales. Ello se percibió con la lección inaugural de febrero de 1975 cuando oficialmente dieron inicio sus labores académicas.
-                            En aquel momento, además de la licenciatura en Historia que se impartía desde la Facultad de Humanidades, se implementaron las licenciaturas de Antropología y Arqueología.
-                            Aunque ya existía una unidad de investigación, por diversas razones, principalmente por falta de presupuesto, tuvo un largo periodo de inactividad. Fue hasta el año de 1986 cuando se logró el funcionamiento del Instituto de Investigaciones Historicas, Antropológicas y Arqueológicas.</p>
+                        <p class="text-faded">La Escuela de Historia naciÃ³ como unidad acadÃ©mica independiente en agosto de 1974, despuÃ©s de su separaciÃ³n del Departamento de Historia de la Facultad de Humanidades.
+                            Su creaciÃ³n estuvo ligada a aspiraciones acadÃ©micas tendientes a superar la enseÃ±anza tradicional de la Historia y las Ciencias Sociales. Ello se percibiÃ³ con la lecciÃ³n inaugural de febrero de 1975 cuando oficialmente dieron inicio sus labores acadÃ©micas.
+                            En aquel momento, ademÃ¡s de la licenciatura en Historia que se impartÃ­a desde la Facultad de Humanidades, se implementaron las licenciaturas de AntropologÃ­a y ArqueologÃ­a.
+                            Aunque ya existÃ­a una unidad de investigaciÃ³n, por diversas razones, principalmente por falta de presupuesto, tuvo un largo periodo de inactividad. Fue hasta el aÃ±o de 1986 cuando se logrÃ³ el funcionamiento del Instituto de Investigaciones Historicas, AntropolÃ³gicas y ArqueolÃ³gicas.</p>
                         <a href="#services" class="btn btn-default btn-xl">Accede al Sistema</a>
                     </div>
                 </div>
@@ -125,14 +122,14 @@
                 <div class="row">
                     <div class="col-lg-3 col-md-6 text-center">
                         <div class="service-box">
-                            <i class="fa fa-4x fa-sign-in wow bounceIn text-primary"></i>
+                            <a href="#" class="fa fa-4x fa-sign-in wow bounceIn text-primary" data-toggle="modal" data-target="#myModal"></a>
                             <h3>Estudiantes</h3>
                             <p class="text-muted">Ten Acceso a tus notas y horarios de cursos!</p>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6 text-center">
                         <div class="service-box">
-                            <i class="fa fa-4x fa-certificate wow bounceIn text-primary" data-wow-delay=".1s"></i>
+                            <a href="" class="fa fa-4x fa-certificate wow bounceIn text-primary" data-wow-delay=".1s" data-toggle="modal" data-target="#myModal"></a>
                             <h3>Catedraticos</h3>
                             <p class="text-muted">Ten acceso a los cursos que impartes y administra las notas de tus alumnos!</p>
                         </div>
@@ -205,11 +202,11 @@
                         <h2 class="section-heading">Contactenos!</h2>
                         <hr class="primary">
                         <p>Escuela de Historia
-                            Universidad de San Carlos de Guatemala  —-USAC-—
-                            Centro América
+                            Universidad de San Carlos de Guatemala  â€”-USAC-â€”
+                            Centro AmÃ©rica
                             Edificio S-1, 2do. Nivel, Ciudad Universitaria, zona 12
-                            
-                            </p>
+
+                        </p>
                     </div>
                     <div class="col-lg-4 col-lg-offset-2 text-center">
                         <i class="fa fa-phone fa-3x wow bounceIn"></i>
@@ -224,20 +221,47 @@
                 </div>
             </div>
         </section>
-		
-		<!-- jQuery -->
-        <script src="js/jquery.js"></script>
+<!-- LOGIN -->
+        <div  id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                        <h2 class="text-center">Inicia Sesion</h2>
+                    </div>
+                    <div class="modal-body row">
+                        
+                        <form class="col-md-10 col-md-offset-1 col-xs-12 col-xs-offset-0">
+                            <div class="form-group">
+                                <input type="text" class="form-control input-lg" placeholder="Carnet">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" class="form-control input-lg" placeholder="Password">
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-danger btn-lg btn-block">Entrar</button>
+                                <span class="pull-right"><a href="#">Olvidaste tu password?</a></span>
+                            </div>
+                        </form>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+
+        <!-- jQuery -->
+        <script src="css/js/jquery.js"></script>
 
         <!-- Bootstrap Core JavaScript -->
-        <script src="js/bootstrap.min.js"></script>
+        <script src="css/js/bootstrap.min.js"></script>
 
         <!-- Plugin JavaScript -->
-        <script src="js/jquery.easing.min.js"></script>
-        <script src="js/jquery.fittext.js"></script>
-        <script src="js/wow.min.js"></script>
+        <script src="css/js/jquery.easing.min.js"></script>
+        <script src="css/js/jquery.fittext.js"></script>
+        <script src="css/js/wow.min.js"></script>
 
         <!-- Custom Theme JavaScript -->
-        <script src="js/creative.js"></script>
+        <script src="css/js/creative.js"></script>
 
     </body>
 
