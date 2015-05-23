@@ -248,7 +248,7 @@
                 </div>
             </div>
         </div>
-
+<!-- FIN DE LOGIN -->
         <!-- jQuery -->
         <script src="css/js/jquery.js"></script>
 
