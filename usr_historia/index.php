@@ -125,14 +125,14 @@
                 <div class="row">
                     <div class="col-lg-3 col-md-6 text-center">
                         <div class="service-box">
-                            <i class="fa fa-4x fa-sign-in wow bounceIn text-primary"></i>
+                            <a href="#" class="fa fa-4x fa-sign-in wow bounceIn text-primary" data-toggle="modal" data-target="#myModal"></a>
                             <h3>Estudiantes</h3>
                             <p class="text-muted">Ten Acceso a tus notas y horarios de cursos!</p>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6 text-center">
                         <div class="service-box">
-                            <i class="fa fa-4x fa-certificate wow bounceIn text-primary" data-wow-delay=".1s"></i>
+                            <a href="" class="fa fa-4x fa-certificate wow bounceIn text-primary" data-wow-delay=".1s" data-toggle="modal" data-target="#myModal"></a>
                             <h3>Catedraticos</h3>
                             <p class="text-muted">Ten acceso a los cursos que impartes y administra las notas de tus alumnos!</p>
                         </div>
@@ -224,6 +224,34 @@
                 </div>
             </div>
         </section>
+
+<!-- LOGIN -->
+        <div  id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                        <h2 class="text-center">Inicia Sesion</h2>
+                    </div>
+                    <div class="modal-body row">
+                        
+                        <form class="col-md-10 col-md-offset-1 col-xs-12 col-xs-offset-0">
+                            <div class="form-group">
+                                <input type="text" class="form-control input-lg" placeholder="Carnet">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" class="form-control input-lg" placeholder="Password">
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-danger btn-lg btn-block">Entrar</button>
+                                <span class="pull-right"><a href="#">Olvidaste tu password?</a></span>
+                            </div>
+                        </form>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
 		
 		<!-- jQuery -->
         <script src="../js/jquery.js"></script>
