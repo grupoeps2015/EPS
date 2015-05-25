@@ -58,7 +58,7 @@
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav navbar-right">
 						<li>
-                            <a class="page-scroll" href="Menu.php">Menu</a>
+                            <a class="page-scroll" href="../menu.php">Menú</a>
                         </li>
                         <li>
                             <a class="page-scroll" href="#about">Acerca de</a>

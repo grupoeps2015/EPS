@@ -34,7 +34,7 @@
             <ul class="nav navbar-nav navbar-right">
 				<li>
                     <a class="page-scroll" href="Menu.php">
-                        <font color="black">Menu</font>
+                        <font color="black">Men&uacute;</font>
                     </a>
                 </li>
             </ul>

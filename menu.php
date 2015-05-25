@@ -82,13 +82,44 @@
             </div>
         </header>
 		
+		<?php
+
+			$user = "postgres";
+			$password = "eps";
+			$dbname = "ControlAcademico";
+			$port = "5433";
+			$host = "localhost";
+			$xmlFuncionMenu = "";
+			$cadenaConexion = "host=$host port=$port dbname=$dbname user=$user password=$password";
+
+			$conexion = pg_connect($cadenaConexion) or die("Error en la Conexión: ".pg_last_error());
+			
+			$query = "select * from adm_funcionmenu";
+
+			$resultado = pg_query($conexion, $query) or die("Error en la Consulta SQL");
+
+			$numReg = pg_num_rows($resultado);
+
+			if($numReg>0){
+			
+			while ($fila=pg_fetch_array($resultado)) {
+			$xmlFuncionMenu += $fila['funcionmenu'];
+			$xmlFuncionMenu += $fila['nombre'];
+			$xmlFuncionMenu += $fila['estado'];
+			}
+						
+			}
+
+			pg_close($conexion);
+
+?>
 		
-		
-		 <!-- Funciones javascript -->
+	 <!-- Funciones javascript -->
 			<script type="text/javascript" src="js/jquery.js"></script>
 			<script type="text/javascript">
-			
-			
+				
+			var xmlFuncionMenujs = "<?php echo $xmlFuncionMenu; ?>";
+			//alert(xmlFuncionMenujs);
 				//un array por cada uno de los menús desplegables
 				var opciones_menu = [
 				{
