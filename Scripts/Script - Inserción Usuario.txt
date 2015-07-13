@@ -1,0 +1,67 @@
+INSERT INTO adm_tipounidadacademica(
+            tipounidadacademica, nombre, descripcion)
+    VALUES (1, 'Escuela No Facultativa', '');
+
+INSERT INTO adm_unidadacademica(
+            unidadacademica, unidadacademicasuperior, nombre, tipo)
+    VALUES (1, NULL, 'Escuela de Historia', 1);
+
+INSERT INTO adm_rol(
+            rol, nombre, estado)
+    VALUES (1, 'Administrador', 1);
+	
+INSERT INTO adm_rol(
+            rol, nombre, estado)
+    VALUES (2, 'Control Academico', 1);
+
+INSERT INTO adm_rol(
+            rol, nombre, estado)
+    VALUES (3, 'Catedratico', 1);
+
+INSERT INTO adm_rol(
+            rol, nombre, estado)
+    VALUES (4, 'Estudiante', 1);
+
+INSERT INTO adm_usuario(
+            usuario, nombre, correo, clave, estado, preguntasecreta, respuestasecreta, 
+            fechaultimaautenticacion, integerentosautenticacion, foto, unidadacademica)
+    VALUES (100, 'marlen', 'marlen_2610@hotmail.com', '', 1, '', '', 
+            current_timestamp, 0, '', 1);
+
+INSERT INTO adm_rol_usuario(
+            rol, usuario)
+    VALUES (4, 100);
+
+INSERT INTO adm_pais(
+            pais, nombre)
+    VALUES (1, 'Guatemala');
+
+INSERT INTO adm_departamento(
+            departamento, nombre)
+    VALUES (1, 'Guatemala');
+
+INSERT INTO adm_municipio(
+            municipio, nombre, departamento)
+    VALUES (1, 'Ciudad de Guatemala', 1);
+	
+INSERT INTO est_estudiante(
+            estudiante, carnet, nombre, direccion, zona, municipio, telefono, 
+            estado, telefonoemergencia, tiposangre, alergias, segurovida, 
+            centroemergencia, usuario, paisorigen)
+    VALUES (1, 201020381, 'Marlen Paola Arias Salguero', '29 calle', 12, 1, 59564019, 1, 
+            42941151, 'A', 'Ninguna', false, 'Ninguno', 
+            100, 1);
+			
+INSERT INTO adm_rol_usuario(
+            rol, usuario)
+    VALUES (3, 200);
+
+INSERT INTO cat_tipocatedratico(
+            tipodocente, descripcion, estado)
+    VALUES (1, 'Titular', 1);
+
+INSERT INTO cat_catedratico(
+            catedratico, registropersonal, nombre, direccion, zona, municipio, 
+            telefono, tipodocente, usuario, estado, paisorigen)
+    VALUES (1, 1, 'El Profesor Jirafales', 'su casa', 20, 1, 
+            55555555, 1, 200, 1, 1);

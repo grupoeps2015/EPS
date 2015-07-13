@@ -11,7 +11,6 @@
         <meta name="author" content="">
 
         <title>Escuela de Historia</title>
-
         <!-- Bootstrap Core CSS -->
         <link rel="stylesheet" href="../css/bootstrap.min.css" type="text/css">
 
@@ -84,7 +83,7 @@
             <div class="header-content">
                 <img class="alineado" src="../img/img2.png" width="200px" height="200px"/>
                 <div class="header-content-inner">
-                    <h2>Bienvenido a la Escuela de Historia</h2>
+                    <h2>Bienvenido a la Escuela de Historia</h2> <?PHP echo 'hola'; ?>
                     <center></center>
                     <br/>
                     <hr>
@@ -226,7 +225,7 @@
         </section>
 
 <!-- LOGIN -->
-        <div  id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -252,7 +251,27 @@
                 </div>
             </div>
         </div>
-		
+		<?php
+			include 'conexion.php';
+			$conexion = pg_connect($cadenaConexion) or die("Error en la Conexión: ".pg_last_error());
+			$query = "select * from adm_funcionmenu";
+
+			$resultado = pg_query($conexion, $query) or die("Error en la Consulta SQL");
+
+			$numReg = pg_num_rows($resultado);
+
+			if($numReg>0){
+			
+			while ($fila=pg_fetch_array($resultado)) {
+				echo $fila['funcionmenu'];
+			}
+						
+			}
+			else {
+				echo 'hola';
+			}
+			pg_close($conexion);
+		?>
 		<!-- jQuery -->
         <script src="../js/jquery.js"></script>
 
