@@ -4,6 +4,8 @@ define('BASE_URL','http://localhost/EPS/');
 define('DEFAULT_CONTROLLER','index');
 define('DEFAULT_LAYOUT','default');
 define('ADM_LAYOUT','admin');
+define('ADMH_LAYOUT','admHistoria');
+define('USRH_LAYOUT','usrHistoria');
 
 define('APP_TITULO','Sistema de control academico - USAC');
 
