@@ -10,29 +10,47 @@
 class Bootstrap{
     public static function run(Request $peticion){
         $controller = $peticion->getControlador() . 'Controller';
-        $rutaControlador = ROOT . 'controllers' . DS . $controller . '.php';
+        
+        $rutaControlador = ROOT . 'controllers' . DS . 'adm' .DS . $controller . '.php';
+        if(is_readable($rutaControlador)){
+            Bootstrap::redirect("adm",$peticion);
+        }else{
+            $rutaControlador = ROOT . 'controllers' . DS . 'admHistoria' .DS . $controller . '.php';
+            if(is_readable($rutaControlador)){
+                Bootstrap::redirect("admHistoria",$peticion);
+            }else{
+                $rutaControlador = ROOT . 'controllers' . DS . 'usrHistoria' .DS . $controller . '.php';
+                if(is_readable($rutaControlador)){
+                    Bootstrap::redirect("usrHistoria",$peticion);
+                }else{
+                    throw new Exception('File not found ' . $rutaControlador);
+                }
+            }
+        }
+    }
+    
+    public function redirect($folder, Request $peticion){
+        $controller = $peticion->getControlador() . 'Controller';
+        $rutaControlador = ROOT . 'controllers' . DS . $folder .DS . $controller . '.php';
         $metodo = $peticion->getMetodo();
         $args = $peticion->getArgs();
         
-        if(is_readable($rutaControlador)){
-            require_once $rutaControlador;
-            $controller = new $controller;
+        require_once $rutaControlador;
+        $controller = new $controller;
             
-            if(is_callable(array($controller, $metodo))){
-                $metodo = $peticion->getMetodo();
-            }else{
-                $metodo = 'index';
-            }
-        
-            if(isset($args)){
-                call_user_func_array(array($controller,$metodo), $args);
-            }else{
-                call_user_func(array($controller,$metodo));
-            }
+        if(is_callable(array($controller, $metodo))){
+            $metodo = $peticion->getMetodo();
         }else{
-            throw new Exception('File not found');
+            $metodo = 'index';
+        }
+        
+        if(isset($args)){
+            call_user_func_array(array($controller,$metodo), $args);
+        }else{
+            call_user_func(array($controller,$metodo));
         }
     }
+    
 }
 
 ?>
