@@ -9,15 +9,15 @@ abstract class Controller{
     
     abstract public function index();
     
-    protected function loadModel($modelo){
+    protected function loadModel($folder, $modelo){
         $modelo = $modelo . 'Model';
-        $rutaModelo = ROOT . 'models' . DS . $modelo . '.php';
+        $rutaModelo = ROOT . 'models' . DS . $folder . DS . $modelo . '.php';
         if (is_readable($rutaModelo)){
             require_once $rutaModelo;
             $modelo = new $modelo;
             return $modelo;
         }else{
-            throw new Exception("Model File not found");
+            throw new Exception("Model File not found " . $rutaModelo);
         }
     }
     
@@ -31,6 +31,14 @@ abstract class Controller{
         }
     }
     
+    protected function getTexto($clave){
+        if(isset($_POST[$clave]) && !empty($_POST[$clave])){
+            $_POST[$clave] = HTML_SPECIALCHARS($_POST[$clave],ENT_QUOTES);
+            return $_POST[$clave];
+        }
+        return '';
+        
+    }
 }
 
 ?>
