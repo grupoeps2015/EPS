@@ -24,6 +24,16 @@ CREATE TABLE  ADM_UnidadAcademica (
     FOREIGN KEY (UnidadAcademicaSuperior)
     REFERENCES ADM_UnidadAcademica (UnidadAcademica));
 
+	
+-- -----------------------------------------------------
+-- Table ADM_PreguntaSecreta
+-- -----------------------------------------------------
+CREATE TABLE  ADM_PreguntaSecreta (
+  PreguntaSecreta SERIAL NOT NULL,
+  Descripcion TEXT NOT NULL,
+  PRIMARY KEY (PreguntaSecreta)
+ );
+  
 
 -- -----------------------------------------------------
 -- Table ADM_Usuario
@@ -34,7 +44,7 @@ CREATE TABLE  ADM_Usuario (
   Correo TEXT NOT NULL,
   Clave TEXT NOT NULL,
   Estado INTEGER NOT NULL,
-  PreguntaSecreta TEXT NOT NULL,
+  PreguntaSecreta INTEGER NOT NULL,
   RespuestaSecreta TEXT NOT NULL,
   FechaUltimaAutenticacion TIMESTAMP NOT NULL,
   INTEGERentosAutenticacion INTEGER NOT NULL,
@@ -43,7 +53,11 @@ CREATE TABLE  ADM_Usuario (
   PRIMARY KEY (Usuario),
   CONSTRAINT fk_ADM_Usuario_ADM_UnidadAcademica1
     FOREIGN KEY (UnidadAcademica)
-    REFERENCES ADM_UnidadAcademica (UnidadAcademica));
+    REFERENCES ADM_UnidadAcademica (UnidadAcademica),
+  CONSTRAINT fk_ADM_Usuario_ADM_PreguntaSecreta1
+    FOREIGN KEY (PreguntaSecreta)
+    REFERENCES ADM_PreguntaSecreta (PreguntaSecreta)	
+);
 
 
 -- -----------------------------------------------------

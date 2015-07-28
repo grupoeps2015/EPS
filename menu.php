@@ -77,17 +77,48 @@
                     <center></center>
                     <br/>
                     <hr>
-					<div id="menu"></div>
+					<div id="menu">						
+					</div>
                 </div>
             </div>
         </header>
+		<div>
+						<ul>
+						  <form name="display" action="" method="post">  
+						  <label>Menú:</label>
+						  <!--<select name='ddlMenu'>-->
+							   <?php
+								$user = "postgres";
+								$password = "eps";
+								$dbname = "ControlAcademico";
+								$port = "5432";
+								$host = "localhost";
+								$cadenaConexion = "host=$host port=$port dbname=$dbname user=$user password=$password";
+								$db_con = pg_connect($cadenaConexion);              
+								#Query for profiles
+								$result=pg_query($db_con, "SELECT nombre,tipo,url from adm_funcionmenu"); 
+								while ($row = pg_fetch_array($result))
+								{
+								if($row['tipo']==1)
+									{
+								    echo "<li><a href=\"#\">{$row['nombre']}</a></li>", PHP_EOL;  
+								    }
+								else 
+								{
+									echo "<ul><li><a href=\"#\">{$row['nombre']}</a></li></ul>", PHP_EOL;  
+								}
+								}
+								?>
+							<!--</select>-->
+						</ul>
+		</div>
 		
 		<?php
 
 			$user = "postgres";
 			$password = "eps";
 			$dbname = "ControlAcademico";
-			$port = "5433";
+			$port = "5432";
 			$host = "localhost";
 			$xmlFuncionMenu = "";
 			$cadenaConexion = "host=$host port=$port dbname=$dbname user=$user password=$password";
@@ -113,13 +144,15 @@
 			pg_close($conexion);
 
 ?>
+
+
 		
-	 <!-- Funciones javascript -->
+	 <!-- Funciones javascript
 			<script type="text/javascript" src="js/jquery.js"></script>
 			<script type="text/javascript">
 				
 			var xmlFuncionMenujs = "<?php echo $xmlFuncionMenu; ?>";
-			//alert(xmlFuncionMenujs);
+			alert(xmlFuncionMenujs);
 				//un array por cada uno de los menús desplegables
 				var opciones_menu = [
 				{
@@ -287,7 +320,7 @@
 	$("#menu").generaMenu(opciones_menu);
 		
 		</script>
-
+ -->
         <!-- jQuery -->
         <script src="js/jquery.js"></script>
 
@@ -301,7 +334,7 @@
 
         <!-- Custom Theme JavaScript -->
         <script src="js/creative.js"></script>
-
+						
     </body>
 
 </html>
