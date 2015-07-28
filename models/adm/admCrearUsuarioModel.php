@@ -11,29 +11,31 @@ class admCrearUsuarioModel extends Model{
     }
     
     public function getDepartamentos(){
-        $post = $this->_db->query("SELECT * from spConsultaDeptos()");
+        $post = $this->_db->query("SELECT * from spConsultaUsuarios()");
         return $post->fetchall();
     }
     
-    public function agregarUsuario($_usuario,
-                                   $_nombre,
+    public function getUsuarios(){
+        $post = $this->_db->query("SELECT * from spConsultaUsuarios()");
+        return $post->fetchall();
+    }
+    
+    public function agregarUsuario($_nombre,
                                    $_correo,
                                    $_clave,
-                                   $_estado,
                                    $_preguntasecreta,
                                    $_respuestasecreta,
-                                   $_fechaultimaautenticacion,
-                                   $_integerentosautenticacion,
+                                   $_intentos,
                                    $_foto,
                                    $_unidadacademica){
-        $sp = $_usuario . ',' . $_nombre . ',' . $_correo . ',' . $_clave . ',';
-        $sp .= $_estado . ',' . $_preguntasecreta . ',' . $_respuestasecreta . ',';
-        $sp .= $_fechaultimaautenticacion . ',' . $_integerentosautenticacion . ',';
-        $sp .= $_foto . ',' . $_unidadacademica . ');';
+        $sp = '\'' .  $_nombre . '\',\'' . $_correo . '\',\'' . $_clave . '\',\'';
+        $sp .= $_preguntasecreta . '\',\'' . $_respuestasecreta . '\',' . $_intentos . ',\'';
+        $sp .= $_foto . '\',' . $_unidadacademica . ');';
         try{
             $this->_db->query("SELECT spagregarusuarios(" . $sp);
+            return "SELECT spagregarusuarios(" . $sp;
         }catch(Exception $e){
-            echo $e->getMessage();
+            return $e->getMessage();
         }
     }
     

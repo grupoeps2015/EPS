@@ -4,8 +4,9 @@
 <table border="1" align="center">
     <?php for($i =0; $i < count($this->posts); $i++) : ?>
     <tr>
-        <td><?php echo $this->posts[$i]['departamento']; ?></td>
+        <td><?php echo $this->posts[$i]['usuario']; ?></td>
         <td><?php echo $this->posts[$i]['nombre']; ?></td>
+        <td><?php echo $this->posts[$i]['correo']; ?></td>
     </tr>
     <?php endfor;?>
 </table>

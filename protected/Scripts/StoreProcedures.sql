@@ -1,15 +1,12 @@
-﻿--************************************************ Function: spconsultadeptos() ************************************************
-DROP FUNCTION spagregarusuarios(integer, text, text, text, integer, text, text, timestamp without time zone, integer, text, integer);
+﻿--************************************************ Function: spAgregarUsuarios() ************************************************
+DROP FUNCTION spagregarusuarios(text, text, text, text, text, integer, text, integer);
 
 CREATE OR REPLACE FUNCTION spAgregarUsuarios(
-	_usuario integer,
 	_nombre text,
 	_correo text,
 	_clave text,
-	_estado integer,
 	_preguntasecreta text,
 	_respuestasecreta text,
-	_fechaultimaautenticacion timestamp,
 	_integerentosautenticacion integer,
 	_foto text,
 	_unidadacademica integer
@@ -17,16 +14,33 @@ CREATE OR REPLACE FUNCTION spAgregarUsuarios(
 RETURNS void AS $BODY$
 BEGIN
 
- INSERT INTO adm_usuario VALUES (_usuario, _nombre, _correo, _clave, _estado, _preguntasecreta, _respuestasecreta, 
-				 _fechaultimaautenticacion, _integerentosautenticacion, _foto, _unidadacademica);
+ INSERT INTO adm_usuario VALUES (DEFAULT,_nombre, _correo, _clave, 0, _preguntasecreta, _respuestasecreta, 
+				 current_timestamp, _integerentosautenticacion, _foto, _unidadacademica);
 END;
 $BODY$
 LANGUAGE 'plpgsql';
+select * from adm_usuario
 
---************************************************ Function: spconsultadeptos() ************************************************
+--************************************************ Function: spconsultausuarios() ************************************************
+DROP FUNCTION spconsultausuarios();
+
+CREATE OR REPLACE FUNCTION spconsultausuarios(
+	OUT usuario int,
+	OUT nombre text,
+	OUT correo text
+) RETURNS setof record AS
+
+$BODY$
+begin
+ return query select usr.usuario, usr.nombre, usr.correo from adm_usuario usr;
+end;
+$BODY$
+LANGUAGE 'plpgsql';
+
+--************************************************ Function: spconsultadepartamentos() ************************************************
 DROP FUNCTION spconsultadeptos();
 
-CREATE OR REPLACE FUNCTION spConsultaDeptos(
+CREATE OR REPLACE FUNCTION spconsultadepartamentos(
 	OUT departamento int,
 	OUT nombre text
 ) RETURNS setof record AS
@@ -37,5 +51,3 @@ begin
 end;
 $BODY$
 LANGUAGE 'plpgsql';
-
-SELECT * from spConsultaDeptos()

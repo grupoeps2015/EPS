@@ -36,20 +36,19 @@
     <div class="header-content">
         <div class="header-content-inner">
             <div class="row">
-                <form id="form1" method="post" action=="<?php echo BASE_URL; ?>admCrearUsuario/agregarUsuario" class="col-md-4 col-md-offset-4 col-xs-6 col-xs-offset-3">
+                <form id="form1" method="post" action="<?php echo BASE_URL; ?>admCrearUsuario/agregarUsuario" class="col-md-4 col-md-offset-4 col-xs-6 col-xs-offset-3">
                     <div class="form-group">
-                        Usuario:    <input type="text" name="txtUsuario" value="1" disabled="true" class="form-control input-lg">
-                        Nombre:     <input type="text" name="txtNombre" class="form-control input-lg">
-                        Correo:     <input type="text" name="txtCorreo" class="form-control input-lg">
-                        Clave:      <input type="password" name="txtPass1" class="form-control input-lg">
-                        Validar:    <input type="password" name="txtPass2" class="form-control input-lg">
-                        Pregunta Secreta:   <input type="text" name="txtEstado" class="form-control input-lg">
-                        Respuesta Secreta:  <input type="text" name="txtEstado" class="form-control input-lg">
-                        Foto: <input type="text" name="txtEstado" class="form-control input-lg">
-                        <input type="hidden" name="txtEstado" class="form-control input-lg">
-                        <input type="hidden" name="txtFecha" class="form-control input-lg">
-                        <input type="hidden" name="txtIntentos" class="form-control input-lg">
-                        <input type="hidden" name="txtUnidadAcademica" class="form-control input-lg">
+                        <h4 class="section-heading" style="color: red"><?php if(isset($this->_error))echo $this->_error;?></h4>
+                        *Nombre:     <input type="text" name="txtNombre" class="form-control input-lg" value="<?php if(isset($this->datos['txtNombre'])) echo $this->datos['txtNombre']?>">
+                        *Correo:     <input type="text" name="txtCorreo" class="form-control input-lg" value="<?php if(isset($this->datos['txtCorreo'])) echo $this->datos['txtCorreo']?>">
+                        *Clave:      <input type="password" name="txtPass1" class="form-control input-lg">
+                        *Validar:    <input type="password" name="txtPass2" class="form-control input-lg">
+                        Pregunta Secreta:   <input type="text" name="txtPregunta" class="form-control input-lg" value="<?php if(isset($this->datos['txtPregunta'])) echo $this->datos['txtPregunta']?>">
+                        Respuesta Secreta:  <input type="text" name="txtRespuesta" class="form-control input-lg" value="<?php if(isset($this->datos['txtRespuesta'])) echo $this->datos['txtRespuesta']?>">
+                        Foto: <input type="text" name="txtFoto" class="form-control input-lg">
+                        <input type="hidden" name="txtEstado" class="form-control input-lg" value="0">
+                        <input type="hidden" name="txtIntentos" class="form-control input-lg" value="5">
+                        <input type="hidden" name="txtUnidadAcademica" class="form-control input-lg" value="1">
 
                     </div>
                     <br />

@@ -31,12 +31,30 @@ abstract class Controller{
         }
     }
     
-    protected function getTexto($clave){
-        if(isset($_POST[$clave]) && !empty($_POST[$clave])){
-            $_POST[$clave] = HTML_SPECIALCHARS($_POST[$clave],ENT_QUOTES);
-            return $_POST[$clave];
+    protected function getTexto($entrada){
+        if(isset($_POST[$entrada]) && !empty($_POST[$entrada])){
+            $_POST[$entrada] = htmlspecialchars($_POST[$entrada],ENT_QUOTES);
+            return $_POST[$entrada];
         }
         return '';
+    }
+    
+    protected function getInteger($entrada){
+        if(isset($_POST[$entrada]) && !empty($_POST[$entrada])){
+            $_POST[$entrada] = filter_input(INPUT_POST, $entrada, FILTER_VALIDATE_INT);
+            return $_POST[$entrada];
+        }
+        return 0;
+    }
+    
+    protected function redireccionar($ruta = false){
+        if($ruta){
+            header('location:' . BASE_URL . $ruta);
+            exit;
+        }else{
+            header('location:' . BASE_URL);
+            exit;
+        }
         
     }
 }
