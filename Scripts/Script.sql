@@ -47,7 +47,7 @@ CREATE TABLE  ADM_Usuario (
   PreguntaSecreta INTEGER NOT NULL,
   RespuestaSecreta TEXT NOT NULL,
   FechaUltimaAutenticacion TIMESTAMP NOT NULL,
-  INTEGERentosAutenticacion INTEGER NOT NULL,
+  IntentosAutenticacion INTEGER NOT NULL,
   Foto TEXT NOT NULL,
   UnidadAcademica INTEGER NOT NULL,
   PRIMARY KEY (Usuario),
