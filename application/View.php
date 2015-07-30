@@ -15,9 +15,9 @@ class View{
         );
         $rutaView = ROOT . 'views' . DS . 'adm' . DS . $this->_controlador . DS . $vista . '.php';
         if(is_readable($rutaView)){
-            include_once ROOT . 'views' . DS . 'layout' . DS . ADM_LAYOUT . DS . 'header.php';
+            include_once ROOT . 'views' . DS . 'layout' . DS . ADM_FOLDER . DS . 'header.php';
             include_once $rutaView;
-            include_once ROOT . 'views' . DS . 'layout' . DS . ADM_LAYOUT . DS . 'footer.php';
+            include_once ROOT . 'views' . DS . 'layout' . DS . ADM_FOLDER . DS . 'footer.php';
         }else{
             throw new Exception('View not found ' . $rutaView);
         }
@@ -31,9 +31,9 @@ class View{
         );
         $rutaView = ROOT . 'views' . DS . 'admHistoria' . DS . $this->_controlador . DS . $vista . '.php';
         if(is_readable($rutaView)){
-            include_once ROOT . 'views' . DS . 'layout' . DS . ADMH_LAYOUT . DS . 'header.php';
+            include_once ROOT . 'views' . DS . 'layout' . DS . ADMH_FOLDER . DS . 'header.php';
             include_once $rutaView;
-            include_once ROOT . 'views' . DS . 'layout' . DS . ADMH_LAYOUT . DS . 'footer.php';
+            include_once ROOT . 'views' . DS . 'layout' . DS . ADMH_FOLDER . DS . 'footer.php';
         }else{
             throw new Exception('View not found ' . $rutaView);
         }
@@ -47,9 +47,9 @@ class View{
         );
         $rutaView = ROOT . 'views' . DS . 'usrHistoria' . DS . $this->_controlador . DS . $vista . '.php';
         if(is_readable($rutaView)){
-            include_once ROOT . 'views' . DS . 'layout' . DS . USRH_LAYOUT . DS . 'header.php';
+            include_once ROOT . 'views' . DS . 'layout' . DS . USRH_FOLDER . DS . 'header.php';
             include_once $rutaView;
-            include_once ROOT . 'views' . DS . 'layout' . DS . USRH_LAYOUT . DS . 'footer.php';
+            include_once ROOT . 'views' . DS . 'layout' . DS . USRH_FOLDER . DS . 'footer.php';
         }else{
             throw new Exception('View not found ' . $rutaView);
         }
