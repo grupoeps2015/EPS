@@ -15,6 +15,11 @@ class admCrearUsuarioModel extends Model{
         return $post->fetchall();
     }
     
+    public function getPreguntas(){
+        $preguntas = $this->_db->query("SELECT * from spconsultarpreguntasecreta()");
+        return $preguntas->fetchall();
+    }
+    
     public function getUsuarios(){
         $post = $this->_db->query("SELECT * from spConsultaUsuarios()");
         return $post->fetchall();

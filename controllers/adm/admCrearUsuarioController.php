@@ -23,12 +23,14 @@ class admCrearUsuarioController extends Controller{
     
     public function agregarUsuario(){
         $this->_view->titulo = 'Agregar Usuario - ' . APP_TITULO;
+        $this->_view->setJs(ADM_FOLDER,array('agregarUsuario'));
+        $this->_view->setPublicJs(array('jquery.validate'));
         
         if($this->getInteger('btnAgregar') == 1){
             $this->_view->prueba = "Hola";
         }else{
             $this->_view->datos = $_POST;
-            
+            $this->_view->preguntas = $this->_post->getPreguntas();
             if(!$this->getTexto('txtNombre')){
                 $this->_view->_error = "Campo Nombre es obligatorio";
                 $this->_view->renderizarAdm('agregarUsuario', 'admCrearUsuario');
