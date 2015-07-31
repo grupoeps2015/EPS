@@ -41,7 +41,7 @@ LANGUAGE 'plpgsql';
 -- -----------------------------------------------------
 -- Function: spconsultadepartamentos()
 -- -----------------------------------------------------
--- DROP FUNCTION spconsultadeptos();
+-- DROP FUNCTION spconsultadepartamentos();
 
 CREATE OR REPLACE FUNCTION spconsultadepartamentos(
 	OUT departamento int,

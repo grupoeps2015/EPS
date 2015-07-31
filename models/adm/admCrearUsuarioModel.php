@@ -11,7 +11,7 @@ class admCrearUsuarioModel extends Model{
     }
     
     public function getDepartamentos(){
-        $post = $this->_db->query("SELECT * from spConsultaUsuarios()");
+        $post = $this->_db->query("SELECT * from spConsultaDepartamentos()");
         return $post->fetchall();
     }
     
