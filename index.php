@@ -13,7 +13,6 @@
     require_once APP_PATH . 'Request.php';
     require_once APP_PATH . 'View.php';
 
-    
     try{
         Bootstrap::run(new Request);
     }catch(Exception $e){
