@@ -34,7 +34,7 @@ LANGUAGE 'plpgsql';
 
 CREATE OR REPLACE FUNCTION spconsultarpreguntasecreta(OUT id int,OUT pregunta text) RETURNS setof record AS $BODY$
 BEGIN
-	RETURN query SELECT * FROM adm_preguntasecreta pres;
+	RETURN query SELECT * FROM adm_preguntasecreta pres where pres.preguntasecreta>0;
 END; $BODY$
 LANGUAGE 'plpgsql';
 
