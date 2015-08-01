@@ -51,22 +51,22 @@
                             <table>
                                 <tr>
                                     <td colspan="3">*Carnet
-                                        <input type="text" name="txtNombre" class="form-control input-lg" value="<?php if(isset($this->datos['txtNombre'])) echo $this->datos['txtNombre']?>">
+                                        <input type="text" id="txtCarnetEst" name="txtCarnetEst" class="form-control input-lg" value="<?php if(isset($this->datos['txtCarnetEst'])) echo $this->datos['txtCarnetEst']?>">
                                         <br/>
                                     </td>
                                     <td>&nbsp;</td>
                                     <td rowspan="2">Foto: 
-                                        <input type="text" name="txtFoto" class="form-control input-lg">
+                                        <input type="text" id="txtFotoEst" name="txtFotoEst" class="form-control input-lg">
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>*Primer Nombre:
-                                        <input type="text" name="txtNombre" class="form-control input-lg" value="<?php if(isset($this->datos['txtNombre'])) echo $this->datos['txtNombre']?>">
+                                        <input type="text" id="txtNombreEst1" name="txtNombreEst1" class="form-control input-lg" value="<?php if(isset($this->datos['txtNombreEst1'])) echo $this->datos['txtNombreEst1']?>">
                                         <br/>
                                     </td>
                                     <td>&nbsp;</td>
                                     <td>Segundo Nombre:
-                                        <input type="text" name="txtNombre" class="form-control input-lg" value="<?php if(isset($this->datos['txtNombre'])) echo $this->datos['txtNombre']?>">
+                                        <input type="text" id="txtNombreEst2" name="txtNombreEst2" class="form-control input-lg" value="<?php if(isset($this->datos['txtNombreEst2'])) echo $this->datos['txtNombreEst2']?>">
                                         <br/>
                                     </td>
                                     <td>&nbsp;</td>
@@ -74,73 +74,67 @@
                                 <tr>
                                     <td>
                                         *Primer Apellido:
-                                        <input type="text" name="txtNombre" class="form-control input-lg" value="<?php if(isset($this->datos['txtNombre'])) echo $this->datos['txtNombre']?>">
+                                        <input type="text" id="txtApellidoEst1" name="txtApellidoEst1" class="form-control input-lg" value="<?php if(isset($this->datos['txtApellidoEst1'])) echo $this->datos['txtApellidoEst1']?>">
                                         <br/>
                                     </td>
                                     <td>&nbsp;</td>
                                     <td>
                                         Segundo Apellido:
-                                        <input type="text" name="txtNombre" class="form-control input-lg" value="<?php if(isset($this->datos['txtNombre'])) echo $this->datos['txtNombre']?>">
+                                        <input type="text" id="txtApellidoEst2" name="txtApellidoEst2" class="form-control input-lg" value="<?php if(isset($this->datos['txtApellidoEst2'])) echo $this->datos['txtApellidoEst2']?>">
                                         <br/>
                                     </td>
                                     <td>&nbsp;</td>
                                     <td rowspan="2" colspan="2">
-                                        <input type="submit" name="btnAgregar" value="Crear Nuevo" class="btn btn-danger btn-lg btn-block">
+                                        <input type="submit" id="btnAgregarEst" name="btnAgregarEst" value="Nuevo Estudiante" class="btn btn-danger btn-lg btn-block">
                                     </td>
-                                    
                                 </tr>
                                 <tr>
                                     <td colspan="3">
                                         *Correo:     
-                                        <input type="text" name="txtCorreo" class="form-control input-lg" value="<?php if(isset($this->datos['txtCorreo'])) echo $this->datos['txtCorreo']?>">
+                                        <input type="text" id="txtCorreo" name="txtCorreoEst" class="form-control input-lg" value="<?php if(isset($this->datos['txtCorreoEst'])) echo $this->datos['txtCorreoEst']?>">
                                         <br/>
                                     </td>
                                     <td>&nbsp;</td>
                                 </tr>
                             </table>
                             <br />
-                            
                         </div>
                     </div>
-                    
+                
+                <div class="col-md-4 col-md-offset-4 col-xs-6 col-xs-offset-3">
+                    <div id="divCatedraticos" class="form-group">
+                        *Nombre:
+                        <input type="text" name="txtNombre" class="form-control input-lg" value="<?php if(isset($this->datos['txtNombre'])) echo $this->datos['txtNombre']?>"><br/>
+                        *Correo:     
+                        <input type="text" name="txtCorreo" class="form-control input-lg" value="<?php if(isset($this->datos['txtCorreo'])) echo $this->datos['txtCorreo']?>"><br/>
+                        Foto: <input type="text" name="txtFoto" class="form-control input-lg"><br/>
+                        <br />
+                        <input type="submit" name="btnAgregar" value="Crear Nuevo" class="btn btn-danger btn-lg btn-block">
+                    </div>
+                </div>
+                
+                <div class="col-md-4 col-md-offset-4 col-xs-6 col-xs-offset-3">
+                    <div id="divEmpleados" class="form-group">
+                        *Nombre:
+                        <input type="text" name="txtNombre" class="form-control input-lg" value="<?php if(isset($this->datos['txtNombre'])) echo $this->datos['txtNombre']?>"><br/>
+                        *Correo:     
+                        <input type="text" name="txtCorreo" class="form-control input-lg" value="<?php if(isset($this->datos['txtCorreo'])) echo $this->datos['txtCorreo']?>"><br/>
+                        Foto: <input type="text" name="txtFoto" class="form-control input-lg"><br/>
+                        <br />
+                        <input type="submit" name="btnAgregar" value="Crear Nuevo" class="btn btn-danger btn-lg btn-block">
+                    </div>
+                </div>
+                
+                    <!-- Informacion por defecto al momento de crear un usuario nuevo -->
+                    <input type="hidden" id="txtPass" name="txtPass" value="default"><br/>
+                    <input type="hidden" id="txtPregunta" name="txtPregunta" value="0">
+                    <input type="hidden" id="txtRespuesta" name="txtRespuesta" value="USAC">
+                    <input type="hidden" id="txtIntentos" name="txtIntentos" value="5">
+                    <input type="hidden" id="txtUnidadAcademica" name="txtUnidadAcademica" value="<?php echo UNIDAD_ACADEMICA ?>">
                 </form>
-                <div class="col-md-4 col-md-offset-4 col-xs-6 col-xs-offset-3">
-                    <form id="frCatedraticos" method="post" action="<?php echo BASE_URL; ?>admCrearUsuario/agregarUsuario">
-                        <div id="divCatedraticos" class="form-group">
-                            *Nombre:
-                            <input type="text" name="txtNombre" class="form-control input-lg" value="<?php if(isset($this->datos['txtNombre'])) echo $this->datos['txtNombre']?>"><br/>
-                            *Correo:     
-                            <input type="text" name="txtCorreo" class="form-control input-lg" value="<?php if(isset($this->datos['txtCorreo'])) echo $this->datos['txtCorreo']?>"><br/>
-                            Foto: <input type="text" name="txtFoto" class="form-control input-lg"><br/>
-                            <br />
-                            <input type="submit" name="btnAgregar" value="Crear Nuevo" class="btn btn-danger btn-lg btn-block">
-                        </div>
-                    </form>
-                </div>
-                
-                <div class="col-md-4 col-md-offset-4 col-xs-6 col-xs-offset-3">
-                    <form id="frEmpleados" method="post" action="<?php echo BASE_URL; ?>admCrearUsuario/agregarUsuario">
-                        <div id="divEmpleados" class="form-group">
-                            *Nombre:
-                            <input type="text" name="txtNombre" class="form-control input-lg" value="<?php if(isset($this->datos['txtNombre'])) echo $this->datos['txtNombre']?>"><br/>
-                            *Correo:     
-                            <input type="text" name="txtCorreo" class="form-control input-lg" value="<?php if(isset($this->datos['txtCorreo'])) echo $this->datos['txtCorreo']?>"><br/>
-                            Foto: <input type="text" name="txtFoto" class="form-control input-lg"><br/>
-                            <br />
-                            <input type="submit" name="btnAgregar" value="Crear Nuevo" class="btn btn-danger btn-lg btn-block">
-                        </div>
-                    </form>
-                </div>
-                
-                <input type="hidden" name="txtPass1" class="form-control input-lg" value="default"><br/>
-                <input type="hidden" name="txtPregunta" class="form-control input-lg" value="0">
-                <input type="hidden" name="txtRespuesta" class="form-control input-lg" value="USAC">
-                <input type="hidden" name="txtEstado" class="form-control input-lg" value="0">
-                <input type="hidden" name="txtIntentos" class="form-control input-lg" value="5">
-                <input type="hidden" name="txtUnidadAcademica" class="form-control input-lg" value="1">
-                
             </div>
         </div>
+        <h4><?php if(isset($this->query)) echo $this->query?></h4>
     </div>
     <br />
 

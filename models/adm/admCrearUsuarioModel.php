@@ -33,8 +33,8 @@ class admCrearUsuarioModel extends Model{
                                    $_intentos,
                                    $_foto,
                                    $_unidadacademica){
-        $sp = '\'' .  $_nombre . '\',\'' . $_correo . '\',\'' . $_clave . '\',\'';
-        $sp .= $_preguntasecreta . '\',\'' . $_respuestasecreta . '\',' . $_intentos . ',\'';
+        $sp = '\'' .  $_nombre . '\',\'' . $_correo . '\',\'' . $_clave . '\',';
+        $sp .= $_preguntasecreta . ',\'' . $_respuestasecreta . '\',' . $_intentos . ',\'';
         $sp .= $_foto . '\',' . $_unidadacademica . ');';
         try{
             $this->_db->query("SELECT spagregarusuarios(" . $sp);

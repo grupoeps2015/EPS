@@ -9,9 +9,12 @@
 class admCrearUsuarioController extends Controller{
     
     private $_post;
+    private $_encriptar;
     
      public function __construct() {
         parent::__construct();
+        $this->getLibrary('encripted');
+        $this->_encriptar = new encripted();
         $this->_post = $this->loadModel(ADM_FOLDER,'admCrearUsuario');
     }
 
@@ -26,39 +29,38 @@ class admCrearUsuarioController extends Controller{
         $this->_view->setJs(ADM_FOLDER,array('agregarUsuario'));
         $this->_view->setPublicJs(array('jquery.validate'));
         
-        if($this->getInteger('btnAgregar') == 1){
+        if($this->getInteger('btnAgregarEst') == 1){
             $this->_view->prueba = "Hola";
         }else{
             $this->_view->datos = $_POST;
             $this->_view->preguntas = $this->_post->getPreguntas();
-            if(!$this->getTexto('txtNombre')){
-                $this->_view->_error = "Campo Nombre es obligatorio";
+            if(!$this->getTexto('txtNombreEst1')){
                 $this->_view->renderizarAdm('agregarUsuario', 'admCrearUsuario');
                 exit;
             }
             
-            if(!$this->getTexto('txtCorreo')){
-                $this->_view->_error = "Campo Correo es obligatorio";
+            if(!$this->getTexto('txtCorreoEst')){
                 $this->_view->renderizarAdm('agregarUsuario', 'admCrearUsuario');
                 exit;
             }
             
-            if(!$this->getTexto('txtPass1')){
-                $this->_view->_error = "Campo Clave es obligatorio";
+            if(!$this->getTexto('txtApellidoEst1')){
                 $this->_view->renderizarAdm('agregarUsuario', 'admCrearUsuario');
                 exit;
             }
             
-            if(!$this->getTexto('txtPass2')){
-                $this->_view->_error = "Campo Validar es obligatorio";
+            if(!$this->getTexto('txtCarnetEst')){
                 $this->_view->renderizarAdm('agregarUsuario', 'admCrearUsuario');
                 exit;
             }
             
-            $this->_view->query = $this->_post->agregarUsuario($this->getTexto('txtNombre'),
-                                         $this->getTexto('txtCorreo'),
-                                         $this->getTexto('txtClave'),
-                                         $this->getTexto('txtPregunta'),
+            $claveAleatorioa = $this->_encriptar->keyGenerator();
+            $claveAleatoria = $this->_encriptar->encrypt($claveAleatorioa, UNIDAD_ACADEMICA);
+            
+            $this->_view->query = $this->_post->agregarUsuario($this->getTexto('txtNombreEst1'),
+                                         $this->getTexto('txtCorreoEst'),
+                                         $claveAleatoria,
+                                         $this->getInteger('txtPregunta'),
                                          $this->getTexto('txtRespuesta'),
                                          $this->getInteger('txtIntentos'),
                                          $this->getTexto('txtFoto'),
