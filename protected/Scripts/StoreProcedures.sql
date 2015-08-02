@@ -39,6 +39,18 @@ END; $BODY$
 LANGUAGE 'plpgsql';
 
 -- -----------------------------------------------------
+-- Function: spObtenerSecuencia()
+-- -----------------------------------------------------
+-- DROP FUNCTION spObtenerSecuencia(text,text);
+CREATE OR REPLACE FUNCTION spObtenerSecuencia(_campo text, _tabla text) RETURNS int as $BODY$
+DECLARE secuencia int;
+BEGIN
+	EXECUTE format('SELECT max(%s) FROM %s',_campo, _tabla) into secuencia;
+	RETURN secuencia+1;
+END; $BODY$
+LANGUAGE 'plpgsql';
+
+-- -----------------------------------------------------
 -- Function: spconsultadepartamentos()
 -- -----------------------------------------------------
 -- DROP FUNCTION spconsultadepartamentos();
@@ -54,3 +66,4 @@ begin
 end;
 $BODY$
 LANGUAGE 'plpgsql';
+

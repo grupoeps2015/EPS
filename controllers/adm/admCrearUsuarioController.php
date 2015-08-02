@@ -25,13 +25,16 @@ class admCrearUsuarioController extends Controller{
     }
     
     public function agregarUsuario(){
+        $nombreUsr='';
+        $correoUsr='';
+        $fotoUsr='';
+        $claveAleatorioa='';
+        $crearUsr = false;
         $this->_view->titulo = 'Agregar Usuario - ' . APP_TITULO;
         $this->_view->setJs(ADM_FOLDER,array('agregarUsuario'));
         $this->_view->setPublicJs(array('jquery.validate'));
         
-        if($this->getInteger('btnAgregarEst') == 1){
-            $this->_view->prueba = "Hola";
-        }else{
+        if($this->getInteger('hdEnvio') == 1){
             $this->_view->datos = $_POST;
             $this->_view->preguntas = $this->_post->getPreguntas();
             if(!$this->getTexto('txtNombreEst1')){
@@ -54,21 +57,77 @@ class admCrearUsuarioController extends Controller{
                 exit;
             }
             
+            $nombreUsr = $this->getTexto('txtNombreEst1');
+            $correoUsr = $this->getTexto('txtCorreoEst');
+            $fotoUsr = $this->getTexto('txtFotoEst');
+            $crearUsr = true;
+            
+        }
+        elseif($this->getInteger('hdEnvio') == 2){
+            $this->_view->datos = $_POST;
+            $this->_view->preguntas = $this->_post->getPreguntas();
+            if(!$this->getTexto('txtNombreCat1')){
+                $this->_view->renderizarAdm('agregarUsuario', 'admCrearUsuario');
+                exit;
+            }
+            
+            if(!$this->getTexto('txtCorreoCat')){
+                $this->_view->renderizarAdm('agregarUsuario', 'admCrearUsuario');
+                exit;
+            }
+            
+            if(!$this->getTexto('txtApellidoCat1')){
+                $this->_view->renderizarAdm('agregarUsuario', 'admCrearUsuario');
+                exit;
+            }
+            
+            if(!$this->getTexto('txtCodigoCat')){
+                $this->_view->renderizarAdm('agregarUsuario', 'admCrearUsuario');
+                exit;
+            }
+            
+            $nombreUsr = $this->getTexto('txtNombreCat1');
+            $correoUsr = $this->getTexto('txtCorreoCat');
+            $fotoUsr = $this->getTexto('txtFotoCat');
+            $crearUsr = true;
+            
+        }
+        elseif($this->getInteger('hdEnvio') == 3){
+            $this->_view->datos = $_POST;
+            $this->_view->preguntas = $this->_post->getPreguntas();
+            if(!$this->getTexto('txtNombreEmp1')){
+                $this->_view->renderizarAdm('agregarUsuario', 'admCrearUsuario');
+                exit;
+            }
+            
+            if(!$this->getTexto('txtCorreoEmp')){
+                $this->_view->renderizarAdm('agregarUsuario', 'admCrearUsuario');
+                exit;
+            }
+            
+            if(!$this->getTexto('txtApellidoEmp1')){
+                $this->_view->renderizarAdm('agregarUsuario', 'admCrearUsuario');
+                exit;
+            }
+            
+            if(!$this->getTexto('txtCodigoEmp')){
+                $this->_view->renderizarAdm('agregarUsuario', 'admCrearUsuario');
+                exit;
+            }
+            
+            $nombreUsr = $this->getTexto('txtNombreEmp1');
+            $correoUsr = $this->getTexto('txtCorreoEmp');
+            $fotoUsr = $this->getTexto('txtFotoEmp');
+            $crearUsr = true;
+        }
+        
+        if($crearUsr){
             $claveAleatorioa = $this->_encriptar->keyGenerator();
             $claveAleatoria = $this->_encriptar->encrypt($claveAleatorioa, UNIDAD_ACADEMICA);
-            
-            $this->_view->query = $this->_post->agregarUsuario($this->getTexto('txtNombreEst1'),
-                                         $this->getTexto('txtCorreoEst'),
-                                         $claveAleatoria,
-                                         $this->getInteger('txtPregunta'),
-                                         $this->getTexto('txtRespuesta'),
-                                         $this->getInteger('txtIntentos'),
-                                         $this->getTexto('txtFoto'),
-                                         $this->getTexto('txtUnidadAcademica')
-                    );
+            $this->_post->agregarUsuario($nombreUsr,$correoUsr, $claveAleatoria, 0,'USAC', 5, 
+                                         $fotoUsr, UNIDAD_ACADEMICA);
             $this->redireccionar('admCrearUsuario');
         }
-            
         $this->_view->renderizarAdm('agregarUsuario', 'admCrearUsuario');
     }
     

@@ -36,6 +36,68 @@ $(document).ready(function(){
         }
     });
     
+    $('#frCatedraticos').validate({
+        rules:{
+            txtCodigoCat:{
+                required: true
+            },
+            txtNombreCat1:{
+                required: true
+            },
+            txtApellidoCat1:{
+                required: true
+            },
+            txtCorreoCat:{
+                required: true
+            }
+        },
+        messages:{
+            txtCodigoCat:{
+                required: "Ingrese el codigo del catedratico"
+            },
+            txtNombreCat1:{
+                required: "Es necesario ingresar al menos el primer nombre"
+            },
+            txtApellidoCat1:{
+                required: "Ingresar el primer apellido del catedratico"
+            },
+            txtCorreoCat    :{
+                required: "El email del catedratico es un dato requerido"
+            }
+        }
+    });
+    
+    $('#frEmpleados').validate({
+        rules:{
+            txtCodigoEmp:{
+                required: true
+            },
+            txtNombreEmp1:{
+                required: true
+            },
+            txtApellidoEmp1:{
+                required: true
+            },
+            txtCorreoEmp:{
+                required: true
+            }
+        },
+        messages:{
+            txtCodigoEmp:{
+                required: "Ingrese el codigo del empleado"
+            },
+            txtNombreEmp1:{
+                required: "Es necesario ingresar al menos el primer nombre"
+            },
+            txtApellidoEmp1:{
+                required: "Ingresar el primer apellido del empleado"
+            },
+            txtCorreoEmp:{
+                required: "El email del empleado es un dato requerido"
+            }
+        }
+    });
+    
     $("#slPerfil" ).change(function() {
         var str = "";
         $( "select option:selected" ).each(function() {
