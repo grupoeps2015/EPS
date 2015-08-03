@@ -2,7 +2,6 @@
 insert into ADM_TipoUnidadAcademica(TipoUnidadAcademica,nombre,descripcion)values(2,'ESCUELA','ESCUELA');
 insert into ADM_TipoUnidadAcademica(TipoUnidadAcademica,nombre,descripcion)values(3,'INSTITUTO','INSTITUTO');
  
-
 insert into ADM_Departamento(Departamento,nombre)values(1,'Guatemala');
 insert into ADM_Departamento(Departamento,nombre)values(2,'AltaVerapaz');
 insert into ADM_Departamento(Departamento,nombre)values(3,'BajaVerapaz');
@@ -380,5 +379,14 @@ Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(16,'Ce
 Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(17,'Centro Universitario del Sur-Oriente' ,94, 'Jalapa',1);
 Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(18,'Centro Universitario de Totonicapán' ,268, 'Totonicapan',1);
 Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(19,'Centro Universitario de Zacapa' ,72, 'Zacapa',1);
+Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(20,'Ciudad Universitaria' ,1, 'Guatemala',12);
+Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(21,'Centro Universitario Metropolitano' ,1, 'Guatemala',11);
 
+INSERT INTO adm_centro_unidadacademica (centro, unidadacademica) VALUES (20,1);
 
+INSERT INTO cur_carrera(carrera, nombre, estado, centro, unidadacademica) VALUES (default, 'Licenciatura en Historia', 1, 20, 1);
+INSERT INTO cur_carrera(carrera, nombre, estado, centro, unidadacademica) VALUES (default, 'Licenciatura en Arqueologia', 1, 20, 1);
+INSERT INTO cur_carrera(carrera, nombre, estado, centro, unidadacademica) VALUES (default, 'Licenciatura en Antropologia', 1, 20, 1);
+INSERT INTO cur_carrera(carrera, nombre, estado, centro, unidadacademica) VALUES (default, 'Profesorado en Enseñanza Media', 1, 20, 1);
+INSERT INTO cur_carrera(carrera, nombre, estado, centro, unidadacademica) VALUES (default, 'Tecnico Universitario en Archivos', 1, 20, 1);
+INSERT INTO cur_carrera(carrera, nombre, estado, centro, unidadacademica) VALUES (default, 'Maestria en Historia del Arte', 1, 20, 1);

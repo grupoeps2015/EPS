@@ -197,7 +197,10 @@ CREATE TABLE  ADM_Pais (
 CREATE TABLE  CAT_Catedratico (
   Catedratico SERIAL NOT NULL,
   RegistroPersonal INTEGER NOT NULL UNIQUE,
-  Nombre TEXT NOT NULL,
+  PrimerNombre TEXT NOT NULL,
+  SegundoNombre TEXT NULL,
+  PrimerApellido TEXT NOT NULL,
+  SegundoApellido TEXT NULL,
   Direccion TEXT NOT NULL,
   Zona INTEGER NOT NULL,
   Municipio INTEGER NOT NULL,
@@ -219,7 +222,12 @@ CREATE TABLE  CAT_Catedratico (
   CONSTRAINT fk_CAT_Catedratico_ADM_Pais1
     FOREIGN KEY (PaisOrigen)
     REFERENCES ADM_Pais (Pais));
-
+-- Actualizar tabla cat_catedratico
+--ALTER TABLE CAT_Catedratico DROP COLUMN nombre;
+--ALTER TABLE CAT_Catedratico ADD COLUMN PrimerNombre TEXT NOT NULL
+--ALTER TABLE CAT_Catedratico ADD COLUMN SegundoNombre TEXT NULL
+--ALTER TABLE CAT_Catedratico ADD COLUMN PrimerApellido TEXT NOT NULL
+--ALTER TABLE CAT_Catedratico ADD COLUMN SegundoApellido TEXT NULL
 
 -- -----------------------------------------------------
 -- Table CUR_Edificio
@@ -537,7 +545,10 @@ CREATE TABLE  CUR_Horario (
 CREATE TABLE  ADM_Empleado (
   Empleado SERIAL NOT NULL,
   RegistroPersonal INTEGER NOT NULL UNIQUE,
-  Nombre TEXT NOT NULL,
+  PrimerNombre TEXT NOT NULL,
+  SegundoNombre TEXT NULL,
+  PrimerApellido TEXT NOT NULL,
+  SegundoApellido TEXT NULL,
   Direccion TEXT NOT NULL,
   Zona INTEGER NULL,
   Municipio INTEGER NOT NULL,
@@ -555,7 +566,12 @@ CREATE TABLE  ADM_Empleado (
   CONSTRAINT PaisOrigen
     FOREIGN KEY (PaisOrigen)
     REFERENCES ADM_Pais (Pais));
-
+-- Actualizar tabla adm_empleado
+--ALTER TABLE ADM_Empleado DROP COLUMN nombre;
+--ALTER TABLE ADM_Empleado ADD COLUMN PrimerNombre TEXT NOT NULL
+--ALTER TABLE ADM_Empleado ADD COLUMN SegundoNombre TEXT NULL
+--ALTER TABLE ADM_Empleado ADD COLUMN PrimerApellido TEXT NOT NULL
+--ALTER TABLE ADM_Empleado ADD COLUMN SegundoApellido TEXT NULL
 
 -- -----------------------------------------------------
 -- Table EST_Estudiante
@@ -563,7 +579,10 @@ CREATE TABLE  ADM_Empleado (
 CREATE TABLE  EST_Estudiante (
   Estudiante SERIAL NOT NULL,
   Carnet INTEGER NOT NULL UNIQUE,
-  Nombre TEXT NOT NULL,
+  PrimerNombre TEXT NOT NULL,
+  SegundoNombre TEXT NULL,
+  PrimerApellido TEXT NOT NULL,
+  SegundoApellido TEXT NULL,
   Direccion TEXT NOT NULL,
   Zona INTEGER NULL,
   Municipio INTEGER NOT NULL,
@@ -586,7 +605,12 @@ CREATE TABLE  EST_Estudiante (
   CONSTRAINT PaisOrigen
     FOREIGN KEY (PaisOrigen)
     REFERENCES ADM_Pais (Pais));
-
+-- Actualizar tabla est_estudiante
+--ALTER TABLE est_estudiante DROP COLUMN nombre;
+--ALTER TABLE est_estudiante ADD COLUMN PrimerNombre TEXT NOT NULL
+--ALTER TABLE est_estudiante ADD COLUMN SegundoNombre TEXT NULL
+--ALTER TABLE est_estudiante ADD COLUMN PrimerApellido TEXT NOT NULL
+--ALTER TABLE est_estudiante ADD COLUMN SegundoApellido TEXT NULL
 
 -- -----------------------------------------------------
 -- Table EST_TipoAsignacion

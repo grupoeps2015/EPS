@@ -16,29 +16,6 @@ END; $BODY$
 LANGUAGE 'plpgsql';
 
 -- -----------------------------------------------------
--- Function: spconsultausuarios()
--- -----------------------------------------------------
--- DROP FUNCTION spconsultausuarios();
-
-CREATE OR REPLACE FUNCTION spconsultausuarios(OUT usuario int,OUT nombre text,
-					      OUT correo text) RETURNS setof record AS $BODY$
-BEGIN
-	RETURN query SELECT usr.usuario, usr.nombre, usr.correo FROM adm_usuario usr;
-END; $BODY$
-LANGUAGE 'plpgsql';
-
--- -----------------------------------------------------
--- Function: spconsultarpreguntasecreta()
--- -----------------------------------------------------
--- DROP FUNCTION spconsultarpreguntasecreta();
-
-CREATE OR REPLACE FUNCTION spconsultarpreguntasecreta(OUT id int,OUT pregunta text) RETURNS setof record AS $BODY$
-BEGIN
-	RETURN query SELECT * FROM adm_preguntasecreta pres where pres.preguntasecreta>0;
-END; $BODY$
-LANGUAGE 'plpgsql';
-
--- -----------------------------------------------------
 -- Function: spObtenerSecuencia()
 -- -----------------------------------------------------
 -- DROP FUNCTION spObtenerSecuencia(text,text);
@@ -51,19 +28,14 @@ END; $BODY$
 LANGUAGE 'plpgsql';
 
 -- -----------------------------------------------------
--- Function: spconsultadepartamentos()
+-- Function: spconsultageneral()
 -- -----------------------------------------------------
--- DROP FUNCTION spconsultadepartamentos();
+-- DROP FUNCTION spconsultageneral(text,text);
 
-CREATE OR REPLACE FUNCTION spconsultadepartamentos(
-	OUT departamento int,
-	OUT nombre text
-) RETURNS setof record AS
-
+CREATE OR REPLACE FUNCTION spconsultageneral(IN _campos text,IN _tabla text,OUT codigo int,OUT nombre text) RETURNS setof record AS
 $BODY$
 begin
- return query select * from adm_departamento order by departamento;
+ Return query EXECUTE format('SELECT %s FROM %s',_campos, _tabla);
 end;
 $BODY$
 LANGUAGE 'plpgsql';
-
