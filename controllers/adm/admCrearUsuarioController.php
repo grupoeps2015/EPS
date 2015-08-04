@@ -36,7 +36,6 @@ class admCrearUsuarioController extends Controller{
         
         if($this->getInteger('hdEnvio') == 1){
             $this->_view->datos = $_POST;
-            $this->_view->preguntas = $this->_post->getPreguntas();
             if(!$this->getTexto('txtNombreEst1')){
                 $this->_view->renderizarAdm('agregarUsuario', 'admCrearUsuario');
                 exit;
@@ -128,6 +127,7 @@ class admCrearUsuarioController extends Controller{
                                          $fotoUsr, UNIDAD_ACADEMICA);
             $this->redireccionar('admCrearUsuario');
         }
+        
         $this->_view->renderizarAdm('agregarUsuario', 'admCrearUsuario');
     }
     

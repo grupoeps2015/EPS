@@ -10,18 +10,13 @@ class admCrearUsuarioModel extends Model{
         parent::__construct();
     }
     
-    public function getDepartamentos(){
-        $post = $this->_db->query("SELECT * from spConsultaDepartamentos()");
-        return $post->fetchall();
-    }
-    
     public function getPreguntas(){
-        $preguntas = $this->_db->query("SELECT * from spconsultarpreguntasecreta()");
+        $preguntas = $this->_db->query("select * from spconsultageneral('preguntasecreta,descripcion','adm_preguntasecreta');");
         return $preguntas->fetchall();
     }
     
     public function getUsuarios(){
-        $post = $this->_db->query("SELECT * from spConsultaUsuarios()");
+        $post = $this->_db->query("select * from spconsultageneral('usuario,nombre','adm_usuario');");
         return $post->fetchall();
     }
     
