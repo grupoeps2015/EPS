@@ -56,7 +56,7 @@ CREATE TABLE  ADM_Usuario (
   PRIMARY KEY (Usuario),
   CONSTRAINT fk_ADM_Usuario_ADM_UnidadAcademica1
     FOREIGN KEY (UnidadAcademica)
-    REFERENCES ADM_UnidadAcademica (UnidadAcademica)
+    REFERENCES ADM_UnidadAcademica (UnidadAcademica),
     CONSTRAINT fk_ADM_Usuario_ADM_PreguntaSecreta1
     FOREIGN KEY (PreguntaSecreta)
     REFERENCES ADM_PreguntaSecreta (PreguntaSecreta));
