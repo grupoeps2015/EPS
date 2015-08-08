@@ -98,9 +98,9 @@ $(document).ready(function(){
         }
     });
     
-    $("#slPerfil").change(function() {
+    $("#slPerfil" ).change(function() {
         var str = "";
-        $( "#slPerfil option:selected" ).each(function() {
+        $( "select option:selected" ).each(function() {
             str += $(this).text();
         });
         

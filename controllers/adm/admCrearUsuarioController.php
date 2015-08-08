@@ -25,16 +25,23 @@ class admCrearUsuarioController extends Controller{
     }
     
     public function agregarUsuario(){
+        $iden = $this->getInteger('hdEnvio');
         $nombreUsr='';
         $correoUsr='';
         $fotoUsr='';
-        $claveAleatorioa='';
         $crearUsr = false;
+        
+        $arrayUsr = array();
+        $arrayEst = array();
+        $arrayEmp = array();
+        $arrayCat = array();
+        
+        $this->_view->centros = $this->_post->getCentros();
         $this->_view->titulo = 'Agregar Usuario - ' . APP_TITULO;
         $this->_view->setJs(ADM_FOLDER,array('agregarUsuario'));
         $this->_view->setPublicJs(array('jquery.validate'));
         
-        if($this->getInteger('hdEnvio') == 1){
+        if($iden == 1){
             $this->_view->datos = $_POST;
             if(!$this->getTexto('txtNombreEst1')){
                 $this->_view->renderizarAdm('agregarUsuario', 'admCrearUsuario');
@@ -62,7 +69,7 @@ class admCrearUsuarioController extends Controller{
             $crearUsr = true;
             
         }
-        elseif($this->getInteger('hdEnvio') == 2){
+        elseif($iden == 2){
             $this->_view->datos = $_POST;
             $this->_view->preguntas = $this->_post->getPreguntas();
             if(!$this->getTexto('txtNombreCat1')){
@@ -91,7 +98,7 @@ class admCrearUsuarioController extends Controller{
             $crearUsr = true;
             
         }
-        elseif($this->getInteger('hdEnvio') == 3){
+        elseif($iden == 3){
             $this->_view->datos = $_POST;
             $this->_view->preguntas = $this->_post->getPreguntas();
             if(!$this->getTexto('txtNombreEmp1')){
@@ -121,11 +128,43 @@ class admCrearUsuarioController extends Controller{
         }
         
         if($crearUsr){
-            $claveAleatorioa = $this->_encriptar->keyGenerator();
-            $claveAleatoria = $this->_encriptar->encrypt($claveAleatorioa, UNIDAD_ACADEMICA);
-            $this->_post->agregarUsuario($nombreUsr,$correoUsr, $claveAleatoria, 0,'USAC', 5, 
-                                         $fotoUsr, UNIDAD_ACADEMICA);
-            $this->redireccionar('admCrearUsuario');
+            $arrayUsr["nombreUsr"] = $nombreUsr;
+            $arrayUsr["correoUsr"] = $correoUsr;
+            $arrayUsr["fotoUsr"] = $fotoUsr;
+            $claveAleatoria = $this->_encriptar->keyGenerator();
+            $arrayUsr["claveUsr"] = $this->_encriptar->encrypt($claveAleatoria, UNIDAD_ACADEMICA);
+            $arrayUsr["preguntaUsr"] = 0;
+            $arrayUsr["respuestaUsr"] = "USAC";
+            $arrayUsr["intentosUsr"] = 5;
+            $arrayUsr["unidadUsr"] = UNIDAD_ACADEMICA;
+            $this->_post->agregarUsuario($arrayUsr);
+            
+            if($iden == 1){
+                $arrayEst["carnetEst"] = $this->getTexto('txtCarnetEst');
+                $arrayEst["nombreEst"] = $nombreUsr;
+                $arrayEst["nombreEst2"] = $this->getTexto('txtNombreEst2');
+                $arrayEst["apellidoEst"] = $this->getTexto('txtApellidoEst1');
+                $arrayEst["apellidoEst2"] = $this->getTexto('txtApellidoEst2');
+                $arrayEst["direccionEst"] = "ciudad";
+                $arrayEst["zonaEst"] = 0;
+                $arrayEst["municipioEst"] = 1;
+                $arrayEst["telefonoEst"] = "22220000";
+                $arrayEst["telefono2Est"] = "22220000";
+                $arrayEst["sangreEst"] = "desconocida";
+                $arrayEst["alergiasEst"] = "desconocidas";
+                $arrayEst["seguroEst"] = 'false';
+                $arrayEst["centroEst"] = "desconocido";
+                $arrayEst["paisEst"] = 1;
+                $this->_post->agregarEstudiante($arrayEst);
+            }
+            elseif($iden == 2){
+                
+            }
+            elseif($iden == 3){
+                
+            }
+            
+            //$this->redireccionar('admCrearUsuario');
         }
         
         $this->_view->renderizarAdm('agregarUsuario', 'admCrearUsuario');

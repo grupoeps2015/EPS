@@ -16,6 +16,45 @@ END; $BODY$
 LANGUAGE 'plpgsql';
 
 -- -----------------------------------------------------
+-- Function: spAgregarEstudiante()
+-- -----------------------------------------------------
+-- DROP FUNCTION spagregarestudiante(integer, text, integer, integer, text, text, text, text, boolean, text, integer, text, text, text, text);
+
+CREATE OR REPLACE FUNCTION spAgregarEstudiante(_carnet integer, 
+					       _direccion text,
+					       _zona integer, 
+					       _municipio integer,
+					       _telefono text, 
+					       _emergencia text,
+					       _tiposangre text, 
+					       _alergias text,
+					       _segurovida boolean,
+					       _centroemergencia text,
+					       _paisorigen int,
+					       _primernombre text,
+					       _segundonombre text,
+					       _primerapellido text,
+					       _segundoapellido text
+					       ) RETURNS void AS 
+$BODY$
+DECLARE idUsuario integer;
+BEGIN
+	select spObtenerSecuencia('usuario','adm_usuario') into idUsuario;
+
+	INSERT INTO est_estudiante(
+            estudiante, carnet, direccion, zona, municipio, telefono, estado, 
+            telefonoemergencia, tiposangre, alergias, segurovida, centroemergencia, 
+            usuario, paisorigen, primernombre, segundonombre, primerapellido, 
+            segundoapellido)
+	VALUES (DEFAULT, _carnet, _direccion, _zona, _municipio, _telefono, 0, 
+            _emergencia, _tiposangre, _alergias, _segurovida, _centroemergencia, 
+            idUsuario-1, _paisorigen, _primernombre, _segundonombre, _primerapellido, 
+            _segundoapellido);
+
+END; $BODY$
+LANGUAGE 'plpgsql';
+
+-- -----------------------------------------------------
 -- Function: spObtenerSecuencia()
 -- -----------------------------------------------------
 -- DROP FUNCTION spObtenerSecuencia(text,text);
@@ -39,3 +78,8 @@ begin
 end;
 $BODY$
 LANGUAGE 'plpgsql';
+
+-- -----------------------------------------------------
+-- Function: spobtenerUsuario()
+-- -----------------------------------------------------
+-- DROP FUNCTION spobtenerUsuario(text);

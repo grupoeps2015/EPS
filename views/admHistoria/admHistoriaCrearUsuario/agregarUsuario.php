@@ -13,7 +13,7 @@
         <!-- Menu superior lateral derecho -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
-                <li>
+				<li>
                     <a class="page-scroll" href="Menu.php">
                         <font color="black">Men&uacute;</font>
                     </a>
@@ -36,6 +36,20 @@
     <div class="header-content">
         <div class="header-content-inner">
             <div id="divCentros" class="row">
+                <div class="col-md-4 col-md-offset-4 col-xs-6 col-xs-offset-3">                    
+                    <?php if(isset($this->centros) && count($this->centros)): ?>
+                    <select id="slCentros" name="slCentros" class="form-control input-lg">
+                        <option value="0">---- Seleccione un centro ----</option>
+                        <?php for($i =0; $i < count($this->centros); $i++) : ?>
+                        <option value="<?php echo $this->centros[$i]['codigo'];?>">
+                            <?php echo $this->centros[$i]['nombre']; ?>
+                        </option>
+                        <?php endfor;?>
+                    </select>
+                    <?php endif;?>
+                </div>
+            </div>
+            <div id="divFormulario" class="row">
                 <div class="col-md-4 col-md-offset-4 col-xs-6 col-xs-offset-3">
                     <select id="slPerfil" name="slPerfil" class="form-control input-lg">
                         <option value="0">---- Seleccione un perfil ----</option>
@@ -49,24 +63,6 @@
                     <div id="divEstudiantes" class="form-group" >
                         <div class="col-md-6 col-md-offset-3">
                             <table>
-                                <tr style="visibility: hidden">
-                                    <td colspan="3">
-                                        <?php if(isset($this->centros) && count($this->centros)): ?>
-                                        <select id="slCentros" name="slCentros" class="form-control input-lg">
-                                            <option value="default">---- Seleccione un centro ----</option>
-                                            <?php for($i =0; $i < count($this->centros); $i++) : ?>
-                                            <option value="<?php echo $this->centros[$i]['codigo'];?>">
-                                                <?php echo $this->centros[$i]['nombre']; ?>
-                                            </option>
-                                            <?php endfor;?>
-                                        </select>
-                                        <?php else : ?>
-                                        &nbsp;
-                                        <?php endif;?>
-                                    </td>
-                                    <td>&nbsp;</td>
-                                    <td colspan="2"><----Seccion sin funcion</td>
-                                </tr>
                                 <tr>
                                     <td colspan="3">*Carnet
                                         <input type="text" id="txtCarnetEst" name="txtCarnetEst" class="form-control input-lg" value="<?php if(isset($this->datos['txtCarnetEst'])) echo $this->datos['txtCarnetEst']?>">
@@ -239,6 +235,7 @@
                 </form>
             </div>
         </div>
+        <h4><?php if(isset($this->query)) echo $this->query?></h4>
     </div>
     <br />
 
