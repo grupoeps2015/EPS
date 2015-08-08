@@ -38,6 +38,7 @@ class admCrearUsuarioController extends Controller{
         
         $this->_view->centros = $this->_post->getCentros();
         $this->_view->docentes = $this->_post->getDocentes();
+        
         $this->_view->titulo = 'Agregar Usuario - ' . APP_TITULO;
         $this->_view->setJs(ADM_FOLDER,array('agregarUsuario'));
         $this->_view->setPublicJs(array('jquery.validate'));
