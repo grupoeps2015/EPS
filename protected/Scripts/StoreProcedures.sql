@@ -55,6 +55,69 @@ END; $BODY$
 LANGUAGE 'plpgsql';
 
 -- -----------------------------------------------------
+-- Function: spAgregarEmpleado()
+-- -----------------------------------------------------
+-- DROP FUNCTION spagregarempleado(integer, text, integer, integer, text, integer, text, text, text, text); 
+CREATE OR REPLACE FUNCTION spAgregarEmpleado(_registro integer, 
+					     _direccion text,
+					     _zona integer, 
+					     _municipio integer,
+					     _telefono text, 
+					     _paisorigen int,
+					     _primernombre text,
+					     _segundonombre text,
+					     _primerapellido text,
+					     _segundoapellido text
+					     ) RETURNS void AS 
+$BODY$
+DECLARE idUsuario integer;
+BEGIN
+	select spObtenerSecuencia('usuario','adm_usuario') into idUsuario;
+
+	INSERT INTO adm_empleado(
+            empleado, registropersonal, direccion, zona, municipio, telefono, 
+            usuario, estado, paisorigen, primernombre, segundonombre, primerapellido, 
+            segundoapellido)
+	VALUES (DEFAULT, _registro, _direccion, _zona, _municipio, _telefono,
+            idUsuario-1, 0, _paisorigen, _primernombre, _segundonombre, _primerapellido, 
+            _segundoapellido);
+
+END; $BODY$
+LANGUAGE 'plpgsql';
+
+-- -----------------------------------------------------
+-- Function: spAgregarCatedratico()
+-- -----------------------------------------------------
+-- DROP FUNCTION spagregarcatedratico(integer, text, integer, integer, text, integer, integer, text, text, text, text);
+CREATE OR REPLACE FUNCTION spAgregarCatedratico(_registro integer, 
+						_direccion text,
+						_zona integer, 
+						_municipio integer,
+						_telefono text, 
+						_tipodocente int,
+						_paisorigen int,
+						_primernombre text,
+						_segundonombre text,
+						_primerapellido text,
+						_segundoapellido text
+						) RETURNS void AS 
+$BODY$
+DECLARE idUsuario integer;
+BEGIN
+	select spObtenerSecuencia('usuario','adm_usuario') into idUsuario;
+
+	INSERT INTO cat_catedratico(
+            catedratico, registropersonal, direccion, zona, municipio, telefono, 
+            tipodocente, usuario, estado, paisorigen, primernombre, segundonombre, 
+            primerapellido, segundoapellido)
+	VALUES (DEFAULT, _registro, _direccion, _zona, _municipio, _telefono, _tipodocente,
+            idUsuario-1, 0, _paisorigen, _primernombre, _segundonombre, _primerapellido, 
+            _segundoapellido);
+
+END; $BODY$
+LANGUAGE 'plpgsql';
+
+-- -----------------------------------------------------
 -- Function: spObtenerSecuencia()
 -- -----------------------------------------------------
 -- DROP FUNCTION spObtenerSecuencia(text,text);
@@ -78,8 +141,3 @@ begin
 end;
 $BODY$
 LANGUAGE 'plpgsql';
-
--- -----------------------------------------------------
--- Function: spobtenerUsuario()
--- -----------------------------------------------------
--- DROP FUNCTION spobtenerUsuario(text);

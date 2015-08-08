@@ -37,6 +37,7 @@ class admCrearUsuarioController extends Controller{
         $arrayCat = array();
         
         $this->_view->centros = $this->_post->getCentros();
+        $this->_view->docentes = $this->_post->getDocentes();
         $this->_view->titulo = 'Agregar Usuario - ' . APP_TITULO;
         $this->_view->setJs(ADM_FOLDER,array('agregarUsuario'));
         $this->_view->setPublicJs(array('jquery.validate'));
@@ -158,13 +159,34 @@ class admCrearUsuarioController extends Controller{
                 $this->_post->agregarEstudiante($arrayEst);
             }
             elseif($iden == 2){
-                
+                $arrayCat["registroCat"] = $this->getTexto('txtCodigoCat');
+                $arrayCat["nombreCat"] = $nombreUsr;
+                $arrayCat["nombreCat2"] = $this->getTexto('txtNombreCat2');
+                $arrayCat["apellidoCat"] = $this->getTexto('txtApellidoCat1');
+                $arrayCat["apellidoCat2"] = $this->getTexto('txtApellidoCat2');
+                $arrayCat["direccionCat"] = "ciudad";
+                $arrayCat["zonaCat"] = 0;
+                $arrayCat["municipioCat"] = 1;
+                $arrayCat["telefonoCat"] = "22220000";
+                $arrayCat["paisCat"] = 1;
+                $arrayCat["tipoCat"] = $this->getInteger('slDocente');
+                $this->_post->agregarCatedratico($arrayCat);
             }
             elseif($iden == 3){
-                
+                $arrayEmp["registroEmp"] = $this->getTexto('txtCodigoEmp');
+                $arrayEmp["nombreEmp"] = $nombreUsr;
+                $arrayEmp["nombreEmp2"] = $this->getTexto('txtNombreEmp2');
+                $arrayEmp["apellidoEmp"] = $this->getTexto('txtApellidoEmp1');
+                $arrayEmp["apellidoEmp2"] = $this->getTexto('txtApellidoEmp2');
+                $arrayEmp["direccionEmp"] = "ciudad";
+                $arrayEmp["zonaEmp"] = 0;
+                $arrayEmp["municipioEmp"] = 1;
+                $arrayEmp["telefonoEmp"] = "22220000";
+                $arrayEmp["paisEmp"] = 1;
+                $this->_post->agregarEmpleado($arrayEmp);
             }
             
-            //$this->redireccionar('admCrearUsuario');
+            $this->redireccionar('admCrearUsuario');
         }
         
         $this->_view->renderizarAdm('agregarUsuario', 'admCrearUsuario');

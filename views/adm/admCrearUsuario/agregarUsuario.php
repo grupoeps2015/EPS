@@ -28,6 +28,7 @@
         <div class="row">
             <div class="col-lg-12 text-center">
                 <h2 class="section-heading">Agregar Usuario</h2>
+                <p><?php if(isset($this->query)) echo $this->query; ?></p>
                 <hr class="primary">
             </div>
         </div>
@@ -124,6 +125,24 @@
                     <div class="col-md-6 col-md-offset-3">
                         <div id="divCatedraticos" class="form-group">
                             <table>
+                                
+                                <tr>
+                                    <td colspan="3" style="text-align: right">Indique el rol del catedratico: </td>
+                                    <td>&nbsp;</td>
+                                    <td colspan="2">
+                                        <?php if(isset($this->docentes) && count($this->docentes)): ?>
+                                        <select id="slDocente" name="slDocente" class="form-control input-lg">
+                                            <?php for($i =0; $i < count($this->docentes); $i++) : ?>
+                                            <option value="<?php echo $this->docentes[$i]['codigo'];?>">
+                                                <?php echo $this->docentes[$i]['nombre']; ?>
+                                            </option>
+                                            <?php endfor;?>
+                                        </select>
+                                        <?php else : ?>
+                                        &nbsp;
+                                        <?php endif;?>
+                                    </td>
+                                </tr>
                                 <tr>
                                     <td>*Codigo Catedratico
                                         <input type="text" id="txtCodigoCat" name="txtCodigoCat" class="form-control input-lg" value="<?php if(isset($this->datos['txtCodigoCat'])) echo $this->datos['txtCodigoCat']?>">

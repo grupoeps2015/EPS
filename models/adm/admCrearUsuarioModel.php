@@ -25,6 +25,11 @@ class admCrearUsuarioModel extends Model{
         return $post->fetchall();
     }
     
+    public function getDocentes(){
+        $post = $this->_db->query("select * from spconsultageneral('tipodocente,descripcion','cat_tipocatedratico');");
+        return $post->fetchall();
+    }
+    
     public function agregarUsuario($_datos){
         $sp = '\'' .  $_datos["nombreUsr"] . '\',\'' . $_datos["correoUsr"] . '\',\''; 
         $sp .= $_datos["claveUsr"] . '\',' . $_datos["preguntaUsr"] . ',\'';
@@ -51,6 +56,38 @@ class admCrearUsuarioModel extends Model{
         try{
             $this->_db->query("SELECT spagregarusuarios(" . $sp . ");");
             return "SELECT spagregarestudiante(" . $sp . ");";
+        }catch(Exception $e){
+            return $e->getMessage();
+        }
+    }
+    
+    public function agregarCatedratico($_datos){
+        $sp = $_datos["registroCat"] . ',\'' . $_datos["direccionCat"] . '\',';
+        $sp .= $_datos["zonaCat"] . ',' . $_datos["municipioCat"] . ',\'';
+        $sp .= $_datos["telefonoCat"] . '\',' . $_datos["tipoCat"] . ',';
+        $sp .= $_datos["paisCat"] . ',\'' . $_datos["nombreCat"] . '\',\'';
+        $sp .= $_datos["nombreCat2"] . '\',\'' . $_datos["apellidoCat"] . '\',\'';
+        $sp .= $_datos["apellidoCat2"] . '\'';
+        
+        try{
+            $this->_db->query("SELECT spAgregarCatedratico(" . $sp . ");");
+            return "SELECT spAgregarCatedratico(" . $sp . ");";
+        }catch(Exception $e){
+            return $e->getMessage();
+        }
+    }
+    
+    public function agregarEmpleado($_datos){
+        $sp = $_datos["registroEmp"] . ',\'' . $_datos["direccionEmp"] . '\',';
+        $sp .= $_datos["zonaEmp"] . ',' . $_datos["municipioEmp"] . ',\'';
+        $sp .= $_datos["telefonoEmp"] . '\',';
+        $sp .= $_datos["paisEmp"] . ',\'' . $_datos["nombreEmp"] . '\',\'';
+        $sp .= $_datos["nombreEmp2"] . '\',\'' . $_datos["apellidoEmp"] . '\',\'';
+        $sp .= $_datos["apellidoEmp2"] . '\'';
+        
+        try{
+            $this->_db->query("SELECT spAgregarEmpleado(" . $sp . ");");
+            return "SELECT spAgregarEmpleado(" . $sp . ");";
         }catch(Exception $e){
             return $e->getMessage();
         }
