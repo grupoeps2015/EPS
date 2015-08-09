@@ -6,6 +6,7 @@ define('DEFAULT_LAYOUT','default');
 define('ADM_FOLDER','adm');
 define('ADMH_FOLDER','admHistoria');
 define('USRH_FOLDER','usrHistoria');
+define('ALL_FOLDER','all');
 
 //Constantes del portal
 define('APP_TITULO','Sistema de control academico - USAC');

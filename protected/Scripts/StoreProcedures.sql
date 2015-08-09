@@ -5,13 +5,13 @@
 
 CREATE OR REPLACE FUNCTION spAgregarUsuarios(_nombre text, _correo text,
 					     _clave text, _preguntasecreta integer,
-					     _respuestasecreta text, _integerentosautenticacion integer,
+					     _respuestasecreta text, _intentosautenticacion integer,
 					     _foto text, _unidadacademica integer) RETURNS void AS $BODY$
 BEGIN
 	INSERT INTO adm_usuario (usuario, nombre, correo, clave, estado, preguntasecreta, respuestasecreta, 
-		fechaultimaautenticacion, intenentosautenticacion, foto, unidadacademica) 
+		fechaultimaautenticacion, intentosautenticacion, foto, unidadacademica) 
 	VALUES (DEFAULT,_nombre, _correo, _clave, 0, _preguntasecreta, _respuestasecreta, 
-		current_timestamp, _integerentosautenticacion, _foto, _unidadacademica);
+		current_timestamp, _intentosautenticacion, _foto, _unidadacademica);
 END; $BODY$
 LANGUAGE 'plpgsql';
 

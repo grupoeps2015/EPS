@@ -28,7 +28,7 @@
             <h2>Administradores</h2>
             <hr />
             <div class="row">
-                <form class="col-md-4 col-md-offset-4 col-xs-6 col-xs-offset-3" id="frEstudiantes" method="post" action="<?php echo BASE_URL; ?>admHistoriaLogin/autenticar">
+                <form class="col-md-4 col-md-offset-4 col-xs-6 col-xs-offset-3" id="frLogin" method="post" action="<?php echo BASE_URL; ?>admHistoriaLogin/autenticar">
                     <div class="form-group">
                         <input name="usuario" type="text" class="form-control input-lg" placeholder="Usuario">
                     </div>
@@ -40,6 +40,7 @@
                         <br/><br/>
                         <span class="pull-right"><a href="#">Olvidaste tu password?</a></span>
                     </div>
+                    <input name="tipo" type="hidden" value="3"/>
                 </form>
             </div>
         </div>

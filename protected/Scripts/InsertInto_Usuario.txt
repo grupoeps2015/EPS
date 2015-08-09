@@ -1,7 +1,3 @@
-INSERT INTO adm_tipounidadacademica(
-            tipounidadacademica, nombre, descripcion)
-    VALUES (1, 'Escuela No Facultativa', '');
-
 INSERT INTO adm_unidadacademica(
             unidadacademica, unidadacademicasuperior, nombre, tipo)
     VALUES (1, NULL, 'Escuela de Historia', 1);
@@ -21,6 +17,10 @@ INSERT INTO adm_rol(
 INSERT INTO adm_rol(
             rol, nombre, estado)
     VALUES (4, 'Estudiante', 1);
+	
+INSERT INTO adm_pais(
+            pais, nombre)
+    VALUES (1, 'Guatemala');
 
 INSERT INTO adm_usuario(
             usuario, nombre, correo, clave, estado, preguntasecreta, respuestasecreta, 
@@ -31,18 +31,6 @@ INSERT INTO adm_usuario(
 INSERT INTO adm_rol_usuario(
             rol, usuario)
     VALUES (4, 100);
-
-INSERT INTO adm_pais(
-            pais, nombre)
-    VALUES (1, 'Guatemala');
-
-INSERT INTO adm_departamento(
-            departamento, nombre)
-    VALUES (1, 'Guatemala');
-
-INSERT INTO adm_municipio(
-            municipio, nombre, departamento)
-    VALUES (1, 'Ciudad de Guatemala', 1);
 	
 INSERT INTO est_estudiante(
             estudiante, carnet, nombre, direccion, zona, municipio, telefono, 
