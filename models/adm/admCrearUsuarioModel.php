@@ -36,7 +36,7 @@ class admCrearUsuarioModel extends Model{
         $sp .= $_datos["respuestaUsr"] . '\',' . $_datos["intentosUsr"] . ',\'';
         $sp .= $_datos["fotoUsr"] . '\',' . $_datos["unidadUsr"];
         try{
-            //$this->_db->query("SELECT spagregarusuarios(" . $sp . ");");
+            $this->_db->query("SELECT spagregarusuarios(" . $sp . ");");
             return "SELECT spagregarusuarios(" . $sp . ");";
         }catch(Exception $e){
             return $e->getMessage();
@@ -54,7 +54,7 @@ class admCrearUsuarioModel extends Model{
         $sp .= $_datos["apellidoEst2"] . '\'';
         
         try{
-            $this->_db->query("SELECT spagregarusuarios(" . $sp . ");");
+            $this->_db->query("SELECT spagregarestudiante(" . $sp . ");");
             return "SELECT spagregarestudiante(" . $sp . ");";
         }catch(Exception $e){
             return $e->getMessage();
@@ -98,6 +98,14 @@ class admCrearUsuarioModel extends Model{
     }
     
     public function actualizarUsuario(){
+        
+    }
+    
+    public function actualizarEstudiante(){
+        
+    }
+    
+    public function actualizarCatedratico(){
         
     }
     

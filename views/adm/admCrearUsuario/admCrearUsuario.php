@@ -1,4 +1,4 @@
-<h2>Listado de Departamentos</h2>
+<h2>Listado de Usuarios</h2>
 
 <?php if(isset($this->posts) && count($this->posts)): ?>
 <table border="1" align="center">
