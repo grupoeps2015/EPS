@@ -36,8 +36,9 @@ class admCrearUsuarioModel extends Model{
         $sp .= $_datos["respuestaUsr"] . '\',' . $_datos["intentosUsr"] . ',\'';
         $sp .= $_datos["fotoUsr"] . '\',' . $_datos["unidadUsr"];
         try{
-            $this->_db->query("SELECT spagregarusuarios(" . $sp . ");");
-            return "SELECT spagregarusuarios(" . $sp . ");";
+            $post = $this->_db->query("SELECT * from spagregarusuarios(" . $sp . ") as Id;");
+            return $post->fetchall();
+            //return "SELECT spagregarusuarios(" . $sp . ");";
         }catch(Exception $e){
             return $e->getMessage();
         }
@@ -51,11 +52,11 @@ class admCrearUsuarioModel extends Model{
         $sp .= $_datos["seguroEst"] . ',\'' . $_datos["centroEst"] . '\',';
         $sp .= $_datos["paisEst"] . ',\'' . $_datos["nombreEst"] . '\',\'';
         $sp .= $_datos["nombreEst2"] . '\',\'' . $_datos["apellidoEst"] . '\',\'';
-        $sp .= $_datos["apellidoEst2"] . '\'';
+        $sp .= $_datos["apellidoEst2"] . '\',' . $_datos["id"];
         
         try{
             $this->_db->query("SELECT spagregarestudiante(" . $sp . ");");
-            return "SELECT spagregarestudiante(" . $sp . ");";
+            //return "SELECT spagregarestudiante(" . $sp . ");";
         }catch(Exception $e){
             return $e->getMessage();
         }
@@ -67,11 +68,11 @@ class admCrearUsuarioModel extends Model{
         $sp .= $_datos["telefonoCat"] . '\',' . $_datos["tipoCat"] . ',';
         $sp .= $_datos["paisCat"] . ',\'' . $_datos["nombreCat"] . '\',\'';
         $sp .= $_datos["nombreCat2"] . '\',\'' . $_datos["apellidoCat"] . '\',\'';
-        $sp .= $_datos["apellidoCat2"] . '\'';
+        $sp .= $_datos["apellidoCat2"] . '\',' . $_datos["id"];
         
         try{
             $this->_db->query("SELECT spAgregarCatedratico(" . $sp . ");");
-            return "SELECT spAgregarCatedratico(" . $sp . ");";
+            //return "SELECT spAgregarCatedratico(" . $sp . ");";
         }catch(Exception $e){
             return $e->getMessage();
         }
@@ -83,11 +84,20 @@ class admCrearUsuarioModel extends Model{
         $sp .= $_datos["telefonoEmp"] . '\',';
         $sp .= $_datos["paisEmp"] . ',\'' . $_datos["nombreEmp"] . '\',\'';
         $sp .= $_datos["nombreEmp2"] . '\',\'' . $_datos["apellidoEmp"] . '\',\'';
-        $sp .= $_datos["apellidoEmp2"] . '\'';
+        $sp .= $_datos["apellidoEmp2"] . '\',' . $_datos["id"];
         
         try{
             $this->_db->query("SELECT spAgregarEmpleado(" . $sp . ");");
             return "SELECT spAgregarEmpleado(" . $sp . ");";
+        }catch(Exception $e){
+            return $e->getMessage();
+        }
+    }
+    
+    public function asignarRolUsuario($idRol,$id){
+        try{
+            $this->_db->query("SELECT spAsignarRolUsuario(" . $idRol . "," . $id . ");");
+            //return "SELECT spAsignarRolUsuario(" . $idRol . "," . $id . ");";
         }catch(Exception $e){
             return $e->getMessage();
         }

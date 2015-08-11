@@ -11,6 +11,10 @@ define('ALL_FOLDER','all');
 //Constantes del portal
 define('APP_TITULO','Sistema de control academico - USAC');
 define('UNIDAD_ACADEMICA','1');
+define('ROL_ADMINISTRADOR','0');
+define('ROL_ESTUDIANTE','1');
+define('ROL_DOCENTE','2');
+define('ROL_EMPLEADO','3');
 
 //Constantes de base de datos
 define('DB_HOST','localhost');

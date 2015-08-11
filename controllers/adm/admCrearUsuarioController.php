@@ -26,6 +26,7 @@ class admCrearUsuarioController extends Controller{
     
     public function agregarUsuario(){
         $iden = $this->getInteger('hdEnvio');
+        $idUsr = 0;
         $nombreUsr='';
         $correoUsr='';
         $fotoUsr='';
@@ -139,9 +140,10 @@ class admCrearUsuarioController extends Controller{
             $arrayUsr["respuestaUsr"] = "USAC";
             $arrayUsr["intentosUsr"] = 5;
             $arrayUsr["unidadUsr"] = UNIDAD_ACADEMICA;
-            $this->_post->agregarUsuario($arrayUsr);
+            $idUsr=$this->_post->agregarUsuario($arrayUsr)[0][0];
             
             if($iden == 1){
+                $arrayEst["id"] = $idUsr;
                 $arrayEst["carnetEst"] = $this->getTexto('txtCarnetEst');
                 $arrayEst["nombreEst"] = $nombreUsr;
                 $arrayEst["nombreEst2"] = $this->getTexto('txtNombreEst2');
@@ -158,8 +160,10 @@ class admCrearUsuarioController extends Controller{
                 $arrayEst["centroEst"] = "desconocido";
                 $arrayEst["paisEst"] = 1;
                 $this->_post->agregarEstudiante($arrayEst);
+                $this->_post->asignarRolUsuario(ROL_ESTUDIANTE,$idUsr);
             }
             elseif($iden == 2){
+                $arrayCat["id"] = $idUsr;
                 $arrayCat["registroCat"] = $this->getTexto('txtCodigoCat');
                 $arrayCat["nombreCat"] = $nombreUsr;
                 $arrayCat["nombreCat2"] = $this->getTexto('txtNombreCat2');
@@ -172,8 +176,10 @@ class admCrearUsuarioController extends Controller{
                 $arrayCat["paisCat"] = 1;
                 $arrayCat["tipoCat"] = $this->getInteger('slDocente');
                 $this->_post->agregarCatedratico($arrayCat);
+                $this->_post->asignarRolUsuario(ROL_DOCENTE,$idUsr);
             }
             elseif($iden == 3){
+                $arrayEmp["id"] = $idUsr;
                 $arrayEmp["registroEmp"] = $this->getTexto('txtCodigoEmp');
                 $arrayEmp["nombreEmp"] = $nombreUsr;
                 $arrayEmp["nombreEmp2"] = $this->getTexto('txtNombreEmp2');
@@ -185,6 +191,7 @@ class admCrearUsuarioController extends Controller{
                 $arrayEmp["telefonoEmp"] = "22220000";
                 $arrayEmp["paisEmp"] = 1;
                 $this->_post->agregarEmpleado($arrayEmp);
+                $this->_post->asignarRolUsuario(ROL_EMPLEADO,$idUsr);
             }
             
             $this->redireccionar('admCrearUsuario');
