@@ -8,14 +8,25 @@
 class allAutenticarUsuarioModel extends Model{
     
     public function autenticarUsuario($tipo, $usuario, $pass){
-        //$sp = '\'' .  $_datos["nombreUsr"] . '\',\'' . $_datos["correoUsr"] . '\',\''; 
-        //$sp .= $_datos["claveUsr"] . '\',' . $_datos["preguntaUsr"] . ',\'';
-        //$sp .= $_datos["respuestaUsr"] . '\',' . $_datos["intentosUsr"] . ',\'';
-        //$sp .= $_datos["fotoUsr"] . '\',' . $_datos["unidadUsr"];
+        $sp = $usuario . ',\''; 
+        $sp .= $pass . '\'';
+        if ($tipo == 1){
+            //Estudiante
+            $sp .= ', \'carnet\', \'est_estudiante\'';
+        }
+        elseif ($tipo == 2){
+            //Catedratico
+            $sp .= ', \'registropersonal\', \'cat_catedratico\'';
+        }    
+        elseif ($tipo == 3){
+            //Empleado
+            $sp .= ', \'registropersonal\', \'adm_empleado\'';
+        }     
         try{
-            //$this->_db->query("SELECT spagregarusuarios(" . $sp . ");");
-            //return "SELECT spagregarusuarios(" . $sp . ");";
-            return $tipo . " " . $usuario . " " . $pass;
+            $y = $this->_db->query("SELECT spAutenticarUsuario(" . $sp . ");");
+            //return "SELECT spAutenticarUsuarios(" . $sp . ");";
+            //return $tipo . " " . $usuario . " " . $pass;
+            return $y["spAutenticarUsuario"] . " - " . "SELECT spAutenticarUsuario(" . $sp . ");";
         }catch(Exception $e){
             return $e->getMessage();
         }

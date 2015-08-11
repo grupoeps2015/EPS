@@ -22,9 +22,9 @@ class admHistoriaLoginController extends Controller{
         $usuario = $this->getTexto('usuario');
         $pass = $this->getTexto('pass');
         $tipo = $this->getInteger('tipo');
-        $passD = $this->_encriptar->decrypt($pass, UNIDAD_ACADEMICA);
+        $passEncrypt = $this->_encriptar->encrypt($pass, UNIDAD_ACADEMICA);
         //$this->_post->autenticarUsuario($usuario,$pass,$tipo);
-        echo $this->_post->autenticarUsuario($usuario,$pass,$tipo);
+        echo $this->_post->autenticarUsuario($tipo,$usuario,$pass);
         //crear y llamar metodo que autentique en el model
         //si esta bien redireccionar a la pagina de inicio
         //si no de vuelta al index
