@@ -10,11 +10,7 @@ class admCrearUsuarioModel extends Model{
         parent::__construct();
     }
     
-    public function getPreguntas(){
-        $preguntas = $this->_db->query("select * from spconsultageneral('preguntasecreta,descripcion','adm_preguntasecreta');");
-        return $preguntas->fetchall();
-    }
-    
+    //Metodos utiliados para agregar usuarios nuevos
     public function getUsuarios(){
         $post = $this->_db->query("select * from spconsultageneral('usuario,nombre','adm_usuario');");
         return $post->fetchall();
@@ -55,8 +51,8 @@ class admCrearUsuarioModel extends Model{
         $sp .= $_datos["apellidoEst2"] . '\',' . $_datos["id"];
         
         try{
-            $this->_db->query("SELECT spagregarestudiante(" . $sp . ");");
-            //return "SELECT spagregarestudiante(" . $sp . ");";
+            //$this->_db->query("SELECT spagregarestudiante(" . $sp . ");");
+            return "SELECT spagregarestudiante(" . $sp . ");";
         }catch(Exception $e){
             return $e->getMessage();
         }
@@ -103,8 +99,24 @@ class admCrearUsuarioModel extends Model{
         }
     }
     
+    //Metodos utilizados para cambiar estado del usuario
+    public function informacionUsuario(){
+        try{
+            $post = $this->_db->query("select * from spInformacionUsuario();");
+            return $post->fetchall();
+        }catch(Exception $e){
+            return $e->getMessage();
+        }
+    }
+    
     public function eliminarUsuario(){
         
+    }
+    
+    //Metodos utilizados para actualizar usuarios
+    public function getPreguntas(){
+        $preguntas = $this->_db->query("select * from spconsultageneral('preguntasecreta,descripcion','adm_preguntasecreta');");
+        return $preguntas->fetchall();
     }
     
     public function actualizarUsuario(){

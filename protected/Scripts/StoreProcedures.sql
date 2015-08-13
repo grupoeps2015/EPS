@@ -153,3 +153,41 @@ BEGIN
 	VALUES (_rol, _usuario);
 END; $BODY$
 LANGUAGE 'plpgsql';
+
+-- -----------------------------------------------------
+-- Function: spInformacionUsuario()
+-- -----------------------------------------------------
+-- DROP FUNCTION spInformacionUsuario();
+CREATE OR REPLACE FUNCTION spInformacionUsuario(OUT Id int, OUT registro int, OUT nombre text, OUT Rol text, OUT Correo text, OUT Estado text) RETURNS setof record as 
+$BODY$
+BEGIN
+  RETURN query
+  Select 
+    u.usuario,
+    coalesce((select Carnet from Est_Estudiante where usuario=u.usuario),
+	     (select registropersonal from Adm_Empleado where usuario=u.usuario),
+	     (select registropersonal from Cat_Catedratico where usuario=u.usuario)),
+    coalesce((select primernombre || ' ' || segundonombre || ' ' || primerapellido || ' ' || segundoapellido from Est_Estudiante where usuario=u.usuario),
+	     (select primernombre || ' ' || segundonombre || ' ' || primerapellido || ' ' || segundoapellido from Cat_Catedratico where usuario=u.usuario),
+	     (select primernombre || ' ' || segundonombre || ' ' || primerapellido || ' ' || segundoapellido from Adm_Empleado where usuario=u.usuario)),
+    case
+	when (select r.rol from adm_rol_usuario r where r.usuario = u.usuario) = 1 then 'Estudiante'
+	when (select r.rol from adm_rol_usuario r where r.usuario = u.usuario) = 2 then 'Catedratico'
+	when (select r.rol from adm_rol_usuario r where r.usuario = u.usuario) = 3 then 'Empleado'
+	else 'No hay rol asociado'
+    end as "Rol",
+    u.correo,
+    case 
+	when u.estado=0 then 'Validacion Pendiente'
+	when u.estado=1 then 'Activo'
+	when u.estado=-1 then 'Desactivado'
+    end as "Estado"
+  from 
+    ADM_Usuario u
+  where 
+    u.usuario > 1
+  order by 
+    u.usuario;
+END;
+$BODY$
+LANGUAGE 'plpgsql';

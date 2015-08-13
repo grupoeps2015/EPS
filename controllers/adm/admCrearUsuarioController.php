@@ -159,7 +159,7 @@ class admCrearUsuarioController extends Controller{
                 $arrayEst["seguroEst"] = 'false';
                 $arrayEst["centroEst"] = "desconocido";
                 $arrayEst["paisEst"] = 1;
-                $this->_post->agregarEstudiante($arrayEst);
+                $this->_view->query=$this->_post->agregarEstudiante($arrayEst);
                 $this->_post->asignarRolUsuario(ROL_ESTUDIANTE,$idUsr);
             }
             elseif($iden == 2){
@@ -201,7 +201,14 @@ class admCrearUsuarioController extends Controller{
     }
     
     public function eliminarUsuario(){
+        $this->_view->lstUsr = $this->_post->informacionUsuario();
+        $this->_view->titulo = 'Eliminar Usuario - ' . APP_TITULO;
         
+        $this->_view->setJs(ADM_FOLDER,array('eliminarUsuario'));
+        $this->_view->setPublicCSS(array('jquery.dataTables.min'));
+        $this->_view->setPublicJs(array('jquery.dataTables.min'));
+        
+        $this->_view->renderizarAdm('eliminarUsuario', 'admCrearUsuario');
     }
     
     public function actualizarUsuario(){

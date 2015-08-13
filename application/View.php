@@ -14,17 +14,17 @@ class View{
     public function renderizarAdm($vista, $item = false){
         $js = array();
         if(count($this->_js)){
-            $js=$this->_js;   
+            $js=$this->_js;
         }
         
         $publicjs = array();
-        if(count($this->_publicJs)){
+        if(isset($this->_publicJs) && count($this->_publicJs)){
             $publicjs=$this->_publicJs;   
-        }else{
-            $publicjs=array(
-                    '0'=>'hola',
-                    '1'=>'adios'
-                    );
+        }
+        
+        $publiccss = array();
+        if(isset($this->_publicCss) && count($this->_publicCss)){
+            $publiccss=$this->_publicCss;
         }
         
         $_layoutParams = array(
@@ -32,7 +32,8 @@ class View{
             'ruta_img' => BASE_URL . 'views/layout/' . DEFAULT_LAYOUT . '/img/',
             'ruta_js'  => BASE_URL . 'views/layout/' . DEFAULT_LAYOUT . '/js/',
             'pubilc_js' => $publicjs,
-            'js' => $js
+            'js' => $js,
+            'public_css' => $publiccss
         );
         
         $rutaView = ROOT . 'views' . DS . 'adm' . DS . $this->_controlador . DS . $vista . '.php';
@@ -94,6 +95,16 @@ class View{
             }
         }else{
             throw new Exception("JS file not found");
+        }
+    }
+    
+    public function setPublicCSS(array $css1){
+        if(is_array($css1) && count($css1)){
+            for($i=0; $i<count($css1); $i++){
+                $this->_publicCss[] = BASE_URL . 'public/css/' . $css1[$i] . '.css';
+            }
+        }else{
+            throw new Exception("CSS file not found");
         }
     }
 }
