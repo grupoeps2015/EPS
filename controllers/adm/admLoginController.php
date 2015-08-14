@@ -11,5 +11,10 @@ class admLoginController extends Controller{
         $this->_view->renderizarAdm('admLogin');
     }
     
+    public function inicio(){
+        $this->_view->titulo = APP_TITULO;
+        $this->_view->renderizarAdm('inicio','admLogin');
+    }
+    
 }
 ?>

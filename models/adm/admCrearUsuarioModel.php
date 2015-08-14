@@ -51,8 +51,8 @@ class admCrearUsuarioModel extends Model{
         $sp .= $_datos["apellidoEst2"] . '\',' . $_datos["id"];
         
         try{
-            //$this->_db->query("SELECT spagregarestudiante(" . $sp . ");");
-            return "SELECT spagregarestudiante(" . $sp . ");";
+            $this->_db->query("SELECT spagregarestudiante(" . $sp . ");");
+            //return "SELECT spagregarestudiante(" . $sp . ");";
         }catch(Exception $e){
             return $e->getMessage();
         }

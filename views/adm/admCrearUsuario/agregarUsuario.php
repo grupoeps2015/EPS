@@ -1,28 +1,3 @@
-<nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <img src="<?php echo $_layoutParams['ruta_img']?>img10.png" width="100px" height="50px" align="left" />
-        </div>
-
-        <!-- Menu superior lateral derecho -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <a class="page-scroll" href="Menu.php">
-                        <font color="black">Men&uacute;</font>
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
-
 <section id="" style="background-color: beige;">
     <div class="container">
         <div class="row">
