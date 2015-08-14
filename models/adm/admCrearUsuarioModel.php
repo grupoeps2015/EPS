@@ -109,8 +109,13 @@ class admCrearUsuarioModel extends Model{
         }
     }
     
-    public function eliminarUsuario(){
-        
+    public function eliminarUsuario($intIdUsuario, $intEstadoNuevo){
+        try{
+            $this->_db->query("SELECT spActivarDesactivarUsuario(" . $intIdUsuario . "," . $intEstadoNuevo . ");");
+            //return "SELECT spActivarDesactivarUsuario(" . $intIdUsuario . "," . $intEstadoNuevo . ");";
+        }catch(Exception $e){
+            return $e->getMessage();
+        }
     }
     
     //Metodos utilizados para actualizar usuarios

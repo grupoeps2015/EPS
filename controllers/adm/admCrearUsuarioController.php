@@ -20,7 +20,7 @@ class admCrearUsuarioController extends Controller{
 
     public function index(){
         $this->_view->lstUsr = $this->_post->informacionUsuario();
-        $this->_view->titulo = 'Gesión de usuarios - ' . APP_TITULO;
+        $this->_view->titulo = 'Gestión de usuarios - ' . APP_TITULO;
         $this->_view->setJs(ADM_FOLDER,array('eliminarUsuario'));
         $this->_view->setPublicCSS(array('jquery.dataTables.min'));
         $this->_view->setPublicJs(array('jquery.dataTables.min'));
@@ -203,8 +203,17 @@ class admCrearUsuarioController extends Controller{
         $this->_view->renderizarAdm('agregarUsuario', 'admCrearUsuario');
     }
     
-    public function eliminarUsuario(){
-        
+    public function eliminarUsuario($intNuevoEstado,$intIdUsuario){
+        if($intNuevoEstado == -1 || $intNuevoEstado == 1){
+            $this->_post->eliminarUsuario($intIdUsuario,$intNuevoEstado);
+            $this->redireccionar('admCrearUsuario');
+        }else{
+          $this->_view->cambio = "No reconocio ningun parametro";    
+        }
+        //$this->redireccionar('admCrearUsuario');
+        //$this->_view->cambio = $intNuevoEstado;
+        $this->_view->titulo = 'Eliminar usuario - ' . APP_TITULO;
+        $this->_view->renderizarAdm('eliminarUsuario', 'admCrearUsuario');
     }
     
     public function actualizarUsuario(){
