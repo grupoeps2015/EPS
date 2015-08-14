@@ -196,15 +196,10 @@ LANGUAGE 'plpgsql';
 -- Function: spActivarDesactivarUsuario()
 -- -----------------------------------------------------
 -- DROP FUNCTION spActivarDesactivarUsuario(int,int);
-CREATE OR REPLACE FUNCTION spActivarDesactivarUsuario(IN _idUsuario int,IN _estadoNuevo int) RETURNS void AS 
+CREATE OR REPLACE FUNCTION spActivarDesactivarUsuario(_idUsuario int,_estadoNuevo int) RETURNS void AS 
 $BODY$
 BEGIN
-  EXECUTE format('UPDATE adm_usuario SET estado = $1 WHERE usuario = $0');
+  EXECUTE format('UPDATE adm_usuario SET estado = %L WHERE usuario = %L',_estadoNuevo,_idUsuario);
 END;
 $BODY$
 LANGUAGE 'plpgsql';
-
-select * from adm_usuario order by estado;
-select spActivarDesactivarUsuario(75,1);
-
-UPDATE adm_usuario SET estado = 0 where usuario = 75;
