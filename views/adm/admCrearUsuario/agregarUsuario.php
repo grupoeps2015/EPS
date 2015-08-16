@@ -49,8 +49,12 @@
                                         <br/>
                                     </td>
                                     <td>&nbsp;</td>
-                                    <td rowspan="2">Foto: 
-                                        <input type="text" id="txtFotoEst" name="txtFotoEst" class="form-control input-lg">
+                                    <td rowspan="2" style="text-align:center">Foto<br/>
+                                        <img src="<?php echo $_layoutParams['ruta_img']?>profile_picture.jpg" width="100px" height="50px" align="center" /><br/>
+                                        <div id="divFotoEst" class="fileUpload btn btn-warning">
+                                            <span id="spanEst">Cargar Imagen</span>
+                                            <input type="file" class="upload" id="txtFotoEst" name="txtFotoEst"/>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr>
@@ -100,7 +104,6 @@
                     <div class="col-md-6 col-md-offset-3">
                         <div id="divCatedraticos" class="form-group">
                             <table>
-                                
                                 <tr>
                                     <td colspan="3" style="text-align: right">Indique el rol del catedratico: </td>
                                     <td>&nbsp;</td>
@@ -126,8 +129,12 @@
                                     <td>&nbsp;</td>
                                     <td><input type="checkbox" id="cbGenerarCodigoCat" name="cbGenerarCodigoCat" value="Generar Nuevo">&nbsp;Generar codigo nuevo</td>
                                     <td>&nbsp;</td>
-                                    <td rowspan="2">Foto: 
-                                        <input type="text" id="txtFotoCat" name="txtFotoCat" class="form-control input-lg">
+                                    <td rowspan="2" style="text-align:center">Foto<br/>
+                                        <img src="<?php echo $_layoutParams['ruta_img']?>profile_picture.jpg" width="100px" height="50px" align="center" /><br/>
+                                        <div id="divFotoCat" class="fileUpload btn btn-warning">
+                                            <span id="spanCat">Cargar Imagen</span>
+                                            <input type="file" class="upload" id="txtFotoCat" name="txtFotoCat"/>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr>
@@ -177,8 +184,12 @@
                         <div id="divEmpleados" class="form-group">
                             <table>
                                 <tr>
-                                    <td rowspan="2" colspan="2">Foto: 
-                                        <input type="text" id="txtFotoEmp" name="txtFotoEmp" class="form-control input-lg">
+                                    <td colspan="2" rowspan="2" style="text-align:center">Foto<br/>
+                                        <img id="pic1" name="pic1" src="<?php echo $_layoutParams['ruta_img']?>profile_picture.jpg" width="100px" height="50px" align="center" /><br/>
+                                        <div id="divFotoEmp" name="divFotoEmp" class="fileUpload btn btn-warning">
+                                            <span id="spanEmp">Cargar Imagen</span>
+                                            <input type="file" class="upload" id="txtFotoEmp" name="txtFotoEmp"/>
+                                        </div>
                                     </td>
                                     <td>&nbsp;</td>
                                     <td style="text-align:right;">Generar codigo nuevo&nbsp;<input type="checkbox" id="cbGenerarCodigoEmp" name="cbGenerarCodigoEmp" value="Generar Nuevo"></td>

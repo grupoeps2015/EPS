@@ -98,6 +98,57 @@ $(document).ready(function(){
         }
     });
     
+    $("#txtFotoEmp").change(function() {
+        var imgVal = $('#txtFotoEmp').val();
+        if(imgVal == ""){
+            $('#divFotoEmp').removeClass("btn-success");
+            $('#divFotoEmp').addClass("btn-warning");
+            span = document.getElementById("myspan");
+            txt = document.createTextNode("Cargar Imagen");
+            span.innerText = txt.textContent;
+        }else{
+            $('#divFotoEmp').removeClass("btn-warning");
+            $('#divFotoEmp').addClass("btn-success");
+            span = document.getElementById("spanEmp");
+            txt = document.createTextNode("Imagen Cargada");
+            span.innerText = txt.textContent;
+        }
+    });
+    
+    $("#txtFotoCat").change(function() {
+        var imgVal = $('#txtFotoCat').val();
+        if(imgVal == ""){
+            $('#divFotoCat').removeClass("btn-success");
+            $('#divFotoCat').addClass("btn-warning");
+            span = document.getElementById("myspan");
+            txt = document.createTextNode("Cargar Imagen");
+            span.innerText = txt.textContent;
+        }else{
+            $('#divFotoCat').removeClass("btn-warning");
+            $('#divFotoCat').addClass("btn-success");
+            span = document.getElementById("spanCat");
+            txt = document.createTextNode("Imagen Cargada");
+            span.innerText = txt.textContent;
+        }
+    });
+    
+    $("#txtFotoEst").change(function() {
+        var imgVal = $('#txtFotoEst').val();
+        if(imgVal == ""){
+            $('#divFotoEst').removeClass("btn-success");
+            $('#divFotoEst').addClass("btn-warning");
+            span = document.getElementById("myspan");
+            txt = document.createTextNode("Cargar Imagen");
+            span.innerText = txt.textContent;
+        }else{
+            $('#divFotoEst').removeClass("btn-warning");
+            $('#divFotoEst').addClass("btn-success");
+            span = document.getElementById("spanEst");
+            txt = document.createTextNode("Imagen Cargada");
+            span.innerText = txt.textContent;
+        }
+    });
+    
     $("#slPerfil").change(function() {
         var str = "";
         $( "#slPerfil option:selected" ).each(function() {
