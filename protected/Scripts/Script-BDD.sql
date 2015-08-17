@@ -728,6 +728,16 @@ CREATE TABLE  CUR_TipoPrerrequisito (
   PRIMARY KEY (TipoPrerrequisito));
 
 
+ -- -----------------------------------------------------
+-- Table ADM_Parametro
+-- -----------------------------------------------------
+CREATE TABLE ADM_TipoParametro (
+  TipoParametro SERIAL NOT NULL,
+  Nombre TEXT NOT NULL,
+  Estado INTEGER NOT NULL,
+  PRIMARY KEY (TipoParametro));
+  
+ 
 -- -----------------------------------------------------
 -- Table ADM_Parametro
 -- -----------------------------------------------------
@@ -740,6 +750,7 @@ CREATE TABLE  ADM_Parametro (
   UnidadAcademica INTEGER NOT NULL,
   Carrera INTEGER NOT NULL,
   Extension INTEGER NOT NULL,
+  TipoParametro INTEGER NOT NULL,
   Estado INTEGER NOT NULL,
   PRIMARY KEY (Parametro),
   CONSTRAINT fk_ADM_Parametro_CUR_Carrera1
@@ -750,7 +761,10 @@ CREATE TABLE  ADM_Parametro (
     REFERENCES ADM_UnidadAcademica (UnidadAcademica),
   CONSTRAINT fk_ADM_Parametro_ADM_Centro1
     FOREIGN KEY (Centro)
-    REFERENCES ADM_Centro (Centro));
+    REFERENCES ADM_Centro (Centro),
+  CONSTRAINT fk_ADM_Parametro_ADM_TipoParametro
+	FOREIGN KEY (TipoParametro)
+	REFERENCES ADM_TipoParametro(TipoParametro));
 
 
 -- -----------------------------------------------------
