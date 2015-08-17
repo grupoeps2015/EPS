@@ -46,3 +46,7 @@
         </div>
     </div>
 </header>
+
+<?php 
+//if(isset($this->respuesta)) print_r($this->respuesta)
+?>

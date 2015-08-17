@@ -23,15 +23,16 @@ class allAutenticarUsuarioModel extends Model{
             $sp .= ', \'registropersonal\', \'adm_empleado\'';
         }     
         try{
-            $y = $this->_db->query("SELECT spAutenticarUsuario(" . $sp . ");");
+            $y = $this->_db->query("SELECT * from spAutenticarUsuario(" . $sp . ");");
             //return "SELECT spAutenticarUsuarios(" . $sp . ");";
             //return $tipo . " " . $usuario . " " . $pass;
-            return $y["spAutenticarUsuario"] . " - " . "SELECT spAutenticarUsuario(" . $sp . ");";
+            //return "SELECT spAutenticarUsuario(" . $sp . ");";
+            return $y->fetchall();
         }catch(Exception $e){
             return $e->getMessage();
         }
     }
-    
+    /*
     public function agregarEstudiante($_datos){
         $sp = $_datos["carnetEst"] . ',\'' . $_datos["direccionEst"] . '\',';
         $sp .= $_datos["zonaEst"] . ',' . $_datos["municipioEst"] . ',\'';
@@ -80,7 +81,7 @@ class allAutenticarUsuarioModel extends Model{
         }catch(Exception $e){
             return $e->getMessage();
         }
-    }
+    }*/
     
     
 }
