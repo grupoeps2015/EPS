@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center">
-                <h2 class="section-heading">Agregar Usuario</h2>
+                <h2 class="section-heading">Bienvenido <?php echo " " . $_SESSION["nombre"]; ?></h2>
                 <p><?php if(isset($this->query)) echo $this->query; ?></p>
                 <hr class="primary">
             </div>
