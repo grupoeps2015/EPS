@@ -1,7 +1,9 @@
-﻿-- -----------------------------------------------------
+﻿
+
+-- -----------------------------------------------------
 -- Table ADM_TipoUnidadAcademica
 -- -----------------------------------------------------
-CREATE TABLE  ADM_TipoUnidadAcademica (
+CREATE TABLE ADM_TipoUnidadAcademica (
   TipoUnidadAcademica SERIAL NOT NULL,
   Nombre TEXT NOT NULL,
   Descripcion TEXT NULL,
@@ -11,7 +13,7 @@ CREATE TABLE  ADM_TipoUnidadAcademica (
 -- -----------------------------------------------------
 -- Table ADM_UnidadAcademica
 -- -----------------------------------------------------
-CREATE TABLE  ADM_UnidadAcademica (
+CREATE TABLE ADM_UnidadAcademica (
   UnidadAcademica SERIAL NOT NULL,
   UnidadAcademicaSuperior INTEGER NULL,
   Nombre TEXT NOT NULL,
@@ -26,28 +28,15 @@ CREATE TABLE  ADM_UnidadAcademica (
 
 
 -- -----------------------------------------------------
--- Table ADM_PreguntaSecreta
--- -----------------------------------------------------
-CREATE TABLE  ADM_PreguntaSecreta (
-  PreguntaSecreta SERIAL NOT NULL,
-  Descripcion TEXT NOT NULL,
-  PRIMARY KEY (PreguntaSecreta)
- );
---ALTER TABLE adm_usuario DROP COLUMN preguntasecreta;
---ALTER TABLE adm_usuario ADD COLUMN preguntasecreta integer;
---ALTER TABLE adm_usuario ALTER COLUMN preguntasecreta SET NOT NULL;
---ALTER TABLE adm_usuario ADD CONSTRAINT fk_ADM_Usuario_ADM_PreguntaSecreta1 FOREIGN KEY (PreguntaSecreta) REFERENCES ADM_PreguntaSecreta (PreguntaSecreta);
- 
--- -----------------------------------------------------
 -- Table ADM_Usuario
 -- -----------------------------------------------------
-CREATE TABLE  ADM_Usuario (
+CREATE TABLE ADM_Usuario (
   Usuario SERIAL NOT NULL,
   Nombre TEXT NOT NULL,
   Correo TEXT NOT NULL,
   Clave TEXT NOT NULL,
   Estado INTEGER NOT NULL,
-  PreguntaSecreta INTEGER NOT NULL,
+  PreguntaSecreta TEXT NOT NULL,
   RespuestaSecreta TEXT NOT NULL,
   FechaUltimaAutenticacion TIMESTAMP NOT NULL,
   IntentosAutenticacion INTEGER NOT NULL,
@@ -56,15 +45,13 @@ CREATE TABLE  ADM_Usuario (
   PRIMARY KEY (Usuario),
   CONSTRAINT fk_ADM_Usuario_ADM_UnidadAcademica1
     FOREIGN KEY (UnidadAcademica)
-    REFERENCES ADM_UnidadAcademica (UnidadAcademica),
-    CONSTRAINT fk_ADM_Usuario_ADM_PreguntaSecreta1
-    FOREIGN KEY (PreguntaSecreta)
-    REFERENCES ADM_PreguntaSecreta (PreguntaSecreta));
+    REFERENCES ADM_UnidadAcademica (UnidadAcademica));
+
 
 -- -----------------------------------------------------
 -- Table ADM_Rol
 -- -----------------------------------------------------
-CREATE TABLE  ADM_Rol (
+CREATE TABLE ADM_Rol (
   Rol SERIAL NOT NULL,
   Nombre TEXT NOT NULL,
   Estado INTEGER NOT NULL,
@@ -74,7 +61,7 @@ CREATE TABLE  ADM_Rol (
 -- -----------------------------------------------------
 -- Table ADM_Modulo
 -- -----------------------------------------------------
-CREATE TABLE  ADM_Modulo (
+CREATE TABLE ADM_Modulo (
   Modulo SERIAL NOT NULL,
   Nombre TEXT NOT NULL,
   Descripcion TEXT NOT NULL,
@@ -85,7 +72,7 @@ CREATE TABLE  ADM_Modulo (
 -- -----------------------------------------------------
 -- Table ADM_Funcion
 -- -----------------------------------------------------
-CREATE TABLE  ADM_Funcion (
+CREATE TABLE ADM_Funcion (
   Funcion SERIAL NOT NULL,
   Modulo INTEGER NOT NULL,
   FuncionPadre INTEGER NULL,
@@ -104,7 +91,7 @@ CREATE TABLE  ADM_Funcion (
 -- -----------------------------------------------------
 -- Table ADM_FuncionMenu
 -- -----------------------------------------------------
-CREATE TABLE  ADM_FuncionMenu (
+CREATE TABLE ADM_FuncionMenu (
   FuncionMenu SERIAL NOT NULL,
   Nombre TEXT NOT NULL,
   Tipo INTEGER NOT NULL,
@@ -125,7 +112,7 @@ CREATE TABLE  ADM_FuncionMenu (
 -- -----------------------------------------------------
 -- Table ADM_Rol_Funcion
 -- -----------------------------------------------------
-CREATE TABLE  ADM_Rol_Funcion (
+CREATE TABLE ADM_Rol_Funcion (
   Rol INTEGER NOT NULL,
   Funcion INTEGER NOT NULL,
   CONSTRAINT FK_Rol
@@ -139,7 +126,7 @@ CREATE TABLE  ADM_Rol_Funcion (
 -- -----------------------------------------------------
 -- Table ADM_Rol_Usuario
 -- -----------------------------------------------------
-CREATE TABLE  ADM_Rol_Usuario (
+CREATE TABLE ADM_Rol_Usuario (
   Rol INTEGER NOT NULL,
   Usuario INTEGER NOT NULL,
   CONSTRAINT FK_Usuario
@@ -153,7 +140,7 @@ CREATE TABLE  ADM_Rol_Usuario (
 -- -----------------------------------------------------
 -- Table CAT_TipoCatedratico
 -- -----------------------------------------------------
-CREATE TABLE  CAT_TipoCatedratico (
+CREATE TABLE CAT_TipoCatedratico (
   TipoDocente SERIAL NOT NULL,
   Descripcion TEXT NULL,
   Estado INTEGER NOT NULL,
@@ -163,7 +150,7 @@ CREATE TABLE  CAT_TipoCatedratico (
 -- -----------------------------------------------------
 -- Table ADM_Departamento
 -- -----------------------------------------------------
-CREATE TABLE  ADM_Departamento (
+CREATE TABLE ADM_Departamento (
   Departamento SERIAL NOT NULL,
   Nombre TEXT NOT NULL,
   PRIMARY KEY (Departamento));
@@ -172,7 +159,7 @@ CREATE TABLE  ADM_Departamento (
 -- -----------------------------------------------------
 -- Table ADM_Municipio
 -- -----------------------------------------------------
-CREATE TABLE  ADM_Municipio (
+CREATE TABLE ADM_Municipio (
   Municipio SERIAL NOT NULL,
   Nombre TEXT NOT NULL,
   Departamento INTEGER NOT NULL,
@@ -185,22 +172,19 @@ CREATE TABLE  ADM_Municipio (
 -- -----------------------------------------------------
 -- Table ADM_Pais
 -- -----------------------------------------------------
-CREATE TABLE  ADM_Pais (
+CREATE TABLE ADM_Pais (
   Pais SERIAL NOT NULL,
-  Nombre TEXT NOT NULL UNIQUE,
+  Nombre TEXT NOT NULL,
   PRIMARY KEY (Pais));
 
 
 -- -----------------------------------------------------
 -- Table CAT_Catedratico
 -- -----------------------------------------------------
-CREATE TABLE  CAT_Catedratico (
+CREATE TABLE CAT_Catedratico (
   Catedratico SERIAL NOT NULL,
-  RegistroPersonal INTEGER NOT NULL UNIQUE,
+  RegistroPersonal INTEGER UNIQUE NOT NULL,
   PrimerNombre TEXT NOT NULL,
-  SegundoNombre TEXT NULL,
-  PrimerApellido TEXT NOT NULL,
-  SegundoApellido TEXT NULL,
   Direccion TEXT NOT NULL,
   Zona INTEGER NOT NULL,
   Municipio INTEGER NOT NULL,
@@ -209,6 +193,9 @@ CREATE TABLE  CAT_Catedratico (
   Usuario INTEGER NOT NULL,
   Estado INTEGER NOT NULL,
   PaisOrigen INTEGER NOT NULL,
+  SegundoNombre TEXT NOT NULL,
+  PrimerApellido TEXT NOT NULL,
+  SegundoApellido TEXT NOT NULL,
   PRIMARY KEY (Catedratico),
   CONSTRAINT TipoDocente
     FOREIGN KEY (TipoDocente)
@@ -222,17 +209,12 @@ CREATE TABLE  CAT_Catedratico (
   CONSTRAINT fk_CAT_Catedratico_ADM_Pais1
     FOREIGN KEY (PaisOrigen)
     REFERENCES ADM_Pais (Pais));
--- Actualizar tabla cat_catedratico
---ALTER TABLE CAT_Catedratico DROP COLUMN nombre;
---ALTER TABLE CAT_Catedratico ADD COLUMN PrimerNombre TEXT NOT NULL
---ALTER TABLE CAT_Catedratico ADD COLUMN SegundoNombre TEXT NULL
---ALTER TABLE CAT_Catedratico ADD COLUMN PrimerApellido TEXT NOT NULL
---ALTER TABLE CAT_Catedratico ADD COLUMN SegundoApellido TEXT NULL
+
 
 -- -----------------------------------------------------
 -- Table CUR_Edificio
 -- -----------------------------------------------------
-CREATE TABLE  CUR_Edificio (
+CREATE TABLE CUR_Edificio (
   Edificio SERIAL NOT NULL,
   Nombre TEXT NOT NULL,
   Descripcion TEXT NULL,
@@ -243,7 +225,7 @@ CREATE TABLE  CUR_Edificio (
 -- -----------------------------------------------------
 -- Table CUR_Salon
 -- -----------------------------------------------------
-CREATE TABLE  CUR_Salon (
+CREATE TABLE CUR_Salon (
   Salon SERIAL NOT NULL,
   Nombre TEXT NOT NULL,
   Edificio INTEGER NOT NULL,
@@ -257,20 +239,35 @@ CREATE TABLE  CUR_Salon (
 
 
 -- -----------------------------------------------------
+-- Table CUR_Tipo
+-- -----------------------------------------------------
+CREATE TABLE CUR_Tipo (
+  TipoCurso SERIAL NOT NULL,
+  Nombre TEXT NOT NULL,
+  Descripcion TEXT NULL,
+  PRIMARY KEY (TipoCurso));
+
+
+-- -----------------------------------------------------
 -- Table CUR_Curso
 -- -----------------------------------------------------
-CREATE TABLE  CUR_Curso (
+CREATE TABLE CUR_Curso (
   Curso SERIAL NOT NULL,
   Codigo TEXT NOT NULL,
   Nombre TEXT NOT NULL,
+  Traslape BOOLEAN NOT NULL,
   Estado INTEGER NOT NULL,
-  PRIMARY KEY (Curso));
+  TipoCurso INTEGER NOT NULL,
+  PRIMARY KEY (Curso),
+  CONSTRAINT fk_CUR_Curso_CUR_Tipo1
+    FOREIGN KEY (TipoCurso)
+    REFERENCES CUR_Tipo (TipoCurso));
 
 
 -- -----------------------------------------------------
 -- Table CUR_Jornada
 -- -----------------------------------------------------
-CREATE TABLE  CUR_Jornada (
+CREATE TABLE CUR_Jornada (
   Jornada SERIAL NOT NULL,
   Nombre TEXT NOT NULL,
   Estado INTEGER NOT NULL,
@@ -280,7 +277,7 @@ CREATE TABLE  CUR_Jornada (
 -- -----------------------------------------------------
 -- Table CUR_Dia
 -- -----------------------------------------------------
-CREATE TABLE  CUR_Dia (
+CREATE TABLE CUR_Dia (
   Codigo SERIAL NOT NULL,
   Nombre TEXT NOT NULL,
   PRIMARY KEY (Codigo));
@@ -289,7 +286,7 @@ CREATE TABLE  CUR_Dia (
 -- -----------------------------------------------------
 -- Table CUR_TipoPeriodo
 -- -----------------------------------------------------
-CREATE TABLE  CUR_TipoPeriodo (
+CREATE TABLE CUR_TipoPeriodo (
   TipoPerdiodo SERIAL NOT NULL,
   Nombre TEXT NOT NULL,
   Descripcion TEXT NULL,
@@ -300,7 +297,7 @@ CREATE TABLE  CUR_TipoPeriodo (
 -- -----------------------------------------------------
 -- Table CUR_Periodo
 -- -----------------------------------------------------
-CREATE TABLE  CUR_Periodo (
+CREATE TABLE CUR_Periodo (
   Periodo SERIAL NOT NULL,
   DuracionMinutos INTEGER NOT NULL,
   TipoPerdiodo INTEGER NOT NULL,
@@ -313,7 +310,7 @@ CREATE TABLE  CUR_Periodo (
 -- -----------------------------------------------------
 -- Table ADM_Centro
 -- -----------------------------------------------------
-CREATE TABLE  ADM_Centro (
+CREATE TABLE ADM_Centro (
   Centro SERIAL NOT NULL,
   Nombre TEXT NOT NULL,
   Direccion TEXT NOT NULL,
@@ -329,8 +326,8 @@ CREATE TABLE  ADM_Centro (
 -- Table ADM_Centro_UnidadAcademica
 -- -----------------------------------------------------
 CREATE TABLE ADM_Centro_UnidadAcademica (
-  Centro INTEGER NOT NULL UNIQUE,
-  UnidadAcademica INTEGER NOT NULL UNIQUE,   
+  Centro INTEGER UNIQUE NOT NULL,
+  UnidadAcademica INTEGER UNIQUE NOT NULL,
   CONSTRAINT Centro
     FOREIGN KEY (UnidadAcademica)
     REFERENCES ADM_UnidadAcademica (UnidadAcademica),
@@ -341,10 +338,11 @@ CREATE TABLE ADM_Centro_UnidadAcademica (
 CREATE UNIQUE INDEX u_Centro_UnidadAcademica ON ADM_Centro_UnidadAcademica (Centro, UnidadAcademica);
 ALTER TABLE ADM_Centro_UnidadAcademica ADD PRIMARY KEY (Centro,UnidadAcademica);
 
+
 -- -----------------------------------------------------
 -- Table CUR_Carrera
 -- -----------------------------------------------------
-CREATE TABLE  CUR_Carrera (
+CREATE TABLE CUR_Carrera (
   Carrera SERIAL NOT NULL,
   Nombre TEXT NOT NULL,
   Estado INTEGER NOT NULL,
@@ -362,7 +360,7 @@ CREATE TABLE  CUR_Carrera (
 -- -----------------------------------------------------
 -- Table ADM_Pensum
 -- -----------------------------------------------------
-CREATE TABLE  ADM_Pensum (
+CREATE TABLE ADM_Pensum (
   Pensum SERIAL NOT NULL,
   Carrera INTEGER NOT NULL,
   Tipo INTEGER NOT NULL,
@@ -379,7 +377,7 @@ CREATE TABLE  ADM_Pensum (
 -- -----------------------------------------------------
 -- Table ADM_Area
 -- -----------------------------------------------------
-CREATE TABLE  ADM_Area (
+CREATE TABLE ADM_Area (
   Area SERIAL NOT NULL,
   Nombre TEXT NOT NULL,
   Descripcion TEXT NULL,
@@ -390,7 +388,7 @@ CREATE TABLE  ADM_Area (
 -- -----------------------------------------------------
 -- Table CUR_TipoCiclo
 -- -----------------------------------------------------
-CREATE TABLE  CUR_TipoCiclo (
+CREATE TABLE CUR_TipoCiclo (
   TipoCiclo SERIAL NOT NULL,
   Nombre TEXT NOT NULL,
   Descripcion TEXT NULL,
@@ -401,8 +399,8 @@ CREATE TABLE  CUR_TipoCiclo (
 -- -----------------------------------------------------
 -- Table CUR_Pensum_Area
 -- -----------------------------------------------------
-CREATE TABLE  CUR_Pensum_Area (
-  CursoPensumArea INTEGER NOT NULL,
+CREATE TABLE CUR_Pensum_Area (
+  CursoPensumArea SERIAL NOT NULL,
   Curso INTEGER NOT NULL,
   Pensum INTEGER NOT NULL,
   Area INTEGER NOT NULL,
@@ -427,7 +425,7 @@ CREATE TABLE  CUR_Pensum_Area (
 -- -----------------------------------------------------
 -- Table CUR_TipoSeccion
 -- -----------------------------------------------------
-CREATE TABLE  CUR_TipoSeccion (
+CREATE TABLE CUR_TipoSeccion (
   TipoSeccion SERIAL NOT NULL,
   Nombre TEXT NOT NULL,
   Descripcion TEXT NULL,
@@ -437,7 +435,7 @@ CREATE TABLE  CUR_TipoSeccion (
 -- -----------------------------------------------------
 -- Table CUR_Seccion
 -- -----------------------------------------------------
-CREATE TABLE  CUR_Seccion (
+CREATE TABLE CUR_Seccion (
   Seccion SERIAL NOT NULL,
   Nombre TEXT NOT NULL,
   Descripcion TEXT NULL,
@@ -460,15 +458,12 @@ CREATE TABLE CUR_Curso_Catedratico (
   Curso SERIAL NOT NULL,
   Catedratico INTEGER NOT NULL,
   CursoPensumArea INTEGER NOT NULL,
-  PRIMARY KEY (Curso,Catedratico),
   Fecha DATE NOT NULL,
   Estado INTEGER NOT NULL,
+  PRIMARY KEY (Curso, Catedratico),
   CONSTRAINT fk_CUR_Curso_Docente_DOC_Docente1
     FOREIGN KEY (Catedratico)
     REFERENCES CAT_Catedratico (Catedratico),
-  CONSTRAINT fk_CUR_Curso_Catedratico_CUR_Curso1
-    FOREIGN KEY (Curso)
-    REFERENCES CUR_Curso (Curso),	
   CONSTRAINT CursoPensumArea
     FOREIGN KEY (CursoPensumArea)
     REFERENCES CUR_Pensum_Area (CursoPensumArea));
@@ -479,7 +474,7 @@ CREATE UNIQUE INDEX u_Curso_Catedratico ON CUR_Curso_Catedratico (Curso,Catedrat
 -- -----------------------------------------------------
 -- Table CUR_Trama
 -- -----------------------------------------------------
-CREATE TABLE  CUR_Trama (
+CREATE TABLE CUR_Trama (
   Trama SERIAL NOT NULL,
   Curso INTEGER NOT NULL,
   Catedratico INTEGER NOT NULL,
@@ -506,7 +501,7 @@ CREATE TABLE  CUR_Trama (
 -- -----------------------------------------------------
 -- Table CUR_Ciclo
 -- -----------------------------------------------------
-CREATE TABLE  CUR_Ciclo (
+CREATE TABLE CUR_Ciclo (
   Ciclo SERIAL NOT NULL,
   NumeroCiclo INTEGER NOT NULL,
   Anio INTEGER NOT NULL,
@@ -521,7 +516,7 @@ CREATE TABLE  CUR_Ciclo (
 -- -----------------------------------------------------
 -- Table CUR_Horario
 -- -----------------------------------------------------
-CREATE TABLE  CUR_Horario (
+CREATE TABLE CUR_Horario (
   Horario SERIAL NOT NULL,
   Jornada INTEGER NOT NULL,
   Trama INTEGER NOT NULL,
@@ -542,19 +537,19 @@ CREATE TABLE  CUR_Horario (
 -- -----------------------------------------------------
 -- Table ADM_Empleado
 -- -----------------------------------------------------
-CREATE TABLE  ADM_Empleado (
+CREATE TABLE ADM_Empleado (
   Empleado SERIAL NOT NULL,
-  RegistroPersonal INTEGER NOT NULL UNIQUE,
+  RegistroPersonal INTEGER UNIQUE NOT NULL,
   PrimerNombre TEXT NOT NULL,
-  SegundoNombre TEXT NULL,
+  SegundoNombre TEXT NOT NULL,
   PrimerApellido TEXT NOT NULL,
-  SegundoApellido TEXT NULL,
+  SegundoApellido TEXT NOT NULL,
   Direccion TEXT NOT NULL,
   Zona INTEGER NULL,
-  Municipio INTEGER NOT NULL,
   Telefono TEXT NOT NULL,
-  Usuario INTEGER NOT NULL,
   Estado TEXT NOT NULL,
+  Usuario INTEGER NOT NULL,
+  Municipio INTEGER NOT NULL,
   PaisOrigen INTEGER NOT NULL,
   PRIMARY KEY (Empleado),
   CONSTRAINT Usuario
@@ -566,23 +561,19 @@ CREATE TABLE  ADM_Empleado (
   CONSTRAINT PaisOrigen
     FOREIGN KEY (PaisOrigen)
     REFERENCES ADM_Pais (Pais));
--- Actualizar tabla adm_empleado
---ALTER TABLE ADM_Empleado DROP COLUMN nombre;
---ALTER TABLE ADM_Empleado ADD COLUMN PrimerNombre TEXT NOT NULL
---ALTER TABLE ADM_Empleado ADD COLUMN SegundoNombre TEXT NULL
---ALTER TABLE ADM_Empleado ADD COLUMN PrimerApellido TEXT NOT NULL
---ALTER TABLE ADM_Empleado ADD COLUMN SegundoApellido TEXT NULL
+
 
 -- -----------------------------------------------------
 -- Table EST_Estudiante
 -- -----------------------------------------------------
-CREATE TABLE  EST_Estudiante (
+CREATE TABLE EST_Estudiante (
   Estudiante SERIAL NOT NULL,
-  Carnet INTEGER NOT NULL UNIQUE,
+  Carnet INTEGER UNIQUE NOT NULL,
   PrimerNombre TEXT NOT NULL,
-  SegundoNombre TEXT NULL,
+  SegundoNombre TEXT NOT NULL,
   PrimerApellido TEXT NOT NULL,
-  SegundoApellido TEXT NULL,
+  SegundoApellido TEXT NOT NULL,
+  EST_Estudiantecol TEXT NULL,
   Direccion TEXT NOT NULL,
   Zona INTEGER NULL,
   Municipio INTEGER NOT NULL,
@@ -605,17 +596,12 @@ CREATE TABLE  EST_Estudiante (
   CONSTRAINT PaisOrigen
     FOREIGN KEY (PaisOrigen)
     REFERENCES ADM_Pais (Pais));
--- Actualizar tabla est_estudiante
---ALTER TABLE est_estudiante DROP COLUMN nombre;
---ALTER TABLE est_estudiante ADD COLUMN PrimerNombre TEXT NOT NULL
---ALTER TABLE est_estudiante ADD COLUMN SegundoNombre TEXT NULL
---ALTER TABLE est_estudiante ADD COLUMN PrimerApellido TEXT NOT NULL
---ALTER TABLE est_estudiante ADD COLUMN SegundoApellido TEXT NULL
+
 
 -- -----------------------------------------------------
 -- Table EST_TipoAsignacion
 -- -----------------------------------------------------
-CREATE TABLE  EST_TipoAsignacion (
+CREATE TABLE EST_TipoAsignacion (
   TipoAsignacion SERIAL NOT NULL,
   Nombre TEXT NOT NULL,
   Descripcion TEXT NULL,
@@ -624,37 +610,49 @@ CREATE TABLE  EST_TipoAsignacion (
 
 
 -- -----------------------------------------------------
+-- Table EST_Ciclo_Asignacion
+-- -----------------------------------------------------
+CREATE TABLE EST_Ciclo_Asignacion (
+  Ciclo_Asignacion INTEGER NOT NULL,
+  Ciclo INTEGER NOT NULL,
+  PRIMARY KEY (Ciclo_Asignacion),
+  CONSTRAINT fk_EST_Ciclo_Asignacion_CUR_Ciclo1
+    FOREIGN KEY (Ciclo)
+    REFERENCES CUR_Ciclo (Ciclo));
+
+
+-- -----------------------------------------------------
 -- Table EST_CUR_Asignacion
 -- -----------------------------------------------------
-CREATE TABLE  EST_CUR_Asignacion (
-  Asignacion INTEGER NOT NULL,
+CREATE TABLE EST_CUR_Asignacion (
+  Asignacion SERIAL NOT NULL,
   TipoAsignacion INTEGER NOT NULL,
   Estudiante INTEGER NOT NULL,
-  Ciclo INTEGER NOT NULL,
   Fecha DATE NOT NULL,
   OportunidadActual INTEGER NOT NULL,
   Hora TIME NOT NULL,
   Estado INTEGER NOT NULL,
   Seccion INTEGER NOT NULL,
+  Ciclo_Asignacion INTEGER NOT NULL,
   PRIMARY KEY (Asignacion),
   CONSTRAINT Estudiante
     FOREIGN KEY (Estudiante)
     REFERENCES EST_Estudiante (Estudiante),
-  CONSTRAINT Ciclo
-    FOREIGN KEY (Ciclo)
-    REFERENCES CUR_Ciclo (Ciclo),
   CONSTRAINT fk_EST_Curso_Estudiante_EST_Tipo_Asignacion1
     FOREIGN KEY (TipoAsignacion)
     REFERENCES EST_TipoAsignacion (TipoAsignacion),
   CONSTRAINT Seccion
     FOREIGN KEY (Seccion)
-    REFERENCES CUR_Seccion (Seccion));
+    REFERENCES CUR_Seccion (Seccion),
+  CONSTRAINT fk_EST_CUR_Asignacion_EST_Ciclo_Asignacion1
+    FOREIGN KEY (Ciclo_Asignacion)
+    REFERENCES EST_Ciclo_Asignacion (Ciclo_Asignacion));
 
 
 -- -----------------------------------------------------
 -- Table CUR_EstadoNota
 -- -----------------------------------------------------
-CREATE TABLE  CUR_EstadoNota (
+CREATE TABLE CUR_EstadoNota (
   EstadoNota SERIAL NOT NULL,
   Nombre TEXT NOT NULL,
   Descripcion TEXT NOT NULL,
@@ -665,8 +663,8 @@ CREATE TABLE  CUR_EstadoNota (
 -- -----------------------------------------------------
 -- Table EST_CUR_Nota
 -- -----------------------------------------------------
-CREATE TABLE  EST_CUR_Nota (
-  Asignacion INTEGER NOT NULL,
+CREATE TABLE EST_CUR_Nota (
+  Asignacion SERIAL NOT NULL,
   Zona FLOAT NOT NULL,
   Final FLOAT NOT NULL,
   Total FLOAT NOT NULL,
@@ -685,7 +683,7 @@ CREATE TABLE  EST_CUR_Nota (
 -- -----------------------------------------------------
 -- Table ADM_Bitacora
 -- -----------------------------------------------------
-CREATE TABLE  ADM_Bitacora (
+CREATE TABLE ADM_Bitacora (
   Bitacora SERIAL NOT NULL,
   Usuario INTEGER NOT NULL,
   NombreUsuario TEXT NOT NULL,
@@ -703,7 +701,7 @@ CREATE TABLE  ADM_Bitacora (
 -- -----------------------------------------------------
 -- Table ADM_UnidadAcademica_Edificio
 -- -----------------------------------------------------
-CREATE TABLE  ADM_UnidadAcademica_Edificio (
+CREATE TABLE ADM_UnidadAcademica_Edificio (
   UnidadAcademica INTEGER NOT NULL,
   Edificio INTEGER NOT NULL,
   Jornada INTEGER NOT NULL,
@@ -722,26 +720,26 @@ CREATE TABLE  ADM_UnidadAcademica_Edificio (
 -- -----------------------------------------------------
 -- Table CUR_TipoPrerrequisito
 -- -----------------------------------------------------
-CREATE TABLE  CUR_TipoPrerrequisito (
+CREATE TABLE CUR_TipoPrerrequisito (
   TipoPrerrequisito SERIAL NOT NULL,
   Descripcion TEXT NOT NULL,
   PRIMARY KEY (TipoPrerrequisito));
 
 
- -- -----------------------------------------------------
--- Table ADM_Parametro
+-- -----------------------------------------------------
+-- Table ADM_TipoParametro
 -- -----------------------------------------------------
 CREATE TABLE ADM_TipoParametro (
   TipoParametro SERIAL NOT NULL,
   Nombre TEXT NOT NULL,
   Estado INTEGER NOT NULL,
   PRIMARY KEY (TipoParametro));
-  
- 
+
+
 -- -----------------------------------------------------
 -- Table ADM_Parametro
 -- -----------------------------------------------------
-CREATE TABLE  ADM_Parametro (
+CREATE TABLE ADM_Parametro (
   Parametro SERIAL NOT NULL,
   Nombre TEXT NOT NULL,
   Valor TEXT NOT NULL,
@@ -749,8 +747,8 @@ CREATE TABLE  ADM_Parametro (
   Centro INTEGER NOT NULL,
   UnidadAcademica INTEGER NOT NULL,
   Carrera INTEGER NOT NULL,
-  Extension INTEGER NOT NULL,
   TipoParametro INTEGER NOT NULL,
+  Extension INTEGER NOT NULL,
   Estado INTEGER NOT NULL,
   PRIMARY KEY (Parametro),
   CONSTRAINT fk_ADM_Parametro_CUR_Carrera1
@@ -763,14 +761,14 @@ CREATE TABLE  ADM_Parametro (
     FOREIGN KEY (Centro)
     REFERENCES ADM_Centro (Centro),
   CONSTRAINT fk_ADM_Parametro_ADM_TipoParametro
-	FOREIGN KEY (TipoParametro)
-	REFERENCES ADM_TipoParametro(TipoParametro));
+    FOREIGN KEY (TipoParametro)
+    REFERENCES ADM_TipoParametro (TipoParametro));
 
 
 -- -----------------------------------------------------
 -- Table CUR_Horario_Salon
 -- -----------------------------------------------------
-CREATE TABLE  CUR_Horario_Salon (
+CREATE TABLE CUR_Horario_Salon (
   Horario INTEGER NOT NULL,
   Salon INTEGER NOT NULL,
   CONSTRAINT Horario
@@ -784,7 +782,7 @@ CREATE TABLE  CUR_Horario_Salon (
 -- -----------------------------------------------------
 -- Table CAT_Bitacora
 -- -----------------------------------------------------
-CREATE TABLE  CAT_Bitacora (
+CREATE TABLE CAT_Bitacora (
   Bitacora SERIAL NOT NULL,
   Usuario INTEGER NOT NULL,
   NombreUsuario TEXT NOT NULL,
@@ -802,7 +800,7 @@ CREATE TABLE  CAT_Bitacora (
 -- -----------------------------------------------------
 -- Table EST_Bitacora
 -- -----------------------------------------------------
-CREATE TABLE  EST_Bitacora (
+CREATE TABLE EST_Bitacora (
   Bitacora SERIAL NOT NULL,
   Usuario INTEGER NOT NULL,
   NombreUsuario TEXT NOT NULL,
@@ -820,7 +818,7 @@ CREATE TABLE  EST_Bitacora (
 -- -----------------------------------------------------
 -- Table CUR_TipoActividad
 -- -----------------------------------------------------
-CREATE TABLE  CUR_TipoActividad (
+CREATE TABLE CUR_TipoActividad (
   TipoActividad SERIAL NOT NULL,
   Nombre TEXT NOT NULL,
   Descripcion TEXT NOT NULL,
@@ -831,7 +829,7 @@ CREATE TABLE  CUR_TipoActividad (
 -- -----------------------------------------------------
 -- Table CUR_Actividad
 -- -----------------------------------------------------
-CREATE TABLE  CUR_Actividad (
+CREATE TABLE CUR_Actividad (
   Actividad SERIAL NOT NULL,
   Valor FLOAT NOT NULL,
   Nombre TEXT NOT NULL,
@@ -851,7 +849,7 @@ CREATE TABLE  CUR_Actividad (
 -- -----------------------------------------------------
 -- Table EST_CUR_Nota_Actividad
 -- -----------------------------------------------------
-CREATE TABLE  EST_CUR_Nota_Actividad (
+CREATE TABLE EST_CUR_Nota_Actividad (
   Asignacion INTEGER NOT NULL,
   Actividad INTEGER NOT NULL,
   Fecha DATE NOT NULL,
@@ -869,7 +867,7 @@ CREATE TABLE  EST_CUR_Nota_Actividad (
 -- -----------------------------------------------------
 -- Table EST_Estudiante_Carrera
 -- -----------------------------------------------------
-CREATE TABLE  EST_Estudiante_Carrera (
+CREATE TABLE EST_Estudiante_Carrera (
   Estudiante INTEGER NOT NULL,
   Carrera INTEGER NOT NULL,
   FechaIngreso DATE NOT NULL,
@@ -886,7 +884,7 @@ CREATE TABLE  EST_Estudiante_Carrera (
 -- -----------------------------------------------------
 -- Table CUR_TipoAprobacion
 -- -----------------------------------------------------
-CREATE TABLE  CUR_TipoAprobacion (
+CREATE TABLE CUR_TipoAprobacion (
   TipoAprobacion SERIAL NOT NULL,
   Nombre TEXT NOT NULL,
   Descripcion TEXT NOT NULL,
@@ -897,7 +895,7 @@ CREATE TABLE  CUR_TipoAprobacion (
 -- -----------------------------------------------------
 -- Table ADM_TipoMensaje
 -- -----------------------------------------------------
-CREATE TABLE  ADM_TipoMensaje (
+CREATE TABLE ADM_TipoMensaje (
   TipoMensaje SERIAL NOT NULL,
   Nombre TEXT NOT NULL,
   Descripcion TEXT NULL,
@@ -907,7 +905,7 @@ CREATE TABLE  ADM_TipoMensaje (
 -- -----------------------------------------------------
 -- Table ADM_Mensaje
 -- -----------------------------------------------------
-CREATE TABLE  ADM_Mensaje (
+CREATE TABLE ADM_Mensaje (
   Mensaje SERIAL NOT NULL,
   Titulo TEXT NOT NULL,
   Contenido TEXT NOT NULL,
@@ -925,7 +923,7 @@ CREATE TABLE  ADM_Mensaje (
 -- -----------------------------------------------------
 -- Table CUR_Desasignacion
 -- -----------------------------------------------------
-CREATE TABLE  CUR_Desasignacion (
+CREATE TABLE CUR_Desasignacion (
   Desasignacion SERIAL NOT NULL,
   Asignacion INTEGER NOT NULL,
   Fecha DATE NOT NULL,
@@ -941,8 +939,8 @@ CREATE TABLE  CUR_Desasignacion (
 -- -----------------------------------------------------
 -- Table CUR_Prerrequisito
 -- -----------------------------------------------------
-CREATE TABLE  CUR_Prerrequisito (
-  CursoPensumArea SERIAL NOT NULL,
+CREATE TABLE CUR_Prerrequisito (
+  CursoPensumArea INTEGER NOT NULL,
   TipoPrerrequisito INTEGER NOT NULL,
   Creditos INTEGER NULL,
   OtrosPrerrequisitos TEXT NOT NULL,
@@ -953,7 +951,7 @@ CREATE TABLE  CUR_Prerrequisito (
   CONSTRAINT fk_CUR_Requisito_CUR_TipoPrerrequisito1
     FOREIGN KEY (TipoPrerrequisito)
     REFERENCES CUR_TipoPrerrequisito (TipoPrerrequisito),
-  CONSTRAINT fk_CUR_Requisito_CUR_Curso1
+  CONSTRAINT Curso
     FOREIGN KEY (Curso)
     REFERENCES CUR_Pensum_Area (CursoPensumArea));
 
@@ -961,7 +959,7 @@ CREATE TABLE  CUR_Prerrequisito (
 -- -----------------------------------------------------
 -- Table EST_TipoPago
 -- -----------------------------------------------------
-CREATE TABLE  EST_TipoPago (
+CREATE TABLE EST_TipoPago (
   TipoPago SERIAL NOT NULL,
   Nombre TEXT NOT NULL,
   Monto TEXT NOT NULL,
@@ -971,7 +969,7 @@ CREATE TABLE  EST_TipoPago (
 -- -----------------------------------------------------
 -- Table EST_Pago
 -- -----------------------------------------------------
-CREATE TABLE  EST_Pago (
+CREATE TABLE EST_Pago (
   Pago SERIAL NOT NULL,
   TipoPago INTEGER NOT NULL,
   Boleta INTEGER NOT NULL,
@@ -986,7 +984,7 @@ CREATE TABLE  EST_Pago (
 -- -----------------------------------------------------
 -- Table EST_Inscripcion
 -- -----------------------------------------------------
-CREATE TABLE  EST_Inscripcion (
+CREATE TABLE EST_Inscripcion (
   Inscripcion SERIAL NOT NULL,
   Anio INTEGER NOT NULL,
   Fecha DATE NULL,
@@ -1005,10 +1003,9 @@ CREATE TABLE  EST_Inscripcion (
 -- -----------------------------------------------------
 -- Table ADM_UnidadAcademica_Catedratico
 -- -----------------------------------------------------
-CREATE TABLE  ADM_UnidadAcademica_Catedratico (
+CREATE TABLE ADM_UnidadAcademica_Catedratico (
   Catedratico INTEGER NOT NULL,
   UnidadAcademica INTEGER NOT NULL,
-  PRIMARY KEY (Catedratico, UnidadAcademica),
   CONSTRAINT fk_ADM_UnidadAcademica_Catedratico_CAT_Catedratico1
     FOREIGN KEY (Catedratico)
     REFERENCES CAT_Catedratico (Catedratico),
@@ -1020,7 +1017,7 @@ CREATE TABLE  ADM_UnidadAcademica_Catedratico (
 -- -----------------------------------------------------
 -- Table CUR_CursoAntiguo
 -- -----------------------------------------------------
-CREATE TABLE  CUR_CursoAntiguo (
+CREATE TABLE CUR_CursoAntiguo (
   CursoActual INTEGER NOT NULL,
   CursoAntiguo INTEGER NOT NULL,
   CONSTRAINT fk_CUR_CursoAntiguo_CUR_Curso1
@@ -1034,7 +1031,7 @@ CREATE TABLE  CUR_CursoAntiguo (
 -- -----------------------------------------------------
 -- Table EST_AsignacionRetrasada
 -- -----------------------------------------------------
-CREATE TABLE  EST_AsignacionRetrasada (
+CREATE TABLE EST_AsignacionRetrasada (
   AsignacionRetrasada SERIAL NOT NULL,
   Asignacion INTEGER NOT NULL,
   Pago INTEGER NOT NULL,
@@ -1052,7 +1049,7 @@ CREATE TABLE  EST_AsignacionRetrasada (
 -- -----------------------------------------------------
 -- Table EST_CursoAprobado
 -- -----------------------------------------------------
-CREATE TABLE  EST_CursoAprobado (
+CREATE TABLE EST_CursoAprobado (
   CursoAprobado SERIAL NOT NULL,
   Asignacion INTEGER NULL,
   AsignacionRetrasada INTEGER NULL,
@@ -1073,7 +1070,7 @@ CREATE TABLE  EST_CursoAprobado (
 -- -----------------------------------------------------
 -- Table ADM_PeriodoAsignacion
 -- -----------------------------------------------------
-CREATE TABLE  ADM_PeriodoAsignacion (
+CREATE TABLE ADM_PeriodoAsignacion (
   PeriodoAsignacion SERIAL NOT NULL,
   TipoAsignacion INTEGER NOT NULL,
   Ciclo INTEGER NOT NULL,
@@ -1087,3 +1084,55 @@ CREATE TABLE  ADM_PeriodoAsignacion (
   CONSTRAINT fk_Periodo_Tipo_Asignacion_CUR_Ciclo1
     FOREIGN KEY (Ciclo)
     REFERENCES CUR_Ciclo (Ciclo));
+
+
+-- -----------------------------------------------------
+-- Table EST_CUR_Periodo
+-- -----------------------------------------------------
+CREATE TABLE EST_CUR_Periodo (
+  Periodo SERIAL NOT NULL,
+  Ciclo INTEGER NOT NULL,
+  FechaInicial DATE NOT NULL,
+  FechaFinal DATE NOT NULL,
+  Tipo INTEGER NOT NULL,
+  Estado INTEGER NOT NULL,
+  PRIMARY KEY (Periodo),
+  CONSTRAINT Ciclo
+    FOREIGN KEY (Ciclo)
+    REFERENCES CUR_Ciclo (Ciclo));
+
+
+-- -----------------------------------------------------
+-- Table EST_CUR_Nota_Bitacora
+-- -----------------------------------------------------
+CREATE TABLE EST_CUR_Nota_Bitacora (
+  Bitacora SERIAL NOT NULL,
+  Usuario INTEGER NOT NULL,
+  NombreUsuario TEXT NOT NULL,
+  Funcion INTEGER NOT NULL,
+  Fecha DATE NOT NULL,
+  Hora TIME NOT NULL,
+  IP TEXT NOT NULL,
+  Registro INTEGER NOT NULL,
+  Tabla TEXT NOT NULL,
+  TipoCambioRealizado INTEGER NOT NULL,
+  Descripcion TEXT NOT NULL,
+  PRIMARY KEY (Bitacora));
+
+
+-- -----------------------------------------------------
+-- Table EST_CUR_Asignacion_Bitacora
+-- -----------------------------------------------------
+CREATE TABLE EST_CUR_Asignacion_Bitacora (
+  Bitacora SERIAL NOT NULL,
+  Usuario INTEGER NOT NULL,
+  NombreUsuario TEXT NOT NULL,
+  Funcion INTEGER NOT NULL,
+  Fecha DATE NOT NULL,
+  Hora TIME NOT NULL,
+  IP TEXT NOT NULL,
+  Registro INTEGER NOT NULL,
+  Tabla TEXT NOT NULL,
+  TipoCambioRealizado INTEGER NOT NULL,
+  Descripcion TEXT NOT NULL,
+  PRIMARY KEY (Bitacora));
