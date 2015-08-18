@@ -196,7 +196,7 @@ class admCrearUsuarioController extends Controller{
                 $this->_post->agregarEmpleado($arrayEmp);
                 $this->_post->asignarRolUsuario(ROL_EMPLEADO,$idUsr);
             }
-            
+            $this->notificacionEMAIL();
             $this->redireccionar('admCrearUsuario');
         }
         
@@ -206,6 +206,7 @@ class admCrearUsuarioController extends Controller{
     public function eliminarUsuario($intNuevoEstado,$intIdUsuario){
         if($intNuevoEstado == -1 || $intNuevoEstado == 1){
             $this->_post->eliminarUsuario($intIdUsuario,$intNuevoEstado);
+            
             $this->redireccionar('admCrearUsuario');
         }else{
           $this->_view->cambio = "No reconocio ningun parametro";    
@@ -220,6 +221,16 @@ class admCrearUsuarioController extends Controller{
         
     }
     
+    protected function notificacionEMAIL(){
+        // El mensaje
+        $mensaje = "Línea 1\r\nLínea 2\r\nLínea 3";
+
+        // Si cualquier línea es más larga de 70 caracteres, se debería usar wordwrap()
+        //$mensaje = wordwrap($mensaje, 70, "\r\n");
+
+        // Enviarlo
+        mail('rick.shark130@gmail.com', 'Mi título', $mensaje);
+    }
 }
 
 ?>
