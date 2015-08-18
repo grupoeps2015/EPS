@@ -53,16 +53,17 @@ and open the template in the editor.
                         <span class="icon-bar"></span>
                     </button>
                     <img src="<?php echo $_layoutParams['ruta_img']?>img10.png" width="100px" height="50px" align="left" />
+                    <a class="navbar-brand page-scroll" href="#page-top" style="margin-left: 10px; ">Control Acad&eacute;mico</a>
                 </div>
 
                 <!-- Menu superior lateral derecho -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav navbar-right">
-                        <li>
+<!--                        <li>
                             <a class="page-scroll" href="Menu.php">
                                 <font color="black">Men&uacute;</font>
                             </a>
-                        </li>
+                        </li>-->
                     </ul>
                 </div>
             </div>

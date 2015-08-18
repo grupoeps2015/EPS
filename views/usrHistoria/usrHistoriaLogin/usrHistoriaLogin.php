@@ -1,51 +1,8 @@
-<?php
-    // put your code here
-?>
-
-<nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
-    <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <img src="<?php echo $_layoutParams['ruta_img']?>img1.png" width="100px" height="50px" align="left" />
-            <a class="navbar-brand page-scroll" href="#page-top" style="margin-left: 10px; ">Escuela de Historia</a>
-        </div>
-
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <a class="page-scroll" href="../menu.php">Menú</a>
-                </li>
-                <li>
-                    <a class="page-scroll" href="#about">Acerca de</a>
-                </li>
-                <li>
-                    <a class="page-scroll" href="#services">Servicios</a>
-                </li>
-                <li>
-                    <a class="page-scroll" href="#portfolio">Noticias</a>
-                </li>
-                <li>
-                    <a class="page-scroll" href="#contact">Contacto</a>
-                </li>
-
-            </ul>
-        </div>
-        <!-- /.navbar-collapse -->
-    </div>
-    <!-- /.container-fluid -->
-</nav>
-
 <header>
     <div class="header-content">
-        <img class="alineado" src="<?php echo $_layoutParams['ruta_img']?>img2.png" width="200px" height="200px"/>
+        <br/> <br/>
         <div class="header-content-inner">
+            <img class="alineado" src="<?php echo $_layoutParams['ruta_img']?>img2.png" width="150px" height="140px"/>
             <h2>Bienvenido a la Escuela de Historia</h2>
             <center></center>
             <br/>
@@ -85,14 +42,14 @@
         <div class="row">
             <div class="col-lg-3 col-md-6 text-center">
                 <div class="service-box">
-                    <a href="#" class="fa fa-4x fa-sign-in wow bounceIn text-primary" data-toggle="modal" data-target="#myModal"></a>
+                    <a id="aEstudiante" href="#" class="fa fa-4x fa-sign-in wow bounceIn text-primary" data-toggle="modal" data-target="#myModal"></a>
                     <h3>Estudiantes</h3>
                     <p class="text-muted">Ten Acceso a tus notas y horarios de cursos!</p>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 text-center">
                 <div class="service-box">
-                    <a href="" class="fa fa-4x fa-certificate wow bounceIn text-primary" data-wow-delay=".1s" data-toggle="modal" data-target="#myModal"></a>
+                    <a id="aCatedratico" href="" class="fa fa-4x fa-certificate wow bounceIn text-primary" data-wow-delay=".1s" data-toggle="modal" data-target="#myModal"></a>
                     <h3>Catedraticos</h3>
                     <p class="text-muted">Ten acceso a los cursos que impartes y administra las notas de tus alumnos!</p>
                 </div>
@@ -162,7 +119,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 text-center">
-                <h2 class="section-heading">Contactenos!</h2>
+                <h2 class="section-heading">Contáctenos</h2>
                 <hr class="primary">
                 <p>Escuela de Historia
                     Universidad de San Carlos de Guatemala  —-USAC-—
@@ -191,21 +148,22 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
-                <h2 class="text-center">Inicia Sesion</h2>
+                <h2 class="text-center">Inicia Sesión</h2>
             </div>
             <div class="modal-body row">
 
-                <form class="col-md-10 col-md-offset-1 col-xs-12 col-xs-offset-0">
+                <form class="col-md-10 col-md-offset-1 col-xs-12 col-xs-offset-0" id="frLogin" method="post" action="<?php echo BASE_URL; ?>usrHistoriaLogin/autenticar">
                     <div class="form-group">
-                        <input type="text" class="form-control input-lg" placeholder="Carnet">
+                        <input name="usuario" type="text" class="form-control input-lg" placeholder="Usuario">
                     </div>
                     <div class="form-group">
-                        <input type="password" class="form-control input-lg" placeholder="Password">
+                        <input name="pass" type="password" class="form-control input-lg" placeholder="Password">
                     </div>
                     <div class="form-group">
                         <button class="btn btn-danger btn-lg btn-block">Entrar</button>
-                        <span class="pull-right"><a href="#">Olvidaste tu password?</a></span>
+                        <span class="pull-right"><a href="#">¿Olvidaste tu password?</a></span>
                     </div>
+                    <input id="tipo" name="tipo" type="hidden"/>
                 </form>
             </div>
 

@@ -18,7 +18,7 @@
                         <br/><br/>
                         <span class="pull-right"><a href="#">Olvidaste tu password?</a></span>
                     </div>
-                    <input name="tipo" type="hidden" value="3"/>
+                    <input id="tipo" name="tipo" type="hidden" value="3"/>
                 </form>
             </div>
         </div>

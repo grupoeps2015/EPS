@@ -63,10 +63,15 @@ class View{
     }
     
     public function renderizarUsrHistoria($vista, $item = false){
+        $js = array();
+        if(count($this->_js)){
+            $js=$this->_js;
+        }
         $_layoutParams = array(
             'ruta_css' => BASE_URL . 'views/layout/' . DEFAULT_LAYOUT . '/css/',
             'ruta_img' => BASE_URL . 'views/layout/' . DEFAULT_LAYOUT . '/img/',
-            'ruta_js'  => BASE_URL . 'views/layout/' . DEFAULT_LAYOUT . '/js/'
+            'ruta_js'  => BASE_URL . 'views/layout/' . DEFAULT_LAYOUT . '/js/',
+            'js' => $js,
         );
         $rutaView = ROOT . 'views' . DS . 'usrHistoria' . DS . $this->_controlador . DS . $vista . '.php';
         if(is_readable($rutaView)){
