@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-lg-12 text-center">
                 <h2 class="section-heading">Agregar Usuario</h2>
-                <p><?php if(isset($this->query)) echo $this->query; ?></p>
+                <p><?php if(isset($this->query)) echo $this->query; ?></p> <!-- Aca le digo que muestre query -->
                 <hr class="primary">
             </div>
         </div>
