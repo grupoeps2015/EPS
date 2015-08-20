@@ -225,6 +225,38 @@ BEGIN
 END; $BODY$
 LANGUAGE 'plpgsql';
 
+
+-- -----------------------------------------------------
+-- Function: spModificarParametro()
+-- -----------------------------------------------------
+-- DROP FUNCTION spmodificarparametro(integer, text, text, text, integer, integer, integer, integer, integer); 
+CREATE OR REPLACE FUNCTION spModificarParametro(_parametro integer, 
+						 _nombre integer, 
+					     _valor text,
+					     _descripcion text, 
+					     _centro integer,
+					     _unidadacademica integer, 
+					     _carrera integer,
+						 _extension integer, 
+						 _estado integer
+					     ) RETURNS BOOLEAN LANGUAGE plpgsql SECURITY DEFINER AS $$
+
+BEGIN
+    UPDATE ADM_Parametro
+       SET nombre      = COALESCE(spModificarParametro._nombre, ADM_Parametro.nombre),
+           valor          = COALESCE(spModificarParametro._valor,     ADM_Parametro.valor),
+           descripcion            = COALESCE(spModificarParametro._descripcion,       ADM_Parametro.descripcion),
+           centro        = COALESCE(spModificarParametro._centro, ADM_Parametro.centro),
+		   unidadacademica = COALESCE(spModificarParametro._unidadacademica, ADM_Parametro.unidadacademica),
+		   carrera = COALESCE(spModificarParametro._carrera, ADM_Parametro.carrera),
+		   extension = COALESCE(spModificarParametro._extension, ADM_Parametro.extension),
+		   estado = COALESCE(spModificarParametro._estado, ADM_Parametro.estado)
+     WHERE ADM_Parametro.parametro = spModificarParametro._parametro;       
+    RETURN FOUND;
+END;
+$$;
+
+
 -- -----------------------------------------------------
 -- Function: spautenticarusuario(integer, text, text, text)
 -- -----------------------------------------------------
