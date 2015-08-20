@@ -143,9 +143,10 @@ class admCrearUsuarioController extends Controller{
             $arrayUsr["respuestaUsr"] = "USAC";
             $arrayUsr["intentosUsr"] = 5;
             $arrayUsr["unidadUsr"] = UNIDAD_ACADEMICA;
-            $idUsr=$this->_post->agregarUsuario($arrayUsr)[0][0];
+            $idUsr = $this->_post->agregarUsuario($arrayUsr)[0][0];
+            //$this->_view->query = $idUsr;
             
-            if($iden == 1){
+            if($iden == 11){
                 $arrayEst["id"] = $idUsr;
                 $arrayEst["carnetEst"] = $this->getTexto('txtCarnetEst');
                 $arrayEst["nombreEst"] = $nombreUsr;

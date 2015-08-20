@@ -34,7 +34,7 @@ class admCrearUsuarioModel extends Model{
         try{
             $post = $this->_db->query("SELECT * from spagregarusuarios(" . $sp . ") as Id;");
             return $post->fetchall();
-            //return "SELECT spagregarusuarios(" . $sp . ");";
+            //return "SELECT * from spagregarusuarios(" . $sp . ") as Id;";
         }catch(Exception $e){
             return $e->getMessage();
         }
