@@ -146,7 +146,7 @@ class admCrearUsuarioController extends Controller{
             $idUsr = $this->_post->agregarUsuario($arrayUsr)[0][0];
             //$this->_view->query = $idUsr;
             
-            if($iden == 11){
+            if($iden == 1){
                 $arrayEst["id"] = $idUsr;
                 $arrayEst["carnetEst"] = $this->getTexto('txtCarnetEst');
                 $arrayEst["nombreEst"] = $nombreUsr;
@@ -163,7 +163,7 @@ class admCrearUsuarioController extends Controller{
                 $arrayEst["seguroEst"] = 'false';
                 $arrayEst["centroEst"] = "desconocido";
                 $arrayEst["paisEst"] = 1;
-                $this->_view->query=$this->_post->agregarEstudiante($arrayEst);
+                $this->_post->agregarEstudiante($arrayEst);
                 $this->_post->asignarRolUsuario(ROL_ESTUDIANTE,$idUsr);
             }
             elseif($iden == 2){

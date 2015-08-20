@@ -45,7 +45,7 @@
                                 </tr>
                                 <tr>
                                     <td colspan="3">*Carnet
-                                        <input type="text" id="txtCarnetEst" name="txtCarnetEst" class="form-control input-lg" value="<?php if(isset($this->datos['txtCarnetEst'])) echo $this->datos['txtCarnetEst']?>">
+                                        <input type="number" id="txtCarnetEst" name="txtCarnetEst" class="form-control input-lg" value="<?php if(isset($this->datos['txtCarnetEst'])) echo $this->datos['txtCarnetEst']?>">
                                         <br/>
                                     </td>
                                     <td>&nbsp;</td>
@@ -89,7 +89,7 @@
                                 <tr>
                                     <td colspan="3">
                                         *Correo:     
-                                        <input type="text" id="txtCorreoEst" name="txtCorreoEst" class="form-control input-lg" value="<?php if(isset($this->datos['txtCorreoEst'])) echo $this->datos['txtCorreoEst']?>">
+                                        <input type="email" id="txtCorreoEst" name="txtCorreoEst" class="form-control input-lg" value="<?php if(isset($this->datos['txtCorreoEst'])) echo $this->datos['txtCorreoEst']?>">
                                         <br/>
                                     </td>
                                     <td>&nbsp;</td>
@@ -123,7 +123,7 @@
                                 </tr>
                                 <tr>
                                     <td>*Codigo Catedratico
-                                        <input type="text" id="txtCodigoCat" name="txtCodigoCat" class="form-control input-lg" value="<?php if(isset($this->datos['txtCodigoCat'])) echo $this->datos['txtCodigoCat']?>">
+                                        <input type="number" id="txtCodigoCat" name="txtCodigoCat" class="form-control input-lg" value="<?php if(isset($this->datos['txtCodigoCat'])) echo $this->datos['txtCodigoCat']?>">
                                         <br/>
                                     </td>
                                     <td>&nbsp;</td>
@@ -169,7 +169,7 @@
                                 <tr>
                                     <td colspan="3">
                                         *Correo:     
-                                        <input type="text" id="txtCorreoCat" name="txtCorreoCat" class="form-control input-lg" value="<?php if(isset($this->datos['txtCorreoCat'])) echo $this->datos['txtCorreoCat']?>">
+                                        <input type="email" id="txtCorreoCat" name="txtCorreoCat" class="form-control input-lg" value="<?php if(isset($this->datos['txtCorreoCat'])) echo $this->datos['txtCorreoCat']?>">
                                         <br/>
                                     </td>
                                     <td>&nbsp;</td>
@@ -195,7 +195,7 @@
                                     <td style="text-align:right;">Generar codigo nuevo&nbsp;<input type="checkbox" id="cbGenerarCodigoEmp" name="cbGenerarCodigoEmp" value="Generar Nuevo"></td>
                                     <td>&nbsp;</td>
                                     <td>*Codigo Empleado
-                                        <input type="text" id="txtCodigoEmp" name="txtCodigoEmp" class="form-control input-lg" value="<?php if(isset($this->datos['txtCodigoEmp'])) echo $this->datos['txtCodigoEmp']?>">
+                                        <input type="number" id="txtCodigoEmp" name="txtCodigoEmp" class="form-control input-lg" value="<?php if(isset($this->datos['txtCodigoEmp'])) echo $this->datos['txtCodigoEmp']?>">
                                         <br/>
                                     </td>
                                 </tr>
@@ -233,7 +233,7 @@
                                     <td>&nbsp;</td>
                                     <td colspan="3">
                                         *Correo:     
-                                        <input type="text" id="txtCorreoEmp" name="txtCorreoEmp" class="form-control input-lg" value="<?php if(isset($this->datos['txtCorreoEmp'])) echo $this->datos['txtCorreoEmp']?>">
+                                        <input type="email" id="txtCorreoEmp" name="txtCorreoEmp" class="form-control input-lg" value="<?php if(isset($this->datos['txtCorreoEmp'])) echo $this->datos['txtCorreoEmp']?>">
                                         <br/>
                                     </td>
                                 </tr>

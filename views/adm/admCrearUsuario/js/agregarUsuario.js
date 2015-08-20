@@ -8,7 +8,9 @@ $(document).ready(function(){
     $('#frEstudiantes').validate({
         rules:{
             txtCarnetEst:{
-                required: true
+                required: true,
+                min: 1000000,
+                maxlength: 9
             },
             txtNombreEst1:{
                 required: true
@@ -17,12 +19,15 @@ $(document).ready(function(){
                 required: true
             },
             txtCorreoEst:{
-                required: true
+                required: true,
+                email: true
             }
         },
         messages:{
             txtCarnetEst:{
-                required: "Ingrese el carnet del estudiante"
+                required: "Ingrese el carnet del estudiante",
+                min: "El numero de carnet contiene como minimo 7 digitos",
+                maxlength: "El numero de carnet contiene como maximo 9 digitos"
             },
             txtNombreEst1:{
                 required: "Es necesario ingresar al menos el primer nombre"
@@ -31,7 +36,8 @@ $(document).ready(function(){
                 required: "Ingresar el primer apellido del estudiante"
             },
             txtCorreoEst:{
-                required: "El email del estudiante es un dato requerido"
+                required: "El email del estudiante es un dato requerido",
+                email: "El formato para email es invalido"
             }
         }
     });
