@@ -231,14 +231,15 @@ LANGUAGE 'plpgsql';
 -- -----------------------------------------------------
 -- DROP FUNCTION spmodificarparametro(integer, text, text, text, integer, integer, integer, integer, integer); 
 CREATE OR REPLACE FUNCTION spModificarParametro(_parametro integer, 
-						 _nombre integer, 
+						 _nombre text, 
 					     _valor text,
 					     _descripcion text, 
 					     _centro integer,
 					     _unidadacademica integer, 
 					     _carrera integer,
 						 _extension integer, 
-						 _estado integer
+						 _estado integer,
+						 _tipoparametro integer
 					     ) RETURNS BOOLEAN LANGUAGE plpgsql SECURITY DEFINER AS $$
 
 BEGIN
@@ -250,11 +251,33 @@ BEGIN
 		   unidadacademica = COALESCE(spModificarParametro._unidadacademica, ADM_Parametro.unidadacademica),
 		   carrera = COALESCE(spModificarParametro._carrera, ADM_Parametro.carrera),
 		   extension = COALESCE(spModificarParametro._extension, ADM_Parametro.extension),
-		   estado = COALESCE(spModificarParametro._estado, ADM_Parametro.estado)
+		   estado = COALESCE(spModificarParametro._estado, ADM_Parametro.estado),
+		   tipoparametro = COALESCE(spModificarParametro._tipoparametro, ADM_Parametro.tipoparametro)
      WHERE ADM_Parametro.parametro = spModificarParametro._parametro;       
     RETURN FOUND;
 END;
 $$;
+
+
+-- -----------------------------------------------------
+-- Function: spconsultageneral2()
+-- -----------------------------------------------------
+-- DROP FUNCTION spconsultageneral2(text);
+
+CREATE OR REPLACE FUNCTION spconsultageneral2(text)returns setof record as
+'
+declare
+r record;
+begin
+for r in EXECUTE ''select * from '' || $1 loop
+return next r;
+end loop;
+return;
+end
+'
+language 'plpgsql';
+--Se llama a la función de la siguiente manera:
+--select parametro from spconsultageneral2('adm_parametro') as par(parametro integer,nombre text, valor text,descripcion text, centro integer,unidadacademica integer, carrera integer,extension integer, estado integer,tipoparametro integer);
 
 
 -- -----------------------------------------------------
