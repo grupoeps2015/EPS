@@ -24,11 +24,26 @@ class admHistoriaLoginController extends Controller{
         $tipo = $this->getInteger('tipo');
         $passEncrypt = $this->_encriptar->encrypt($pass, UNIDAD_ACADEMICA);
         //$this->_post->autenticarUsuario($usuario,$pass,$tipo);
-        echo $this->_post->autenticarUsuario($tipo,$usuario,$pass);
+        $respuesta = $this->_post->autenticarUsuario($tipo,$usuario,$passEncrypt);
+        if (isset($respuesta) && count($respuesta) == 1){
+            session_start();
+                $_SESSION["usuario"] = $respuesta[0]['usuario'];
+                $_SESSION["rol"] = $respuesta[0]['rol'];
+                $_SESSION["nombre"] = $respuesta[0]['nombre'];
+//                echo $_SESSION["usuario"];
+//                echo $_SESSION["rol"];
+//                echo $respuesta[0]['estado'];
+                $this->_view->renderizarAdmHistoria('inicio');
+        }
+        else{
+            echo "Credenciales incorrectas";
+        }
+        //echo $respuesta;
         //crear y llamar metodo que autentique en el model
         //si esta bien redireccionar a la pagina de inicio
         //si no de vuelta al index
-        //$this->redireccionar('admHistoriaLogin');
+        //$this->redireccionar('inicio');
+        
     }
 }
 ?>

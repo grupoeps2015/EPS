@@ -2,8 +2,8 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center">
-                <h2 class="section-heading">Agregar Usuario</h2>
-                <p><?php if (isset($this->query)) echo $this->query; ?></p> <!-- Aca le digo que muestre query -->
+                <h2 class="section-heading">Actualizar Usuario</h2>
+                <!--<p><?php if (isset($this->datosUsr)) print_r($this->datosUsr); ?></p>  ahora le diremos que muestre datosUsr -->
                 <hr class="primary">
             </div>
         </div>
@@ -12,19 +12,11 @@
     <div class="header-content">
         <div class="header-content-inner">
             <div id="divCentros" class="row">
-                <div class="col-md-4 col-md-offset-4 col-xs-6 col-xs-offset-3">
-                    <select id="slPerfil" name="slPerfil" class="form-control input-lg">
-                        <option value="0">---- Seleccione un perfil ----</option>
-                        <option value="1">Empleado</option>
-                        <option value="2">Catedratico</option>
-                        <option value="3">Estudiante</option>
-                    </select>
-                </div>
                 <br/><br/><br/>
-                <form id="frEstudiantes" method="post" action="<?php echo BASE_URL; ?>admCrearUsuario/agregarUsuario">
+                <form id="frEstudiantes" method="post" action="<?php echo BASE_URL; ?>admCrearUsuario/actualizarUsuario">
                     <div id="divEstudiantes" class="form-group" >
                         <div class="col-md-6 col-md-offset-3">
-                            <table>
+                            <table align="center">
                                 <tr style="visibility: hidden">
                                     <td colspan="3">
                                         <?php if (isset($this->centros) && count($this->centros)): ?>
@@ -44,45 +36,33 @@
                                     <td colspan="2"><----Seccion sin funcion</td>
                                 </tr>
                                 <tr>
-                                    <td colspan="3">*Carnet
-                                        <input type="text" id="txtCarnetEst" name="txtCarnetEst" class="form-control input-lg" value="<?php echo (int) $_POST['txtCarnetEst'] ?>">
+                                    <td colspan="3">Nombre:
+                                        <input type="text" id="txtNombre" name="txtNombre" class="form-control input-lg" value="<?php if(isset($this->datosUsr) && count($this->datosUsr)) echo $this->datosUsr[0]['nombre']; ?>">
                                         <br/>
-                                    </td>
-                                    <td>&nbsp;</td>
-                                    <td rowspan="2">Foto: 
-                                        <input type="text" id="txtFotoEst" name="txtFotoEst" class="form-control input-lg">
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>*Primer Nombre:
-                                        <input type="text" id="txtNombreEst1" name="txtNombreEst1" class="form-control input-lg" value="<?php echo htmlspecialchars($_POST['txtNombreEst1']); ?>">
+                                    <td>Correo:
+                                        <input type="text" id="txtCorreo" name="txtCorreo" class="form-control input-lg" value="<?php if(isset($this->datosUsr) && count($this->datosUsr)) echo $this->datosUsr[0]['correo']; ?>">
                                         <br/>
                                     </td>
                                     <td>&nbsp;</td>
-                                    <td>Segundo Nombre:
-                                        <input type="text" id="txtNombreEst2" name="txtNombreEst2" class="form-control input-lg" value="<?php echo htmlspecialchars($_POST['txtNombreEst2']); ?>">
+                                    <td>Unidad Academica:
+                                        <input type="text" id="txtUnidadAcademica" name="txtUnidadAcademica" class="form-control input-lg" value="<?php if(isset($this->datosUsr) && count($this->datosUsr)) echo $this->datosUsr[0]['unidadacademica']; ?>">
                                         <br/>
                                     </td>
                                     <td>&nbsp;</td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        *Primer Apellido:
-                                        <input type="text" id="txtApellidoEst1" name="txtApellidoEst1" class="form-control input-lg" value="<?php echo htmlspecialchars($_POST['txtApellidoEst1']); ?>">
+                                        Pregunta Secreta:
+                                        <input type="text" id="txtPregunta" name="txtPregunta" class="form-control input-lg" value="<?php if(isset($this->datosUsr) && count($this->datosUsr)) echo $this->datosUsr[0]['preguntasecreta']; ?>">
                                         <br/>
                                     </td>
                                     <td>&nbsp;</td>
                                     <td>
-                                        Segundo Apellido:
-                                        <input type="text" id="txtApellidoEst2" name="txtApellidoEst2" class="form-control input-lg" value="<?php echo htmlspecialchars($_POST['txtApellidoEst2']); ?>">
-                                        <br/>
-                                    </td>
-                                    <td>&nbsp;</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">
-                                        *Correo:     
-                                        <input type="text" id="txtCorreoEst" name="txtCorreoEst" class="form-control input-lg" value="<?php echo htmlspecialchars($_POST['txtCorreoEst']); ?>">
+                                        Respuesta Secreta:
+                                        <input type="text" id="txtRespuesta" name="txtRespuesta" class="form-control input-lg" value="<?php if(isset($this->datosUsr) && count($this->datosUsr)) echo $this->datosUsr[0]['respuestasecreta']; ?>">
                                         <br/>
                                     </td>
                                     <td>&nbsp;</td>

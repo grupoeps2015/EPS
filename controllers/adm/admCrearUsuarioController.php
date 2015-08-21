@@ -3,7 +3,7 @@
 /**
  * Description of admCrearUsuarioController
  *
- * @author Rickardo
+ * @author Rickardo, Maythee
  */
 class admCrearUsuarioController extends Controller {
 
@@ -189,16 +189,17 @@ class admCrearUsuarioController extends Controller {
                 $this->_post->agregarEmpleado($arrayEmp);
                 $this->_post->asignarRolUsuario(ROL_EMPLEADO, $idUsr);
             }
-
+            $this->notificacionEMAIL();
             $this->redireccionar('admCrearUsuario');
         }
 
         $this->_view->renderizarAdm('agregarUsuario', 'admCrearUsuario');
     }
-
-    public function eliminarUsuario($intNuevoEstado, $intIdUsuario) {
-        if ($intNuevoEstado == -1 || $intNuevoEstado == 1) {
-            $this->_post->eliminarUsuario($intIdUsuario, $intNuevoEstado);
+    
+    public function eliminarUsuario($intNuevoEstado,$intIdUsuario){
+        if($intNuevoEstado == -1 || $intNuevoEstado == 1){
+            $this->_post->eliminarUsuario($intIdUsuario,$intNuevoEstado);
+            
             $this->redireccionar('admCrearUsuario');
         } else {
             $this->_view->cambio = "No reconocio ningun parametro";
@@ -210,12 +211,22 @@ class admCrearUsuarioController extends Controller {
     }
 
     public function actualizarUsuario($intIdUsuario) {
-
-        $this->_post->actualizarUsuario($intIdUsuario);
-        $this->redireccionar('actualizarUsuario');
+        //aca vamos a mandar a llamar la funcion que esta en el model
+        $this->_view->datosUsr = $this->_post->actualizarUsuario($intIdUsuario);
+        
         $this->_view->renderizarAdm('actualizarUsuario', 'admCrearUsuario');
     }
+    
+    protected function notificacionEMAIL(){
+        // El mensaje
+        $mensaje = "Línea 1\r\nLínea 2\r\nLínea 3";
 
+        // Si cualquier línea es más larga de 70 caracteres, se debería usar wordwrap()
+        //$mensaje = wordwrap($mensaje, 70, "\r\n");
+
+        // Enviarlo
+        mail('rick.shark130@gmail.com', 'Mi título', $mensaje);
+    }
 }
 
 ?>

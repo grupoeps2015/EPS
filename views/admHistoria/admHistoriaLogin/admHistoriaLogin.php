@@ -1,25 +1,3 @@
-<nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <img src="<?php echo $_layoutParams['ruta_img']?>img10.png" width="100px" height="50px" align="left" />
-            <a class="navbar-brand page-scroll" href="#page-top" style="margin-left: 10px; ">Escuela de Historia - Control Acad&eacute;mico</a>
-        </div>
-
-        <!-- Menu superior lateral derecho -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav navbar-right">
-
-            </ul>
-        </div>
-    </div>
-</nav>
-
 <header style="background-image: url(<?php echo $_layoutParams['ruta_img']?>fuente.jpg);">
     <div class="header-content">
         <br/> <br/>
@@ -40,9 +18,13 @@
                         <br/><br/>
                         <span class="pull-right"><a href="#">Olvidaste tu password?</a></span>
                     </div>
-                    <input name="tipo" type="hidden" value="3"/>
+                    <input id="tipo" name="tipo" type="hidden" value="3"/>
                 </form>
             </div>
         </div>
     </div>
 </header>
+
+<?php 
+//if(isset($this->respuesta)) print_r($this->respuesta)
+?>
