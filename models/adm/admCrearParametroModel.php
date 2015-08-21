@@ -124,8 +124,18 @@ class admCrearParametroModel extends Model{
         return $preguntas->fetchall();
     }
     
-    public function actualizarUsuario(){
-        
+    public function actualizarUsuario($_datos){
+        $sp = $_datos["nombreUsr"] . '\',\'' . $_datos["correoUsr"] . '\',\''; 
+        $sp .= $_datos["claveUsr"] . '\',' . $_datos["preguntaUsr"] . ',\'';
+        $sp .= $_datos["respuestaUsr"] . '\',' . $_datos["intentosUsr"] . ',\'';
+        $sp .= $_datos["fotoUsr"] . '\',' . $_datos["unidadUsr"];
+        try{
+            $post = $this->_db->query("SELECT * from spactualizarusuarios(" . $sp . ") as Id;");
+            return $post->fetchall();
+
+        }catch(Exception $e){
+            return $e->getMessage();
+        }
     }
     
     public function actualizarEstudiante(){

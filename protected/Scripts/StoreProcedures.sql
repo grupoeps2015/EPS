@@ -306,3 +306,40 @@ end;
   ROWS 1000;
 ALTER FUNCTION spautenticarusuario(integer, text, text, text)
   OWNER TO postgres;
+  
+  
+-- -----------------------------------------------------
+-- Function: spdatosusuario()
+-- -----------------------------------------------------
+-- DROP FUNCTION spdatosusuario(int);
+
+CREATE OR REPLACE FUNCTION spdatosusuario(Id int, OUT nombre text, out correo text, OUT unidadacademica text, OUT preguntasecreta text, OUT respuestasecreta text ) 
+RETURNS setof record as 
+$BODY$
+BEGIN
+  RETURN query EXECUTE format('SELECT u.nombre, u.correo, ua.nombre, ps.descripcion, u.respuestasecreta FROM adm_usuario u JOIN adm_unidadacademica ua ON u.unidadacademica = ua.unidadacademica 
+  JOIN adm_preguntasecreta ps ON u.preguntasecreta = ps.preguntasecreta WHERE usuario = %s',Id);
+END;
+$BODY$
+LANGUAGE 'plpgsql';
+  
+-- -----------------------------------------------------
+-- Function: spactualizarusuario()
+-- -----------------------------------------------------
+-- DROP FUNCTION spactualizarusuario(int,int);
+CREATE OR REPLACE FUNCTION spactualizarusuario(_idUsuario int,_nombreNuevo text, _correoNuevo text,
+					     _claveNueva text, _preguntasecretaNueva int,
+					     _respuestasecretaNueva text,
+					     _fotoNueva text, _unidadacademicaNueva int) RETURNS void AS 
+$BODY$
+BEGIN
+  EXECUTE format('UPDATE adm_usuario SET nombre = %s, correo = %s,
+					     clave = %s, preguntasecreta = %s, respuestasecreta = %s, 
+					     foto = %s, unidadacademica = %L WHERE usuario = %L',_nombreNuevo, _correoNuevo,
+					     _claveNueva, _preguntasecretaNueva,_respuestasecretaNueva,_fotoNueva, _unidadacademicaNueva,_idUsuario);
+END;
+$BODY$
+LANGUAGE 'plpgsql';
+
+
+
