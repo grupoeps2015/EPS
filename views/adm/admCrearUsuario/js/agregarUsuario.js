@@ -45,7 +45,9 @@ $(document).ready(function(){
     $('#frCatedraticos').validate({
         rules:{
             txtCodigoCat:{
-                required: true
+                required: true,
+                min: 1000000,
+                maxlength: 9
             },
             txtNombreCat1:{
                 required: true
@@ -54,12 +56,15 @@ $(document).ready(function(){
                 required: true
             },
             txtCorreoCat:{
-                required: true
+                required: true,
+                email: true
             }
         },
         messages:{
             txtCodigoCat:{
-                required: "Ingrese el codigo del catedratico"
+                required: "Ingrese el codigo del catedratico",
+                min: "El numero de registro personal contiene como minimo 7 digitos",
+                maxlength: "El numero de registro personal contiene como maximo 9 digitos"
             },
             txtNombreCat1:{
                 required: "Es necesario ingresar al menos el primer nombre"
@@ -68,7 +73,8 @@ $(document).ready(function(){
                 required: "Ingresar el primer apellido del catedratico"
             },
             txtCorreoCat    :{
-                required: "El email del catedratico es un dato requerido"
+                required: "El email del catedratico es un dato requerido",
+                email: "El formato para email es invalido"
             }
         }
     });
@@ -76,7 +82,9 @@ $(document).ready(function(){
     $('#frEmpleados').validate({
         rules:{
             txtCodigoEmp:{
-                required: true
+                required: true,
+                min: 1000000,
+                maxlength: 9
             },
             txtNombreEmp1:{
                 required: true
@@ -85,12 +93,15 @@ $(document).ready(function(){
                 required: true
             },
             txtCorreoEmp:{
-                required: true
+                required: true,
+                email: true
             }
         },
         messages:{
             txtCodigoEmp:{
-                required: "Ingrese el codigo del empleado"
+                required: "Ingrese el codigo del empleado",
+                min: "El numero de registro personal contiene como minimo 7 digitos",
+                maxlength: "El numero de registro personal contiene como maximo 9 digitos"
             },
             txtNombreEmp1:{
                 required: "Es necesario ingresar al menos el primer nombre"
@@ -99,7 +110,8 @@ $(document).ready(function(){
                 required: "Ingresar el primer apellido del empleado"
             },
             txtCorreoEmp:{
-                required: "El email del empleado es un dato requerido"
+                required: "El email del empleado es un dato requerido",
+                email: "El formato para email es invalido"
             }
         }
     });

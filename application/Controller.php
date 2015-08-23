@@ -9,6 +9,18 @@ abstract class Controller{
     
     abstract public function index();
     
+    protected function loadGenericModel($modelo){
+        $modelo = $modelo . 'Model';
+        $rutaModelo = ROOT . 'models' . DS . $modelo . '.php';
+        if (is_readable($rutaModelo)){
+            require_once $rutaModelo;
+            $modelo = new $modelo;
+            return $modelo;
+        }else{
+            throw new Exception("Model File not found " . $rutaModelo);
+        }
+    }
+    
     protected function loadModel($folder, $modelo){
         $modelo = $modelo . 'Model';
         $rutaModelo = ROOT . 'models' . DS . $folder . DS . $modelo . '.php';

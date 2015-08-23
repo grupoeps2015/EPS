@@ -8,10 +8,10 @@
             <div class="row">
                 <form class="col-md-4 col-md-offset-4 col-xs-6 col-xs-offset-3" id="frLogin" method="post" action="<?php echo BASE_URL; ?>admLogin/autenticar">
                     <div class="form-group">
-                        <input name="usuario" type="text" class="form-control input-lg" placeholder="Usuario">
+                        <input id= "usuario" name="usuario" type="number" class="form-control input-lg" placeholder="Usuario">
                     </div>
                     <div class="form-group">
-                        <input name="pass" type="password" class="form-control input-lg" placeholder="Password">
+                        <input id="pass" name="pass" type="password" class="form-control input-lg" placeholder="Password">
                     </div>
                     <div class="form-group">
                         <button class="btn btn-danger btn-lg btn-block">Iniciar Sesi&oacute;n</button>
@@ -24,4 +24,3 @@
         </div>
     </div>
 </header>
-    

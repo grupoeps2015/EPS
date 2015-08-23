@@ -14,33 +14,38 @@ class admLoginController extends Controller{
 
     public function index(){
         $this->_view->titulo = APP_TITULO;
+        $this->_view->setJs(ADM_FOLDER, array('admLogin'));
+        $this->_view->setPublicJs(array('jquery.validate'));
         $this->_view->renderizarAdm('admLogin');
     }
     
-//    public function inicio(){
-//        $this->_view->titulo = APP_TITULO;
-//        $this->_view->renderizarAdm('inicio','admLogin');
-//    }
+    public function inicio(){
+        $this->_view->titulo = APP_TITULO;
+        $this->_view->renderizarAdm('inicio','admLogin');
+    }
+    
     public function autenticar(){
         $this->_view->titulo = APP_TITULO;
         $usuario = $this->getTexto('usuario');
         $pass = $this->getTexto('pass');
         $tipo = $this->getInteger('tipo');
+        
         $passEncrypt = $this->_encriptar->encrypt($pass, UNIDAD_ACADEMICA);
         //$this->_post->autenticarUsuario($usuario,$pass,$tipo);
         $respuesta = $this->_post->autenticarUsuario($tipo,$usuario,$passEncrypt);
         if (isset($respuesta) && count($respuesta) == 1){
             session_start();
-                $_SESSION["usuario"] = $respuesta[0]['usuario'];
-                $_SESSION["rol"] = $respuesta[0]['rol'];
-                $_SESSION["nombre"] = $respuesta[0]['nombre'];
-//                echo $_SESSION["usuario"];
-//                echo $_SESSION["rol"];
-//                echo $respuesta[0]['estado'];
-                $this->_view->renderizarAdm('inicio');
+            $_SESSION["usuario"] = $respuesta[0]['usuario'];
+            $_SESSION["rol"] = $respuesta[0]['rol'];
+            $_SESSION["nombre"] = $respuesta[0]['nombre'];
+            //echo $_SESSION["usuario"];
+            //echo $_SESSION["rol"];
+            //echo $respuesta[0]['estado'];
+            $this->_view->renderizarAdm('inicio');
         }
         else{
-            echo "Credenciales incorrectas";
+            echo "<script>alert('Credenciales incorrectas');</script>";
+            $this->_view->renderizarAdm('admLogin');
         }
         //echo $respuesta;
         //crear y llamar metodo que autentique en el model

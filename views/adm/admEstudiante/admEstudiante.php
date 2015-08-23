@@ -3,7 +3,10 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center">
-                <h2 class="section-heading">Actualizar Usuario</h2>
+                <h2 class="section-heading">
+                    Actualizar Informacion Personal<br/>
+                    - Estudiante -
+                </h2>
                 <!--<p><?php if (isset($this->datosUsr)) print_r($this->datosUsr); ?></p>  ahora le diremos que muestre datosUsr -->
                 <hr class="primary">
                 <div class="col-lg-3 col-md-6 text-center">
@@ -18,13 +21,6 @@
                 <div class="col-lg-3 col-md-6 text-center"></div>
                 <div class="col-lg-3 col-md-6 text-center"></div>
                 <div class="col-lg-3 col-md-6 text-center">
-                    <div class="service-box">
-                        <i class="fa fa-2x fa-user-secret wow bounceIn text-primary" data-wow-delay=".2s">
-                            <a href="<?php echo BASE_URL?>admEstudiante">
-                                Actualizar informacion personal
-                            </a>
-                        </i>
-                    </div>
                 </div>
             </div>
         </div>
@@ -39,42 +35,20 @@
                         <div class="col-md-6 col-md-offset-3">
                             <table align="center">
                                 <tr>
-                                    <td colspan="3">Nombre:
-                                        <input type="text" id="txtNombre" name="txtNombre" class="form-control input-lg" value="<?php if(isset($this->datosUsr) && count($this->datosUsr)) echo $this->datosUsr[0]['nombre']; ?>">
-                                        <br/>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Correo:
-                                        <input type="text" id="txtCorreo" name="txtCorreo" class="form-control input-lg" value="<?php if(isset($this->datosUsr) && count($this->datosUsr)) echo $this->datosUsr[0]['correo']; ?>">
-                                        <br/>
-                                    </td>
+                                    <td colspan="3" style="text-align: right">Departamento: </td>
                                     <td>&nbsp;</td>
-                                    <td>Unidad Academica:
-                                        <input type="text" id="txtUnidadAcademica" name="txtUnidadAcademica" class="form-control input-lg" value="<?php if(isset($this->datosUsr) && count($this->datosUsr)) echo $this->datosUsr[0]['unidadacademica']; ?>">
-                                        <br/>
-                                    </td>
-                                    <td>&nbsp;</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Pregunta Secreta:
-                                        <input type="text" id="txtPregunta" name="txtPregunta" class="form-control input-lg" value="<?php if(isset($this->datosUsr) && count($this->datosUsr)) echo $this->datosUsr[0]['preguntasecreta']; ?>">
-                                        <br/>
-                                    </td>
-                                    <td>&nbsp;</td>
-                                    <td>
-                                        Respuesta Secreta:
-                                        <input type="text" id="txtRespuesta" name="txtRespuesta" class="form-control input-lg" value="<?php if(isset($this->datosUsr) && count($this->datosUsr)) echo $this->datosUsr[0]['respuestasecreta']; ?>">
-                                        <br/>
-                                    </td>
-                                    <td>&nbsp;</td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td>
-                                        <input type="submit" id="btnActualizar" name="btnActualizar" value="Actualizar" class="btn btn-danger btn-lg btn-block">
+                                    <td colspan="2">
+                                        <?php if(isset($this->deptos) && count($this->deptos)): ?>
+                                        <select id="slDepartamento" name="slDepartamento" class="form-control input-lg">
+                                            <?php for($i =0; $i < count($this->deptos); $i++) : ?>
+                                            <option value="<?php echo $this->deptos[$i]['codigo'];?>">
+                                                <?php echo $this->deptos[$i]['nombre']; ?>
+                                            </option>
+                                            <?php endfor;?>
+                                        </select>
+                                        <?php else : ?>
+                                        &nbsp;
+                                        <?php endif;?>
                                     </td>
                                 </tr>
                             </table>
@@ -122,3 +96,13 @@
         </div>
     </div>
 </section>
+
+
+Introduce valor 1
+    <input type="text" name="caja_texto" id="valor1" value="0"/> 
+Introduce valor 2
+    <input type="text" name="caja_texto" id="valor2" value="0"/>
+ Realiza suma
+    <input type="button" href="javascript:;" onclick="realizaProceso($('#valor1').val(), $('#valor2').val());return false;" value="Calcula"/>
+    <br/>
+Resultado: <span id="resultado">0</span>
