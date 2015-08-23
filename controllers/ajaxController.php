@@ -12,13 +12,14 @@ class ajaxController extends Controller{
     public function index(){
         $this->_view->titulo = APP_TITULO;
         $this->_view->setJs("", array('ajax'));
-        $this->_view->paises = $this->_ajax->getPaises();
-        $this->_view->renderizar('index');
+        $this->_view->deptos = $this->_ajax->getDeptos();
+        $this->_view->renderizar("",'index');
     }
     
     public function getMunicipio(){
-        //$this->_view->munis = $this->_ajax->getMunicipio(1);
-        echo json_encode($this->_ajax->getMunicipio('depto'));
+        if($this->getInteger('Depto')){
+            echo json_encode($this->_ajax->getMunicipio($this->getInteger('Depto')));
+        }
     }
     
 }

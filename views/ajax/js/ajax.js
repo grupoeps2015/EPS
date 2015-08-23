@@ -1,24 +1,23 @@
 $(document).ready(function(){
-    var getMunicipio = function(){
+    
+    function getMunicipio(){
         $.post('/EPS/ajax/getMunicipio',
-               'depto=' + $("#slDepartamentos").val(),
+               'Depto=' + $("#slDeptos").val(),
                function(datos){
-                   $("#slMunicipios").html("");
+                   $("#slMunis").html('');
                    for(var i =0; i < datos.length; i++){
-                       $("#slMunicipios").append('<opcion> value="' + i + '">' + i + '</option>' );
+                       $("#slMunis").append('<option value="' + datos[i].codigo + '">' + datos[i].nombre + '</option>' );
                    }
-                   $("#slMunicipios").append('<opcion> value="100">cien</option>' );
                },
                'json');
-        $("#sp").text("se llamo la funcion");
     }
     
-    $("#slDepartamentos").change(function(){
-        if(!$("#slDepartamentos").val()){
-            $("#sp").text("");
-            $("#slMunicipios").html("");
+    $("#slDeptos").change(function(){
+        if(!$("#slDeptos").val()){
+            $("#slMunis").html('');
         }else{
             getMunicipio();
         }
     });
+    
 });

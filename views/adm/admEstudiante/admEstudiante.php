@@ -39,7 +39,8 @@
                                     <td>&nbsp;</td>
                                     <td colspan="2">
                                         <?php if(isset($this->deptos) && count($this->deptos)): ?>
-                                        <select id="slDepartamento" name="slDepartamento" class="form-control input-lg">
+                                        <select id="slDeptos" name="slDeptos" class="form-control input-lg">
+                                            <option value="">- Departamentos -</option>
                                             <?php for($i =0; $i < count($this->deptos); $i++) : ?>
                                             <option value="<?php echo $this->deptos[$i]['codigo'];?>">
                                                 <?php echo $this->deptos[$i]['nombre']; ?>
@@ -49,6 +50,15 @@
                                         <?php else : ?>
                                         &nbsp;
                                         <?php endif;?>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" style="text-align: right">Municipio: </td>
+                                    <td>&nbsp;</td>
+                                    <td colspan="2">
+                                        <select id="slMunis" name="slMunis" class="form-control input-lg">
+                                            <option value="" disabled>- Municipios -</option>
+                                        </select>
                                     </td>
                                 </tr>
                             </table>
@@ -96,13 +106,3 @@
         </div>
     </div>
 </section>
-
-
-Introduce valor 1
-    <input type="text" name="caja_texto" id="valor1" value="0"/> 
-Introduce valor 2
-    <input type="text" name="caja_texto" id="valor2" value="0"/>
- Realiza suma
-    <input type="button" href="javascript:;" onclick="realizaProceso($('#valor1').val(), $('#valor2').val());return false;" value="Calcula"/>
-    <br/>
-Resultado: <span id="resultado">0</span>
