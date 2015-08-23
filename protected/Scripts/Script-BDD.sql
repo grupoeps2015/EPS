@@ -594,7 +594,6 @@ CREATE TABLE EST_Estudiante (
   SegundoNombre TEXT NOT NULL,
   PrimerApellido TEXT NOT NULL,
   SegundoApellido TEXT NOT NULL,
-  EST_Estudiantecol TEXT NULL,
   Direccion TEXT NOT NULL,
   Zona INTEGER NULL,
   Municipio INTEGER NOT NULL,

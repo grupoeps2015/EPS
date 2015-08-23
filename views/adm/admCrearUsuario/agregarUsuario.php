@@ -5,6 +5,18 @@
                 <h2 class="section-heading">Agregar Usuario</h2>
                 <p><?php if(isset($this->query)) echo $this->query; ?></p> <!-- Aca le digo que muestre query -->
                 <hr class="primary">
+                <div class="col-lg-3 col-md-6 text-center">
+                    <div class="service-box">
+                        <i class="fa fa-2x fa-backward wow bounceIn text-primary" data-wow-delay=".2s">
+                            <a href="<?php echo BASE_URL?>admCrearUsuario">
+                                Regresar
+                            </a>
+                        </i>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 text-center"></div>
+                <div class="col-lg-3 col-md-6 text-center"></div>
+                <div class="col-lg-3 col-md-6 text-center"></div>
             </div>
         </div>
     </div>

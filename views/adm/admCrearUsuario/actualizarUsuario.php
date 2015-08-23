@@ -1,3 +1,4 @@
+<?php session_start() ?>
 <section id="" style="background-color: beige;">
     <div class="container">
         <div class="row">
@@ -5,6 +6,26 @@
                 <h2 class="section-heading">Actualizar Usuario</h2>
                 <!--<p><?php if (isset($this->datosUsr)) print_r($this->datosUsr); ?></p>  ahora le diremos que muestre datosUsr -->
                 <hr class="primary">
+                <div class="col-lg-3 col-md-6 text-center">
+                    <div class="service-box">
+                        <i class="fa fa-2x fa-backward wow bounceIn text-primary" data-wow-delay=".2s">
+                            <a href="<?php echo BASE_URL?>admCrearUsuario">
+                                Regresar
+                            </a>
+                        </i>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 text-center"></div>
+                <div class="col-lg-3 col-md-6 text-center"></div>
+                <div class="col-lg-3 col-md-6 text-center">
+                    <div class="service-box">
+                        <i class="fa fa-2x fa-user-secret wow bounceIn text-primary" data-wow-delay=".2s">
+                            <a href="<?php echo BASE_URL?>admEstudiante">
+                                Actualizar informacion personal
+                            </a>
+                        </i>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -17,24 +38,6 @@
                     <div id="divEstudiantes" class="form-group" >
                         <div class="col-md-6 col-md-offset-3">
                             <table align="center">
-                                <tr style="visibility: hidden">
-                                    <td colspan="3">
-                                        <?php if (isset($this->centros) && count($this->centros)): ?>
-                                            <select id="slCentros" name="slCentros" class="form-control input-lg">
-                                                <option value="default">---- Seleccione un centro ----</option>
-                                                <?php for ($i = 0; $i < count($this->centros); $i++) : ?>
-                                                    <option value="<?php echo $this->centros[$i]['codigo']; ?>">
-                                                        <?php echo $this->centros[$i]['nombre']; ?>
-                                                    </option>
-                                                <?php endfor; ?>
-                                            </select>
-                                        <?php else : ?>
-                                            &nbsp;
-                                        <?php endif; ?>
-                                    </td>
-                                    <td>&nbsp;</td>
-                                    <td colspan="2"><----Seccion sin funcion</td>
-                                </tr>
                                 <tr>
                                     <td colspan="3">Nombre:
                                         <input type="text" id="txtNombre" name="txtNombre" class="form-control input-lg" value="<?php if(isset($this->datosUsr) && count($this->datosUsr)) echo $this->datosUsr[0]['nombre']; ?>">
@@ -66,6 +69,13 @@
                                         <br/>
                                     </td>
                                     <td>&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td>
+                                        <input type="submit" id="btnActualizar" name="btnActualizar" value="Actualizar" class="btn btn-danger btn-lg btn-block">
+                                    </td>
                                 </tr>
                             </table>
                             <br />

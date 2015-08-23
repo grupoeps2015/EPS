@@ -1,3 +1,4 @@
+<?php session_start();?>
 <section id="" style="background-color: beige;">
     <div class="container">
         <div class="row">
@@ -9,7 +10,7 @@
                 <div class="col-lg-3 col-md-6 text-center"></div>
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
-                        <i class="fa fa-2x fa-plus wow bounceIn text-primary" data-wow-delay=".2s">
+                        <i class="fa fa-2x fa-user-plus wow bounceIn text-primary" data-wow-delay=".2s">
                             <a href="<?php echo BASE_URL?>admCrearUsuario/agregarUsuario">
                                 Agregar Usuario
                             </a>
