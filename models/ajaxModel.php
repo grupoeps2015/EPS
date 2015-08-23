@@ -6,23 +6,24 @@ class ajaxModel extends Model{
         parent::__construct();
     }
     
-    public function getPais(){
-        
+    public function getPaises(){
+        //$post = $this->_db->query("select * from spconsultageneral('departamento,nombre','adm_departamento');");
+        //return $post->fetchall();
+        $paises = $this->_db->query(
+                "select * from adm_departamento"
+                );
+        return $paises->fetchall();
     }
     
-    public function setPais(){
-        $post = $this->_db->query("select * from spconsultageneral('pais, nombre','adm_pais');");
-        return $post->fetchall();
-    }
-    
-    public function getDepartamento(){
-        $post = $this->_db->query("select * from spconsultageneral('departamento,nombre','adm_departamento');");
-        return $post->fetchall();
-    }
-    
-    public function getMunicipio($depto){
-        $post = $this->_db->query("select * from spMunicipioXDepto({$depto})");
-        return $post->fetchall();
+    public function getCiudades($pais){
+//        $post = $this->_db->query("select * from spMunicipioXDepto({$depto})");
+//        $post->setFetchMode(PDO::FETCH_ASSOC);
+//        return $post->fetchall();
+        $ciudades = $this->_db->query(
+                "select * from adm_municipio where departamento={$pais}"
+                );
+        $ciudades->setFetchMod(PDO::FETCH_ASSOC);
+        return $ciudades->fetchall();
     }
     
 }

@@ -36,7 +36,7 @@ class Bootstrap{
     
     public function redirect($folder, Request $peticion){
         $controller = $peticion->getControlador() . 'Controller';
-        if($folder = ""){
+        if($folder == ""){
             $rutaControlador = ROOT . 'controllers' . DS . $controller . '.php';
         }else{
             $rutaControlador = ROOT . 'controllers' . DS . $folder .DS . $controller . '.php';

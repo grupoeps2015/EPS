@@ -16,7 +16,7 @@ class admEstudianteController extends Controller{
         $this->_view->titulo = APP_TITULO;
         $this->_view->deptos = $this->_post->getDeptos();
         $this->_view->setJs(ADM_FOLDER, array('admEstudiante'));
-        $this->_view->renderizarAdm('admEstudiante');
+        $this->_view->renderizar(ADM_FOLDER,'admEstudiante');
     }
 }
 

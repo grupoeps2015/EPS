@@ -22,9 +22,9 @@ class admCrearParametroController extends Controller{
         $this->_view->lstPar = $this->_post->informacionParametro();
         $this->_view->titulo = 'Gestión de parámetros - ' . APP_TITULO;
         $this->_view->setJs(ADM_FOLDER,array('eliminarParametro'));
+        $this->_view->setJs('public',array('jquery.dataTables.min'));
         $this->_view->setPublicCSS(array('jquery.dataTables.min'));
-        $this->_view->setPublicJs(array('jquery.dataTables.min'));
-        $this->_view->renderizarAdm('admCrearParametro', 'admCrearParametro');
+        $this->_view->renderizar(ADM_FOLDER,'admCrearParametro', 'admCrearParametro');
     }
     
     public function agregarParametro(){
@@ -37,22 +37,22 @@ class admCrearParametroController extends Controller{
         
            $this->_view->datos = $_POST;
             if(!$this->getTexto('txtNombreParametro')){
-                $this->_view->renderizarAdm('agregarParametro', 'admCrearParametro');
+                $this->_view->renderizar(ADM_FOLDER,'agregarParametro', 'admCrearParametro');
                 exit;
             }
             
             if(!$this->getTexto('txtValorParametro')){
-                $this->_view->renderizarAdm('agregarParametro', 'admCrearParametro');
+                $this->_view->renderizar(ADM_FOLDER,'agregarParametro', 'admCrearParametro');
                 exit;
             }
             
             if(!$this->getTexto('txtDescripcionParametro')){
-                $this->_view->renderizarAdm('agregarParametro', 'admCrearParametro');
+                $this->_view->renderizar(ADM_FOLDER,'agregarParametro', 'admCrearParametro');
                 exit;
             }
             
             if(!$this->getTexto('txtExtensionParametro')){
-                $this->_view->renderizarAdm('agregarParametro', 'admCrearParametro');
+                $this->_view->renderizar(ADM_FOLDER,'agregarParametro', 'admCrearParametro');
                 exit;
             }
                         
@@ -67,7 +67,7 @@ class admCrearParametroController extends Controller{
             $this->_post->agregarParametro($arrayPar);           
            
         $this->redireccionar('admCrearParametro');
-        $this->_view->renderizarAdm('agregarParametro', 'admCrearParametro');
+        $this->_view->renderizar(ADM_FOLDER,'agregarParametro', 'admCrearParametro');
         
         
     }
@@ -81,7 +81,7 @@ class admCrearParametroController extends Controller{
         //$this->redireccionar('admCrearParametro');
         //$this->_view->cambio = $intNuevoEstado;
         $this->_view->titulo = 'Eliminar Parametro - ' . APP_TITULO;
-        $this->_view->renderizarAdm('eliminarParametro', 'admCrearParametro');
+        $this->_view->renderizar(ADM_FOLDER,'eliminarParametro', 'admCrearParametro');
     }
     
     public function actualizarParametro(){

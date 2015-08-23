@@ -15,7 +15,7 @@ class usrHistoriaLoginController extends Controller{
     public function index(){
         $this->_view->titulo = 'Escuela de Historia - USAC';
         $this->_view->setJs(USRH_FOLDER,array('logearUsuario'));
-        $this->_view->renderizarUsrHistoria('usrHistoriaLogin','usrHistoriaLogin');
+        $this->_view->renderizar(USRH_FOLDER ,'usrHistoriaLogin','usrHistoriaLogin');
     }
     
         public function autenticar(){
