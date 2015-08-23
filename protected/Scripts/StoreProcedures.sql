@@ -368,7 +368,7 @@ LANGUAGE 'plpgsql';
 -- -----------------------------------------------------
 -- DROP FUNCTION spMunicipioXDepto(integer);
 
-CREATE OR REPLACE FUNCTION spconsultageneral(IN _depto int, OUT codigo int, OUT nombre text) RETURNS setof record AS
+CREATE OR REPLACE FUNCTION spMunicipioXDepto(IN _depto int, OUT codigo int, OUT nombre text) RETURNS setof record AS
 $BODY$
 begin
  Return query SELECT municipio, nombre FROM adm_municipio;
