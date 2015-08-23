@@ -11,6 +11,15 @@ class View{
         $this->_js = array();
     }
     
+    public function renderizar($vista){
+        $rutaView = ROOT . 'views' . DS . $this->_controlador . DS . $vista . '.php';
+        if(is_readable($rutaView)){
+            include_once $rutaView;
+        }else{
+            throw new Exception('View not found ' . $rutaView);
+        }
+    }
+    
     public function renderizarAdm($vista, $item = false){
         $js = array();
         if(count($this->_js)){
