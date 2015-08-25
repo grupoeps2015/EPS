@@ -328,15 +328,15 @@ LANGUAGE 'plpgsql';
 -- -----------------------------------------------------
 -- DROP FUNCTION spactualizarusuario(int,int);
 CREATE OR REPLACE FUNCTION spactualizarusuario(_idUsuario int,_nombreNuevo text, _correoNuevo text,
-					     _claveNueva text, _preguntasecretaNueva int,
+					     _preguntasecretaNueva int,
 					     _respuestasecretaNueva text,
-					     _fotoNueva text, _unidadacademicaNueva int) RETURNS void AS 
+					     _unidadacademicaNueva int) RETURNS void AS 
 $BODY$
 BEGIN
   EXECUTE format('UPDATE adm_usuario SET nombre = %s, correo = %s,
-					     clave = %s, preguntasecreta = %s, respuestasecreta = %s, 
-					     foto = %s, unidadacademica = %L WHERE usuario = %L',_nombreNuevo, _correoNuevo,
-					     _claveNueva, _preguntasecretaNueva,_respuestasecretaNueva,_fotoNueva, _unidadacademicaNueva,_idUsuario);
+					     preguntasecreta = %s, respuestasecreta = %s, 
+					     unidadacademica = %L WHERE usuario = %L',_nombreNuevo, _correoNuevo,
+					     _preguntasecretaNueva,_respuestasecretaNueva,_unidadacademicaNueva,_idUsuario);
 END;
 $BODY$
 LANGUAGE 'plpgsql';

@@ -210,10 +210,10 @@ class admCrearUsuarioController extends Controller {
         $this->_view->renderizarAdm('eliminarUsuario', 'admCrearUsuario');
     }
 
-    public function actualizarUsuario($intIdUsuario) {
+    public function actualizarUsuario($intIdUsuario, $nombreUsr, $correoUsr, $preguntaUsr, $respuestaUsr, $unidadUsr) {
         //aca vamos a mandar a llamar la funcion que esta en el model
-        $this->_view->datosUsr = $this->_post->actualizarUsuario($intIdUsuario);
-        
+        $this->_view->datosUsr = $this->_post->datosUsuario($intIdUsuario);
+        $this->_post->actualizarUsuario($intIdUsuario,$nombreUsr, $correoUsr, $preguntaUsr, $respuestaUsr, $unidadUsr);
         $this->_view->renderizarAdm('actualizarUsuario', 'admCrearUsuario');
     }
     

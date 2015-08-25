@@ -124,35 +124,36 @@ class admCrearUsuarioModel extends Model {
         $preguntas = $this->_db->query("select * from spconsultageneral('preguntasecreta,descripcion','adm_preguntasecreta');");
         return $preguntas->fetchall();
     }
-    
-    /*para actualizar usuario*/
-    public function datosUsuario() {
-        try {
-            $post = $this->_db->query("select * from spdatosusuario();");
-            return $post->fetchall();
-        } catch (Exception $e) {
-            return $e->getMessage();
-        }
-    }
 
-    public function actualizarUsuario($idUsuario) {
+    /* para actualizar usuario */
+
+    public function datosUsuario($idUsuario) {
         try {
-            $post = $this->_db->query("select * from spdatosusuario('". $idUsuario . "');");
+            $post = $this->_db->query("select * from spdatosusuario('" . $idUsuario . "');");
             return $post->fetchall(); //entonces, aca recibimos lo de postgres y lo volvemos un array 
         } catch (Exception $e) {
             return $e->getMessage();
         }
     }
 
+    public function actualizarUsuario($idUsuario, $nombreUsr, $correoUsr, $preguntaUsr, $respuestaUsr, $unidadUsr) {
+        try {
+            $this->_db->query("SELECT spactualizarusuario('" . $idUsuario . "','" . $nombreUsr . "','" . $correoUsr . "','" . $preguntaUsr . "','" . $respuestaUsr . "','" . $unidadUsr . "');");
+            //return "SELECT spactualizarusuario(" . $idUsuario . "," . $nombreUsr . "," . $correoUsr ."," . $preguntaUsr . "," . $respuestaUsr ."," . $unidadUsr .");";
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
     public function actualizarEstudiante() {
-       
+        
     }
 
     public function actualizarCatedratico() {
-       
+        
     }
-    
-    public function  actualizarEmpleado(){
+
+    public function actualizarEmpleado() {
         
     }
 
