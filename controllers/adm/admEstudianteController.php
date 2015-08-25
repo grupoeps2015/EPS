@@ -15,7 +15,7 @@ class admEstudianteController extends Controller{
     }
 
     public function index(){
-        $this->_view->renderizar(ADM_FOLDER,'admEstudiante');
+        $this->redireccionar('admEstudiante/infoEstudiante');
     }
     
     public function infoEstudiante($idUsuario=0){
