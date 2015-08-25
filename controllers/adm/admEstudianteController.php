@@ -14,12 +14,7 @@ class admEstudianteController extends Controller{
         $this->_ajax = $this->loadModel("",'ajax');
     }
 
-    public function index($idUsuario=0){
-        $this->_view->titulo = APP_TITULO;
-        $this->_view->deptos = $this->_ajax->getDeptos();
-        $this->_view->paises = $this->_ajax->getPais();
-        $this->_view->infoGeneral = $this->_est->getInfoGeneral($idUsuario);
-        $this->_view->setJs(ADM_FOLDER, array('admEstudiante'));
+    public function index(){
         $this->_view->renderizar(ADM_FOLDER,'admEstudiante');
     }
     
