@@ -124,35 +124,42 @@ class admCrearUsuarioModel extends Model {
         $preguntas = $this->_db->query("select * from spconsultageneral('preguntasecreta,descripcion','adm_preguntasecreta');");
         return $preguntas->fetchall();
     }
-    
-    /*para actualizar usuario*/
-    public function datosUsuario() {
-        try {
-            $post = $this->_db->query("select * from spdatosusuario();");
-            return $post->fetchall();
-        } catch (Exception $e) {
-            return $e->getMessage();
-        }
-    }
 
-    public function actualizarUsuario($idUsuario) {
+    /* para actualizar usuario */
+
+    public function datosUsuario($idUsuario) {
         try {
-            $post = $this->_db->query("select * from spdatosusuario('". $idUsuario . "');");
+            $post = $this->_db->query("select * from spdatosusuario('" . $idUsuario . "');");
             return $post->fetchall(); //entonces, aca recibimos lo de postgres y lo volvemos un array 
         } catch (Exception $e) {
             return $e->getMessage();
         }
     }
 
+    public function actualizarUsuario($idUsuario, $_datos) {
+        
+        $sp = '\'' . $_datos["nombreUsr"] . '\',\'' . $_datos["correoUsr"] . '\',\'';
+        $sp .= $_datos["unidadUsr"] . ',\'';
+        $sp .= $_datos["preguntaUsr"] . '\','. $_datos["respuestaUsr"];
+        try {
+            $post = $this->_db->query("SELECT * from spactualizarusuario('" . $idUsuario . "'," . $sp . ") as Id;");
+            return $post->fetchall();
+            //return "SELECT spagregarusuarios(" . $sp . ");"; //aca le digo que devuelva el valor como tal del query a ejecutar
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+        
+    }
+
     public function actualizarEstudiante() {
-       
+        
     }
 
     public function actualizarCatedratico() {
-       
+        
     }
-    
-    public function  actualizarEmpleado(){
+
+    public function actualizarEmpleado() {
         
     }
 
