@@ -23,7 +23,12 @@ class Bootstrap{
                 if(is_readable($rutaControlador)){
                     Bootstrap::redirect("usrHistoria",$peticion);
                 }else{
-                    throw new Exception('File not found ' . $rutaControlador);
+                    $rutaControlador = ROOT . 'controllers' . DS . $controller . '.php';
+                    if(is_readable($rutaControlador)){
+                        Bootstrap::redirect("",$peticion);
+                    }else{
+                        throw new Exception('Controlador no encontrado: ' . $rutaControlador);
+                    }
                 }
             }
         }
@@ -31,7 +36,11 @@ class Bootstrap{
     
     public function redirect($folder, Request $peticion){
         $controller = $peticion->getControlador() . 'Controller';
-        $rutaControlador = ROOT . 'controllers' . DS . $folder .DS . $controller . '.php';
+        if($folder == ""){
+            $rutaControlador = ROOT . 'controllers' . DS . $controller . '.php';
+        }else{
+            $rutaControlador = ROOT . 'controllers' . DS . $folder .DS . $controller . '.php';
+        }
         $metodo = $peticion->getMetodo();
         $args = $peticion->getArgs();
         

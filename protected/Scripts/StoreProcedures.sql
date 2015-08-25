@@ -207,22 +207,43 @@ LANGUAGE 'plpgsql';
 -- -----------------------------------------------------
 -- Function: spAgregarParametro()
 -- -----------------------------------------------------
--- DROP FUNCTION spagregarparametro(text, text, text, integer, integer, integer, integer); 
-CREATE OR REPLACE FUNCTION spAgregarParametro(_nombre integer, 
-					     _valor text,
-					     _descripcion text, 
-					     _centro integer,
-					     _unidadacademica integer, 
-					     _carrera integer,
-						 _extension integer
+-- DROP FUNCTION spagregarparametro(text, text, text, integer, integer, integer, integer, integer); 
+CREATE OR REPLACE FUNCTION spAgregarParametro(_nombre text, 
+					      _valor text,
+					      _descripcion text, 
+					      _centro integer,
+					      _unidadacademica integer, 
+					      _carrera integer,
+					      _extension integer,
+					      _tipoparametro integer
 					     ) RETURNS void AS 
 $BODY$
 BEGIN
 	INSERT INTO adm_parametro(
-            parametro, nombre,valor,descripcion,centro,unidadacademica,carrera,extension)
-	VALUES (DEFAULT,_nombre,_valor,_descripcion,_centro,_unidadacademica,_carrera,_extension,0);
+            parametro, nombre,valor,descripcion,centro,unidadacademica,carrera,extension,tipoparametro,estado)
+	VALUES (DEFAULT,_nombre,_valor,_descripcion,_centro,_unidadacademica,_carrera,_extension,_tipoparametro,0);
 
 END; $BODY$
+LANGUAGE 'plpgsql';
+
+-- -----------------------------------------------------
+-- Function: spInformacionParametro()
+-- -----------------------------------------------------
+-- DROP FUNCTION spInformacionParametro();
+CREATE OR REPLACE FUNCTION spInformacionParametro(OUT Parametro int, OUT NombreParametro text, OUT ValorParametro text, OUT DescripcionParametro text, OUT NombreCentro text, OUT NombreUnidadAcademica text, OUT NombreCarrera text, OUT ExtensionParametro int, OUT NombreTipoParametro text, OUT EstadoParametro int) RETURNS setof record as 
+$BODY$
+BEGIN
+  RETURN query
+  SELECT p.parametro AS Parametro,p.nombre AS NombreParametro,p.valor AS ValorParametro,p.descripcion AS DescripcionParametro,c.nombre AS NombreCentro,ua.nombre AS NombreUnidadAcademica,car.nombre AS NombreCarrera,p.extension AS ExtensionParametro,tp.nombre AS NombreTipoParametro,p.estado AS EstadoParametro
+	FROM ADM_Parametro p
+	JOIN ADM_Centro c ON c.centro = p.centro
+	JOIN ADM_UnidadAcademica ua ON ua.unidadacademica = p.unidadacademica
+	JOIN CUR_Carrera car ON car.carrera = p.carrera
+	JOIN ADM_TipoParametro tp ON tp.tipoparametro = p.tipoparametro
+	ORDER BY p.nombre;
+
+END;
+$BODY$
 LANGUAGE 'plpgsql';
 
 
@@ -231,28 +252,28 @@ LANGUAGE 'plpgsql';
 -- -----------------------------------------------------
 -- DROP FUNCTION spmodificarparametro(integer, text, text, text, integer, integer, integer, integer, integer); 
 CREATE OR REPLACE FUNCTION spModificarParametro(_parametro integer, 
-						 _nombre text, 
-					     _valor text,
-					     _descripcion text, 
-					     _centro integer,
-					     _unidadacademica integer, 
-					     _carrera integer,
-						 _extension integer, 
-						 _estado integer,
-						 _tipoparametro integer
-					     ) RETURNS BOOLEAN LANGUAGE plpgsql SECURITY DEFINER AS $$
+						_nombre text, 
+					        _valor text,
+					        _descripcion text, 
+					        _centro integer,
+					        _unidadacademica integer, 
+					        _carrera integer,
+						_extension integer, 
+						_estado integer,
+						_tipoparametro integer
+					     )RETURNS BOOLEAN LANGUAGE plpgsql SECURITY DEFINER AS $$
 
 BEGIN
     UPDATE ADM_Parametro
-       SET nombre      = COALESCE(spModificarParametro._nombre, ADM_Parametro.nombre),
-           valor          = COALESCE(spModificarParametro._valor,     ADM_Parametro.valor),
-           descripcion            = COALESCE(spModificarParametro._descripcion,       ADM_Parametro.descripcion),
-           centro        = COALESCE(spModificarParametro._centro, ADM_Parametro.centro),
-		   unidadacademica = COALESCE(spModificarParametro._unidadacademica, ADM_Parametro.unidadacademica),
-		   carrera = COALESCE(spModificarParametro._carrera, ADM_Parametro.carrera),
-		   extension = COALESCE(spModificarParametro._extension, ADM_Parametro.extension),
-		   estado = COALESCE(spModificarParametro._estado, ADM_Parametro.estado),
-		   tipoparametro = COALESCE(spModificarParametro._tipoparametro, ADM_Parametro.tipoparametro)
+       SET nombre = COALESCE(spModificarParametro._nombre, ADM_Parametro.nombre),
+           valor = COALESCE(spModificarParametro._valor, ADM_Parametro.valor),
+           descripcion = COALESCE(spModificarParametro._descripcion, ADM_Parametro.descripcion),
+           centro = COALESCE(spModificarParametro._centro, ADM_Parametro.centro),
+	   unidadacademica = COALESCE(spModificarParametro._unidadacademica, ADM_Parametro.unidadacademica),
+	   carrera = COALESCE(spModificarParametro._carrera, ADM_Parametro.carrera),
+	   extension = COALESCE(spModificarParametro._extension, ADM_Parametro.extension),
+	   estado = COALESCE(spModificarParametro._estado, ADM_Parametro.estado),
+	   tipoparametro = COALESCE(spModificarParametro._tipoparametro, ADM_Parametro.tipoparametro)
      WHERE ADM_Parametro.parametro = spModificarParametro._parametro;       
     RETURN FOUND;
 END;
@@ -267,10 +288,10 @@ $$;
 CREATE OR REPLACE FUNCTION spconsultageneral2(text)returns setof record as
 '
 declare
-r record;
+datos record;
 begin
-for r in EXECUTE ''select * from '' || $1 loop
-return next r;
+for datos in EXECUTE ''select * from '' || $1 loop
+return next datos;
 end loop;
 return;
 end
@@ -342,4 +363,60 @@ $BODY$
 LANGUAGE 'plpgsql';
 
 
+-- -----------------------------------------------------
+-- Function: spMunicipioXDepto()
+-- -----------------------------------------------------
+-- DROP FUNCTION spMunicipioXDepto(integer);
 
+CREATE OR REPLACE FUNCTION spMunicipioXDepto(IN _depto int, OUT codigo int, OUT nombre text) RETURNS setof record AS
+$BODY$
+begin
+ Return query SELECT municipio, nombre FROM adm_municipio;
+end;
+$BODY$
+LANGUAGE 'plpgsql';
+
+-- -----------------------------------------------------
+-- Function: spInfoGeneralEstudiante()
+-- -----------------------------------------------------
+-- DROP FUNCTION spInfoGeneralEstudiante(integer);
+CREATE OR REPLACE FUNCTION spInfoGeneralEstudiante(IN _idUsuario integer, OUT carnet int, 
+						   OUT nombre text, OUT direccion text, 
+						   OUT telefono text, OUT pais text,
+						   OUT emergencia text, OUT sangre text,
+						   OUT alergias text, OUT seguro boolean,
+						   OUT hospital text) RETURNS setof record AS
+$BODY$
+declare idMuni int;
+declare idPais int;
+begin
+ select est.paisorigen from est_estudiante est where est.usuario = _idUsuario into idPais;
+ select est.municipio from est_estudiante est where est.usuario = _idUsuario into idMuni;
+ 
+ Return query 
+	select est.carnet as carnet,
+	       concat(est.primernombre, ' ', 
+		      est.segundonombre, ' ', 
+		      est.primerapellido, ' ', 
+		      est.segundoapellido) as nombre,
+	       concat(est.direccion, ' zona ', 
+		      est.zona, ', ', 
+		      (select concat(muni.nombre, ', ', depto.nombre) from
+			adm_municipio muni,
+			adm_departamento depto
+		      where muni.departamento = depto.departamento and
+			muni.municipio = idMuni)) as direccion,
+		est.telefono as telefono,
+		(select nac.nombre from adm_pais nac where nac.pais=idPais) as nacionalidad,
+		est.telefonoemergencia as NoEmergencia,
+		est.tiposangre as sangre,
+		est.alergias as alergias,
+		est.segurovida as seguro,
+		est.centroemergencia as hospital
+	from
+		est_estudiante est
+	where
+		est.usuario = _idUsuario;
+end;
+$BODY$
+LANGUAGE 'plpgsql';

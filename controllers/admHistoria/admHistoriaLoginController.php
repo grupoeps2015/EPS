@@ -14,7 +14,7 @@ class admHistoriaLoginController extends Controller{
 
     public function index(){
         $this->_view->titulo = APP_TITULO;
-        $this->_view->renderizarAdmHistoria('admHistoriaLogin');
+        $this->_view->renderizar(ADMH_FOLDER ,'admHistoriaLogin');
     }
     
     public function autenticar(){
@@ -33,7 +33,7 @@ class admHistoriaLoginController extends Controller{
 //                echo $_SESSION["usuario"];
 //                echo $_SESSION["rol"];
 //                echo $respuesta[0]['estado'];
-                $this->_view->renderizarAdmHistoria('inicio');
+                $this->_view->renderizar(ADM_FOLDER,'inicio');
         }
         else{
             echo "Credenciales incorrectas";

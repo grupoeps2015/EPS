@@ -21,10 +21,10 @@
     </div>
     <br/>
     <div>
-        <form id="frEstudiantes" method="post" action="<?php echo BASE_URL; ?>admCrearParametro/agregarParametro">
-            <div id="divEstudiantes" class="form-group" >
+        <form id="frParametros" method="post" action="<?php echo BASE_URL; ?>admCrearParametro/agregarParametro">
+            <div id="divParametros" class="form-group" >
                 <div style="margin-left: 10%; margin-right: 10%">
-                    <table id="tbUsuarios" border="2">
+                    <table id="tbParametros" border="2">
                         <thead>
                             <tr>
                                 <th style="text-align:center">Par&aacute;metro</th>
@@ -35,23 +35,32 @@
                                 <th style="text-align:center">Unidad acad&eacute;mica</th>
                                 <th style="text-align:center">Carrera</th>
                                 <th style="text-align:center">Extensi&oacute;n</th>
+                                <th style="text-align:center">Tipo par&aacute;metro</th>
                                 <th style="text-align:center">Estado</th>
+                                <th style="text-align:center">Modificar</th>                               
                             </tr>
                         </thead>
                         <tbody>
                         <?php if(isset($this->lstPar) && count($this->lstPar)): ?>
                             <?php for($i =0; $i < count($this->lstPar); $i++) : ?>
                             <tr>
-                                <td></td>
-                                <td style="text-align: center"><?php echo $this->lstPar[$i]['nombre']; ?></td>
-                                <td style="text-align: center"></td>
-                                <td style="text-align: center"></td>
-                                <td style="text-align: center"></td>
-                                <td style="text-align: center"></td>
-                                <td style="text-align: center"></td>
+                                <td style="text-align: center"><?php echo $this->lstPar[$i]['parametro']; ?></td>
+                                <td style="text-align: center"><?php echo $this->lstPar[$i]['nombreparametro']; ?></td>
+                                <td style="text-align: center"><?php echo $this->lstPar[$i]['valorparametro']; ?></td>
+                                <td style="text-align: center"><?php echo $this->lstPar[$i]['descripcionparametro']; ?></td>
+                                <td style="text-align: center"><?php echo $this->lstPar[$i]['nombrecentro']; ?></td>
+                                <td style="text-align: center"><?php echo $this->lstPar[$i]['nombreunidadacademica']; ?></td>
+                                <td style="text-align: center"><?php echo $this->lstPar[$i]['nombrecarrera']; ?></td>
+                                <td style="text-align: center"><?php echo $this->lstPar[$i]['extensionparametro']; ?></td>
+                                <td style="text-align: center"><?php echo $this->lstPar[$i]['nombretipoparametro']; ?></td>
+                                <td style="text-align: center">
+                                    <?php if(strcmp($this->lstPar[$i]['estadoparametro'], '1') == 0): ?>
+                                    <a href="<?php echo BASE_URL . 'admCrearParametro/eliminarParametro/-1/' . $this->lstPar[$i]['parametro'];?>">Desactivar</a>
+                                    <?php else : ?>
+                                    <a href="<?php echo BASE_URL . 'admCrearParametro/eliminarParametro/1/' . $this->lstPar[$i]['parametro'] ?>">Activar</a>
+                                    <?php endif;?>
+                                </td>
                                 <td style="text-align: center;"><a href="#">Modificar</a></td>
-                                <td style="text-align: center;">
-                                       </td>
                             </tr>
                             <?php endfor;?>
                         <?php else : ?>

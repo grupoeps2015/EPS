@@ -11,4 +11,9 @@ class admEstudianteModel extends Model {
         return $post->fetchall();
     }
     
+    public function getInfoGeneral($idUsuario){
+        $info = $this->_db->query("select * from spInfoGeneralEstudiante({$idUsuario})");
+        return $info->fetchAll();
+    }
+    
 }

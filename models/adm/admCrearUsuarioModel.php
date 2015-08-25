@@ -136,13 +136,19 @@ class admCrearUsuarioModel extends Model {
         }
     }
 
-    public function actualizarUsuario($idUsuario, $nombreUsr, $correoUsr, $preguntaUsr, $respuestaUsr, $unidadUsr) {
+    public function actualizarUsuario($idUsuario, $_datos) {
+        
+        $sp = '\'' . $_datos["nombreUsr"] . '\',\'' . $_datos["correoUsr"] . '\',\'';
+        $sp .= $_datos["unidadUsr"] . ',\'';
+        $sp .= $_datos["preguntaUsr"] . '\','. $_datos["respuestaUsr"];
         try {
-            $this->_db->query("SELECT spactualizarusuario('" . $idUsuario . "','" . $nombreUsr . "','" . $correoUsr . "','" . $preguntaUsr . "','" . $respuestaUsr . "','" . $unidadUsr . "');");
-            //return "SELECT spactualizarusuario(" . $idUsuario . "," . $nombreUsr . "," . $correoUsr ."," . $preguntaUsr . "," . $respuestaUsr ."," . $unidadUsr .");";
+            $post = $this->_db->query("SELECT * from spactualizarusuario('" . $idUsuario . "'," . $sp . ") as Id;");
+            return $post->fetchall();
+            //return "SELECT spagregarusuarios(" . $sp . ");"; //aca le digo que devuelva el valor como tal del query a ejecutar
         } catch (Exception $e) {
             return $e->getMessage();
         }
+        
     }
 
     public function actualizarEstudiante() {

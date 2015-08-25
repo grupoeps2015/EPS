@@ -1,3 +1,9 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
 <html>
     <head>
         <meta charset="utf-8">
@@ -9,20 +15,14 @@
         <link href="<?php echo $_layoutParams['ruta_css']?>bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $_layoutParams['ruta_css']?>animate.min.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $_layoutParams['ruta_css']?>creative.css" rel="stylesheet" type="text/css"/>
-        
-<?php if(isset($_layoutParams['css']) && count($_layoutParams['css'])):?>
-    <?php for($i = 0; $i<count($_layoutParams['css']); $i++): ?>
-    <link href="<?php echo $_layoutParams['css'][$i]?>" rel="stylesheet" type="text/css" />
-    <?php endfor; ?>
-<?php endif; ?> 
-        
+       
         <script src="<?php echo $_layoutParams['ruta_js']?>jquery.js" type="text/javascript"></script>
         <script src="<?php echo $_layoutParams['ruta_js']?>bootstrap.min.js" type="text/javascript"></script>
         <script src="<?php echo $_layoutParams['ruta_js']?>jquery.easing.min.js" type="text/javascript"></script>
         <script src="<?php echo $_layoutParams['ruta_js']?>jquery.fittext.js" type="text/javascript"></script>
         <script src="<?php echo $_layoutParams['ruta_js']?>wow.min.js" type="text/javascript"></script>
-        <script src="<?php echo $_layoutParams['ruta_js']?>creative.js" type="text/javascript"></script>
-             
+        <script src="<?php echo $_layoutParams['ruta_js']?>creative.js" type="text/javascript"></script>       
+       
 <?php if(isset($_layoutParams['js']) && count($_layoutParams['js'])):?>
     <?php for($i = 0; $i<count($_layoutParams['js']); $i++): ?>
     <script src="<?php echo $_layoutParams['js'][$i]?>" type="text/javascript"></script>    
@@ -31,7 +31,6 @@
         
     </head>
     <body id="page-top">
-        <!--BARRA SUPERIOR Y MENU-->
         <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
             <div class="container-fluid">
                 <div class="navbar-header">
@@ -53,20 +52,7 @@
                                 <font color="black">Men&uacute;</font>
                             </a>
                         </li>-->
-                <li>
-                    <a class="page-scroll" href="#about">Acerca de</a>
-                </li>
-                <li>
-                    <a class="page-scroll" href="#services">Servicios</a>
-                </li>
-                <li>
-                    <a class="page-scroll" href="#portfolio">Noticias</a>
-                </li>
-                <li>
-                    <a class="page-scroll" href="#contact">Contacto</a>
-                </li>
                     </ul>
                 </div>
             </div>
         </nav>
-        <!-- FIN BARRA SUPERIOR Y MENU -->

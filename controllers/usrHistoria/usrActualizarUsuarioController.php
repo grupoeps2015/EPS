@@ -21,7 +21,7 @@ class usrActualizarUsuarioController extends Controller{
         //$this->_view->setJs(ADM_FOLDER,array('agregarUsuario'));
         $this->_view->setPublicJs(array('jquery.validate'));
         
-        $this->_view->renderizarUsrHistoria('activarCuentaEst', 'usrActualizarUsuario');
+        $this->_view->renderizar(USRH_FOLDER ,'activarCuentaEst', 'usrActualizarUsuario');
     }
     
     public function activarCuentaCat(){

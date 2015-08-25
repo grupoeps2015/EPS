@@ -15,7 +15,6 @@ $(document).ready(function(){
     $("#slDeptos").change(function(){
         if(!$("#slDeptos").val()){
             $("#slMunis").html('');
-            $("#slMunis").append('<option value="" disabled>- Municipios -</option>')
         }else{
             getMunicipio();
         }
