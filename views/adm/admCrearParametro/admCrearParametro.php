@@ -60,7 +60,7 @@
                                     <a href="<?php echo BASE_URL . 'admCrearParametro/eliminarParametro/1/' . $this->lstPar[$i]['parametro'] ?>">Activar</a>
                                     <?php endif;?>
                                 </td>
-                                <td style="text-align: center;"><a href="#">Modificar</a></td>
+                                <td style="text-align: center;"><a href="<?php echo BASE_URL . 'admCrearParametro/actualizarParametro/' . $this->lstPar[$i]['parametro'];?>">Modificar</a></td>
                             </tr>
                             <?php endfor;?>
                         <?php else : ?>

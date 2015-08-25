@@ -45,6 +45,31 @@ class admCrearParametroModel extends Model{
         }
     }
     
+    public function actualizarParametro($idParametro, $_datos) {
+        
+        $sp = '\'' . $_datos["nombre"] . '\',\'' . $_datos["valor"] . '\',';
+        $sp .= '\'' . $_datos["descripcion"] . '\',' . $_datos["centro"] . ',';
+        $sp .= $_datos["unidadacademica"] . ',' . $_datos["carrera"] . ',';
+        $sp .= $_datos["extension"] . ',' . $_datos["tipoparametro"];
+       try {
+            $post = $this->_db->query("SELECT spModificarParametro(" . $IdParametro . "'," . $sp . ") as Id;");
+            return $post->fetchall();
+            
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+        
+    }
+    
+     public function datosParametro($idParametro) {
+        try {
+            $post = $this->_db->query("select * from spdatosparametro('" . $idParametro . "');");
+            return $post->fetchall(); //entonces, aca recibimos lo de postgres y lo volvemos un array 
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
     
 }
 

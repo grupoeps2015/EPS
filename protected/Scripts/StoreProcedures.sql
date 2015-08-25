@@ -246,6 +246,27 @@ END;
 $BODY$
 LANGUAGE 'plpgsql';
 
+-- -----------------------------------------------------
+-- Function: spdatosparametro()
+-- -----------------------------------------------------
+-- DROP FUNCTION spdatosparametro(int);
+
+CREATE OR REPLACE FUNCTION spDatosParametro(Parametro int, OUT NombreParametro text, OUT ValorParametro text, OUT DescripcionParametro text, OUT NombreCentro text, OUT NombreUnidadAcademica text, OUT NombreCarrera text, OUT ExtensionParametro int, OUT NombreTipoParametro text) RETURNS setof record as 
+$BODY$
+BEGIN
+  RETURN query
+  SELECT p.nombre AS NombreParametro,p.valor AS ValorParametro,p.descripcion AS DescripcionParametro,c.nombre AS NombreCentro,ua.nombre AS NombreUnidadAcademica,car.nombre AS NombreCarrera,p.extension AS ExtensionParametro,tp.nombre AS NombreTipoParametro
+	FROM ADM_Parametro p
+	JOIN ADM_Centro c ON c.centro = p.centro
+	JOIN ADM_UnidadAcademica ua ON ua.unidadacademica = p.unidadacademica
+	JOIN CUR_Carrera car ON car.carrera = p.carrera
+	JOIN ADM_TipoParametro tp ON tp.tipoparametro = p.tipoparametro
+	WHERE p.parametro = $1;
+
+END;
+$BODY$
+LANGUAGE 'plpgsql';
+
 
 -- -----------------------------------------------------
 -- Function: spModificarParametro()

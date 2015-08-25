@@ -88,8 +88,14 @@ class admCrearParametroController extends Controller{
         $this->_view->renderizar(ADM_FOLDER,'eliminarParametro', 'admCrearParametro');
     }
     
-    public function actualizarParametro(){
+     public function actualizarParametro($intIdParametro, $datos) {
         
+        $arrayUsr = array();
+        
+        //aca vamos a mandar a llamar la funcion que esta en el model
+        $this->_view->datosUsr = $this->_post->datosParametro($intIdParametro);
+                    
+        $this->_view->renderizar(ADM_FOLDER, 'actualizarParametro', 'admCrearParametro');
     }
     
 }
