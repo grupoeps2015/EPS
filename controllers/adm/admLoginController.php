@@ -44,7 +44,7 @@ class admLoginController extends Controller{
         }
         else{
             echo "<script>alert('Credenciales incorrectas');</script>";
-            $this->_view->renderizarAdm('admLogin');
+            $this->_view->renderizar(ADM_FOLDER,'admLogin');
         }
     }
 }

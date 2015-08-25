@@ -392,7 +392,7 @@ LANGUAGE 'plpgsql';
 CREATE OR REPLACE FUNCTION spMunicipioXDepto(IN _depto int, OUT codigo int, OUT nombre text) RETURNS setof record AS
 $BODY$
 begin
- Return query SELECT municipio, nombre FROM adm_municipio;
+ Return query SELECT mun.municipio, mun.nombre FROM adm_municipio mun where mun.departamento = _depto;
 end;
 $BODY$
 LANGUAGE 'plpgsql';
@@ -402,11 +402,12 @@ LANGUAGE 'plpgsql';
 -- -----------------------------------------------------
 -- DROP FUNCTION spInfoGeneralEstudiante(integer);
 CREATE OR REPLACE FUNCTION spInfoGeneralEstudiante(IN _idUsuario integer, OUT carnet int, 
-						   OUT nombre text, OUT direccion text, 
-						   OUT telefono text, OUT pais text,
-						   OUT emergencia text, OUT sangre text,
-						   OUT alergias text, OUT seguro boolean,
-						   OUT hospital text) RETURNS setof record AS
+						   OUT nombre text, OUT dircorta text,
+						   OUT direccion text, OUT telefono text, 
+						   OUT pais text, OUT emergencia text, 
+						   OUT sangre text, OUT alergias text, 
+						   OUT seguro boolean, OUT hospital text, 
+						   OUT zona int) RETURNS setof record AS
 $BODY$
 declare idMuni int;
 declare idPais int;
@@ -420,6 +421,7 @@ begin
 		      est.segundonombre, ' ', 
 		      est.primerapellido, ' ', 
 		      est.segundoapellido) as nombre,
+	       est.direccion as dircorta,
 	       concat(est.direccion, ' zona ', 
 		      est.zona, ', ', 
 		      (select concat(muni.nombre, ', ', depto.nombre) from
@@ -433,7 +435,8 @@ begin
 		est.tiposangre as sangre,
 		est.alergias as alergias,
 		est.segurovida as seguro,
-		est.centroemergencia as hospital
+		est.centroemergencia as hospital,
+		est.zona as zona
 	from
 		est_estudiante est
 	where

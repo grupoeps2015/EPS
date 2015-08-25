@@ -34,7 +34,7 @@ class usrHistoriaLoginController extends Controller{
 //                echo $_SESSION["usuario"];
 //                echo $_SESSION["rol"];
 //                echo $respuesta[0]['estado'];
-//                $this->_view->renderizarAdmHistoria('inicio');
+//                $this->_view->renderizar(USRH_FOLDER, 'inicio');
                 echo "Credenciales correctas";
         }
         else{

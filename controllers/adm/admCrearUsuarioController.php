@@ -20,10 +20,11 @@ class admCrearUsuarioController extends Controller {
     public function index() {
         $this->_view->lstUsr = $this->_post->informacionUsuario();
         $this->_view->titulo = 'Gestión de usuarios - ' . APP_TITULO;
-        $this->_view->setJs(ADM_FOLDER, array('eliminarUsuario'));
-        $this->_view->setPublicCSS(array('jquery.dataTables.min'));
-        $this->_view->setPublicJs(array('jquery.dataTables.min'));
-        $this->_view->renderizarAdm('admCrearUsuario', 'admCrearUsuario');
+        $this->_view->setJs(ADM_FOLDER, array('admCrearUsuario'));
+        $this->_view->setJs("public",array('jquery.dataTables.min'));
+        $this->_view->setCSS(array('jquery.dataTables.min'));
+        
+        $this->_view->renderizar(ADM_FOLDER,'admCrearUsuario');
     }
 
     public function agregarUsuario() {
@@ -44,27 +45,27 @@ class admCrearUsuarioController extends Controller {
 
         $this->_view->titulo = 'Agregar Usuario - ' . APP_TITULO;
         $this->_view->setJs(ADM_FOLDER, array('agregarUsuario'));
-        $this->_view->setPublicJs(array('jquery.validate'));
+        $this->_view->setJs("public", array('jquery.validate'));
 
         if ($iden == 1) {
             $this->_view->datos = $_POST;
             if (!$this->getTexto('txtNombreEst1')) {
-                $this->_view->renderizarAdm('agregarUsuario', 'admCrearUsuario');
+                $this->_view->renderizar(ADM_FOLDER, 'agregarUsuario', 'admCrearUsuario');
                 exit;
             }
 
             if (!$this->getTexto('txtCorreoEst')) {
-                $this->_view->renderizarAdm('agregarUsuario', 'admCrearUsuario');
+                $this->_view->renderizar(ADM_FOLDER, 'agregarUsuario', 'admCrearUsuario');
                 exit;
             }
 
             if (!$this->getTexto('txtApellidoEst1')) {
-                $this->_view->renderizarAdm('agregarUsuario', 'admCrearUsuario');
+                $this->_view->renderizar(ADM_FOLDER, 'agregarUsuario', 'admCrearUsuario');
                 exit;
             }
 
             if (!$this->getTexto('txtCarnetEst')) {
-                $this->_view->renderizarAdm('agregarUsuario', 'admCrearUsuario');
+                $this->_view->renderizar(ADM_FOLDER, 'agregarUsuario', 'admCrearUsuario');
                 exit;
             }
 
@@ -76,22 +77,22 @@ class admCrearUsuarioController extends Controller {
             $this->_view->datos = $_POST;
             $this->_view->preguntas = $this->_post->getPreguntas();
             if (!$this->getTexto('txtNombreCat1')) {
-                $this->_view->renderizarAdm('agregarUsuario', 'admCrearUsuario');
+                $this->_view->renderizar(ADM_FOLDER, 'agregarUsuario', 'admCrearUsuario');
                 exit;
             }
 
             if (!$this->getTexto('txtCorreoCat')) {
-                $this->_view->renderizarAdm('agregarUsuario', 'admCrearUsuario');
+                $this->_view->renderizar(ADM_FOLDER, 'agregarUsuario', 'admCrearUsuario');
                 exit;
             }
 
             if (!$this->getTexto('txtApellidoCat1')) {
-                $this->_view->renderizarAdm('agregarUsuario', 'admCrearUsuario');
+                $this->_view->renderizar(ADM_FOLDER, 'agregarUsuario', 'admCrearUsuario');
                 exit;
             }
 
             if (!$this->getTexto('txtCodigoCat')) {
-                $this->_view->renderizarAdm('agregarUsuario', 'admCrearUsuario');
+                $this->_view->renderizar(ADM_FOLDER, 'agregarUsuario', 'admCrearUsuario');
                 exit;
             }
 
@@ -103,22 +104,22 @@ class admCrearUsuarioController extends Controller {
             $this->_view->datos = $_POST;
             $this->_view->preguntas = $this->_post->getPreguntas();
             if (!$this->getTexto('txtNombreEmp1')) {
-                $this->_view->renderizarAdm('agregarUsuario', 'admCrearUsuario');
+                $this->_view->renderizar(ADM_FOLDER, 'agregarUsuario', 'admCrearUsuario');
                 exit;
             }
 
             if (!$this->getTexto('txtCorreoEmp')) {
-                $this->_view->renderizarAdm('agregarUsuario', 'admCrearUsuario');
+                $this->_view->renderizar(ADM_FOLDER, 'agregarUsuario', 'admCrearUsuario');
                 exit;
             }
 
             if (!$this->getTexto('txtApellidoEmp1')) {
-                $this->_view->renderizarAdm('agregarUsuario', 'admCrearUsuario');
+                $this->_view->renderizar(ADM_FOLDER, 'agregarUsuario', 'admCrearUsuario');
                 exit;
             }
 
             if (!$this->getTexto('txtCodigoEmp')) {
-                $this->_view->renderizarAdm('agregarUsuario', 'admCrearUsuario');
+                $this->_view->renderizar(ADM_FOLDER, 'agregarUsuario', 'admCrearUsuario');
                 exit;
             }
 
@@ -193,7 +194,7 @@ class admCrearUsuarioController extends Controller {
             $this->redireccionar('admCrearUsuario');
         }
 
-        $this->_view->renderizarAdm('agregarUsuario', 'admCrearUsuario');
+        $this->_view->renderizar(ADM_FOLDER, 'agregarUsuario', 'admCrearUsuario');
     }
     
     public function eliminarUsuario($intNuevoEstado,$intIdUsuario){
@@ -207,7 +208,7 @@ class admCrearUsuarioController extends Controller {
         $this->redireccionar('admCrearUsuario');
         //$this->_view->cambio = $intNuevoEstado;
         $this->_view->titulo = 'Eliminar usuario - ' . APP_TITULO;
-        $this->_view->renderizarAdm('eliminarUsuario', 'admCrearUsuario');
+        $this->_view->renderizar(ADM_FOLDER, 'eliminarUsuario', 'admCrearUsuario');
     }
 
     public function actualizarUsuario($intIdUsuario, $datos) {
@@ -225,7 +226,7 @@ class admCrearUsuarioController extends Controller {
             $idUsr = $this->_post->agregarUsuario($arrayUsr)[0][0];
             
         $this->_post->actualizarUsuario($intIdUsuario,$nombreUsr, $correoUsr, $preguntaUsr, $respuestaUsr, $unidadUsr);
-        $this->_view->renderizarAdm('actualizarUsuario', 'admCrearUsuario');
+        $this->_view->renderizar(ADM_FOLDER, 'actualizarUsuario', 'admCrearUsuario');
     }
     
     protected function notificacionEMAIL(){

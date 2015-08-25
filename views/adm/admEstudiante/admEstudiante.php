@@ -101,7 +101,7 @@
                                 <td style="width: 20%; text-align:center"><?php echo $this->infoGeneral[0]['alergias'] ?></td>
                             </tr>
                             <tr>
-                                <td class="text-primary" style="width: 40%; text-align:right">¿Posee seguro medico?:&nbsp;</td>
+                                <td class="text-primary" style="width: 40%; text-align:right">¿Posee seguro m&eacute;dico?:&nbsp;</td>
                                 <td style="width: 20%; text-align:center">
                                     <?php if($this->infoGeneral[0]['seguro']){
                                             echo "Si";
@@ -200,14 +200,14 @@
                             </tr>
                             <tr>
                                 <td style="width: 45%"><br />Direccion:<br />
-                                <input id="txtDireccion" name="txtDireccion" type="text" class="form-control input-lg">&nbsp;</td>
+                                <input id="txtDireccion" name="txtDireccion" type="text" class="form-control input-lg" value="<?php echo $this->infoGeneral[0]['dircorta'] ?>">&nbsp;</td>
                                 <td>&nbsp;</td>
                                 <td><br />Zona:&nbsp;<br />
-                                <input id="txtZona" name="txtZona" type="number" class="form-control input-lg">&nbsp;</td>
+                                <input id="txtZona" name="txtZona" type="number" min="0" max="27" class="form-control input-lg" value="<?php echo $this->infoGeneral[0]['zona'] ?>">&nbsp;</td>
                             </tr>
                             <tr>
                                 <td tyle="width: 45%">Telefono:&nbsp;<br />
-                                    <input id="txtTelefono" name="txtTelefono" type="tel" class="form-control input-lg"></td>
+                                    <input id="txtTelefono" name="txtTelefono" type="number" min="22000000" max="99999999" class="form-control input-lg" value="<?php echo $this->infoGeneral[0]['telefono'] ?>"></td>
                                 <td>&nbsp;</td>
                                 <td><br/>
                                     <?php if(isset($this->paises) && count($this->paises)): ?>
@@ -249,33 +249,38 @@
                 <h2 class="text-center">En caso de emergencia</h2>
             </div>
             <div class="modal-body row">
-                <form class="col-md-10 col-md-offset-1 col-xs-12 col-xs-offset-0" id="frLogin" method="post" action="<?php echo BASE_URL; ?>admEstudiante/infoEstudiante/12">
+                <form class="col-md-10 col-md-offset-1 col-xs-12 col-xs-offset-0" id="frEmergencias" method="post" action="<?php echo BASE_URL; ?>admEstudiante/infoEstudiante/12">
                     <div class="form-group">
                         <table align="center">
                             <tr>
                                 <td style="width: 45%">Telefono:<br/>
-                                    <input id="txtTelefonoE" name="txtTelefonoE" type="tel" class="form-control input-lg"/>
+                                    <input id="txtTelefonoE" name="txtTelefonoE" type="number" min="22000000" max="99999999" class="form-control input-lg" value="<?php echo $this->infoGeneral[0]['emergencia']?>"></td>
                                 </td>
                                 <td>&nbsp;</td>
                                 <td rowspan="2">Alergias:<br/>
-                                    <textarea id="txtAlergias" name="txtAlergias" rows="5" class="form-control input-lg"></textarea>
+                                    <textarea id="txtAlergias" name="txtAlergias" rows="5" class="form-control input-lg"><?php echo $this->infoGeneral[0]['alergias']?></textarea>
                                 </td>
                             </tr>
                             <tr>
                                 <td style="width: 45%"><br/>Tipo de sangre:<br/>
-                                    <input id="txtTipoSangre" name="txtTipoSangre" type="text" class="form-control input-lg" />
+                                    <input id="txtTipoSangre" name="txtTipoSangre" type="text" class="form-control input-lg" value="<?php echo $this->infoGeneral[0]['sangre']?>" />
                                 </td>
                                 <td>&nbsp;</td>
                             </tr>
                             <tr>
                                 <td style="width: 45%"><br/>Centro Asistencial:<br/>
-                                    <input id="txtHospital" name="txtHospital" type="text" class="form-control input-lg">
+                                    <input id="txtHospital" name="txtHospital" type="text" class="form-control input-lg" value="<?php echo $this->infoGeneral[0]['hospital']?>"/>
                                 </td>
                                 <td>&nbsp;</td>
                                 <td style="text-align:center">
-                                    <br/><span>¿Posee seguro medico?</span><br/>
-                                    <input type="radio" id="rbSeguro" name="rbSeguro" value="1">Si&nbsp;&nbsp;
-                                    <input type="radio" id="rbSeguro" name="rbSeguro" value="0" checked>No
+                                    <br/><span>¿Posee seguro m&eacute;dico?</span><br/>
+                                    <?php if($this->infoGeneral[0]['seguro']):?>
+                                        <input type="radio" id="rbSeguro" name="rbSeguro" value="1" checked>Si&nbsp;&nbsp;
+                                        <input type="radio" id="rbSeguro" name="rbSeguro" value="0">No
+                                    <?php else:?>
+                                        <input type="radio" id="rbSeguro" name="rbSeguro" value="1">Si&nbsp;&nbsp;
+                                        <input type="radio" id="rbSeguro" name="rbSeguro" value="0" checked>No
+                                    <?php endif?>
                                 </td>
                             </tr>
                             <tr>

@@ -29,7 +29,33 @@ class admEstudianteController extends Controller{
         $this->_view->paises = $this->_ajax->getPais();
         $this->_view->infoGeneral = $this->_est->getInfoGeneral($idUsuario);
         $this->_view->setJs(ADM_FOLDER, array('admEstudiante'));
+        $this->_view->setJs("public", array('jquery.validate'));
         if($iden == 1){
+            $this->_view->datos = $_POST;
+            if (!$this->getInteger('slDeptos')) {
+                $this->_view->renderizar(ADM_FOLDER,'admEstudiante','infoEstudiante');
+                exit;
+            }
+            if (!$this->getInteger('slMunis')) {
+                $this->_view->renderizar(ADM_FOLDER,'admEstudiante','infoEstudiante');
+                exit;
+            }
+            if (!$this->getInteger('txtZona')) {
+                $this->_view->renderizar(ADM_FOLDER,'admEstudiante','infoEstudiante');
+                exit;
+            }
+            if (!$this->getTexto('txtDireccion')) {
+                $this->_view->renderizar(ADM_FOLDER,'admEstudiante','infoEstudiante');
+                exit;
+            }
+            if (!$this->getInteger('txtTelefono')) {
+                $this->_view->renderizar(ADM_FOLDER,'admEstudiante','infoEstudiante');
+                exit;
+            }
+            if (!$this->getInteger('slPaises')) {
+                $this->_view->renderizar(ADM_FOLDER,'admEstudiante','infoEstudiante');
+                exit;
+            }
             $actualizar = true;
         }else if($iden == 2){
             $actualizar = true;
