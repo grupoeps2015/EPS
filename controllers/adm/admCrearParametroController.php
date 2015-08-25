@@ -15,16 +15,20 @@ class admCrearParametroController extends Controller{
         parent::__construct();
         $this->getLibrary('encripted');
         $this->_encriptar = new encripted();
-        $this->_post = $this->loadModel(ADM_FOLDER,'admCrearParametro');
+        $this->_post = $this->loadModel(ADM_FOLDER, 'admCrearParametro');
     }
 
     public function index(){
         $this->_view->lstPar = $this->_post->informacionParametro();
         $this->_view->titulo = 'Gestión de parámetros - ' . APP_TITULO;
-        $this->_view->setJs(ADM_FOLDER,array('eliminarParametro'));
-        $this->_view->setJs('public',array('jquery.dataTables.min'));
-        $this->_view->setPublicCSS(array('jquery.dataTables.min'));
-        $this->_view->renderizar(ADM_FOLDER,'admCrearParametro', 'admCrearParametro');
+        
+        //Se agregan los archivos JS, CSS, locales y publicos
+        $this->_view->setJs(ADM_FOLDER, array('admCrearParametro'));
+        $this->_view->setJs("public",array('jquery.dataTables.min'));
+        $this->_view->setCSS(array('jquery.dataTables.min'));
+        
+        //se renderiza la vista a mostrar
+        $this->_view->renderizar(ADM_FOLDER, 'admCrearParametro', 'admCrearParametro');
     }
     
     public function agregarParametro(){
@@ -33,8 +37,8 @@ class admCrearParametroController extends Controller{
         
         $this->_view->titulo = 'Agregar Parametro - ' . APP_TITULO;
         $this->_view->setJs(ADM_FOLDER,array('agregarParametro'));
-        $this->_view->setPublicJs(array('jquery.validate'));
-        
+        $this->_view->setJs("public", array('jquery.validate'));
+ 
            $this->_view->datos = $_POST;
             if(!$this->getTexto('txtNombreParametro')){
                 $this->_view->renderizar(ADM_FOLDER,'agregarParametro', 'admCrearParametro');
