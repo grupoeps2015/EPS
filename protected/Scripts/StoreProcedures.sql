@@ -420,3 +420,47 @@ begin
 end;
 $BODY$
 LANGUAGE 'plpgsql';
+
+-- -----------------------------------------------------
+-- Function: spUpdateInfoGeneralEstudiante()
+-- -----------------------------------------------------
+-- DROP FUNCTION spUpdateInfoGeneralEstudiante(int, text, int, int, text, int);
+CREATE OR REPLACE FUNCTION spUpdateInfoGeneralEstudiante( _idUsuario int, 
+							  _direccion text, 
+							  _zona int,
+							  _municipio int, 
+							  _telefono text,
+							  _nacionalidad int) RETURNS void AS 
+$BODY$
+BEGIN
+  EXECUTE format('UPDATE est_estudiante SET direccion = %L, zona = %L,
+					    municipio = %L, telefono = %s, 
+					    paisorigen = %L WHERE usuario = %L', 
+					    _direccion, _zona,
+					    _municipio, _telefono,
+					    _nacionalidad,_idUsuario);
+END;
+$BODY$
+LANGUAGE 'plpgsql';
+
+-- -----------------------------------------------------
+-- Function: spUpdateInfoEmergenciaEstudiante()
+-- -----------------------------------------------------
+-- DROP FUNCTION spUpdateInfoEmergenciaEstudiante(int, text, text, boolean, text, text);
+CREATE OR REPLACE FUNCTION spUpdateInfoEmergenciaEstudiante( _idUsuario int, 
+							     _telefono text, 
+							     _alergias text,
+							     _seguro boolean, 
+							     _centro text,
+							     _sangre text) RETURNS void AS 
+$BODY$
+BEGIN
+  EXECUTE format('UPDATE est_estudiante SET telefonoemergencia = %L, alergias = %L,
+					    segurovida = %L, centroemergencia = %L, 
+					    tiposangre = %L WHERE usuario = %L', 
+					    _telefono, _alergias,
+					    _seguro, _centro,
+					    _sangre,_idUsuario);
+END;
+$BODY$
+LANGUAGE 'plpgsql';
