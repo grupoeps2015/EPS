@@ -211,21 +211,19 @@ class admCrearUsuarioController extends Controller {
         $this->_view->renderizar(ADM_FOLDER, 'eliminarUsuario', 'admCrearUsuario');
     }
 
-    public function actualizarUsuario($intIdUsuario, $datos=0) {
-        
-        $arrayUsr = array();
+    public function actualizarUsuario($intIdUsuario, $arrayUsr = array()) {
         
         //aca vamos a mandar a llamar la funcion que esta en el model
         $this->_view->datosUsr = $this->_post->datosUsuario($intIdUsuario);
-//        $arrayUsr["nombreUsr"] = $nombreUsr;
-//        $arrayUsr["correoUsr"] = $correoUsr;
-//        $arrayUsr["preguntaUsr"] = 0;
-//        $arrayUsr["respuestaUsr"] = "USAC";
-//        $arrayUsr["unidadUsr"] = $unidadUsr;
-//
+        $arrayUsr["nombreUsr"] = $this->getTexto('txtNombre');
+        $arrayUsr["correoUsr"] = $this->getTexto('txtCorreo');
+        $arrayUsr["preguntaUsr"] = 0;
+        $arrayUsr["respuestaUsr"] = "USAC";
+        $arrayUsr["unidadUsr"] = $this->getTexto('txtUnidadAcademica');
+
 //        $idUsr = $this->_post->agregarUsuario($arrayUsr)[0][0];
-//            
-//        $this->_post->actualizarUsuario($intIdUsuario,$nombreUsr, $correoUsr, $preguntaUsr, $respuestaUsr, $unidadUsr);
+            
+        $this->_post->actualizarUsuario($intIdUsuario, $arrayUsr);
         $this->_view->renderizar(ADM_FOLDER, 'actualizarUsuario', 'admCrearUsuario');
     }
     

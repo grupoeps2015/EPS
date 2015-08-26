@@ -144,7 +144,7 @@ class admCrearUsuarioModel extends Model {
         try {
             $post = $this->_db->query("SELECT * from spactualizarusuario('" . $idUsuario . "'," . $sp . ") as Id;");
             return $post->fetchall();
-            //return "SELECT spagregarusuarios(" . $sp . ");"; //aca le digo que devuelva el valor como tal del query a ejecutar
+            //return "SELECT * from spactualizarusuario('" . $idUsuario . "'," . $sp . ") as Id;"; //aca le digo que devuelva el valor como tal del query a ejecutar
         } catch (Exception $e) {
             return $e->getMessage();
         }

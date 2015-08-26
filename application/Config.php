@@ -1,6 +1,7 @@
 <?php
 //Constantes del carpetas
-define('BASE_URL','http://localhost/EPS/');
+//define('BASE_URL','http://localhost/EPS/');
+define('BASE_URL','http://localhost:82/EPS/');
 define('DEFAULT_CONTROLLER','index');
 define('DEFAULT_LAYOUT','default');
 define('ADM_FOLDER','adm');
@@ -19,7 +20,8 @@ define('ROL_EMPLEADO','3');
 //Constantes de base de datos
 define('DB_HOST','localhost');
 define('DB_USER','postgres');
-define('DB_PASS','pruebas123');
+//define('DB_PASS','pruebas123');
+define('DB_PASS','moino');
 define('DB_NAME','EPS');
 define('DB_CHAR','utf8');
 
