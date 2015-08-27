@@ -436,7 +436,7 @@ begin
 		est.alergias as alergias,
 		est.segurovida as seguro,
 		est.centroemergencia as hospital,
-		est.zona as zona
+		est.zona as zona 
 	from
 		est_estudiante est
 	where
