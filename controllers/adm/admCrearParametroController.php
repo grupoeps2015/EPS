@@ -88,14 +88,34 @@ class admCrearParametroController extends Controller{
         $this->_view->renderizar(ADM_FOLDER,'eliminarParametro', 'admCrearParametro');
     }
     
-     public function actualizarParametro($intIdParametro, $datos) {
+     public function actualizarParametro($intIdParametro = 0) {
         
-        $arrayUsr = array();
+       $iden = $this->getInteger('hdEnvio');
+        $actualizar = false;
+        $arrayGen = array();
+        $arrayEmg = array();
+
+        $this->_view->titulo = APP_TITULO;
+        $this->_view->infoGeneral = $this->_par->datosParametro($intIdParametro);
+        $this->_view->setJs(ADM_FOLDER, array('admEstudiante'));
+        $this->_view->setJs("public", array('jquery.validate'));
+           $this->_view->datos = $_POST;
+            if (!$this->getTexto('txtNombre')) {
+                $this->_view->renderizar(ADM_FOLDER, 'admCrearParametro', 'actualizarParametro');
+                exit;
+            }
+            if (!$this->getTexto('txtCorreo')) {
+                $this->_view->renderizar(ADM_FOLDER, 'admCrearParametro', 'actualizarParametro');
+                exit;
+            }
+            if (!$this->getTexto('txtUnidadAcademica')) {
+                $this->_view->renderizar(ADM_FOLDER, 'admCrearParametro', 'actualizarParametro');
+                exit;
+            }
+
+            $actualizar = true;
         
-        //aca vamos a mandar a llamar la funcion que esta en el model
-        $this->_view->datosUsr = $this->_post->datosParametro($intIdParametro);
-                    
-        $this->_view->renderizar(ADM_FOLDER, 'actualizarParametro', 'admCrearParametro');
+        $this->_view->renderizar(ADM_FOLDER, 'actualizarParametro');
     }
     
 }
