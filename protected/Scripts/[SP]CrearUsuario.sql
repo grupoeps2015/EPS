@@ -207,17 +207,27 @@ LANGUAGE 'plpgsql';
 -- -----------------------------------------------------
 -- Function: spactualizarusuario()
 -- -----------------------------------------------------
--- DROP FUNCTION spactualizarusuario(int,int);
-CREATE OR REPLACE FUNCTION spactualizarusuario(_idUsuario int,_nombreNuevo text, _correoNuevo text,
-					     _preguntasecretaNueva int,
-					     _respuestasecretaNueva text,
-					     _unidadacademicaNueva int) RETURNS void AS 
+-- DROP FUNCTION spactualizarusuario(integer, text, text, integer, integer, text);
+
+CREATE OR REPLACE FUNCTION spactualizarusuario(
+    _idusuario integer,
+    _nombrenuevo text,
+    _correonuevo text,
+    _unidadacademicanueva integer,
+    _preguntasecretanueva integer,
+    _respuestasecretanueva text
+   )
+  RETURNS void AS
 $BODY$
 BEGIN
   EXECUTE format('UPDATE adm_usuario SET nombre = %s, correo = %s,
-					     preguntasecreta = %s, respuestasecreta = %s, 
-					     unidadacademica = %L WHERE usuario = %L',_nombreNuevo, _correoNuevo,
-					     _preguntasecretaNueva,_respuestasecretaNueva,_unidadacademicaNueva,_idUsuario);
+					     unidadacademica = %L, preguntasecreta = %s, respuestasecreta = %s, 
+					     foto = %s WHERE usuario = %L',_nombreNuevo, _correoNuevo,
+					     _unidadacademicaNueva, _preguntasecretaNueva,_respuestasecretaNueva, _idUsuario);
 END;
 $BODY$
-LANGUAGE 'plpgsql';
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+
+ALTER FUNCTION spactualizarusuario(integer, text, text, integer, integer, text)
+  OWNER TO postgres;

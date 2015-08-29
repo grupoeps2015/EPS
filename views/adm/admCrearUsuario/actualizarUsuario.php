@@ -4,12 +4,12 @@
         <div class="row">
             <div class="col-lg-12 text-center">
                 <h2 class="section-heading">Actualizar Usuario</h2>
-                <!--<p><?php if (isset($this->datosUsr)) print_r($this->datosUsr); ?></p>  ahora le diremos que muestre datosUsr -->
+                <p><?php if (isset($this->query)) echo $this->query; ?></p> 
                 <hr class="primary">
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
                         <i class="fa fa-2x fa-backward wow bounceIn text-primary" data-wow-delay=".2s">
-                            <a href="<?php echo BASE_URL?>admCrearUsuario">
+                            <a href="<?php echo BASE_URL ?>admCrearUsuario">
                                 Regresar
                             </a>
                         </i>
@@ -20,7 +20,7 @@
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
                         <i class="fa fa-2x fa-user-secret wow bounceIn text-primary" data-wow-delay=".2s">
-                            <a href="<?php echo BASE_URL?>admEstudiante">
+                            <a href="<?php echo BASE_URL ?>admEstudiante">
                                 Actualizar informacion personal
                             </a>
                         </i>
@@ -34,41 +34,74 @@
         <div class="header-content-inner">
             <div id="divCentros" class="row">
                 <br/><br/><br/>
-                <form id="frEstudiantes" method="post" action="<?php echo BASE_URL; ?>admCrearUsuario/actualizarUsuario">
+                <form id="frmUsuario" method="post" action="<?php echo BASE_URL; ?>admCrearUsuario/actualizarUsuario/3">
                     <div id="divEstudiantes" class="form-group" >
                         <div class="col-md-6 col-md-offset-3">
-                            <table align="center">
+                            <table align="center" >
                                 <tr>
-                                    <td colspan="3">Nombre:
-                                        <input type="text" id="txtNombre" name="txtNombre" class="form-control input-lg" value="<?php if(isset($this->datosUsr) && count($this->datosUsr)) echo $this->datosUsr[0]['nombre']; ?>">
+                                    <td>Nombre:
+                                        <input type="text" id="txtNombre" name="txtNombre" class="form-control input-lg" value="<?php if (isset($this->datosUsr) && count($this->datosUsr)) echo $this->datosUsr[0]['nombre']; ?>">
                                         <br/>
+                                    </td>
+                                    <td>&nbsp;</td>
+                                    <td>
+                                        <?php if (isset($this->unidades) && count($this->unidades)): ?>
+                                            <select id="slUnidadAcademica" name="slUnidadAcademica" class="form-control input-lg">
+                                                <option value="">(Unidad Academica)
+                                                </option>
+                                                <?php for ($i = 0; $i < count($this->unidades); $i++) : ?>
+                                                    <option value="<?php echo $this->unidades[$i]['codigo']; ?>">
+                                                        <?php echo $this->unidades[$i]['nombre']; ?>
+                                                    </option>
+                                                <?php endfor; ?>
+                                            </select>
+                                        <?php else : ?>
+                                            <input type="text" id="txtUnidadAcademica" name="txtUnidadAcademica" class="form-control input-lg" value="<?php if (isset($this->datosUsr) && count($this->datosUsr)) echo $this->datosUsr[0]['unidadacademica']; ?>">
+                                            <br/>
+                                        <?php endif; ?>
+
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Correo:
-                                        <input type="text" id="txtCorreo" name="txtCorreo" class="form-control input-lg" value="<?php if(isset($this->datosUsr) && count($this->datosUsr)) echo $this->datosUsr[0]['correo']; ?>">
+                                        <input type="text" id="txtCorreo" name="txtCorreo" class="form-control input-lg" value="<?php if (isset($this->datosUsr) && count($this->datosUsr)) echo $this->datosUsr[0]['correo']; ?>">
                                         <br/>
                                     </td>
                                     <td>&nbsp;</td>
-                                    <td>Unidad Academica:
-                                        <input type="text" id="txtUnidadAcademica" name="txtUnidadAcademica" class="form-control input-lg" value="<?php if(isset($this->datosUsr) && count($this->datosUsr)) echo $this->datosUsr[0]['unidadacademica']; ?>">
-                                        <br/>
+                                    <td>Carrera:
+                                        <select id="slCarreras" name="slCarreras" class="form-control input-lg">
+                                            <option value="" disabled>(Carreras)</option>
+                                        </select>
                                     </td>
-                                    <td>&nbsp;</td>
+
                                 </tr>
+
                                 <tr>
+
                                     <td>
                                         Pregunta Secreta:
-                                        <input type="text" id="txtPregunta" name="txtPregunta" class="form-control input-lg" value="<?php if(isset($this->datosUsr) && count($this->datosUsr)) echo $this->datosUsr[0]['preguntasecreta']; ?>">
-                                        <br/>
+                                        <?php if (isset($this->preguntas) && count($this->preguntas)): ?>
+                                            <select id="slPregunta" name="slPregunta" class="form-control input-lg">
+                                                <option value="">(Selecciona tu pregunta secreta)
+                                                </option>
+                                                <?php for ($i = 1; $i < count($this->preguntas); $i++) : ?>
+                                                    <option value="<?php echo $this->preguntas[$i]['codigo']; ?>">
+                                                        <?php echo $this->preguntas[$i]['nombre']; ?>
+                                                    </option>
+                                                <?php endfor; ?>
+                                            </select>
+                                        <?php else : ?>
+                                        <td>&nbsp;</td>
+                                    <?php endif; ?>
                                     </td>
                                     <td>&nbsp;</td>
                                     <td>
+                                        <br/>
                                         Respuesta Secreta:
-                                        <input type="text" id="txtRespuesta" name="txtRespuesta" class="form-control input-lg" value="<?php if(isset($this->datosUsr) && count($this->datosUsr)) echo $this->datosUsr[0]['respuestasecreta']; ?>">
+                                        <input type="text" id="txtRespuesta" name="txtRespuesta" class="form-control input-lg" value="<?php if (isset($this->datosUsr) && count($this->datosUsr)) echo $this->datosUsr[0]['respuestasecreta']; ?>">
                                         <br/>
                                     </td>
-                                    <td>&nbsp;</td>
+
                                 </tr>
                                 <tr>
                                     <td></td>

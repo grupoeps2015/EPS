@@ -55,3 +55,16 @@ begin
 end;
 $BODY$
 LANGUAGE 'plpgsql';
+
+-- -----------------------------------------------------
+-- Function: spcarreraxunidad()
+-- -----------------------------------------------------
+-- DROP FUNCTION spcarreraxunidad(integer);
+
+CREATE OR REPLACE FUNCTION spcarreraxunidad(IN _unidad int, OUT codigo int, OUT nombre text) RETURNS setof record AS
+$BODY$
+begin
+ Return query select c.carrera, c.nombre from cur_carrera c where c.unidadacademica =_unidad and c.estado = 1;
+end;
+$BODY$
+LANGUAGE 'plpgsql';

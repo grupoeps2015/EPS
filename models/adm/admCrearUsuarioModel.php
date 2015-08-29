@@ -35,7 +35,7 @@ class admCrearUsuarioModel extends Model {
         try {
             $post = $this->_db->query("SELECT * from spagregarusuarios(" . $sp . ") as Id;");
             return $post->fetchall();
-            //return "SELECT spagregarusuarios(" . $sp . ");"; //aca le digo que devuelva el valor como tal del query a ejecutar
+            //return "SELECT spagregarusuarios(" . $sp . ");";
         } catch (Exception $e) {
             return $e->getMessage();
         }
@@ -137,17 +137,15 @@ class admCrearUsuarioModel extends Model {
     }
 
     public function actualizarUsuario($_datos) {
-         $sp  = $_datos["id"] . '\'' . $_datos["nombreUsr"] . '\',\'' . $_datos["correoUsr"] . '\',\'';
-        $sp .= $_datos["unidadUsr"] . ',\'';
-        $sp .= $_datos["preguntaUsr"] . '\','. $_datos["respuestaUsr"];
-        try{
-            $post = $this->_db->query("SELECT * from spactualizarusuario('" . $idUsuario . "'," . $sp . ") as Id;");
-            return $post->fetchall();
-            //return "SELECT * from spactualizarusuario('" . $idUsuario . "'," . $sp . ") as Id;"; //aca le digo que devuelva el valor como tal del query a ejecutar
+        $sp = $_datos["id"] . ', \'' . $_datos["nombreUsr"] . '\',\'' . $_datos["correoUsr"] . '\',';
+        $sp .= $_datos["unidadUsr"] . ',';
+        $sp .= $_datos["preguntaUsr"] . ',\'' . $_datos["respuestaUsr"].'\'';
+        try {
+             $this->_db->query("SELECT * from spactualizarusuario(" . $sp . ");");
+             //return "SELECT * from spactualizarusuario(" . $sp . ");";
         } catch (Exception $e) {
             return $e->getMessage();
         }
-        
     }
 
     public function actualizarEstudiante() {
