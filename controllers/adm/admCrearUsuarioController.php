@@ -21,10 +21,10 @@ class admCrearUsuarioController extends Controller {
         $this->_view->lstUsr = $this->_post->informacionUsuario();
         $this->_view->titulo = 'Gestión de usuarios - ' . APP_TITULO;
         $this->_view->setJs(ADM_FOLDER, array('admCrearUsuario'));
-        $this->_view->setJs("public",array('jquery.dataTables.min'));
+        $this->_view->setJs("public", array('jquery.dataTables.min'));
         $this->_view->setCSS(array('jquery.dataTables.min'));
-        
-        $this->_view->renderizar(ADM_FOLDER,'admCrearUsuario');
+
+        $this->_view->renderizar(ADM_FOLDER, 'admCrearUsuario');
     }
 
     public function agregarUsuario() {
@@ -196,11 +196,11 @@ class admCrearUsuarioController extends Controller {
 
         $this->_view->renderizar(ADM_FOLDER, 'agregarUsuario', 'admCrearUsuario');
     }
-    
-    public function eliminarUsuario($intNuevoEstado,$intIdUsuario){
-        if($intNuevoEstado == -1 || $intNuevoEstado == 1){
-            $this->_post->eliminarUsuario($intIdUsuario,$intNuevoEstado);
-            
+
+    public function eliminarUsuario($intNuevoEstado, $intIdUsuario) {
+        if ($intNuevoEstado == -1 || $intNuevoEstado == 1) {
+            $this->_post->eliminarUsuario($intIdUsuario, $intNuevoEstado);
+
             $this->redireccionar('admCrearUsuario');
         } else {
             $this->_view->cambio = "No reconocio ningun parametro";
@@ -211,32 +211,62 @@ class admCrearUsuarioController extends Controller {
         $this->_view->renderizar(ADM_FOLDER, 'eliminarUsuario', 'admCrearUsuario');
     }
 
-    public function actualizarUsuario($intIdUsuario, $arrayUsr = array()) {
-        
-        //aca vamos a mandar a llamar la funcion que esta en el model
-        $this->_view->datosUsr = $this->_post->datosUsuario($intIdUsuario);
-        $arrayUsr["nombreUsr"] = $this->getTexto('txtNombre');
-        $arrayUsr["correoUsr"] = $this->getTexto('txtCorreo');
-        $arrayUsr["preguntaUsr"] = 0;
-        $arrayUsr["respuestaUsr"] = "USAC";
-        $arrayUsr["unidadUsr"] = $this->getTexto('txtUnidadAcademica');
+    public function actualizarUsuario($intIdUsuario = 0) {
 
-//        $idUsr = $this->_post->agregarUsuario($arrayUsr)[0][0];
-            
-        $this->_post->actualizarUsuario($intIdUsuario, $arrayUsr);
-        $this->_view->renderizar(ADM_FOLDER, 'actualizarUsuario', 'admCrearUsuario');
+        $iden = $this->getInteger('hdEnvio');
+        $actualizar = false;
+        $arrayGen = array();
+        $arrayEmg = array();
+
+        $this->_view->titulo = APP_TITULO;
+        $this->_view->infoGeneral = $this->_est->datosUsuario($intIdUsuario);
+        $this->_view->setJs(ADM_FOLDER, array('admEstudiante'));
+        $this->_view->setJs("public", array('jquery.validate'));
+        if ($iden == 1) {
+            $this->_view->datos = $_POST;
+            if (!$this->getTexto('txtNombre')) {
+                $this->_view->renderizar(ADM_FOLDER, 'admCrearUsuario', 'actualizarUsuario');
+                exit;
+            }
+            if (!$this->getTexto('txtCorreo')) {
+                $this->_view->renderizar(ADM_FOLDER, 'admCrearUsuario', 'actualizarUsuario');
+                exit;
+            }
+            if (!$this->getTexto('txtUnidadAcademica')) {
+                $this->_view->renderizar(ADM_FOLDER, 'admCrearUsuario', 'actualizarUsuario');
+                exit;
+            }
+
+            $actualizar = true;
+        } else if ($iden == 2) {
+            $actualizar = true;
+        }
+
+        if ($actualizar) {
+            $this->_view->datosUsr = $this->_post->datosUsuario($intIdUsuario);
+            $arrayGen["nombreUsr"] = $this->getTexto('txtNombre');
+            $arrayGen["correoUsr"] = $this->getTexto('txtCorreo');
+            $arrayGen["preguntaUsr"] = 0;
+            $arrayGen["respuestaUsr"] = "USAC";
+            $arrayGen["unidadUsr"] = $this->getTexto('txtUnidadAcademica');
+            $this->_est->datosUsuario($arrayGen);
+
+            $this->redireccionar('admCrearUsuario/actualizarUsuario/2');
+        }
+
+        $this->_view->renderizar(ADM_FOLDER, 'actualizarUsuario');
     }
-    
-    protected function notificacionEMAIL(){
+
+    protected function notificacionEMAIL() {
         // El mensaje
         $mensaje = "Línea 1\r\nLínea 2\r\nLínea 3";
 
         // Si cualquier línea es más larga de 70 caracteres, se debería usar wordwrap()
         //$mensaje = wordwrap($mensaje, 70, "\r\n");
-
         // Enviarlo
         mail('rick.shark130@gmail.com', 'Mi título', $mensaje);
     }
+
 }
 
 ?>

@@ -136,12 +136,11 @@ class admCrearUsuarioModel extends Model {
         }
     }
 
-    public function actualizarUsuario($idUsuario, $_datos) {
-        
-        $sp = '\'' . $_datos["nombreUsr"] . '\',\'' . $_datos["correoUsr"] . '\',\'';
+    public function actualizarUsuario($_datos) {
+         $sp  = $_datos["id"] . '\'' . $_datos["nombreUsr"] . '\',\'' . $_datos["correoUsr"] . '\',\'';
         $sp .= $_datos["unidadUsr"] . ',\'';
         $sp .= $_datos["preguntaUsr"] . '\','. $_datos["respuestaUsr"];
-        try {
+        try{
             $post = $this->_db->query("SELECT * from spactualizarusuario('" . $idUsuario . "'," . $sp . ") as Id;");
             return $post->fetchall();
             //return "SELECT * from spactualizarusuario('" . $idUsuario . "'," . $sp . ") as Id;"; //aca le digo que devuelva el valor como tal del query a ejecutar
