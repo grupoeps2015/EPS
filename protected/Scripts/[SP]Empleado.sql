@@ -37,3 +37,28 @@ begin
 end;
 $BODY$
 LANGUAGE 'plpgsql';
+
+-- -----------------------------------------------------
+-- Function: spUpdateInfoGeneralEmpleado()
+-- -----------------------------------------------------
+-- DROP FUNCTION spUpdateInfoGeneralEmpleado(int, text, int, int, text, int);
+CREATE OR REPLACE FUNCTION spUpdateInfoGeneralEmpleado( _idUsuario int, 
+							_direccion text, 
+							_zona int,
+							_municipio int, 
+							_telefono text,
+							_nacionalidad int) RETURNS void AS 
+$BODY$
+BEGIN
+  EXECUTE format('UPDATE adm_empleado SET direccion = %L, zona = %L,
+					     municipio = %L, telefono = %s, 
+					     paisorigen = %L WHERE usuario = %L', 
+					     _direccion, _zona,
+					     _municipio, _telefono,
+					     _nacionalidad,_idUsuario);
+END;
+$BODY$
+LANGUAGE 'plpgsql';
+
+select * from adm_empleado
+select * from spUpdateInfoGeneralEmpleado('1','3ra Calle E 6-19', 8, 17, '50442896', 1);

@@ -16,8 +16,8 @@ class admCatedraticoModel extends Model {
         $sp .= $_datos["zona"] . ',' . $_datos["muni"] . ',\'';
         $sp .= $_datos["telefono"] . '\',' . $_datos["pais"];
         try{
-            $this->_db->query("SELECT spUpdateInfoGeneralEstudiante(" . $sp . ");");
-            //return "SELECT spUpdateInfoGeneralEstudiante(" . $sp . ");";
+            $this->_db->query("SELECT spUpdateInfoGeneralCatedratico(" . $sp . ");");
+            //return "SELECT spUpdateInfoGeneralCatedratico(" . $sp . ");";
         } catch (Exception $e) {
             return $e->getMessage();
         }

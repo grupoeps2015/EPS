@@ -66,9 +66,9 @@ class admEmpleadoController extends Controller{
             $arrayInfo["muni"] = $this->getInteger('slMunis');
             $arrayInfo["telefono"] = $this->getTexto('txtTelefono');
             $arrayInfo["pais"] = $this->getInteger('slPaises');
-            $this->_cat->setInfo($arrayInfo);
+            $this->_emp->setInfo($arrayInfo);
             
-            $this->redireccionar('admEmpleado/infoEmpleado/12');
+            $this->redireccionar('admEmpleado/infoEmpleado/10');
         }
         
         $this->_view->renderizar(ADM_FOLDER,'admEmpleado','infoEmpleado');

@@ -37,3 +37,25 @@ begin
 end;
 $BODY$
 LANGUAGE 'plpgsql';
+
+-- -----------------------------------------------------
+-- Function: spUpdateInfoGeneralCatedratico()
+-- -----------------------------------------------------
+-- DROP FUNCTION spUpdateInfoGeneralCatedratico(int, text, int, int, text, int);
+CREATE OR REPLACE FUNCTION spUpdateInfoGeneralCatedratico( _idUsuario int, 
+							   _direccion text, 
+							   _zona int,
+							   _municipio int, 
+							   _telefono text,
+							   _nacionalidad int) RETURNS void AS 
+$BODY$
+BEGIN
+  EXECUTE format('UPDATE cat_catedratico SET direccion = %L, zona = %L,
+					     municipio = %L, telefono = %s, 
+					     paisorigen = %L WHERE usuario = %L', 
+					     _direccion, _zona,
+					     _municipio, _telefono,
+					     _nacionalidad,_idUsuario);
+END;
+$BODY$
+LANGUAGE 'plpgsql';

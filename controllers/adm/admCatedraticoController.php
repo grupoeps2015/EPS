@@ -68,7 +68,7 @@ class admCatedraticoController extends Controller{
             $arrayInfo["pais"] = $this->getInteger('slPaises');
             $this->_cat->setInfo($arrayInfo);
             
-            $this->redireccionar('admCatedratico/infoCatedratico/12');
+            $this->redireccionar('admCatedratico/infoCatedratico/15');
         }
         
         $this->_view->renderizar(ADM_FOLDER,'admCatedratico');
