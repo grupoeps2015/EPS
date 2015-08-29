@@ -130,7 +130,7 @@ class admCrearUsuarioModel extends Model {
     public function datosUsuario($idUsuario) {
         try {
             $post = $this->_db->query("select * from spdatosusuario('" . $idUsuario . "');");
-            return $post->fetchall(); //entonces, aca recibimos lo de postgres y lo volvemos un array 
+            return $post->fetchall();
         } catch (Exception $e) {
             return $e->getMessage();
         }

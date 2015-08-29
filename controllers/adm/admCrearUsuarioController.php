@@ -212,49 +212,52 @@ class admCrearUsuarioController extends Controller {
     }
 
     public function actualizarUsuario($intIdUsuario = 0) {
-
-        $iden = $this->getInteger('hdEnvio');
-        $actualizar = false;
-        $arrayGen = array();
-        $arrayEmg = array();
-
-        $this->_view->titulo = APP_TITULO;
-        $this->_view->infoGeneral = $this->_est->datosUsuario($intIdUsuario);
-        $this->_view->setJs(ADM_FOLDER, array('admEstudiante'));
-        $this->_view->setJs("public", array('jquery.validate'));
-        if ($iden == 1) {
-            $this->_view->datos = $_POST;
-            if (!$this->getTexto('txtNombre')) {
-                $this->_view->renderizar(ADM_FOLDER, 'admCrearUsuario', 'actualizarUsuario');
-                exit;
-            }
-            if (!$this->getTexto('txtCorreo')) {
-                $this->_view->renderizar(ADM_FOLDER, 'admCrearUsuario', 'actualizarUsuario');
-                exit;
-            }
-            if (!$this->getTexto('txtUnidadAcademica')) {
-                $this->_view->renderizar(ADM_FOLDER, 'admCrearUsuario', 'actualizarUsuario');
-                exit;
-            }
-
-            $actualizar = true;
-        } else if ($iden == 2) {
-            $actualizar = true;
-        }
-
-        if ($actualizar) {
-            $this->_view->datosUsr = $this->_post->datosUsuario($intIdUsuario);
-            $arrayGen["nombreUsr"] = $this->getTexto('txtNombre');
-            $arrayGen["correoUsr"] = $this->getTexto('txtCorreo');
-            $arrayGen["preguntaUsr"] = 0;
-            $arrayGen["respuestaUsr"] = "USAC";
-            $arrayGen["unidadUsr"] = $this->getTexto('txtUnidadAcademica');
-            $this->_est->datosUsuario($arrayGen);
-
-            $this->redireccionar('admCrearUsuario/actualizarUsuario/2');
-        }
-
-        $this->_view->renderizar(ADM_FOLDER, 'actualizarUsuario');
+ 
+//        $iden = $this->getInteger('hdEnvio');
+//        $actualizar = false;
+//        $arrayGen = array();
+//        $arrayEmg = array();
+//
+//        $this->_view->titulo = APP_TITULO;
+//        $this->_view->infoGeneral = $this->_est->datosUsuario($intIdUsuario);
+//        $this->_view->setJs(ADM_FOLDER, array('admEstudiante'));
+//        $this->_view->setJs("public", array('jquery.validate'));
+//        if ($iden == 1) {
+//            $this->_view->datos = $_POST;
+//            if (!$this->getTexto('txtNombre')) {
+//                $this->_view->renderizar(ADM_FOLDER, 'admCrearUsuario', 'actualizarUsuario');
+//                exit;
+//            }
+//            if (!$this->getTexto('txtCorreo')) {
+//                $this->_view->renderizar(ADM_FOLDER, 'admCrearUsuario', 'actualizarUsuario');
+//                exit;
+//            }
+//            if (!$this->getTexto('txtUnidadAcademica')) {
+//                $this->_view->renderizar(ADM_FOLDER, 'admCrearUsuario', 'actualizarUsuario');
+//                exit;
+//            }
+//
+//            $actualizar = true;
+//        } else if ($iden == 2) {
+//            $actualizar = true;
+//        }
+//
+//        if ($actualizar) {
+//            $this->_view->datosUsr = $this->_post->datosUsuario($intIdUsuario);
+//            $arrayGen["nombreUsr"] = $this->getTexto('txtNombre');
+//            $arrayGen["correoUsr"] = $this->getTexto('txtCorreo');
+//            $arrayGen["preguntaUsr"] = 0;
+//            $arrayGen["respuestaUsr"] = "USAC";
+//            $arrayGen["unidadUsr"] = $this->getTexto('txtUnidadAcademica');
+//            $this->_est->datosUsuario($arrayGen);
+//
+//            $this->redireccionar('admCrearUsuario/actualizarUsuario/2');
+//        }
+//
+//        $this->_view->renderizar(ADM_FOLDER, 'actualizarUsuario');
+        $arrayUsr = array();
+        $this->_view->datosUsr = $this->_post->datosUsuario($intIdUsuario);
+        $this->_view->renderizar(ADM_FOLDER, 'actualizarUsuario', 'admCrearUsuario');
     }
 
     protected function notificacionEMAIL() {
