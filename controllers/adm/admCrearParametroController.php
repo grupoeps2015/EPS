@@ -9,6 +9,8 @@
 class admCrearParametroController extends Controller{
     
     private $_post;
+    private $_par;
+   
     private $_encriptar;
     
      public function __construct() {
