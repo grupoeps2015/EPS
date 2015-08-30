@@ -35,7 +35,7 @@ class admCrearUsuarioModel extends Model {
         try {
             $post = $this->_db->query("SELECT * from spagregarusuarios(" . $sp . ") as Id;");
             return $post->fetchall();
-            //return "SELECT spagregarusuarios(" . $sp . ");"; //aca le digo que devuelva el valor como tal del query a ejecutar
+            //return "SELECT spagregarusuarios(" . $sp . ");";
         } catch (Exception $e) {
             return $e->getMessage();
         }
@@ -124,44 +124,33 @@ class admCrearUsuarioModel extends Model {
         $preguntas = $this->_db->query("select * from spconsultageneral('preguntasecreta,descripcion','adm_preguntasecreta');");
         return $preguntas->fetchall();
     }
-
-    /* para actualizar usuario */
+    
+    public function getRol($idUsuario){
+        $rol = $this->_db->query("select * from spRolxUsuario({$idUsuario}) as idRol;");
+        return $rol->fetchall();
+    }
 
     public function datosUsuario($idUsuario) {
         try {
             $post = $this->_db->query("select * from spdatosusuario('" . $idUsuario . "');");
-            return $post->fetchall(); //entonces, aca recibimos lo de postgres y lo volvemos un array 
+            return $post->fetchall();
         } catch (Exception $e) {
             return $e->getMessage();
         }
     }
 
     public function actualizarUsuario($_datos) {
-         $sp  = $_datos["id"] . '\'' . $_datos["nombreUsr"] . '\',\'' . $_datos["correoUsr"] . '\',\'';
-        $sp .= $_datos["unidadUsr"] . ',\'';
-        $sp .= $_datos["preguntaUsr"] . '\','. $_datos["respuestaUsr"];
-        try{
-            $post = $this->_db->query("SELECT * from spactualizarusuario('" . $idUsuario . "'," . $sp . ") as Id;");
-            return $post->fetchall();
-            //return "SELECT * from spactualizarusuario('" . $idUsuario . "'," . $sp . ") as Id;"; //aca le digo que devuelva el valor como tal del query a ejecutar
+        $sp = $_datos["id"] . ', \'' . $_datos["nombreUsr"] . '\',\'' . $_datos["correoUsr"] . '\',';
+        $sp .= $_datos["unidadUsr"] . ',';
+        $sp .= $_datos["preguntaUsr"] . ',\'' . $_datos["respuestaUsr"].'\'';
+        try {
+             $this->_db->query("SELECT * from spactualizarusuario(" . $sp . ");");
+             //return "SELECT * from spactualizarusuario(" . $sp . ");";
         } catch (Exception $e) {
             return $e->getMessage();
         }
-        
     }
-
-    public function actualizarEstudiante() {
-        
-    }
-
-    public function actualizarCatedratico() {
-        
-    }
-
-    public function actualizarEmpleado() {
-        
-    }
-
+    
 }
 
 ?>

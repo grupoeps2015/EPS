@@ -5,7 +5,7 @@
             <div class="col-lg-12 text-center">
                 <h2 class="section-heading">
                     Actualizar Informacion Personal<br/>
-                    - Estudiante -
+                    - Empleado -
                 </h2>
                 <?php if (isset($this->query)) echo $this->query; ?>
                 <hr class="primary">
@@ -38,12 +38,12 @@
                             <tr class="text-primary">
                                 <th style="width: 20%">&nbsp;</th>
                                 <th style="width: 40%; text-align:center">Nombre Completo</th>
-                                <th style="width: 40%; text-align:center">Carnet</th>                                    
+                                <th style="width: 40%; text-align:center">Registro Personal</th>                                    
                             </tr>
                             <tr>
                                 <td class="text-primary" style="width: 20%; text-align:right">Estudiante:&nbsp;</td>
                                 <td style="width: 40%; text-align:center"><?php echo $this->infoGeneral[0]['nombre'] ?></td>
-                                <td style="width: 40%; text-align:center"><?php echo $this->infoGeneral[0]['carnet'] ?></td>
+                                <td style="width: 40%; text-align:center"><?php echo $this->infoGeneral[0]['registro'] ?></td>
                             </tr>
                             <tr>
                                 <td colspan="3"><hr class="hr1"/></td>
@@ -73,50 +73,7 @@
                                 <td class="text-primary" style="width: 20%; text-align:right">Nacionalidad:&nbsp;</td>
                                 <td style="width: 40%; text-align:center"><?php echo $this->infoGeneral[0]['pais'] ?></td>
                             </tr>
-                            <tr>
-                                <td colspan="3"><hr class="hr1"/></td>
-                            </tr>
-
-                            <!-- Informacion por Emergencia del Estudiante -->
-                            <tr class="text-primary">
-                                <th style="width: 20%">&nbsp;</th>
-                                <th colspan="2" style="text-align:center">Informacion en caso de emergencia</th>
-                            </tr>
-                            <tr>
-                                <td class="text-primary" style="width: 40%; text-align:right">Por emergencias llamar al:&nbsp;</td>
-                                <td style="width: 20%; text-align:center"><?php echo $this->infoGeneral[0]['emergencia'] ?></td>
-                                <td style="width: 40%; text-align:center" rowspan="5">
-                                    <a id="btnEmergencias" href="#" class="upload" data-toggle="modal" data-target="#ModalEmergencias">
-                                        <div class="fileUpload btn btn-warning">
-                                            <span>&nbsp;Modificar&nbsp;</span>
-                                        </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="text-primary" style="width: 40%; text-align:right">Tipo de sangre:&nbsp;</td>
-                                <td style="width: 20%; text-align:center"><?php echo $this->infoGeneral[0]['sangre'] ?></td>
-                            </tr>
-                            <tr>
-                                <td class="text-primary" style="width: 40%; text-align:right">Alergias:&nbsp;</td>
-                                <td style="width: 20%; text-align:center"><?php echo $this->infoGeneral[0]['alergias'] ?></td>
-                            </tr>
-                            <tr>
-                                <td class="text-primary" style="width: 40%; text-align:right">¿Posee seguro m&eacute;dico?:&nbsp;</td>
-                                <td style="width: 20%; text-align:center">
-                                    <?php if($this->infoGeneral[0]['seguro']){
-                                            echo "Si";
-                                          }else{ 
-                                            echo "No";
-                                          }
-                                    ?>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="text-primary" style="width: 40%; text-align:right">Por emergencias trasladarlo a:&nbsp;</td>
-                                <td style="width: 20%; text-align:center">
-                                    <?php echo $this->infoGeneral[0]['hospital'] ?>
-                                </td>
-                            </tr>
+                            
                             <?php else : ?>
                             <tr>
                                 <td>- No se encontro informacion asociada al estudiante-</td>
@@ -132,20 +89,27 @@
     <br />
     <div class="container">
         <div class="row">
-            <div class="col-lg-3 col-md-6 text-center"></div>
-            <div class="col-lg-3 col-md-6 text-center">
+            <div class="col-lg-4 col-md-8 text-center">
                 <div class="service-box">
-                    <i class="fa fa-4x fa-book wow bounceIn text-primary"></i>
-                    <a href="#moduloAsignacion"><h3>Asignaci&oacute;n de cursos</h3></a>
+                    <i class="fa fa-4x fa-search wow bounceIn text-primary" data-wow-delay=".1s"></i>
+                    <a href="#moduloConsultaNotas"><h3>Consulta de Notas</h3></a>
+                    <p class="text-muted">Listado de notas de los cursos impartidos por ciclo academico</p>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-6 text-center">
+            <div class="col-lg-4 col-md-8 text-center">
                 <div class="service-box">
-                    <i class="fa fa-4x fa-ban wow bounceIn text-primary" data-wow-delay=".1s"></i>
-                    <a href="#moduloDesasignacion"><h3>Desasignaciones</h3></a>
+                    <i class="fa fa-4x fa-pencil-square wow bounceIn text-primary"></i>
+                    <a href="#moduloIngresoNotas"><h3>Ingreso de Notas</h3></a>
+                    <p class="text-muted">Opcion para ingresar notas por curso y ciclo academico</p>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-6 text-center"></div>
+            <div class="col-lg-4 col-md-8 text-center">
+                <div class="service-box">
+                    <i class="fa fa-4x fa-users wow bounceIn text-primary" data-wow-delay=".2s"></i>
+                    <a href="#moduloConsultaEstudiantes"><h3>Consulta de estudiantes</h3></a>
+                    <p class="text-muted">Listado de estudiantes asignados segun curso y ciclo academico</p>
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -159,7 +123,7 @@
                 <h2 class="text-center">Informacion General</h2>
             </div>
             <div class="modal-body row">
-                <form id="frmGenerales" class="col-md-10 col-md-offset-1 col-xs-12 col-xs-offset-0" method="post" action="<?php echo BASE_URL; ?>admEstudiante/infoEstudiante/12">
+                <form id="frmGenerales" class="col-md-10 col-md-offset-1 col-xs-12 col-xs-offset-0" method="post" action="<?php echo BASE_URL; ?>admEmpleado/infoEmpleado/10">
                     <div class="form-group">
                         <table align="center">
                             <tr>
@@ -220,65 +184,6 @@
                         </table>
                     </div>
                     <input type="hidden" name="hdEnvio" value="1">
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Div Informacion Emergencia -->
-<div id="ModalEmergencias" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
-                <h2 class="text-center">En caso de emergencia</h2>
-            </div>
-            <div class="modal-body row">
-                <form class="col-md-10 col-md-offset-1 col-xs-12 col-xs-offset-0" id="frEmergencias" method="post" action="<?php echo BASE_URL; ?>admEstudiante/infoEstudiante/12">
-                    <div class="form-group">
-                        <table align="center">
-                            <tr>
-                                <td style="width: 45%">Telefono:<br/>
-                                    <input id="txtTelefonoE" name="txtTelefonoE" type="number" min="22000000" max="99999999" class="form-control input-lg" value="<?php echo $this->infoGeneral[0]['emergencia']?>"></td>
-                                </td>
-                                <td>&nbsp;</td>
-                                <td rowspan="2">Alergias:<br/>
-                                    <textarea id="txtAlergias" name="txtAlergias" rows="5" class="form-control input-lg"><?php echo $this->infoGeneral[0]['alergias']?></textarea>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="width: 45%"><br/>Tipo de sangre:<br/>
-                                    <input id="txtTipoSangre" name="txtTipoSangre" type="text" class="form-control input-lg" value="<?php echo $this->infoGeneral[0]['sangre']?>" />
-                                </td>
-                                <td>&nbsp;</td>
-                            </tr>
-                            <tr>
-                                <td style="width: 45%"><br/>Centro Asistencial:<br/>
-                                    <input id="txtHospital" name="txtHospital" type="text" class="form-control input-lg" value="<?php echo $this->infoGeneral[0]['hospital']?>"/>
-                                </td>
-                                <td>&nbsp;</td>
-                                <td style="text-align:center">
-                                    <br/><span>¿Posee seguro m&eacute;dico?</span><br/>
-                                    <?php if($this->infoGeneral[0]['seguro']):?>
-                                        <input type="radio" id="rbSeguro" name="rbSeguro" value="1" checked>Si&nbsp;&nbsp;
-                                        <input type="radio" id="rbSeguro" name="rbSeguro" value="0">No
-                                    <?php else:?>
-                                        <input type="radio" id="rbSeguro" name="rbSeguro" value="1">Si&nbsp;&nbsp;
-                                        <input type="radio" id="rbSeguro" name="rbSeguro" value="0" checked>No
-                                    <?php endif?>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>&nbsp;</td>
-                                <td>&nbsp;</td>
-                                <td><br/>
-                                    <input type="submit" id="btnEmergencia" name="btnEmergencia" value="Guardar Cambios" class="btn btn-danger btn-lg btn-block">
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    <input type="hidden" name="hdEnvio" value="2">
                 </form>
             </div>
         </div>
