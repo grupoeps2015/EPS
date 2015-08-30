@@ -18,13 +18,21 @@
                 <div class="col-lg-3 col-md-6 text-center"></div>
                 <div class="col-lg-3 col-md-6 text-center"></div>
                 <div class="col-lg-3 col-md-6 text-center">
+                    <?php if(isset($this->rol)): ?>
                     <div class="service-box">
                         <i class="fa fa-2x fa-user-secret wow bounceIn text-primary" data-wow-delay=".2s">
-                            <a href="<?php echo BASE_URL ?>admEstudiante">
+                        <?php if($this->rol == 1): ?>
+                            <a href="<?php echo BASE_URL ?>admEstudiante/infoEstudiante/<?php echo $this->id;?>">
+                        <?php elseif($this->rol == 2): ?>
+                            <a href="<?php echo BASE_URL ?>admCatedratico/infoCatedratico/<?php echo $this->id;?>">
+                        <?php elseif($this->rol == 3): ?>
+                            <a href="<?php echo BASE_URL ?>admEmpleado/infoEmpleado/<?php echo $this->id;?>">
+                        <?php endif;?>
                                 Actualizar informacion personal
                             </a>
                         </i>
                     </div>
+                    <?php endif;?>
                 </div>
             </div>
         </div>
@@ -33,7 +41,6 @@
     <div class="header-content">
         <div class="header-content-inner">
             <div id="divCentros" class="row">
-                <br/><br/><br/>
                 <form id="frmUsuario" method="post" action="<?php echo BASE_URL; ?>admCrearUsuario/actualizarUsuario/3">
                     <div id="divEstudiantes" class="form-group" >
                         <div class="col-md-6 col-md-offset-3">

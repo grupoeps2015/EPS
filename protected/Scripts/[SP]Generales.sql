@@ -68,3 +68,20 @@ begin
 end;
 $BODY$
 LANGUAGE 'plpgsql';
+
+-- -----------------------------------------------------
+-- Function: spRolxUsuario()
+-- -----------------------------------------------------
+-- DROP FUNCTION spRolxUsuario(integer);
+
+CREATE OR REPLACE FUNCTION spRolxUsuario(IN _idUsuario int) RETURNS integer AS
+$BODY$
+DECLARE idRol integer;
+begin
+ select rol from adm_rol_usuario where usuario = _idUsuario into idrol;
+ Return idRol;
+end;
+$BODY$
+LANGUAGE 'plpgsql';
+
+select spRolxUsuario(12) as idRol;

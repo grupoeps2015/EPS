@@ -124,8 +124,11 @@ class admCrearUsuarioModel extends Model {
         $preguntas = $this->_db->query("select * from spconsultageneral('preguntasecreta,descripcion','adm_preguntasecreta');");
         return $preguntas->fetchall();
     }
-
-    /* para actualizar usuario */
+    
+    public function getRol($idUsuario){
+        $rol = $this->_db->query("select * from spRolxUsuario({$idUsuario}) as idRol;");
+        return $rol->fetchall();
+    }
 
     public function datosUsuario($idUsuario) {
         try {
@@ -147,19 +150,7 @@ class admCrearUsuarioModel extends Model {
             return $e->getMessage();
         }
     }
-
-    public function actualizarEstudiante() {
-        
-    }
-
-    public function actualizarCatedratico() {
-        
-    }
-
-    public function actualizarEmpleado() {
-        
-    }
-
+    
 }
 
 ?>
