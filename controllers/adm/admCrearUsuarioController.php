@@ -227,18 +227,24 @@ class admCrearUsuarioController extends Controller {
         $this->_view->unidades = $this->_ajax->getUnidades();
 
         if ($valorPagina == 1) {
-            if (!$this->getTexto('txtNombre') || !$this->getTexto('txtCorreo') || !$this->getTexto('txtUnidadAcademica') || !$this->getInteger('slPregunta') || !$this->getTexto('txtRespuesta')) {
+            
+            if (!$this->getTexto('txtNombre') || !$this->getTexto('txtCorreo') || !$this->getInteger('slPregunta') || !$this->getTexto('txtRespuesta')) {
                 $this->_view->renderizar(ADM_FOLDER, 'admCrearUsuario', 'actualizarUsuario');
                 //echo "<script> alert('Al exit') </script>";
                 exit;
             }
+            
             $actualizar = true;
         }
         if ($actualizar) {
             $arrayUsr['id'] = $intIdUsuario;
             $arrayUsr['nombreUsr'] = $this->getTexto('txtNombre');
             $arrayUsr['correoUsr'] = $this->getTexto('txtCorreo');
-            $arrayUsr['unidadUsr'] = UNIDAD_ACADEMICA; //getTexto('txtUnidadAcademica');//para que funcione tiene que mandar un entero... dato quemado
+            if(!$this->getTexto('txtPasswordNuevo')&&!$this->getTexto('txtPasswordNuevo2')){
+                $arrayUsr['clave'] = $this->getTexto('pass');
+            }
+            $arrayUsr['clave'] = $this->getTexto('txtPasswordNuevo');;
+             //getTexto('txtUnidadAcademica');//para que funcione tiene que mandar un entero... dato quemado
             $arrayUsr['preguntaUsr'] = $this->getInteger('slPregunta');
             $arrayUsr['respuestaUsr'] = $this->getTexto('txtRespuesta');
             

@@ -187,13 +187,14 @@ LANGUAGE 'plpgsql';
 
 CREATE OR REPLACE FUNCTION spdatosusuario(Id int, 
 					  OUT nombre text, OUT correo text, 
-					  OUT unidadacademica text, OUT preguntasecreta text, 
+					  OUT unidadacademica text, OUT clave text, OUT preguntasecreta text, 
 					  OUT respuestasecreta text ) RETURNS setof record as 
 $BODY$
 BEGIN
   RETURN query EXECUTE format('SELECT u.nombre, 
 				      u.correo, 
-				      ua.nombre, 
+				      ua.nombre,
+					  u.clave,
 				      ps.descripcion, 
 				      u.respuestasecreta 
 			       FROM adm_usuario u 
@@ -203,6 +204,7 @@ BEGIN
 END;
 $BODY$
 LANGUAGE 'plpgsql';
+
   
 -- -----------------------------------------------------
 -- Function: spactualizarusuario()
@@ -213,17 +215,17 @@ CREATE OR REPLACE FUNCTION spactualizarusuario(
     _idusuario integer,
     _nombrenuevo text,
     _correonuevo text,
-    _unidadacademicanueva integer,
+    _passwordNuevo text,
     _preguntasecretanueva integer,
     _respuestasecretanueva text
    )
   RETURNS void AS
 $BODY$
 BEGIN
-  EXECUTE format('UPDATE adm_usuario SET nombre = %s, correo = %s,
-					     unidadacademica = %L, preguntasecreta = %s, respuestasecreta = %s, 
-					     foto = %s WHERE usuario = %L',_nombreNuevo, _correoNuevo,
-					     _unidadacademicaNueva, _preguntasecretaNueva,_respuestasecretaNueva, _idUsuario);
+  EXECUTE format('UPDATE adm_usuario SET nombre = %L, correo = %L,
+					     clave = %L, preguntasecreta = %L, respuestasecreta = %L
+					     WHERE usuario = %L',_nombreNuevo, _correoNuevo,
+					     _clave, _preguntasecretaNueva,_respuestasecretaNueva, _idUsuario);
 END;
 $BODY$
   LANGUAGE plpgsql VOLATILE

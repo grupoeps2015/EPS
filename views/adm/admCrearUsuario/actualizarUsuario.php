@@ -39,12 +39,15 @@
                         <div class="col-md-6 col-md-offset-3">
                             <table align="center" >
                                 <tr>
-                                    <td>Nombre:
+                                    <td><label style="font-weight: normal;">Nombre Usuario:</label>
                                         <input type="text" id="txtNombre" name="txtNombre" class="form-control input-lg" value="<?php if (isset($this->datosUsr) && count($this->datosUsr)) echo $this->datosUsr[0]['nombre']; ?>">
                                         <br/>
                                     </td>
-                                    <td>&nbsp;</td>
-                                    <td>
+                                    <td> <label style="font-weight: normal; margin-left: 20px;">Unidad Academica:</label>
+                                        <label style="margin-left: 20px;"><?php if (isset($this->datosUsr) && count($this->datosUsr)) echo $this->datosUsr[0]['unidadacademica']; ?></label>
+                                        
+                                    </td>
+                                    <td  style="display:none" >
                                         <?php if (isset($this->unidades) && count($this->unidades)): ?>
                                             <select id="slUnidadAcademica" name="slUnidadAcademica" class="form-control input-lg">
                                                 <option value="">(Unidad Academica)
@@ -61,25 +64,44 @@
                                         <?php endif; ?>
 
                                     </td>
+
                                 </tr>
                                 <tr>
-                                    <td>Correo:
+                                    <td><label style="font-weight: normal;">Correo:</label>
                                         <input type="text" id="txtCorreo" name="txtCorreo" class="form-control input-lg" value="<?php if (isset($this->datosUsr) && count($this->datosUsr)) echo $this->datosUsr[0]['correo']; ?>">
                                         <br/>
                                     </td>
-                                    <td>&nbsp;</td>
-                                    <td>Carrera:
+
+                                    <td  style="display:none" ><label style="font-weight: normal;">Carrera:</label>
                                         <select id="slCarreras" name="slCarreras" class="form-control input-lg">
                                             <option value="" disabled>(Carreras)</option>
                                         </select>
                                     </td>
 
+                                    <td > <label style="font-weight: normal; margin-left: 20px;">Contraseña Actual:</label>
+                                        <input type="password" id="txtPassword" style="margin-left: 20px;" name="txtPassword" class="form-control input-lg" value="">
+                                        <input type="hidden" id="pass" name="pass" value="<?php if (isset($this->datosUsr) && count($this->datosUsr)) echo $this->datosUsr[0]['clave']; ?>">
+                                        <br/>
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td><label style="font-weight: normal;">Nueva Contraseña:</label>
+                                        <input type="text" id="txtPasswordNuevo" name="txtPasswordNuevo" class="form-control input-lg" value="">
+
+                                    </td>
+                                    <td><label style="font-weight: normal; margin-left: 20px;">Repita la nueva Contraseña:</label>
+                                        <input type="text" id="txtPasswordNuevo2" style="margin-left: 20px;" name="txtPasswordNuevo2" class="form-control input-lg" value="">
+
+                                    </td>
+
                                 </tr>
 
                                 <tr>
 
-                                    <td>
-                                        Pregunta Secreta:
+                                    <td><label style="font-weight: normal;">Pregunta Secreta:</label>
+
                                         <?php if (isset($this->preguntas) && count($this->preguntas)): ?>
                                             <select id="slPregunta" name="slPregunta" class="form-control input-lg">
                                                 <option value="">(Selecciona tu pregunta secreta)
@@ -94,11 +116,11 @@
                                         <td>&nbsp;</td>
                                     <?php endif; ?>
                                     </td>
-                                    <td>&nbsp;</td>
+
                                     <td>
                                         <br/>
-                                        Respuesta Secreta:
-                                        <input type="text" id="txtRespuesta" name="txtRespuesta" class="form-control input-lg" value="<?php if (isset($this->datosUsr) && count($this->datosUsr)) echo $this->datosUsr[0]['respuestasecreta']; ?>">
+                                        <label style="font-weight: normal; margin-left: 20px;">Respuesta Secreta:</label>
+                                        <input type="text" style="margin-left: 20px;" id="txtRespuesta" name="txtRespuesta" class="form-control input-lg" value="<?php if (isset($this->datosUsr) && count($this->datosUsr)) echo $this->datosUsr[0]['respuestasecreta']; ?>">
                                         <br/>
                                     </td>
 
