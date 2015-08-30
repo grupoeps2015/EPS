@@ -42,7 +42,7 @@ class admCrearUsuarioController extends Controller {
         $arrayEst = array();
         $arrayEmp = array();
         $arrayCat = array();
-
+        
         $this->_view->centros = $this->_post->getCentros();
         $this->_view->docentes = $this->_post->getDocentes();
 
@@ -222,6 +222,8 @@ class admCrearUsuarioController extends Controller {
         
         $arrayUsr = array();
         $actualizar = false;
+        $this->_view->id = $intIdUsuario;
+        $this->_view->rol = $this->_post->getRol($intIdUsuario)[0][0];
         $this->_view->preguntas = $this->_post->getPreguntas();
         $this->_view->datosUsr = $this->_post->datosUsuario($intIdUsuario);
         $this->_view->unidades = $this->_ajax->getUnidades();
