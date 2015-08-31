@@ -25,7 +25,15 @@ class admLoginController extends Controller{
     
     public function inicio(){
         $this->_view->titulo = APP_TITULO;
-        $this->_view->renderizarAdm('inicio','admLogin');
+        session_start();
+        if (isset($_SESSION["usuario"])){
+            $this->_view->renderizar(ADM_FOLDER,'inicio','admLogin');
+        }
+        else{
+            echo "<script>alert('Credenciales incorrectas o la sesión ha expirado');</script>";
+            $this->redireccionar('admLogin');
+        }
+        //$this->_view->renderizarAdm('inicio','admLogin');
     }
     
     public function autenticar(){
@@ -40,12 +48,19 @@ class admLoginController extends Controller{
             $_SESSION["usuario"] = $respuesta[0]['usuario'];
             $_SESSION["rol"] = $respuesta[0]['rol'];
             $_SESSION["nombre"] = $respuesta[0]['nombre'];
-            $this->_view->renderizar(ADM_FOLDER,'inicio');
+            $this->redireccionar('admLogin/inicio');
+            //$this->_view->renderizar(ADM_FOLDER,'inicio');
         }
         else{
             echo "<script>alert('Credenciales incorrectas');</script>";
             $this->_view->renderizar(ADM_FOLDER,'admLogin');
         }
+    }
+    
+    public function salir(){
+        session_start();
+        session_destroy();
+        $this->redireccionar('admLogin');
     }
 }
 ?>

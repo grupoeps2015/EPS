@@ -472,3 +472,8 @@ INSERT INTO adm_empleado(empleado, registropersonal, primernombre, segundonombre
 -- -----------------------------------------------------
 INSERT INTO adm_rol_usuario(rol, usuario)VALUES (0, 1);
 	
+-- -----------------------------------------------------
+-- Insert cur_tipo
+-- -----------------------------------------------------
+INSERT INTO cur_tipo(nombre, descripcion)VALUES ('Presencial', '');
+INSERT INTO cur_tipo(nombre, descripcion)VALUES ('Virtual', '');
