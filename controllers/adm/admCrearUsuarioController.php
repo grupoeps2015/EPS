@@ -9,9 +9,8 @@ class admCrearUsuarioController extends Controller {
 
     private $_post;
     private $_encriptar;
-
     private $_ajax;
-    
+
     public function __construct() {
         parent::__construct();
         $this->getLibrary('encripted');
@@ -42,7 +41,7 @@ class admCrearUsuarioController extends Controller {
         $arrayEst = array();
         $arrayEmp = array();
         $arrayCat = array();
-        
+
         $this->_view->centros = $this->_post->getCentros();
         $this->_view->docentes = $this->_post->getDocentes();
 
@@ -219,7 +218,7 @@ class admCrearUsuarioController extends Controller {
         $valorPagina = $this->getInteger('hdEnvio');
         $this->_view->setJs("public", array('jquery.validate'));
         $this->_view->setJs(ADM_FOLDER, array('actualizarUsuario'));
-        
+
         $arrayUsr = array();
         $actualizar = false;
         $this->_view->id = $intIdUsuario;
@@ -229,33 +228,43 @@ class admCrearUsuarioController extends Controller {
         $this->_view->unidades = $this->_ajax->getUnidades();
 
         if ($valorPagina == 1) {
-            
+
             if (!$this->getTexto('txtNombre') || !$this->getTexto('txtCorreo') || !$this->getInteger('slPregunta') || !$this->getTexto('txtRespuesta')) {
                 $this->_view->renderizar(ADM_FOLDER, 'admCrearUsuario', 'actualizarUsuario');
                 //echo "<script> alert('Al exit') </script>";
                 exit;
             }
-            
+
             $actualizar = true;
         }
         if ($actualizar) {
             $arrayUsr['id'] = $intIdUsuario;
             $arrayUsr['nombreUsr'] = $this->getTexto('txtNombre');
             $arrayUsr['correoUsr'] = $this->getTexto('txtCorreo');
-            if(!$this->getTexto('txtPasswordNuevo')&&!$this->getTexto('txtPasswordNuevo2')){
+
+            if (!$this->getTexto('txtPassword')) {
                 $arrayUsr['clave'] = $this->getTexto('pass');
+            } else {
+                $passReal = $this->getTexto('pass');
+                $passUs = $this->getTexto('txtPassword');
+                $passEncrypt = $this->_encriptar->encrypt($passUs, UNIDAD_ACADEMICA);
+                if ($passEncrypt == $passReal) {
+                    if (!$this->getTexto('txtPasswordNuevo') && !$this->getTexto('txtPasswordNuevo2')) {
+                        echo "Debes ingresar la contraseña nueva y confirmarla";
+                        exit;
+                    }
+                     $arrayUsr['clave'] = $this->getTexto('txtPasswordNuevo');
+                }
             }
-            $arrayUsr['clave'] = $this->getTexto('txtPasswordNuevo');;
-             //getTexto('txtUnidadAcademica');//para que funcione tiene que mandar un entero... dato quemado
+            //getTexto('txtUnidadAcademica');//para que funcione tiene que mandar un entero... dato quemado
             $arrayUsr['preguntaUsr'] = $this->getInteger('slPregunta');
             $arrayUsr['respuestaUsr'] = $this->getTexto('txtRespuesta');
-            
+
             //$this->_view->query = $this->_post->actualizarUsuario($arrayUsr);
             $this->_post->actualizarUsuario($arrayUsr);
             //echo "<script> alert('".$this->_post->actualizarUsuario($arrayUsr)."') </script>";
             //se queda en la pagina
-            $this->redireccionar('admCrearUsuario/actualizarUsuario/'.$intIdUsuario);
-            
+            $this->redireccionar('admCrearUsuario/actualizarUsuario/' . $intIdUsuario);
         }
         $this->_view->renderizar(ADM_FOLDER, 'actualizarUsuario', 'admCrearUsuario');
 

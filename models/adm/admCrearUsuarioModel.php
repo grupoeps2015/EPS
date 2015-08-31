@@ -127,7 +127,7 @@ class admCrearUsuarioModel extends Model {
     
     public function getRol($idUsuario){
         $rol = $this->_db->query("select * from spRolxUsuario({$idUsuario}) as idRol;");
-        return $rol->fetchall();
+        //return $rol->fetchall();
     }
 
     public function datosUsuario($idUsuario) {
@@ -141,7 +141,7 @@ class admCrearUsuarioModel extends Model {
 
     public function actualizarUsuario($_datos) {
         $sp = $_datos["id"] . ', \'' . $_datos["nombreUsr"] . '\',\'' . $_datos["correoUsr"] . '\',';
-        $sp .= $_datos["unidadUsr"] . ',';
+        $sp .= $_datos["calveUsr"] . ',';
         $sp .= $_datos["preguntaUsr"] . ',\'' . $_datos["respuestaUsr"].'\'';
         try {
              $this->_db->query("SELECT * from spactualizarusuario(" . $sp . ");");
