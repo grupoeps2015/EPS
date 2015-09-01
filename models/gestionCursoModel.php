@@ -17,8 +17,9 @@ class gestionCursoModel extends Model {
         $sp .= $_datos["traslape"] . ',' . $_datos["estado"] . ',';
         $sp .= $_datos["tipocurso"];
         try {
-            $post = $this->_db->query("SELECT * from spAgregarCurso(" . $sp . ") as Id;");
-            return $post->fetchall();
+            //$post = $this->_db->query("SELECT * from spAgregarCurso(" . $sp . ") as Id;");
+            //return $post->fetchall();
+            return "SELECT * from spAgregarCurso(" . $sp . ") as Id;";
         } catch (Exception $e) {
             return $e->getMessage();
         }
