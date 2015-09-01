@@ -45,6 +45,27 @@ class admHistoriaCrearCursoModel extends Model {
         }
     }
     
+    public function datosCurso($idCurso) {
+        try {
+            $post = $this->_db->query("select * from spDatosCurso(" . $idCurso . ");");
+            return $post->fetchall();
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+    }
+    
+    public function actualizarCurso($_datos) {
+        $sp = '\'' . $_datos["codigo"] . '\',\'' . $_datos["nombre"] . '\',';
+        $sp .= $_datos["traslape"] . ',' . $_datos["id"] . ',';
+        $sp .= $_datos["tipocurso"];
+        try {
+            $post = $this->_db->query("SELECT * from spActualizarCurso(" . $sp . ") as Id;");
+            return $post->fetchall();
+            //return "SELECT * from spActualizarCurso(" . $sp . ") as Id;";
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+    }
 }
 
 ?>

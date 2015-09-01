@@ -76,3 +76,53 @@ $BODY$
   COST 100;
 ALTER FUNCTION spactivardesactivarcurso(integer, integer)
   OWNER TO postgres;
+  
+  
+-- Function: spdatoscurso(integer)
+
+-- DROP FUNCTION spdatoscurso(integer);
+
+CREATE OR REPLACE FUNCTION spdatoscurso(
+    IN id integer,
+    OUT codigo text,
+    OUT nombre text,
+    OUT traslape boolean,
+    OUT estado integer,
+    OUT tipocurso integer)
+  RETURNS SETOF record AS
+$BODY$
+BEGIN
+  RETURN query
+  SELECT c.codigo, c.nombre, c.traslape, c.estado, c.tipocurso FROM CUR_Curso c where c.curso = id;
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION spdatoscurso(integer)
+  OWNER TO postgres;
+
+  
+-- Function: spactualizarcurso(text, text, boolean, integer, integer)
+
+-- DROP FUNCTION spactualizarcurso(text, text, boolean, integer, integer);
+
+CREATE OR REPLACE FUNCTION spactualizarcurso(
+    _codigo text,
+    _nombre text,
+    _traslape boolean,
+    _id integer,
+    _tipocurso integer)
+  RETURNS integer AS
+$BODY$
+DECLARE idCurso integer;
+BEGIN
+	UPDATE CUR_Curso SET codigo = _codigo, nombre = _nombre, traslape = _traslape, tipocurso = _tipocurso
+	WHERE curso = _id RETURNING Curso into idCurso;
+	RETURN idCurso;
+END; $BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION spactualizarcurso(text, text, boolean, integer, integer)
+  OWNER TO postgres;
+

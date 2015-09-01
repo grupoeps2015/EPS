@@ -46,7 +46,7 @@
                                 <td style="text-align: center"><?php echo $this->lstCur[$i]['tipocurso']; ?></td>
                                 <td style="text-align: center"><?php echo $this->lstCur[$i]['traslape']; ?></td>
                                 <td style="text-align: center"><?php echo $this->lstCur[$i]['estado']; ?></td>
-                                <td style="text-align: center;"><a href="<?php echo BASE_URL . 'admCrearUsuario/actualizarUsuario/' . $this->lstCur[$i]['id'];?>">Modificar</a></td>
+                                <td style="text-align: center;"><a href="<?php echo BASE_URL . 'admHistoriaCrearCurso/actualizarCurso/' . $this->lstCur[$i]['id'];?>">Modificar</a></td>
                                 <td style="text-align: center;">
                                     <?php if(strcmp($this->lstCur[$i]['estado'], 'Activo') == 0): ?>
                                     <a href="<?php echo BASE_URL . 'admHistoriaCrearCurso/eliminarCurso/-1/' . $this->lstCur[$i]['id'];?>">Desactivar</a>

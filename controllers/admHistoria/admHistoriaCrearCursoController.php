@@ -88,6 +88,52 @@ class admHistoriaCrearCursoController extends Controller {
         //$this->_view->titulo = 'Eliminar curso - ' . APP_TITULO;
         //$this->_view->renderizar(ADM_FOLDER, 'eliminarUsuario', 'admCrearUsuario');
     }
+    public function actualizarCurso($intIdCurso = 0) {
+        //$this->_view->setJs("public", array('jquery.validate'));
+        //$this->_view->setJs(ADMH_FOLDER, array('actualizarCurso'));
+        $this->_view->tiposCurso = $this->_post->getTiposCurso();
+        $arrayUsr = array();
+        $actualizar = false;
+        $this->_view->id = $intIdCurso;
+        $this->_view->datosCur = $this->_post->datosCurso($intIdCurso);
+        //$this->redireccionar('admHistoriaCrearCurso');
+        //$this->_view->cambio = $intNuevoEstado;
+        //$this->_view->titulo = 'Eliminar curso - ' . APP_TITULO;
+        if (!$this->getInteger('slTiposCurso')) {
+            $this->_view->renderizar(ADMH_FOLDER, 'actualizarCurso', 'admHistoriaCrearCurso');
+            exit;
+        }
+        if (!$this->getTexto('txtNombre')) {
+            $this->_view->renderizar(ADMH_FOLDER, 'actualizarCurso', 'admHistoriaCrearCurso');
+            exit;
+        }
+        if (!$this->getTexto('txtNombre')) {
+            $this->_view->renderizar(ADMH_FOLDER, 'actualizarCurso', 'admHistoriaCrearCurso');
+            exit;
+        }
+        if (!$this->getTexto('slTraslape')) {
+            $this->_view->renderizar(ADMH_FOLDER, 'actualizarCurso', 'admHistoriaCrearCurso');
+            exit;
+        }
+        $tipoCurso = $this->getInteger('slTiposCurso');
+        $codigoCurso = $this->getTexto('txtCodigo');
+        $nombreCurso = $this->getTexto('txtNombre');
+        $traslapeCurso = $this->getTexto('slTraslape');
+        
+        $arrayCur['id'] = $intIdCurso;
+        $arrayCur['tipocurso'] = $tipoCurso;
+        $arrayCur['codigo'] = $codigoCurso;
+        $arrayCur['nombre'] = $nombreCurso;
+        $arrayCur['traslape'] = $traslapeCurso;
+        
+        $respuesta = $this->_post->actualizarCurso($arrayCur);
+        if (isset($respuesta[0][0])){
+            $this->redireccionar('admHistoriaCrearCurso');
+        }
+        
+        $this->_view->renderizar(ADMH_FOLDER, 'actualizarCurso', 'admHistoriaCrearCurso');
+    }
+
 
 }
 

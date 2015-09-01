@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center">
-                <h2 class="section-heading">Agregar Curso</h2>
+                <h2 class="section-heading">Actualizar Curso</h2>
                 <p><?php if(isset($this->query)) echo $this->query; ?></p> <!-- Aca le digo que muestre query -->
                 <hr class="primary">
                 <div class="col-lg-3 col-md-6 text-center">
@@ -24,7 +24,7 @@
     <div class="header-content">
         <div class="header-content-inner">
             <div id="divCentros" class="row">
-                <form id="frCursos" method="post" action="<?php echo BASE_URL; ?>admHistoriaCrearCurso/agregarCurso">
+                <form id="frCursos" method="post" action="<?php echo BASE_URL; ?>admHistoriaCrearCurso/actualizarCurso/<?php echo $this->id; ?>">
                     <div id="divEstudiantes" class="form-group" >
                         <div class="col-md-6 col-md-offset-3">
                             <table>
@@ -34,7 +34,7 @@
                                         <?php if(isset($this->tiposCurso) && count($this->tiposCurso)): ?>
                                         <select id="slTiposCurso" name="slTiposCurso" class="form-control input-lg">
                                             <?php for($i =0; $i < count($this->tiposCurso); $i++) : ?>
-                                            <option value="<?php echo $this->tiposCurso[$i]['codigo'];?>">
+                                            <option value="<?php echo $this->tiposCurso[$i]['codigo'];?>" <?php if(isset($this->datosCur[0]['tipocurso']) && $this->datosCur[0]['tipocurso'] == $this->tiposCurso[$i]['codigo']) echo 'selected'?>>
                                                 <?php echo $this->tiposCurso[$i]['nombre']; ?>
                                             </option>
                                             <?php endfor;?>
@@ -47,26 +47,26 @@
                                 </tr>
                                 <tr>
                                     <td>*Código:
-                                        <input type="text" id="txtCodigo" name="txtCodigo" class="form-control input-lg" value="<?php if(isset($this->datos['txtCodigo'])) echo $this->datos['txtCodigo']?>">
+                                        <input type="text" id="txtCodigo" name="txtCodigo" class="form-control input-lg" value="<?php if(isset($this->datosCur[0]['codigo'])) echo $this->datosCur[0]['codigo']?>">
                                         <br/>
                                     </td>
                                     <td>&nbsp;</td>
                                     <td>
                                         *Nombre:
-                                        <input type="text" id="txtNombre" name="txtNombre" class="form-control input-lg" value="<?php if(isset($this->datos['txtNombre'])) echo $this->datos['txtNombre']?>">
+                                        <input type="text" id="txtNombre" name="txtNombre" class="form-control input-lg" value="<?php if(isset($this->datosCur[0]['nombre'])) echo $this->datosCur[0]['nombre']?>">
                                         <br/>
                                     </td>
                                     <td>&nbsp;</td>
                                     <td rowspan="2" colspan="2">
-                                        <input type="submit" id="btnAgregarCur" name="btnAgregarCur" value="Nuevo Curso" class="btn btn-danger btn-lg btn-block">
+                                        <input type="submit" id="btnActualizarCur" name="btnActualizarCur" value="Actualizar" class="btn btn-danger btn-lg btn-block">
                                     </td>
                                 </tr>
                                 <tr>
                                     <td colspan="3">
                                         *Traslape:     
                                         <select id="slTraslape" name="slTraslape" class="form-control input-lg">
-                                            <option value="false">No</option>
-                                            <option value="true">Sí</option>
+                                            <option value="false" <?php if(isset($this->datosCur[0]['traslape']) && !$this->datosCur[0]['traslape']) echo 'selected'?>>No</option>
+                                            <option value="true" <?php if(isset($this->datosCur[0]['traslape']) && $this->datosCur[0]['traslape']) echo 'selected'?>>Sí</option>
                                         </select>
                                         <br/>
                                     </td>
