@@ -1,3 +1,3 @@
 $(document).ready( function () {
-    $('#tbUsuarios').DataTable();
+    $('#tbCursos').DataTable();
 } );
