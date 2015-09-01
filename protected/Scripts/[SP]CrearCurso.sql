@@ -1,7 +1,7 @@
-﻿-- Function: spagregarcurso(text, text, boolean, integer, integer)
-
+﻿-- -----------------------------------------------------
+-- Function: spagregarcurso(text, text, boolean, integer, integer)
+-- -----------------------------------------------------
 -- DROP FUNCTION spagregarcurso(text, text, boolean, integer, integer);
-
 CREATE OR REPLACE FUNCTION spagregarcurso(
     _codigo text,
     _nombre text,
@@ -19,11 +19,10 @@ END; $BODY$
 ALTER FUNCTION spagregarcurso(text, text, boolean, integer, integer)
   OWNER TO postgres;
 
-
+-- -----------------------------------------------------
 -- Function: spinformacioncurso()
-
+-- -----------------------------------------------------
 -- DROP FUNCTION spinformacioncurso();
-
 CREATE OR REPLACE FUNCTION spinformacioncurso(
     OUT id integer,
     OUT codigo text,
@@ -59,11 +58,10 @@ $BODY$
 ALTER FUNCTION spinformacioncurso()
   OWNER TO postgres;
 
-
+-- -----------------------------------------------------
 -- Function: spactivardesactivarcurso(integer, integer)
-
+-- -----------------------------------------------------
 -- DROP FUNCTION spactivardesactivarcurso(integer, integer);
-
 CREATE OR REPLACE FUNCTION spactivardesactivarcurso(
     _idcurso integer,
     _estadonuevo integer)
@@ -78,11 +76,10 @@ $BODY$
 ALTER FUNCTION spactivardesactivarcurso(integer, integer)
   OWNER TO postgres;
   
-  
+  -- -----------------------------------------------------
 -- Function: spdatoscurso(integer)
-
+-- -----------------------------------------------------
 -- DROP FUNCTION spdatoscurso(integer);
-
 CREATE OR REPLACE FUNCTION spdatoscurso(
     IN id integer,
     OUT codigo text,
@@ -103,11 +100,10 @@ $BODY$
 ALTER FUNCTION spdatoscurso(integer)
   OWNER TO postgres;
 
-  
+-- -----------------------------------------------------
 -- Function: spactualizarcurso(text, text, boolean, integer, integer)
-
+-- -----------------------------------------------------
 -- DROP FUNCTION spactualizarcurso(text, text, boolean, integer, integer);
-
 CREATE OR REPLACE FUNCTION spactualizarcurso(
     _codigo text,
     _nombre text,
@@ -126,4 +122,3 @@ END; $BODY$
   COST 100;
 ALTER FUNCTION spactualizarcurso(text, text, boolean, integer, integer)
   OWNER TO postgres;
-
