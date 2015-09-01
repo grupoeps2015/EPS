@@ -26,10 +26,11 @@ ALTER FUNCTION spagregarcurso(text, text, boolean, integer, integer)
 
 CREATE OR REPLACE FUNCTION spinformacioncurso(
     OUT id integer,
-    OUT codigo integer,
+    OUT codigo text,
     OUT nombre text,
     OUT tipocurso text,
-    OUT estado text)
+    OUT estado text,
+    OUT traslape text)
   RETURNS SETOF record AS
 $BODY$
 BEGIN
