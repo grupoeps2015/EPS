@@ -258,30 +258,39 @@
         <div class="row">
             <div class="col-lg-3 col-md-6 text-center">
                 <div class="service-box">
-                    <i class="fa fa-4x fa-building wow bounceIn text-primary"></i>
-                    <h3>Gesti&oacute;n de edificios</h3>
-                    <p class="text-muted">Capacidad de salones y gestion de uso</p>
+                    <i class="fa fa-2x fa-forward wow bounceIn text-primary" data-wow-delay=".2s"></i>
+                    <h4>Carga de archivos .csv</h4>
+                    <p class="text-muted">Puede crear multiples usuarios utilizando archivos delimitados por comas</p>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 text-center">
                 <div class="service-box">
-                    <i class="fa fa-4x fa-mortar-board wow bounceIn text-primary"></i>
-                    <h3>Gesti&oacute;n de Unidades Acad&eacute;micas</h3>
-                    <p class="text-muted">Faculades, Escuelas y Centros Regionales</p>
+                    <i class="fa fa-4x fa-file-text wow bounceIn text-primary" data-wow-delay=".1s"></i>
+                    <br/>
+                    <div id="divFileEst" class="fileUpload btn btn-warning" >
+                        <span id="spanEstFile">Cargar Estudiantes</span>
+                        <input type="button" class="upload" id="btnEstFile" name="btnEstFile"/>
+                    </div>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 text-center">
                 <div class="service-box">
-                    <i class="fa fa-4x fa-group wow bounceIn text-primary" data-wow-delay=".1s"></i>
-                    <h3>Gesti&oacute;n de personal</h3>
-                    <p class="text-muted">Directores, Control Academico, Catedraticos</p>
+                    <i class="fa fa-4x fa-file-text-o wow bounceIn text-primary" data-wow-delay=".1s"></i>
+                    <br/>
+                    <div id="divFileCat" class="fileUpload btn btn-warning" >
+                        <span id="spanCatFile">Cargar Catedraticos</span>
+                        <input type="button" class="upload" id="btnCatFile" name="btnCatFile"/>
+                    </div>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 text-center">
                 <div class="service-box">
-                    <i class="fa fa-4x fa-pencil wow bounceIn text-primary" data-wow-delay=".2s"></i>
-                    <h3>Gesti&oacute;n de estudiantes</h3>
-                    <p class="text-muted">Alumnos regulares</p>
+                    <i class="fa fa-4x fa-file wow bounceIn text-primary" data-wow-delay=".1s"></i>
+                    <br/>
+                    <div id="divFileEmp" class="fileUpload btn btn-warning" >
+                        <span id="spanCatFile">&nbsp;Cargar Empleados&nbsp;</span>
+                        <input type="button" class="upload" id="btnCatFile" name="btnCatFile"/>
+                    </div>
                 </div>
             </div>
         </div>

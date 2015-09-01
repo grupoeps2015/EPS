@@ -18,7 +18,7 @@
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
                         <i class="fa fa-2x fa-user-plus wow bounceIn text-primary" data-wow-delay=".2s">
-                            <a href="<?php echo BASE_URL?>crearUsuario/agregarUsuario">
+                            <a href="<?php echo BASE_URL?>gestionUsuario/agregarUsuario">
                                 Agregar Usuario
                             </a>
                         </i>

@@ -33,4 +33,9 @@ class ajaxModel extends Model{
         return $post->fetchAll();
     }
     
+    public function getSecuencia($campo, $tabla){
+        $post = $this->_db->query("select * from spcarreraxunidad({$unidad})");
+        $post->setFetchMode(PDO::FETCH_ASSOC);
+        return $post->fetchAll();
+    }
 }

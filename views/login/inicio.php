@@ -20,7 +20,7 @@
             <div class="col-lg-4 col-md-8 text-center">
                 <div class="service-box">
                     <i class="fa fa-4x fa-group wow bounceIn text-primary" data-wow-delay=".1s"></i>
-                    <h3><a href="<?php echo BASE_URL; ?>crearUsuario">Gesti&oacute;n de usuarios</a></h3>
+                    <h3><a href="<?php echo BASE_URL; ?>gestionUsuario">Gesti&oacute;n de usuarios</a></h3>
                     <p class="text-muted">Directores, Control Academico, Catedraticos y Estudiantes</p>
                 </div>
             </div>
