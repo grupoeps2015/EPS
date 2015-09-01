@@ -49,8 +49,8 @@ class gestionCursoController extends Controller {
             $arrayCur['traslape'] = $traslapeCurso;
             $arrayCur['estado'] = 1;
 
-            $this->_view->query = $this->_post->agregarCurso($arrayCur);
-            //$this->redireccionar('gestionCurso');
+            $this->_post->agregarCurso($arrayCur);
+            $this->redireccionar('gestionCurso');
         }
         
         $this->_view->renderizar('agregarCurso', 'gestionCurso');    
