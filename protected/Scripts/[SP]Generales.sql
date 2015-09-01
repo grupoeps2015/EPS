@@ -83,5 +83,3 @@ begin
 end;
 $BODY$
 LANGUAGE 'plpgsql';
-
-select spRolxUsuario(12) as idRol;

@@ -10,37 +10,17 @@
 class Bootstrap{
     public static function run(Request $peticion){
         $controller = $peticion->getControlador() . 'Controller';
-        
-        $rutaControlador = ROOT . 'controllers' . DS . 'adm' .DS . $controller . '.php';
+        $rutaControlador = ROOT . 'controllers' . DS . $controller . '.php';
         if(is_readable($rutaControlador)){
-            Bootstrap::redirect("adm",$peticion);
+            Bootstrap::redirect($peticion);
         }else{
-            $rutaControlador = ROOT . 'controllers' . DS . 'admHistoria' .DS . $controller . '.php';
-            if(is_readable($rutaControlador)){
-                Bootstrap::redirect("admHistoria",$peticion);
-            }else{
-                $rutaControlador = ROOT . 'controllers' . DS . 'usrHistoria' .DS . $controller . '.php';
-                if(is_readable($rutaControlador)){
-                    Bootstrap::redirect("usrHistoria",$peticion);
-                }else{
-                    $rutaControlador = ROOT . 'controllers' . DS . $controller . '.php';
-                    if(is_readable($rutaControlador)){
-                        Bootstrap::redirect("",$peticion);
-                    }else{
-                        throw new Exception('Controlador no encontrado: ' . $rutaControlador);
-                    }
-                }
-            }
+            throw new Exception('Controlador no encontrado: ' . $rutaControlador);
         }
     }
     
-    public function redirect($folder, Request $peticion){
+    public function redirect(Request $peticion){
         $controller = $peticion->getControlador() . 'Controller';
-        if($folder == ""){
-            $rutaControlador = ROOT . 'controllers' . DS . $controller . '.php';
-        }else{
-            $rutaControlador = ROOT . 'controllers' . DS . $folder .DS . $controller . '.php';
-        }
+        $rutaControlador = ROOT . 'controllers' . DS . $controller . '.php';
         $metodo = $peticion->getMetodo();
         $args = $peticion->getArgs();
         
