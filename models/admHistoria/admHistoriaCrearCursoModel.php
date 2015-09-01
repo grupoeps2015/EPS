@@ -18,7 +18,7 @@ class admHistoriaCrearCursoModel extends Model {
         try {
             $post = $this->_db->query("SELECT * from spAgregarCurso(" . $sp . ") as Id;");
             return $post->fetchall();
-            //return "SELECT spagregarusuarios(" . $sp . ");";
+            //return "SELECT * from spAgregarCurso(" . $sp . ") as Id;";
         } catch (Exception $e) {
             return $e->getMessage();
         }
@@ -28,7 +28,22 @@ class admHistoriaCrearCursoModel extends Model {
         return $post->fetchall();
     }
     
-
+    public function informacionCurso() {
+        try {
+            $post = $this->_db->query("select * from spInformacionCurso();");
+            return $post->fetchall();
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+    }
+    public function eliminarCurso($intIdCurso, $intEstadoNuevo) {
+        try {
+            $this->_db->query("SELECT spActivarDesactivarCurso(" . $intIdCurso . "," . $intEstadoNuevo . ");");
+            //return "SELECT spActivarDesactivarUsuario(" . $intIdUsuario . "," . $intEstadoNuevo . ");";
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+    }
     
 }
 

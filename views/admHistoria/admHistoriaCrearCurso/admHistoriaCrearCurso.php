@@ -22,45 +22,43 @@
     </div>
     <br/>
     <div>
-        <form id="frEstudiantes" method="post" action="<?php echo BASE_URL; ?>admCrearUsuario/agregarUsuario">
-            <div id="divEstudiantes" class="form-group" >
+        <form id="frCursos" method="post" action="<?php echo BASE_URL; ?>admHistoriaCrearCurso/agregarCurso">
+            <div id="divCursos" class="form-group" >
                 <div style="margin-left: 10%; margin-right: 10%">
-                    <table id="tbUsuarios" border="2">
+                    <table id="tbCursos" border="2">
                         <thead>
                             <tr>
                                 <th style="text-align:center">Codigo</th>
-                                <th style="text-align:center">Carnet /<br/>Registro</th>
-                                <th style="text-align:center">Nombre Usuario</th>
-                                <th style="text-align:center">Rol</th>
-                                <th style="text-align:center">Correo</th>
+                                <th style="text-align:center">Nombre</th>
+                                <th style="text-align:center">Tipo</th>
+                                <th style="text-align:center">Traslape</th>
                                 <th style="text-align:center">Estado</th>
                                 <th style="text-align:center">&nbsp;</th>
                                 <th style="text-align:center">&nbsp;</th>
                             </tr>
                         </thead>
                         <tbody>
-                        <?php if(isset($this->lstUsr) && count($this->lstUsr)): ?>
-                            <?php for($i =0; $i < count($this->lstUsr); $i++) : ?>
+                        <?php if(isset($this->lstCur) && count($this->lstCur)): ?>
+                            <?php for($i =0; $i < count($this->lstCur); $i++) : ?>
                             <tr>
-                                <td style="text-align: center"><?php echo $this->lstUsr[$i]['id']; ?></td>
-                                <td style="text-align: center"><?php echo $this->lstUsr[$i]['registro']; ?></td>
-                                <td style="text-align: center"><?php echo $this->lstUsr[$i]['nombre']; ?></td>
-                                <td style="text-align: center"><?php echo $this->lstUsr[$i]['rol']; ?></td>
-                                <td style="text-align: center"><?php echo $this->lstUsr[$i]['correo']; ?></td>
-                                <td style="text-align: center"><?php echo $this->lstUsr[$i]['estado']; ?></td>
-                                <td style="text-align: center;"><a href="<?php echo BASE_URL . 'admCrearUsuario/actualizarUsuario/' . $this->lstUsr[$i]['id'];?>">Modificar</a></td>
+                                <td style="text-align: center"><?php echo $this->lstCur[$i]['codigo']; ?></td>
+                                <td style="text-align: center"><?php echo $this->lstCur[$i]['nombre']; ?></td>
+                                <td style="text-align: center"><?php echo $this->lstCur[$i]['tipocurso']; ?></td>
+                                <td style="text-align: center"><?php echo $this->lstCur[$i]['traslape']; ?></td>
+                                <td style="text-align: center"><?php echo $this->lstCur[$i]['estado']; ?></td>
+                                <td style="text-align: center;"><a href="<?php echo BASE_URL . 'admCrearUsuario/actualizarUsuario/' . $this->lstCur[$i]['id'];?>">Modificar</a></td>
                                 <td style="text-align: center;">
-                                    <?php if(strcmp($this->lstUsr[$i]['estado'], 'Activo') == 0): ?>
-                                    <a href="<?php echo BASE_URL . 'admCrearUsuario/eliminarUsuario/-1/' . $this->lstUsr[$i]['id'];?>">Desactivar</a>
+                                    <?php if(strcmp($this->lstCur[$i]['estado'], 'Activo') == 0): ?>
+                                    <a href="<?php echo BASE_URL . 'admHistoriaCrearCurso/eliminarCurso/-1/' . $this->lstCur[$i]['id'];?>">Desactivar</a>
                                     <?php else : ?>
-                                    <a href="<?php echo BASE_URL . 'admCrearUsuario/eliminarUsuario/1/' . $this->lstUsr[$i]['id'] ?>">Activar</a>
+                                    <a href="<?php echo BASE_URL . 'admHistoriaCrearCurso/eliminarCurso/1/' . $this->lstCur[$i]['id'] ?>">Activar</a>
                                     <?php endif;?>
                                 </td>
                             </tr>
                             <?php endfor;?>
                         <?php else : ?>
                             <tr>
-                                <td colspan="8" style="text-align: center">No hay informacion disponible</td>
+                                <td colspan="7" style="text-align: center">No hay informacion disponible</td>
                             </tr>
                         <?php endif;?>
                         </tbody>

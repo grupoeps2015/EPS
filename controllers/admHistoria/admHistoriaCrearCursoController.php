@@ -21,13 +21,13 @@ class admHistoriaCrearCursoController extends Controller {
     }
 
     public function index() {
-        $this->_view->lstUsr = $this->_post->informacionUsuario();
-        $this->_view->titulo = 'Gestión de usuarios - ' . APP_TITULO;
-        $this->_view->setJs(ADM_FOLDER, array('admCrearUsuario'));
+        $this->_view->lstCur = $this->_post->informacionCurso();
+        $this->_view->titulo = 'Gestión de cursos - ' . APP_TITULO;
+        $this->_view->setJs(ADMH_FOLDER, array('admHistoriaCrearCurso'));
         $this->_view->setJs("public", array('jquery.dataTables.min'));
         $this->_view->setCSS(array('jquery.dataTables.min'));
 
-        $this->_view->renderizar(ADM_FOLDER, 'admCrearUsuario');
+        $this->_view->renderizar(ADMH_FOLDER, 'admHistoriaCrearCurso');
     }
 
     public function agregarCurso() {
@@ -35,8 +35,58 @@ class admHistoriaCrearCursoController extends Controller {
         $this->_view->tiposCurso = $this->_post->getTiposCurso();
 
         $this->_view->titulo = 'Agregar Curso - ' . APP_TITULO;
+        
+        $arrayCur = array();
+        
+        
+        $this->_view->datos = $_POST;
+        if (!$this->getInteger('slTiposCurso')) {
+            $this->_view->renderizar(ADMH_FOLDER, 'agregarCurso', 'admHistoriaCrearCurso');
+            exit;
+        }
+        if (!$this->getTexto('txtNombre')) {
+            $this->_view->renderizar(ADMH_FOLDER, 'agregarCurso', 'admHistoriaCrearCurso');
+            exit;
+        }
+        if (!$this->getTexto('txtNombre')) {
+            $this->_view->renderizar(ADMH_FOLDER, 'agregarCurso', 'admHistoriaCrearCurso');
+            exit;
+        }
+        if (!$this->getTexto('slTraslape')) {
+            $this->_view->renderizar(ADMH_FOLDER, 'agregarCurso', 'admHistoriaCrearCurso');
+            exit;
+        }
+        $tipoCurso = $this->getInteger('slTiposCurso');
+        $codigoCurso = $this->getTexto('txtCodigo');
+        $nombreCurso = $this->getTexto('txtNombre');
+        $traslapeCurso = $this->getTexto('slTraslape');
+        
+        $arrayCur['tipocurso'] = $tipoCurso;
+        $arrayCur['codigo'] = $codigoCurso;
+        $arrayCur['nombre'] = $nombreCurso;
+        $arrayCur['traslape'] = $traslapeCurso;
+        $arrayCur['estado'] = 1;
+        
+        $respuesta = $this->_post->agregarCurso($arrayCur);
+        if(isset($respuesta[0][0])){
+            $this->_view->datos = NULL;
+        }
+        
+        $this->_view->renderizar(ADMH_FOLDER, 'agregarCurso', 'admHistoriaCrearCurso');    
+    }
+    
+    public function eliminarCurso($intNuevoEstado, $intIdCurso) {
+        if ($intNuevoEstado == -1 || $intNuevoEstado == 1) {
+            $this->_post->eliminarCurso($intIdCurso, $intNuevoEstado);
 
-        $this->_view->renderizar(ADMH_FOLDER, 'agregarCurso', 'admHistoriaCrearCurso');
+            $this->redireccionar('admHistoriaCrearCurso');
+        } else {
+            echo "Error al desactivar curso";
+        }
+        //$this->redireccionar('admHistoriaCrearCurso');
+        //$this->_view->cambio = $intNuevoEstado;
+        //$this->_view->titulo = 'Eliminar curso - ' . APP_TITULO;
+        //$this->_view->renderizar(ADM_FOLDER, 'eliminarUsuario', 'admCrearUsuario');
     }
 
 }

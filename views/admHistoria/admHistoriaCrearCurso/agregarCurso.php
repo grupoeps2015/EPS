@@ -29,48 +29,48 @@
                         <div class="col-md-6 col-md-offset-3">
                             <table>
                                 <tr>
-                                    <td>
+                                    <td colspan="3">
+                                        *Tipo de curso:
                                         <?php if(isset($this->tiposCurso) && count($this->tiposCurso)): ?>
                                         <select id="slTiposCurso" name="slTiposCurso" class="form-control input-lg">
-                                            <option value="default">---- Seleccione un tipo de curso ----</option>
                                             <?php for($i =0; $i < count($this->tiposCurso); $i++) : ?>
                                             <option value="<?php echo $this->tiposCurso[$i]['codigo'];?>">
                                                 <?php echo $this->tiposCurso[$i]['nombre']; ?>
                                             </option>
                                             <?php endfor;?>
-                                        </select>
+                                        </select><br/>
                                         <?php else : ?>
                                         &nbsp;
                                         <?php endif;?>
                                     </td>
+                                    <td>&nbsp;</td>
                                 </tr>
                                 <tr>
-                                    <td rowspan="2" colspan="2">
-                                        <input type="submit" id="btnAgregarEmp" name="btnAgregarEmp" value="Nuevo Empleado" class="btn btn-danger btn-lg btn-block">
+                                    <td>*Código:
+                                        <input type="text" id="txtCodigo" name="txtCodigo" class="form-control input-lg" value="<?php if(isset($this->datos['txtCodigo'])) echo $this->datos['txtCodigo']?>">
+                                        <br/>
                                     </td>
                                     <td>&nbsp;</td>
-                                    <td>*Código:
-                                        <input type="text" id="txtNombreEst1" name="txtNombreEst1" class="form-control input-lg" value="<?php if(isset($this->datos['txtNombreEst1'])) echo $this->datos['txtNombreEst1']?>">
-                                        <br/>
-                                    </td>
-                                </tr>
-                                <tr>
                                     <td>
                                         *Nombre:
-                                        <input type="text" id="txtApellidoEst1" name="txtApellidoEst1" class="form-control input-lg" value="<?php if(isset($this->datos['txtApellidoEst1'])) echo $this->datos['txtApellidoEst1']?>">
+                                        <input type="text" id="txtNombre" name="txtNombre" class="form-control input-lg" value="<?php if(isset($this->datos['txtNombre'])) echo $this->datos['txtNombre']?>">
                                         <br/>
+                                    </td>
+                                    <td>&nbsp;</td>
+                                    <td rowspan="2" colspan="2">
+                                        <input type="submit" id="btnAgregarCur" name="btnAgregarCur" value="Nuevo Curso" class="btn btn-danger btn-lg btn-block">
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>
+                                    <td colspan="3">
                                         *Traslape:     
-                                        <select id="slPerfil" name="slPerfil" class="form-control input-lg">
-                                            <option value="0">---- Seleccione una opción ----</option>
-                                            <option value="1">Sí</option>
-                                            <option value="2">No</option>
+                                        <select id="slTraslape" name="slTraslape" class="form-control input-lg">
+                                            <option value="false">Sí</option>
+                                            <option value="true">No</option>
                                         </select>
                                         <br/>
                                     </td>
+                                    <td>&nbsp;</td>
                                 </tr>
                             </table>
                             <br />
