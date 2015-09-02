@@ -182,6 +182,102 @@ class gestionUsuarioController extends Controller {
         $this->_view->renderizar('actualizarUsuario', 'admCrearUsuario');
     }
 
+    public function cargarCSV(){
+        $iden = $this->getInteger('hdFile');
+        $fileName = "";
+        $fileExt = "";
+        $rol = "";
+        
+        $cadena = "";
+        
+        
+        if($iden == 1){
+            $fileName=$_FILES['csvFile']['name'];
+            $fileExt = explode(".",$fileName);
+            if(strtolower(end($fileExt)) == "csv"){
+                $fileName=$_FILES['csvFile']['tmp_name'];
+                $handle = fopen($fileName, "r");
+                while(($data = fgetcsv($handle, 1000, ",")) !== FALSE){
+                    $cadena .= $data[0] . ", ";
+                    $arrayUsr = array();
+                    $arrayEst = array();
+                    $arrayEmp = array();
+                    $arrayCat = array();
+                    $rol = $data[6];
+                    $arrayUsr["nombreUsr"] = $data[1];
+                    $arrayUsr["correoUsr"] = $data[5];
+                    $arrayUsr["fotoUsr"] = "";
+                    $claveAleatoria = $this->_encriptar->keyGenerator();
+                    $arrayUsr["claveUsr"] = $this->_encriptar->encrypt($claveAleatoria, UNIDAD_ACADEMICA);
+                    $arrayUsr["preguntaUsr"] = 0;
+                    $arrayUsr["respuestaUsr"] = "USAC";
+                    $arrayUsr["intentosUsr"] = 5;
+                    $arrayUsr["unidadUsr"] = UNIDAD_ACADEMICA;
+                    $idUsr = $this->_post->agregarUsuario($arrayUsr)[0][0];
+                    switch($rol){
+                        case "1":
+                            $arrayEst["id"] = $idUsr;
+                            $arrayEst["carnetEst"] = $data[0];
+                            $arrayEst["nombreEst"] = $data[1];
+                            $arrayEst["nombreEst2"] = $data[2];
+                            $arrayEst["apellidoEst"] = $data[3];
+                            $arrayEst["apellidoEst2"] = $data[4];
+                            $arrayEst["direccionEst"] = "ciudad";
+                            $arrayEst["zonaEst"] = 0;
+                            $arrayEst["municipioEst"] = 1;
+                            $arrayEst["telefonoEst"] = "22220000";
+                            $arrayEst["telefono2Est"] = "22220000";
+                            $arrayEst["sangreEst"] = "desconocida";
+                            $arrayEst["alergiasEst"] = "desconocidas";
+                            $arrayEst["seguroEst"] = 'false';
+                            $arrayEst["centroEst"] = "desconocido";
+                            $arrayEst["paisEst"] = 1;
+                            $this->_post->agregarEstudiante($arrayEst);
+                            $this->_post->asignarRolUsuario(ROL_ESTUDIANTE, $idUsr);
+                            break;
+                        case "2":
+                            $arrayCat["id"] = $idUsr;
+                            $arrayCat["registroCat"] = $data[0];
+                            $arrayCat["nombreCat"] = $data[1];
+                            $arrayCat["nombreCat2"] = $data[2];
+                            $arrayCat["apellidoCat"] = $data[3];
+                            $arrayCat["apellidoCat2"] = $data[4];
+                            $arrayCat["direccionCat"] = "ciudad";
+                            $arrayCat["zonaCat"] = 0;
+                            $arrayCat["municipioCat"] = 1;
+                            $arrayCat["telefonoCat"] = "22220000";
+                            $arrayCat["paisCat"] = 1;
+                            $arrayCat["tipoCat"] = 1;
+                            $this->_post->agregarCatedratico($arrayCat);
+                            $this->_post->asignarRolUsuario(ROL_DOCENTE, $idUsr);
+                            break;
+                        case "0":
+                        case "3":
+                            $arrayEmp["id"] = $idUsr;
+                            $arrayEmp["registroEmp"] = $data[0];
+                            $arrayEmp["nombreEmp"] = $data[1];
+                            $arrayEmp["nombreEmp2"] = $data[2];
+                            $arrayEmp["apellidoEmp"] = $data[3];
+                            $arrayEmp["apellidoEmp2"] = $data[4];
+                            $arrayEmp["direccionEmp"] = "ciudad";
+                            $arrayEmp["zonaEmp"] = 0;
+                            $arrayEmp["municipioEmp"] = 1;
+                            $arrayEmp["telefonoEmp"] = "22220000";
+                            $arrayEmp["paisEmp"] = 1;
+                            $this->_post->agregarEmpleado($arrayEmp);
+                            $this->_post->asignarRolUsuario($data[6], $idUsr);
+                            break;
+                    }
+                }
+                fclose($handle);
+            }else{
+                echo "<script>alert('El archivo cargado no cumple con el formato csv');</script>";
+                $this->redireccionar('gestionUsuario/agregarUsuario');
+            }
+        }
+        $this->redireccionar('gestionUsuario');
+    }
+    
     protected function notificacionEMAIL() {
         // El mensaje
         $mensaje = "Este es un mensaje de prueba";
@@ -192,7 +288,6 @@ class gestionUsuarioController extends Controller {
         // Enviarlo
         mail('rick.shark130@gmail.com', 'Mi título', $mensaje);
     }
-
 }
 
 ?>
