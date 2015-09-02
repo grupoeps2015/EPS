@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Description of allAutenticarUsuarioModel
+ * Description of autenticarUsuarioModel
  *
- * @author Marlen
+ * @author Arias
  */
 class autenticarUsuarioModel extends Model{
     

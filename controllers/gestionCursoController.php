@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Description of admCrearUsuarioController
+ * Description of gestionCursoController
  *
- * @author Paola
+ * @author Arias
  */
 class gestionCursoController extends Controller {
 

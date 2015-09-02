@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Description of admCrearUsuarioModel
+ * Description of gestionCursoModel
  *
- * @author Paola
+ * @author Arias
  */
 
 class gestionCursoModel extends Model {
