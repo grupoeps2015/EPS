@@ -40,36 +40,11 @@
                             <table align="center">
                                 <tr>
                                     <td colspan="3">Nombre:
-                                        <input type="text" id="txtNombre" name="txtNombre" class="form-control input-lg" value="<?php if(isset($this->datosUsr) && count($this->datosUsr)) echo $this->datosUsr[0]['nombre']; ?>">
+                                        <input type="text" id="txtNombre" name="txtNombre" class="form-control input-lg" value="<?php if(isset($this->datosPar) && count($this->datosPar)) echo $this->datosPar[0]['nombre']; ?>">
                                         <br/>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>Correo:
-                                        <input type="text" id="txtCorreo" name="txtCorreo" class="form-control input-lg" value="<?php if(isset($this->datosUsr) && count($this->datosUsr)) echo $this->datosUsr[0]['correo']; ?>">
-                                        <br/>
-                                    </td>
-                                    <td>&nbsp;</td>
-                                    <td>Unidad Academica:
-                                        <input type="text" id="txtUnidadAcademica" name="txtUnidadAcademica" class="form-control input-lg" value="<?php if(isset($this->datosUsr) && count($this->datosUsr)) echo $this->datosUsr[0]['unidadacademica']; ?>">
-                                        <br/>
-                                    </td>
-                                    <td>&nbsp;</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Pregunta Secreta:
-                                        <input type="text" id="txtPregunta" name="txtPregunta" class="form-control input-lg" value="<?php if(isset($this->datosUsr) && count($this->datosUsr)) echo $this->datosUsr[0]['preguntasecreta']; ?>">
-                                        <br/>
-                                    </td>
-                                    <td>&nbsp;</td>
-                                    <td>
-                                        Respuesta Secreta:
-                                        <input type="text" id="txtRespuesta" name="txtRespuesta" class="form-control input-lg" value="<?php if(isset($this->datosUsr) && count($this->datosUsr)) echo $this->datosUsr[0]['respuestasecreta']; ?>">
-                                        <br/>
-                                    </td>
-                                    <td>&nbsp;</td>
-                                </tr>
+                                
                                 <tr>
                                     <td></td>
                                     <td></td>

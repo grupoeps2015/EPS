@@ -713,7 +713,6 @@ CREATE TABLE ADM_Bitacora (
   IP TEXT NOT NULL,
   Registro INTEGER NOT NULL,
   Tabla TEXT NOT NULL,
-  TipoCambioRealizado INTEGER NOT NULL,
   Descripcion TEXT NOT NULL,
   PRIMARY KEY (Bitacora));
 
@@ -812,7 +811,6 @@ CREATE TABLE CAT_Bitacora (
   IP TEXT NOT NULL,
   Registro INTEGER NOT NULL,
   Tabla TEXT NOT NULL,
-  TipoCambioRealizado INTEGER NOT NULL,
   Descripcion TEXT NOT NULL,
   PRIMARY KEY (Bitacora));
 
@@ -830,7 +828,6 @@ CREATE TABLE EST_Bitacora (
   IP TEXT NOT NULL,
   Registro INTEGER NOT NULL,
   Tabla TEXT NOT NULL,
-  TipoCambioRealizado INTEGER NOT NULL,
   Descripcion TEXT NOT NULL,
   PRIMARY KEY (Bitacora));
 
@@ -1135,7 +1132,6 @@ CREATE TABLE EST_CUR_Nota_Bitacora (
   IP TEXT NOT NULL,
   Registro INTEGER NOT NULL,
   Tabla TEXT NOT NULL,
-  TipoCambioRealizado INTEGER NOT NULL,
   Descripcion TEXT NOT NULL,
   PRIMARY KEY (Bitacora));
 
@@ -1153,6 +1149,5 @@ CREATE TABLE EST_CUR_Asignacion_Bitacora (
   IP TEXT NOT NULL,
   Registro INTEGER NOT NULL,
   Tabla TEXT NOT NULL,
-  TipoCambioRealizado INTEGER NOT NULL,
   Descripcion TEXT NOT NULL,
   PRIMARY KEY (Bitacora));

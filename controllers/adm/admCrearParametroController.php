@@ -10,7 +10,6 @@ class admCrearParametroController extends Controller{
     
     private $_post;
     private $_par;
-   
     private $_encriptar;
     
      public function __construct() {
@@ -90,34 +89,68 @@ class admCrearParametroController extends Controller{
         $this->_view->renderizar(ADM_FOLDER,'eliminarParametro', 'admCrearParametro');
     }
     
-     public function actualizarParametro($intIdParametro = 0) {
-        
-       $iden = $this->getInteger('hdEnvio');
+  public function infoParametro($idParametro=0){
         $actualizar = false;
         $arrayGen = array();
         $arrayEmg = array();
-
+        
         $this->_view->titulo = APP_TITULO;
-        $this->_view->infoGeneral = $this->_par->datosParametro($intIdParametro);
+        $this->_view->infoGeneral = $this->_par->getInfoGeneral($idParametro);
         $this->_view->setJs(ADM_FOLDER, array('admEstudiante'));
         $this->_view->setJs("public", array('jquery.validate'));
-           $this->_view->datos = $_POST;
-            if (!$this->getTexto('txtNombre')) {
-                $this->_view->renderizar(ADM_FOLDER, 'admCrearParametro', 'actualizarParametro');
+        if($iden == 1){
+            $this->_view->datos = $_POST;
+            if (!$this->getInteger('slDeptos')) {
+                $this->_view->renderizar(ADM_FOLDER,'admEstudiante','infoEstudiante');
                 exit;
             }
-            if (!$this->getTexto('txtCorreo')) {
-                $this->_view->renderizar(ADM_FOLDER, 'admCrearParametro', 'actualizarParametro');
+            if (!$this->getInteger('slMunis')) {
+                $this->_view->renderizar(ADM_FOLDER,'admEstudiante','infoEstudiante');
                 exit;
             }
-            if (!$this->getTexto('txtUnidadAcademica')) {
-                $this->_view->renderizar(ADM_FOLDER, 'admCrearParametro', 'actualizarParametro');
+            if (!$this->getInteger('txtZona')) {
+                $this->_view->renderizar(ADM_FOLDER,'admEstudiante','infoEstudiante');
                 exit;
             }
-
+            if (!$this->getTexto('txtDireccion')) {
+                $this->_view->renderizar(ADM_FOLDER,'admEstudiante','infoEstudiante');
+                exit;
+            }
+            if (!$this->getInteger('txtTelefono')) {
+                $this->_view->renderizar(ADM_FOLDER,'admEstudiante','infoEstudiante');
+                exit;
+            }
+            if (!$this->getInteger('slPaises')) {
+                $this->_view->renderizar(ADM_FOLDER,'admEstudiante','infoEstudiante');
+                exit;
+            }
             $actualizar = true;
+        }else if($iden == 2){
+            $actualizar = true;
+        }
         
-        $this->_view->renderizar(ADM_FOLDER, 'actualizarParametro');
+        if($actualizar){
+            if($iden == 1){
+                $arrayGen["id"] = $idUsuario;
+                $arrayGen["direccion"] = $this->getTexto('txtDireccion');
+                $arrayGen["zona"] = $this->getInteger('txtZona');
+                $arrayGen["muni"] = $this->getInteger('slMunis');
+                $arrayGen["telefono"] = $this->getTexto('txtTelefono');
+                $arrayGen["pais"] = $this->getInteger('slPaises');
+                $this->_est->setInfoGeneral($arrayGen);
+            }else{
+                $arrayEmg["id"] = $idUsuario;
+                $arrayEmg["telefonoE"] = $this->getTexto('txtTelefonoE');
+                $arrayEmg["alergias"] = $this->getTexto('txtAlergias');
+                $arrayEmg["sangre"] = $this->getTexto('txtTipoSangre');
+                $arrayEmg["centro"] = $this->getTexto('txtHospital');
+                $arrayEmg["seguro"] = $this->getInteger('rbSeguro');
+                $this->_est->setInfoEmergencia($arrayEmg);
+            }
+           $this->redireccionar('admEstudiante/infoEstudiante/12');
+        }
+        
+        $this->_view->renderizar(ADM_FOLDER,'admEstudiante');
     }
     
 }
