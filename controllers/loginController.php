@@ -57,7 +57,16 @@ class loginController extends Controller{
 //            else{
 //                echo "adios";
 //            }
-            $this->redireccionar('login/inicio');
+            if($respuesta[0]['estado'] == ESTADO_ACTIVO){
+                $this->redireccionar('login/inicio');
+            }
+            else if($respuesta[0]['estado'] == ESTADO_PENDIENTE){
+                //redireccionar a actualización de datos
+            }
+            else{
+                $this->redireccionar('login/salir');
+            }
+            
         }
         else{
             echo "<script>alert('Credenciales incorrectas');</script>";

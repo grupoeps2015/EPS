@@ -79,9 +79,8 @@ class gestionCursoController extends Controller {
         $actualizar = false;
         $this->_view->id = $intIdCurso;
         $this->_view->datosCur = $this->_post->datosCurso($intIdCurso);
-        //$this->redireccionar('admHistoriaCrearCurso');
-        //$this->_view->cambio = $intNuevoEstado;
-        //$this->_view->titulo = 'Eliminar curso - ' . APP_TITULO;
+        $this->_view->titulo = 'Actualizar curso - ' . APP_TITULO;
+        
         if ($this->getInteger('hdEnvio')) {
             $tipoCurso = $this->getInteger('slTiposCurso');
             $codigoCurso = $this->getTexto('txtCodigo');
@@ -100,5 +99,37 @@ class gestionCursoController extends Controller {
             }
         }
         $this->_view->renderizar('actualizarCurso', 'gestionCurso');
+    }
+    
+    public function cargarCSV(){
+        $iden = $this->getInteger('hdFile');
+        $fileName = "";
+        $fileExt = "";
+        $rol = "";
+        
+        if($iden == 1){
+            $fileName=$_FILES['csvFile']['name'];
+            $fileExt = explode(".",$fileName);
+            if(strtolower(end($fileExt)) == "csv"){
+                $fileName=$_FILES['csvFile']['tmp_name'];
+                $handle = fopen($fileName, "r");
+                while(($data = fgetcsv($handle, 1000, ",")) !== FALSE){
+                    $arrayCur = array();
+                    $arrayCur['tipocurso'] = $data[2];
+                    $arrayCur['codigo'] = $data[0];
+                    $arrayCur['nombre'] = $data[1];
+                    $arrayCur['traslape'] = $data[3];
+                    $arrayCur['estado'] = $data[4];
+                    $this->_post->agregarCurso($arrayCur);
+    
+                }
+                fclose($handle);
+                $this->redireccionar('gestionCurso');
+            }else{
+                echo "<script>alert('El archivo cargado no cumple con el formato csv');</script>";
+            }
+        }
+        $this->redireccionar('gestionCurso/agregarCurso');
+        
     }
 }

@@ -85,34 +85,31 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-lg-3 col-md-6 text-center">
-                <div class="service-box">
-                    <i class="fa fa-4x fa-building wow bounceIn text-primary"></i>
-                    <h3>Gesti&oacute;n de edificios</h3>
-                    <p class="text-muted">Capacidad de salones y gestion de uso</p>
+            <form id="frFile" name="frFile" method='post' enctype="multipart/form-data" action='<?php echo BASE_URL; ?>gestionCurso/cargarCSV'>
+                <div class="col-lg-3 col-md-6 text-center"></div>
+                <div class="col-lg-3 col-md-6 text-center">
+                    <div class="service-box">
+                        <p class="text-muted">Crea multiples cursos utilizando archivos delimitados por comas</p>
+                        <div class="fileUpload btn btn-warning" >
+                            <span>Procesar archivo .csv</span>
+                            <input class="upload" type='submit' style="width: 100%" id="btnCargar" name='btnCargar'>
+                        </div>
+                        <i class="fa fa-2x fa-forward wow bounceIn text-primary" data-wow-delay=".2s"></i>
+                    </div>
                 </div>
-            </div>
-            <div class="col-lg-3 col-md-6 text-center">
-                <div class="service-box">
-                    <i class="fa fa-4x fa-mortar-board wow bounceIn text-primary"></i>
-                    <h3>Gesti&oacute;n de Unidades Acad&eacute;micas</h3>
-                    <p class="text-muted">Faculades, Escuelas y Centros Regionales</p>
+                <div class="col-lg-3 col-md-6 text-center">
+                    <div class="service-box">
+                        <i class="fa fa-4x fa-file-text wow bounceIn text-primary" data-wow-delay=".1s"></i>
+                        <br/>
+                        <div id="divcsvFile" class="fileUpload btn btn-warning" >
+                            <span>Cargar Archivo</span>
+                            <input class="upload" type="file" id="csvFile" name="csvFile"/>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="col-lg-3 col-md-6 text-center">
-                <div class="service-box">
-                    <i class="fa fa-4x fa-group wow bounceIn text-primary" data-wow-delay=".1s"></i>
-                    <h3>Gesti&oacute;n de personal</h3>
-                    <p class="text-muted">Directores, Control Academico, Catedraticos</p>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 text-center">
-                <div class="service-box">
-                    <i class="fa fa-4x fa-pencil wow bounceIn text-primary" data-wow-delay=".2s"></i>
-                    <h3>Gesti&oacute;n de estudiantes</h3>
-                    <p class="text-muted">Alumnos regulares</p>
-                </div>
-            </div>
+                <div class="col-lg-3 col-md-6 text-center"></div>
+                <input type="hidden" id="hdFile" name="hdFile" value="0">
+            </form>
         </div>
     </div>
 </section>
