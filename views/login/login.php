@@ -20,18 +20,18 @@
                 <h2 class="section-heading">&nbsp;</h2>
                 <hr class="primary">
                 <i class="fa fa-2x fa-certificate wow bounceIn text-primary">
-                    <a id="aCatedratico" href="#" class="h2" data-wow-delay=".1s" data-toggle="modal" data-target="#myModal">Catedraticos</a>
-                    <p class="text-muted">Ten acceso a los cursos que impartes y administra las notas de tus alumnos!</p>
+                    <a id="aCatedratico" href="#" class="h2" data-wow-delay=".1s" data-toggle="modal" data-target="#myModal">Catedr&aacute;ticos</a>
+                    <p class="text-muted">¡Ten acceso a los cursos que impartes y administra las notas de tus alumnos!</p>
                     <br/>
                 </i>
             </div>
             <div class="col-lg-4 col-sm-6 text-center">
                 <br/><br/>
                 <h2 class="section-heading">Iniciar Sesi&oacute;n</h2>
-                <hr class="primary"><br/>
+                <hr class="primary">
                 <i class="fa fa-2x fa-mortar-board wow bounceIn text-primary">
                     <a id="aEstudiante" href="#" class="h2" data-wow-delay=".1s" data-toggle="modal" data-target="#myModal">Estudiantes</a>
-                    <p class="text-muted">Ten Acceso a tus notas y horarios de cursos!</p>
+                    <p class="text-muted">¡Ten acceso a tus notas y horarios de cursos!</p>
                     <br/>
                 </i>
             </div>
@@ -40,8 +40,8 @@
                 <h2 class="section-heading">&nbsp;</h2>
                 <hr class="primary">
                 <i class="fa fa-2x fa-sign-in wow bounceIn text-primary">
-                    <a id="aEmpleado" href="#" class="h2" data-wow-delay=".1s" data-toggle="modal" data-target="#myModal">Control Academico</a>
-                    <p class="text-muted">Sitio reservado para administradores y empleados de control academico</p>
+                    <a id="aEmpleado" href="#" class="h2" data-wow-delay=".1s" data-toggle="modal" data-target="#myModal">Control Acad&eacute;mico</a>
+                    <p class="text-muted">Sitio reservado para administradores y empleados de control acad&eacute;mico</p>
                     <br/>
                 </i>
             </div>
@@ -108,9 +108,8 @@
             <div class="col-lg-8 col-lg-offset-2 text-center">
                 <h2 class="section-heading">Contáctenos</h2>
                 <hr class="primary">
-                <p>Escuela de Historia
-                    Universidad de San Carlos de Guatemala  —-USAC-—
-                    Centro América
+                <p>Escuela de Historia<br/>
+                    Universidad de San Carlos de Guatemala —USAC—<br/>
                     Edificio S-1, 2do. Nivel, Ciudad Universitaria, zona 12
 
                     </p>
@@ -135,7 +134,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
-                <h2 class="text-center">Inicia Sesión</h2>
+                <h2 class="text-center">Inicia Sesi&oacute;n</h2>
             </div>
             <div class="modal-body row">
                 <form class="col-md-10 col-md-offset-1 col-xs-12 col-xs-offset-0" id="frLogin" method="post" action="<?php echo BASE_URL; ?>login/autenticar">
@@ -145,10 +144,10 @@
                                 <td rowspan="3" style="width: 40%">
                                     <img src="<?php echo $_layoutParams['ruta_img']?>LogoEscuelaHistoria.png" width="200px" height="200px" align="middle" />
                                 </td>
-                                <td id="radios" style="display:none;text-align: right;">
+<!--                                <td id="radios" style="display:none;text-align: right;">
                                     Administrador&nbsp;<input type="radio" id="rbTipo" name="rbTipo" value="0"><br/>
                                     Control Academico&nbsp;<input type="radio" id="rbTipo" name="rbTipo" value="3" checked>
-                                </td>
+                                </td>-->
                             </tr>
                             <tr>
                                 <td>

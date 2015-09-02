@@ -25,22 +25,22 @@ $(document).ready(function(){
     
     $("#aEstudiante").click(function() {
         $("#tipo").val("1");
-        $("#radios").css("display","none");
+//        $("#radios").css("display","none");
     });
     
     $("#aCatedratico").click(function() {
         $("#tipo").val("2");
-        $("#radios").css("display","none");
+//        $("#radios").css("display","none");
     });
     
     $("#aEmpleado").click(function() {
         $("#tipo").val("3");
-        $("#radios").css("display","block");
+//        $("#radios").css("display","block");
     });
     
-    $("#radios").click(function(){
-       var i = $("input[name=rbTipo]:checked").val();
-       $("#tipo").val(i);
-    });
+//    $("#radios").click(function(){
+//       var i = $("input[name=rbTipo]:checked").val();
+//       $("#tipo").val(i);
+//    });
 });
 
