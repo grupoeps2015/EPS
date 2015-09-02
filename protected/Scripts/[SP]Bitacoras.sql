@@ -1,17 +1,16 @@
-﻿-- -----------------------------------------------------
--- Function: spautenticarusuario(integer, text, text, text)
--- -----------------------------------------------------
--- DROP FUNCTION spautenticarusuario(integer, text, text, text);
+﻿-- Function: spinsertarbitacorausuario(text, integer, text, integer, text, integer, text, text)
 
-CREATE OR REPLACE FUNCTION spInsertarBitacoraUsuario(
-    IN _tabla text,
-	IN _usuario integer,
-    IN _nombreusuario text,
-	IN _funcion integer,
-    IN _ip text,
-	IN _registro integer,
-    IN _tablacampo text,
-	IN _descripcion text)
+-- DROP FUNCTION spinsertarbitacorausuario(text, integer, text, integer, text, integer, text, text);
+
+CREATE OR REPLACE FUNCTION spinsertarbitacorausuario(
+    _tabla text,
+    _usuario integer,
+    _nombreusuario text,
+    _funcion integer,
+    _ip text,
+    _registro integer,
+    _tablacampo text,
+    _descripcion text)
   RETURNS void AS
 $BODY$
 DECLARE fecha date;
@@ -25,3 +24,7 @@ end;
   $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
+ALTER FUNCTION spinsertarbitacorausuario(text, integer, text, integer, text, integer, text, text)
+  OWNER TO postgres;
+
+  

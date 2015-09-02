@@ -32,6 +32,24 @@ class autenticarUsuarioModel extends Model{
             return $e->getMessage();
         }
     }
+    public function validarPermisoUsuario($funcion, $rol){
+        try {
+            $_datos[":funcion"] = $funcion;
+            $_datos[":rol"] = $rol;
+            $post = $this->_db->prepare("SELECT * from spValidarPermisoUsuario(:funcion,:rol) as resultado;");
+            $post->execute($_datos);
+            $resultado = $post->fetchall();
+            if (isset($resultado[0][0]) && $resultado[0][0] > 0){
+                return true;
+            }
+            else{
+                return false;
+            }
+            
+        } catch (Exception $e) {
+            return false;
+        }
+    }
 }
 
 ?>

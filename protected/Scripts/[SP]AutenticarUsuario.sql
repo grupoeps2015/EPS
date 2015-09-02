@@ -24,3 +24,23 @@ end;
   ROWS 1000;
 ALTER FUNCTION spautenticarusuario(integer, text, text, text)
   OWNER TO postgres;
+
+  
+-- Function: spvalidarpermisousuario(integer, integer)
+
+-- DROP FUNCTION spvalidarpermisousuario(integer, integer);
+
+CREATE OR REPLACE FUNCTION spvalidarpermisousuario(
+    _funcion integer,
+    _rol integer)
+  RETURNS integer AS
+$BODY$
+DECLARE resultado integer;
+BEGIN
+	select count(*) FROM ADM_Rol_Funcion where Rol = _rol and Funcion = _funcion into resultado;
+	RETURN resultado;
+END; $BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION spvalidarpermisousuario(integer, integer)
+  OWNER TO postgres;

@@ -51,7 +51,12 @@ class loginController extends Controller{
             $arrayBitacora[":tablacampo"] = ''; //tampoco se que es esto
             $arrayBitacora[":descripcion"] = 'El usuario ha iniciado sesión.';
             $this->_bitacora->insertarBitacoraUsuario($arrayBitacora, $_SESSION["rol"]);
-            
+//            if($this->_login->validarPermisoUsuario(CONS_FUNC_LOGIN,$_SESSION["rol"])){
+//                echo "hola";
+//            }
+//            else{
+//                echo "adios";
+//            }
             $this->redireccionar('login/inicio');
         }
         else{
