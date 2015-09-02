@@ -48,8 +48,8 @@
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav navbar-right">
                         <li>
-                            <a class="page-scroll" href="Menu.php">
-                                <font color="black">Men&uacute;</font>
+                            <a class="page-scroll" href="<?php echo BASE_URL?>admHistoriaLogin/salir">
+                                <font color="black">Salir</font>
                             </a>
                         </li>
                     </ul>

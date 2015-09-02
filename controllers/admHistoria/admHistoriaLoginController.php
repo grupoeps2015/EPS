@@ -23,7 +23,7 @@ class admHistoriaLoginController extends Controller{
         $pass = $this->getTexto('pass');
         $tipo = $this->getInteger('tipo');
         $passEncrypt = $this->_encriptar->encrypt($pass, UNIDAD_ACADEMICA);
-        //$this->_post->autenticarUsuario($usuario,$pass,$tipo);
+        //echo $this->_encriptar->encrypt('admin', UNIDAD_ACADEMICA);
         $respuesta = $this->_post->autenticarUsuario($tipo,$usuario,$passEncrypt);
         if (isset($respuesta) && count($respuesta) == 1){
             session_start();
@@ -33,17 +33,18 @@ class admHistoriaLoginController extends Controller{
 //                echo $_SESSION["usuario"];
 //                echo $_SESSION["rol"];
 //                echo $respuesta[0]['estado'];
-                $this->_view->renderizar(ADM_FOLDER,'inicio');
+                $this->_view->renderizar(ADMH_FOLDER,'inicio');
         }
         else{
-            echo "Credenciales incorrectas";
+            echo "<script>alert('Credenciales incorrectas');</script>";
+            $this->_view->renderizar(ADMH_FOLDER ,'admHistoriaLogin');
         }
-        //echo $respuesta;
-        //crear y llamar metodo que autentique en el model
-        //si esta bien redireccionar a la pagina de inicio
-        //si no de vuelta al index
-        //$this->redireccionar('inicio');
+        }
         
-    }
+        public function salir(){
+            session_start();
+            session_destroy();
+            $this->redireccionar('admHistoriaLogin');
+        }
 }
 ?>
