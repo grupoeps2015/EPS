@@ -8,6 +8,7 @@
     require_once APP_PATH . 'Config.php';
     require_once APP_PATH . 'Controller.php';
     require_once APP_PATH . 'Database.php';
+    require_once APP_PATH . 'Funciones.php';
     require_once APP_PATH . 'Model.php';
     require_once APP_PATH . 'Registro.php';
     require_once APP_PATH . 'Request.php';
