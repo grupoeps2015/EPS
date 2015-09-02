@@ -263,7 +263,7 @@
                         <p class="text-muted">Crea multiples usuarios utilizando archivos delimitados por comas</p>
                         <div class="fileUpload btn btn-warning" >
                             <span>Procesar archivo .csv</span>
-                            <input class="upload" type='submit' id="btnCargar" name='btnCargar'>
+                            <input class="upload" type='submit' style="width: 100%" id="btnCargar" name='btnCargar'>
                         </div>
                         <i class="fa fa-2x fa-forward wow bounceIn text-primary" data-wow-delay=".2s"></i>
                     </div>

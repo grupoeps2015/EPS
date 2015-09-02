@@ -188,9 +188,6 @@ class gestionUsuarioController extends Controller {
         $fileExt = "";
         $rol = "";
         
-        $cadena = "";
-        
-        
         if($iden == 1){
             $fileName=$_FILES['csvFile']['name'];
             $fileExt = explode(".",$fileName);
@@ -270,12 +267,12 @@ class gestionUsuarioController extends Controller {
                     }
                 }
                 fclose($handle);
+                $this->redireccionar('gestionUsuario');
             }else{
                 echo "<script>alert('El archivo cargado no cumple con el formato csv');</script>";
-                $this->redireccionar('gestionUsuario/agregarUsuario');
             }
         }
-        $this->redireccionar('gestionUsuario');
+        $this->redireccionar('gestionUsuario/agregarUsuario');
     }
     
     protected function notificacionEMAIL() {

@@ -15,6 +15,7 @@ BEGIN
 	     (select primernombre || ' ' || segundonombre || ' ' || primerapellido || ' ' || segundoapellido from Cat_Catedratico where usuario=u.usuario),
 	     (select primernombre || ' ' || segundonombre || ' ' || primerapellido || ' ' || segundoapellido from Adm_Empleado where usuario=u.usuario)),
     case
+	when (select r.rol from adm_rol_usuario r where r.usuario = u.usuario) = 0 then 'Administrador'
 	when (select r.rol from adm_rol_usuario r where r.usuario = u.usuario) = 1 then 'Estudiante'
 	when (select r.rol from adm_rol_usuario r where r.usuario = u.usuario) = 2 then 'Catedratico'
 	when (select r.rol from adm_rol_usuario r where r.usuario = u.usuario) = 3 then 'Empleado'
@@ -28,8 +29,6 @@ BEGIN
     end as "Estado"
   from 
     ADM_Usuario u
-  where 
-    u.usuario > 1
   order by 
     u.usuario;
 END;
