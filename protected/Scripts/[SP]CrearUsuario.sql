@@ -233,5 +233,3 @@ $BODY$
 
 ALTER FUNCTION spactualizarusuario(integer, text, text, integer, text)
   OWNER TO postgres;
-
-SELECT * from spactualizarusuario(10, '100150819@historia.usac.gt','kpOUYmNk',1,'Pollo frito');
