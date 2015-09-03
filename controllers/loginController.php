@@ -70,7 +70,7 @@ class loginController extends Controller{
         }
         else{
             echo "<script>alert('Credenciales incorrectas');</script>";
-            $this->_view->renderizar('login');
+            $this->index();
         }
     }
 

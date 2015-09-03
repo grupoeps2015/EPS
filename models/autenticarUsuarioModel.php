@@ -26,7 +26,7 @@ class autenticarUsuarioModel extends Model{
             $y = $this->_db->query("SELECT * from spAutenticarUsuario(" . $sp . ");");
             //return "SELECT spAutenticarUsuarios(" . $sp . ");";
             //return $tipo . " " . $usuario . " " . $pass;
-            //return "SELECT spAutenticarUsuario(" . $sp . ");";
+            //return "SELECT * from spAutenticarUsuario(" . $sp . ");";
             return $y->fetchall();
         }catch(Exception $e){
             return $e->getMessage();
