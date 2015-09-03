@@ -265,7 +265,7 @@
                             <span>Procesar archivo .csv</span>
                             <input class="upload" type='submit' style="width: 100%" id="btnCargar" name='btnCargar'>
                         </div>
-                        <i class="fa fa-2x fa-forward wow bounceIn text-primary" data-wow-delay=".2s"></i>
+                        <i class="fa fa-3x fa-forward wow bounceIn text-primary" data-wow-delay=".2s"></i>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 text-center">

@@ -156,30 +156,76 @@ class gestionUsuarioController extends Controller {
         $this->_view->datosUsr = $this->_post->datosUsuario($intIdUsuario);
         $this->_view->unidades = $this->_ajax->getUnidades();
 
+        $pass = $this->getTexto('pass');
+        $passActual = $this->getTexto('txtPassword');
+        $passNueva = $this->getTexto('txtPasswordNuevo');
+        $passValida = $this->getTexto('txtPasswordNuevo2');
+
+        $idPregunta = $this->getInteger('preguntaActual');
+        $strRespuesta = $this->getTexto('txtRespuesta');
+        
         if ($valorPagina == 1) {
-            if (!$this->getTexto('txtNombre') || !$this->getTexto('txtCorreo') || !$this->getInteger('slPregunta') || !$this->getTexto('txtRespuesta')) {
+            if(!$this->getTexto('txtCorreo')){
                 $this->_view->renderizar('gestionUsuario', 'actualizarUsuario');
                 exit;
+            }
+            
+            //Actualizacion de contraseña
+            if(strcmp($passActual,"")!=0 || strcmp($passNueva,"")!=0 || strcmp($passValida,"")!=0){
+                $encriptar = $this->_encriptar->encrypt($passActual, UNIDAD_ACADEMICA);
+                if(strcmp($pass,$encriptar) == 0){
+                    if(strcmp($passNueva,$passValida) == 0 && strcmp($passNueva,"")!=0){
+                        $passNueva = $this->_encriptar->encrypt($passValida,UNIDAD_ACADEMICA);
+                    }else{
+                        $this->_view->error = 'La contraseña nueva no coincide';
+                        $this->_view->renderizar('actualizarUsuario', 'gestionUsuario');
+                        exit;
+                    }    
+                }else{
+                    $this->_view->error = 'La contraseña actual es incorrecta';
+                    $this->_view->renderizar('actualizarUsuario', 'gestionUsuario');
+                    exit;
+                }
+            }else{
+                $passNueva = $pass;
+            }
+            
+            //Actualizacion de pregunta secreta
+            if($this->getInteger('slPregunta') != 0){
+                if(strcmp($strRespuesta,"")!=0){
+                    $idPregunta = $this->getInteger('slPregunta');
+                }else{
+                    $this->_view->error = 'Debe ingresar una respuesta';
+                    $this->_view->renderizar('actualizarUsuario', 'gestionUsuario');
+                    exit;
+                }
+            }else{
+                if($idPregunta == 0){
+                    $this->_view->error = 'Es necesario que establesca una pregunta secreta con respuesta';
+                    $this->_view->renderizar('actualizarUsuario', 'gestionUsuario');
+                    exit;
+                }else{
+                    $idPregunta = $this->getInteger('preguntaActual');
+                    $strRespuesta = $this->_post->datosUsuario($intIdUsuario)[0]['respuestasecreta'];
+                }
             }
             $actualizar = true;
         }
         
         if ($actualizar) {
+            //Actualizacion de correo electronico
             $arrayUsr['id'] = $intIdUsuario;
-            $arrayUsr['nombreUsr'] = $this->getTexto('txtNombre');
             $arrayUsr['correoUsr'] = $this->getTexto('txtCorreo');
-            if(!$this->getTexto('txtPasswordNuevo')&&!$this->getTexto('txtPasswordNuevo2')){
-                $arrayUsr['clave'] = $this->getTexto('pass');
-            }
-            $arrayUsr['clave'] = $this->getTexto('txtPasswordNuevo');;
-            $arrayUsr['preguntaUsr'] = $this->getInteger('slPregunta');
-            $arrayUsr['respuestaUsr'] = $this->getTexto('txtRespuesta');
+            $arrayUsr['clave'] = $passNueva;
+            $arrayUsr['preguntaUsr'] = $idPregunta;
+            $arrayUsr['respuestaUsr'] = $strRespuesta;
+            
             
             $this->_post->actualizarUsuario($arrayUsr);
             $this->redireccionar('gestionUsuario/actualizarUsuario/'.$intIdUsuario);
             
         }
-        $this->_view->renderizar('actualizarUsuario', 'admCrearUsuario');
+        $this->_view->renderizar('actualizarUsuario', 'gestionUsuario');
     }
 
     public function cargarCSV(){

@@ -1,36 +1,26 @@
-
 $(document).ready(function(){
+    
+    $('#slPregunta').change(function(){
+        if(!$("#slPregunta").val()){
+            $('#txtRespuesta').prop("disabled",true);
+            $('#txtRespuesta').attr("placeholder", "");
+        }else{
+            $('#txtRespuesta').prop("disabled",false);
+            $('#txtRespuesta').attr("placeholder", "Escriba su Respuesta")
+        }
+    });
     
     $('#frmUsuario').validate({
         rules:{
-            txtNombre:{
-                required: true
-            },
             txtCorreo:{
                 required: true,
                 email: true
-            },
-            slPregunta:{
-                required: true
-            },
-            txtRespuesta:{
-                required: true                
             }
         },
         messages:{
-            txtNombre:{
-                required: "Ingresa el nombre del usuario"
-            },
             txtCorreo:{
                 required: "Debes ingresar un email para el usuario",
                 email:"El formato para email es invalido"
-            },
-            slPregunta:{
-                required: "Debes seleccionar una pregunta"
-            },
-            txtRespuesta:{
-                required: "Debes ingresar una respuesta",
-               
             }
         }
     });

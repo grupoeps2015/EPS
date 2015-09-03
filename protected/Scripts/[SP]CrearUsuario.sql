@@ -186,14 +186,15 @@ LANGUAGE 'plpgsql';
 
 CREATE OR REPLACE FUNCTION spdatosusuario(Id int, 
 					  OUT nombre text, OUT correo text, 
-					  OUT unidadacademica text, OUT clave text, OUT preguntasecreta text, 
-					  OUT respuestasecreta text ) RETURNS setof record as 
+					  OUT unidadacademica text, OUT clave text, OUT idPregunta int,
+					  OUT preguntasecreta text, OUT respuestasecreta text ) RETURNS setof record as 
 $BODY$
 BEGIN
   RETURN query EXECUTE format('SELECT u.nombre, 
 				      u.correo, 
 				      ua.nombre,
-					  u.clave,
+				      u.clave,
+				      ps.preguntasecreta,
 				      ps.descripcion, 
 				      u.respuestasecreta 
 			       FROM adm_usuario u 
@@ -203,16 +204,15 @@ BEGIN
 END;
 $BODY$
 LANGUAGE 'plpgsql';
+select * from spdatosusuario(11);
 
-  
 -- -----------------------------------------------------
 -- Function: spactualizarusuario()
 -- -----------------------------------------------------
--- DROP FUNCTION spactualizarusuario(integer, text, text, integer, integer, text);
+-- DROP FUNCTION spactualizarusuario(integer, text, text, integer, text);
 
 CREATE OR REPLACE FUNCTION spactualizarusuario(
     _idusuario integer,
-    _nombrenuevo text,
     _correonuevo text,
     _passwordNuevo text,
     _preguntasecretanueva integer,
@@ -221,14 +221,17 @@ CREATE OR REPLACE FUNCTION spactualizarusuario(
   RETURNS void AS
 $BODY$
 BEGIN
-  EXECUTE format('UPDATE adm_usuario SET nombre = %L, correo = %L,
-					     clave = %L, preguntasecreta = %L, respuestasecreta = %L
-					     WHERE usuario = %L',_nombreNuevo, _correoNuevo,
-					     _clave, _preguntasecretaNueva,_respuestasecretaNueva, _idUsuario);
+  EXECUTE format('UPDATE adm_usuario SET correo = %L, clave = %L, 
+					 preguntasecreta = %L, 
+					 respuestasecreta = %L
+				     WHERE usuario = %L',
+					_correoNuevo, _passwordNuevo, _preguntasecretaNueva, _respuestasecretaNueva, _idUsuario);
 END;
 $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
 
-ALTER FUNCTION spactualizarusuario(integer, text, text, integer, integer, text)
+ALTER FUNCTION spactualizarusuario(integer, text, text, integer, text)
   OWNER TO postgres;
+
+SELECT * from spactualizarusuario(10, '100150819@historia.usac.gt','kpOUYmNk',1,'Pollo frito');

@@ -134,11 +134,11 @@ class gestionUsuarioModel extends Model {
     }
 
     public function actualizarUsuario($_datos) {
-        $sp = $_datos["id"] . ', \'' . $_datos["nombreUsr"] . '\',\'' . $_datos["correoUsr"] . '\',';
-        $sp .= $_datos["unidadUsr"] . ',';
+        $sp = $_datos["id"] . ', \'' . $_datos["correoUsr"] . '\',\'';
+        $sp .= $_datos["clave"] . '\',';
         $sp .= $_datos["preguntaUsr"] . ',\'' . $_datos["respuestaUsr"].'\'';
         try {
-             $this->_db->query("SELECT * from spactualizarusuario(" . $sp . ");");
+            $this->_db->query("SELECT * from spactualizarusuario(" . $sp . ");");
         } catch (Exception $e) {
             return $e->getMessage();
         }
