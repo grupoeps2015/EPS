@@ -21,11 +21,11 @@ class gestionUsuarioController extends Controller {
 
     public function index() {
         $this->_view->lstUsr = $this->_post->informacionUsuario();
+        $this->_view->lstCentros = $this->_ajax->getCentro();
         $this->_view->titulo = 'Gestión de usuarios - ' . APP_TITULO;
         $this->_view->setJs(array('gestionUsuario'));
         $this->_view->setJs(array('jquery.dataTables.min'), "public");
         $this->_view->setCSS(array('jquery.dataTables.min'));
-
         $this->_view->renderizar('gestionUsuario');
     }
 

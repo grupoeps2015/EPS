@@ -83,3 +83,22 @@ begin
 end;
 $BODY$
 LANGUAGE 'plpgsql';
+
+-- -----------------------------------------------------
+-- Function: spUnidadxCentro()
+-- -----------------------------------------------------
+-- DROP FUNCTION spUnidadxCentro(integer);
+
+CREATE OR REPLACE FUNCTION spUnidadxCentro(IN _centro int, OUT codigo int, OUT nombre text) RETURNS setof record AS
+$BODY$
+begin
+ Return query select 
+		uni.unidadacademica, uni.nombre 
+	      from 
+	        adm_unidadacademica uni, adm_centro_unidadacademica mix 
+	      where mix.centro = _centro;
+end;
+$BODY$
+LANGUAGE 'plpgsql';
+
+select * from spUnidadxCentro(20)

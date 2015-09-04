@@ -22,12 +22,17 @@ class ajaxController extends Controller{
         }
     }
     
+    public function getUnidadesAjax(){
+        if($this->getInteger('centro')){
+            echo json_encode($this->_ajax->getUnidadesAjax($this->getInteger('centro')));
+        }
+    }
+    
     public function getCarreras(){
         if($this->getInteger('carr')){
             echo json_encode($this->_ajax->getCarreras($this->getInteger('carr')));
         }
     }
-    
 }
 
 ?>
