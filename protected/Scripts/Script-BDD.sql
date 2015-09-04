@@ -462,11 +462,11 @@ CREATE TABLE CUR_Seccion (
   Descripcion TEXT NULL,
   Estado INTEGER NOT NULL,
   TipoSeccion INTEGER NOT NULL,
-  CursoPensumArea INTEGER NOT NULL,
+  Curso INTEGER NOT NULL,
   PRIMARY KEY (Seccion),
-  CONSTRAINT CursoPensumArea
-    FOREIGN KEY (CursoPensumArea)
-    REFERENCES CUR_Pensum_Area (CursoPensumArea),
+  CONSTRAINT Curso
+    FOREIGN KEY (Curso)
+    REFERENCES CUR_Curso (Curso),
   CONSTRAINT fk_CUR_Seccion_CUR_TipoSeccion1
     FOREIGN KEY (TipoSeccion)
     REFERENCES CUR_TipoSeccion (TipoSeccion));
@@ -476,20 +476,20 @@ CREATE TABLE CUR_Seccion (
 -- Table CUR_Curso_Catedratico
 -- -----------------------------------------------------
 CREATE TABLE CUR_Curso_Catedratico (
-  Curso SERIAL NOT NULL,
+  Curso_Catedratico SERIAL NOT NULL,
   Catedratico INTEGER NOT NULL,
-  CursoPensumArea INTEGER NOT NULL,
+  Curso INTEGER NOT NULL,
   Fecha DATE NOT NULL,
   Estado INTEGER NOT NULL,
   PRIMARY KEY (Curso, Catedratico),
   CONSTRAINT fk_CUR_Curso_Docente_DOC_Docente1
     FOREIGN KEY (Catedratico)
     REFERENCES CAT_Catedratico (Catedratico),
-  CONSTRAINT CursoPensumArea
-    FOREIGN KEY (CursoPensumArea)
-    REFERENCES CUR_Pensum_Area (CursoPensumArea));
+  CONSTRAINT Curso
+    FOREIGN KEY (Curso)
+    REFERENCES CUR_Curso (Curso));
 
-CREATE UNIQUE INDEX u_Curso_Catedratico ON CUR_Curso_Catedratico (Curso,Catedratico,CursoPensumArea);
+CREATE UNIQUE INDEX u_Curso_Catedratico ON CUR_Curso_Catedratico (Curso_Catedratico,Catedratico,Curso);
 
 
 -- -----------------------------------------------------

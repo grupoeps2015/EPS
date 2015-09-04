@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Description of gestionCursoModel
+ * Description of gestionPensumModel
  *
  * @author Arias
  */
 
-class gestionCursoModel extends Model {
+class gestionPensumModel extends Model {
 
     public function __construct() {
         parent::__construct();

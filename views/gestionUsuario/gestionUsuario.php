@@ -67,7 +67,7 @@
                             <?php endfor;?>
                         <?php else : ?>
                             <tr>
-                                <td colspan="8" style="text-align: center">No hay informacion disponible</td>
+                                <td colspan="8" style="text-align: center">No hay informaci&oacute;n disponible.</td>
                             </tr>
                         <?php endif;?>
                         </tbody>

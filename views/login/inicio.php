@@ -14,21 +14,21 @@
                 <div class="service-box">
                     <i class="fa fa-4x fa-building wow bounceIn text-primary"></i>
                     <h3>Gesti&oacute;n de edificios</h3>
-                    <p class="text-muted">Capacidad de salones y gestion de uso</p>
+                    <p class="text-muted">Capacidad de salones y gesti&oacute;n de uso</p>
                 </div>
             </div>
             <div class="col-lg-4 col-md-8 text-center">
                 <div class="service-box">
                     <i class="fa fa-4x fa-group wow bounceIn text-primary" data-wow-delay=".1s"></i>
                     <h3><a href="<?php echo BASE_URL; ?>gestionUsuario">Gesti&oacute;n de usuarios</a></h3>
-                    <p class="text-muted">Directores, Control Academico, Catedraticos y Estudiantes</p>
+                    <p class="text-muted">Directores, Control Acad&eacute;mico, Catedr&aacute;ticos y Estudiantes</p>
                 </div>
             </div>
             <div class="col-lg-4 col-md-8 text-center">
                 <div class="service-box">
                     <i class="fa fa-4x fa-pencil wow bounceIn text-primary" data-wow-delay=".2s"></i>
                     <h3><a href="<?php echo BASE_URL; ?>gestionParametro">Parametrizaci&oacute;n</a></h3>
-                    <p class="text-muted">Modulo de parametrizaci&oacute;n diseñado para administradores</p>
+                    <p class="text-muted">M&oacute;dulo de parametrizaci&oacute;n diseñado para administradores</p>
                 </div>
             </div>
         </div>
@@ -37,14 +37,14 @@
                 <div class="service-box">
                     <i class="fa fa-4x fa-mortar-board wow bounceIn text-primary"></i>
                     <h3>Gesti&oacute;n de Unidades Acad&eacute;micas</h3>
-                    <p class="text-muted">Faculades, Escuelas y Centros Regionales</p>
+                    <p class="text-muted">Facultades, Escuelas y Centros Regionales</p>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 text-center">
                 <div class="service-box">
                     <i class="fa fa-4x fa-navicon wow bounceIn text-primary"></i>
                     <h3><a href="<?php echo BASE_URL; ?>gestionCurso">Gesti&oacute;n de Cursos</a></h3>
-                    <p class="text-muted">Creaci&oacute; y actualizaci&oacute;n de cursos</p>
+                    <p class="text-muted">Creaci&oacute;n y actualizaci&oacute;n de cursos</p>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 text-center">
@@ -57,8 +57,8 @@
             <div class="col-lg-3 col-md-6 text-center">
                 <div class="service-box">
                     <i class="fa fa-4x fa-shekel wow bounceIn text-primary"></i>
-                    <h3>Gesti&oacute;n de Pensum de estudios</h3>
-                    <p class="text-muted">Creaci&oacute; y actualizaci&oacute;n de pensum seg&uacute;n carreras</p>
+                    <h3><a href="<?php echo BASE_URL; ?>gestionPensum/inicio">Gesti&oacute;n de P&eacute;nsum de estudios</a></h3>
+                    <p class="text-muted">Creaci&oacute;n y actualizaci&oacute;n de p&eacute;nsums seg&uacute;n carreras</p>
                 </div>
             </div>
         </div>

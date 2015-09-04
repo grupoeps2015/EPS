@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Description of gestionCursoController
+ * Description of gestionPensumController
  *
  * @author Arias
  */
-class gestionCursoController extends Controller {
+class gestionPensumController extends Controller {
 
     private $_post;
     private $_encriptar;
@@ -16,7 +16,7 @@ class gestionCursoController extends Controller {
         parent::__construct();
         $this->getLibrary('encripted');
         $this->_encriptar = new encripted();
-        $this->_post = $this->loadModel('gestionCurso');
+        $this->_post = $this->loadModel('gestionPensum');
         $this->_ajax = $this->loadModel("ajax");
     }
 
@@ -28,6 +28,10 @@ class gestionCursoController extends Controller {
         $this->_view->setCSS(array('jquery.dataTables.min'));
 
         $this->_view->renderizar('gestionCurso');
+    }
+    
+    public function inicio(){
+        $this->_view->renderizar('inicio');
     }
 
     public function agregarCurso() {
