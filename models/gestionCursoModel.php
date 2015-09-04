@@ -13,11 +13,9 @@ class gestionCursoModel extends Model {
     }
 
     public function agregarCurso($_datos) {
-        $sp = '\'' . $_datos["codigo"] . '\',\'' . $_datos["nombre"] . '\',';
-        $sp .= $_datos["traslape"] . ',' . $_datos["estado"] . ',';
-        $sp .= $_datos["tipocurso"];
         try {
-            $post = $this->_db->query("SELECT * from spAgregarCurso(" . $sp . ") as Id;");
+            $post = $this->_db->prepare("SELECT * from spAgregarCurso(:codigo,:nombre,:traslape,:estado,:tipocurso) as Id;");
+            $post->execute($_datos);
             return $post->fetchall();
             //return "SELECT * from spAgregarCurso(" . $sp . ") as Id;";
         } catch (Exception $e) {
@@ -57,11 +55,9 @@ class gestionCursoModel extends Model {
     }
     
     public function actualizarCurso($_datos) {
-        $sp = '\'' . $_datos["codigo"] . '\',\'' . $_datos["nombre"] . '\',';
-        $sp .= $_datos["traslape"] . ',' . $_datos["id"] . ',';
-        $sp .= $_datos["tipocurso"];
         try {
-            $post = $this->_db->query("SELECT * from spActualizarCurso(" . $sp . ") as Id;");
+            $post = $this->_db->prepare("SELECT * from spActualizarCurso(:codigo,:nombre,:traslape,:id,:tipocurso) as Id;");
+            $post->execute($_datos);
             return $post->fetchall();
         } catch (Exception $e) {
             return $e->getMessage();

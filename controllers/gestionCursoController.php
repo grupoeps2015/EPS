@@ -47,7 +47,7 @@ class gestionCursoController extends Controller {
             $arrayCur['codigo'] = $codigoCurso;
             $arrayCur['nombre'] = $nombreCurso;
             $arrayCur['traslape'] = $traslapeCurso;
-            $arrayCur['estado'] = 1;
+            $arrayCur['estado'] = ESTADO_ACTIVO;
 
             $this->_post->agregarCurso($arrayCur);
             $this->redireccionar('gestionCurso');
@@ -75,11 +75,11 @@ class gestionCursoController extends Controller {
         $this->_view->setJs(array('actualizarCurso'));
         
         $this->_view->tiposCurso = $this->_post->getTiposCurso();
-        $arrayUsr = array();
+        $arrayCur = array();
         $actualizar = false;
         $this->_view->id = $intIdCurso;
         $this->_view->datosCur = $this->_post->datosCurso($intIdCurso);
-        $this->_view->titulo = 'Actualizar curso - ' . APP_TITULO;
+        $this->_view->titulo = 'Actualizar Curso - ' . APP_TITULO;
         
         if ($this->getInteger('hdEnvio')) {
             $tipoCurso = $this->getInteger('slTiposCurso');

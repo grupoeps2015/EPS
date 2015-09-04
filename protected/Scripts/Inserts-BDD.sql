@@ -477,3 +477,9 @@ INSERT INTO adm_rol_usuario(rol, usuario)VALUES (0, 1);
 -- -----------------------------------------------------
 INSERT INTO cur_tipo(nombre, descripcion)VALUES ('Presencial', '');
 INSERT INTO cur_tipo(nombre, descripcion)VALUES ('Virtual', '');
+
+-- -----------------------------------------------------
+-- Insert cur_tiposeccion
+-- -----------------------------------------------------
+INSERT INTO CUR_TipoSeccion (Nombre, Descripcion) VALUES ('Diario','');
+INSERT INTO CUR_TipoSeccion (Nombre, Descripcion) VALUES ('Sabatino','');
