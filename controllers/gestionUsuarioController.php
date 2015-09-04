@@ -9,7 +9,6 @@ class gestionUsuarioController extends Controller {
 
     private $_post;
     private $_encriptar;
-
     private $_ajax;
     
     public function __construct() {
