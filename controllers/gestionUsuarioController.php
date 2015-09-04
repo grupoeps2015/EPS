@@ -20,15 +20,26 @@ class gestionUsuarioController extends Controller {
     }
 
     public function index() {
-        $this->_view->lstUsr = $this->_post->informacionUsuario();
         $this->_view->lstCentros = $this->_ajax->getCentro();
         $this->_view->titulo = 'Gestión de usuarios - ' . APP_TITULO;
         $this->_view->setJs(array('gestionUsuario'));
-        $this->_view->setJs(array('jquery.dataTables.min'), "public");
-        $this->_view->setCSS(array('jquery.dataTables.min'));
         $this->_view->renderizar('gestionUsuario');
     }
 
+    public function listadoUsuarios(){
+        
+        $idCentro = $this->getInteger('slCentros');
+        $idUnidad = $this->getInteger('slUnidad');
+        
+        $this->_view->lstUsr = $this->_post->informacionUsuario($idCentro,$idUnidad);
+        
+        $this->_view->titulo = 'Listado de usuarios - ' . APP_TITULO;
+        $this->_view->setJs(array('listadoUsuario'));
+        $this->_view->setJs(array('jquery.dataTables.min'), "public");
+        $this->_view->setCSS(array('jquery.dataTables.min'));
+        $this->_view->renderizar('listadoUsuario');
+    }
+    
     public function agregarUsuario() {
         $iden = $this->getInteger('hdEnvio');
         $idUsr = 0;

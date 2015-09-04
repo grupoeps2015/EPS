@@ -93,12 +93,11 @@ CREATE OR REPLACE FUNCTION spUnidadxCentro(IN _centro int, OUT codigo int, OUT n
 $BODY$
 begin
  Return query select 
-		uni.unidadacademica, uni.nombre 
+		coalesce(uni.unidadacademica, 0),
+		coalesce(uni.nombre,'No se encontro informacion')
 	      from 
 	        adm_unidadacademica uni, adm_centro_unidadacademica mix 
 	      where mix.centro = _centro;
 end;
 $BODY$
 LANGUAGE 'plpgsql';
-
-select * from spUnidadxCentro(20)

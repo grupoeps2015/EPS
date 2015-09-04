@@ -1,21 +1,19 @@
 $(document).ready( function () {
-    
-    $('#tbUsuarios').DataTable();
-    
     $("#slCentros").change(function(){
         if(!$("#slCentros").val()){
             $("#slUnidad").html('');
             $("#slUnidad").append('<option value="" disabled>-- Unidad Acad&eacute;mica --</option>')
         }else{
+            $('#divTabla').css("display","none");
             getUnidadesAjax();
         }
     });
     
     $("#slUnidad").change(function(){
         if(!$("#slUnidad").val()){
-            $('#divTabla').css("display","none");
+            $('#btnConsultar').prop("disabled",true);
         }else{
-            $('#divTabla').css("display","block");
+            $('#btnConsultar').prop("disabled",false);
         }
     });
     
@@ -35,7 +33,4 @@ $(document).ready( function () {
                },
                'json');
     }
-    
-    
-    
 } );

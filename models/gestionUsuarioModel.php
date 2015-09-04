@@ -96,9 +96,9 @@ class gestionUsuarioModel extends Model {
     }
 
     //Metodos utilizados para cambiar estado del usuario
-    public function informacionUsuario() {
+    public function informacionUsuario($idCentro, $idUnidad) {
         try {
-            $post = $this->_db->query("select * from spInformacionUsuario();");
+            $post = $this->_db->query("select * from spInformacionUsuario({$idCentro},{$idUnidad});");
             return $post->fetchall();
         } catch (Exception $e) {
             return $e->getMessage();
@@ -145,5 +145,3 @@ class gestionUsuarioModel extends Model {
     }
     
 }
-
-?>

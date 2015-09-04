@@ -1,10 +1,12 @@
 ﻿-- -----------------------------------------------------
 -- Function: spInformacionUsuario()
 -- -----------------------------------------------------
--- DROP FUNCTION spInformacionUsuario();
-CREATE OR REPLACE FUNCTION spInformacionUsuario(OUT Id int, OUT registro int, OUT nombre text, OUT Rol text, OUT Correo text, OUT Estado text) RETURNS setof record as 
+-- DROP FUNCTION spInformacionUsuario(int,int);
+CREATE OR REPLACE FUNCTION spInformacionUsuario(IN _idCentro int, IN _idUnidad int, 
+						OUT Id int, OUT registro int, OUT nombre text, 
+						OUT Rol text, OUT Correo text, OUT Estado text) RETURNS setof record as 
 $BODY$
-BEGIN
+BEGIN 
   RETURN query
   Select 
     u.usuario,
@@ -28,7 +30,10 @@ BEGIN
 	when u.estado=-1 then 'Desactivado'
     end as "Estado"
   from 
-    ADM_Usuario u
+    adm_Usuario u,
+    adm_centro_unidadacademica mix
+  where 
+    mix.unidadacademica = _idUnidad and mix.centro = _idCentro
   order by 
     u.usuario;
 END;
