@@ -25,7 +25,7 @@ $(document).ready(function(){
         }
     });
     
-     $("#slUnidadAcademica").change(function(){
+    $("#slUnidadAcademica").change(function(){
         if(!$("#slUnidadAcademica").val()){
             $("#slCarreras").html('');
             $("#slCarreras").append('<option value="" disabled>- carreras -</option>')

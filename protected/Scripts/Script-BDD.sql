@@ -11,6 +11,38 @@
 --       CONNECTION LIMIT = -1;
 
 -- -----------------------------------------------------
+-- Table CAT_TipoCatedratico
+-- -----------------------------------------------------
+CREATE TABLE CAT_TipoCatedratico (
+  TipoDocente SERIAL NOT NULL,
+  Descripcion TEXT NULL,
+  Estado INTEGER NOT NULL,
+  PRIMARY KEY (TipoDocente));
+
+
+-- -----------------------------------------------------
+-- Table ADM_Departamento
+-- -----------------------------------------------------
+CREATE TABLE ADM_Departamento (
+  Departamento SERIAL NOT NULL,
+  Nombre TEXT NOT NULL,
+  PRIMARY KEY (Departamento));
+
+
+-- -----------------------------------------------------
+-- Table ADM_Municipio
+-- -----------------------------------------------------
+CREATE TABLE ADM_Municipio (
+  Municipio SERIAL NOT NULL,
+  Nombre TEXT NOT NULL,
+  Departamento INTEGER NOT NULL,
+  PRIMARY KEY (Municipio),
+  CONSTRAINT fk_ADM_Municipio_ADM_Departamento1
+    FOREIGN KEY (Departamento)
+    REFERENCES ADM_Departamento (Departamento));
+
+
+-- -----------------------------------------------------
 -- Table ADM_TipoUnidadAcademica
 -- -----------------------------------------------------
 CREATE TABLE ADM_TipoUnidadAcademica (
@@ -36,6 +68,36 @@ CREATE TABLE ADM_UnidadAcademica (
     FOREIGN KEY (UnidadAcademicaSuperior)
     REFERENCES ADM_UnidadAcademica (UnidadAcademica));
 
+-- -----------------------------------------------------
+-- Table ADM_Centro
+-- -----------------------------------------------------
+CREATE TABLE ADM_Centro (
+  Centro SERIAL NOT NULL,
+  Nombre TEXT NOT NULL,
+  Direccion TEXT NOT NULL,
+  Municipio INTEGER NOT NULL,
+  Zona INTEGER NULL,
+  PRIMARY KEY (Centro),
+  CONSTRAINT fk_ADM_Centro_ADM_Municipio1
+    FOREIGN KEY (Municipio)
+    REFERENCES ADM_Municipio (Municipio));
+
+
+-- -----------------------------------------------------
+-- Table ADM_Centro_UnidadAcademica
+-- -----------------------------------------------------
+CREATE TABLE ADM_Centro_UnidadAcademica (
+  Centro INTEGER UNIQUE NOT NULL,
+  UnidadAcademica INTEGER UNIQUE NOT NULL,
+  CONSTRAINT Centro
+    FOREIGN KEY (UnidadAcademica)
+    REFERENCES ADM_UnidadAcademica (UnidadAcademica),
+  CONSTRAINT UnidadAcademica
+    FOREIGN KEY (Centro)
+    REFERENCES ADM_Centro (Centro));
+
+CREATE UNIQUE INDEX u_Centro_UnidadAcademica ON ADM_Centro_UnidadAcademica (Centro, UnidadAcademica);
+ALTER TABLE ADM_Centro_UnidadAcademica ADD PRIMARY KEY (Centro,UnidadAcademica);
 
 -- -----------------------------------------------------
 -- Table ADM_PreguntaSecreta
@@ -60,11 +122,15 @@ CREATE TABLE ADM_Usuario (
   FechaUltimaAutenticacion TIMESTAMP NOT NULL,
   IntentosAutenticacion INTEGER NOT NULL,
   Foto TEXT NOT NULL,
+  Centro INTEGER NOT NULL,
   UnidadAcademica INTEGER NOT NULL,
   PRIMARY KEY (Usuario),
-  CONSTRAINT fk_ADM_Usuario_ADM_UnidadAcademica1
+  CONSTRAINT fk_ADM_Usuario_ADM_Centro_UnidadAcademica1
+    FOREIGN KEY (Centro)
+    REFERENCES ADM_Centro_UnidadAcademica (Centro),
+  CONSTRAINT fk_ADM_Usuario_ADM_Centro_UnidadAcademica2
     FOREIGN KEY (UnidadAcademica)
-    REFERENCES ADM_UnidadAcademica (UnidadAcademica),
+    REFERENCES ADM_Centro_UnidadAcademica (UnidadAcademica),
   CONSTRAINT fk_ADM_Usuario_ADM_PreguntaSecreta1
     FOREIGN KEY (PreguntaSecreta)
     REFERENCES ADM_PreguntaSecreta (PreguntaSecreta)	
@@ -157,39 +223,6 @@ CREATE TABLE ADM_Rol_Usuario (
     FOREIGN KEY (Rol)
     REFERENCES ADM_Rol (Rol));
 
-
--- -----------------------------------------------------
--- Table CAT_TipoCatedratico
--- -----------------------------------------------------
-CREATE TABLE CAT_TipoCatedratico (
-  TipoDocente SERIAL NOT NULL,
-  Descripcion TEXT NULL,
-  Estado INTEGER NOT NULL,
-  PRIMARY KEY (TipoDocente));
-
-
--- -----------------------------------------------------
--- Table ADM_Departamento
--- -----------------------------------------------------
-CREATE TABLE ADM_Departamento (
-  Departamento SERIAL NOT NULL,
-  Nombre TEXT NOT NULL,
-  PRIMARY KEY (Departamento));
-
-
--- -----------------------------------------------------
--- Table ADM_Municipio
--- -----------------------------------------------------
-CREATE TABLE ADM_Municipio (
-  Municipio SERIAL NOT NULL,
-  Nombre TEXT NOT NULL,
-  Departamento INTEGER NOT NULL,
-  PRIMARY KEY (Municipio),
-  CONSTRAINT fk_ADM_Municipio_ADM_Departamento1
-    FOREIGN KEY (Departamento)
-    REFERENCES ADM_Departamento (Departamento));
-
-
 -- -----------------------------------------------------
 -- Table ADM_Pais
 -- -----------------------------------------------------
@@ -279,10 +312,18 @@ CREATE TABLE CUR_Curso (
   Traslape BOOLEAN NOT NULL,
   Estado INTEGER NOT NULL,
   TipoCurso INTEGER NOT NULL,
+  Centro INTEGER NOT NULL,
+  UnidadAcademica INTEGER NOT NULL,
   PRIMARY KEY (Curso),
   CONSTRAINT fk_CUR_Curso_CUR_Tipo1
     FOREIGN KEY (TipoCurso)
-    REFERENCES CUR_Tipo (TipoCurso));
+    REFERENCES CUR_Tipo (TipoCurso),
+  CONSTRAINT fk_CUR_Curso_ADM_Centro_UnidadAcademica1
+    FOREIGN KEY (Centro)
+    REFERENCES ADM_Centro_UnidadAcademica (Centro),
+  CONSTRAINT fk_CUR_Curso_ADM_Centro_UnidadAcademica2
+    FOREIGN KEY (UnidadAcademica)
+    REFERENCES ADM_Centro_UnidadAcademica (UnidadAcademica));
 
 
 -- -----------------------------------------------------
@@ -326,39 +367,6 @@ CREATE TABLE CUR_Periodo (
   CONSTRAINT fk_CUR_Periodo_CUR_TipoPerdiodo1
     FOREIGN KEY (TipoPerdiodo)
     REFERENCES CUR_TipoPeriodo (TipoPerdiodo));
-
-
--- -----------------------------------------------------
--- Table ADM_Centro
--- -----------------------------------------------------
-CREATE TABLE ADM_Centro (
-  Centro SERIAL NOT NULL,
-  Nombre TEXT NOT NULL,
-  Direccion TEXT NOT NULL,
-  Municipio INTEGER NOT NULL,
-  Zona INTEGER NULL,
-  PRIMARY KEY (Centro),
-  CONSTRAINT fk_ADM_Centro_ADM_Municipio1
-    FOREIGN KEY (Municipio)
-    REFERENCES ADM_Municipio (Municipio));
-
-
--- -----------------------------------------------------
--- Table ADM_Centro_UnidadAcademica
--- -----------------------------------------------------
-CREATE TABLE ADM_Centro_UnidadAcademica (
-  Centro INTEGER UNIQUE NOT NULL,
-  UnidadAcademica INTEGER UNIQUE NOT NULL,
-  CONSTRAINT Centro
-    FOREIGN KEY (UnidadAcademica)
-    REFERENCES ADM_UnidadAcademica (UnidadAcademica),
-  CONSTRAINT UnidadAcademica
-    FOREIGN KEY (Centro)
-    REFERENCES ADM_Centro (Centro));
-
-CREATE UNIQUE INDEX u_Centro_UnidadAcademica ON ADM_Centro_UnidadAcademica (Centro, UnidadAcademica);
-ALTER TABLE ADM_Centro_UnidadAcademica ADD PRIMARY KEY (Centro,UnidadAcademica);
-
 
 -- -----------------------------------------------------
 -- Table CUR_Carrera

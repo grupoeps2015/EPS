@@ -9,7 +9,6 @@ class gestionUsuarioController extends Controller {
 
     private $_post;
     private $_encriptar;
-
     private $_ajax;
     
     public function __construct() {
@@ -21,17 +20,36 @@ class gestionUsuarioController extends Controller {
     }
 
     public function index() {
-        $this->_view->lstUsr = $this->_post->informacionUsuario();
+        $this->_view->lstCentros = $this->_ajax->getCentro();
         $this->_view->titulo = 'Gestión de usuarios - ' . APP_TITULO;
         $this->_view->setJs(array('gestionUsuario'));
-        $this->_view->setJs(array('jquery.dataTables.min'), "public");
-        $this->_view->setCSS(array('jquery.dataTables.min'));
-
         $this->_view->renderizar('gestionUsuario');
     }
 
+    public function listadoUsuarios($centro = 0, $unidad = 0){
+        if($this->getInteger('slCentros') && $this->getInteger('slUnidad')){
+            $idCentro = $this->getInteger('slCentros');
+            $idUnidad = $this->getInteger('slUnidad');
+        }else{
+            $idCentro = $centro;
+            $idUnidad = $unidad;
+        }
+        
+        $this->_view->idCentro = $idCentro;
+        $this->_view->idUnidad = $idUnidad;
+        $this->_view->lstUsr = $this->_post->informacionUsuario($idCentro,$idUnidad);
+        
+        $this->_view->titulo = 'Listado de usuarios - ' . APP_TITULO;
+        $this->_view->setJs(array('listadoUsuario'));
+        $this->_view->setJs(array('jquery.dataTables.min'), "public");
+        $this->_view->setCSS(array('jquery.dataTables.min'));
+        $this->_view->renderizar('listadoUsuario');
+    }
+    
     public function agregarUsuario() {
         $iden = $this->getInteger('hdEnvio');
+        $idCentro = $this->getInteger('slCentros');
+        $idUnidad = $this->getInteger('slUnidad');
         $idUsr = 0;
         $nombreUsr = '';
         $correoUsr = '';
@@ -43,6 +61,8 @@ class gestionUsuarioController extends Controller {
         $arrayEmp = array();
         $arrayCat = array();
         
+        $this->_view->idCentro = $idCentro;
+        $this->_view->idUnidad = $idUnidad;
         $this->_view->centros = $this->_post->getCentros();
         $this->_view->docentes = $this->_post->getDocentes();
 
@@ -76,6 +96,7 @@ class gestionUsuarioController extends Controller {
             $arrayUsr["preguntaUsr"] = 0;
             $arrayUsr["respuestaUsr"] = "USAC";
             $arrayUsr["intentosUsr"] = 5;
+            $arrayUsr["centroUsr"] = CENTRO_REGIONAL;
             $arrayUsr["unidadUsr"] = UNIDAD_ACADEMICA;
             $idUsr = $this->_post->agregarUsuario($arrayUsr)[0][0];
             if ($iden == 1) {
@@ -128,19 +149,21 @@ class gestionUsuarioController extends Controller {
                 $this->_post->asignarRolUsuario(ROL_EMPLEADO, $idUsr);
             }
             //$this->notificacionEMAIL();
-            $this->redireccionar('gestionUsuario');
+            $this->redireccionar('gestionUsuario/listadoUsuarios/'.$idCentro.'/'.$idUnidad);
+            exit;
         }
 
         $this->_view->renderizar('agregarUsuario', 'gestionUsuario');
     }
 
-    public function eliminarUsuario($intNuevoEstado, $intIdUsuario) {
+    public function eliminarUsuario($intNuevoEstado, $intIdUsuario,$idCentro,$idUnidad) {
         if ($intNuevoEstado == -1 || $intNuevoEstado == 1) {
             $this->_post->eliminarUsuario($intIdUsuario, $intNuevoEstado);
         } else {
             $this->_view->cambio = "No reconocio ningun parametro";
         }
-        $this->redireccionar('gestionUsuario');
+        
+        $this->redireccionar('gestionUsuario/listadoUsuarios/'.$idCentro.'/'.$idUnidad);
     }
 
     public function actualizarUsuario($intIdUsuario = 0) {
@@ -241,7 +264,6 @@ class gestionUsuarioController extends Controller {
                 $fileName=$_FILES['csvFile']['tmp_name'];
                 $handle = fopen($fileName, "r");
                 while(($data = fgetcsv($handle, 1000, ",")) !== FALSE){
-                    $cadena .= $data[0] . ", ";
                     $arrayUsr = array();
                     $arrayEst = array();
                     $arrayEmp = array();
@@ -255,6 +277,7 @@ class gestionUsuarioController extends Controller {
                     $arrayUsr["preguntaUsr"] = 0;
                     $arrayUsr["respuestaUsr"] = "USAC";
                     $arrayUsr["intentosUsr"] = 5;
+                    $arrayUsr["centroUsr"] = CENTRO_REGIONAL;
                     $arrayUsr["unidadUsr"] = UNIDAD_ACADEMICA;
                     $idUsr = $this->_post->agregarUsuario($arrayUsr)[0][0];
                     switch($rol){

@@ -1,10 +1,12 @@
 ﻿-- -----------------------------------------------------
 -- Function: spInformacionUsuario()
 -- -----------------------------------------------------
--- DROP FUNCTION spInformacionUsuario();
-CREATE OR REPLACE FUNCTION spInformacionUsuario(OUT Id int, OUT registro int, OUT nombre text, OUT Rol text, OUT Correo text, OUT Estado text) RETURNS setof record as 
+-- DROP FUNCTION spInformacionUsuario(int,int);
+CREATE OR REPLACE FUNCTION spInformacionUsuario(IN _idCentro int, IN _idUnidad int, 
+						OUT Id int, OUT registro int, OUT nombre text, 
+						OUT Rol text, OUT Correo text, OUT Estado text) RETURNS setof record as 
 $BODY$
-BEGIN
+BEGIN 
   RETURN query
   Select 
     u.usuario,
@@ -28,7 +30,9 @@ BEGIN
 	when u.estado=-1 then 'Desactivado'
     end as "Estado"
   from 
-    ADM_Usuario u
+    adm_Usuario u
+  where 
+    u.unidadacademica = _idUnidad and u.centro = _idCentro
   order by 
     u.usuario;
 END;
@@ -38,20 +42,20 @@ LANGUAGE 'plpgsql';
 -- -----------------------------------------------------
 -- Function: spAgregarUsuarios()
 -- -----------------------------------------------------
--- DROP FUNCTION spagregarusuarios(text, text, text, integer, text, integer, text, integer);
-
+-- DROP FUNCTION spagregarusuarios(text, text, text, int, text, int, text, int, int);
+select * from cat_catedratico;
 CREATE OR REPLACE FUNCTION spAgregarUsuarios(_nombre text, _correo text,
 					     _clave text, _preguntasecreta integer,
-					     _respuestasecreta text, _intentosautenticacion integer,
-					     _foto text, _unidadacademica integer) RETURNS integer AS $BODY$
+					     _respuestasecreta text, _intentosautenticacion int,
+					     _foto text, _centro int, _unidadacademica int) RETURNS integer AS $BODY$
 DECLARE idUsuario integer;
 DECLARE fecha timestamp;
 BEGIN
 	SELECT current_timestamp into fecha;
 	INSERT INTO adm_usuario (usuario, nombre, correo, clave, estado, preguntasecreta, respuestasecreta, 
-		fechaultimaautenticacion, intentosautenticacion, foto, unidadacademica) 
+		fechaultimaautenticacion, intentosautenticacion, foto, centro, unidadacademica) 
 	VALUES (DEFAULT,_nombre, _correo, _clave, 0, _preguntasecreta, _respuestasecreta, 
-		fecha, _intentosautenticacion, _foto, _unidadacademica);
+		fecha, _intentosautenticacion, _foto, _centro, _unidadacademica);
 
 	SELECT usuario from adm_usuario where nombre=_nombre and clave=_clave and fechaultimaautenticacion = fecha into idUsuario;
 	RETURN idUsuario;

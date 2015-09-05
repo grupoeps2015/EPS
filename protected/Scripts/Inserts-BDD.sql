@@ -451,16 +451,16 @@ INSERT INTO adm_rol(rol, nombre, estado) VALUES (3, 'Control Academico', 1);
 -- -----------------------------------------------------
 -- Insert catalogo tipo_catedratico / 4 registros
 -- -----------------------------------------------------
-INSERT INTO cat_tipocatedratico(tipodocente, descripcion, estado) VALUES (DEFAULT, 'Titular I', 1);
-INSERT INTO cat_tipocatedratico(tipodocente, descripcion, estado) VALUES (DEFAULT, 'Titular II', 1);
-INSERT INTO cat_tipocatedratico(tipodocente, descripcion, estado) VALUES (DEFAULT, 'Auxilair I', 1);
-INSERT INTO cat_tipocatedratico(tipodocente, descripcion, estado) VALUES (DEFAULT, 'Auxiliar II', 1);
+INSERT INTO cat_tipocatedratico(tipodocente, descripcion, estado) VALUES (1, 'Titular I', 1);
+INSERT INTO cat_tipocatedratico(tipodocente, descripcion, estado) VALUES (2, 'Titular II', 1);
+INSERT INTO cat_tipocatedratico(tipodocente, descripcion, estado) VALUES (3, 'Auxilair I', 1);
+INSERT INTO cat_tipocatedratico(tipodocente, descripcion, estado) VALUES (4, 'Auxiliar II', 1);
 
 -- -----------------------------------------------------
 -- Insert adm_usuario
 -- -----------------------------------------------------
-INSERT INTO adm_usuario(usuario, nombre, correo, clave, estado, respuestasecreta, fechaultimaautenticacion, intentosautenticacion, foto, unidadacademica, preguntasecreta)
-	VALUES (1, 'admin', 'adm@historia.usac.gt', 'kpWemp8=', 1, 'USAC', current_timestamp, 100, '', 1, 0);
+INSERT INTO adm_usuario(usuario, nombre, correo, clave, estado, preguntasecreta, respuestasecreta, fechaultimaautenticacion, intentosautenticacion, foto, centro, unidadacademica)
+	VALUES (1, 'admin', 'adm@historia.usac.gt', 'kpWemp8=', 1, 0, 'USAC', current_timestamp, 100, '', 20, 1);
 
 -- -----------------------------------------------------
 -- Insert adm_empleado

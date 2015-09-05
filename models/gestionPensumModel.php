@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Description of gestionCursoModel
+ * Description of gestionPensumModel
  *
  * @author Arias
  */
 
-class gestionCursoModel extends Model {
+class gestionPensumModel extends Model {
 
     public function __construct() {
         parent::__construct();
@@ -14,7 +14,7 @@ class gestionCursoModel extends Model {
 
     public function agregarCurso($_datos) {
         try {
-            $post = $this->_db->prepare("SELECT * from spAgregarCurso(:codigo,:nombre,:traslape,:estado,:tipocurso,:centro,:unidadacademica) as Id;");
+            $post = $this->_db->prepare("SELECT * from spAgregarCurso(:codigo,:nombre,:traslape,:estado,:tipocurso) as Id;");
             $post->execute($_datos);
             return $post->fetchall();
             //return "SELECT * from spAgregarCurso(" . $sp . ") as Id;";
@@ -28,9 +28,9 @@ class gestionCursoModel extends Model {
         return $post->fetchall();
     }
     
-    public function informacionCurso($centro, $unidadacademica) {
+    public function informacionCurso() {
         try {
-            $post = $this->_db->query("select * from spInformacionCurso(" . $centro . "," . $unidadacademica . ");");
+            $post = $this->_db->query("select * from spInformacionCurso();");
             return $post->fetchall();
         } catch (Exception $e) {
             return $e->getMessage();

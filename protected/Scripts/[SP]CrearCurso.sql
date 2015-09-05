@@ -8,18 +8,20 @@ CREATE OR REPLACE FUNCTION spagregarcurso(
     _nombre text,
     _traslape boolean,
     _estado integer,
-    _tipocurso integer)
+    _tipocurso integer,
+	_centro integer,
+	_unidadacademica integer)
   RETURNS integer AS
 $BODY$
 DECLARE idCurso integer;
 BEGIN
-	INSERT INTO cur_curso (codigo, nombre, traslape, estado, tipocurso) 
-	VALUES (_codigo, _nombre, _traslape, _estado, _tipocurso) RETURNING Curso into idCurso;
+	INSERT INTO cur_curso (codigo, nombre, traslape, estado, tipocurso, centro, unidadacademica) 
+	VALUES (_codigo, _nombre, _traslape, _estado, _tipocurso, _centro, _unidadacademica) RETURNING Curso into idCurso;
 	RETURN idCurso;
 END; $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
-ALTER FUNCTION spagregarcurso(text, text, boolean, integer, integer)
+ALTER FUNCTION spagregarcurso(text, text, boolean, integer, integer, integer, integer)
   OWNER TO postgres;
 
 ---------------------------------------------------------------------------
@@ -28,6 +30,8 @@ ALTER FUNCTION spagregarcurso(text, text, boolean, integer, integer)
 -- DROP FUNCTION spinformacioncurso();
 
 CREATE OR REPLACE FUNCTION spinformacioncurso(
+	IN _centro integer,
+	IN _unidadacademica integer,
     OUT id integer,
     OUT codigo text,
     OUT nombre text,
@@ -53,13 +57,13 @@ BEGIN
 	when c.traslape=false then 'No'
     end as "Traslape"
   from 
-    CUR_Curso c join CUR_Tipo t on c.tipocurso = t.tipocurso;
+    CUR_Curso c join CUR_Tipo t on c.tipocurso = t.tipocurso where c.centro = _centro and c.unidadacademica = _unidadacademica;
 END;
 $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100
   ROWS 1000;
-ALTER FUNCTION spinformacioncurso()
+ALTER FUNCTION spinformacioncurso(integer, integer)
   OWNER TO postgres;
 
 ---------------------------------------------------------------------------

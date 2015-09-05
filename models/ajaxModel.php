@@ -22,9 +22,20 @@ class ajaxModel extends Model{
         return $post->fetchAll();
     }
     
+    public function getCentro(){
+          $post = $this->_db->query("select * from spconsultageneral('centro,nombre','adm_centro');");
+          return $post->fetchall();
+    }
+    
     public function getUnidades(){
           $post = $this->_db->query("select * from spconsultageneral('unidadAcademica,nombre','adm_unidadAcademica');");
           return $post->fetchall();
+    }
+    
+    public function getUnidadesAjax($centro){
+        $post = $this->_db->query("select * from spUnidadxCentro({$centro})");
+        $post->setFetchMode(PDO::FETCH_ASSOC);
+        return $post->fetchAll();
     }
     
     public function getCarreras($unidad){
