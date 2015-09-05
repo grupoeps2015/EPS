@@ -10,10 +10,7 @@ class ajaxController extends Controller{
     }
     
     public function index(){
-        $this->_view->titulo = APP_TITULO;
-        $this->_view->setJs(array('ajax'));
-        $this->_view->deptos = $this->_ajax->getDeptos();
-        $this->_view->renderizar('index');
+        
     }
     
     public function getMunicipio(){

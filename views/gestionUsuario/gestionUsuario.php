@@ -21,7 +21,6 @@
     </div>
     <br/>
     
-    
     <div class="container" >
         <div class="col-md-6 col-md-offset-3">
             <form id="frEstudiantes" method="post" action="<?php echo BASE_URL; ?>gestionUsuario/listadoUsuarios">

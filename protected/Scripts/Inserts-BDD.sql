@@ -459,8 +459,8 @@ INSERT INTO cat_tipocatedratico(tipodocente, descripcion, estado) VALUES (DEFAUL
 -- -----------------------------------------------------
 -- Insert adm_usuario
 -- -----------------------------------------------------
-INSERT INTO adm_usuario(usuario, nombre, correo, clave, estado, respuestasecreta, fechaultimaautenticacion, intentosautenticacion, foto, unidadacademica, preguntasecreta)
-	VALUES (1, 'admin', 'adm@historia.usac.gt', 'kpWemp8=', 1, 'USAC', current_timestamp, 100, '', 1, 0);
+INSERT INTO adm_usuario(usuario, nombre, correo, clave, estado, preguntasecreta, respuestasecreta, fechaultimaautenticacion, intentosautenticacion, foto, centro, unidadacademica)
+	VALUES (1, 'admin', 'adm@historia.usac.gt', 'kpWemp8=', 1, 0, 'USAC', current_timestamp, 100, '', 20, 1);
 
 -- -----------------------------------------------------
 -- Insert adm_empleado
