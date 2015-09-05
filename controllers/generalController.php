@@ -16,13 +16,12 @@ class generalController extends Controller{
     public function seleccionarCentroUnidad(){
         $url = "";
         $numargs = func_num_args();
-            if($numargs > 0){
-                for($i =0; $i < $numargs; $i++){
-                    $url .= func_get_arg($i) . "/" ;
-                }
+        if($numargs > 0){
+            for($i =0; $i < $numargs; $i++){
+                $url .= func_get_arg($i) . "/" ;
             }
+        }
         session_start();
-        
         if (isset($_SESSION["rol"]) && $_SESSION["rol"] == ROL_ADMINISTRADOR){
             $this->_view->lstCentros = $this->_ajax->getCentro();
             $this->_view->titulo = 'Seleccionar Centro y Unidad - ' . APP_TITULO;
@@ -32,10 +31,8 @@ class generalController extends Controller{
         }
         else {
             $this->redireccionar($url);
-        }    
-        
+        }
     }
     
-
 }
 ?>

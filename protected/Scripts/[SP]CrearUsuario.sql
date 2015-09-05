@@ -42,7 +42,7 @@ LANGUAGE 'plpgsql';
 -- -----------------------------------------------------
 -- Function: spAgregarUsuarios()
 -- -----------------------------------------------------
--- DROP FUNCTION spagregarusuarios(text, text, text, int, text, int, text, int, int);
+-- DROP FUNCTION spagregarusuarios(text, text, text, int, text, int, text, int);
 
 CREATE OR REPLACE FUNCTION spAgregarUsuarios(_nombre text, _correo text,
 					     _clave text, _preguntasecreta integer,

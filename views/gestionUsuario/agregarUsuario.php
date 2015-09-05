@@ -4,10 +4,12 @@
             <div class="col-lg-12 text-center">
                 <h2 class="section-heading">Agregar Usuario</h2>
                 <hr class="primary">
+                <?php if(isset($this->query)) echo $this->query;?>
+                
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
                         <i class="fa fa-2x fa-backward wow bounceIn text-primary" data-wow-delay=".2s">
-                            <a href="<?php echo BASE_URL?>gestionUsuario">
+                            <a href="<?php echo BASE_URL?>gestionUsuario/index/<?php echo $this->idCentroUnidad;?>">
                                 Regresar
                             </a>
                         </i>
@@ -33,7 +35,6 @@
                     </select>
                     <br/><br/>
                 </div>
-                <!-- FIN Select Rol Usuario -->
                 
                 <!-- FORM Crear Estudiantes -->
                 <form id="frEstudiantes" method="post" action="<?php echo BASE_URL; ?>gestionUsuario/agregarUsuario">
@@ -96,10 +97,8 @@
                         </div>
                     </div>
                     <input type="hidden" name="hdEnvio" value="1">
-                    <input type="hidden" name="slCentros" value="<?php echo $this->idCentro;?>">
-                    <input type="hidden" name="slUnidad" value="<?php echo $this->idUnidad;?>">
+                    <input type="hidden" name="hdCentroUnidad" value="<?php echo $this->idCentroUnidad;?>">
                 </form>
-                <!-- FIN Crear Estudiantes -->
                 
                 <!-- FORM Crear Catedratico -->
                 <form id="frCatedraticos" method="post" action="<?php echo BASE_URL; ?>gestionUsuario/agregarUsuario">
@@ -180,10 +179,8 @@
                         </div>
                     </div>
                     <input type="hidden" name="hdEnvio" value="2">
-                    <input type="hidden" name="slCentros" value="<?php echo $this->idCentro;?>">
-                    <input type="hidden" name="slUnidad" value="<?php echo $this->idUnidad;?>">
+                    <input type="hidden" name="hdCentroUnidad" value="<?php echo $this->idCentroUnidad;?>">
                 </form>
-                <!-- FIN Crear Catedratico -->
                 
                 <!-- FORM Crear Empleado -->
                 <form id="frEmpleados" method="post" action="<?php echo BASE_URL; ?>gestionUsuario/agregarUsuario">
@@ -250,10 +247,8 @@
                         </div>
                     </div>
                     <input type="hidden" name="hdEnvio" value="3">
-                    <input type="hidden" name="slCentros" value="<?php echo $this->idCentro;?>">
-                    <input type="hidden" name="slUnidad" value="<?php echo $this->idUnidad;?>">
+                    <input type="hidden" name="hdCentroUnidad" value="<?php echo $this->idCentroUnidad;?>">
                 </form>
-                <!-- FIN Crear Empleado -->
                 
             </div>
         </div>
@@ -286,6 +281,7 @@
                 </div>
                 <div class="col-lg-3 col-md-6 text-center"></div>
                 <input type="hidden" id="hdFile" name="hdFile" value="0">
+                <input type="hidden" name="hdCentroUnidad" value="<?php echo $this->idCentroUnidad;?>">
             </form>
         </div>
     </div>

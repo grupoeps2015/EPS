@@ -30,7 +30,7 @@
     </div>
     <br/>
     
-    <!-- Tabla con lista de estudiantes -->
+    <!-- Tabla con lista de usuarios -->
     <div id="divTabla">
         <div id="divEstudiantes" class="form-group" >
             <div style="margin-left: 10%; margin-right: 10%">
@@ -78,5 +78,5 @@
                 <br />
             </div>
         </div>
-    </div>   
+    </div>
 </section>

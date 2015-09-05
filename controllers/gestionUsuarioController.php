@@ -19,33 +19,25 @@ class gestionUsuarioController extends Controller {
         $this->_ajax = $this->loadModel("ajax");
     }
 
-    public function index() {
-        $this->_view->lstCentros = $this->_ajax->getCentro();
-        $this->_view->titulo = 'Gestión de usuarios - ' . APP_TITULO;
-        $this->_view->setJs(array('gestionUsuario'));
-        $this->_view->renderizar('gestionUsuario');
-    }
-
-    public function listadoUsuarios(){
+    public function index($id=0){
         if($this->getInteger('hdCentroUnidad')){
             $idCentroUnidad = $this->getInteger('hdCentroUnidad');
         }else{
-            $idCentroUnidad = CENTRO_UNIDADACADEMICA;
+            $idCentroUnidad = $id;
         }
         
+        $this->_view->titulo = 'Gestión de usuarios - ' . APP_TITULO;
         $this->_view->idCentroUnidad = $idCentroUnidad;
         $this->_view->lstUsr = $this->_post->informacionUsuario($idCentroUnidad);
-        
-        $this->_view->titulo = 'Listado de usuarios - ' . APP_TITULO;
-        $this->_view->setJs(array('listadoUsuario'));
+        $this->_view->setJs(array('gestionUsuario'));
         $this->_view->setJs(array('jquery.dataTables.min'), "public");
         $this->_view->setCSS(array('jquery.dataTables.min'));
-        $this->_view->renderizar('listadoUsuario');
+        $this->_view->renderizar('gestionUsuario');
     }
     
     public function agregarUsuario() {
         $iden = $this->getInteger('hdEnvio');
-        $idCentroUnidad = $this->getInteger('slCentroUnidad');
+        $idCentroUnidad = $this->getInteger('hdCentroUnidad');
         $idUsr = 0;
         $nombreUsr = '';
         $correoUsr = '';
@@ -57,11 +49,11 @@ class gestionUsuarioController extends Controller {
         $arrayEmp = array();
         $arrayCat = array();
         
-        $this->_view->idCentroUnidad = $idCentroUnidad;
         $this->_view->centros = $this->_post->getCentros();
         $this->_view->docentes = $this->_post->getDocentes();
 
         $this->_view->titulo = 'Agregar Usuario - ' . APP_TITULO;
+        $this->_view->idCentroUnidad = $idCentroUnidad;
         $this->_view->setJs(array('agregarUsuario'));
         $this->_view->setJs(array('jquery.validate'), "public");
 
@@ -143,21 +135,21 @@ class gestionUsuarioController extends Controller {
                 $this->_post->asignarRolUsuario(ROL_EMPLEADO, $idUsr);
             }
             //$this->notificacionEMAIL();
-            $this->redireccionar('gestionUsuario/listadoUsuarios/'.$idCentroUnidad);
+            $this->redireccionar('gestionUsuario/index/'.$idCentroUnidad);
             exit;
         }
 
         $this->_view->renderizar('agregarUsuario', 'gestionUsuario');
     }
 
-    public function eliminarUsuario($intNuevoEstado, $intIdUsuario,$idCentroUnidad) {
+    public function eliminarUsuario($intNuevoEstado, $intIdUsuario, $idCentroUnidad) {
         if ($intNuevoEstado == -1 || $intNuevoEstado == 1) {
             $this->_post->eliminarUsuario($intIdUsuario, $intNuevoEstado);
         } else {
             $this->_view->cambio = "No reconocio ningun parametro";
         }
         
-        $this->redireccionar('gestionUsuario/listadoUsuarios/'.$idCentroUnidad);
+        $this->redireccionar('gestionUsuario/'.$idCentroUnidad);
     }
 
     public function actualizarUsuario($intIdUsuario = 0) {
@@ -247,6 +239,7 @@ class gestionUsuarioController extends Controller {
 
     public function cargarCSV(){
         $iden = $this->getInteger('hdFile');
+        $idCentroUnidad = $this->getInteger('hdCentroUnidad');
         $fileName = "";
         $fileExt = "";
         $rol = "";
@@ -271,7 +264,7 @@ class gestionUsuarioController extends Controller {
                     $arrayUsr["preguntaUsr"] = 0;
                     $arrayUsr["respuestaUsr"] = "USAC";
                     $arrayUsr["intentosUsr"] = 5;
-                    $arrayUsr["centroUnidad"] = CENTRO_UNIDADACADEMICA;
+                    $arrayUsr["centroUnidad"] = $idCentroUnidad;
                     $idUsr = $this->_post->agregarUsuario($arrayUsr)[0][0];
                     switch($rol){
                         case "1":
@@ -329,7 +322,8 @@ class gestionUsuarioController extends Controller {
                     }
                 }
                 fclose($handle);
-                $this->redireccionar('gestionUsuario');
+                $this->redireccionar('gestionUsuario/index/'.$idCentroUnidad);
+                exit;
             }else{
                 echo "<script>alert('El archivo cargado no cumple con el formato csv');</script>";
             }
