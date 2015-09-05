@@ -26,7 +26,9 @@ ALTER FUNCTION spagregarseccion(text, text, integer, integer, integer)
 -- DROP FUNCTION spinformacionseccion();
 
 CREATE OR REPLACE FUNCTION spinformacionseccion(
-    OUT id integer,
+    IN _centro integer,
+	IN _unidadacademica integer,
+	OUT id integer,
     OUT nombre text,
     OUT curso text,
     OUT tiposeccion text,
@@ -46,13 +48,14 @@ BEGIN
 	when s.estado=-1 then 'Desactivado'
     end as "Estado"
   from 
-    CUR_Seccion s join CUR_TipoSeccion t on s.tiposeccion = t.tiposeccion join CUR_Curso c on s.curso = c.curso;
+    CUR_Seccion s join CUR_TipoSeccion t on s.tiposeccion = t.tiposeccion join CUR_Curso c on s.curso = c.curso 
+  where c.centro = _centro and c.unidadacademica = _unidadacademica;
 END;
 $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100
   ROWS 1000;
-ALTER FUNCTION spinformacionseccion()
+ALTER FUNCTION spinformacionseccion(integer, integer)
   OWNER TO postgres;
 
 

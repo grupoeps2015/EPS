@@ -30,6 +30,8 @@ ALTER FUNCTION spagregarcurso(text, text, boolean, integer, integer, integer, in
 -- DROP FUNCTION spinformacioncurso();
 
 CREATE OR REPLACE FUNCTION spinformacioncurso(
+	IN _centro integer,
+	IN _unidadacademica integer,
     OUT id integer,
     OUT codigo text,
     OUT nombre text,
@@ -55,13 +57,13 @@ BEGIN
 	when c.traslape=false then 'No'
     end as "Traslape"
   from 
-    CUR_Curso c join CUR_Tipo t on c.tipocurso = t.tipocurso;
+    CUR_Curso c join CUR_Tipo t on c.tipocurso = t.tipocurso where c.centro = _centro and c.unidadacademica = _unidadacademica;
 END;
 $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100
   ROWS 1000;
-ALTER FUNCTION spinformacioncurso()
+ALTER FUNCTION spinformacioncurso(integer, integer)
   OWNER TO postgres;
 
 ---------------------------------------------------------------------------

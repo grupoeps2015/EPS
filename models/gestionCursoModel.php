@@ -28,9 +28,9 @@ class gestionCursoModel extends Model {
         return $post->fetchall();
     }
     
-    public function informacionCurso() {
+    public function informacionCurso($centro, $unidadacademica) {
         try {
-            $post = $this->_db->query("select * from spInformacionCurso();");
+            $post = $this->_db->query("select * from spInformacionCurso(" . $centro . "," . $unidadacademica . ");");
             return $post->fetchall();
         } catch (Exception $e) {
             return $e->getMessage();
