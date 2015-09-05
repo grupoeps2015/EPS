@@ -48,7 +48,9 @@ class gestionCursoController extends Controller {
             $arrayCur['nombre'] = $nombreCurso;
             $arrayCur['traslape'] = $traslapeCurso;
             $arrayCur['estado'] = ESTADO_ACTIVO;
-
+            $arrayCur['centro'] = CENTRO_REGIONAL;
+            $arrayCur['unidadacademica'] = UNIDAD_ACADEMICA;
+            
             $this->_post->agregarCurso($arrayCur);
             $this->redireccionar('gestionCurso');
         }
@@ -120,6 +122,8 @@ class gestionCursoController extends Controller {
                     $arrayCur['nombre'] = $data[1];
                     $arrayCur['traslape'] = $data[3];
                     $arrayCur['estado'] = $data[4];
+                    $arrayCur['centro'] = CENTRO_REGIONAL;
+                    $arrayCur['unidadacademica'] = UNIDAD_ACADEMICA;
                     $this->_post->agregarCurso($arrayCur);
     
                 }

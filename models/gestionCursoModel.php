@@ -14,7 +14,7 @@ class gestionCursoModel extends Model {
 
     public function agregarCurso($_datos) {
         try {
-            $post = $this->_db->prepare("SELECT * from spAgregarCurso(:codigo,:nombre,:traslape,:estado,:tipocurso) as Id;");
+            $post = $this->_db->prepare("SELECT * from spAgregarCurso(:codigo,:nombre,:traslape,:estado,:tipocurso,:centro,:unidadacademica) as Id;");
             $post->execute($_datos);
             return $post->fetchall();
             //return "SELECT * from spAgregarCurso(" . $sp . ") as Id;";

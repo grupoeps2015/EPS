@@ -8,18 +8,20 @@ CREATE OR REPLACE FUNCTION spagregarcurso(
     _nombre text,
     _traslape boolean,
     _estado integer,
-    _tipocurso integer)
+    _tipocurso integer,
+	_centro integer,
+	_unidadacademica integer)
   RETURNS integer AS
 $BODY$
 DECLARE idCurso integer;
 BEGIN
-	INSERT INTO cur_curso (codigo, nombre, traslape, estado, tipocurso) 
-	VALUES (_codigo, _nombre, _traslape, _estado, _tipocurso) RETURNING Curso into idCurso;
+	INSERT INTO cur_curso (codigo, nombre, traslape, estado, tipocurso, centro, unidadacademica) 
+	VALUES (_codigo, _nombre, _traslape, _estado, _tipocurso, _centro, _unidadacademica) RETURNING Curso into idCurso;
 	RETURN idCurso;
 END; $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
-ALTER FUNCTION spagregarcurso(text, text, boolean, integer, integer)
+ALTER FUNCTION spagregarcurso(text, text, boolean, integer, integer, integer, integer)
   OWNER TO postgres;
 
 ---------------------------------------------------------------------------

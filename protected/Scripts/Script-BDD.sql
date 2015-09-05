@@ -312,10 +312,18 @@ CREATE TABLE CUR_Curso (
   Traslape BOOLEAN NOT NULL,
   Estado INTEGER NOT NULL,
   TipoCurso INTEGER NOT NULL,
+  Centro INTEGER NOT NULL,
+  UnidadAcademica INTEGER NOT NULL,
   PRIMARY KEY (Curso),
   CONSTRAINT fk_CUR_Curso_CUR_Tipo1
     FOREIGN KEY (TipoCurso)
-    REFERENCES CUR_Tipo (TipoCurso));
+    REFERENCES CUR_Tipo (TipoCurso),
+  CONSTRAINT fk_CUR_Curso_ADM_Centro_UnidadAcademica1
+    FOREIGN KEY (Centro)
+    REFERENCES ADM_Centro_UnidadAcademica (Centro),
+  CONSTRAINT fk_CUR_Curso_ADM_Centro_UnidadAcademica2
+    FOREIGN KEY (UnidadAcademica)
+    REFERENCES ADM_Centro_UnidadAcademica (UnidadAcademica));
 
 
 -- -----------------------------------------------------
