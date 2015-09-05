@@ -101,3 +101,28 @@ begin
 end;
 $BODY$
 LANGUAGE 'plpgsql';
+
+
+-- Function: spcentrounidad(integer, integer)
+
+-- DROP FUNCTION spcentrounidad(integer, integer);
+
+CREATE OR REPLACE FUNCTION spcentrounidad(
+    _centro integer,
+    _unidad integer)
+  RETURNS integer AS
+$BODY$
+DECLARE ID INTEGER;
+begin
+              select 
+		centro_unidadacademica
+	      from 
+	        adm_centro_unidadacademica
+	      where centro = _centro and unidadacademica = _unidad INTO ID; 
+RETURN ID;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION spcentrounidad(integer, integer)
+  OWNER TO postgres;

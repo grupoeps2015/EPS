@@ -14,6 +14,7 @@ $(document).ready( function () {
             $('#btnConsultar').prop("disabled",true);
         }else{
             $('#btnConsultar').prop("disabled",false);
+            getCentroUnidadAjax();
         }
     });
     
@@ -29,6 +30,20 @@ $(document).ready( function () {
                         }
                     }else{
                         $("#slUnidad").append('<option value="" disabled>No hay informacion disponible</option>' );
+                    }
+               },
+               'json');
+    }
+    
+    function getCentroUnidadAjax(){
+        $.post('/EPS/ajax/getCentroUnidadAjax',
+                { centro: $("#slCentros").val(), unidad: $("#slUnidad").val() },
+               function(datos){
+                    if(datos.length>0){
+                        for(var i =0; i < datos.length; i++){
+                            $('#hdCentroUnidad').val(datos[i].id);
+                        }
+                    }else{
                     }
                },
                'json');

@@ -1,33 +1,31 @@
-﻿-- Function: spagregarcarrera(text, integer, integer, integer)
+﻿-- Function: spagregarcarrera(text, integer, integer)
 
--- DROP FUNCTION spagregarcarrera(text, integer, integer, integer);
+-- DROP FUNCTION spagregarcarrera(text, integer, integer);
 
 CREATE OR REPLACE FUNCTION spagregarcarrera(
     _nombre text,
     _estado integer,
-    _centro integer,
-    _unidadacademica integer)
+    _centrounidadacademica integer)
   RETURNS integer AS
 $BODY$
 DECLARE idCarrera integer;
 BEGIN
-	INSERT INTO cur_carrera (nombre, estado, centro, unidadacademica) 
-	VALUES (_nombre, _estado, _centro, _unidadacademica) RETURNING Carrera into idCarrera;
+	INSERT INTO cur_carrera (nombre, estado, centro_unidadacademica) 
+	VALUES (_nombre, _estado, _centrounidadacademica) RETURNING Carrera into idCarrera;
 	RETURN idCarrera;
 END; $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
-ALTER FUNCTION spagregarcarrera(text, integer, integer, integer)
+ALTER FUNCTION spagregarcarrera(text, integer, integer)
   OWNER TO postgres;
 
 
--- Function: spinformacioncarrera(integer, integer)
+-- Function: spinformacioncarrera(integer)
 
--- DROP FUNCTION spinformacioncarrera(integer, integer);
+-- DROP FUNCTION spinformacioncarrera(integer);
 
 CREATE OR REPLACE FUNCTION spinformacioncarrera(
-    IN _centro integer,
-    IN _unidadacademica integer,
+    IN _centrounidadacademica integer,
     OUT id integer,
     OUT nombre text,
     OUT estado text)
@@ -44,13 +42,13 @@ BEGIN
 	when c.estado=-1 then 'Desactivado'
     end as "Estado"
   from 
-    CUR_Carrera c where c.centro = _centro and c.unidadacademica = _unidadacademica;
+    CUR_Carrera c where c.centro_unidadacademica = _centrounidadacademica;
 END;
 $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100
   ROWS 1000;
-ALTER FUNCTION spinformacioncarrera(integer, integer)
+ALTER FUNCTION spinformacioncarrera(integer)
   OWNER TO postgres;
 
   

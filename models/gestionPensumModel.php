@@ -14,7 +14,7 @@ class gestionPensumModel extends Model {
 
     public function agregarCarrera($_datos) {
         try {
-            $post = $this->_db->prepare("SELECT * from spAgregarCarrera(:nombre,:estado,:centro,:unidadacademica) as Id;");
+            $post = $this->_db->prepare("SELECT * from spAgregarCarrera(:nombre,:estado,:centrounidadacademica) as Id;");
             $post->execute($_datos);
             return $post->fetchall();
         } catch (Exception $e) {
@@ -22,9 +22,9 @@ class gestionPensumModel extends Model {
         }
     }
     
-    public function informacionCarrera($centro, $unidadacademica) {
+    public function informacionCarrera($centrounidadacademica) {
         try {
-            $post = $this->_db->query("select * from spInformacionCarrera(" . $centro . "," . $unidadacademica . ");");
+            $post = $this->_db->query("select * from spInformacionCarrera(" . $centrounidadacademica . ");");
             return $post->fetchall();
         } catch (Exception $e) {
             return $e->getMessage();
