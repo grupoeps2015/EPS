@@ -31,7 +31,7 @@ class gestionUsuarioModel extends Model {
         $sp = '\'' . $_datos["nombreUsr"] . '\',\'' . $_datos["correoUsr"] . '\',\'';
         $sp .= $_datos["claveUsr"] . '\',' . $_datos["preguntaUsr"] . ',\'';
         $sp .= $_datos["respuestaUsr"] . '\',' . $_datos["intentosUsr"] . ',\'';
-        $sp .= $_datos["fotoUsr"] . '\',' . $_datos["unidadUsr"];
+        $sp .= $_datos["fotoUsr"] . '\',' . $_datos["centroUsr"] . ',' . $_datos["unidadUsr"];
         try {
             $post = $this->_db->query("SELECT * from spagregarusuarios(" . $sp . ") as Id;");
             return $post->fetchall();

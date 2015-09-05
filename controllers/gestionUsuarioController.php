@@ -86,6 +86,7 @@ class gestionUsuarioController extends Controller {
             $arrayUsr["preguntaUsr"] = 0;
             $arrayUsr["respuestaUsr"] = "USAC";
             $arrayUsr["intentosUsr"] = 5;
+            $arrayUsr["centroUsr"] = CENTRO_REGIONAL;
             $arrayUsr["unidadUsr"] = UNIDAD_ACADEMICA;
             $idUsr = $this->_post->agregarUsuario($arrayUsr)[0][0];
             if ($iden == 1) {
@@ -265,6 +266,7 @@ class gestionUsuarioController extends Controller {
                     $arrayUsr["preguntaUsr"] = 0;
                     $arrayUsr["respuestaUsr"] = "USAC";
                     $arrayUsr["intentosUsr"] = 5;
+                    $arrayUsr["centroUsr"] = CENTRO_REGIONAL;
                     $arrayUsr["unidadUsr"] = UNIDAD_ACADEMICA;
                     $idUsr = $this->_post->agregarUsuario($arrayUsr)[0][0];
                     switch($rol){

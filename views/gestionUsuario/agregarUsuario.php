@@ -260,21 +260,21 @@
                 <div class="col-lg-3 col-md-6 text-center"></div>
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
-                        <p class="text-muted">Crea multiples usuarios utilizando archivos delimitados por comas</p>
-                        <div class="fileUpload btn btn-warning" >
-                            <span>Procesar archivo .csv</span>
-                            <input class="upload" type='submit' style="width: 100%" id="btnCargar" name='btnCargar'>
-                        </div>
-                        <i class="fa fa-3x fa-forward wow bounceIn text-primary" data-wow-delay=".2s"></i>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 text-center">
-                    <div class="service-box">
                         <i class="fa fa-4x fa-file-text wow bounceIn text-primary" data-wow-delay=".1s"></i>
                         <br/>
                         <div id="divcsvFile" class="fileUpload btn btn-warning" >
                             <span>Cargar Archivo</span>
                             <input class="upload" type="file" id="csvFile" name="csvFile"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 text-center">
+                    <div class="service-box">
+                        <p class="text-muted">Crea multiples usuarios utilizando archivos delimitados por comas</p>
+                        <i class="fa fa-2x fa-backward wow bounceIn text-primary" data-wow-delay=".2s"></i>
+                        <div class="fileUpload btn btn-warning" >
+                            <span>Procesar archivo .csv</span>
+                            <input class="upload" type='submit' style="width: 100%" id="btnCargar" name='btnCargar'>
                         </div>
                     </div>
                 </div>
