@@ -64,6 +64,7 @@
                         <td colspan="5"><hr class="hr1"/></td>
                     </tr>
                 </table>
+                <input type="hidden" id ="hdCentroUnidad" name="hdCentroUnidad" >
             </form>
         </div>
     </div>

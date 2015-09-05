@@ -30,6 +30,12 @@ class ajaxController extends Controller{
             echo json_encode($this->_ajax->getCarreras($this->getInteger('carr')));
         }
     }
+    
+    public function getCentroUnidadAjax(){
+        if($this->getInteger('centro') && $this->getInteger('unidad')){
+            echo json_encode($this->_ajax->getCentroUnidadAjax($this->getInteger('centro'),$this->getInteger('unidad')));
+        }
+    }
 }
 
 ?>

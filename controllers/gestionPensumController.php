@@ -35,14 +35,12 @@ class gestionPensumController extends Controller {
     }
     
     public function listadoCarrera() {
-        if($this->getInteger('slCentros') && $this->getInteger('slUnidad')){
-            $idCentro = $this->getInteger('slCentros');
-            $idUnidad = $this->getInteger('slUnidad');
+        if($this->getInteger('hdCentroUnidad')){
+            $idCentroUnidad = $this->getInteger('hdCentroUnidad');
         }else{
-            $idCentro = CENTRO_REGIONAL;
-            $idUnidad = UNIDAD_ACADEMICA;
+            $idCentroUnidad = CENTRO_UNIDADACADEMICA;
         }
-        $this->_view->lstCar = $this->_post->informacionCarrera($idCentro, $idUnidad);
+        $this->_view->lstCar = $this->_post->informacionCarrera($idCentroUnidad);
         $this->_view->titulo = 'Gestión de carreras - ' . APP_TITULO;
         $this->_view->setJs(array('gestionCarrera'));
         $this->_view->setJs(array('jquery.dataTables.min'), "public");
@@ -62,8 +60,7 @@ class gestionPensumController extends Controller {
 
             $arrayCar['nombre'] = $nombreCarrera;
             $arrayCar['estado'] = ESTADO_ACTIVO;
-            $arrayCar['centro'] = CENTRO_REGIONAL;
-            $arrayCar['unidadacademica'] = UNIDAD_ACADEMICA;
+            $arrayCar['centrounidadacademica'] = CENTRO_UNIDADACADEMICA;
             $this->_post->agregarCarrera($arrayCar);
             $this->redireccionar('gestionPensum/inicio');
         }
