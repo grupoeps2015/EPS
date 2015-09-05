@@ -2,7 +2,7 @@
 -- Function: spInformacionUsuario()
 -- -----------------------------------------------------
 -- DROP FUNCTION spInformacionUsuario(int,int);
-CREATE OR REPLACE FUNCTION spInformacionUsuario(IN _idCentro int, IN _idUnidad int, 
+CREATE OR REPLACE FUNCTION spInformacionUsuario(IN _cenuni int, 
 						OUT Id int, OUT registro int, OUT nombre text, 
 						OUT Rol text, OUT Correo text, OUT Estado text) RETURNS setof record as 
 $BODY$
@@ -32,7 +32,7 @@ BEGIN
   from 
     adm_Usuario u
   where 
-    u.unidadacademica = _idUnidad and u.centro = _idCentro
+    u.centro_unidadacademica = _cenuni
   order by 
     u.usuario;
 END;
@@ -43,19 +43,19 @@ LANGUAGE 'plpgsql';
 -- Function: spAgregarUsuarios()
 -- -----------------------------------------------------
 -- DROP FUNCTION spagregarusuarios(text, text, text, int, text, int, text, int, int);
-select * from cat_catedratico;
+
 CREATE OR REPLACE FUNCTION spAgregarUsuarios(_nombre text, _correo text,
 					     _clave text, _preguntasecreta integer,
 					     _respuestasecreta text, _intentosautenticacion int,
-					     _foto text, _centro int, _unidadacademica int) RETURNS integer AS $BODY$
+					     _foto text, _centrounidad int) RETURNS integer AS $BODY$
 DECLARE idUsuario integer;
 DECLARE fecha timestamp;
 BEGIN
 	SELECT current_timestamp into fecha;
 	INSERT INTO adm_usuario (usuario, nombre, correo, clave, estado, preguntasecreta, respuestasecreta, 
-		fechaultimaautenticacion, intentosautenticacion, foto, centro, unidadacademica) 
+		fechaultimaautenticacion, intentosautenticacion, foto, centro_unidadacademica) 
 	VALUES (DEFAULT,_nombre, _correo, _clave, 0, _preguntasecreta, _respuestasecreta, 
-		fecha, _intentosautenticacion, _foto, _centro, _unidadacademica);
+		fecha, _intentosautenticacion, _foto, _centrounidad);
 
 	SELECT usuario from adm_usuario where nombre=_nombre and clave=_clave and fechaultimaautenticacion = fecha into idUsuario;
 	RETURN idUsuario;
@@ -196,19 +196,18 @@ $BODY$
 BEGIN
   RETURN query EXECUTE format('SELECT u.nombre, 
 				      u.correo, 
-				      ua.nombre,
+				      (select ua.nombre from adm_unidadacademica ua where ua.unidadacademica = cen.unidadacademica),
 				      u.clave,
 				      ps.preguntasecreta,
 				      ps.descripcion, 
 				      u.respuestasecreta 
 			       FROM adm_usuario u 
-				      JOIN adm_unidadacademica ua ON u.unidadacademica = ua.unidadacademica 
+				      JOIN adm_centro_unidadacademica cen ON u.centro_unidadacademica = cen.unidadacademica 
 				      JOIN adm_preguntasecreta ps ON u.preguntasecreta = ps.preguntasecreta 
 			       WHERE usuario = %s',Id);
 END;
 $BODY$
 LANGUAGE 'plpgsql';
-select * from spdatosusuario(11);
 
 -- -----------------------------------------------------
 -- Function: spactualizarusuario()
