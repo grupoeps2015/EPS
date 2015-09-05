@@ -92,7 +92,7 @@ LANGUAGE 'plpgsql';
 CREATE OR REPLACE FUNCTION spUnidadxCentro(IN _centro int, OUT codigo int, OUT nombre text) RETURNS setof record AS
 $BODY$
 begin
- Return query select 
+ Return query select distinct
 		coalesce(uni.unidadacademica, 0),
 		coalesce(uni.nombre,'No se encontro informacion')
 	      from 
