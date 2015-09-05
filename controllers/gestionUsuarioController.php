@@ -26,11 +26,17 @@ class gestionUsuarioController extends Controller {
         $this->_view->renderizar('gestionUsuario');
     }
 
-    public function listadoUsuarios(){
+    public function listadoUsuarios($centro = 0, $unidad = 0){
+        if($this->getInteger('slCentros') && $this->getInteger('slUnidad')){
+            $idCentro = $this->getInteger('slCentros');
+            $idUnidad = $this->getInteger('slUnidad');
+        }else{
+            $idCentro = $centro;
+            $idUnidad = $unidad;
+        }
         
-        $idCentro = $this->getInteger('slCentros');
-        $idUnidad = $this->getInteger('slUnidad');
-        
+        $this->_view->idCentro = $idCentro;
+        $this->_view->idUnidad = $idUnidad;
         $this->_view->lstUsr = $this->_post->informacionUsuario($idCentro,$idUnidad);
         
         $this->_view->titulo = 'Listado de usuarios - ' . APP_TITULO;
@@ -145,13 +151,14 @@ class gestionUsuarioController extends Controller {
         $this->_view->renderizar('agregarUsuario', 'gestionUsuario');
     }
 
-    public function eliminarUsuario($intNuevoEstado, $intIdUsuario) {
+    public function eliminarUsuario($intNuevoEstado, $intIdUsuario,$idCentro,$idUnidad) {
         if ($intNuevoEstado == -1 || $intNuevoEstado == 1) {
             $this->_post->eliminarUsuario($intIdUsuario, $intNuevoEstado);
         } else {
             $this->_view->cambio = "No reconocio ningun parametro";
         }
-        $this->redireccionar('gestionUsuario');
+        
+        $this->redireccionar('gestionUsuario/listadoUsuarios/'.$idCentro.'/'.$idUnidad);
     }
 
     public function actualizarUsuario($intIdUsuario = 0) {

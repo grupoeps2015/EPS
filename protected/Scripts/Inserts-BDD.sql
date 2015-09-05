@@ -451,10 +451,10 @@ INSERT INTO adm_rol(rol, nombre, estado) VALUES (3, 'Control Academico', 1);
 -- -----------------------------------------------------
 -- Insert catalogo tipo_catedratico / 4 registros
 -- -----------------------------------------------------
-INSERT INTO cat_tipocatedratico(tipodocente, descripcion, estado) VALUES (DEFAULT, 'Titular I', 1);
-INSERT INTO cat_tipocatedratico(tipodocente, descripcion, estado) VALUES (DEFAULT, 'Titular II', 1);
-INSERT INTO cat_tipocatedratico(tipodocente, descripcion, estado) VALUES (DEFAULT, 'Auxilair I', 1);
-INSERT INTO cat_tipocatedratico(tipodocente, descripcion, estado) VALUES (DEFAULT, 'Auxiliar II', 1);
+INSERT INTO cat_tipocatedratico(tipodocente, descripcion, estado) VALUES (1, 'Titular I', 1);
+INSERT INTO cat_tipocatedratico(tipodocente, descripcion, estado) VALUES (2, 'Titular II', 1);
+INSERT INTO cat_tipocatedratico(tipodocente, descripcion, estado) VALUES (3, 'Auxilair I', 1);
+INSERT INTO cat_tipocatedratico(tipodocente, descripcion, estado) VALUES (4, 'Auxiliar II', 1);
 
 -- -----------------------------------------------------
 -- Insert adm_usuario

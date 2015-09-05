@@ -60,9 +60,9 @@
                             <td style="text-align: center;"><a href="<?php echo BASE_URL . 'gestionUsuario/actualizarUsuario/' . $this->lstUsr[$i]['id'];?>">Modificar</a></td>
                             <td style="text-align: center;">
                                 <?php if(strcmp($this->lstUsr[$i]['estado'], 'Activo') == 0): ?>
-                                <a href="<?php echo BASE_URL . 'gestionUsuario/eliminarUsuario/-1/' . $this->lstUsr[$i]['id'];?>">Desactivar</a>
+                                <a id="linkEliminar" href="<?php echo BASE_URL . 'gestionUsuario/eliminarUsuario/-1/' . $this->lstUsr[$i]['id'] . '/' . $this->idCentro . '/' . $this->idUnidad;?>">Desactivar</a>
                                 <?php else : ?>
-                                <a href="<?php echo BASE_URL . 'gestionUsuario/eliminarUsuario/1/' . $this->lstUsr[$i]['id'] ?>">Activar</a>
+                                <a id="linkEliminar" href="<?php echo BASE_URL . 'gestionUsuario/eliminarUsuario/1/' . $this->lstUsr[$i]['id'] . '/' . $this->idCentro . '/' . $this->idUnidad;?>">Activar</a>
                                 <?php endif;?>
                             </td>
                         </tr>

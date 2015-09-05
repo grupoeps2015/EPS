@@ -43,7 +43,7 @@ LANGUAGE 'plpgsql';
 -- Function: spAgregarUsuarios()
 -- -----------------------------------------------------
 -- DROP FUNCTION spagregarusuarios(text, text, text, int, text, int, text, int, int);
-
+select * from cat_catedratico;
 CREATE OR REPLACE FUNCTION spAgregarUsuarios(_nombre text, _correo text,
 					     _clave text, _preguntasecreta integer,
 					     _respuestasecreta text, _intentosautenticacion int,
