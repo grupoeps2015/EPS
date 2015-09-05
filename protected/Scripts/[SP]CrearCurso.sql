@@ -1,7 +1,6 @@
-﻿---------------------------------------------------------------------------
--- Function: spagregarcurso(text, text, boolean, integer, integer)
----------------------------------------------------------------------------
--- DROP FUNCTION spagregarcurso(text, text, boolean, integer, integer);
+﻿-- Function: spagregarcurso(text, text, boolean, integer, integer, integer, integer)
+
+-- DROP FUNCTION spagregarcurso(text, text, boolean, integer, integer, integer, integer);
 
 CREATE OR REPLACE FUNCTION spagregarcurso(
     _codigo text,
@@ -9,8 +8,8 @@ CREATE OR REPLACE FUNCTION spagregarcurso(
     _traslape boolean,
     _estado integer,
     _tipocurso integer,
-	_centro integer,
-	_unidadacademica integer)
+    _centro integer,
+    _unidadacademica integer)
   RETURNS integer AS
 $BODY$
 DECLARE idCurso integer;
@@ -24,14 +23,14 @@ END; $BODY$
 ALTER FUNCTION spagregarcurso(text, text, boolean, integer, integer, integer, integer)
   OWNER TO postgres;
 
----------------------------------------------------------------------------
--- Function: spinformacioncurso()
----------------------------------------------------------------------------
--- DROP FUNCTION spinformacioncurso();
+  
+-- Function: spinformacioncurso(integer, integer)
+
+-- DROP FUNCTION spinformacioncurso(integer, integer);
 
 CREATE OR REPLACE FUNCTION spinformacioncurso(
-	IN _centro integer,
-	IN _unidadacademica integer,
+    IN _centro integer,
+    IN _unidadacademica integer,
     OUT id integer,
     OUT codigo text,
     OUT nombre text,

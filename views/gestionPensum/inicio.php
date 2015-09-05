@@ -27,7 +27,7 @@
             <div class="col-lg-4 col-md-8 text-center">
                 <div class="service-box">
                     <i class="fa fa-4x fa-building wow bounceIn text-primary"></i>
-                    <h3>Gesti&oacute;n de carreras</h3>
+                    <h3><a href="<?php echo BASE_URL; ?>general/seleccionarCentroUnidad/gestionPensum/listadoCarrera">Gesti&oacute;n de carreras</a></h3>
                     <p class="text-muted">Carreras por Unidad Acad&eacute;mica y Centro Regional</p>
                 </div>
             </div>
