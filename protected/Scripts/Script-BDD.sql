@@ -87,8 +87,10 @@ CREATE TABLE ADM_Centro (
 -- Table ADM_Centro_UnidadAcademica
 -- -----------------------------------------------------
 CREATE TABLE ADM_Centro_UnidadAcademica (
+  Centro_UnidadAcademica INTEGER NOT NULL,
   Centro INTEGER UNIQUE NOT NULL,
   UnidadAcademica INTEGER UNIQUE NOT NULL,
+  PRIMARY KEY (Centro_UnidadAcademica),
   CONSTRAINT Centro
     FOREIGN KEY (UnidadAcademica)
     REFERENCES ADM_UnidadAcademica (UnidadAcademica),
@@ -97,7 +99,7 @@ CREATE TABLE ADM_Centro_UnidadAcademica (
     REFERENCES ADM_Centro (Centro));
 
 CREATE UNIQUE INDEX u_Centro_UnidadAcademica ON ADM_Centro_UnidadAcademica (Centro, UnidadAcademica);
-ALTER TABLE ADM_Centro_UnidadAcademica ADD PRIMARY KEY (Centro,UnidadAcademica);
+--ALTER TABLE ADM_Centro_UnidadAcademica ADD PRIMARY KEY (Centro,UnidadAcademica);
 
 -- -----------------------------------------------------
 -- Table ADM_PreguntaSecreta
