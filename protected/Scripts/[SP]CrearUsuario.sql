@@ -187,7 +187,7 @@ LANGUAGE 'plpgsql';
 CREATE OR REPLACE FUNCTION spdatosusuario(Id int, 
 					  OUT nombre text, OUT correo text, 
 					  OUT unidadacademica text, OUT clave text, OUT idPregunta int,
-					  OUT preguntasecreta text, OUT respuestasecreta text ) RETURNS setof record as 
+					  OUT preguntasecreta text, OUT respuestasecreta text, OUT estado int ) RETURNS setof record as 
 $BODY$
 BEGIN
   RETURN query EXECUTE format('SELECT u.nombre, 
@@ -196,7 +196,8 @@ BEGIN
 				      u.clave,
 				      ps.preguntasecreta,
 				      ps.descripcion, 
-				      u.respuestasecreta 
+				      u.respuestasecreta ,
+					  u.estado
 			       FROM adm_usuario u 
 				      JOIN adm_unidadacademica ua ON u.unidadacademica = ua.unidadacademica 
 				      JOIN adm_preguntasecreta ps ON u.preguntasecreta = ps.preguntasecreta 
