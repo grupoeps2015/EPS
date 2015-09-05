@@ -483,3 +483,9 @@ INSERT INTO cur_tipo(nombre, descripcion)VALUES ('Virtual', '');
 -- -----------------------------------------------------
 INSERT INTO CUR_TipoSeccion (Nombre, Descripcion) VALUES ('Diario','');
 INSERT INTO CUR_TipoSeccion (Nombre, Descripcion) VALUES ('Sabatino','');
+
+-- -----------------------------------------------------
+-- Insert cur_tipoactividad
+-- -----------------------------------------------------
+INSERT INTO cur_tipoactividad (tipoactividad,nombre,descripcion,estado) VALUES (1,'Zona','Ponderacion a lo largo del semestre',1);
+INSERT INTO cur_tipoactividad (tipoactividad,nombre,descripcion,estado) VALUES (2,'Examen final','Examen final de curso',1);
