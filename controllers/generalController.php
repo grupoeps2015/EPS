@@ -10,14 +10,22 @@ class generalController extends Controller{
     }
 
     public function index(){
+        
     }
     
     public function seleccionarCentroUnidad($url = ""){
-        $this->_view->lstCentros = $this->_ajax->getCentro();
-        $this->_view->titulo = 'Seleccionar Centro y Unidad - ' . APP_TITULO;
-        $this->_view->url = $url;
-        $this->_view->setJs(array('seleccionarCentroUnidad'));
-        $this->_view->renderizar('seleccionarCentroUnidad');
+        session_start();
+        if (isset($_SESSION["rol"]) && $_SESSION["rol"] == ROL_ADMINISTRADOR){
+            $this->_view->lstCentros = $this->_ajax->getCentro();
+            $this->_view->titulo = 'Seleccionar Centro y Unidad - ' . APP_TITULO;
+            $this->_view->url = $url;
+            $this->_view->setJs(array('seleccionarCentroUnidad'));
+            $this->_view->renderizar('seleccionarCentroUnidad');
+        }
+        else {
+            $this->redireccionar($url);
+        }    
+        
     }
     
 

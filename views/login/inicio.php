@@ -43,7 +43,7 @@
             <div class="col-lg-3 col-md-6 text-center">
                 <div class="service-box">
                     <i class="fa fa-4x fa-navicon wow bounceIn text-primary"></i>
-                    <h3><a href="<?php echo BASE_URL; ?>gestionCurso">Gesti&oacute;n de Cursos</a></h3>
+                    <h3><a href="<?php echo BASE_URL; ?>general/seleccionarCentroUnidad/gestionCurso">Gesti&oacute;n de Cursos</a></h3>
                     <p class="text-muted">Creaci&oacute;n y actualizaci&oacute;n de cursos</p>
                 </div>
             </div>
