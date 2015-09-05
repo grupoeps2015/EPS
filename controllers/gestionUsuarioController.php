@@ -48,6 +48,8 @@ class gestionUsuarioController extends Controller {
     
     public function agregarUsuario() {
         $iden = $this->getInteger('hdEnvio');
+        $idCentro = $this->getInteger('slCentros');
+        $idUnidad = $this->getInteger('slUnidad');
         $idUsr = 0;
         $nombreUsr = '';
         $correoUsr = '';
@@ -59,6 +61,8 @@ class gestionUsuarioController extends Controller {
         $arrayEmp = array();
         $arrayCat = array();
         
+        $this->_view->idCentro = $idCentro;
+        $this->_view->idUnidad = $idUnidad;
         $this->_view->centros = $this->_post->getCentros();
         $this->_view->docentes = $this->_post->getDocentes();
 
@@ -145,7 +149,8 @@ class gestionUsuarioController extends Controller {
                 $this->_post->asignarRolUsuario(ROL_EMPLEADO, $idUsr);
             }
             //$this->notificacionEMAIL();
-            $this->redireccionar('gestionUsuario');
+            $this->redireccionar('gestionUsuario/listadoUsuarios/'.$idCentro.'/'.$idUnidad);
+            exit;
         }
 
         $this->_view->renderizar('agregarUsuario', 'gestionUsuario');
@@ -259,7 +264,6 @@ class gestionUsuarioController extends Controller {
                 $fileName=$_FILES['csvFile']['tmp_name'];
                 $handle = fopen($fileName, "r");
                 while(($data = fgetcsv($handle, 1000, ",")) !== FALSE){
-                    $cadena .= $data[0] . ", ";
                     $arrayUsr = array();
                     $arrayEst = array();
                     $arrayEmp = array();

@@ -96,6 +96,8 @@
                         </div>
                     </div>
                     <input type="hidden" name="hdEnvio" value="1">
+                    <input type="hidden" name="slCentros" value="<?php echo $this->idCentro;?>">
+                    <input type="hidden" name="slUnidad" value="<?php echo $this->idUnidad;?>">
                 </form>
                 <!-- FIN Crear Estudiantes -->
                 
@@ -178,6 +180,8 @@
                         </div>
                     </div>
                     <input type="hidden" name="hdEnvio" value="2">
+                    <input type="hidden" name="slCentros" value="<?php echo $this->idCentro;?>">
+                    <input type="hidden" name="slUnidad" value="<?php echo $this->idUnidad;?>">
                 </form>
                 <!-- FIN Crear Catedratico -->
                 
@@ -246,6 +250,8 @@
                         </div>
                     </div>
                     <input type="hidden" name="hdEnvio" value="3">
+                    <input type="hidden" name="slCentros" value="<?php echo $this->idCentro;?>">
+                    <input type="hidden" name="slUnidad" value="<?php echo $this->idUnidad;?>">
                 </form>
                 <!-- FIN Crear Empleado -->
                 

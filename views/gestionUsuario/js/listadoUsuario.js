@@ -1,3 +1,7 @@
 $(document).ready( function () {
-    $('#tbUsuarios').DataTable();   
+    $('#tbUsuarios').DataTable();
+    
+    $('#linkNuevoUsr').click(function(){
+        $('#frmPost').submit();
+    })
 });
