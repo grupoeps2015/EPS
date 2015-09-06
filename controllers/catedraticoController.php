@@ -24,6 +24,7 @@ class catedraticoController extends Controller{
         $arrayInfo = array();
         
         $this->_view->titulo = APP_TITULO;
+        $this->_view->id = $idUsuario;
         $this->_view->deptos = $this->_ajax->getDeptos();
         $this->_view->paises = $this->_ajax->getPais();
         $this->_view->infoGeneral = $this->_cat->getInfo($idUsuario);

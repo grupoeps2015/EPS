@@ -8,7 +8,7 @@
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
                         <i class="fa fa-2x fa-backward wow bounceIn text-primary" data-wow-delay=".2s">
-                            <a href="<?php echo BASE_URL ?>gestionUsuario">
+                            <a href="<?php echo BASE_URL ?>gestionUsuario/index/<?php echo $this->datosUsr[0]['unidadcentro'];?>">
                                 Regresar
                             </a>
                         </i>
@@ -21,11 +21,11 @@
                     <div class="service-box">
                         <i class="fa fa-2x fa-user-secret wow bounceIn text-primary" data-wow-delay=".2s">
                         <?php if($this->rol == 1): ?>
-                            <a href="<?php echo BASE_URL ?>estudiante/infoEstudiante/<?php echo $this->id;?>">
+                            <a id="linkInfoPersonal" href="<?php echo BASE_URL ?>estudiante/infoEstudiante/<?php echo $this->id;?>">
                         <?php elseif($this->rol == 2): ?>
-                            <a href="<?php echo BASE_URL ?>catedratico/infoCatedratico/<?php echo $this->id;?>">
-                        <?php elseif($this->rol == 3): ?>
-                            <a href="<?php echo BASE_URL ?>empleado/infoEmpleado/<?php echo $this->id;?>">
+                            <a id="linkInfoPersonal" href="<?php echo BASE_URL ?>catedratico/infoCatedratico/<?php echo $this->id;?>">
+                        <?php elseif($this->rol == 3 || $this->rol == 0): ?>
+                            <a id="linkInfoPersonal" href="<?php echo BASE_URL ?>empleado/infoEmpleado/<?php echo $this->id;?>">
                         <?php endif;?>
                                 Actualizar informacion personal
                             </a>
@@ -119,7 +119,7 @@
                                     </td>
                                     <td>&nbsp;&nbsp;</td>
                                     <td colspan="2">
-                                        <input type="text" id="txtPasswordNuevo" name="txtPasswordNuevo" class="form-control input-lg" value="" placeholder="Contraseña Nueva">
+                                        <input type="password" id="txtPasswordNuevo" name="txtPasswordNuevo" class="form-control input-lg" value="" placeholder="Contraseña Nueva">
                                     </td>
                                 </tr>
                                 <tr>
@@ -128,7 +128,7 @@
                                     </td>
                                     <td>&nbsp;&nbsp;</td>
                                     <td colspan="2">
-                                        <input type="text" id="txtPasswordNuevo2" name="txtPasswordNuevo2" class="form-control input-lg" value="" placeholder="Repita la Contraseña Nueva">
+                                        <input type="password" id="txtPasswordNuevo2" name="txtPasswordNuevo2" class="form-control input-lg" value="" placeholder="Repita la Contraseña Nueva">
                                     </td>
                                 </tr>
                                 <tr>

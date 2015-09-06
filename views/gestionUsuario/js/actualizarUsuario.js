@@ -1,5 +1,4 @@
-$(document).ready(function(){
-    
+$(document).ready(function(){    
     $('#slPregunta').change(function(){
         if(!$("#slPregunta").val()){
             $('#txtRespuesta').prop("disabled",true);

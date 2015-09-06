@@ -58,7 +58,11 @@
                             <td style="text-align: center"><?php echo $this->lstUsr[$i]['rol']; ?></td>
                             <td style="text-align: center"><?php echo $this->lstUsr[$i]['correo']; ?></td>
                             <td style="text-align: center"><?php echo $this->lstUsr[$i]['estado']; ?></td>
-                            <td style="text-align: center;"><a href="<?php echo BASE_URL . 'gestionUsuario/actualizarUsuario/';?>">Modificar</a></td>
+                            <td style="text-align: center;">
+                                <a href="<?php echo BASE_URL . 'gestionUsuario/actualizarUsuario/' . $this->lstUsr[$i]['id'];;?>">
+                                    Modificar
+                                </a>
+                            </td>
                             <td style="text-align: center;">
                                 <?php if(strcmp($this->lstUsr[$i]['estado'], 'Activo') == 0): ?>
                                 <a href="<?php echo BASE_URL . 'gestionUsuario/eliminarUsuario/-1/';?>">Desactivar</a>
