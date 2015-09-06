@@ -48,7 +48,7 @@
                     </button>
                     <img src="<?php echo $_layoutParams['ruta_img']?>img10.png" width="100px" height="50px" align="left" />
                     <?php if(!isset($_SESSION["nombre"])): ?>
-                    <a class="navbar-brand page-scroll" href="#page-top" style="margin-left: 10px; ">
+                    <a class="navbar-brand page-scroll" href="#page-top" style="margin-left: 10px; color: darkslateblue;">
                         Control Acad&eacute;mico
                     </a>
                     <?php endif; ?>
@@ -59,13 +59,13 @@
                     <ul class="nav navbar-nav navbar-right">
                         <?php if(!isset($_SESSION["nombre"])): ?>
                         <li>
-                            <a class="page-scroll" href="#log">Iniciar Sesi&oacute;n</a>
+                            <a class="page-scroll" style="color: darkslateblue" href="#log">Iniciar Sesi&oacute;n</a>
                         </li>
                         <li>
-                            <a class="page-scroll" href="#info">Acerca de</a>
+                            <a class="page-scroll" style="color: darkslateblue" href="#info">Acerca de</a>
                         </li>
                         <li>
-                            <a class="page-scroll" href="#contact">Contacto</a>
+                            <a class="page-scroll" style="color: darkslateblue" href="#contacto">Contacto</a>
                         </li>
                         <?php else: ?>
                         <li>
