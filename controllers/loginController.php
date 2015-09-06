@@ -35,36 +35,52 @@ class loginController extends Controller{
         $passEncrypt = $this->_encriptar->encrypt($pass, UNIDAD_ACADEMICA);
         $respuesta = $this->_login->autenticarUsuario($tipo, $usuario, $passEncrypt);
         
-        if (isset($respuesta) && count($respuesta) == 1){
-            session_start();
-            $_SESSION["usuario"] = $respuesta[0]['usuario'];
-            $_SESSION["rol"] = $respuesta[0]['rol'];
-            $_SESSION["nombre"] = $respuesta[0]['nombre'];
-            
-            //Insertar en bitácora            
-            $arrayBitacora = array();
-            $arrayBitacora[":usuario"] = $_SESSION["usuario"];
-            $arrayBitacora[":nombreusuario"] = $_SESSION["nombre"];
-            $arrayBitacora[":funcion"] = CONS_FUNC_LOGIN;
-            $arrayBitacora[":ip"] = $this->get_ip_address();
-            $arrayBitacora[":registro"] = 0; //no se que es esto
-            $arrayBitacora[":tablacampo"] = ''; //tampoco se que es esto
-            $arrayBitacora[":descripcion"] = 'El usuario ha iniciado sesión.';
-            $this->_bitacora->insertarBitacoraUsuario($arrayBitacora, $_SESSION["rol"]);
-//            if($this->_login->validarPermisoUsuario(CONS_FUNC_LOGIN,$_SESSION["rol"])){
-//                echo "hola";
-//            }
-//            else{
-//                echo "adios";
-//            }
-            if($respuesta[0]['estado'] == ESTADO_ACTIVO){
-                $this->redireccionar('login/inicio');
+        if (isset($respuesta) && count($respuesta) > 0){
+            for ($i=0;$i<count($respuesta);$i++){
+                if($respuesta[$i]['rol'] == ROL_ADMINISTRADOR){
+                    $indice = $i;
+                    break;
+                }
+                else if($respuesta[$i]['centrounidadacademica'] == CENTRO_UNIDADACADEMICA){
+                    $indice = $i;
+                    break;
+                }
             }
-            else if($respuesta[0]['estado'] == ESTADO_PENDIENTE){
-                //redireccionar a actualización de datos
+            if(isset($indice)){
+                session_start();
+                $_SESSION["usuario"] = $respuesta[$indice]['usuario'];
+                $_SESSION["rol"] = $respuesta[$indice]['rol'];
+                $_SESSION["nombre"] = $respuesta[$indice]['nombre'];
+                $_SESSION["centrounidad"] = $respuesta[$indice]['centrounidadacademica'];
+                //Insertar en bitácora            
+                $arrayBitacora = array();
+                $arrayBitacora[":usuario"] = $_SESSION["usuario"];
+                $arrayBitacora[":nombreusuario"] = $_SESSION["nombre"];
+                $arrayBitacora[":funcion"] = CONS_FUNC_LOGIN;
+                $arrayBitacora[":ip"] = $this->get_ip_address();
+                $arrayBitacora[":registro"] = 0; //no se que es esto
+                $arrayBitacora[":tablacampo"] = ''; //tampoco se que es esto
+                $arrayBitacora[":descripcion"] = 'El usuario ha iniciado sesión.';
+                $this->_bitacora->insertarBitacoraUsuario($arrayBitacora, $_SESSION["rol"]);
+    //            if($this->_login->validarPermisoUsuario(CONS_FUNC_LOGIN,$_SESSION["rol"])){
+    //                echo "hola";
+    //            }
+    //            else{
+    //                echo "adios";
+    //            }
+                if($respuesta[0]['estado'] == ESTADO_ACTIVO){
+                    $this->redireccionar('login/inicio');
+                }
+                else if($respuesta[0]['estado'] == ESTADO_PENDIENTE){
+                    //redireccionar a actualización de datos
+                }
+                else{
+                    $this->redireccionar('login/salir');
+                }
             }
             else{
-                $this->redireccionar('login/salir');
+                echo "<script>alert('Credenciales incorrectas');</script>";
+                $this->index();
             }
             
         }
