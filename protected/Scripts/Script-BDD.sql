@@ -722,16 +722,20 @@ CREATE TABLE ADM_Bitacora (
 
 
 -- -----------------------------------------------------
--- Table ADM_UnidadAcademica_Edificio
+-- Table ADM_CentroUnidad_Edificio
 -- -----------------------------------------------------
 CREATE TABLE ADM_UnidadAcademica_Edificio (
   UnidadAcademica INTEGER NOT NULL,
+  Centro INTEGER NOT NULL,
   Edificio INTEGER NOT NULL,
   Jornada INTEGER NOT NULL,
   Estado INTEGER NOT NULL,
   CONSTRAINT UnidadAcademica
     FOREIGN KEY (UnidadAcademica)
     REFERENCES ADM_UnidadAcademica (UnidadAcademica),
+  CONSTRAINT Centro
+    FOREIGN KEY (Centro)
+    REFERENCES ADM_Centro (Centro),
   CONSTRAINT Edificio
     FOREIGN KEY (Edificio)
     REFERENCES CUR_Edificio (Edificio),
