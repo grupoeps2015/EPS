@@ -126,3 +126,29 @@ $BODY$
   COST 100;
 ALTER FUNCTION spcentrounidad(integer, integer)
   OWNER TO postgres;
+  
+
+-- Function: spcicloxtipo(integer)
+
+-- DROP FUNCTION spcicloxtipo(integer);
+
+CREATE OR REPLACE FUNCTION spcicloxtipo(
+    IN _tipo integer,
+    OUT codigo integer,
+    OUT nombre text)
+  RETURNS SETOF record AS
+$BODY$
+begin
+ Return query select distinct
+		cic.ciclo,
+		cic.numerociclo || ' ' || tip.nombre || ' ' || cic.anio
+	      from 
+	        cur_ciclo cic, cur_tipociclo tip 
+	      where cic.tipociclo = tip.tipociclo and cic.tipociclo = _tipo;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION spcicloxtipo(integer)
+  OWNER TO postgres;

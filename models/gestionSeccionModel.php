@@ -27,9 +27,9 @@ class gestionSeccionModel extends Model {
         return $post->fetchall();
     }
     
-    public function informacionSeccion($centro, $unidadacademica) {
+    public function informacionSeccion($centrounidadacademica) {
         try {
-            $post = $this->_db->query("select * from spInformacionSeccion(" . $centro . "," . $unidadacademica . ");");
+            $post = $this->_db->query("select * from spInformacionSeccion(" . $centrounidadacademica . ");");
             return $post->fetchall();
         } catch (Exception $e) {
             return $e->getMessage();

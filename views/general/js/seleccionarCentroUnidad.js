@@ -24,12 +24,12 @@ $(document).ready( function () {
                function(datos){
                     $("#slUnidad").html('');
                     if(datos.length>0){
-                        $("#slUnidad").append('<option value="">-- Seleccione alguna --</option>' );
+                        $("#slUnidad").append('<option value="">-- Unidad Acad&eacute;mica --</option>' );
                         for(var i =0; i < datos.length; i++){
                             $("#slUnidad").append('<option value="' + datos[i].codigo + '">' + datos[i].nombre + '</option>' );
                         }
                     }else{
-                        $("#slUnidad").append('<option value="" disabled>No hay informacion disponible</option>' );
+                        $("#slUnidad").append('<option value="" disabled>No hay informaci&oacute;n disponible</option>' );
                     }
                },
                'json');

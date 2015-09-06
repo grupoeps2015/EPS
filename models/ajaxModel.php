@@ -32,8 +32,19 @@ class ajaxModel extends Model{
           return $post->fetchall();
     }
     
+    public function getTipoCiclo(){
+          $post = $this->_db->query("select * from spconsultageneral('tipociclo,nombre','cur_tipociclo');");
+          return $post->fetchall();
+    }
+    
     public function getUnidadesAjax($centro){
         $post = $this->_db->query("select * from spUnidadxCentro({$centro})");
+        $post->setFetchMode(PDO::FETCH_ASSOC);
+        return $post->fetchAll();
+    }
+    
+    public function getCiclosAjax($tipo){
+        $post = $this->_db->query("select * from spCicloxTipo({$tipo})");
         $post->setFetchMode(PDO::FETCH_ASSOC);
         return $post->fetchAll();
     }

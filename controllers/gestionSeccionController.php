@@ -22,7 +22,7 @@ class gestionSeccionController extends Controller {
     }
 
     public function index() {
-        $this->_view->lstSec = $this->_post->informacionSeccion(CENTRO_REGIONAL, UNIDAD_ACADEMICA);
+        $this->_view->lstSec = $this->_post->informacionSeccion(CENTRO_UNIDADACADEMICA);
         $this->_view->titulo = 'Gestión de secciones - ' . APP_TITULO;
         $this->_view->setJs(array('gestionSeccion'));
         $this->_view->setJs(array('jquery.dataTables.min'), "public");
@@ -33,7 +33,7 @@ class gestionSeccionController extends Controller {
 
     public function agregarSeccion() {
         $this->_view->tiposSeccion = $this->_post->getTiposSeccion();
-        $this->_view->cursos = $this->_postCurso->informacionCurso(CENTRO_REGIONAL, UNIDAD_ACADEMICA);
+        $this->_view->cursos = $this->_postCurso->informacionCurso(CENTRO_UNIDADACADEMICA);
         $this->_view->titulo = 'Agregar Sección - ' . APP_TITULO;
         $this->_view->setJs(array('agregarSeccion'));
         $this->_view->setJs(array('jquery.validate'), "public");
@@ -73,7 +73,7 @@ class gestionSeccionController extends Controller {
         $this->_view->setJs(array('actualizarSeccion'));
         
         $this->_view->tiposSeccion = $this->_post->getTiposSeccion();
-        $this->_view->cursos = $this->_postCurso->informacionCurso(CENTRO_REGIONAL, UNIDAD_ACADEMICA);
+        $this->_view->cursos = $this->_postCurso->informacionCurso(CENTRO_UNIDADACADEMICA);
         $arraySec = array();
         $actualizar = false;
         $this->_view->id = $intIdSeccion;

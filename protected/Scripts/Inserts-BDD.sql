@@ -491,3 +491,15 @@ INSERT INTO CUR_TipoSeccion (Nombre, Descripcion) VALUES ('Sabatino','');
 -- -----------------------------------------------------
 INSERT INTO cur_tipoactividad (tipoactividad,nombre,descripcion,estado) VALUES (1,'Zona','Ponderacion a lo largo del semestre',1);
 INSERT INTO cur_tipoactividad (tipoactividad,nombre,descripcion,estado) VALUES (2,'Examen final','Examen final de curso',1);
+
+-- -----------------------------------------------------
+-- Insert cur_tipociclo
+-- -----------------------------------------------------
+INSERT INTO cur_tipociclo (tipociclo,nombre,descripcion,estado) VALUES (1,'Semestre','',1);
+INSERT INTO cur_tipociclo (tipociclo,nombre,descripcion,estado) VALUES (2,'Bimestre','',1);
+
+-- -----------------------------------------------------
+-- Insert cur_ciclo
+-- -----------------------------------------------------
+INSERT INTO cur_ciclo (ciclo,numerociclo,anio,tipociclo,estado) VALUES (1,1,2016,1,1);
+INSERT INTO cur_ciclo (ciclo,numerociclo,anio,tipociclo,estado) VALUES (2,2,2016,1,1);
