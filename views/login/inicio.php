@@ -24,7 +24,7 @@
                 <div class="service-box">
                     <i class="fa fa-4x fa-group wow bounceIn text-primary" data-wow-delay=".1s"></i>
                     <h3>
-                        <a href="<?php echo BASE_URL; ?>general/seleccionarCentroUnidad/gestionUsuario/listadoUsuarios">
+                        <a href="<?php echo BASE_URL; ?>general/seleccionarCentroUnidad/gestionUsuario">
                                 Gesti&oacute;n de usuarios
                         </a>
                     </h3>
