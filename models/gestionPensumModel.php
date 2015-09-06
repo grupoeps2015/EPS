@@ -12,51 +12,45 @@ class gestionPensumModel extends Model {
         parent::__construct();
     }
 
-    public function agregarCurso($_datos) {
+    public function agregarCarrera($_datos) {
         try {
-            $post = $this->_db->prepare("SELECT * from spAgregarCurso(:codigo,:nombre,:traslape,:estado,:tipocurso) as Id;");
+            $post = $this->_db->prepare("SELECT * from spAgregarCarrera(:nombre,:estado,:centrounidadacademica) as Id;");
             $post->execute($_datos);
             return $post->fetchall();
-            //return "SELECT * from spAgregarCurso(" . $sp . ") as Id;";
         } catch (Exception $e) {
             return $e->getMessage();
         }
     }
     
-    public function getTiposCurso() {
-        $post = $this->_db->query("select * from spconsultageneral('tipocurso,nombre','cur_tipo');");
-        return $post->fetchall();
-    }
-    
-    public function informacionCurso() {
+    public function informacionCarrera($centrounidadacademica) {
         try {
-            $post = $this->_db->query("select * from spInformacionCurso();");
+            $post = $this->_db->query("select * from spInformacionCarrera(" . $centrounidadacademica . ");");
             return $post->fetchall();
         } catch (Exception $e) {
             return $e->getMessage();
         }
     }
     
-    public function eliminarCurso($intIdCurso, $intEstadoNuevo) {
+    public function eliminarCarrera($intIdCarrera, $intEstadoNuevo) {
         try {
-            $this->_db->query("SELECT spActivarDesactivarCurso(" . $intIdCurso . "," . $intEstadoNuevo . ");");
+            $this->_db->query("SELECT spActivarDesactivarCarrera(" . $intIdCarrera . "," . $intEstadoNuevo . ");");
         } catch (Exception $e) {
             return $e->getMessage();
         }
     }
     
-    public function datosCurso($idCurso) {
+    public function datosCarrera($idCarrera) {
         try {
-            $post = $this->_db->query("select * from spDatosCurso(" . $idCurso . ");");
+            $post = $this->_db->query("select * from spDatosCarrera(" . $idCarrera . ");");
             return $post->fetchall();
         } catch (Exception $e) {
             return $e->getMessage();
         }
     }
     
-    public function actualizarCurso($_datos) {
+    public function actualizarCarrera($_datos) {
         try {
-            $post = $this->_db->prepare("SELECT * from spActualizarCurso(:codigo,:nombre,:traslape,:id,:tipocurso) as Id;");
+            $post = $this->_db->prepare("SELECT * from spActualizarCarrera(:nombre,:id) as Id;");
             $post->execute($_datos);
             return $post->fetchall();
         } catch (Exception $e) {

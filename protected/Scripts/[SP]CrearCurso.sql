@@ -1,7 +1,6 @@
-﻿---------------------------------------------------------------------------
--- Function: spagregarcurso(text, text, boolean, integer, integer)
----------------------------------------------------------------------------
--- DROP FUNCTION spagregarcurso(text, text, boolean, integer, integer);
+﻿-- Function: spagregarcurso(text, text, boolean, integer, integer, integer)
+
+-- DROP FUNCTION spagregarcurso(text, text, boolean, integer, integer, integer);
 
 CREATE OR REPLACE FUNCTION spagregarcurso(
     _codigo text,
@@ -9,29 +8,27 @@ CREATE OR REPLACE FUNCTION spagregarcurso(
     _traslape boolean,
     _estado integer,
     _tipocurso integer,
-	_centro integer,
-	_unidadacademica integer)
+    _centrounidadacademica integer)
   RETURNS integer AS
 $BODY$
 DECLARE idCurso integer;
 BEGIN
-	INSERT INTO cur_curso (codigo, nombre, traslape, estado, tipocurso, centro, unidadacademica) 
-	VALUES (_codigo, _nombre, _traslape, _estado, _tipocurso, _centro, _unidadacademica) RETURNING Curso into idCurso;
+	INSERT INTO cur_curso (codigo, nombre, traslape, estado, tipocurso, centrounidadacademica) 
+	VALUES (_codigo, _nombre, _traslape, _estado, _tipocurso, _centrounidadacademica) RETURNING Curso into idCurso;
 	RETURN idCurso;
 END; $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
-ALTER FUNCTION spagregarcurso(text, text, boolean, integer, integer, integer, integer)
+ALTER FUNCTION spagregarcurso(text, text, boolean, integer, integer, integer)
   OWNER TO postgres;
 
----------------------------------------------------------------------------
--- Function: spinformacioncurso()
----------------------------------------------------------------------------
--- DROP FUNCTION spinformacioncurso();
+  
+-- Function: spinformacioncurso(integer)
+
+-- DROP FUNCTION spinformacioncurso(integer);
 
 CREATE OR REPLACE FUNCTION spinformacioncurso(
-	IN _centro integer,
-	IN _unidadacademica integer,
+    IN _centrounidadacademica integer,
     OUT id integer,
     OUT codigo text,
     OUT nombre text,
@@ -57,13 +54,13 @@ BEGIN
 	when c.traslape=false then 'No'
     end as "Traslape"
   from 
-    CUR_Curso c join CUR_Tipo t on c.tipocurso = t.tipocurso where c.centro = _centro and c.unidadacademica = _unidadacademica;
+    CUR_Curso c join CUR_Tipo t on c.tipocurso = t.tipocurso where c.centro_unidadacademica = _centrounidadacademica;
 END;
 $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100
   ROWS 1000;
-ALTER FUNCTION spinformacioncurso(integer, integer)
+ALTER FUNCTION spinformacioncurso(integer)
   OWNER TO postgres;
 
 ---------------------------------------------------------------------------

@@ -21,7 +21,14 @@ class gestionCursoController extends Controller {
     }
 
     public function index() {
-        $this->_view->lstCur = $this->_post->informacionCurso(CENTRO_REGIONAL, UNIDAD_ACADEMICA);
+        if($this->getInteger('slCentros') && $this->getInteger('slUnidad')){
+            $idCentro = $this->getInteger('slCentros');
+            $idUnidad = $this->getInteger('slUnidad');
+        }else{
+            $idCentro = CENTRO_REGIONAL;
+            $idUnidad = UNIDAD_ACADEMICA;
+        }
+        $this->_view->lstCur = $this->_post->informacionCurso($idCentro, $idUnidad);
         $this->_view->titulo = 'Gestión de cursos - ' . APP_TITULO;
         $this->_view->setJs(array('gestionCurso'));
         $this->_view->setJs(array('jquery.dataTables.min'), "public");

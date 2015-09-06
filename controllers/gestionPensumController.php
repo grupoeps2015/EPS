@@ -33,76 +33,72 @@ class gestionPensumController extends Controller {
     public function inicio(){
         $this->_view->renderizar('inicio');
     }
+    
+    public function listadoCarrera() {
+        if($this->getInteger('hdCentroUnidad')){
+            $idCentroUnidad = $this->getInteger('hdCentroUnidad');
+        }else{
+            $idCentroUnidad = CENTRO_UNIDADACADEMICA;
+        }
+        $this->_view->lstCar = $this->_post->informacionCarrera($idCentroUnidad);
+        $this->_view->titulo = 'Gestión de carreras - ' . APP_TITULO;
+        $this->_view->setJs(array('gestionCarrera'));
+        $this->_view->setJs(array('jquery.dataTables.min'), "public");
+        $this->_view->setCSS(array('jquery.dataTables.min'));
 
-    public function agregarCurso() {
-        $this->_view->tiposCurso = $this->_post->getTiposCurso();
-        $this->_view->titulo = 'Agregar Curso - ' . APP_TITULO;
-        $this->_view->setJs(array('agregarCurso'));
+        $this->_view->renderizar('gestionCarrera');
+    }
+
+    public function agregarCarrera() {
+        $this->_view->titulo = 'Agregar Carrera - ' . APP_TITULO;
+        $this->_view->setJs(array('agregarCarrera'));
         $this->_view->setJs(array('jquery.validate'), "public");
-        $arrayCur = array();
+        $arrayCar = array();
         
         if ($this->getInteger('hdEnvio')) {
-            $tipoCurso = $this->getInteger('slTiposCurso');
-            $codigoCurso = $this->getTexto('txtCodigo');
-            $nombreCurso = $this->getTexto('txtNombre');
-            $traslapeCurso = $this->getTexto('slTraslape');
+            $nombreCarrera = $this->getTexto('txtNombre');
 
-            $arrayCur['tipocurso'] = $tipoCurso;
-            $arrayCur['codigo'] = $codigoCurso;
-            $arrayCur['nombre'] = $nombreCurso;
-            $arrayCur['traslape'] = $traslapeCurso;
-            $arrayCur['estado'] = ESTADO_ACTIVO;
-
-            $this->_post->agregarCurso($arrayCur);
-            $this->redireccionar('gestionCurso');
+            $arrayCar['nombre'] = $nombreCarrera;
+            $arrayCar['estado'] = ESTADO_ACTIVO;
+            $arrayCar['centrounidadacademica'] = CENTRO_UNIDADACADEMICA;
+            $this->_post->agregarCarrera($arrayCar);
+            $this->redireccionar('gestionPensum/inicio');
         }
         
-        $this->_view->renderizar('agregarCurso', 'gestionCurso');    
+        $this->_view->renderizar('agregarCarrera', 'gestionPensum');    
     }
     
-    public function eliminarCurso($intNuevoEstado, $intIdCurso) {
+    public function eliminarCarrera($intNuevoEstado, $intIdCarrera) {
         if ($intNuevoEstado == -1 || $intNuevoEstado == 1) {
-            $this->_post->eliminarCurso($intIdCurso, $intNuevoEstado);
+            $this->_post->eliminarCarrera($intIdCarrera, $intNuevoEstado);
 
-            $this->redireccionar('gestionCurso');
+            $this->redireccionar('gestionPensum/listadoCarrera');
         } else {
-            echo "Error al desactivar curso";
+            echo "Error al desactivar carrera";
         }
-        //$this->redireccionar('admHistoriaCrearCurso');
-        //$this->_view->cambio = $intNuevoEstado;
-        //$this->_view->titulo = 'Eliminar curso - ' . APP_TITULO;
-        //$this->_view->renderizar(ADM_FOLDER, 'eliminarUsuario', 'admCrearUsuario');
     }
     
-    public function actualizarCurso($intIdCurso = 0) {
+    public function actualizarCarrera($intIdCarrera = 0) {
         $this->_view->setJs(array('jquery.validate'), "public");
-        $this->_view->setJs(array('actualizarCurso'));
+        $this->_view->setJs(array('actualizarCarrera'));
         
-        $this->_view->tiposCurso = $this->_post->getTiposCurso();
-        $arrayCur = array();
+        $arrayCar = array();
         $actualizar = false;
-        $this->_view->id = $intIdCurso;
-        $this->_view->datosCur = $this->_post->datosCurso($intIdCurso);
-        $this->_view->titulo = 'Actualizar Curso - ' . APP_TITULO;
+        $this->_view->id = $intIdCarrera;
+        $this->_view->datosCar = $this->_post->datosCarrera($intIdCarrera);
+        $this->_view->titulo = 'Actualizar Carrera - ' . APP_TITULO;
         
         if ($this->getInteger('hdEnvio')) {
-            $tipoCurso = $this->getInteger('slTiposCurso');
-            $codigoCurso = $this->getTexto('txtCodigo');
-            $nombreCurso = $this->getTexto('txtNombre');
-            $traslapeCurso = $this->getTexto('slTraslape');
+            $nombreCarrera = $this->getTexto('txtNombre');
 
-            $arrayCur['id'] = $intIdCurso;
-            $arrayCur['tipocurso'] = $tipoCurso;
-            $arrayCur['codigo'] = $codigoCurso;
-            $arrayCur['nombre'] = $nombreCurso;
-            $arrayCur['traslape'] = $traslapeCurso;
-
-            $respuesta = $this->_post->actualizarCurso($arrayCur);
+            $arrayCar['id'] = $intIdCarrera;
+            $arrayCar['nombre'] = $nombreCarrera;
+            $respuesta = $this->_post->actualizarCarrera($arrayCar);
             if (isset($respuesta[0][0])){
-                $this->redireccionar('gestionCurso');
+                $this->redireccionar('gestionPensum/listadoCarrera');
             }
         }
-        $this->_view->renderizar('actualizarCurso', 'gestionCurso');
+        $this->_view->renderizar('actualizarCarrera', 'gestionPensum');
     }
     
     public function cargarCSV(){

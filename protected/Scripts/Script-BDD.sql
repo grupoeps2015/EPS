@@ -87,17 +87,25 @@ CREATE TABLE ADM_Centro (
 -- Table ADM_Centro_UnidadAcademica
 -- -----------------------------------------------------
 CREATE TABLE ADM_Centro_UnidadAcademica (
-  Centro INTEGER UNIQUE NOT NULL,
-  UnidadAcademica INTEGER UNIQUE NOT NULL,
+  Centro_UnidadAcademica INTEGER NOT NULL,
+  Centro INTEGER NOT NULL,
+  UnidadAcademica INTEGER NOT NULL,
+  PRIMARY KEY (Centro_UnidadAcademica),
   CONSTRAINT Centro
     FOREIGN KEY (UnidadAcademica)
     REFERENCES ADM_UnidadAcademica (UnidadAcademica),
   CONSTRAINT UnidadAcademica
     FOREIGN KEY (Centro)
-    REFERENCES ADM_Centro (Centro));
+    REFERENCES ADM_Centro (Centro),
+  CONSTRAINT u_Centro 
+    UNIQUE (Centro),
+  CONSTRAINT u_UnidadAcademica
+    UNIQUE(UnidadAcademica));
 
 CREATE UNIQUE INDEX u_Centro_UnidadAcademica ON ADM_Centro_UnidadAcademica (Centro, UnidadAcademica);
-ALTER TABLE ADM_Centro_UnidadAcademica ADD PRIMARY KEY (Centro,UnidadAcademica);
+ALTER TABLE ADM_Centro_UnidadAcademica DROP CONSTRAINT u_Centro;
+ALTER TABLE ADM_Centro_UnidadAcademica DROP CONSTRAINT u_UnidadAcademica;
+--ALTER TABLE ADM_Centro_UnidadAcademica ADD PRIMARY KEY (Centro,UnidadAcademica);
 
 -- -----------------------------------------------------
 -- Table ADM_PreguntaSecreta
@@ -122,15 +130,11 @@ CREATE TABLE ADM_Usuario (
   FechaUltimaAutenticacion TIMESTAMP NOT NULL,
   IntentosAutenticacion INTEGER NOT NULL,
   Foto TEXT NOT NULL,
-  Centro INTEGER NOT NULL,
-  UnidadAcademica INTEGER NOT NULL,
+  Centro_UnidadAcademica INTEGER NOT NULL,
   PRIMARY KEY (Usuario),
   CONSTRAINT fk_ADM_Usuario_ADM_Centro_UnidadAcademica1
-    FOREIGN KEY (Centro)
-    REFERENCES ADM_Centro_UnidadAcademica (Centro),
-  CONSTRAINT fk_ADM_Usuario_ADM_Centro_UnidadAcademica2
-    FOREIGN KEY (UnidadAcademica)
-    REFERENCES ADM_Centro_UnidadAcademica (UnidadAcademica),
+    FOREIGN KEY (Centro_UnidadAcademica)
+    REFERENCES ADM_Centro_UnidadAcademica (Centro_UnidadAcademica),
   CONSTRAINT fk_ADM_Usuario_ADM_PreguntaSecreta1
     FOREIGN KEY (PreguntaSecreta)
     REFERENCES ADM_PreguntaSecreta (PreguntaSecreta)	
@@ -312,18 +316,14 @@ CREATE TABLE CUR_Curso (
   Traslape BOOLEAN NOT NULL,
   Estado INTEGER NOT NULL,
   TipoCurso INTEGER NOT NULL,
-  Centro INTEGER NOT NULL,
-  UnidadAcademica INTEGER NOT NULL,
+  Centro_UnidadAcademica INTEGER NOT NULL,
   PRIMARY KEY (Curso),
   CONSTRAINT fk_CUR_Curso_CUR_Tipo1
     FOREIGN KEY (TipoCurso)
     REFERENCES CUR_Tipo (TipoCurso),
   CONSTRAINT fk_CUR_Curso_ADM_Centro_UnidadAcademica1
-    FOREIGN KEY (Centro)
-    REFERENCES ADM_Centro_UnidadAcademica (Centro),
-  CONSTRAINT fk_CUR_Curso_ADM_Centro_UnidadAcademica2
-    FOREIGN KEY (UnidadAcademica)
-    REFERENCES ADM_Centro_UnidadAcademica (UnidadAcademica));
+    FOREIGN KEY (Centro_UnidadAcademica)
+    REFERENCES ADM_Centro_UnidadAcademica (Centro_UnidadAcademica));
 
 
 -- -----------------------------------------------------
@@ -375,15 +375,11 @@ CREATE TABLE CUR_Carrera (
   Carrera SERIAL NOT NULL,
   Nombre TEXT NOT NULL,
   Estado INTEGER NOT NULL,
-  Centro INTEGER NOT NULL,
-  UnidadAcademica INTEGER NOT NULL,
+  Centro_UnidadAcademica INTEGER NOT NULL,
   PRIMARY KEY (Carrera),
   CONSTRAINT Centro
-    FOREIGN KEY (Centro)
-    REFERENCES ADM_Centro_UnidadAcademica (Centro),
-  CONSTRAINT UnidadAcademica
-    FOREIGN KEY (UnidadAcademica)
-    REFERENCES ADM_Centro_UnidadAcademica (UnidadAcademica));
+    FOREIGN KEY (Centro_UnidadAcademica)
+    REFERENCES ADM_Centro_UnidadAcademica (Centro_UnidadAcademica));
 
 
 -- -----------------------------------------------------
@@ -771,8 +767,7 @@ CREATE TABLE ADM_Parametro (
   Nombre TEXT NOT NULL,
   Valor TEXT NOT NULL,
   Descripcion TEXT NOT NULL,
-  Centro INTEGER NOT NULL,
-  UnidadAcademica INTEGER NOT NULL,
+  Centro_UnidadAcademica INTEGER NOT NULL,
   Carrera INTEGER NOT NULL,
   TipoParametro INTEGER NOT NULL,
   Extension INTEGER NOT NULL,
@@ -782,11 +777,8 @@ CREATE TABLE ADM_Parametro (
     FOREIGN KEY (Carrera)
     REFERENCES CUR_Carrera (Carrera),
   CONSTRAINT fk_ADM_Parametro_ADM_UnidadAcademica1
-    FOREIGN KEY (UnidadAcademica)
-    REFERENCES ADM_UnidadAcademica (UnidadAcademica),
-  CONSTRAINT fk_ADM_Parametro_ADM_Centro1
-    FOREIGN KEY (Centro)
-    REFERENCES ADM_Centro (Centro),
+    FOREIGN KEY (Centro_UnidadAcademica)
+    REFERENCES ADM_Centro_UnidadAcademica (Centro_UnidadAcademica),
   CONSTRAINT fk_ADM_Parametro_ADM_TipoParametro
     FOREIGN KEY (TipoParametro)
     REFERENCES ADM_TipoParametro (TipoParametro));

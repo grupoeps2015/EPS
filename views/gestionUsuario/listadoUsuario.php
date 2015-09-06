@@ -21,8 +21,7 @@
                             <i class="fa fa-2x fa-user-plus wow bounceIn text-primary" data-wow-delay=".2s">
                                 <a id="linkNuevoUsr" href="#">Agregar Usuario</a>
                             </i>
-                            <input type="hidden" name='slCentros' value="<?php echo $this->idCentro;?>"/>
-                            <input type="hidden" name='slUnidad' value="<?php echo $this->idUnidad;?>"/>
+                            <input type="hidden" name='slCentroUnidad' value="<?php echo $this->idCentroUnidad;?>"/>
                         </form>
                     </div>
                 </div>
@@ -31,7 +30,7 @@
     </div>
     <br/>
     
-    <!-- Tabla con lista de estudiantes -->
+    <!-- Tabla con lista de usuarios -->
     <div id="divTabla">
         <div id="divEstudiantes" class="form-group" >
             <div style="margin-left: 10%; margin-right: 10%">
@@ -62,9 +61,9 @@
                             <td style="text-align: center;"><a href="<?php echo BASE_URL . 'gestionUsuario/actualizarUsuario/' . $this->lstUsr[$i]['id'];?>">Modificar</a></td>
                             <td style="text-align: center;">
                                 <?php if(strcmp($this->lstUsr[$i]['estado'], 'Activo') == 0): ?>
-                                <a href="<?php echo BASE_URL . 'gestionUsuario/eliminarUsuario/-1/' . $this->lstUsr[$i]['id'] . '/' . $this->idCentro . '/' . $this->idUnidad;?>">Desactivar</a>
+                                <a href="<?php echo BASE_URL . 'gestionUsuario/eliminarUsuario/-1/' . $this->lstUsr[$i]['id'] . '/' . $this->idCentroUnidad;?>">Desactivar</a>
                                 <?php else : ?>
-                                <a href="<?php echo BASE_URL . 'gestionUsuario/eliminarUsuario/1/' . $this->lstUsr[$i]['id'] . '/' . $this->idCentro . '/' . $this->idUnidad;?>">Activar</a>
+                                <a href="<?php echo BASE_URL . 'gestionUsuario/eliminarUsuario/1/' . $this->lstUsr[$i]['id'] . '/' . $this->idCentroUnidad;?>">Activar</a>
                                 <?php endif;?>
                             </td>
                         </tr>
@@ -79,5 +78,5 @@
                 <br />
             </div>
         </div>
-    </div>   
+    </div>
 </section>

@@ -401,22 +401,24 @@ Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(21,'Ce
 -- -----------------------------------------------------
 -- Insert ADM_UnidadAcademica
 -- -----------------------------------------------------
-INSERT INTO adm_unidadacademica(unidadacademica, unidadacademicasuperior, nombre, tipo) VALUES (1, NULL, 'Escuela de Historia', 1);
+INSERT INTO adm_unidadacademica(unidadacademica, unidadacademicasuperior, nombre, tipo) VALUES (1, NULL, 'Escuela de Historia', 2);
+INSERT INTO adm_unidadacademica(unidadacademica, unidadacademicasuperior, nombre, tipo) VALUES (2, NULL, 'Ingeniería', 1);
 
 -- -----------------------------------------------------
 -- Insert ADM_Centro_UnidadAcademica
 -- -----------------------------------------------------
-INSERT INTO adm_centro_unidadacademica (centro, unidadacademica) VALUES (20,1);
+INSERT INTO adm_centro_unidadacademica (centro_unidadacademica, centro, unidadacademica) VALUES (1, 20,1);
+INSERT INTO adm_centro_unidadacademica (centro_unidadacademica, centro, unidadacademica) VALUES (2, 20,2);
 
 -- -----------------------------------------------------
 -- Insert cur_carrera / escuela de historia
 -- -----------------------------------------------------
-INSERT INTO cur_carrera(carrera, nombre, estado, centro, unidadacademica) VALUES (default, 'Licenciatura en Historia', 1, 20, 1);
-INSERT INTO cur_carrera(carrera, nombre, estado, centro, unidadacademica) VALUES (default, 'Licenciatura en Arqueologia', 1, 20, 1);
-INSERT INTO cur_carrera(carrera, nombre, estado, centro, unidadacademica) VALUES (default, 'Licenciatura en Antropologia', 1, 20, 1);
-INSERT INTO cur_carrera(carrera, nombre, estado, centro, unidadacademica) VALUES (default, 'Profesorado en Enseñanza Media', 1, 20, 1);
-INSERT INTO cur_carrera(carrera, nombre, estado, centro, unidadacademica) VALUES (default, 'Tecnico Universitario en Archivos', 1, 20, 1);
-INSERT INTO cur_carrera(carrera, nombre, estado, centro, unidadacademica) VALUES (default, 'Maestria en Historia del Arte', 1, 20, 1);
+INSERT INTO cur_carrera(carrera, nombre, estado, centro_unidadacademica) VALUES (default, 'Licenciatura en Historia', 1, 1);
+INSERT INTO cur_carrera(carrera, nombre, estado, centro_unidadacademica) VALUES (default, 'Licenciatura en Arqueologia', 1, 1);
+INSERT INTO cur_carrera(carrera, nombre, estado, centro_unidadacademica) VALUES (default, 'Licenciatura en Antropologia', 1, 1);
+INSERT INTO cur_carrera(carrera, nombre, estado, centro_unidadacademica) VALUES (default, 'Profesorado en Enseñanza Media', 1, 1);
+INSERT INTO cur_carrera(carrera, nombre, estado, centro_unidadacademica) VALUES (default, 'Tecnico Universitario en Archivos', 1, 1);
+INSERT INTO cur_carrera(carrera, nombre, estado, centro_unidadacademica) VALUES (default, 'Maestria en Historia del Arte', 1, 1);
 
 -- -----------------------------------------------------
 -- Insert catalogo adm_preguntasecreta / 6 registros
@@ -459,8 +461,8 @@ INSERT INTO cat_tipocatedratico(tipodocente, descripcion, estado) VALUES (4, 'Au
 -- -----------------------------------------------------
 -- Insert adm_usuario
 -- -----------------------------------------------------
-INSERT INTO adm_usuario(usuario, nombre, correo, clave, estado, preguntasecreta, respuestasecreta, fechaultimaautenticacion, intentosautenticacion, foto, centro, unidadacademica)
-	VALUES (1, 'admin', 'adm@historia.usac.gt', 'kpWemp8=', 1, 0, 'USAC', current_timestamp, 100, '', 20, 1);
+INSERT INTO adm_usuario(usuario, nombre, correo, clave, estado, preguntasecreta, respuestasecreta, fechaultimaautenticacion, intentosautenticacion, foto, centro_unidadacademica)
+	VALUES (1, 'admin', 'adm@historia.usac.gt', 'kpWemp8=', 1, 0, 'USAC', current_timestamp, 100, '', 1);
 
 -- -----------------------------------------------------
 -- Insert adm_empleado
@@ -483,3 +485,9 @@ INSERT INTO cur_tipo(nombre, descripcion)VALUES ('Virtual', '');
 -- -----------------------------------------------------
 INSERT INTO CUR_TipoSeccion (Nombre, Descripcion) VALUES ('Diario','');
 INSERT INTO CUR_TipoSeccion (Nombre, Descripcion) VALUES ('Sabatino','');
+
+-- -----------------------------------------------------
+-- Insert cur_tipoactividad
+-- -----------------------------------------------------
+INSERT INTO cur_tipoactividad (tipoactividad,nombre,descripcion,estado) VALUES (1,'Zona','Ponderacion a lo largo del semestre',1);
+INSERT INTO cur_tipoactividad (tipoactividad,nombre,descripcion,estado) VALUES (2,'Examen final','Examen final de curso',1);
