@@ -27,11 +27,12 @@ class gestionUsuarioController extends Controller {
         }
         
         $this->_view->titulo = 'Gestión de usuarios - ' . APP_TITULO;
-        $this->_view->idCentroUnidad = $idCentroUnidad;
+        $this->_view->id = $idCentroUnidad;
         $this->_view->lstUsr = $this->_post->informacionUsuario($idCentroUnidad);
         $this->_view->setJs(array('gestionUsuario'));
         $this->_view->setJs(array('jquery.dataTables.min'), "public");
         $this->_view->setCSS(array('jquery.dataTables.min'));
+        
         $this->_view->renderizar('gestionUsuario');
     }
     
@@ -148,8 +149,7 @@ class gestionUsuarioController extends Controller {
         } else {
             $this->_view->cambio = "No reconocio ningun parametro";
         }
-        
-        $this->redireccionar('gestionUsuario/'.$idCentroUnidad);
+        $this->redireccionar('gestionUsuario/index/'.$idCentroUnidad);
     }
 
     public function actualizarUsuario($intIdUsuario = 0) {

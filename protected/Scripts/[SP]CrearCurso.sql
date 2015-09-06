@@ -13,7 +13,7 @@ CREATE OR REPLACE FUNCTION spagregarcurso(
 $BODY$
 DECLARE idCurso integer;
 BEGIN
-	INSERT INTO cur_curso (codigo, nombre, traslape, estado, tipocurso, centrounidadacademica) 
+	INSERT INTO cur_curso (codigo, nombre, traslape, estado, tipocurso, centro_unidadacademica) 
 	VALUES (_codigo, _nombre, _traslape, _estado, _tipocurso, _centrounidadacademica) RETURNING Curso into idCurso;
 	RETURN idCurso;
 END; $BODY$
@@ -22,7 +22,7 @@ END; $BODY$
 ALTER FUNCTION spagregarcurso(text, text, boolean, integer, integer, integer)
   OWNER TO postgres;
 
-  
+
 -- Function: spinformacioncurso(integer)
 
 -- DROP FUNCTION spinformacioncurso(integer);
@@ -93,12 +93,13 @@ CREATE OR REPLACE FUNCTION spdatoscurso(
     OUT nombre text,
     OUT traslape boolean,
     OUT estado integer,
-    OUT tipocurso integer)
+    OUT tipocurso integer,
+    OUT centrounidad integer)
   RETURNS SETOF record AS
 $BODY$
 BEGIN
   RETURN query
-  SELECT c.codigo, c.nombre, c.traslape, c.estado, c.tipocurso FROM CUR_Curso c where c.curso = id;
+  SELECT c.codigo, c.nombre, c.traslape, c.estado, c.tipocurso, c.centro_unidadacademica FROM CUR_Curso c where c.curso = id;
 END;
 $BODY$
   LANGUAGE plpgsql VOLATILE

@@ -6,9 +6,9 @@
                 <hr class="primary">
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
-                        <i class="fa fa-2x fa-home wow bounceIn text-primary" data-wow-delay=".2s">
-                            <a href="<?php echo BASE_URL?>login/inicio">
-                                Inicio
+                        <i class="fa fa-2x fa-backward wow bounceIn text-primary" data-wow-delay=".2s">
+                            <a href="<?php echo BASE_URL; ?>general/seleccionarCentroUnidad/gestionCurso">
+                                Regresar
                             </a>
                         </i>
                     </div>
@@ -17,11 +17,12 @@
                 <div class="col-lg-3 col-md-6 text-center"></div>
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
-                        <i class="fa fa-2x fa-user-plus wow bounceIn text-primary" data-wow-delay=".2s">
-                            <a href="<?php echo BASE_URL?>gestionCurso/agregarCurso">
-                                Agregar Curso
-                            </a>
-                        </i>
+                        <form method='post' name='frmPost' id='frmPost' action='<?php echo BASE_URL?>gestionCurso/agregarCurso'>
+                            <i class="fa fa-2x fa-user-plus wow bounceIn text-primary" data-wow-delay=".2s">
+                                <a id="linkNuevoUsr" href="#">Agregar Curso</a>
+                            </i>
+                            <input type="hidden" name='hdCentroUnidad' value="<?php echo $this->id;?>"/>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -56,17 +57,13 @@
                                 <td style="text-align: center;"><a href="<?php echo BASE_URL . 'gestionCurso/actualizarCurso/' . $this->lstCur[$i]['id'];?>">Modificar</a></td>
                                 <td style="text-align: center;">
                                     <?php if(strcmp($this->lstCur[$i]['estado'], 'Activo') == 0): ?>
-                                    <a href="<?php echo BASE_URL . 'gestionCurso/eliminarCurso/-1/' . $this->lstCur[$i]['id'];?>">Desactivar</a>
+                                    <a href="<?php echo BASE_URL . 'gestionCurso/eliminarCurso/-1/' . $this->lstCur[$i]['id'] . '/' . $this->id;?>">Desactivar</a>
                                     <?php else : ?>
-                                    <a href="<?php echo BASE_URL . 'gestionCurso/eliminarCurso/1/' . $this->lstCur[$i]['id'] ?>">Activar</a>
+                                    <a href="<?php echo BASE_URL . 'gestionCurso/eliminarCurso/1/' . $this->lstCur[$i]['id'] . '/' . $this->id;?>">Activar</a>
                                     <?php endif;?>
                                 </td>
                             </tr>
                             <?php endfor;?>
-                        <?php else : ?>
-                            <tr>
-                                <td colspan="7" style="text-align: center">No hay informaci&oacute;n disponible.</td>
-                            </tr>
                         <?php endif;?>
                         </tbody>
                     </table>

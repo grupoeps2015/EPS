@@ -21,7 +21,7 @@
                             <i class="fa fa-2x fa-user-plus wow bounceIn text-primary" data-wow-delay=".2s">
                                 <a id="linkNuevoUsr" href="#">Agregar Usuario</a>
                             </i>
-                            <input type="hidden" name='hdCentroUnidad' value="<?php echo $this->idCentroUnidad;?>"/>
+                            <input type="hidden" name='hdCentroUnidad' value="<?php echo $this->id;?>"/>
                         </form>
                     </div>
                 </div>
@@ -59,23 +59,19 @@
                             <td style="text-align: center"><?php echo $this->lstUsr[$i]['correo']; ?></td>
                             <td style="text-align: center"><?php echo $this->lstUsr[$i]['estado']; ?></td>
                             <td style="text-align: center;">
-                                <a href="<?php echo BASE_URL . 'gestionUsuario/actualizarUsuario/' . $this->lstUsr[$i]['id'];;?>">
+                                <a href="<?php echo BASE_URL . 'gestionUsuario/actualizarUsuario/' . $this->lstUsr[$i]['id'];?>">
                                     Modificar
                                 </a>
                             </td>
                             <td style="text-align: center;">
                                 <?php if(strcmp($this->lstUsr[$i]['estado'], 'Activo') == 0): ?>
-                                <a href="<?php echo BASE_URL . 'gestionUsuario/eliminarUsuario/-1/';?>">Desactivar</a>
+                                <a href="<?php echo BASE_URL . 'gestionUsuario/eliminarUsuario/-1/' . $this->lstUsr[$i]['id'] . '/' . $this->id;?>">Desactivar</a>
                                 <?php else : ?>
-                                <a href="<?php echo BASE_URL . 'gestionUsuario/eliminarUsuario/1/';?>">Activar</a>
+                                <a href="<?php echo BASE_URL . 'gestionUsuario/eliminarUsuario/1/' . $this->lstUsr[$i]['id'] . '/' . $this->id;?>">Activar</a>
                                 <?php endif;?>
                             </td>
                         </tr>
                         <?php endfor;?>
-                    <?php else : ?>
-                        <tr>
-                            <td colspan="8" style="text-align: center">No hay informaci&oacute;n disponible.</td>
-                        </tr>
                     <?php endif;?>
                     </tbody>
                 </table>

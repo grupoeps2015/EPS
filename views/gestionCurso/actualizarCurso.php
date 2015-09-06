@@ -47,13 +47,13 @@
                                 </tr>
                                 <tr>
                                     <td>*Código:
-                                        <input type="text" id="txtCodigo" name="txtCodigo" class="form-control input-lg" value="<?php if(isset($this->datosCur[0]['codigo'])) echo $this->datosCur[0]['codigo']?>">
+                                        <input type="text" id="txtCodigo" name="txtCodigo" class="form-control input-lg" value="<?php if(isset($this->datosCur[0]['codigo'])) echo $this->datosCur[0]['codigo'];?>">
                                         <br/>
                                     </td>
                                     <td>&nbsp;</td>
                                     <td>
                                         *Nombre:
-                                        <input type="text" id="txtNombre" name="txtNombre" class="form-control input-lg" value="<?php if(isset($this->datosCur[0]['nombre'])) echo $this->datosCur[0]['nombre']?>">
+                                        <input type="text" id="txtNombre" name="txtNombre" class="form-control input-lg" value="<?php if(isset($this->datosCur[0]['nombre'])) echo $this->datosCur[0]['nombre'];?>">
                                         <br/>
                                     </td>
                                     <td>&nbsp;</td>
@@ -77,6 +77,7 @@
                         </div>
                     </div>
                     <input type="hidden" name="hdEnvio" value="1">
+                    <input type="hidden" name="hdCentroUnidad" value="<?php echo $this->datosCur[0]['centrounidad'];?>">
                 </form>
             </div>
         </div>

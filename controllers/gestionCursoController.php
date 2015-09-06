@@ -20,16 +20,16 @@ class gestionCursoController extends Controller {
         $this->_ajax = $this->loadModel("ajax");
     }
 
-    public function index() {
-        if($this->getInteger('slCentros') && $this->getInteger('slUnidad')){
-            $idCentro = $this->getInteger('slCentros');
-            $idUnidad = $this->getInteger('slUnidad');
+    public function index($id=0) {
+        if($this->getInteger('hdCentroUnidad')){
+            $idCentroUnidad = $this->getInteger('hdCentroUnidad');
         }else{
-            $idCentro = CENTRO_REGIONAL;
-            $idUnidad = UNIDAD_ACADEMICA;
+            $idCentroUnidad = $id;
         }
-        $this->_view->lstCur = $this->_post->informacionCurso($idCentro, $idUnidad);
+        
         $this->_view->titulo = 'Gestión de cursos - ' . APP_TITULO;
+        $this->_view->id = $idCentroUnidad;
+        $this->_view->lstCur = $this->_post->informacionCurso($idCentroUnidad);
         $this->_view->setJs(array('gestionCurso'));
         $this->_view->setJs(array('jquery.dataTables.min'), "public");
         $this->_view->setCSS(array('jquery.dataTables.min'));
@@ -38,8 +38,11 @@ class gestionCursoController extends Controller {
     }
 
     public function agregarCurso() {
-        $this->_view->tiposCurso = $this->_post->getTiposCurso();
+        $idCentroUnidad = $this->getInteger('hdCentroUnidad');
+        
         $this->_view->titulo = 'Agregar Curso - ' . APP_TITULO;
+        $this->_view->id = $idCentroUnidad;
+        $this->_view->tiposCurso = $this->_post->getTiposCurso();
         $this->_view->setJs(array('agregarCurso'));
         $this->_view->setJs(array('jquery.validate'), "public");
         $arrayCur = array();
@@ -55,21 +58,20 @@ class gestionCursoController extends Controller {
             $arrayCur['nombre'] = $nombreCurso;
             $arrayCur['traslape'] = $traslapeCurso;
             $arrayCur['estado'] = ESTADO_ACTIVO;
-            $arrayCur['centro'] = CENTRO_REGIONAL;
-            $arrayCur['unidadacademica'] = UNIDAD_ACADEMICA;
+            $arrayCur['centrounidadacademica'] = $idCentroUnidad;
             
             $this->_post->agregarCurso($arrayCur);
-            $this->redireccionar('gestionCurso');
+            $this->redireccionar('gestionCurso/index/' . $idCentroUnidad);
+            exit;
         }
         
         $this->_view->renderizar('agregarCurso', 'gestionCurso');    
     }
     
-    public function eliminarCurso($intNuevoEstado, $intIdCurso) {
+    public function eliminarCurso($intNuevoEstado, $intIdCurso, $idCentroUnidad) {
         if ($intNuevoEstado == -1 || $intNuevoEstado == 1) {
             $this->_post->eliminarCurso($intIdCurso, $intNuevoEstado);
-
-            $this->redireccionar('gestionCurso');
+            $this->redireccionar('gestionCurso/index/' . $idCentroUnidad);
         } else {
             echo "Error al desactivar curso";
         }
@@ -80,12 +82,12 @@ class gestionCursoController extends Controller {
     }
     
     public function actualizarCurso($intIdCurso = 0) {
+        $idCentroUnidad = $this->getInteger('hdCentroUnidad');
         $this->_view->setJs(array('jquery.validate'), "public");
         $this->_view->setJs(array('actualizarCurso'));
         
         $this->_view->tiposCurso = $this->_post->getTiposCurso();
         $arrayCur = array();
-        $actualizar = false;
         $this->_view->id = $intIdCurso;
         $this->_view->datosCur = $this->_post->datosCurso($intIdCurso);
         $this->_view->titulo = 'Actualizar Curso - ' . APP_TITULO;
@@ -104,13 +106,14 @@ class gestionCursoController extends Controller {
 
             $respuesta = $this->_post->actualizarCurso($arrayCur);
             if (isset($respuesta[0][0])){
-                $this->redireccionar('gestionCurso');
+                $this->redireccionar('gestionCurso/index/'.$idCentroUnidad);
             }
         }
         $this->_view->renderizar('actualizarCurso', 'gestionCurso');
     }
     
     public function cargarCSV(){
+        $idCentroUnidad = $this->getInteger('hdCentroUnidad');
         $iden = $this->getInteger('hdFile');
         $fileName = "";
         $fileExt = "";
@@ -129,18 +132,18 @@ class gestionCursoController extends Controller {
                     $arrayCur['nombre'] = $data[1];
                     $arrayCur['traslape'] = $data[3];
                     $arrayCur['estado'] = $data[4];
-                    $arrayCur['centro'] = CENTRO_REGIONAL;
-                    $arrayCur['unidadacademica'] = UNIDAD_ACADEMICA;
+                    $arrayCur['centrounidadacademica'] = $idCentroUnidad;
                     $this->_post->agregarCurso($arrayCur);
     
                 }
                 fclose($handle);
-                $this->redireccionar('gestionCurso');
+                $this->redireccionar('gestionCurso/index/' . $idCentroUnidad);
+                exit;
             }else{
                 echo "<script>alert('El archivo cargado no cumple con el formato csv');</script>";
             }
         }
-        $this->redireccionar('gestionCurso/agregarCurso');
+        $this->_view->renderizar('agregarCurso', 'gestionCurso'); 
         
     }
 }
