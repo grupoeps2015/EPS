@@ -41,12 +41,52 @@
                                     </td>
                                     <td>&nbsp;</td>
                                 </tr>
+                                 <tr>
+                                    <td tyle="width: 45%">
+                                        <?php if(isset($this->centro_unidadacademica) && count($this->centro_unidadacademica)): ?>
+                                        <select id="slCentroUnidadAcademica" name="slCentroUnidadAcademica" class="form-control input-lg">
+                                           <option value="">- Centro - Unidad acad&eacute;mica -</option>
+                                            <?php for($i =0; $i < count($this->centro_unidadacademica); $i++) : ?>
+                                            <option value="<?php echo $this->centro_unidadacademica[$i]['centro_unidadacademica'];?>">
+                                                <?php echo $this->centro_unidadacademica[$i]['nombrecentro']; echo " - "; echo $this->centro_unidadacademica[$i]['nombreunidadacademica'];?>
+                                            </option>
+                                            <?php endfor;?>
+                                        </select>
+                                        <?php else : ?>
+                                        &nbsp;
+                                        <?php endif;?>
+                                    </td>
+                                    <td>&nbsp;</td>
+                                    <td>
+                                    <select id="slCarreras" name="slCarreras" class="form-control input-lg">
+                                        <option value="" disabled>- Carrera -</option>
+                                    </select>
+                                    </td>
+                                </tr>                                
+                                <tr>
+                                    <td tyle="width: 45%">
+                                        <br/>
+                                        <?php if(isset($this->tipoparametro) && count($this->tipoparametro)): ?>
+                                        <select id="slTipoParametro" name="slTipoParametro" class="form-control input-lg">
+                                            <option value="">- Tipo par&aacute;metro -</option>
+                                            <?php for($i =0; $i < count($this->tipoparametro); $i++) : ?>
+                                            <option value="<?php echo $this->tipoparametro[$i]['tipoparametro'];?>">
+                                                <?php echo $this->tipoparametro[$i]['nombretipoparametro']; ?>
+                                            </option>
+                                            <?php endfor;?>
+                                        </select>
+                                        <?php else : ?>
+                                        &nbsp;
+                                        <?php endif;?>
+                                    </td>
+                                </tr>
                                 <tr>
                                     <td>&nbsp;</td>
                                     <td rowspan="2" colspan="2">
-                                        <input type="submit" id="btnAgregarParametro" name="btnAgregarParametro" value="Nuevo Parámetro" class="btn btn-danger btn-lg btn-block">
+                                        <br/>                                        
+                                        <input type="submit" id="btnAgregarParametro" name="btnAgregarParametro" value="Nuevo Parámetro" class="btn btn-danger btn-lg btn-warning" disabled>
                                     </td>
-                                </tr>
+                                </tr>                                
                             </table>
                             <br />
                         </div>

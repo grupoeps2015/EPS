@@ -25,8 +25,8 @@ class admEstudianteController extends Controller{
         $arrayEmg = array();
         
         $this->_view->titulo = APP_TITULO;
-        $this->_view->deptos = $this->_ajax->getDeptos();
-        $this->_view->paises = $this->_ajax->getPais();
+        $this->_view->deptos = $this->_post->getDeptos();
+        $this->_view->paises = $this->_post->getPais();
         $this->_view->infoGeneral = $this->_est->getInfoGeneral($idUsuario);
         $this->_view->setJs(ADM_FOLDER, array('admEstudiante'));
         $this->_view->setJs("public", array('jquery.validate'));

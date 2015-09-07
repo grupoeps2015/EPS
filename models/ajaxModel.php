@@ -33,4 +33,10 @@ class ajaxModel extends Model{
         return $post->fetchAll();
     }
     
+    public function getInfoCarreras($centro_unidadacademica){
+        $post = $this->_db->query("select * from spinformacioncarrera({$centro_unidadacademica})");
+        $post->setFetchMode(PDO::FETCH_ASSOC);
+        return $post->fetchAll();
+    }
+    
 }

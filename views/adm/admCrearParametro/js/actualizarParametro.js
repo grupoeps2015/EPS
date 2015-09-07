@@ -1,7 +1,6 @@
 
 $(document).ready(function(){
-    
-    $('#divParametros').css("display", "block");
+    getCarrerasAjax();
     $('#frParametros').validate({
         rules:{
             txtNombreParametro:{
@@ -43,9 +42,8 @@ $(document).ready(function(){
                 required: "Elija un tipo de parámetro."
             }
         }
-    }); 
-    
-    $("#slCentroUnidadAcademica").change(function(){        
+    });
+     $("#slCentroUnidadAcademica").change(function(){        
        if(!$("#slCentroUnidadAcademica").val()){
             $("#slCarreras").html('');
             $("#slCarreras").append('<option value="" disabled>-- Carrera --</option>')
@@ -57,9 +55,9 @@ $(document).ready(function(){
    
     $("#slCarreras").change(function(){
         if(!$("#slCarreras").val()){
-            $('#btnAgregarParametro').prop("disabled",true);
+            $('#btnActualizarParametro').prop("disabled",true);
         }else{
-            $('#btnAgregarParametro').prop("disabled",false);
+            $('#btnActualizarParametro').prop("disabled",false);
             getCentroUnidadAjax();
         }
     });
@@ -71,8 +69,14 @@ $(document).ready(function(){
                     $("#slCarreras").html('');
                     if(datos.length>0){
                         $("#slCarreras").append('<option value="">-- Carrera --</option>' );
-                        for(var i =0; i < datos.length; i++){
-                            $("#slCarreras").append('<option value="' + datos[i].id + '">' + datos[i].nombre + '</option>' );
+                        for(var i =0; i < datos.length; i++){ 
+                            if(datos[i].id == $("#idCarrera").val()){
+                            $("#slCarreras").append('<option value="' + datos[i].id + '" selected>' + datos[i].nombre + '</option>' );
+                        }
+                        else
+                        {
+                           $("#slCarreras").append('<option value="' + datos[i].id + '">' + datos[i].nombre + '</option>' ); 
+                        }
                         }
                     }else{
                         $("#slCarreras").append('<option value="" disabled>No hay informaci&oacute;n disponible</option>' );
@@ -80,6 +84,5 @@ $(document).ready(function(){
                },
                'json');
     }
-        
 });
 

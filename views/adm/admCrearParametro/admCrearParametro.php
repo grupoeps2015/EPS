@@ -41,8 +41,8 @@
                             </tr>
                         </thead>
                         <tbody>
-                        <?php if(isset($this->lstPar) && count($this->lstPar)): ?>
-                            <?php for($i =0; $i < count($this->lstPar); $i++) : ?>
+                         <?php if(isset($this->lstPar) && count($this->lstPar)): ?>    
+                             <?php for($i =0; $i < count($this->lstPar); $i++) : ?>
                             <tr>
                                 <td style="text-align: center"><?php echo $this->lstPar[$i]['parametro']; ?></td>
                                 <td style="text-align: center"><?php echo $this->lstPar[$i]['nombreparametro']; ?></td>

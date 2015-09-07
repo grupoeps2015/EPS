@@ -28,6 +28,11 @@ class ajaxController extends Controller{
         }
     }
     
+    public function getInfoCarreras(){
+        if($this->getInteger('centro_unidadacademica')){
+            echo json_encode($this->_ajax->getInfoCarreras($this->getInteger('centro_unidadacademica')));
+        }
+    }
 }
 
 ?>

@@ -10,7 +10,8 @@ class admCrearParametroController extends Controller{
     
     private $_post;
     private $_par;
-    private $_encriptar;
+    private $_encriptar;         
+    private $_ajax;
     
      public function __construct() {
         parent::__construct();
@@ -34,7 +35,10 @@ class admCrearParametroController extends Controller{
     
     public function agregarParametro(){
          
-        $arrayPar = array();
+        $arrayPar = array();   
+        
+        $this->_view->centro_unidadacademica = $this->_post->getCentro_UnidadAcademica();
+        $this->_view->tipoparametro = $this->_post->getTipoParametro();
         
         $this->_view->titulo = 'Agregar Parametro - ' . APP_TITULO;
         $this->_view->setJs(ADM_FOLDER,array('agregarParametro'));
@@ -60,15 +64,15 @@ class admCrearParametroController extends Controller{
                 $this->_view->renderizar(ADM_FOLDER,'agregarParametro', 'admCrearParametro');
                 exit;
             }
+            
                         
             $arrayPar["nombre"] = $this->getTexto('txtNombreParametro');
-            $arrayPar["valor"] = $this->getTexto('txtValorParametro');;
+            $arrayPar["valor"] = $this->getTexto('txtValorParametro');
             $arrayPar["descripcion"] = $this->getTexto('txtDescripcionParametro');
-            $arrayPar["centro"] = 1;
-            $arrayPar["unidadacademica"] = 1;
-            $arrayPar["carrera"] = 1;
+            $arrayPar["centro_unidadacademica"] = $this->getInteger('slCentroUnidadAcademica');
+            $arrayPar["carrera"] = $this->getInteger('slCarreras');
             $arrayPar["extension"] = $this->getTexto('txtExtensionParametro');         
-            $arrayPar["tipoparametro"] = 1;
+            $arrayPar["tipoparametro"] =  $this->getInteger('slTipoParametro');
             $this->_post->agregarParametro($arrayPar);           
            
         $this->redireccionar('admCrearParametro');
@@ -89,70 +93,33 @@ class admCrearParametroController extends Controller{
         $this->_view->renderizar(ADM_FOLDER,'eliminarParametro', 'admCrearParametro');
     }
     
-  public function infoParametro($idParametro=0){
-        $actualizar = false;
-        $arrayGen = array();
-        $arrayEmg = array();
-        
-        $this->_view->titulo = APP_TITULO;
-        $this->_view->infoGeneral = $this->_par->getInfoGeneral($idParametro);
-        $this->_view->setJs(ADM_FOLDER, array('admEstudiante'));
+     public function actualizarParametro($intIdParametro = 0) {
+
         $this->_view->setJs("public", array('jquery.validate'));
-        if($iden == 1){
-            $this->_view->datos = $_POST;
-            if (!$this->getInteger('slDeptos')) {
-                $this->_view->renderizar(ADM_FOLDER,'admEstudiante','infoEstudiante');
-                exit;
-            }
-            if (!$this->getInteger('slMunis')) {
-                $this->_view->renderizar(ADM_FOLDER,'admEstudiante','infoEstudiante');
-                exit;
-            }
-            if (!$this->getInteger('txtZona')) {
-                $this->_view->renderizar(ADM_FOLDER,'admEstudiante','infoEstudiante');
-                exit;
-            }
-            if (!$this->getTexto('txtDireccion')) {
-                $this->_view->renderizar(ADM_FOLDER,'admEstudiante','infoEstudiante');
-                exit;
-            }
-            if (!$this->getInteger('txtTelefono')) {
-                $this->_view->renderizar(ADM_FOLDER,'admEstudiante','infoEstudiante');
-                exit;
-            }
-            if (!$this->getInteger('slPaises')) {
-                $this->_view->renderizar(ADM_FOLDER,'admEstudiante','infoEstudiante');
-                exit;
-            }
-            $actualizar = true;
-        }else if($iden == 2){
-            $actualizar = true;
-        }
+        $this->_view->setJs(ADM_FOLDER, array('actualizarParametro'));
+        $this->_view->centro_unidadacademica = $this->_post->getCentro_UnidadAcademica();
+        $this->_view->tipoparametro = $this->_post->getTipoParametro();
         
-        if($actualizar){
-            if($iden == 1){
-                $arrayGen["id"] = $idUsuario;
-                $arrayGen["direccion"] = $this->getTexto('txtDireccion');
-                $arrayGen["zona"] = $this->getInteger('txtZona');
-                $arrayGen["muni"] = $this->getInteger('slMunis');
-                $arrayGen["telefono"] = $this->getTexto('txtTelefono');
-                $arrayGen["pais"] = $this->getInteger('slPaises');
-                $this->_est->setInfoGeneral($arrayGen);
-            }else{
-                $arrayEmg["id"] = $idUsuario;
-                $arrayEmg["telefonoE"] = $this->getTexto('txtTelefonoE');
-                $arrayEmg["alergias"] = $this->getTexto('txtAlergias');
-                $arrayEmg["sangre"] = $this->getTexto('txtTipoSangre');
-                $arrayEmg["centro"] = $this->getTexto('txtHospital');
-                $arrayEmg["seguro"] = $this->getInteger('rbSeguro');
-                $this->_est->setInfoEmergencia($arrayEmg);
-            }
-           $this->redireccionar('admEstudiante/infoEstudiante/12');
-        }
+        $arrayPar = array();
+        $actualizar = false;
+        $this->_view->id = $intIdParametro;
+        $this->_view->datosPar = $this->_post->datosParametro($intIdParametro);
         
-        $this->_view->renderizar(ADM_FOLDER,'admEstudiante');
+        $arrayPar["nombre"] = $this->getTexto('txtNombreParametro');
+            $arrayPar["valor"] = $this->getTexto('txtValorParametro');
+            $arrayPar["descripcion"] = $this->getTexto('txtDescripcionParametro');
+            $arrayPar["centro_unidadacademica"] = $this->getInteger('slCentroUnidadAcademica');
+            $arrayPar["carrera"] = $this->getInteger('slCarreras');
+            $arrayPar["extension"] = $this->getTexto('txtExtensionParametro');         
+            $arrayPar["tipoparametro"] =  $this->getInteger('slTipoParametro');
+          //-->Revisar  //$this->_post->actualizarParametro($intIdParametro,$arrayPar);
+        //$this->redireccionar('admCrearParametro/actualizarParametro/' . $intIdParametro);
+         
+       $this->_view->renderizar(ADM_FOLDER, 'actualizarParametro', 'admCrearParametro');
+      
     }
-    
+ 
 }
+
 
 ?>
