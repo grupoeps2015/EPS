@@ -22,13 +22,15 @@ class gestionHorarioController extends Controller {
     }
 
     public function index() {
-        $this->_view->lstCur = $this->_post->informacionCurso();
-        $this->_view->titulo = 'Gestión de cursos - ' . APP_TITULO;
-        $this->_view->setJs(array('gestionCurso'));
+        //$this->_view->lstCur = $this->_post->informacionCurso();
+        $this->_view->titulo = 'Gestión de horarios - ' . APP_TITULO;
+        $this->_view->curso = $this->getTexto('hdSeccion');
+        $this->_view->idcurso = $this->getInteger('slSec');
+        $this->_view->setJs(array('gestionHorario'));
         $this->_view->setJs(array('jquery.dataTables.min'), "public");
         $this->_view->setCSS(array('jquery.dataTables.min'));
 
-        $this->_view->renderizar('gestionCurso');
+        $this->_view->renderizar('gestionHorario');
     }
     
     public function seleccionarCicloCurso(){
