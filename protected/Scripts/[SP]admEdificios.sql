@@ -19,12 +19,11 @@ END; $BODY$
 ALTER FUNCTION spagregaredificio(text, text, integer)
   OWNER TO postgres;
 
--- Function: spasignaredificioaunidadacademica(integer, integer, integer, integer)
+-- Function: spasignaredificioacentrounidadacademica(integer, integer, integer, integer)
 
--- DROP FUNCTION spasignaredificioaunidadacademica(integer, integer, integer, integer);
-CREATE OR REPLACE FUNCTION spasignaredificioaunidadacademica(
-    _unidadAcademica integer,
-    _centro integer,
+-- DROP FUNCTION spasignaredificioacentrounidadacademica(integer, integer, integer, integer);
+CREATE OR REPLACE FUNCTION spasignaredificioacentrounidadacademica(
+    _Centro_UnidadAcademica integer,
     _edificio integer,
     _jornada integer,
     _estado integer)
@@ -32,13 +31,13 @@ CREATE OR REPLACE FUNCTION spasignaredificioaunidadacademica(
  declare idAsignacion
 $BODY$
 BEGIN
-	INSERT INTO ADM_CentroUnidad_edificio(unidadAcademica,centro,edificio,jornada, estado) 
-	VALUES (_unidadAcademica,_centro,_edificio, _jornada, _estado) RETURNING Asignacion into idAsignacion;
+	INSERT INTO ADM_CentroUnidad_edificio(Centro_UnidadAcademica,edificio,jornada, estado) 
+	VALUES (_Centro_UnidadAcademica,_edificio, _jornada, _estado) RETURNING Asignacion into idAsignacion;
 	RETURN idAsignacion;
 END; $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
-ALTER FUNCTION spasignaredificioaunidadacademica(integer, integer, integer, integer)
+ALTER FUNCTION spasignaredificioacentrounidadacademica(integer, integer, integer, integer)
   OWNER TO postgres;
 
 
