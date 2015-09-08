@@ -1,8 +1,12 @@
 $(document).ready( function () {
     $('#tbCursos').DataTable();
     
+    $('#linkSeccion').click(function(){
+        $('#frmPost1').submit();
+    });
+    
     $('#linkNuevoUsr').click(function(){
-        $('#frmPost').submit();
+        $('#frmPost2').submit();
     });
     
 });

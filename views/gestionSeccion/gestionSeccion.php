@@ -6,9 +6,9 @@
                 <hr class="primary">
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
-                        <i class="fa fa-2x fa-home wow bounceIn text-primary" data-wow-delay=".2s">
-                            <a href="<?php echo BASE_URL?>login/inicio">
-                                Inicio
+                        <i class="fa fa-2x fa-backward wow bounceIn text-primary" data-wow-delay=".2s">
+                            <a href="<?php echo BASE_URL; ?>gestionCurso/index/<?php echo $this->id;?>">
+                                Regresar
                             </a>
                         </i>
                     </div>
@@ -61,10 +61,6 @@
                                 </td>
                             </tr>
                             <?php endfor;?>
-                        <?php else : ?>
-                            <tr>
-                                <td colspan="6" style="text-align: center">No hay informaci&oacute;n disponible.</td>
-                            </tr>
                         <?php endif;?>
                         </tbody>
                     </table>

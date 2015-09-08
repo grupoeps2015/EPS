@@ -21,13 +21,18 @@ class gestionSeccionController extends Controller {
         $this->_ajax = $this->loadModel("ajax");
     }
 
-    public function index() {
-        $this->_view->lstSec = $this->_post->informacionSeccion(CENTRO_UNIDADACADEMICA);
+    public function index($id=0) {
+        if($this->getInteger('hdCentroUnidad')){
+            $idCentroUnidad = $this->getInteger('hdCentroUnidad');
+        }else{
+            $idCentroUnidad = $id;
+        }
+        $this->_view->id= $idCentroUnidad;
+        $this->_view->lstSec = $this->_post->informacionSeccion($idCentroUnidad);
         $this->_view->titulo = 'Gestión de secciones - ' . APP_TITULO;
         $this->_view->setJs(array('gestionSeccion'));
         $this->_view->setJs(array('jquery.dataTables.min'), "public");
         $this->_view->setCSS(array('jquery.dataTables.min'));
-
         $this->_view->renderizar('gestionSeccion');
     }
 
