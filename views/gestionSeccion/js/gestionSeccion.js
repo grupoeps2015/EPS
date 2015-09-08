@@ -1,3 +1,7 @@
 $(document).ready( function () {
-    $('#tbSecciones').DataTable();
+    $('#tbSecciones').DataTable( {
+        "language": {
+          "emptyTable": "No hay informaci&oacute;n disponible."
+        }
+    } );
 } );

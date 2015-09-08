@@ -2,13 +2,14 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center">
-                <h2 class="section-heading">Agregar Carrera</h2>
+                <h2 class="section-heading">Agregar Horario</h2>
                 <p><?php if(isset($this->query)) echo $this->query; ?></p>
                 <hr class="primary">
+                <h4 class="section-heading"><?php if(isset($this->curso)) echo $this->curso;?></h4>
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
                         <i class="fa fa-2x fa-backward wow bounceIn text-primary" data-wow-delay=".2s">
-                            <a href="<?php echo BASE_URL?>gestionPensum/listadoCarrera">
+                            <a href="<?php echo BASE_URL?>gestionHorario">
                                 Regresar
                             </a>
                         </i>
@@ -24,7 +25,7 @@
     <div class="header-content">
         <div class="header-content-inner">
             <div id="divCentros" class="row">
-                <form id="frCarreras" method="post" action="<?php echo BASE_URL; ?>gestionPensum/agregarCarrera">
+                <form id="frCarreras" method="post" action="<?php echo BASE_URL; ?>gestionHorario/agregarHorario">
                     <div id="divEstudiantes" class="form-group" >
                         <div class="col-md-6 col-md-offset-3">
                             <table>

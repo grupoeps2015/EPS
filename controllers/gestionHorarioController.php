@@ -57,9 +57,11 @@ class gestionHorarioController extends Controller {
         $this->_view->renderizar('gestionCarrera');
     }
 
-    public function agregarCarrera() {
-        $this->_view->titulo = 'Agregar Carrera - ' . APP_TITULO;
-        $this->_view->setJs(array('agregarCarrera'));
+    public function agregarHorario() {
+        $this->_view->idcurso = $this->getInteger('hdIdCurso');
+        $this->_view->curso = $this->getTexto('hdCurso');
+        $this->_view->titulo = 'Agregar Horario - ' . APP_TITULO;
+        $this->_view->setJs(array('agregarHorario'));
         $this->_view->setJs(array('jquery.validate'), "public");
         $arrayCar = array();
         
@@ -73,7 +75,7 @@ class gestionHorarioController extends Controller {
             $this->redireccionar('gestionPensum/inicio');
         }
         
-        $this->_view->renderizar('agregarCarrera', 'gestionPensum');    
+        $this->_view->renderizar('agregarHorario', 'gestionHorario');    
     }
     
     public function eliminarCarrera($intNuevoEstado, $intIdCarrera) {
