@@ -63,8 +63,8 @@ class gestionParametroController extends Controller{
     }
     
     public function actualizarParametro($intIdParametro = 0) {
-        $iden = $this->getInteger('hdEnvio');
-        
+        $valorPagina = $this->getInteger('hdEnvio');
+        $actualizar = false;
         $this->_view->setJs(array('jquery.validate'), "public");
         $this->_view->setJs(array('actualizarParametro'));
         $this->_view->centro_unidadacademica = $this->_post->getCentro_UnidadAcademica();
@@ -73,7 +73,13 @@ class gestionParametroController extends Controller{
         $arrayPar = array();
         $this->_view->id = $intIdParametro;
         $this->_view->datosPar = $this->_post->datosParametro($intIdParametro);
-        if($iden == 1){
+        
+        if ($valorPagina == 1) {
+            $actualizar = true;
+        }
+        
+        if($actualizar){
+            $arrayPar["parametro"] = $intIdParametro;
             $arrayPar["nombre"] = $this->getTexto('txtNombreParametro');
             $arrayPar["valor"] = $this->getTexto('txtValorParametro');
             $arrayPar["descripcion"] = $this->getTexto('txtDescripcionParametro');
@@ -81,7 +87,8 @@ class gestionParametroController extends Controller{
             $arrayPar["carrera"] = $this->getInteger('slCarreras');
             $arrayPar["extension"] = $this->getTexto('txtExtensionParametro');         
             $arrayPar["tipoparametro"] =  $this->getInteger('slTipoParametro');
-            //$this->_post->actualizarParametro($intIdParametro, $arrayPar);
+            
+            $this->_post->actualizarParametro($arrayPar);
             $this->redireccionar('gestionParametro/actualizarParametro/' . $intIdParametro);
         }
         $this->_view->renderizar('actualizarParametro', 'gestionParametro');

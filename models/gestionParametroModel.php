@@ -42,20 +42,18 @@ class gestionParametroModel extends Model{
         }
     }
     
-    public function actualizarParametro($idParametro, $_datos) {
-        
-        $sp = '\'' . $_datos["nombre"] . '\',\'' . $_datos["valor"] . '\',';
+    public function actualizarParametro($_datos) {
+        $sp = $_datos["parametro"] . ',';
+        $sp .= '\'' . $_datos["nombre"] . '\',\'' . $_datos["valor"] . '\',';
         $sp .= '\'' . $_datos["descripcion"] . '\',' . $_datos["centro_unidadacademica"] . ',';
         $sp .= $_datos["carrera"] . ',';
-        $sp .= $_datos["extension"] . ',' . $_datos["tipoparametro"];
-       try {
-            $post = $this->_db->query("SELECT spModificarParametro(" . $idParametro . "'," . $sp . ");");
-            return $post->fetchall();
-            
-        } catch (Exception $e) {
+        $sp .= $_datos["extension"] . ',null,' . $_datos["tipoparametro"];
+      
+        try{
+            $this->_db->query("SELECT spModificarParametro(" . $sp. ");");
+        }catch(Exception $e){
             return $e->getMessage();
-        }
-        
+        }        
     }
     
     public function datosParametro($idParametro) {
