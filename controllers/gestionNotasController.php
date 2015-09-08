@@ -21,7 +21,10 @@ class gestionNotasController extends Controller{
     }
     
     public function index(){
+        $idCentroUnidad = $this->getInteger('hdCentroUnidad');
+        
         $this->_view->titulo = 'Gestión de notas - ' . APP_TITULO;
+        $this->_view->id = $idCentroUnidad;
         $this->_view->setJs(array('gestionNotas'));
         $this->_view->renderizar('gestionNotas');
     }

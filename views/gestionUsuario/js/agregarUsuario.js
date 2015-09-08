@@ -1,4 +1,3 @@
-
 $(document).ready(function(){
     
     $('#divEstudiantes').css("display", "none");

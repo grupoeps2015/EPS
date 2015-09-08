@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Description of admCrearParametroController
+ * Description of gestionParametroController
  *
  * @author Gerson
  */
@@ -9,13 +9,9 @@
 class gestionParametroController extends Controller{
     
     private $_post;
-    private $_par;
-    private $_encriptar;
     
-     public function __construct() {
+    public function __construct() {
         parent::__construct();
-        $this->getLibrary('encripted');
-        $this->_encriptar = new encripted();
         $this->_post = $this->loadModel('gestionParametro');
     }
 
@@ -33,54 +29,62 @@ class gestionParametroController extends Controller{
     }
     
     public function agregarParametro(){
+        $iden = $this->getInteger('hdEnvio');
         $arrayPar = array();
+        $this->_view->centro_unidadacademica = $this->_post->getCentro_UnidadAcademica();
+        $this->_view->tipoparametro = $this->_post->getTipoParametro();
+        
         $this->_view->titulo = 'Agregar Parametro - ' . APP_TITULO;
         $this->_view->setJs(array('agregarParametro'));
         $this->_view->setJs(array('jquery.validate'), "public");
         
-        $arrayPar["nombre"] = $this->getTexto('txtNombreParametro');
-        $arrayPar["valor"] = $this->getTexto('txtValorParametro');;
-        $arrayPar["descripcion"] = $this->getTexto('txtDescripcionParametro');
-        $arrayPar["centro"] = 1;
-        $arrayPar["unidadacademica"] = 1;
-        $arrayPar["carrera"] = 1;
-        $arrayPar["extension"] = $this->getTexto('txtExtensionParametro');         
-        $arrayPar["tipoparametro"] = 1;
-        $this->_post->agregarParametro($arrayPar);           
-           
-        $this->redireccionar('gestionParametro');
+        if($iden == 1){
+            $arrayPar["nombre"] = $this->getTexto('txtNombreParametro');
+            $arrayPar["valor"] = $this->getTexto('txtValorParametro');
+            $arrayPar["descripcion"] = $this->getTexto('txtDescripcionParametro');
+            $arrayPar["centro_unidadacademica"] = $this->getInteger('slCentroUnidadAcademica');
+            $arrayPar["carrera"] = $this->getInteger('slCarreras');
+            $arrayPar["extension"] = $this->getTexto('txtExtensionParametro');         
+            $arrayPar["tipoparametro"] =  $this->getInteger('slTipoParametro');
+            $this->_view->query = $this->_post->agregarParametro($arrayPar);
+            $this->redireccionar('gestionParametro');
+        }
+        
         $this->_view->renderizar('agregarParametro', 'gestionParametro');
-        
-        
     }
     
-    public function eliminarParametro($intNuevoEstado,$intIdParametro){
+    public function eliminarParametro($intNuevoEstado, $intIdParametro){
         if($intNuevoEstado == -1 || $intNuevoEstado == 1){
             $this->_post->eliminarParametro($intIdParametro,$intNuevoEstado);
             $this->redireccionar('gestionParametro');
         }else{
             $this->_view->cambio = "No reconocio ningun parametro";    
         }
-        $this->_view->titulo = 'Eliminar Parametro - ' . APP_TITULO;
-        $this->_view->renderizar('eliminarParametro', 'gestionParametro');
     }
     
     public function actualizarParametro($intIdParametro = 0) {
+        $iden = $this->getInteger('hdEnvio');
         
-       $iden = $this->getInteger('hdEnvio');
-        $actualizar = false;
-        $arrayGen = array();
-        $arrayEmg = array();
-
-        $this->_view->titulo = APP_TITULO;
-        $this->_view->infoGeneral = $this->_par->datosParametro($intIdParametro);
-        $this->_view->setJs(array('estudiante'));
         $this->_view->setJs(array('jquery.validate'), "public");
-        $actualizar = true;
+        $this->_view->setJs(array('actualizarParametro'));
+        $this->_view->centro_unidadacademica = $this->_post->getCentro_UnidadAcademica();
+        $this->_view->tipoparametro = $this->_post->getTipoParametro();
         
-        $this->_view->renderizar(ADM_FOLDER, 'actualizarParametro');
+        $arrayPar = array();
+        $this->_view->id = $intIdParametro;
+        $this->_view->datosPar = $this->_post->datosParametro($intIdParametro);
+        if($iden == 1){
+            $arrayPar["nombre"] = $this->getTexto('txtNombreParametro');
+            $arrayPar["valor"] = $this->getTexto('txtValorParametro');
+            $arrayPar["descripcion"] = $this->getTexto('txtDescripcionParametro');
+            $arrayPar["centro_unidadacademica"] = $this->getInteger('slCentroUnidadAcademica');
+            $arrayPar["carrera"] = $this->getInteger('slCarreras');
+            $arrayPar["extension"] = $this->getTexto('txtExtensionParametro');         
+            $arrayPar["tipoparametro"] =  $this->getInteger('slTipoParametro');
+            //$this->_post->actualizarParametro($intIdParametro, $arrayPar);
+            $this->redireccionar('gestionParametro/actualizarParametro/' . $intIdParametro);
+        }
+        $this->_view->renderizar('actualizarParametro', 'gestionParametro');
     }
-    
+ 
 }
-
-?>

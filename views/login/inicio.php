@@ -65,7 +65,9 @@
             <div class="col-lg-3 col-md-6 text-center">
                 <div class="service-box">
                     <i class="fa fa-4x fa-wrench wow bounceIn text-primary"></i>
-                    <h3><a href="<?php echo BASE_URL; ?>gestionNotas">Gesti&oacute;n de Notas</a></h3>
+                    <h3>
+                        <a href="<?php echo BASE_URL; ?>general/seleccionarCentroUnidad/gestionNotas">Gesti&oacute;n de Notas</a>
+                    </h3>
                     <p class="text-muted">Ingreso y consulta de notas por curso</p>
                 </div>
             </div>

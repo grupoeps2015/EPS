@@ -42,6 +42,12 @@ class ajaxController extends Controller{
             echo json_encode($this->_ajax->getCentroUnidadAjax($this->getInteger('centro'),$this->getInteger('unidad')));
         }
     }
+    
+    public function getInfoCarreras(){
+        if($this->getInteger('centro_unidadacademica')){
+            echo json_encode($this->_ajax->getInfoCarreras($this->getInteger('centro_unidadacademica')));
+        }
+    }
 }
 
 ?>
