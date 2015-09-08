@@ -63,7 +63,7 @@ CREATE OR REPLACE FUNCTION spDatosParametro(Parametro int,
 $BODY$
 BEGIN
   RETURN query
-  SELECT p.nombre AS NombreParametro, 
+  SELECT p.nombre AS NombreParametro,
          p.valor AS ValorParametro,
          p.descripcion AS DescripcionParametro,
          c.nombre AS NombreCentro,

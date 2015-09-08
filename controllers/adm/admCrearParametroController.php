@@ -94,26 +94,39 @@ class admCrearParametroController extends Controller{
     }
     
      public function actualizarParametro($intIdParametro = 0) {
-
+        $valorPagina = $this->getInteger('hdEnvio');
+        $actualizar = false;
         $this->_view->setJs("public", array('jquery.validate'));
         $this->_view->setJs(ADM_FOLDER, array('actualizarParametro'));
         $this->_view->centro_unidadacademica = $this->_post->getCentro_UnidadAcademica();
         $this->_view->tipoparametro = $this->_post->getTipoParametro();
-        
         $arrayPar = array();
-        $actualizar = false;
         $this->_view->id = $intIdParametro;
-        $this->_view->datosPar = $this->_post->datosParametro($intIdParametro);
         
-        $arrayPar["nombre"] = $this->getTexto('txtNombreParametro');
+        $this->_view->datosPar = $this->_post->datosParametro($intIdParametro);
+            
+       if ($valorPagina == 1) {
+            $actualizar = true;
+        }
+        
+        if($actualizar){ 
+           
+                /*$file = fopen("log.txt", "a");
+                fwrite($file, "Anterior: " . $intIdParametro . PHP_EOL);
+                fclose($file);*/
+            $arrayPar["parametro"] = $intIdParametro;
+            $arrayPar["nombre"] = $this->getTexto('txtNombreParametro');            
             $arrayPar["valor"] = $this->getTexto('txtValorParametro');
             $arrayPar["descripcion"] = $this->getTexto('txtDescripcionParametro');
             $arrayPar["centro_unidadacademica"] = $this->getInteger('slCentroUnidadAcademica');
             $arrayPar["carrera"] = $this->getInteger('slCarreras');
             $arrayPar["extension"] = $this->getTexto('txtExtensionParametro');         
             $arrayPar["tipoparametro"] =  $this->getInteger('slTipoParametro');
-          //-->Revisar  //$this->_post->actualizarParametro($intIdParametro,$arrayPar);
-        //$this->redireccionar('admCrearParametro/actualizarParametro/' . $intIdParametro);
+            
+            $this->_post->actualizarParametro($arrayPar);
+            $this->redireccionar('admCrearParametro');
+        }
+        
          
        $this->_view->renderizar(ADM_FOLDER, 'actualizarParametro', 'admCrearParametro');
       

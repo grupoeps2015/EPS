@@ -49,7 +49,7 @@ $(document).ready(function(){
             $("#slCarreras").append('<option value="" disabled>-- Carrera --</option>')
         }else{
             $('#divTabla').css("display","none");
-            getCarrerasAjax();
+         
         }
     });
    
@@ -58,7 +58,7 @@ $(document).ready(function(){
             $('#btnActualizarParametro').prop("disabled",true);
         }else{
             $('#btnActualizarParametro').prop("disabled",false);
-            getCentroUnidadAjax();
+           
         }
     });
            

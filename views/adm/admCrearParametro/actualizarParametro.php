@@ -26,9 +26,9 @@
 
     <div class="header-content">
         <div class="header-content-inner">
-            <div id="divCentros" class="row">
+            <div id="divParametros" class="row">
                 <br/><br/><br/>
-                <form id="frParametros" method="post" action="<?php echo BASE_URL; ?>admCrearParametro/actualizarParametro">
+                <form id="frParametros" method="post" action="<?php echo BASE_URL; ?>admCrearParametro/actualizarParametro/<?php echo $this->id;?>">
                     <div id="divParametros" class="form-group" >
                         <div class="col-md-6 col-md-offset-3">
                             <table align="center">
@@ -112,6 +112,7 @@
                                     <td></td>
                                     <td>
                                         <br/>
+                                        <input type="hidden" name="hdEnvio" value="1">
                                         <input type="hidden" id="idCarrera" name="idCarrera" value=<?php echo $this->datosPar[0]['carrera'] ?>>
                                         <input type="submit" id="btnActualizarParametro" name="btnActualizar" value="Actualizar" class="btn btn-danger btn-lg btn-block">
                                     </td>
