@@ -23,7 +23,7 @@
 
     <div class="container">
         <div class="row">
-            <form id="frParametros" method="post" action="<?php echo BASE_URL; ?>gestionParametro/actualizarParametro">
+            <form id="frParametros" method="post" action="<?php echo BASE_URL; ?>gestionParametro/actualizarParametro/<?php echo $this->id;?>">
                 <div id="divParametros" class="form-group" >
                     <div class="col-md-6 col-md-offset-3">
                         <table style="width:100%">

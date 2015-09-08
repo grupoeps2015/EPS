@@ -93,12 +93,13 @@
                                 <?php else : ?>
                                 &nbsp;
                                 <?php endif;?>
+                                <br/>
                             </td>
                         </tr>
                         <tr>
                             <td>&nbsp;</td>
                             <td style="text-align:center;">
-                                <input type="submit" id="btnAgregarParametro" name="btnAgregarParametro" value="Nuevo Parámetro" class="btn btn-danger btn-lg btn-block">
+                                <input type="submit" id="btnAgregarParametro" name="btnAgregarParametro" value="Nuevo Parámetro" class="btn btn-danger btn-lg btn-block" style="width:75%">
                             </td>
                         </tr>
                     </table>
