@@ -52,7 +52,7 @@
                                 </tr>
                                 <tr>
                                     <td colspan="3">Extensi&oacute;n:
-                                        <input type="text" id="txtExtensionParametro" name="txtExtensionParametro" class="form-control input-lg" value="<?php if(isset($this->datosPar) && count($this->datosPar)) echo $this->datosPar[0]['extensionparametro']; ?>">
+                                        <input type="number" id="txtExtensionParametro" name="txtExtensionParametro" class="form-control input-lg" value="<?php if(isset($this->datosPar) && count($this->datosPar)) echo $this->datosPar[0]['extensionparametro']; ?>">
                                         <br/>
                                     </td>
                                 </tr>

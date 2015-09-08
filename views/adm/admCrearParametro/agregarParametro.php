@@ -36,7 +36,7 @@
                                 </tr>
                                 <tr>
                                     <td>*Extensi&oacute;n     
-                                        <input type="text" id="txtExtensionParametro" name="txtExtensionParametro" class="form-control input-lg" value="<?php if(isset($this->datos['txtExtensionParametro'])) echo $this->datos['txtExtensionParametro']?>">
+                                        <input type="number" id="txtExtensionParametro" name="txtExtensionParametro" class="form-control input-lg" value="<?php if(isset($this->datos['txtExtensionParametro'])) echo $this->datos['txtExtensionParametro']?>">
                                         <br/>
                                     </td>
                                     <td>&nbsp;</td>

@@ -15,6 +15,7 @@ $(document).ready(function(){
             },
             txtExtensionParametro:{
                 required: true
+                
             },
             slCentroUnidadAcademica:{
                 required: true
