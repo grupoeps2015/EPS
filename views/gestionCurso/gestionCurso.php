@@ -15,7 +15,6 @@
                 </div>
                 <div class="col-lg-3 col-md-6 text-center"></div>
                 <div class="col-lg-3 col-md-6 text-center">
-                    <?php if(isset($this->lstCur) && count($this->lstCur)): ?>
                     <div class="service-box">
                         <form method='post' name='frmPost1' id='frmPost1' action='<?php echo BASE_URL?>gestionSeccion'>
                             <i class="fa fa-2x fa-plus-circle wow bounceIn text-primary" data-wow-delay=".2s">
@@ -24,7 +23,6 @@
                             <input type="hidden" name='hdCentroUnidad' value="<?php echo $this->id;?>"/>
                         </form>
                     </div>
-                    <?php endif; ?>
                 </div>
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">

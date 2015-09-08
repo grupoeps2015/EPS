@@ -8,7 +8,7 @@
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
                         <i class="fa fa-2x fa-backward wow bounceIn text-primary" data-wow-delay=".2s">
-                            <a href="<?php echo BASE_URL?>gestionSeccion">
+                            <a href="<?php echo BASE_URL?>gestionSeccion/index/<?php echo $this->id;?>">
                                 Regresar
                             </a>
                         </i>
@@ -62,18 +62,18 @@
                                     </td>
                                     <td>&nbsp;</td>
                                     <td rowspan="2" colspan="2">
-                                        <input type="submit" id="btnAgregarSec" name="btnAgregarSec" value="Nueva Sección" class="btn btn-danger btn-lg btn-block">
+                                        <input type="submit" id="btnAgregarSec" name="btnAgregarSec" value="Nueva Sección" class="btn btn-danger btn-lg btn-block" />
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>*Nombre:
-                                        <input type="text" id="txtNombre" name="txtNombre" class="form-control input-lg" value="<?php if(isset($this->datos['txtNombre'])) echo $this->datos['txtNombre']?>">
+                                        <input type="text" id="txtNombre" name="txtNombre" class="form-control input-lg" value="" />
                                         <br/>
                                     </td>
                                     <td>&nbsp;</td>
                                     <td>
                                         Descripción:
-                                        <input type="text" id="txtDesc" name="txtDesc" class="form-control input-lg" value="<?php if(isset($this->datos['txtDesc'])) echo $this->datos['txtDesc']?>">
+                                        <input type="text" id="txtDesc" name="txtDesc" class="form-control input-lg" value="" />
                                         <br/>
                                     </td>
                                     <td>&nbsp;</td>
@@ -83,39 +83,9 @@
                         </div>
                     </div>
                     <input type="hidden" name="hdEnvio" value="1">
+                    <input type="hidden" name='hdCentroUnidad' value="<?php echo $this->id;?>"/>
                 </form>
             </div>
         </div>
     </div>
-    <br />
-
-<!--    <div class="container">
-        <div class="row">
-            <form id="frFile" name="frFile" method='post' enctype="multipart/form-data" action='<?php echo BASE_URL; ?>gestionSeccion/cargarCSV'>
-                <div class="col-lg-3 col-md-6 text-center"></div>
-                <div class="col-lg-3 col-md-6 text-center">
-                    <div class="service-box">
-                        <p class="text-muted">Crea multiples secciones utilizando archivos delimitados por comas</p>
-                        <div class="fileUpload btn btn-warning" >
-                            <span>Procesar archivo .csv</span>
-                            <input class="upload" type='submit' style="width: 100%" id="btnCargar" name='btnCargar'>
-                        </div>
-                        <i class="fa fa-2x fa-forward wow bounceIn text-primary" data-wow-delay=".2s"></i>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 text-center">
-                    <div class="service-box">
-                        <i class="fa fa-4x fa-file-text wow bounceIn text-primary" data-wow-delay=".1s"></i>
-                        <br/>
-                        <div id="divcsvFile" class="fileUpload btn btn-warning" >
-                            <span>Cargar Archivo</span>
-                            <input class="upload" type="file" id="csvFile" name="csvFile"/>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 text-center"></div>
-                <input type="hidden" id="hdFile" name="hdFile" value="0">
-            </form>
-        </div>
-    </div>-->
 </section>

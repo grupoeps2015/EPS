@@ -1,7 +1,7 @@
 $(document).ready( function () {
     $('#tbCursos').DataTable( {
-        "language": {
-          "emptyTable": "No hay informaci&oacute;n disponible."
+        language: {
+          emptyTable: "No hay informaci&oacute;n disponible."
         }
     } );
     
