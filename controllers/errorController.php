@@ -41,6 +41,7 @@ class errorController extends Controller {
         $error['1102'] = "Error al eliminar datos";
         $error['1103'] = "Error al actualizar datos";
         $error['1104'] = "Error al consultar datos";
+        $error['1200'] = "Error de ajaxModel consultando datos";
         
         if(array_key_exists($codigo, $error)){
             return $error[$codigo];

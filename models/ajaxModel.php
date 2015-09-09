@@ -7,140 +7,127 @@ class ajaxModel extends Model{
     }
     
     public function getPais(){
-        try{
-            $paises = $this->_db->query("select * from spconsultageneral('pais,nombre','adm_pais');");
-            return $paises->fetchall();
-        }catch(Exception $e){
-            $error = "Error de sql: " . $e->getMessage();
-            return $error;
+        $info = $this->_db->query("select * from spconsultageneral('pais,nombre','adm_pais');");
+        if($info === false){
+            return "1105/getPais";
+        }else{
+            return $info->fetchall();
         }
     }
     
     public function getDeptos(){
-        try{
-            $departamentos = $this->_db->query("select * from spconsultageneral('departamento,nombre','adm_departamento');");
-            return $departamentos->fetchall();
-        }catch(Exception $e){
-            $error = "Error de sql: " . $e->getMessage();
-            return $error;
+        $deptos = $this->_db->query("select * from spconsultageneral('departamento,nombre','adm_departamento');");
+        if($deptos === false){
+            return "1200/getDeptos";
+        }else{
+            return $deptos->fetchall();
         }
     }
     
     public function getMunicipio($depto){
-        try{
-            $municipios = $this->_db->query("select * from spMunicipioXDepto({$depto})");
-            $municipios->setFetchMode(PDO::FETCH_ASSOC);
-            return $municipios->fetchAll();
-        }catch(Exception $e){
-            $error = "Error de sql: " . $e->getMessage();
-            return $error;
+        $municipios = $this->_db->query("select * from spMunicipioXDepto({$depto})");
+        $municipios->setFetchMode(PDO::FETCH_ASSOC);
+        if($municipios === false){
+            return "1200/getMunicipio";
+        }else{
+            return $municipios->fetchall();
         }
     }
     
     public function getCentro(){
-        try{
-            $centros = $this->_db->query("select * from spconsultageneral('centro,nombre','adm_centro');");
+        $centros = $this->_db->query("select * from spconsultageneral('centro,nombre','adm_centro');");
+        if($centros === false){
+            return "1200/getCentro";
+        }else{
             return $centros->fetchall();
-        }catch(Exception $e){
-            $error = "Error de sql: " . $e->getMessage();
-            return $error;
         }
     }
     
     public function getUnidades(){
-        try{
-            $unidades = $this->_db->query("select * from spconsultageneral('unidadAcademica,nombre','adm_unidadAcademica');");
+        $unidades = $this->_db->query("select * from spconsultageneral('unidadAcademica,nombre','adm_unidadAcademica');");
+        if($unidades === false){
+            return "1200/getUnidades";
+        }else{
             return $unidades->fetchall();
-        }catch(Exception $e){
-            $error = "Error de sql: " . $e->getMessage();
-            return $error;
         }
     }
     
     public function getTipoCiclo(){
-        try{
-            $ciclos = $this->_db->query("select * from spconsultageneral('tipociclo,nombre','cur_tipociclo');");
+        $ciclos = $this->_db->query("select * from spconsultageneral('tipociclo,nombre','cur_tipociclo');");
+        if($ciclos === false){
+            return "1200/getTipoCiclo";
+        }else{
             return $ciclos->fetchall();
-        }catch(Exception $e){
-            $error = "Error de sql: " . $e->getMessage();
-            return $error;
         }
     }
     
     public function getUnidadesAjax($centro){
-        try{
-            $unidades = $this->_db->query("select * from spUnidadxCentro({$centro})");
-            $unidades->setFetchMode(PDO::FETCH_ASSOC);
-            return $unidades->fetchAll();
-        }catch(Exception $e){
-            $error = "Error de sql: " . $e->getMessage();
-            return $error;
+        $unidades = $this->_db->query("select * from spUnidadxCentro({$centro})");
+        $unidades->setFetchMode(PDO::FETCH_ASSOC);
+        if($unidades === false){
+            return "1200/getUnidadesAjax";
+        }else{
+            return $unidades->fetchall();
         }
     }
     
     public function getCiclosAjax($tipo){
-        try{
-            $ciclos = $this->_db->query("select * from spCicloxTipo({$tipo})");
-            $ciclos->setFetchMode(PDO::FETCH_ASSOC);
-            return $ciclos->fetchAll();
-        }catch(Exception $e){
-            $error = "Error de sql: " . $e->getMessage();
-            return $error;
+        $ciclos = $this->_db->query("select * from spCicloxTipo({$tipo})");
+        $ciclos->setFetchMode(PDO::FETCH_ASSOC);
+        if($ciclos === false){
+            return "1200/getCiclosAjax";
+        }else{
+            return $ciclos->fetchall();
         }
     }
     
     public function getPeriodosAjax($tipo){
-        try{
-            $periodos = $this->_db->query("select * from spPeriodoxTipo({$tipo})");
-            $periodos->setFetchMode(PDO::FETCH_ASSOC);
-            return $periodos->fetchAll();
-        }catch(Exception $e){
-            $error = "Error de sql: " . $e->getMessage();
-            return $error;
+        $periodos = $this->_db->query("select * from spPeriodoxTipo({$tipo})");
+        $periodos->setFetchMode(PDO::FETCH_ASSOC);
+        if($periodos === false){
+            return "1200/getPeriodosAjax";
+        }else{
+            return $periodos->fetchall();
         }
     }
     
     public function getCentroUnidadAjax($centro, $unidad){
-        try{
-            $post = $this->_db->query("select * from spCentroUnidad({$centro},{$unidad}) as id");
-            $post->setFetchMode(PDO::FETCH_ASSOC);
-            return $post->fetchAll();
-        }catch(Exception $e){
-            $error = "Error de sql: " . $e->getMessage();
-            return $error;
+        $post = $this->_db->query("select * from spCentroUnidad({$centro},{$unidad}) as id");
+        $post->setFetchMode(PDO::FETCH_ASSOC);
+        if($post === false){
+            return "1200/getCentroUnidadAjax";
+        }else{
+            return $post->fetchall();
         }
     }
     
     public function getCarreras($unidad){
-        try{
-            $carreras = $this->_db->query("select * from spcarreraxunidad({$unidad})");
-            $carreras->setFetchMode(PDO::FETCH_ASSOC);
-            return $carreras->fetchAll();
-        }catch(Exception $e){
-            $error = "Error de sql: " . $e->getMessage();
-            return $error;
+        $carreras = $this->_db->query("select * from spcarreraxunidad({$unidad})");
+        $carreras->setFetchMode(PDO::FETCH_ASSOC);
+        if($carreras === false){
+            return "1200/getCarreras";
+        }else{
+            return $carreras->fetchall();
         }
     }
     
     public function getSecuencia($campo, $tabla){
-        try{
-            $secuencia = $this->_db->query("select * from spcarreraxunidad({$unidad})");
-            $secuencia->setFetchMode(PDO::FETCH_ASSOC);
-            return $secuencia->fetchAll();
-        }catch(Exception $e){
-            $error = "Error de sql: " . $e->getMessage();
-            return $error;
+        $secuencia = $this->_db->query("select * from spcarreraxunidad({$unidad})");
+        $secuencia->setFetchMode(PDO::FETCH_ASSOC);
+        if($secuencia === false){
+            return "1200/getSecuencia";
+        }else{
+            return $secuencia->fetchall();
         }
     }
     
     public function getInfoCarreras($centro_unidadacademica){
-        try{
-            $post = $this->_db->query("select * from spinformacioncarrera({$centro_unidadacademica})");
-            $post->setFetchMode(PDO::FETCH_ASSOC);
-            return $post->fetchAll();
-        }catch(Exception $e){
-            $error = "Error de sql: " . $e->getMessage();
-            return $error;
+        $post = $this->_db->query("select * from spinformacioncarrera({$centro_unidadacademica})");
+        $post->setFetchMode(PDO::FETCH_ASSOC);
+        if($post === false){
+            return "1200/getInfoCarreras";
+        }else{
+            return $post->fetchall();
         }
     }
 }

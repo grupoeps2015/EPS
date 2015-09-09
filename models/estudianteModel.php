@@ -8,19 +8,23 @@ class estudianteModel extends Model {
     
     public function getInfoGeneral($idUsuario){
         $info = $this->_db->query("select * from spInfoGeneralEstudiante({$idUsuario})");
-        return $info->fetchAll();
+        if($info === false){
+            return "1104/getInfoGeneral";
+        }else{
+            return $info->fetchall();
+        }
     }
     
     public function setInfoGeneral($_datos){
         $sp  = $_datos["id"] . ',\'' . $_datos["direccion"] . '\',';
         $sp .= $_datos["zona"] . ',' . $_datos["muni"] . ',\'';
         $sp .= $_datos["telefono"] . '\',' . $_datos["pais"];
-        try{
-            $this->_db->query("SELECT spUpdateInfoGeneralEstudiante(" . $sp . ");");
-            return "OK";
-        }catch(Exception $e){
-            $error = "Error de sql: " . $e->getMessage();
-            return $error;
+        
+        $info = $this->_db->query("SELECT spUpdateInfoGeneralEstudiante(" . $sp . ");");
+        if($info === false){
+            return "1103/setInfoGeneral";
+        }else{
+            return $info->fetchall();
         }
     }
     
@@ -28,12 +32,11 @@ class estudianteModel extends Model {
         $sp  = $_datos["id"] . ',\'' . $_datos["telefonoE"] . '\',\'';
         $sp .= $_datos["alergias"] . '\',\'' . $_datos["seguro"] . '\',\'';
         $sp .= $_datos["centro"] . '\',\'' . $_datos["sangre"] . '\'';
-        try{
-            $this->_db->query("SELECT spUpdateInfoEmergenciaEstudiante(" . $sp . ");");
-            return "OK";
-        }catch(Exception $e){
-            $error = "Error de sql: " . $e->getMessage();
-            return $error;
+        $info = $this->_db->query("SELECT spUpdateInfoEmergenciaEstudiante(" . $sp . ");");
+        if($info === false){
+            return "1103/setInfoEmergencia";
+        }else{
+            return $info->fetchall();
         }
     }
     

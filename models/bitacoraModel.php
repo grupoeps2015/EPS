@@ -26,15 +26,16 @@ class bitacoraModel extends Model {
         else{
             $tabla = 'ADM_Bitacora';
         }
-        try {
-            $_datos[":tabla"] = $tabla;
-            $post = $this->_db->prepare("SELECT from spInsertarBitacoraUsuario(:tabla,:usuario,:nombreusuario,:funcion,:ip,:registro,:tablacampo,:descripcion);");
-            $post->execute($_datos);
-            return $post->fetchall();
-        } catch(Exception $e){
-            $error = "Error de sql: " . $e->getMessage();
-            return $error;
+        
+        $_datos[":tabla"] = $tabla;
+        $info = $this->_db->prepare("SELECT from spInsertarBitacoraUsuario(:tabla,:usuario,:nombreusuario,:funcion,:ip,:registro,:tablacampo,:descripcion);");
+        $info->execute($_datos);
+        if($info === false){
+            return "1101/insertarBitacoraUsuario";
+        }else{
+            return $info->fetchall();
         }
+
     }
     
     public function insertarBitacoraAsignacion($_datos) {
