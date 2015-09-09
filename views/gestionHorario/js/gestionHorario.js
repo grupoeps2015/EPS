@@ -4,4 +4,7 @@ $(document).ready( function () {
           "emptyTable": "No hay informaci&oacute;n disponible."
         }
     } );
+    $('#linkNuevoHor').click(function(){
+        $('#frmPost').submit();
+    });
 } );

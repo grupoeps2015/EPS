@@ -2,7 +2,7 @@
     <div class="header-content">
         <div class="row">
             <div class="col-lg-12 text-center">
-                <h2 class="section-heading">Error</h2>
+                <h2 class="section-heading"><?php if(isset($this->mensaje)) echo $this->mensaje;?></h2>
                 <hr class="primary">
             </div>
         </div>
@@ -27,7 +27,7 @@
             <div class="col-lg-6 col-md-8 text-center">
                 <div class="service-box">
                     <h3 class="text-danger">
-                        <?php if(isset($this->mensaje)) echo $this->mensaje;?>
+                        <?php if(isset($this->detalle)) echo $this->detalle;?>
                     </h3>
                 </div>
             </div>

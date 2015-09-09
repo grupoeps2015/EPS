@@ -67,17 +67,11 @@ class loginController extends Controller{
                 $arrayBitacora[":tablacampo"] = ''; //tampoco se que es esto
                 $arrayBitacora[":descripcion"] = 'El usuario ha iniciado sesión.';
                 $this->_bitacora->insertarBitacoraUsuario($arrayBitacora, $_SESSION["rol"]);
-    //            if($this->_login->validarPermisoUsuario(CONS_FUNC_LOGIN,$_SESSION["rol"])){
-    //                echo "hola";
-    //            }
-    //            else{
-    //                echo "adios";
-    //            }
+                
                 if($respuesta[0]['estado'] == ESTADO_ACTIVO){
                     $this->redireccionar('login/inicio');
-                }
-                else if($respuesta[0]['estado'] == ESTADO_PENDIENTE){
-                    //redireccionar a actualización de datos
+                }else if($respuesta[0]['estado'] == ESTADO_PENDIENTE){
+                    //$this->redireccionar('gestionUsuario/actualizarUsuario');
                 }
                 else{
                     $this->redireccionar('login/salir');
@@ -147,4 +141,3 @@ class loginController extends Controller{
     }
 
 }
-?>

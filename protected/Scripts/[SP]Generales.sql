@@ -192,3 +192,29 @@ $BODY$
   ROWS 1000;
 ALTER FUNCTION spcicloxtipo(integer)
   OWNER TO postgres;
+
+  
+-- Function: spperiodoxtipo(integer)
+
+-- DROP FUNCTION spperiodoxtipo(integer);
+
+CREATE OR REPLACE FUNCTION spperiodoxtipo(
+    IN _tipo integer,
+    OUT codigo integer,
+    OUT minutos integer)
+  RETURNS SETOF record AS
+$BODY$
+begin
+ Return query select distinct
+		per.periodo,
+		per.duracionminutos
+	      from 
+	        cur_periodo per, cur_tipoperiodo tip 
+	      where per.tipoperiodo = tip.tipoperiodo and per.tipoperiodo = _tipo;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION spperiodoxtipo(integer)
+  OWNER TO postgres;

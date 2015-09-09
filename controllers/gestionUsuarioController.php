@@ -28,10 +28,17 @@ class gestionUsuarioController extends Controller {
         
         $this->_view->titulo = 'Gestión de usuarios - ' . APP_TITULO;
         $this->_view->id = $idCentroUnidad;
-        $this->_view->lstUsr = $this->_post->informacionUsuario($idCentroUnidad);
         $this->_view->setJs(array('gestionUsuario'));
         $this->_view->setJs(array('jquery.dataTables.min'), "public");
         $this->_view->setCSS(array('jquery.dataTables.min'));
+        
+        $lstUsr = $this->_post->informacionUsuario($idCentroUnidad);
+        if(is_array($lstUsr)){
+            $this->_view->lstUsr = $lstUsr;
+        }else{
+            $this->redireccionar("error/sql/" . $lstUsr);
+            exit;
+        }
         
         $this->_view->renderizar('gestionUsuario');
     }
@@ -50,9 +57,22 @@ class gestionUsuarioController extends Controller {
         $arrayEmp = array();
         $arrayCat = array();
         
-        $this->_view->centros = $this->_post->getCentros();
-        $this->_view->docentes = $this->_post->getDocentes();
-
+        $lstCentros = $this->_post->getCentros();
+        if(is_array($lstCentros)){
+            $this->_view->centros = $lstCentros;
+        }else{
+            $this->redireccionar("error/sql/" . $lstCentros);
+            exit;
+        }
+        
+        $lstDocentes = $this->_post->getDocentes();
+        if(is_array($lstDocentes)){
+            $this->_view->docentes = $lstDocentes;
+        }else{
+            $this->redireccionar("error/sql/" . $lstDocentes);
+            exit;
+        }
+        
         $this->_view->titulo = 'Agregar Usuario - ' . APP_TITULO;
         $this->_view->idCentroUnidad = $idCentroUnidad;
         $this->_view->setJs(array('agregarUsuario'));
@@ -85,7 +105,15 @@ class gestionUsuarioController extends Controller {
             $arrayUsr["respuestaUsr"] = "USAC";
             $arrayUsr["intentosUsr"] = 5;
             $arrayUsr["centroUnidad"] = CENTRO_UNIDADACADEMICA;
-            $idUsr = $this->_post->agregarUsuario($arrayUsr)[0][0];
+            
+            $nuevoUsr = $this->_post->agregarUsuario($arrayUsr);
+            if(is_array($nuevoUsr)){
+                $idUsr = $nuevoUsr[0][0];
+            }else{
+                $this->redireccionar("error/sql/" . $nuevoUsr);
+                exit;
+            }
+            
             if ($iden == 1) {
                 $arrayEst["id"] = $idUsr;
                 $arrayEst["carnetEst"] = $this->getTexto('txtCarnetEst');
@@ -103,8 +131,18 @@ class gestionUsuarioController extends Controller {
                 $arrayEst["seguroEst"] = 'false';
                 $arrayEst["centroEst"] = "desconocido";
                 $arrayEst["paisEst"] = 1;
-                $this->_post->agregarEstudiante($arrayEst);
-                $this->_post->asignarRolUsuario(ROL_ESTUDIANTE, $idUsr);
+                
+                $nuevoEST = $this->_post->agregarEstudiante($arrayEst);
+                if(!is_array($nuevoEST)){
+                    $this->redireccionar("error/sql/" . $nuevoEST);
+                    exit;
+                }
+                
+                $nuevoRol = $this->_post->asignarRolUsuario(ROL_ESTUDIANTE, $idUsr);
+                if(!is_array($nuevoRol)){
+                    $this->redireccionar("error/sql/" . $nuevoRol);
+                    exit;
+                }
             } elseif ($iden == 2) {
                 $arrayCat["id"] = $idUsr;
                 $arrayCat["registroCat"] = $this->getTexto('txtCodigoCat');
@@ -118,8 +156,19 @@ class gestionUsuarioController extends Controller {
                 $arrayCat["telefonoCat"] = "22220000";
                 $arrayCat["paisCat"] = 1;
                 $arrayCat["tipoCat"] = $this->getInteger('slDocente');
-                $this->_post->agregarCatedratico($arrayCat);
-                $this->_post->asignarRolUsuario(ROL_DOCENTE, $idUsr);
+                
+                $nuevoCAT = $this->_post->agregarCatedratico($arrayCat);
+                if(!is_array($nuevoCAT)){
+                    $this->redireccionar("error/sql/" . $nuevoCAT);
+                    exit;
+                }
+                
+                $nuevoRol = $this->_post->asignarRolUsuario(ROL_DOCENTE, $idUsr);
+                if(!is_array($nuevoRol)){
+                    $this->redireccionar("error/sql/" . $nuevoRol);
+                    exit;
+                }
+                
             } elseif ($iden == 3) {
                 $arrayEmp["id"] = $idUsr;
                 $arrayEmp["registroEmp"] = $this->getTexto('txtCodigoEmp');
@@ -132,8 +181,18 @@ class gestionUsuarioController extends Controller {
                 $arrayEmp["municipioEmp"] = 1;
                 $arrayEmp["telefonoEmp"] = "22220000";
                 $arrayEmp["paisEmp"] = 1;
-                $this->_post->agregarEmpleado($arrayEmp);
-                $this->_post->asignarRolUsuario(ROL_EMPLEADO, $idUsr);
+                
+                $nuevoEmp = $this->_post->agregarEmpleado($arrayEmp);
+                if(!is_array($nuevoEmp)){
+                    $this->redireccionar("error/sql/" . $nuevoEmp);
+                    exit;
+                }
+                
+                $nuevoRol = $this->_post->asignarRolUsuario(ROL_EMPLEADO, $idUsr);
+                if(!is_array($nuevoRol)){
+                    $this->redireccionar("error/sql/" . $nuevoRol);
+                    exit;
+                }
             }
             //$this->notificacionEMAIL();
             $this->redireccionar('gestionUsuario/index/'.$idCentroUnidad);
@@ -145,7 +204,13 @@ class gestionUsuarioController extends Controller {
 
     public function eliminarUsuario($intNuevoEstado, $intIdUsuario, $idCentroUnidad) {
         if ($intNuevoEstado == -1 || $intNuevoEstado == 1) {
-            $this->_post->eliminarUsuario($intIdUsuario, $intNuevoEstado);
+            $borrar = $this->_post->eliminarUsuario($intIdUsuario, $intNuevoEstado);
+            if(is_array($borrar)){
+                $this->_view->docentes = $borrar;
+            }else{
+                $this->redireccionar("error/sql/" . $borrar);
+                exit;
+            }
         } else {
             $this->_view->cambio = "No reconocio ningun parametro";
         }
@@ -154,22 +219,50 @@ class gestionUsuarioController extends Controller {
 
     public function actualizarUsuario($intIdUsuario = 0) {
         $valorPagina = $this->getInteger('hdEnvio');
-        $this->_view->setJs(array('actualizarUsuario'));
-        $this->_view->setJs(array('jquery.validate'), "public");
         
         $arrayUsr = array();
         $actualizar = false;
         $this->_view->id = $intIdUsuario;
-        $this->_view->rol = $this->_post->getRol($intIdUsuario)[0][0];
-        $this->_view->preguntas = $this->_post->getPreguntas();
-        $this->_view->datosUsr = $this->_post->datosUsuario($intIdUsuario);
-        $this->_view->unidades = $this->_ajax->getUnidades();
-
+        
+        $idRol = $this->_post->getRol($intIdUsuario);
+        if(is_array($idRol)){
+            $this->_view->rol = $idRol[0][0];
+        }else{
+            $this->redireccionar("error/sql/" . $idRol);
+            exit;
+        }
+        
+        $lsPreguntas = $this->_post->getPreguntas();
+        if(is_array($lsPreguntas)){
+            $this->_view->preguntas = $lsPreguntas;
+        }else{
+            $this->redireccionar("error/sql/" . $lsPreguntas);
+            exit;
+        }
+        
+        $dtUsr = $this->_post->datosUsuario($intIdUsuario);
+        if(is_array($dtUsr)){
+            $this->_view->datosUsr = $dtUsr;
+        }else{
+            $this->redireccionar("error/sql/" . $dtUsr);
+            exit;
+        }
+        
+        $lsUnidades = $this->_view->unidades = $this->_ajax->getUnidades();
+        if(is_array($lsUnidades)){
+            $this->_view->unidades = $lsUnidades;
+        }else{
+            $this->redireccionar("error/sql/" . $lsUnidades);
+            exit;
+        }
+        
+        $this->_view->setJs(array('actualizarUsuario'));
+        $this->_view->setJs(array('jquery.validate'), "public");
+            
         $pass = $this->getTexto('pass');
         $passActual = $this->getTexto('txtPassword');
         $passNueva = $this->getTexto('txtPasswordNuevo');
         $passValida = $this->getTexto('txtPasswordNuevo2');
-
         $idPregunta = $this->getInteger('preguntaActual');
         $strRespuesta = $this->getTexto('txtRespuesta');
         
@@ -229,10 +322,13 @@ class gestionUsuarioController extends Controller {
             $arrayUsr['preguntaUsr'] = $idPregunta;
             $arrayUsr['respuestaUsr'] = $strRespuesta;
             
+            $actualizarUsr = $this->_post->actualizarUsuario($arrayUsr);
+            if(!is_array($actualizarUsr)){
+                $this->redireccionar("error/sql/" . $actualizarUsr);
+                exit;
+            }
             
-            $this->_post->actualizarUsuario($arrayUsr);
             $this->redireccionar('gestionUsuario/actualizarUsuario/'.$intIdUsuario);
-            
         }
         $this->_view->renderizar('actualizarUsuario', 'gestionUsuario');
     }
@@ -265,7 +361,15 @@ class gestionUsuarioController extends Controller {
                     $arrayUsr["respuestaUsr"] = "USAC";
                     $arrayUsr["intentosUsr"] = 5;
                     $arrayUsr["centroUnidad"] = $idCentroUnidad;
-                    $idUsr = $this->_post->agregarUsuario($arrayUsr)[0][0];
+                    $nuevoUsr = $this->_post->agregarUsuario($arrayUsr);
+                    if(is_array($nuevoUsr)){
+                        $idUsr = $nuevoUsr[0][0];
+                    }else{
+                        fclose($handle);
+                        $this->redireccionar("error/sql/" . $nuevoUsr);
+                        exit;
+                    }
+                    
                     switch($rol){
                         case "1":
                             $arrayEst["id"] = $idUsr;
@@ -284,8 +388,20 @@ class gestionUsuarioController extends Controller {
                             $arrayEst["seguroEst"] = 'false';
                             $arrayEst["centroEst"] = "desconocido";
                             $arrayEst["paisEst"] = 1;
-                            $this->_post->agregarEstudiante($arrayEst);
-                            $this->_post->asignarRolUsuario(ROL_ESTUDIANTE, $idUsr);
+                            
+                            $nuevoEST = $this->_post->agregarEstudiante($arrayEst);
+                            if(!is_array($nuevoEST)){
+                                fclose($handle);
+                                $this->redireccionar("error/sql/" . $nuevoEST);
+                                exit;
+                            }
+
+                            $nuevoRol = $this->_post->asignarRolUsuario(ROL_ESTUDIANTE, $idUsr);
+                            if(!is_array($nuevoRol)){
+                                fclose($handle);
+                                $this->redireccionar("error/sql/" . $nuevoRol);
+                                exit;
+                            }
                             break;
                         case "2":
                             $arrayCat["id"] = $idUsr;
@@ -300,8 +416,19 @@ class gestionUsuarioController extends Controller {
                             $arrayCat["telefonoCat"] = "22220000";
                             $arrayCat["paisCat"] = 1;
                             $arrayCat["tipoCat"] = 1;
-                            $this->_post->agregarCatedratico($arrayCat);
-                            $this->_post->asignarRolUsuario(ROL_DOCENTE, $idUsr);
+                            $nuevoCAT = $this->_post->agregarCatedratico($arrayCat);
+                            if(!is_array($nuevoCAT)){
+                                fclose($handle);
+                                $this->redireccionar("error/sql/" . $nuevoCAT);
+                                exit;
+                            }
+
+                            $nuevoRol = $this->_post->asignarRolUsuario(ROL_DOCENTE, $idUsr);
+                            if(!is_array($nuevoRol)){
+                                fclose($handle);
+                                $this->redireccionar("error/sql/" . $nuevoRol);
+                                exit;
+                            }
                             break;
                         case "0":
                         case "3":
@@ -316,8 +443,20 @@ class gestionUsuarioController extends Controller {
                             $arrayEmp["municipioEmp"] = 1;
                             $arrayEmp["telefonoEmp"] = "22220000";
                             $arrayEmp["paisEmp"] = 1;
-                            $this->_post->agregarEmpleado($arrayEmp);
-                            $this->_post->asignarRolUsuario($data[6], $idUsr);
+                            
+                            $nuevoEmp = $this->_post->agregarEmpleado($arrayEmp);
+                            if(!is_array($nuevoEmp)){
+                                fclose($handle);
+                                $this->redireccionar("error/sql/" . $nuevoEmp);
+                                exit;
+                            }
+
+                            $nuevoRol = $this->_post->asignarRolUsuario($data[6], $idUsr);
+                            if(!is_array($nuevoRol)){
+                                fclose($handle);
+                                $this->redireccionar("error/sql/" . $nuevoRol);
+                                exit;
+                            }
                             break;
                     }
                 }

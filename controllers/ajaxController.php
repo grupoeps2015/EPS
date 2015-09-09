@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Description of gestionNotas
+ * Description of ajaxController
  *
  * @author Rickardo
  */
@@ -33,6 +33,12 @@ class ajaxController extends Controller{
     public function getCiclosAjax(){
         if($this->getInteger('tipo')){
             echo json_encode($this->_ajax->getCiclosAjax($this->getInteger('tipo')));
+        }
+    }
+    
+    public function getPeriodosAjax(){
+        if($this->getInteger('tipo')){
+            echo json_encode($this->_ajax->getPeriodosAjax($this->getInteger('tipo')));
         }
     }
     

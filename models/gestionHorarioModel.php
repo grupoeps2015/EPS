@@ -11,6 +11,27 @@ class gestionHorarioModel extends Model {
     public function __construct() {
         parent::__construct();
     }
+    
+    public function getJornadas() {
+        try{
+            $post = $this->_db->query("select * from spconsultageneral('jornada,nombre','cur_jornada');");
+            return $post->fetchall();
+        }catch(Exception $e){
+            $error = "Error de sql: " . $e->getMessage();
+            return $error;
+        }
+    }
+    
+    public function getTiposPeriodo() {
+        try{
+            $post = $this->_db->query("select * from spconsultageneral('tipoperiodo,nombre','cur_tipoperiodo');");
+            return $post->fetchall();
+        }catch(Exception $e){
+            $error = "Error de sql: " . $e->getMessage();
+            return $error;
+        }
+    }
+    //////////////
 
     public function agregarCarrera($_datos) {
         try {
