@@ -18,7 +18,7 @@
                     <div class="service-box">
                         <form method='post' name='frmPost1' id='frmPost1' action='<?php echo BASE_URL?>gestionSeccion'>
                             <i class="fa fa-2x fa-plus-circle wow bounceIn text-primary" data-wow-delay=".2s">
-                                <a id="linkSeccion" href="#">Crear Secci&oacute;n</a>
+                                <a id="linkSeccion" href="#">Gesti&oacute;n de Secciones</a>
                             </i>
                             <input type="hidden" name='hdCentroUnidad' value="<?php echo $this->id;?>"/>
                         </form>

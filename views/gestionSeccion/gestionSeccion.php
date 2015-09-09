@@ -14,7 +14,16 @@
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 text-center"></div>
-                <div class="col-lg-3 col-md-6 text-center"></div>
+                <div class="col-lg-3 col-md-6 text-center">
+                    <div class="service-box">
+                        <form method='post' name='frmPost' id='frmPost' action='<?php echo BASE_URL?>gestionHorario/seleccionarCicloCurso'>
+                            <i class="fa fa-2x fa-user-plus wow bounceIn text-primary" data-wow-delay=".2s">
+                                <a id="linkSeccionNueva" href="#">Gesti&oacute;n de Horarios</a>
+                            </i>
+                            <input type="hidden" name='hdCentroUnidad' value="<?php echo $this->id;?>"/>
+                        </form>
+                    </div>
+                </div>
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
                         <form method='post' name='frmPost' id='frmPost' action='<?php echo BASE_URL?>gestionSeccion/agregarSeccion'>

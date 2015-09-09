@@ -24,8 +24,10 @@ class gestionSeccionController extends Controller {
     public function index($id=0) {
         if($this->getInteger('hdCentroUnidad')){
             $idCentroUnidad = $this->getInteger('hdCentroUnidad');
-        }else{
+        }else if ($id != 0){
             $idCentroUnidad = $id;
+        }else{
+            $idCentroUnidad = $_SESSION["centrounidad"];
         }
         $this->_view->id= $idCentroUnidad;
         $this->_view->lstSec = $this->_post->informacionSeccion($idCentroUnidad);

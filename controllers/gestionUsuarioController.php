@@ -22,8 +22,10 @@ class gestionUsuarioController extends Controller {
     public function index($id=0){
         if($this->getInteger('hdCentroUnidad')){
             $idCentroUnidad = $this->getInteger('hdCentroUnidad');
-        }else{
+        }else if ($id != 0){
             $idCentroUnidad = $id;
+        }else{
+            $idCentroUnidad = $_SESSION["centrounidad"];
         }
         
         $this->_view->titulo = 'Gestión de usuarios - ' . APP_TITULO;

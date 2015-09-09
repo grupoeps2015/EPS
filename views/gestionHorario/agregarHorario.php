@@ -83,15 +83,24 @@
                                 </tr>
                                 <tr>
                                     <td>*Hora inicio:
-                                        <input type="text" id="txtCodigo" name="txtCodigo" class="form-control input-lg" value="<?php if(isset($this->datos['txtCodigo'])) echo $this->datos['txtCodigo']?>">
+                                        <input type="text" id="txtNombre" name="txtNombre" class="form-control input-lg" value="" style="text-align:right">
                                         <br/>
                                     </td>
-                                    <td>&nbsp;</td>
+                                    <td>:</td>
                                     <td>
-                                        *Hora fin:
-                                        <input type="text" id="txtNombre" name="txtNombre" class="form-control input-lg" value="<?php if(isset($this->datos['txtNombre'])) echo $this->datos['txtNombre']?>">
+                                        <input type="text" id="txtNombre" name="txtNombre" class="form-control input-lg" value="">
+                                    </td>    
+                                    <td>&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td>*Hora fin:
+                                        <input type="text" id="txtNombre" name="txtNombre" class="form-control input-lg" value="" style="text-align:right">
                                         <br/>
                                     </td>
+                                    <td>:</td>
+                                    <td>
+                                        <input type="text" id="txtNombre" name="txtNombre" class="form-control input-lg" value="">
+                                    </td>    
                                     <td>&nbsp;</td>
                                     <td rowspan="2" colspan="2">
                                         <input type="submit" id="btnAgregarHor" name="btnAgregarHor" value="Nuevo Horario" class="btn btn-danger btn-lg btn-block">
