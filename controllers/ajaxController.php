@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Description of gestionNotas
+ * Description of ajaxController
  *
  * @author Rickardo
  */

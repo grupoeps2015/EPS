@@ -13,32 +13,29 @@ class gestionUsuarioModel extends Model {
 
     //Metodos utiliados para agregar usuarios nuevos
     public function getUsuarios() {
-        try{
-            $post = $this->_db->query("select * from spconsultageneral('usuario,nombre','adm_usuario');");
-            return $post->fetchall();
-        }catch(Exception $e){
-            $error = "Error de sql: " . $e->getMessage();
-            return $error;
+        $info = $this->_db->query("select * from spconsultageneral('usuario,nombre','adm_usuario');");
+        if($info === false){
+            return "1104/getUsuarios";
+        }else{
+            return $info->fetchall();
         }
     }
 
     public function getCentros() {
-        try{
-            $post = $this->_db->query("select * from spconsultageneral('centro,nombre','adm_centro');");
-            return $post->fetchall();
-        }catch(Exception $e){
-            $error = "Error de sql: " . $e->getMessage();
-            return $error;
+        $info = $this->_db->query("select * from spconsultageneral('centro,nombre','adm_centro');");
+        if($info === false){
+            return "1104/getCentros";
+        }else{
+            return $info->fetchall();
         }
     }
 
     public function getDocentes() {
-        try{
-            $post = $this->_db->query("select * from spconsultageneral('tipodocente,descripcion','cat_tipocatedratico');");
-            return $post->fetchall();
-        }catch(Exception $e){
-            $error = "Error de sql: " . $e->getMessage();
-            return $error;
+        $info = $this->_db->query("select * from spconsultageneral('tipodocente,descripcion','cat_tipocatedratico');");
+        if($info === false){
+            return "1104/getDocentes";
+        }else{
+            return $info->fetchall();
         }
     }
 
@@ -47,13 +44,13 @@ class gestionUsuarioModel extends Model {
         $sp .= $_datos["claveUsr"] . '\',' . $_datos["preguntaUsr"] . ',\'';
         $sp .= $_datos["respuestaUsr"] . '\',' . $_datos["intentosUsr"] . ',\'';
         $sp .= $_datos["fotoUsr"] . '\',' . $_datos["centroUnidad"];
-        try {
-            $post = $this->_db->query("SELECT * from spagregarusuarios(" . $sp . ") as Id;");
-            return $post->fetchall();
-        }catch(Exception $e){
-            $error = "Error de sql: " . $e->getMessage();
-            return $error;
-        }
+        
+        $info = $this->_db->query("SELECT * from spagregarusuarios(" . $sp . ") as Id;");
+        if($info === false){
+            return "1101/agregarUsuario";
+        }else{
+            return $info->fetchall();
+        }   
     }
 
     public function agregarEstudiante($_datos) {
@@ -66,13 +63,12 @@ class gestionUsuarioModel extends Model {
         $sp .= $_datos["nombreEst2"] . '\',\'' . $_datos["apellidoEst"] . '\',\'';
         $sp .= $_datos["apellidoEst2"] . '\',' . $_datos["id"];
 
-        try {
-            $this->_db->query("SELECT spagregarestudiante(" . $sp . ");");
-            return "OK";
-        }catch(Exception $e){
-            $error = "Error de sql: " . $e->getMessage();
-            return $error;
-        }
+        $info = $this->_db->query("SELECT spagregarestudiante(" . $sp . ");");
+        if($info === false){
+            return "1101/agregarEstudiante";
+        }else{
+            return $info->fetchall();
+        }     
     }
 
     public function agregarCatedratico($_datos) {
@@ -82,13 +78,12 @@ class gestionUsuarioModel extends Model {
         $sp .= $_datos["paisCat"] . ',\'' . $_datos["nombreCat"] . '\',\'';
         $sp .= $_datos["nombreCat2"] . '\',\'' . $_datos["apellidoCat"] . '\',\'';
         $sp .= $_datos["apellidoCat2"] . '\',' . $_datos["id"];
-
-        try {
-            $this->_db->query("SELECT spAgregarCatedratico(" . $sp . ");");
-            return "OK";
-        }catch(Exception $e){
-            $error = "Error de sql: " . $e->getMessage();
-            return $error;
+        
+        $info = $this->_db->query("SELECT spAgregarCatedratico(" . $sp . ");");
+        if($info === false){
+            return "1101/agregarCatedratico";
+        }else{
+            return $info->fetchall();
         }
     }
 
@@ -100,74 +95,67 @@ class gestionUsuarioModel extends Model {
         $sp .= $_datos["nombreEmp2"] . '\',\'' . $_datos["apellidoEmp"] . '\',\'';
         $sp .= $_datos["apellidoEmp2"] . '\',' . $_datos["id"];
 
-        try {
-            $this->_db->query("SELECT spAgregarEmpleado(" . $sp . ");");
-            return "OK";
-        }catch(Exception $e){
-            $error = "Error de sql: " . $e->getMessage();
-            return $error;
+        $info = $this->_db->query("SELECT spAgregarEmpleado(" . $sp . ");");
+        if($info === false){
+            return "1101/agregarEmpleado";
+        }else{
+            return $info->fetchall();
         }
     }
 
     public function asignarRolUsuario($idRol, $id) {
-        try {
-            $this->_db->query("SELECT spAsignarRolUsuario(" . $idRol . "," . $id . ");");
-            return "OK";
-        }catch(Exception $e){
-            $error = "Error de sql: " . $e->getMessage();
-            return $error;
+        $info = $this->_db->query("SELECT spAsignarRolUsuario(" . $idRol . "," . $id . ");");
+        if($info === false){
+            return "1101/asignarRolUsuario";
+        }else{
+            return $info->fetchall();
         }
     }
 
     //Metodos utilizados para cambiar estado del usuario
     public function informacionUsuario($idCentroUnidad) {
-        try {
-            $post = $this->_db->query("select * from spInformacionUsuario({$idCentroUnidad});");
-            return $post->fetchall();
-        }catch(Exception $e){
-            $error = "Error de sql: " . $e->getMessage();
-            return $error;
+        $info = $this->_db->query("select * from spInformacionUsuario({$idCentroUnidad});");
+        if($info === false){
+            return "1104/informacionUsuario";
+        }else{
+            return $info->fetchall();
         }
     }
 
     public function eliminarUsuario($intIdUsuario, $intEstadoNuevo) {
-        try {
-            $this->_db->query("SELECT spActivarDesactivarUsuario(" . $intIdUsuario . "," . $intEstadoNuevo . ");");
-            return "OK";
-        }catch(Exception $e){
-            $error = "Error de sql: " . $e->getMessage();
-            return $error;
+        $info = $this->_db->query("SELECT spActivarDesactivarUsuario(" . $intIdUsuario . "," . $intEstadoNuevo . ");");
+        if($info === false){
+            return "1102/eliminarUsuario";
+        }else{
+            return $info->fetchall();
         }
     }
 
     //Metodos utilizados para actualizar usuarios
     public function getPreguntas() {
-        try{
-            $preguntas = $this->_db->query("select * from spconsultageneral('preguntasecreta,descripcion','adm_preguntasecreta');");
+        $preguntas = $this->_db->query("select * from spconsultageneral('preguntasecreta,descripcion','adm_preguntasecreta');");
+        if($preguntas === false){
+            return "1104/getPreguntas";
+        }else{
             return $preguntas->fetchall();
-        }catch(Exception $e){
-            $error = "Error de sql: " . $e->getMessage();
-            return $error;
         }
     }
     
     public function getRol($idUsuario){
-        try{
-            $rol = $this->_db->query("select * from spRolxUsuario({$idUsuario}) as idRol;");
+        $rol = $this->_db->query("select * from spRolxUsuario({$idUsuario}) as idRol;");
+        if($rol === false){
+            return "1104/getRol";
+        }else{
             return $rol->fetchall();
-        }catch(Exception $e){
-            $error = "Error de sql: " . $e->getMessage();
-            return $error;
         }
     }
 
     public function datosUsuario($idUsuario) {
-        try {
-            $post = $this->_db->query("select * from spdatosusuario('" . $idUsuario . "');");
-            return $post->fetchall();
-        }catch(Exception $e){
-            $error = "Error de sql: " . $e->getMessage();
-            return $error;
+        $info = $this->_db->query("select * from spdatosusuario('" . $idUsuario . "');");
+        if($info === false){
+            return "1104/datosUsuario";
+        }else{
+            return $info->fetchall();
         }
     }
 
@@ -175,12 +163,12 @@ class gestionUsuarioModel extends Model {
         $sp = $_datos["id"] . ', \'' . $_datos["correoUsr"] . '\',\'';
         $sp .= $_datos["clave"] . '\',';
         $sp .= $_datos["preguntaUsr"] . ',\'' . $_datos["respuestaUsr"].'\'';
-        try {
-            $this->_db->query("SELECT * from spactualizarusuario(" . $sp . ");");
-            return "OK";
-        }catch(Exception $e){
-            $error = "Error de sql: " . $e->getMessage();
-            return $error;
+        
+        $info = $this->_db->query("SELECT * from spactualizarusuario(" . $sp . ");");
+        if($info === false){
+            return "1103/datosUsuario";
+        }else{
+            return $info->fetchall();
         }
     }
     
