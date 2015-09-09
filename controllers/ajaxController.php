@@ -36,6 +36,12 @@ class ajaxController extends Controller{
         }
     }
     
+    public function getPeriodosAjax(){
+        if($this->getInteger('tipo')){
+            echo json_encode($this->_ajax->getPeriodosAjax($this->getInteger('tipo')));
+        }
+    }
+    
     public function getCarreras(){
         if($this->getInteger('carr')){
             echo json_encode($this->_ajax->getCarreras($this->getInteger('carr')));
