@@ -21,8 +21,16 @@ class gestionHorarioController extends Controller {
         $this->_ajax = $this->loadModel("ajax");
     }
 
-    public function index() {
-        //$this->_view->lstCur = $this->_post->informacionCurso();
+    public function index($id=0) {
+        if($this->getInteger('hdCentroUnidad')){
+            $idCentroUnidad = $this->getInteger('hdCentroUnidad');
+        }else if ($id != 0){
+            $idCentroUnidad = $id;
+        }else{
+            session_start();
+            $idCentroUnidad = $_SESSION["centrounidad"];
+        }
+        $this->_view->id = $idCentroUnidad;
         $this->_view->titulo = 'Gestión de horarios - ' . APP_TITULO;
         $this->_view->curso = $this->getTexto('hdSeccion');
         $this->_view->idcurso = $this->getInteger('slSec');
@@ -33,7 +41,15 @@ class gestionHorarioController extends Controller {
         $this->_view->renderizar('gestionHorario');
     }
     
-    public function seleccionarCicloCurso(){
+    public function seleccionarCicloCurso($id=0){
+        if($this->getInteger('hdCentroUnidad')){
+            $idCentroUnidad = $this->getInteger('hdCentroUnidad');
+        }else if ($id != 0){
+            $idCentroUnidad = $id;
+        }else{
+            $idCentroUnidad = $_SESSION["centrounidad"];
+        }
+        $this->_view->id = $idCentroUnidad;
         $this->_view->lstTipos = $this->_ajax->getTipoCiclo();
         $this->_view->lstSec = $this->_postSeccion->informacionSeccion(CENTRO_UNIDADACADEMICA);
         $this->_view->titulo = 'Seleccionar Ciclo y Sección por Curso - ' . APP_TITULO;
@@ -58,6 +74,8 @@ class gestionHorarioController extends Controller {
     }
 
     public function agregarHorario() {
+        $idCentroUnidad = $this->getInteger('hdCentroUnidad');
+        $this->_view->id = $idCentroUnidad;
         $this->_view->jornadas = $this->_post->getJornadas();
         $this->_view->tiposPeriodo = $this->_post->getTiposPeriodo();
         $this->_view->idcurso = $this->getInteger('hdIdCurso');

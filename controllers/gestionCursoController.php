@@ -26,6 +26,7 @@ class gestionCursoController extends Controller {
         }else if ($id != 0){
             $idCentroUnidad = $id;
         }else{
+            session_start();
             $idCentroUnidad = $_SESSION["centrounidad"];
         }
         
