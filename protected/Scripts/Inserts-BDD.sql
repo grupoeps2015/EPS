@@ -534,6 +534,11 @@ INSERT INTO cur_edificio (edificio,nombre,descripcion,estado) VALUES (1,'S1','',
 INSERT INTO cur_edificio (edificio,nombre,descripcion,estado) VALUES (2,'S2','',1);
 
 -- -----------------------------------------------------
+-- Insert adm_centrounidad_edificio
+-- -----------------------------------------------------
+INSERT INTO adm_centrounidad_edificio (CentroUnidad_Edificio,Centro_UnidadAcademica,Edificio,Jornada,estado) VALUES (1,1,1,2,1);
+
+-- -----------------------------------------------------
 -- Insert cur_salon
 -- -----------------------------------------------------
 INSERT INTO cur_salon (salon,nombre,edificio,nivel,capacidad,estado) VALUES (1,'301',1,3,80,1);
