@@ -13,7 +13,7 @@ class gestionParametroModel extends Model{
     //Metodos utiliados para agregar parametros nuevos
     public function agregarParametro($_datos){
         $sp = '\'' . $_datos["nombre"] . '\',\'' . $_datos["valor"] . '\',';
-        $sp .= '\'' . $_datos["descripcion"] . '\',' . $_datos["centro_unidadacademica"] . ',';
+        $sp .= '\'' . trim($_datos["descripcion"]) . '\',' . $_datos["centro_unidadacademica"] . ',';
         $sp .= $_datos["carrera"] . ',';
         $sp .= $_datos["extension"] . ',' . $_datos["tipoparametro"];
         try{        
@@ -49,12 +49,15 @@ class gestionParametroModel extends Model{
     public function actualizarParametro($_datos) {
         $sp = $_datos["parametro"] . ',';
         $sp .= '\'' . $_datos["nombre"] . '\',\'' . $_datos["valor"] . '\',';
-        $sp .= '\'' . $_datos["descripcion"] . '\',' . $_datos["centro_unidadacademica"] . ',';
+        $sp .= '\'' . trim($_datos["descripcion"]) . '\',' . $_datos["centro_unidadacademica"] . ',';
         $sp .= $_datos["carrera"] . ',';
         $sp .= $_datos["extension"] . ',null,' . $_datos["tipoparametro"];
-      
+        
         try{
             $this->_db->query("SELECT spModificarParametro(" . $sp. ");");
+            $file = fopen("log.txt", "a");
+                fwrite($file,  $_datos["descripcion"] . PHP_EOL);
+                fclose($file);
             return "OK";
         }catch(Exception $e){
             $error = "Error de sql: " . $e->getMessage();
