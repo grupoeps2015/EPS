@@ -19,6 +19,13 @@ class errorController extends Controller {
         $this->_view->renderizar('index');
     }
     
+    public function login($codigo, $funcion){
+        $this->_view->titulo = 'Error';
+        $this->_view->mensaje = 'Error de Login';
+        $this->_view->detalle = 'Funci&oacute;n: ' . $funcion . '<br/>' . $this->getError($codigo);
+        $this->_view->renderizar('login');
+    }
+    
     public function sql($codigo, $funcion){
         $this->_view->titulo = 'Error';
         $this->_view->mensaje = 'Error de SQL';
