@@ -89,6 +89,17 @@ class ajaxModel extends Model{
         }
     }
     
+    public function getPeriodosAjax($tipo){
+        try{
+            $periodos = $this->_db->query("select * from spPeriodoxTipo({$tipo})");
+            $periodos->setFetchMode(PDO::FETCH_ASSOC);
+            return $periodos->fetchAll();
+        }catch(Exception $e){
+            $error = "Error de sql: " . $e->getMessage();
+            return $error;
+        }
+    }
+    
     public function getCentroUnidadAjax($centro, $unidad){
         try{
             $post = $this->_db->query("select * from spCentroUnidad({$centro},{$unidad}) as id");

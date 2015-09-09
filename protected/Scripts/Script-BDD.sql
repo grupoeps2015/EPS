@@ -349,11 +349,11 @@ CREATE TABLE CUR_Dia (
 -- Table CUR_TipoPeriodo
 -- -----------------------------------------------------
 CREATE TABLE CUR_TipoPeriodo (
-  TipoPerdiodo SERIAL NOT NULL,
+  TipoPeriodo SERIAL NOT NULL,
   Nombre TEXT NOT NULL,
   Descripcion TEXT NULL,
   Estado INTEGER NOT NULL,
-  PRIMARY KEY (TipoPerdiodo));
+  PRIMARY KEY (TipoPeriodo));
 
 
 -- -----------------------------------------------------
@@ -362,11 +362,11 @@ CREATE TABLE CUR_TipoPeriodo (
 CREATE TABLE CUR_Periodo (
   Periodo SERIAL NOT NULL,
   DuracionMinutos INTEGER NOT NULL,
-  TipoPerdiodo INTEGER NOT NULL,
+  TipoPeriodo INTEGER NOT NULL,
   PRIMARY KEY (Periodo),
-  CONSTRAINT fk_CUR_Periodo_CUR_TipoPerdiodo1
-    FOREIGN KEY (TipoPerdiodo)
-    REFERENCES CUR_TipoPeriodo (TipoPerdiodo));
+  CONSTRAINT fk_CUR_Periodo_CUR_TipoPeriodo1
+    FOREIGN KEY (TipoPeriodo)
+    REFERENCES CUR_TipoPeriodo (TipoPeriodo));
 
 -- -----------------------------------------------------
 -- Table CUR_Carrera
@@ -485,7 +485,7 @@ CREATE TABLE CUR_Curso_Catedratico (
   Curso INTEGER NOT NULL,
   Fecha DATE NOT NULL,
   Estado INTEGER NOT NULL,
-  PRIMARY KEY (Curso, Catedratico),
+  PRIMARY KEY (Curso_Catedratico),
   CONSTRAINT fk_CUR_Curso_Docente_DOC_Docente1
     FOREIGN KEY (Catedratico)
     REFERENCES CAT_Catedratico (Catedratico),
@@ -493,16 +493,13 @@ CREATE TABLE CUR_Curso_Catedratico (
     FOREIGN KEY (Curso)
     REFERENCES CUR_Curso (Curso));
 
-CREATE UNIQUE INDEX u_Curso_Catedratico ON CUR_Curso_Catedratico (Curso_Catedratico,Catedratico,Curso);
-
 
 -- -----------------------------------------------------
 -- Table CUR_Trama
 -- -----------------------------------------------------
 CREATE TABLE CUR_Trama (
   Trama SERIAL NOT NULL,
-  Curso INTEGER NOT NULL,
-  Catedratico INTEGER NOT NULL,
+  Curso_Catedratico INTEGER NOT NULL,
   Dia INTEGER NOT NULL,
   Periodo INTEGER NOT NULL,
   Inicio TIME NOT NULL,
@@ -519,8 +516,8 @@ CREATE TABLE CUR_Trama (
     FOREIGN KEY (Seccion)
     REFERENCES CUR_Seccion (Seccion),
   CONSTRAINT fk_CUR_Trama_CUR_Curso_Catedratico1
-    FOREIGN KEY (Catedratico , Curso)
-    REFERENCES CUR_Curso_Catedratico (Catedratico , Curso));
+    FOREIGN KEY (Curso_Catedratico)
+    REFERENCES CUR_Curso_Catedratico (Curso_Catedratico));
 
 
 -- -----------------------------------------------------
