@@ -31,6 +31,16 @@ class gestionHorarioModel extends Model {
             return $error;
         }
     }
+    
+    public function getDias() {
+        try{
+            $post = $this->_db->query("select * from spconsultageneral('codigo,nombre','cur_dia');");
+            return $post->fetchall();
+        }catch(Exception $e){
+            $error = "Error de sql: " . $e->getMessage();
+            return $error;
+        }
+    }
     //////////////
 
     public function agregarCarrera($_datos) {

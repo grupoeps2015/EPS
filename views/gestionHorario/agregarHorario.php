@@ -89,6 +89,24 @@
                                     <td>&nbsp;</td>
                                 </tr>
                                 <tr>
+                                    <td colspan="3">
+                                        *Día:     
+                                        <?php if(isset($this->dias) && count($this->dias)): ?>
+                                        <select id="slDias" name="slDias" class="form-control input-lg">
+                                            <option value="">-- Tipo período --</option>
+                                            <?php for($i =0; $i < count($this->dias); $i++) : ?>
+                                            <option value="<?php echo $this->dias[$i]['codigo'];?>">
+                                                <?php echo $this->dias[$i]['nombre']; ?>
+                                            </option>
+                                            <?php endfor;?>
+                                        </select><br/>
+                                        <?php else : ?>
+                                        &nbsp;
+                                        <?php endif;?>
+                                    </td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                                <tr>
                                     <td>*Hora inicio:
                                         <input type="text" id="txtHoraInicial" name="txtHoraInicial" class="form-control input-lg" value="" style="text-align:right">
                                         <br/>

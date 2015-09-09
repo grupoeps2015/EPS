@@ -539,3 +539,14 @@ INSERT INTO cur_edificio (edificio,nombre,descripcion,estado) VALUES (2,'S2','',
 INSERT INTO cur_salon (salon,nombre,edificio,nivel,capacidad,estado) VALUES (1,'301',1,3,80,1);
 INSERT INTO cur_salon (salon,nombre,edificio,nivel,capacidad,estado) VALUES (2,'302',1,3,50,1);
 INSERT INTO cur_salon (salon,nombre,edificio,nivel,capacidad,estado) VALUES (3,'303',1,3,100,1);
+
+-- -----------------------------------------------------
+-- Insert cur_dia
+-- -----------------------------------------------------
+INSERT INTO cur_dia (codigo,nombre) VALUES (1,'Lunes');
+INSERT INTO cur_dia (codigo,nombre) VALUES (2,'Martes');
+INSERT INTO cur_dia (codigo,nombre) VALUES (3,'Miércoles');
+INSERT INTO cur_dia (codigo,nombre) VALUES (4,'Jueves');
+INSERT INTO cur_dia (codigo,nombre) VALUES (5,'Viernes');
+INSERT INTO cur_dia (codigo,nombre) VALUES (6,'Sábado');
+INSERT INTO cur_dia (codigo,nombre) VALUES (7,'Domingo');
