@@ -219,8 +219,6 @@ class gestionUsuarioController extends Controller {
 
     public function actualizarUsuario($intIdUsuario = 0) {
         $valorPagina = $this->getInteger('hdEnvio');
-        $this->_view->setJs(array('actualizarUsuario'));
-        $this->_view->setJs(array('jquery.validate'), "public");
         
         $arrayUsr = array();
         $actualizar = false;
@@ -252,12 +250,15 @@ class gestionUsuarioController extends Controller {
         
         $lsUnidades = $this->_view->unidades = $this->_ajax->getUnidades();
         if(is_array($lsUnidades)){
-            $this->_view->datosUsr = $lsUnidades;
+            $this->_view->unidades = $lsUnidades;
         }else{
             $this->redireccionar("error/sql/" . $lsUnidades);
             exit;
         }
         
+        $this->_view->setJs(array('actualizarUsuario'));
+        $this->_view->setJs(array('jquery.validate'), "public");
+            
         $pass = $this->getTexto('pass');
         $passActual = $this->getTexto('txtPassword');
         $passNueva = $this->getTexto('txtPasswordNuevo');
