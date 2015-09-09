@@ -485,15 +485,13 @@ CREATE TABLE CUR_Curso_Catedratico (
   Curso INTEGER NOT NULL,
   Fecha DATE NOT NULL,
   Estado INTEGER NOT NULL,
-  PRIMARY KEY (Curso, Catedratico),
+  PRIMARY KEY (Curso_Catedratico),
   CONSTRAINT fk_CUR_Curso_Docente_DOC_Docente1
     FOREIGN KEY (Catedratico)
     REFERENCES CAT_Catedratico (Catedratico),
   CONSTRAINT Curso
     FOREIGN KEY (Curso)
     REFERENCES CUR_Curso (Curso));
-
-CREATE UNIQUE INDEX u_Curso_Catedratico ON CUR_Curso_Catedratico (Curso_Catedratico,Catedratico,Curso);
 
 
 -- -----------------------------------------------------
