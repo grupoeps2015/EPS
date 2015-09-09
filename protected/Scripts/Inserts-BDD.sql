@@ -526,3 +526,16 @@ INSERT INTO cur_tipoperiodo (tipoperiodo,nombre,descripcion,estado) VALUES (1,'S
 -- Insert cur_periodo
 -- -----------------------------------------------------
 INSERT INTO cur_periodo (periodo,duracionminutos,tipoperiodo) VALUES (1,90,1);
+
+-- -----------------------------------------------------
+-- Insert cur_edificio
+-- -----------------------------------------------------
+INSERT INTO cur_edificio (edificio,nombre,descripcion,estado) VALUES (1,'S1','',1);
+INSERT INTO cur_edificio (edificio,nombre,descripcion,estado) VALUES (2,'S2','',1);
+
+-- -----------------------------------------------------
+-- Insert cur_salon
+-- -----------------------------------------------------
+INSERT INTO cur_salon (salon,nombre,edificio,nivel,capacidad,estado) VALUES (1,'301',1,3,80,1);
+INSERT INTO cur_salon (salon,nombre,edificio,nivel,capacidad,estado) VALUES (2,'302',1,3,50,1);
+INSERT INTO cur_salon (salon,nombre,edificio,nivel,capacidad,estado) VALUES (3,'303',1,3,100,1);
