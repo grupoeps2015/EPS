@@ -13,24 +13,23 @@ class gestionHorarioModel extends Model {
     }
     
     public function getJornadas() {
-        try{
-            $post = $this->_db->query("select * from spconsultageneral('jornada,nombre','cur_jornada');");
-            return $post->fetchall();
-        }catch(Exception $e){
-            $error = "Error de sql: " . $e->getMessage();
-            return $error;
+        $info = $this->_db->query("select * from spconsultageneral('jornada,nombre','cur_jornada');");
+        if($info === false){
+            return "1104/getJornadas";
+        }else{
+            return $info->fetchall();
         }
     }
     
     public function getTiposPeriodo() {
-        try{
-            $post = $this->_db->query("select * from spconsultageneral('tipoperiodo,nombre','cur_tipoperiodo');");
-            return $post->fetchall();
-        }catch(Exception $e){
-            $error = "Error de sql: " . $e->getMessage();
-            return $error;
+        $info = $this->_db->query("select * from spconsultageneral('tipoperiodo,nombre','cur_tipoperiodo');");
+        if($info === false){
+            return "1104/getTiposPeriodo";
+        }else{
+            return $info->fetchall();
         }
     }
+<<<<<<< HEAD
     
     public function getDias() {
         try{
@@ -42,56 +41,53 @@ class gestionHorarioModel extends Model {
         }
     }
     //////////////
+=======
+>>>>>>> origin/EPS_3.0
 
     public function agregarCarrera($_datos) {
-        try {
-            $post = $this->_db->prepare("SELECT * from spAgregarCarrera(:nombre,:estado,:centrounidadacademica) as Id;");
-            $post->execute($_datos);
-            return $post->fetchall();
-        }catch(Exception $e){
-            $error = "Error de sql: " . $e->getMessage();
-            return $error;
+        $info = $this->_db->prepare("SELECT * from spAgregarCarrera(:nombre,:estado,:centrounidadacademica) as Id;");
+        $info->execute($_datos);
+        if($info === false){
+            return "1101/agregarCarrera";
+        }else{
+            return $info->fetchall();
         }
     }
     
     public function informacionCarrera($centrounidadacademica) {
-        try {
-            $post = $this->_db->query("select * from spInformacionCarrera(" . $centrounidadacademica . ");");
-            return $post->fetchall();
-        }catch(Exception $e){
-            $error = "Error de sql: " . $e->getMessage();
-            return $error;
+        $info = $this->_db->query("select * from spInformacionCarrera(" . $centrounidadacademica . ");");
+        if($info === false){
+            return "1104/informacionCarrera";
+        }else{
+            return $info->fetchall();
         }
     }
     
     public function eliminarCarrera($intIdCarrera, $intEstadoNuevo) {
-        try {
-            $this->_db->query("SELECT spActivarDesactivarCarrera(" . $intIdCarrera . "," . $intEstadoNuevo . ");");
-            return "OK";
-        }catch(Exception $e){
-            $error = "Error de sql: " . $e->getMessage();
-            return $error;
+        $info = $this->_db->query("SELECT spActivarDesactivarCarrera(" . $intIdCarrera . "," . $intEstadoNuevo . ");");
+        if($info === false){
+            return "1102/eliminarCarrera";
+        }else{
+            return $info->fetchall();
         }
     }
     
     public function datosCarrera($idCarrera) {
-        try {
-            $post = $this->_db->query("select * from spDatosCarrera(" . $idCarrera . ");");
-            return $post->fetchall();
-        }catch(Exception $e){
-            $error = "Error de sql: " . $e->getMessage();
-            return $error;
+        $info = $this->_db->query("select * from spDatosCarrera(" . $idCarrera . ");");
+        if($info === false){
+            return "1104/datosCarrera";
+        }else{
+            return $info->fetchall();
         }
     }
     
     public function actualizarCarrera($_datos) {
-        try {
-            $post = $this->_db->prepare("SELECT * from spActualizarCarrera(:nombre,:id) as Id;");
-            $post->execute($_datos);
-            return $post->fetchall();
-        }catch(Exception $e){
-            $error = "Error de sql: " . $e->getMessage();
-            return $error;
+        $info = $this->_db->prepare("SELECT * from spActualizarCarrera(:nombre,:id) as Id;");
+        $info->execute($_datos);
+        if($info === false){
+            return "1103/actualizarCarrera";
+        }else{
+            return $info->fetchall();
         }
     }
 }
