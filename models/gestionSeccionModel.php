@@ -13,64 +13,58 @@ class gestionSeccionModel extends Model {
     }
 
     public function agregarSeccion($_datos) {
-        try {
-            $post = $this->_db->prepare("SELECT * from spAgregarSeccion(:nombre,:descripcion,:curso,:estado,:tiposeccion) as Id;");
-            $post->execute($_datos);
-            return $post->fetchall();
-        }catch(Exception $e){
-            $error = "Error de sql: " . $e->getMessage();
-            return $error;
+        $info = $this->_db->prepare("SELECT * from spAgregarSeccion(:nombre,:descripcion,:curso,:estado,:tiposeccion) as Id;");
+        $info->execute($_datos);
+        if($info === false){
+            return "1101/agregarSeccion";
+        }else{
+            return $info->fetchall();
         }
     }
     
     public function getTiposSeccion() {
-        try{
-            $post = $this->_db->query("select * from spconsultageneral('tiposeccion,nombre','cur_tiposeccion');");
-            return $post->fetchall();
-        }catch(Exception $e){
-            $error = "Error de sql: " . $e->getMessage();
-            return $error;
+        $info = $this->_db->query("select * from spconsultageneral('tiposeccion,nombre','cur_tiposeccion');");
+        if($info === false){
+            return "1104/getTiposSeccion";
+        }else{
+            return $info->fetchall();
         }
     }
     
     public function informacionSeccion($centrounidadacademica) {
-        try {
-            $post = $this->_db->query("select * from spInformacionSeccion(" . $centrounidadacademica . ");");
-            return $post->fetchall();
-        }catch(Exception $e){
-            $error = "Error de sql: " . $e->getMessage();
-            return $error;
+        $info = $this->_db->query("select * from spInformacionSeccion(" . $centrounidadacademica . ");");
+        if($info === false){
+            return "1104/informacionSeccion";
+        }else{
+            return $info->fetchall();
         }
     }
     
     public function eliminarSeccion($intIdSeccion, $intEstadoNuevo) {
-        try {
-            $this->_db->query("SELECT spactivardesactivarseccion(" . $intIdSeccion . "," . $intEstadoNuevo . ");");
-            return "OK";
-        }catch(Exception $e){
-            $error = "Error de sql: " . $e->getMessage();
-            return $error;
+        $info = $this->_db->query("SELECT spactivardesactivarseccion(" . $intIdSeccion . "," . $intEstadoNuevo . ");");
+        if($info === false){
+            return "1102/eliminarSeccion";
+        }else{
+            return $info->fetchall();
         }
     }
     
     public function datosSeccion($idSeccion) {
-        try {
-            $post = $this->_db->query("select * from spDatosSeccion(" . $idSeccion . ");");
-            return $post->fetchall();
-        }catch(Exception $e){
-            $error = "Error de sql: " . $e->getMessage();
-            return $error;
+        $info = $this->_db->query("select * from spDatosSeccion(" . $idSeccion . ");");
+        if($info === false){
+            return "1104/datosSeccion";
+        }else{
+            return $info->fetchall();
         }
     }
     
     public function actualizarSeccion($_datos) {
-        try {
-            $post = $this->_db->prepare("SELECT * from spActualizarSeccion(:nombre,:descripcion,:curso,:id,:tiposeccion) as Id;");
-            $post->execute($_datos);
-            return $post->fetchall();
-        }catch(Exception $e){
-            $error = "Error de sql: " . $e->getMessage();
-            return $error;
+        $info = $this->_db->prepare("SELECT * from spActualizarSeccion(:nombre,:descripcion,:curso,:id,:tiposeccion) as Id;");
+        $info->execute($_datos);
+        if($info === false){
+            return "1103/actualizarSeccion";
+        }else{
+            return $info->fetchall();
         }
     }
 }
