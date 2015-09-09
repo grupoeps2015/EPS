@@ -93,7 +93,6 @@
                                         *Día:     
                                         <?php if(isset($this->dias) && count($this->dias)): ?>
                                         <select id="slDias" name="slDias" class="form-control input-lg">
-                                            <option value="">-- Tipo período --</option>
                                             <?php for($i =0; $i < count($this->dias); $i++) : ?>
                                             <option value="<?php echo $this->dias[$i]['codigo'];?>">
                                                 <?php echo $this->dias[$i]['nombre']; ?>

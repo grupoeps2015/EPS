@@ -29,20 +29,16 @@ class gestionHorarioModel extends Model {
             return $info->fetchall();
         }
     }
-<<<<<<< HEAD
+
     
     public function getDias() {
-        try{
-            $post = $this->_db->query("select * from spconsultageneral('codigo,nombre','cur_dia');");
-            return $post->fetchall();
-        }catch(Exception $e){
-            $error = "Error de sql: " . $e->getMessage();
-            return $error;
+        $info = $this->_db->query("select * from spconsultageneral('codigo,nombre','cur_dia');");
+        if($info === false){
+            return "1104/getDias";
+        }else{
+            return $info->fetchall();
         }
     }
-    //////////////
-=======
->>>>>>> origin/EPS_3.0
 
     public function agregarCarrera($_datos) {
         $info = $this->_db->prepare("SELECT * from spAgregarCarrera(:nombre,:estado,:centrounidadacademica) as Id;");
