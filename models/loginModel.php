@@ -5,7 +5,11 @@
  *
  * @author Arias
  */
-class autenticarUsuarioModel extends Model{
+class loginModel extends Model{
+    
+    public function login(){
+        
+    }
     
     public function autenticarUsuario($tipo, $usuario, $pass){
         $sp = $usuario . ',\''; 

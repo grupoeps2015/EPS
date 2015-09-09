@@ -15,7 +15,7 @@ class loginController extends Controller{
         parent::__construct();
         $this->getLibrary('encripted');
         $this->_encriptar = new encripted();
-        $this->_login = $this->loadModel('autenticarUsuario');
+        $this->_login = $this->loadModel('login');
         $this->_bitacora = $this->loadModel('bitacora');
     }
 
