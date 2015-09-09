@@ -31,8 +31,9 @@ class bitacoraModel extends Model {
             $post = $this->_db->prepare("SELECT from spInsertarBitacoraUsuario(:tabla,:usuario,:nombreusuario,:funcion,:ip,:registro,:tablacampo,:descripcion);");
             $post->execute($_datos);
             return $post->fetchall();
-        } catch (Exception $e) {
-            return $e->getMessage();
+        } catch(Exception $e){
+            $error = "Error de sql: " . $e->getMessage();
+            return $error;
         }
     }
     

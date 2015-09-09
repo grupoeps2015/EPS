@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Description of gestionCursoController
+ *
+ * @author Arias
+ */
 class generalController extends Controller{
     
     private $_ajax;

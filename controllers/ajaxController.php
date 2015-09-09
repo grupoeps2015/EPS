@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Description of ajaxController
+ *
+ * @author Rickardo
+ */
 class ajaxController extends Controller{
     
     private $_ajax;
@@ -31,6 +36,12 @@ class ajaxController extends Controller{
         }
     }
     
+    public function getPeriodosAjax(){
+        if($this->getInteger('tipo')){
+            echo json_encode($this->_ajax->getPeriodosAjax($this->getInteger('tipo')));
+        }
+    }
+    
     public function getCarreras(){
         if($this->getInteger('carr')){
             echo json_encode($this->_ajax->getCarreras($this->getInteger('carr')));
@@ -40,6 +51,12 @@ class ajaxController extends Controller{
     public function getCentroUnidadAjax(){
         if($this->getInteger('centro') && $this->getInteger('unidad')){
             echo json_encode($this->_ajax->getCentroUnidadAjax($this->getInteger('centro'),$this->getInteger('unidad')));
+        }
+    }
+    
+    public function getInfoCarreras(){
+        if($this->getInteger('centro_unidadacademica')){
+            echo json_encode($this->_ajax->getInfoCarreras($this->getInteger('centro_unidadacademica')));
         }
     }
 }

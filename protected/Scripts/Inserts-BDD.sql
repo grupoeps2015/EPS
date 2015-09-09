@@ -503,3 +503,26 @@ INSERT INTO cur_tipociclo (tipociclo,nombre,descripcion,estado) VALUES (2,'Bimes
 -- -----------------------------------------------------
 INSERT INTO cur_ciclo (ciclo,numerociclo,anio,tipociclo,estado) VALUES (1,1,2016,1,1);
 INSERT INTO cur_ciclo (ciclo,numerociclo,anio,tipociclo,estado) VALUES (2,2,2016,1,1);
+
+-- -----------------------------------------------------
+-- Insert adm_tipoparametro
+-- -----------------------------------------------------
+INSERT INTO adm_tipoparametro(tipoparametro, nombre, estado) VALUES (1, 'De sesion', 1);
+INSERT INTO adm_tipoparametro(tipoparametro, nombre, estado) VALUES (2, 'De centro - unidad academica', 1);
+INSERT INTO adm_tipoparametro(tipoparametro, nombre, estado) VALUES (3, 'Generales', 1);
+
+-- -----------------------------------------------------
+-- Insert cur_jornada
+-- -----------------------------------------------------
+INSERT INTO cur_jornada (jornada,nombre,estado) VALUES (1,'Matutina',1);
+INSERT INTO cur_jornada (jornada,nombre,estado) VALUES (2,'Vespertina',1);
+
+-- -----------------------------------------------------
+-- Insert cur_tipoperiodo
+-- -----------------------------------------------------
+INSERT INTO cur_tipoperiodo (tipoperiodo,nombre,descripcion,estado) VALUES (1,'Simple','',1);
+
+-- -----------------------------------------------------
+-- Insert cur_periodo
+-- -----------------------------------------------------
+INSERT INTO cur_periodo (periodo,duracionminutos,tipoperiodo) VALUES (1,90,1);

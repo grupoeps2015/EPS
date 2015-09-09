@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Description of gestionNotas
+ *
+ * @author Rickardo
+ */
 class estudianteController extends Controller{
     
     private $_est;

@@ -17,30 +17,39 @@ class gestionCursoModel extends Model {
             $post = $this->_db->prepare("SELECT * from spAgregarCurso(:codigo,:nombre,:traslape,:estado,:tipocurso,:centrounidadacademica) as Id;");
             $post->execute($_datos);
             return $post->fetchall();
-        } catch (Exception $e) {
-            return $e->getMessage();
+        }catch(Exception $e){
+            $error = "Error de sql: " . $e->getMessage();
+            return $error;
         }
     }
     
     public function getTiposCurso() {
-        $post = $this->_db->query("select * from spconsultageneral('tipocurso,nombre','cur_tipo');");
-        return $post->fetchall();
+        try{
+            $post = $this->_db->query("select * from spconsultageneral('tipocurso,nombre','cur_tipo');");
+            return $post->fetchall();
+        }catch(Exception $e){
+            $error = "Error de sql: " . $e->getMessage();
+            return $error;
+        }
     }
     
     public function informacionCurso($idCentroUnidad) {
         try {
             $post = $this->_db->query("select * from spInformacionCurso(" . $idCentroUnidad . ");");
             return $post->fetchall();
-        } catch (Exception $e) {
-            return $e->getMessage();
+        }catch(Exception $e){
+            $error = "Error de sql: " . $e->getMessage();
+            return $error;
         }
     }
     
     public function eliminarCurso($intIdCurso, $intEstadoNuevo) {
         try {
             $this->_db->query("SELECT spActivarDesactivarCurso(" . $intIdCurso . "," . $intEstadoNuevo . ");");
-        } catch (Exception $e) {
-            return $e->getMessage();
+            return "OK";
+        }catch(Exception $e){
+            $error = "Error de sql: " . $e->getMessage();
+            return $error;
         }
     }
     
@@ -48,8 +57,9 @@ class gestionCursoModel extends Model {
         try {
             $post = $this->_db->query("select * from spDatosCurso(" . $idCurso . ");");
             return $post->fetchall();
-        } catch (Exception $e) {
-            return $e->getMessage();
+        }catch(Exception $e){
+            $error = "Error de sql: " . $e->getMessage();
+            return $error;
         }
     }
     
@@ -58,8 +68,9 @@ class gestionCursoModel extends Model {
             $post = $this->_db->prepare("SELECT * from spActualizarCurso(:codigo,:nombre,:traslape,:id,:tipocurso) as Id;");
             $post->execute($_datos);
             return $post->fetchall();
-        } catch (Exception $e) {
-            return $e->getMessage();
+        }catch(Exception $e){
+            $error = "Error de sql: " . $e->getMessage();
+            return $error;
         }
     }
 }

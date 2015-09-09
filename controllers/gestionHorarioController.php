@@ -22,13 +22,15 @@ class gestionHorarioController extends Controller {
     }
 
     public function index() {
-        $this->_view->lstCur = $this->_post->informacionCurso();
-        $this->_view->titulo = 'Gestión de cursos - ' . APP_TITULO;
-        $this->_view->setJs(array('gestionCurso'));
+        //$this->_view->lstCur = $this->_post->informacionCurso();
+        $this->_view->titulo = 'Gestión de horarios - ' . APP_TITULO;
+        $this->_view->curso = $this->getTexto('hdSeccion');
+        $this->_view->idcurso = $this->getInteger('slSec');
+        $this->_view->setJs(array('gestionHorario'));
         $this->_view->setJs(array('jquery.dataTables.min'), "public");
         $this->_view->setCSS(array('jquery.dataTables.min'));
 
-        $this->_view->renderizar('gestionCurso');
+        $this->_view->renderizar('gestionHorario');
     }
     
     public function seleccionarCicloCurso(){
@@ -55,9 +57,13 @@ class gestionHorarioController extends Controller {
         $this->_view->renderizar('gestionCarrera');
     }
 
-    public function agregarCarrera() {
-        $this->_view->titulo = 'Agregar Carrera - ' . APP_TITULO;
-        $this->_view->setJs(array('agregarCarrera'));
+    public function agregarHorario() {
+        $this->_view->jornadas = $this->_post->getJornadas();
+        $this->_view->tiposPeriodo = $this->_post->getTiposPeriodo();
+        $this->_view->idcurso = $this->getInteger('hdIdCurso');
+        $this->_view->curso = $this->getTexto('hdCurso');
+        $this->_view->titulo = 'Agregar Horario - ' . APP_TITULO;
+        $this->_view->setJs(array('agregarHorario'));
         $this->_view->setJs(array('jquery.validate'), "public");
         $arrayCar = array();
         
@@ -71,7 +77,7 @@ class gestionHorarioController extends Controller {
             $this->redireccionar('gestionPensum/inicio');
         }
         
-        $this->_view->renderizar('agregarCarrera', 'gestionPensum');    
+        $this->_view->renderizar('agregarHorario', 'gestionHorario');    
     }
     
     public function eliminarCarrera($intNuevoEstado, $intIdCarrera) {

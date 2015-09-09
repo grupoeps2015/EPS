@@ -13,6 +13,7 @@ $(document).ready( function () {
         if(!$("#slCiclo").val() || !$("#slSec").val()){
             $('#btnConsultar').prop("disabled",true);
         }else{
+            $('#hdSeccion').val($.trim($('#slSec :selected').text()));
             $('#btnConsultar').prop("disabled",false);
         }
     });
@@ -21,6 +22,7 @@ $(document).ready( function () {
         if(!$("#slCiclo").val() || !$("#slSec").val()){
             $('#btnConsultar').prop("disabled",true);
         }else{
+            $('#hdSeccion').val($.trim($('#slSec :selected').text()));
             $('#btnConsultar').prop("disabled",false);
         }
     });

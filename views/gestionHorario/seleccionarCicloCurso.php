@@ -23,7 +23,7 @@
     
     <div class="container" >
         <div class="col-md-6 col-md-offset-3">
-            <form id="frEstudiantes" method="post" action="<?php echo BASE_URL; ?><?php if (isset($this->url)) echo $this->url; ?>">
+            <form id="frEstudiantes" method="post" action="<?php echo BASE_URL; ?>gestionHorario">
                 <table>
                     <tr>
                         <td style="width: 10%">
@@ -87,7 +87,7 @@
                         <td colspan="5"><hr class="hr1"/></td>
                     </tr>
                 </table>
-                <input type="hidden" id ="hdCentroUnidad" name="hdCentroUnidad" >
+                <input type="hidden" id="hdSeccion" name="hdSeccion">
             </form>
         </div>
     </div>

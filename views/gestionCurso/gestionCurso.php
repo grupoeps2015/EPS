@@ -14,10 +14,19 @@
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 text-center"></div>
-                <div class="col-lg-3 col-md-6 text-center"></div>
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
-                        <form method='post' name='frmPost' id='frmPost' action='<?php echo BASE_URL?>gestionCurso/agregarCurso'>
+                        <form method='post' name='frmPost1' id='frmPost1' action='<?php echo BASE_URL?>gestionSeccion'>
+                            <i class="fa fa-2x fa-plus-circle wow bounceIn text-primary" data-wow-delay=".2s">
+                                <a id="linkSeccion" href="#">Crear Secci&oacute;n</a>
+                            </i>
+                            <input type="hidden" name='hdCentroUnidad' value="<?php echo $this->id;?>"/>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 text-center">
+                    <div class="service-box">
+                        <form method='post' name='frmPost2' id='frmPost2' action='<?php echo BASE_URL?>gestionCurso/agregarCurso'>
                             <i class="fa fa-2x fa-user-plus wow bounceIn text-primary" data-wow-delay=".2s">
                                 <a id="linkNuevoUsr" href="#">Agregar Curso</a>
                             </i>

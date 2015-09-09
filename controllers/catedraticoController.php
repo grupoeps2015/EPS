@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Description of gestionNotas
+ *
+ * @author Rickardo
+ */
 class catedraticoController extends Controller{
     
     private $_cat;

@@ -1,8 +1,16 @@
 $(document).ready( function () {
-    $('#tbCursos').DataTable();
+    $('#tbCursos').DataTable( {
+        language: {
+          emptyTable: "No hay informaci&oacute;n disponible."
+        }
+    } );
+    
+    $('#linkSeccion').click(function(){
+        $('#frmPost1').submit();
+    });
     
     $('#linkNuevoUsr').click(function(){
-        $('#frmPost').submit();
+        $('#frmPost2').submit();
     });
     
 });

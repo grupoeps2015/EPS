@@ -1,3 +1,7 @@
 $(document).ready( function () {
-    $('#tbCarreras').DataTable();
+    $('#tbCarreras').DataTable( {
+        "language": {
+          "emptyTable": "No hay informaci&oacute;n disponible."
+        }
+    } );
 } );

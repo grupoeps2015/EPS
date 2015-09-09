@@ -10,6 +10,7 @@ class autenticarUsuarioModel extends Model{
     public function autenticarUsuario($tipo, $usuario, $pass){
         $sp = $usuario . ',\''; 
         $sp .= $pass . '\'';
+        
         if ($tipo == 1){
             //Estudiante
             $sp .= ', \'carnet\', \'est_estudiante\'';
@@ -22,16 +23,16 @@ class autenticarUsuarioModel extends Model{
             //Empleado
             $sp .= ', \'registropersonal\', \'adm_empleado\'';
         }
+        
         try{
-            $y = $this->_db->query("SELECT * from spAutenticarUsuario(" . $sp . ");");
-            //return "SELECT spAutenticarUsuarios(" . $sp . ");";
-            //return $tipo . " " . $usuario . " " . $pass;
-            //return "SELECT * from spAutenticarUsuario(" . $sp . ");";
-            return $y->fetchall();
+            $autenticar = $this->_db->query("SELECT * from spAutenticarUsuario(" . $sp . ");");
+            return $autenticar->fetchall();
         }catch(Exception $e){
-            return $e->getMessage();
+            $error = "Error de sql: " . $e->getMessage();
+            return $error;
         }
     }
+    
     public function validarPermisoUsuario($funcion, $centroUnidad){
         try {
             if (isset($_SESSION["rol"])){
@@ -60,5 +61,3 @@ class autenticarUsuarioModel extends Model{
         }
     }
 }
-
-?>

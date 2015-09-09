@@ -1,11 +1,5 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  * Description of gestionNotas
  *
@@ -21,7 +15,10 @@ class gestionNotasController extends Controller{
     }
     
     public function index(){
+        $idCentroUnidad = $this->getInteger('hdCentroUnidad');
+        
         $this->_view->titulo = 'Gestión de notas - ' . APP_TITULO;
+        $this->_view->id = $idCentroUnidad;
         $this->_view->setJs(array('gestionNotas'));
         $this->_view->renderizar('gestionNotas');
     }

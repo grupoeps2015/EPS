@@ -1,3 +1,10 @@
 $(document).ready( function () {
-    $('#tbCarreras').DataTable();
+    $('#tbHorarios').DataTable( {
+        "language": {
+          "emptyTable": "No hay informaci&oacute;n disponible."
+        }
+    } );
+    $('#linkNuevoHor').click(function(){
+        $('#frmPost').submit();
+    });
 } );
