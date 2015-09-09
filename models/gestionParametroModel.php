@@ -18,8 +18,10 @@ class gestionParametroModel extends Model{
         $sp .= $_datos["extension"] . ',' . $_datos["tipoparametro"];
         try{        
             $this->_db->query("SELECT spagregarparametro(" . $sp . ");");
+            return "OK";
         }catch(Exception $e){
-            return $e->getMessage();
+            $error = "Error de sql: " . $e->getMessage();
+            return $error;
         }
     }
         
@@ -29,16 +31,18 @@ class gestionParametroModel extends Model{
             $post = $this->_db->query("select * from spInformacionParametro();");
             return $post->fetchall();
         }catch(Exception $e){
-            return $e->getMessage();
+            $error = "Error de sql: " . $e->getMessage();
+            return $error;
         }
     }
     
     public function eliminarParametro($intIdParametro, $intEstadoNuevo){
         try{
             $this->_db->query("SELECT spModificarParametro(" . $intIdParametro . ",null,null,null,null,null,null," . $intEstadoNuevo . ",null);");
-            //return "SELECT spModificarParametro(" . $intIdUsuario . ",null,null,null,null,null,null,null" . $intEstadoNuevo . ",null);";
+            return "OK";
         }catch(Exception $e){
-            return $e->getMessage();
+            $error = "Error de sql: " . $e->getMessage();
+            return $error;
         }
     }
     
@@ -51,28 +55,41 @@ class gestionParametroModel extends Model{
       
         try{
             $this->_db->query("SELECT spModificarParametro(" . $sp. ");");
+            return "OK";
         }catch(Exception $e){
-            return $e->getMessage();
-        }        
+            $error = "Error de sql: " . $e->getMessage();
+            return $error;
+        }       
     }
     
     public function datosParametro($idParametro) {
         try {
             $post = $this->_db->query("select * from spdatosparametro('" . $idParametro . "');");
             return $post->fetchall();
-        } catch (Exception $e) {
-            return $e->getMessage();
+        }catch(Exception $e){
+            $error = "Error de sql: " . $e->getMessage();
+            return $error;
         }
     }
     
     public function getCentro_UnidadAcademica() {
-        $post = $this->_db->query("select * from spconsultacentrounidadacademica();");
-        return $post->fetchall();
+        try{
+            $post = $this->_db->query("select * from spconsultacentrounidadacademica();");
+            return $post->fetchall();
+        }catch(Exception $e){
+            $error = "Error de sql: " . $e->getMessage();
+            return $error;
+        }
     }
     
     public function getTipoParametro() {
-        $post = $this->_db->query("select * from spConsultaTipoParametro();");
-        return $post->fetchall();
+        try{
+            $post = $this->_db->query("select * from spConsultaTipoParametro();");
+            return $post->fetchall();
+        }catch(Exception $e){
+            $error = "Error de sql: " . $e->getMessage();
+            return $error;
+        }
     }
     
 }

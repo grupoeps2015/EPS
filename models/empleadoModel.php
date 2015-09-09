@@ -17,8 +17,10 @@ class empleadoModel extends Model {
         $sp .= $_datos["telefono"] . '\',' . $_datos["pais"];
         try{
             $this->_db->query("SELECT spUpdateInfoGeneralEmpleado(" . $sp . ");");
-        } catch (Exception $e) {
-            return $e->getMessage();
+            return "OK";
+        }catch(Exception $e){
+            $error = "Error de sql: " . $e->getMessage();
+            return $error;
         }
     }
        

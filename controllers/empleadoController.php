@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Description of gestionNotas
+ *
+ * @author Rickardo
+ */
 class empleadoController extends Controller{
     
     private $_emp;

@@ -13,18 +13,33 @@ class gestionUsuarioModel extends Model {
 
     //Metodos utiliados para agregar usuarios nuevos
     public function getUsuarios() {
-        $post = $this->_db->query("select * from spconsultageneral('usuario,nombre','adm_usuario');");
-        return $post->fetchall();
+        try{
+            $post = $this->_db->query("select * from spconsultageneral('usuario,nombre','adm_usuario');");
+            return $post->fetchall();
+        }catch(Exception $e){
+            $error = "Error de sql: " . $e->getMessage();
+            return $error;
+        }
     }
 
     public function getCentros() {
-        $post = $this->_db->query("select * from spconsultageneral('centro,nombre','adm_centro');");
-        return $post->fetchall();
+        try{
+            $post = $this->_db->query("select * from spconsultageneral('centro,nombre','adm_centro');");
+            return $post->fetchall();
+        }catch(Exception $e){
+            $error = "Error de sql: " . $e->getMessage();
+            return $error;
+        }
     }
 
     public function getDocentes() {
-        $post = $this->_db->query("select * from spconsultageneral('tipodocente,descripcion','cat_tipocatedratico');");
-        return $post->fetchall();
+        try{
+            $post = $this->_db->query("select * from spconsultageneral('tipodocente,descripcion','cat_tipocatedratico');");
+            return $post->fetchall();
+        }catch(Exception $e){
+            $error = "Error de sql: " . $e->getMessage();
+            return $error;
+        }
     }
 
     public function agregarUsuario($_datos) {
@@ -35,8 +50,9 @@ class gestionUsuarioModel extends Model {
         try {
             $post = $this->_db->query("SELECT * from spagregarusuarios(" . $sp . ") as Id;");
             return $post->fetchall();
-        } catch (Exception $e) {
-            return $e->getMessage();
+        }catch(Exception $e){
+            $error = "Error de sql: " . $e->getMessage();
+            return $error;
         }
     }
 
@@ -52,8 +68,10 @@ class gestionUsuarioModel extends Model {
 
         try {
             $this->_db->query("SELECT spagregarestudiante(" . $sp . ");");
-        } catch (Exception $e) {
-            return $e->getMessage();
+            return "OK";
+        }catch(Exception $e){
+            $error = "Error de sql: " . $e->getMessage();
+            return $error;
         }
     }
 
@@ -67,8 +85,10 @@ class gestionUsuarioModel extends Model {
 
         try {
             $this->_db->query("SELECT spAgregarCatedratico(" . $sp . ");");
-        } catch (Exception $e) {
-            return $e->getMessage();
+            return "OK";
+        }catch(Exception $e){
+            $error = "Error de sql: " . $e->getMessage();
+            return $error;
         }
     }
 
@@ -82,16 +102,20 @@ class gestionUsuarioModel extends Model {
 
         try {
             $this->_db->query("SELECT spAgregarEmpleado(" . $sp . ");");
-        } catch (Exception $e) {
-            return $e->getMessage();
+            return "OK";
+        }catch(Exception $e){
+            $error = "Error de sql: " . $e->getMessage();
+            return $error;
         }
     }
 
     public function asignarRolUsuario($idRol, $id) {
         try {
             $this->_db->query("SELECT spAsignarRolUsuario(" . $idRol . "," . $id . ");");
-        } catch (Exception $e) {
-            return $e->getMessage();
+            return "OK";
+        }catch(Exception $e){
+            $error = "Error de sql: " . $e->getMessage();
+            return $error;
         }
     }
 
@@ -100,36 +124,50 @@ class gestionUsuarioModel extends Model {
         try {
             $post = $this->_db->query("select * from spInformacionUsuario({$idCentroUnidad});");
             return $post->fetchall();
-        } catch (Exception $e) {
-            return $e->getMessage();
+        }catch(Exception $e){
+            $error = "Error de sql: " . $e->getMessage();
+            return $error;
         }
     }
 
     public function eliminarUsuario($intIdUsuario, $intEstadoNuevo) {
         try {
             $this->_db->query("SELECT spActivarDesactivarUsuario(" . $intIdUsuario . "," . $intEstadoNuevo . ");");
-        } catch (Exception $e) {
-            return $e->getMessage();
+            return "OK";
+        }catch(Exception $e){
+            $error = "Error de sql: " . $e->getMessage();
+            return $error;
         }
     }
 
     //Metodos utilizados para actualizar usuarios
     public function getPreguntas() {
-        $preguntas = $this->_db->query("select * from spconsultageneral('preguntasecreta,descripcion','adm_preguntasecreta');");
-        return $preguntas->fetchall();
+        try{
+            $preguntas = $this->_db->query("select * from spconsultageneral('preguntasecreta,descripcion','adm_preguntasecreta');");
+            return $preguntas->fetchall();
+        }catch(Exception $e){
+            $error = "Error de sql: " . $e->getMessage();
+            return $error;
+        }
     }
     
     public function getRol($idUsuario){
-        $rol = $this->_db->query("select * from spRolxUsuario({$idUsuario}) as idRol;");
-        return $rol->fetchall();
+        try{
+            $rol = $this->_db->query("select * from spRolxUsuario({$idUsuario}) as idRol;");
+            return $rol->fetchall();
+        }catch(Exception $e){
+            $error = "Error de sql: " . $e->getMessage();
+            return $error;
+        }
     }
 
     public function datosUsuario($idUsuario) {
         try {
             $post = $this->_db->query("select * from spdatosusuario('" . $idUsuario . "');");
             return $post->fetchall();
-        } catch (Exception $e) {
-            return $e->getMessage();
+        }catch(Exception $e){
+            $error = "Error de sql: " . $e->getMessage();
+            return $error;
         }
     }
 
@@ -139,8 +177,10 @@ class gestionUsuarioModel extends Model {
         $sp .= $_datos["preguntaUsr"] . ',\'' . $_datos["respuestaUsr"].'\'';
         try {
             $this->_db->query("SELECT * from spactualizarusuario(" . $sp . ");");
-        } catch (Exception $e) {
-            return $e->getMessage();
+            return "OK";
+        }catch(Exception $e){
+            $error = "Error de sql: " . $e->getMessage();
+            return $error;
         }
     }
     

@@ -17,8 +17,10 @@ class estudianteModel extends Model {
         $sp .= $_datos["telefono"] . '\',' . $_datos["pais"];
         try{
             $this->_db->query("SELECT spUpdateInfoGeneralEstudiante(" . $sp . ");");
-        } catch (Exception $e) {
-            return $e->getMessage();
+            return "OK";
+        }catch(Exception $e){
+            $error = "Error de sql: " . $e->getMessage();
+            return $error;
         }
     }
     
@@ -28,8 +30,10 @@ class estudianteModel extends Model {
         $sp .= $_datos["centro"] . '\',\'' . $_datos["sangre"] . '\'';
         try{
             $this->_db->query("SELECT spUpdateInfoEmergenciaEstudiante(" . $sp . ");");
-        } catch (Exception $e) {
-            return $e->getMessage();
+            return "OK";
+        }catch(Exception $e){
+            $error = "Error de sql: " . $e->getMessage();
+            return $error;
         }
     }
     

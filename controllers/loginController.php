@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Description of gestionPensumController
+ *
+ * @author Arias
+ */
 class loginController extends Controller{
     
     private $_login;

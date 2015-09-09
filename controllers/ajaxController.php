@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Description of gestionNotas
+ *
+ * @author Rickardo
+ */
 class ajaxController extends Controller{
     
     private $_ajax;

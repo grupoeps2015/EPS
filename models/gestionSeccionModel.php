@@ -17,31 +17,39 @@ class gestionSeccionModel extends Model {
             $post = $this->_db->prepare("SELECT * from spAgregarSeccion(:nombre,:descripcion,:curso,:estado,:tiposeccion) as Id;");
             $post->execute($_datos);
             return $post->fetchall();
-        } catch (Exception $e) {
-            return $e->getMessage();
+        }catch(Exception $e){
+            $error = "Error de sql: " . $e->getMessage();
+            return $error;
         }
     }
     
     public function getTiposSeccion() {
-        $post = $this->_db->query("select * from spconsultageneral('tiposeccion,nombre','cur_tiposeccion');");
-        return $post->fetchall();
+        try{
+            $post = $this->_db->query("select * from spconsultageneral('tiposeccion,nombre','cur_tiposeccion');");
+            return $post->fetchall();
+        }catch(Exception $e){
+            $error = "Error de sql: " . $e->getMessage();
+            return $error;
+        }
     }
     
     public function informacionSeccion($centrounidadacademica) {
         try {
             $post = $this->_db->query("select * from spInformacionSeccion(" . $centrounidadacademica . ");");
             return $post->fetchall();
-        } catch (Exception $e) {
-            return $e->getMessage();
+        }catch(Exception $e){
+            $error = "Error de sql: " . $e->getMessage();
+            return $error;
         }
     }
     
     public function eliminarSeccion($intIdSeccion, $intEstadoNuevo) {
         try {
             $this->_db->query("SELECT spactivardesactivarseccion(" . $intIdSeccion . "," . $intEstadoNuevo . ");");
-            //echo "SELECT spactivardesactivarseccion(" . $intIdSeccion . "," . $intEstadoNuevo . ");";
-        } catch (Exception $e) {
-            return $e->getMessage();
+            return "OK";
+        }catch(Exception $e){
+            $error = "Error de sql: " . $e->getMessage();
+            return $error;
         }
     }
     
@@ -49,8 +57,9 @@ class gestionSeccionModel extends Model {
         try {
             $post = $this->_db->query("select * from spDatosSeccion(" . $idSeccion . ");");
             return $post->fetchall();
-        } catch (Exception $e) {
-            return $e->getMessage();
+        }catch(Exception $e){
+            $error = "Error de sql: " . $e->getMessage();
+            return $error;
         }
     }
     
@@ -59,8 +68,9 @@ class gestionSeccionModel extends Model {
             $post = $this->_db->prepare("SELECT * from spActualizarSeccion(:nombre,:descripcion,:curso,:id,:tiposeccion) as Id;");
             $post->execute($_datos);
             return $post->fetchall();
-        } catch (Exception $e) {
-            return $e->getMessage();
+        }catch(Exception $e){
+            $error = "Error de sql: " . $e->getMessage();
+            return $error;
         }
     }
 }
