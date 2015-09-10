@@ -16,6 +16,7 @@ class gestionHorarioController extends Controller {
         $this->_encriptar = new encripted();
         $this->_post = $this->loadModel('gestionHorario');
         $this->_postSeccion = $this->loadModel('gestionSeccion');
+        $this->_postCatedratico = $this->loadModel('catedratico');
         $this->_ajax = $this->loadModel("ajax");
     }
 
@@ -70,29 +71,6 @@ class gestionHorarioController extends Controller {
         $this->_view->setJs(array('seleccionarCicloCurso'));
         $this->_view->renderizar('seleccionarCicloCurso');
     }
-    
-    public function listadoCarrera() {
-        if($this->getInteger('hdCentroUnidad')){
-            $idCentroUnidad = $this->getInteger('hdCentroUnidad');
-        }else{
-            $idCentroUnidad = CENTRO_UNIDADACADEMICA;
-        }
-        
-        $lsCar = $this->_post->informacionCarrera($idCentroUnidad);
-        if(is_array($lsCar)){
-            $this->_view->lstCar = $lsCar;
-        }else{
-            $this->redireccionar("error/sql/" . $lsCar);
-            exit;
-        }
-        
-        $this->_view->titulo = 'Gestión de carreras - ' . APP_TITULO;
-        $this->_view->setJs(array('gestionCarrera'));
-        $this->_view->setJs(array('jquery.dataTables.min'), "public");
-        $this->_view->setCSS(array('jquery.dataTables.min'));
-
-        $this->_view->renderizar('gestionCarrera');
-    }
 
     public function agregarHorario() {
         $idCentroUnidad = $this->getInteger('hdCentroUnidad');
@@ -114,6 +92,14 @@ class gestionHorarioController extends Controller {
             exit;
         }
         
+        $catedraticos = $this->_postCatedratico->getCatedraticos($idCentroUnidad);
+        if(is_array($catedraticos)){
+            $this->_view->catedraticos = $catedraticos;
+        }else{
+            $this->redireccionar("error/sql/" . $catedraticos);
+            exit;
+        }
+        
         $dias = $this->_post->getDias();
         if(is_array($dias)){
             $this->_view->dias = $dias;
@@ -131,20 +117,10 @@ class gestionHorarioController extends Controller {
         }
         
         $idcurso = $this->getInteger('hdIdCurso');
-        if(is_array($idcurso)){
-            $this->_view->idcurso = $idcurso;
-        }else{
-            $this->redireccionar("error/sql/" . $idcurso);
-            exit;
-        }
+        $this->_view->idcurso = $idcurso;
         
         $curso = $this->getTexto('hdCurso');
-        if(is_array($curso)){
-            $this->_view->curso = $curso;
-        }else{
-            $this->redireccionar("error/sql/" . $curso);
-            exit;
-        }
+        $this->_view->curso = $curso;
         
         
         $this->_view->titulo = 'Agregar Horario - ' . APP_TITULO;
