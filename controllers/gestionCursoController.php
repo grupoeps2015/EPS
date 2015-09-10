@@ -32,7 +32,15 @@ class gestionCursoController extends Controller {
         
         $this->_view->titulo = 'Gestión de cursos - ' . APP_TITULO;
         $this->_view->id = $idCentroUnidad;
-        $this->_view->lstCur = $this->_post->informacionCurso($idCentroUnidad);
+        
+        $lstCur = $this->_post->informacionCurso($idCentroUnidad);
+        if(is_array($lstCur)){
+            $this->_view->lstCur = $lstCur;
+        }else{
+            $this->redireccionar("error/sql/" . $lstCur);
+            exit;
+        }
+        
         $this->_view->setJs(array('gestionCurso'));
         $this->_view->setJs(array('jquery.dataTables.min'), "public");
         $this->_view->setCSS(array('jquery.dataTables.min'));
@@ -45,7 +53,15 @@ class gestionCursoController extends Controller {
         
         $this->_view->titulo = 'Agregar Curso - ' . APP_TITULO;
         $this->_view->id = $idCentroUnidad;
-        $this->_view->tiposCurso = $this->_post->getTiposCurso();
+        
+        $tiposCurso = $this->_post->getTiposCurso();
+        if(is_array($tiposCurso)){
+            $this->_view->tiposCurso = $tiposCurso;
+        }else{
+            $this->redireccionar("error/sql/" . $tiposCurso);
+            exit;
+        }
+        
         $this->_view->setJs(array('agregarCurso'));
         $this->_view->setJs(array('jquery.validate'), "public");
         $arrayCur = array();
@@ -63,7 +79,12 @@ class gestionCursoController extends Controller {
             $arrayCur['estado'] = ESTADO_ACTIVO;
             $arrayCur['centrounidadacademica'] = $idCentroUnidad;
             
-            $this->_post->agregarCurso($arrayCur);
+            $info = $this->_post->agregarCurso($arrayCur);
+            if(!is_array($info)){
+                $this->redireccionar("error/sql/" . $info);
+                exit;
+            }
+            
             $this->redireccionar('gestionCurso/index/' . $idCentroUnidad);
             exit;
         }
@@ -73,15 +94,15 @@ class gestionCursoController extends Controller {
     
     public function eliminarCurso($intNuevoEstado, $intIdCurso, $idCentroUnidad) {
         if ($intNuevoEstado == -1 || $intNuevoEstado == 1) {
-            $this->_post->eliminarCurso($intIdCurso, $intNuevoEstado);
+            $info = $this->_post->eliminarCurso($intIdCurso, $intNuevoEstado);
+            if(!is_array($info)){
+                $this->redireccionar("error/sql/" . $info);
+                exit;
+            }
             $this->redireccionar('gestionCurso/index/' . $idCentroUnidad);
         } else {
             echo "Error al desactivar curso";
         }
-        //$this->redireccionar('admHistoriaCrearCurso');
-        //$this->_view->cambio = $intNuevoEstado;
-        //$this->_view->titulo = 'Eliminar curso - ' . APP_TITULO;
-        //$this->_view->renderizar(ADM_FOLDER, 'eliminarUsuario', 'admCrearUsuario');
     }
     
     public function actualizarCurso($intIdCurso = 0) {
@@ -89,10 +110,25 @@ class gestionCursoController extends Controller {
         $this->_view->setJs(array('jquery.validate'), "public");
         $this->_view->setJs(array('actualizarCurso'));
         
-        $this->_view->tiposCurso = $this->_post->getTiposCurso();
+        $tiposCurso = $this->_post->getTiposCurso();
+        if(is_array($tiposCurso)){
+            $this->_view->tiposCurso = $tiposCurso;
+        }else{
+            $this->redireccionar("error/sql/" . $tiposCurso);
+            exit;
+        }
+        
         $arrayCur = array();
         $this->_view->id = $intIdCurso;
-        $this->_view->datosCur = $this->_post->datosCurso($intIdCurso);
+        
+        $datosCur = $this->_post->datosCurso($intIdCurso);
+        if(is_array($datosCur)){
+            $this->_view->datosCur = $datosCur;
+        }else{
+            $this->redireccionar("error/sql/" . $datosCur);
+            exit;
+        }
+        
         $this->_view->titulo = 'Actualizar Curso - ' . APP_TITULO;
         
         if ($this->getInteger('hdEnvio')) {
@@ -108,8 +144,11 @@ class gestionCursoController extends Controller {
             $arrayCur['traslape'] = $traslapeCurso;
 
             $respuesta = $this->_post->actualizarCurso($arrayCur);
-            if (isset($respuesta[0][0])){
+            if (is_array($respuesta)){
                 $this->redireccionar('gestionCurso/index/'.$idCentroUnidad);
+            }else{
+                $this->redireccionar("error/sql/" . $respuesta);
+                exit;
             }
         }
         $this->_view->renderizar('actualizarCurso', 'gestionCurso');
@@ -120,7 +159,6 @@ class gestionCursoController extends Controller {
         $iden = $this->getInteger('hdFile');
         $fileName = "";
         $fileExt = "";
-        $rol = "";
         
         if($iden == 1){
             $fileName=$_FILES['csvFile']['name'];
@@ -136,8 +174,12 @@ class gestionCursoController extends Controller {
                     $arrayCur['traslape'] = $data[3];
                     $arrayCur['estado'] = $data[4];
                     $arrayCur['centrounidadacademica'] = $idCentroUnidad;
-                    $this->_post->agregarCurso($arrayCur);
-    
+                    $info = $this->_post->agregarCurso($arrayCur);
+                    if(!is_array($info)){
+                        fclose($handle);
+                        $this->redireccionar("error/sql/" . $info);
+                        exit;
+                    }
                 }
                 fclose($handle);
                 $this->redireccionar('gestionCurso/index/' . $idCentroUnidad);

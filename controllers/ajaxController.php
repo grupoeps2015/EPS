@@ -6,7 +6,6 @@
  * @author Rickardo
  */
 class ajaxController extends Controller{
-    
     private $_ajax;
     
     public function __construct() {

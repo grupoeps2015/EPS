@@ -25,23 +25,40 @@ class estudianteController extends Controller{
     
     public function infoEstudiante($idUsuario=0){
         $iden = $this->getInteger('hdEnvio');
-        $actualizar = false;
         $arrayGen = array();
         $arrayEmg = array();
         
         $this->_view->titulo = APP_TITULO;
         $this->_view->id = $idUsuario;
-        $this->_view->deptos = $this->_ajax->getDeptos();
-        $this->_view->paises = $this->_ajax->getPais();
-        $this->_view->infoGeneral = $this->_est->getInfoGeneral($idUsuario);
+        
+        $deptos = $this->_ajax->getDeptos();
+        if(is_array($deptos)){
+            $this->_view->deptos = $deptos;
+        }else{
+            $this->redireccionar("error/sql/" . $deptos);
+            exit;
+        }
+        
+        $paises = $this->_ajax->getPais();
+        if(is_array($paises)){
+            $this->_view->paises = $paises;
+        }else{
+            $this->redireccionar("error/sql/" . $paises);
+            exit;
+        }
+        
+        $infoGeneral = $this->_est->getInfoGeneral($idUsuario);
+        if(is_array($infoGeneral)){
+            $this->_view->infoGeneral = $infoGeneral;
+        }else{
+            $this->redireccionar("error/sql/" . $infoGeneral);
+            exit;
+        }
+        
         $this->_view->setJs(array('estudiante'));
         $this->_view->setJs(array('jquery.validate'), "public");
         
         if($iden == 1 || $iden == 2){
-            $actualizar = true;
-        }
-        
-        if($actualizar){
             if($iden == 1){
                 $arrayGen["id"] = $idUsuario;
                 $arrayGen["direccion"] = $this->getTexto('txtDireccion');
@@ -49,7 +66,7 @@ class estudianteController extends Controller{
                 $arrayGen["muni"] = $this->getInteger('slMunis');
                 $arrayGen["telefono"] = $this->getTexto('txtTelefono');
                 $arrayGen["pais"] = $this->getInteger('slPaises');
-                $this->_est->setInfoGeneral($arrayGen);
+                $info = $this->_est->setInfoGeneral($arrayGen);
             }else{
                 $arrayEmg["id"] = $idUsuario;
                 $arrayEmg["telefonoE"] = $this->getTexto('txtTelefonoE');
@@ -57,9 +74,13 @@ class estudianteController extends Controller{
                 $arrayEmg["sangre"] = $this->getTexto('txtTipoSangre');
                 $arrayEmg["centro"] = $this->getTexto('txtHospital');
                 $arrayEmg["seguro"] = $this->getInteger('rbSeguro');
-                $this->_est->setInfoEmergencia($arrayEmg);
+                $info = $this->_est->setInfoEmergencia($arrayEmg);
             }
-           $this->redireccionar('estudiante/infoEstudiante/' . $idUsuario);
+            if(!is_array($info)){
+                $this->redireccionar("error/sql/" . $info);
+                exit;
+            }
+            $this->redireccionar('estudiante/infoEstudiante/' . $idUsuario);
         }
         
         $this->_view->renderizar('estudiante');

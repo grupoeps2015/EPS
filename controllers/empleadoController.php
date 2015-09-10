@@ -30,9 +30,32 @@ class empleadoController extends Controller{
         
         $this->_view->titulo = APP_TITULO;
         $this->_view->id = $idUsuario;
-        $this->_view->deptos = $this->_ajax->getDeptos();
-        $this->_view->paises = $this->_ajax->getPais();
-        $this->_view->infoGeneral = $this->_emp->getInfo($idUsuario);
+        
+        $deptos = $this->_view->deptos = $this->_ajax->getDeptos();
+        if(is_array($deptos)){
+            $this->_view->deptos = $deptos;
+        }else{
+            $this->redireccionar("error/sql/" . $deptos);
+            exit;
+        }
+        
+        $paises = $this->_ajax->getPais();
+        if(is_array($paises)){
+            $this->_view->paises = $paises;
+        }else{
+            $this->redireccionar("error/sql/" . $paises);
+            exit;
+        }
+        
+        
+        $infoGeneral = $this->_emp->getInfoGeneral($idUsuario);
+        if(is_array($infoGeneral)){
+            $this->_view->infoGeneral = $infoGeneral;
+        }else{
+            $this->redireccionar("error/sql/" . $infoGeneral);
+            exit;
+        }
+        
         $this->_view->setJs(array('empleado'));
         $this->_view->setJs(array('jquery.validate'), "public");
         
@@ -47,8 +70,11 @@ class empleadoController extends Controller{
             $arrayInfo["muni"] = $this->getInteger('slMunis');
             $arrayInfo["telefono"] = $this->getTexto('txtTelefono');
             $arrayInfo["pais"] = $this->getInteger('slPaises');
-            $this->_emp->setInfo($arrayInfo);
-            
+            $info = $this->_emp->setInfo($arrayInfo);
+            if(!is_array($info)){
+                $this->redireccionar("error/sql/" . $info);
+                exit;
+            }
             $this->redireccionar('empleado/infoEmpleado/' . $idUsuario);
         }
         
