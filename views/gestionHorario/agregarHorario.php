@@ -134,9 +134,9 @@
                                     <td>*Edificio:
                                         <?php if(isset($this->edificios) && count($this->edificios)): ?>
                                         <select id="slEdificios" name="slEdificios" class="form-control input-lg">
-                                            <option value="">-- Tipo período --</option>
+                                            <option value="">-- Edificio --</option>
                                             <?php for($i =0; $i < count($this->edificios); $i++) : ?>
-                                            <option value="<?php echo $this->edificios[$i]['codigo'];?>">
+                                            <option value="<?php echo $this->edificios[$i]['id'];?>">
                                                 <?php echo $this->edificios[$i]['nombre']; ?>
                                             </option>
                                             <?php endfor;?>

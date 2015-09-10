@@ -91,6 +91,16 @@ class ajaxModel extends Model{
         }
     }
     
+    public function getSalonesAjax($edificio){
+        $salones = $this->_db->query("select * from spSalonesxEdificio({$edificio})");
+        $salones->setFetchMode(PDO::FETCH_ASSOC);
+        if($salones === false){
+            return "1200/getSalonesAjax";
+        }else{
+            return $salones->fetchall();
+        }
+    }
+    
     public function getCentroUnidadAjax($centro, $unidad){
         $post = $this->_db->query("select * from spCentroUnidad({$centro},{$unidad}) as id");
         $post->setFetchMode(PDO::FETCH_ASSOC);

@@ -79,6 +79,7 @@ class gestionHorarioController extends Controller {
         $this->_view->jornadas = $this->_post->getJornadas();
         $this->_view->tiposPeriodo = $this->_post->getTiposPeriodo();
         $this->_view->dias = $this->_post->getDias();
+        $this->_view->edificios = $this->_post->informacionEdificio($idCentroUnidad);
         $this->_view->idcurso = $this->getInteger('hdIdCurso');
         $this->_view->curso = $this->getTexto('hdCurso');
         $this->_view->titulo = 'Agregar Horario - ' . APP_TITULO;
