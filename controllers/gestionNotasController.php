@@ -6,7 +6,6 @@
  * @author Rickardo
  */
 class gestionNotasController extends Controller{
-    
     private $_notas;
     
     public function __construct() {
@@ -16,7 +15,6 @@ class gestionNotasController extends Controller{
     
     public function index(){
         $idCentroUnidad = $this->getInteger('hdCentroUnidad');
-        
         $this->_view->titulo = 'Gestión de notas - ' . APP_TITULO;
         $this->_view->id = $idCentroUnidad;
         $this->_view->setJs(array('gestionNotas'));
