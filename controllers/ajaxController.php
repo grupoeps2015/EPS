@@ -33,7 +33,7 @@ class ajaxController extends Controller{
         if($this->getInteger('tipo')){
             echo json_encode($this->_ajax->getCiclosAjax($this->getInteger('tipo')));
         }
-    }    
+    }
     
     public function getPeriodosAjax(){
         if($this->getInteger('tipo')){

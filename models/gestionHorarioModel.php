@@ -29,7 +29,6 @@ class gestionHorarioModel extends Model {
             return $info->fetchall();
         }
     }
-
     
     public function getDias() {
         $info = $this->_db->query("select * from spconsultageneral('codigo,nombre','cur_dia');");

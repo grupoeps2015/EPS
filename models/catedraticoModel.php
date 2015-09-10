@@ -27,7 +27,7 @@ class catedraticoModel extends Model {
     public function getCatedraticos($centrounidad){
         $info = $this->_db->query("SELECT * from spinformacioncatedratico(" . $centrounidad . ");");
         if($info === false){
-            return "1103/getCatedraticos";
+            return "1104/getCatedraticos";
         }else{
             return $info->fetchall();
         }

@@ -19,7 +19,7 @@
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
                         <form method='post' name='frmPost' id='frmPost' action='<?php echo BASE_URL?>gestionHorario/agregarHorario'>
-                            <i class="fa fa-2x fa-user-plus wow bounceIn text-primary" data-wow-delay=".2s">
+                            <i class="fa fa-2x fa-clock-o wow bounceIn text-primary" data-wow-delay=".2s">
                                 <a id="linkNuevoHor" href="#">Agregar Horario</a>
                             </i>
                             <input type="hidden" name='hdIdCurso' value="<?php if(isset($this->idcurso)) echo $this->idcurso;?>"/>

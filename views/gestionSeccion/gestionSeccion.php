@@ -13,11 +13,11 @@
                         </i>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6 text-center"></div>
-                <div class="col-lg-3 col-md-6 text-center">
+                <div class="col-lg-2 col-md-6 text-center"></div>
+                <div class="col-lg-4 col-md-6 text-center">
                     <div class="service-box">
                         <form method='post' name='frmPostHorario' id='frmPostHorario' action='<?php echo BASE_URL?>gestionHorario/seleccionarCicloCurso'>
-                            <i class="fa fa-2x fa-user-plus wow bounceIn text-primary" data-wow-delay=".2s">
+                            <i class="fa fa-2x fa-calendar wow bounceIn text-primary" data-wow-delay=".2s">
                                 <a id="linkGestionHorario" href="#">Gesti&oacute;n de Horarios</a>
                             </i>
                             <input type="hidden" name='hdCentroUnidad' value="<?php echo $this->id;?>"/>
@@ -27,7 +27,7 @@
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
                         <form method='post' name='frmPost' id='frmPost' action='<?php echo BASE_URL?>gestionSeccion/agregarSeccion'>
-                            <i class="fa fa-2x fa-user-plus wow bounceIn text-primary" data-wow-delay=".2s">
+                            <i class="fa fa-2x fa-bell-o wow bounceIn text-primary" data-wow-delay=".2s">
                                 <a id="linkSeccionNueva" href="#">Agregar Secci&oacute;n</a>
                             </i>
                             <input type="hidden" name='hdCentroUnidad' value="<?php echo $this->id;?>"/>
