@@ -44,6 +44,46 @@ language 'plpgsql';
 --select parametro from spconsultageneral2('adm_parametro') as par(parametro integer,nombre text, valor text,descripcion text, centro integer,unidadacademica integer, carrera integer,extension integer, estado integer,tipoparametro integer);
 
 -- -----------------------------------------------------
+-- Function: spfuncionmenupadre()
+-- -----------------------------------------------------
+-- DROP FUNCTION spfuncionmenupadre(int);
+CREATE OR REPLACE FUNCTION spFuncionMenuPadre(Rol int, OUT FuncionMenu int, 
+					          OUT Url text, OUT Nombre text) RETURNS setof record as 
+$BODY$
+BEGIN
+  RETURN query
+		SELECT fm.FuncionMenu AS FuncionMenu, fm.Url AS Url, fm.Nombre AS Nombre
+		FROM ADM_FuncionMenu fm
+		JOIN ADM_Funcion f ON f.Funcion = fm.Funcion
+		JOIN ADM_Rol_Funcion rf ON rf.Funcion = fm.Funcion
+		WHERE fm.FuncionPadre IS NULL
+		AND rf.Rol = $1
+		ORDER BY fm.Nombre;		
+END;
+$BODY$
+LANGUAGE 'plpgsql';
+
+-- -----------------------------------------------------
+-- Function: spfuncionmenuhijo()
+-- -----------------------------------------------------
+-- DROP FUNCTION spfuncionmenuhijo(int,int);
+CREATE OR REPLACE FUNCTION spFuncionMenuHijo(FuncionPadre int, Rol int, OUT FuncionMenu int, 
+					          OUT Url text, OUT Nombre text) RETURNS setof record as 
+$BODY$
+BEGIN
+  RETURN query
+		SELECT fm.FuncionMenu, fm.Url, fm.Nombre
+		FROM ADM_FuncionMenu fm
+		JOIN ADM_Funcion f ON f.Funcion = fm.Funcion
+		JOIN ADM_Rol_Funcion rf ON rf.Funcion = fm.Funcion
+		WHERE fm.FuncionPadre = $1
+		AND rf.Rol = $2
+		ORDER BY fm.Nombre;
+END;
+$BODY$
+LANGUAGE 'plpgsql';
+
+-- -----------------------------------------------------
 -- Function: spMunicipioXDepto()
 -- -----------------------------------------------------
 -- DROP FUNCTION spMunicipioXDepto(integer);
@@ -177,6 +217,7 @@ $BODY$
   COST 100
   ROWS 1000;
 ALTER FUNCTION spperiodoxtipo(integer)
+
   OWNER TO postgres;
   
   

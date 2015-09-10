@@ -13,7 +13,7 @@ class gestionParametroModel extends Model{
     //Metodos utiliados para agregar parametros nuevos
     public function agregarParametro($_datos){
         $sp = '\'' . $_datos["nombre"] . '\',\'' . $_datos["valor"] . '\',';
-        $sp .= '\'' . $_datos["descripcion"] . '\',' . $_datos["centro_unidadacademica"] . ',';
+        $sp .= '\'' . trim($_datos["descripcion"]) . '\',' . $_datos["centro_unidadacademica"] . ',';
         $sp .= $_datos["carrera"] . ',';
         $sp .= $_datos["extension"] . ',' . $_datos["tipoparametro"];
         
@@ -47,10 +47,10 @@ class gestionParametroModel extends Model{
     public function actualizarParametro($_datos) {
         $sp = $_datos["parametro"] . ',';
         $sp .= '\'' . $_datos["nombre"] . '\',\'' . $_datos["valor"] . '\',';
-        $sp .= '\'' . $_datos["descripcion"] . '\',' . $_datos["centro_unidadacademica"] . ',';
+        $sp .= '\'' . trim($_datos["descripcion"]) . '\',' . $_datos["centro_unidadacademica"] . ',';
         $sp .= $_datos["carrera"] . ',';
         $sp .= $_datos["extension"] . ',null,' . $_datos["tipoparametro"];
-      
+        
         $info = $this->_db->query("SELECT spModificarParametro(" . $sp. ");");
         if($info === false){
             return "1103/actualizarParametro";
