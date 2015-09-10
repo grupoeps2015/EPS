@@ -34,8 +34,8 @@
             <div class="row">
                 <form id="frEdificios" method="post" action="<?php echo BASE_URL; ?>gestionEdificios/agregarEdificio">
                     <div id="divEdificios" class="form-group" >
-                        <div align="center" style="margin-left: 10%; margin-right: 10%;">
-                            <table id="tbEdificios" border="1">
+                        <div align="center" style="margin-top: 30px; margin-left: 10%; margin-right: 10%;">
+                            <table id="tbEdificios">
                                 <thead>
                                     <tr>
                                         <th style="text-align:center; padding-right: 20px;">Nombre Unidad Academica</th>
@@ -48,7 +48,7 @@
                                 </thead>
                                 <tbody>
                                     <?php if (isset($this->lstEdificio) && count($this->lstEdificio)): ?>
-                                    <?php print_r($this->lstEdificio); ?>
+                                   
                                         <?php for ($i = 0; $i < count($this->lstEdificio); $i++) : ?>
                                             <tr>
                                                 <td style="text-align: center; padding-right: 20px;"><?php echo $this->lstEdificio[$i]['nombreunidadacademica']; ?></td>
