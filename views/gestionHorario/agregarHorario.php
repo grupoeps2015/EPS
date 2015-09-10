@@ -75,10 +75,14 @@
                                         *Catedrático:     
                                         <?php if(isset($this->catedraticos) && count($this->catedraticos)): ?>
                                         <select id="slCatedraticos" name="slCatedraticos" class="form-control input-lg">
-                                            <option value="">-- Tipo período --</option>
                                             <?php for($i =0; $i < count($this->catedraticos); $i++) : ?>
-                                            <option value="<?php echo $this->catedraticos[$i]['codigo'];?>">
-                                                <?php echo $this->catedraticos[$i]['nombre']; ?>
+                                            <option value="<?php echo $this->catedraticos[$i]['id'];?>">
+                                                <?php echo $this->catedraticos[$i]['registro']." - "; ?>
+                                                <?php if($this->catedraticos[$i]['primernombre'] != ""){echo $this->catedraticos[$i]['primernombre']." ";} ?>
+                                                <?php if($this->catedraticos[$i]['segundonombre'] != ""){echo $this->catedraticos[$i]['segundonombre']." ";} ?>
+                                                <?php if($this->catedraticos[$i]['primerapellido'] != ""){echo $this->catedraticos[$i]['primerapellido']." ";} ?>
+                                                <?php if($this->catedraticos[$i]['segundoapellido'] != ""){echo $this->catedraticos[$i]['segundoapellido']." ";} ?>
+                                                <?php echo "- ".$this->catedraticos[$i]['tipodocente']; ?>
                                             </option>
                                             <?php endfor;?>
                                         </select><br/>
