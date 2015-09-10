@@ -88,6 +88,7 @@
                     </tr>
                 </table>
                 <input type="hidden" id="hdSeccion" name="hdSeccion">
+                <input type="hidden" name='hdCentroUnidad' value="<?php echo $this->id;?>"/>
             </form>
         </div>
     </div>

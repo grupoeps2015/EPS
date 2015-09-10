@@ -7,7 +7,6 @@
  */
 
 class gestionParametroController extends Controller{
-    
     private $_post;
     
     public function __construct() {
@@ -31,8 +30,22 @@ class gestionParametroController extends Controller{
     public function agregarParametro(){
         $iden = $this->getInteger('hdEnvio');
         $arrayPar = array();
-        $this->_view->centro_unidadacademica = $this->_post->getCentro_UnidadAcademica();
-        $this->_view->tipoparametro = $this->_post->getTipoParametro();
+        
+        $unicentro = $this->_post->getCentro_UnidadAcademica();
+        if(is_array($unicentro)){
+            $this->_view->centro_unidadacademica = $unicentro;
+        }else{
+            $this->redireccionar("error/sql/" . $unicentro);
+            exit;
+        }
+        
+        $tipoparam = $this->_post->getTipoParametro();
+        if(is_array($tipoparam)){
+            $this->_view->tipoparametro = $tipoparam;
+        }else{
+            $this->redireccionar("error/sql/" . $tipoparam);
+            exit;
+        }
         
         $this->_view->titulo = 'Agregar Parametro - ' . APP_TITULO;
         $this->_view->setJs(array('agregarParametro'));
@@ -46,7 +59,13 @@ class gestionParametroController extends Controller{
             $arrayPar["carrera"] = $this->getInteger('slCarreras');
             $arrayPar["extension"] = $this->getTexto('txtExtensionParametro');         
             $arrayPar["tipoparametro"] =  $this->getInteger('slTipoParametro');
-            $this->_view->query = $this->_post->agregarParametro($arrayPar);
+            
+            $info = $this->_view->query = $this->_post->agregarParametro($arrayPar);
+            if(!is_array($info)){
+                $this->redireccionar("error/sql/" . $info);
+                exit;
+            }
+            
             $this->redireccionar('gestionParametro');
         }
         
@@ -55,7 +74,11 @@ class gestionParametroController extends Controller{
     
     public function eliminarParametro($intNuevoEstado, $intIdParametro){
         if($intNuevoEstado == -1 || $intNuevoEstado == 1){
-            $this->_post->eliminarParametro($intIdParametro,$intNuevoEstado);
+            $info = $this->_post->eliminarParametro($intIdParametro,$intNuevoEstado);
+            if(!is_array($info)){
+                $this->redireccionar("error/sql/" . $info);
+                exit;
+            }
             $this->redireccionar('gestionParametro');
         }else{
             $this->_view->cambio = "No reconocio ningun parametro";    
@@ -64,21 +87,36 @@ class gestionParametroController extends Controller{
     
     public function actualizarParametro($intIdParametro = 0) {
         $valorPagina = $this->getInteger('hdEnvio');
-        $actualizar = false;
         $this->_view->setJs(array('jquery.validate'), "public");
         $this->_view->setJs(array('actualizarParametro'));
-        $this->_view->centro_unidadacademica = $this->_post->getCentro_UnidadAcademica();
-        $this->_view->tipoparametro = $this->_post->getTipoParametro();
+        
+        $unicentro = $this->_post->getCentro_UnidadAcademica();
+        if(is_array($unicentro)){
+            $this->_view->centro_unidadacademica = $unicentro;
+        }else{
+            $this->redireccionar("error/sql/" . $unicentro);
+            exit;
+        }
+        
+        $tipoparam = $this->_post->getTipoParametro();
+        if(is_array($tipoparam)){
+            $this->_view->tipoparametro = $tipoparam;
+        }else{
+            $this->redireccionar("error/sql/" . $tipoparam);
+            exit;
+        }
         
         $arrayPar = array();
         $this->_view->id = $intIdParametro;
-        $this->_view->datosPar = $this->_post->datosParametro($intIdParametro);
-        
-        if ($valorPagina == 1) {
-            $actualizar = true;
+        $datosPar = $this->_post->datosParametro($intIdParametro);
+        if(is_array($datosPar)){
+            $this->_view->datosPar = $datosPar;
+        }else{
+            $this->redireccionar("error/sql/" . $datosPar);
+            exit;
         }
         
-        if($actualizar){
+        if ($valorPagina == 1) {
             $arrayPar["parametro"] = $intIdParametro;
             $arrayPar["nombre"] = $this->getTexto('txtNombreParametro');
             $arrayPar["valor"] = $this->getTexto('txtValorParametro');
@@ -88,7 +126,12 @@ class gestionParametroController extends Controller{
             $arrayPar["extension"] = $this->getTexto('txtExtensionParametro');         
             $arrayPar["tipoparametro"] =  $this->getInteger('slTipoParametro');
             
-            $this->_post->actualizarParametro($arrayPar);
+            $info = $this->_post->actualizarParametro($arrayPar);
+            if(!is_array($info)){
+                $this->redireccionar("error/sql/" . $info);
+                exit;
+            }
+            
             $this->redireccionar('gestionParametro/actualizarParametro/' . $intIdParametro);
         }
         $this->_view->renderizar('actualizarParametro', 'gestionParametro');

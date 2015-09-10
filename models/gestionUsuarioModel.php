@@ -166,7 +166,7 @@ class gestionUsuarioModel extends Model {
         
         $info = $this->_db->query("SELECT * from spactualizarusuario(" . $sp . ");");
         if($info === false){
-            return "1103/datosUsuario";
+            return "1103/actualizarUsuario";
         }else{
             return $info->fetchall();
         }

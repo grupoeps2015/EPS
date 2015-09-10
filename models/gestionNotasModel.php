@@ -7,12 +7,11 @@ class gestionNotasModel extends Model {
     }
  
     public function getCursos() {
-        try{
-            $post = $this->_db->query("select * from spconsultageneral('curso,nombre','cur_curso');");
-            return $post->fetchall();
-        }catch(Exception $e){
-            $error = "Error de sql: " . $e->getMessage();
-            return $error;
+        $info = $this->_db->query("select * from spconsultageneral('curso,nombre','cur_curso');");
+        if($info === false){
+            return "1104/getCursos";
+        }else{
+            return $info->fetchall();
         }
     }
     

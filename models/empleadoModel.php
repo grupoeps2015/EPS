@@ -15,12 +15,12 @@ class empleadoModel extends Model {
         $sp  = $_datos["id"] . ',\'' . $_datos["direccion"] . '\',';
         $sp .= $_datos["zona"] . ',' . $_datos["muni"] . ',\'';
         $sp .= $_datos["telefono"] . '\',' . $_datos["pais"];
-        try{
-            $this->_db->query("SELECT spUpdateInfoGeneralEmpleado(" . $sp . ");");
-            return "OK";
-        }catch(Exception $e){
-            $error = "Error de sql: " . $e->getMessage();
-            return $error;
+        
+        $info = $this->_db->query("SELECT spUpdateInfoGeneralEmpleado(" . $sp . ");");
+        if($info === false){
+            return "1103/setInfo";
+        }else{
+            return $info->fetchall();
         }
     }
        

@@ -9,4 +9,8 @@ $(document).ready( function () {
         $('#frmPost').submit();
     });
     
+    $('#linkGestionHorario').click(function(){
+        $('#frmPostHorario').submit();
+    });
+    
 } );
