@@ -526,3 +526,48 @@ INSERT INTO cur_tipoperiodo (tipoperiodo,nombre,descripcion,estado) VALUES (1,'S
 -- Insert cur_periodo
 -- -----------------------------------------------------
 INSERT INTO cur_periodo (periodo,duracionminutos,tipoperiodo) VALUES (1,90,1);
+
+
+/* ****************Datos de prueba para el menú (no oficiales)*/
+-- -----------------------------------------------------
+-- Insert adm_modulo
+-- -----------------------------------------------------
+INSERT INTO adm_modulo (modulo,nombre,descripcion,estado) values (1,'ADM','Administracion',1);
+
+-- -----------------------------------------------------
+-- Insert adm_funcion
+-- -----------------------------------------------------
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (1,1,null,'Funcion1',1,'Funcion1');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (2,1,null,'Funcion2',1,'Funcion2');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (3,1,null,'Funcion3',1,'Funcion3');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (4,1,1,'Funcion1.1',1,'Funcion1.1');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (5,1,1,'Funcion1.2',1,'Funcion1.2');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (6,1,2,'Funcion2.1',1,'Funcion2.2');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (7,1,4,'Funcion1.1.1',1,'Funcion1.1.1');
+
+-- -----------------------------------------------------
+-- Insert adm_rol_funcion
+-- -----------------------------------------------------
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,1);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,2);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,3);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,4);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,5);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,6);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (1,3);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,7);
+
+-- -----------------------------------------------------
+-- Insert adm_funcionmenu
+-- -----------------------------------------------------
+INSERT INTO adm_funcionmenu (funcionmenu,nombre,tipo,url,funcionpadre,funcion,orden,estado) VALUES (1,'FuncionMenu1',1,null,null,1,1,1);
+INSERT INTO adm_funcionmenu (funcionmenu,nombre,tipo,url,funcionpadre,funcion,orden,estado) VALUES (2,'FuncionMenu2',1,null,null,2,1,1);
+INSERT INTO adm_funcionmenu (funcionmenu,nombre,tipo,url,funcionpadre,funcion,orden,estado) VALUES (3,'FuncionMenu3',1,null,null,3,1,1);
+INSERT INTO adm_funcionmenu (funcionmenu,nombre,tipo,url,funcionpadre,funcion,orden,estado) VALUES (4,'FuncionMenu1.1',2,null,1,4,1,1);
+INSERT INTO adm_funcionmenu (funcionmenu,nombre,tipo,url,funcionpadre,funcion,orden,estado) VALUES (5,'FuncionMenu1.2',2,null,1,5,1,1);
+INSERT INTO adm_funcionmenu (funcionmenu,nombre,tipo,url,funcionpadre,funcion,orden,estado) VALUES (6,'FuncionMenu2.1',2,null,2,6,1,1);
+INSERT INTO adm_funcionmenu (funcionmenu,nombre,tipo,url,funcionpadre,funcion,orden,estado) VALUES (7,'FuncionMenu1.1.1',3,null,4,7,1,1);
+
+
+/* ****************Terminan datos de prueba para menú*/
+

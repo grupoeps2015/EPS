@@ -36,6 +36,7 @@
                 session_start();
             }
         ?>
+        
         <!--BARRA SUPERIOR Y MENU-->
         <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
             <div class="container-fluid">
@@ -75,13 +76,17 @@
                     </ul>
                 </div>
             </div>
+            
+            <!--Menú-->
+            <div id="menugenerado" name="menugenerado"></div>
+              
         </nav>
         <!-- FIN BARRA SUPERIOR Y MENU -->
         
-        <!-- INICIO MENU 
-        <?php if(isset($_SESSION["nombre"])): ?>
-        <br/><br/>
-        <iframe src="<?php echo BASE_URL?>menu.php" name="menu" style="width: 20%; height: 100%; border:0px;"></iframe>        
-        <?php endif; ?>
-        FIN MENU -->
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $( "#menugenerado" ).load("<?php echo BASE_URL?>views/menu/menu.php");
+             });
+        </script>
+        
         

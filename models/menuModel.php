@@ -22,12 +22,15 @@ class menuModel extends Model {
         }
     }
     
-    public function insertarBitacoraAsignacion($_datos) {
-        
+    public function consultarFuncionMenuHijo($funcionpadre,$rol) {
+        try{
+            $post = $this->_db->query("SELECT * FROM spFuncionMenuHijo(".$funcionpadre . ",".$rol.");");
+            return $post->fetchall();
+        }catch(Exception $e){
+            $error = "Error de sql: " . $e->getMessage();
+            return $error;
+        }
     }
     
-    public function insertarBitacoraNota($_datos) {
-        
-    }
     
 }

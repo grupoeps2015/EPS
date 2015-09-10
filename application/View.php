@@ -33,7 +33,7 @@ class View{
         $rutaView = ROOT . 'views' . DS . $this->_controlador . DS . $vista . '.php';
         if(is_readable($rutaView)){
             include_once ROOT . 'views' . DS . 'layout' . DS . 'header.php';
-            include_once $rutaView;
+            include_once $rutaView;            
             include_once ROOT . 'views' . DS . 'layout' . DS . 'footer.php';
         }else{
             throw new Exception('View not found ' . $rutaView);
