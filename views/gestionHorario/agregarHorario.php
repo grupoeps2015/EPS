@@ -9,7 +9,7 @@
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
                         <i class="fa fa-2x fa-backward wow bounceIn text-primary" data-wow-delay=".2s">
-                            <a href="<?php echo BASE_URL?>gestionHorario">
+                            <a href="<?php echo BASE_URL?>gestionHorario/index/<?php echo $this->id;?>">
                                 Regresar
                             </a>
                         </i>
@@ -73,61 +73,97 @@
                                 <tr>
                                     <td colspan="3">
                                         *Catedrático:     
-                                        <select id="slTraslape" name="slTraslape" class="form-control input-lg">
-                                            <option value="false">No</option>
-                                            <option value="true">Sí</option>
-                                        </select>
-                                        <br/>
+                                        <?php if(isset($this->catedraticos) && count($this->catedraticos)): ?>
+                                        <select id="slCatedraticos" name="slCatedraticos" class="form-control input-lg">
+                                            <?php for($i =0; $i < count($this->catedraticos); $i++) : ?>
+                                            <option value="<?php echo $this->catedraticos[$i]['id'];?>">
+                                                <?php echo $this->catedraticos[$i]['registro']." - "; ?>
+                                                <?php if($this->catedraticos[$i]['primernombre'] != ""){echo $this->catedraticos[$i]['primernombre']." ";} ?>
+                                                <?php if($this->catedraticos[$i]['segundonombre'] != ""){echo $this->catedraticos[$i]['segundonombre']." ";} ?>
+                                                <?php if($this->catedraticos[$i]['primerapellido'] != ""){echo $this->catedraticos[$i]['primerapellido']." ";} ?>
+                                                <?php if($this->catedraticos[$i]['segundoapellido'] != ""){echo $this->catedraticos[$i]['segundoapellido']." ";} ?>
+                                                <?php echo "- ".$this->catedraticos[$i]['tipodocente']; ?>
+                                            </option>
+                                            <?php endfor;?>
+                                        </select><br/>
+                                        <?php else : ?>
+                                        &nbsp;
+                                        <?php endif;?>
+                                    </td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">
+                                        *Día:     
+                                        <?php if(isset($this->dias) && count($this->dias)): ?>
+                                        <select id="slDias" name="slDias" class="form-control input-lg">
+                                            <?php for($i =0; $i < count($this->dias); $i++) : ?>
+                                            <option value="<?php echo $this->dias[$i]['codigo'];?>">
+                                                <?php echo $this->dias[$i]['nombre']; ?>
+                                            </option>
+                                            <?php endfor;?>
+                                        </select><br/>
+                                        <?php else : ?>
+                                        &nbsp;
+                                        <?php endif;?>
                                     </td>
                                     <td>&nbsp;</td>
                                 </tr>
                                 <tr>
                                     <td>*Hora inicio:
-                                        <input type="text" id="txtCodigo" name="txtCodigo" class="form-control input-lg" value="<?php if(isset($this->datos['txtCodigo'])) echo $this->datos['txtCodigo']?>">
+                                        <input type="text" id="txtHoraInicial" name="txtHoraInicial" class="form-control input-lg" value="" style="text-align:right">
                                         <br/>
                                     </td>
-                                    <td>&nbsp;</td>
+                                    <td>:</td>
                                     <td>
-                                        *Hora fin:
-                                        <input type="text" id="txtNombre" name="txtNombre" class="form-control input-lg" value="<?php if(isset($this->datos['txtNombre'])) echo $this->datos['txtNombre']?>">
+                                        <input type="text" id="txtMinutoInicial" name="txtMinutoInicial" class="form-control input-lg" value="">
+                                    </td>    
+                                    <td>&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td>*Hora fin:
+                                        <input type="text" id="txtHoraFinal" name="txtHoraFinal" class="form-control input-lg" value="" style="text-align:right">
                                         <br/>
                                     </td>
+                                    <td>:</td>
+                                    <td>
+                                        <input type="text" id="txtMinutoFinal" name="txtMinutoFinal" class="form-control input-lg" value="">
+                                    </td>    
                                     <td>&nbsp;</td>
                                     <td rowspan="2" colspan="2">
                                         <input type="submit" id="btnAgregarHor" name="btnAgregarHor" value="Nuevo Horario" class="btn btn-danger btn-lg btn-block">
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>*Salón:
-                                        <input type="text" id="txtCodigo" name="txtCodigo" class="form-control input-lg" value="<?php if(isset($this->datos['txtCodigo'])) echo $this->datos['txtCodigo']?>">
-                                        <br/>
+                                    <td>*Edificio:
+                                        <?php if(isset($this->edificios) && count($this->edificios)): ?>
+                                        <select id="slEdificios" name="slEdificios" class="form-control input-lg">
+                                            <option value="">-- Edificio --</option>
+                                            <?php for($i =0; $i < count($this->edificios); $i++) : ?>
+                                            <option value="<?php echo $this->edificios[$i]['id'];?>">
+                                                <?php echo $this->edificios[$i]['nombre']; ?>
+                                            </option>
+                                            <?php endfor;?>
+                                        </select><br/>
+                                        <?php else : ?>
+                                        &nbsp;
+                                        <?php endif;?>
                                     </td>
                                     <td>&nbsp;</td>
                                     <td>
-                                        *Edificio:
-                                        <input type="text" id="txtNombre" name="txtNombre" class="form-control input-lg" value="<?php if(isset($this->datos['txtNombre'])) echo $this->datos['txtNombre']?>">
-                                        <br/>
+                                        *Salón:
+                                        <select id="slSalones" name="slSalones" class="form-control input-lg">
+                                            <option value="" disabled>-- Salón --</option>
+                                        </select><br/>
                                     </td>
                                     <td>&nbsp;</td>
                                 </tr>
                             </table>
-<!--                            <table>
-                                <tr>
-                                    <td colspan="3" width="100%">
-                                        *Nombre:
-                                        <input type="text" id="txtNombre" name="txtNombre" class="form-control input-lg" value="<?php if(isset($this->datos['txtNombre'])) echo $this->datos['txtNombre']?>">
-                                        <br/>
-                                    </td>
-                                    <td>&nbsp;</td>
-                                    <td>
-                                        <input type="submit" id="btnAgregarHor" name="btnAgregarHor" value="Nuevo Horario" class="btn btn-danger btn-lg btn-block">
-                                    </td>
-                                </tr>
-                            </table>-->
                             <br />
                         </div>
                     </div>
                     <input type="hidden" name="hdEnvio" value="1">
+                    <input type="hidden" name='hdCentroUnidad' value="<?php echo $this->id;?>"/>
                 </form>
             </div>
         </div>

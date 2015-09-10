@@ -40,7 +40,7 @@
                                 Volver
                         </a>
                     </h3>
-                    <p class="text-muted">a la pagina de inicio</p>
+                    <p class="text-muted">a la p&aacute;gina de inicio</p>
             </div>
         </div>
     </div>

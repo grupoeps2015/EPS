@@ -6,7 +6,6 @@
  * @author Rickardo
  */
 class ajaxController extends Controller{
-    
     private $_ajax;
     
     public function __construct() {
@@ -34,11 +33,17 @@ class ajaxController extends Controller{
         if($this->getInteger('tipo')){
             echo json_encode($this->_ajax->getCiclosAjax($this->getInteger('tipo')));
         }
-    }
+    }    
     
     public function getPeriodosAjax(){
         if($this->getInteger('tipo')){
             echo json_encode($this->_ajax->getPeriodosAjax($this->getInteger('tipo')));
+        }
+    }
+    
+    public function getSalonesAjax(){
+        if($this->getInteger('edificio')){
+            echo json_encode($this->_ajax->getSalonesAjax($this->getInteger('edificio')));
         }
     }
     

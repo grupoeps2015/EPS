@@ -16,33 +16,31 @@ class gestionParametroModel extends Model{
         $sp .= '\'' . trim($_datos["descripcion"]) . '\',' . $_datos["centro_unidadacademica"] . ',';
         $sp .= $_datos["carrera"] . ',';
         $sp .= $_datos["extension"] . ',' . $_datos["tipoparametro"];
-        try{        
-            $this->_db->query("SELECT spagregarparametro(" . $sp . ");");
-            return "OK";
-        }catch(Exception $e){
-            $error = "Error de sql: " . $e->getMessage();
-            return $error;
+        
+        $info = $this->_db->query("SELECT spagregarparametro(" . $sp . ");");
+        if($info === false){
+            return "1101/agregarParametro";
+        }else{
+            return $info->fetchall();
         }
     }
         
     //Metodos utilizados para cambiar estado del usuario
     public function informacionParametro(){
-        try{
-            $post = $this->_db->query("select * from spInformacionParametro();");
-            return $post->fetchall();
-        }catch(Exception $e){
-            $error = "Error de sql: " . $e->getMessage();
-            return $error;
+        $info = $this->_db->query("select * from spInformacionParametro();");
+        if($info === false){
+            return "1104/informacionParametro";
+        }else{
+            return $info->fetchall();
         }
     }
     
     public function eliminarParametro($intIdParametro, $intEstadoNuevo){
-        try{
-            $this->_db->query("SELECT spModificarParametro(" . $intIdParametro . ",null,null,null,null,null,null," . $intEstadoNuevo . ",null);");
-            return "OK";
-        }catch(Exception $e){
-            $error = "Error de sql: " . $e->getMessage();
-            return $error;
+        $info = $this->_db->query("SELECT spModificarParametro(" . $intIdParametro . ",null,null,null,null,null,null," . $intEstadoNuevo . ",null);");
+        if($info === false){
+            return "1102/eliminarParametro";
+        }else{
+            return $info->fetchall();
         }
     }
     
@@ -53,45 +51,38 @@ class gestionParametroModel extends Model{
         $sp .= $_datos["carrera"] . ',';
         $sp .= $_datos["extension"] . ',null,' . $_datos["tipoparametro"];
         
-        try{
-            $this->_db->query("SELECT spModificarParametro(" . $sp. ");");
-            $file = fopen("log.txt", "a");
-                fwrite($file,  $_datos["descripcion"] . PHP_EOL);
-                fclose($file);
-            return "OK";
-        }catch(Exception $e){
-            $error = "Error de sql: " . $e->getMessage();
-            return $error;
-        }       
+        $info = $this->_db->query("SELECT spModificarParametro(" . $sp. ");");
+        if($info === false){
+            return "1103/actualizarParametro";
+        }else{
+            return $info->fetchall();
+        }
     }
     
     public function datosParametro($idParametro) {
-        try {
-            $post = $this->_db->query("select * from spdatosparametro('" . $idParametro . "');");
-            return $post->fetchall();
-        }catch(Exception $e){
-            $error = "Error de sql: " . $e->getMessage();
-            return $error;
+        $info = $this->_db->query("select * from spdatosparametro('" . $idParametro . "');");
+        if($info === false){
+            return "1104/datosParametro";
+        }else{
+            return $info->fetchall();
         }
     }
     
     public function getCentro_UnidadAcademica() {
-        try{
-            $post = $this->_db->query("select * from spconsultacentrounidadacademica();");
-            return $post->fetchall();
-        }catch(Exception $e){
-            $error = "Error de sql: " . $e->getMessage();
-            return $error;
+        $info = $this->_db->query("select * from spconsultacentrounidadacademica();");
+        if($info === false){
+            return "1104/getCentro_UnidadAcademica";
+        }else{
+            return $info->fetchall();
         }
     }
     
     public function getTipoParametro() {
-        try{
-            $post = $this->_db->query("select * from spConsultaTipoParametro();");
-            return $post->fetchall();
-        }catch(Exception $e){
-            $error = "Error de sql: " . $e->getMessage();
-            return $error;
+        $info = $this->_db->query("select * from spConsultaTipoParametro();");
+        if($info === false){
+            return "1104/getTipoParametro";
+        }else{
+            return $info->fetchall();
         }
     }
     

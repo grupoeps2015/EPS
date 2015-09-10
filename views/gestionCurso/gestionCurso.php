@@ -13,12 +13,12 @@
                         </i>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6 text-center"></div>
-                <div class="col-lg-3 col-md-6 text-center">
+                <div class="col-lg-2 col-md-6 text-cenater"></div>
+                <div class="col-lg-4 col-md-6 text-center">
                     <div class="service-box">
                         <form method='post' name='frmPost1' id='frmPost1' action='<?php echo BASE_URL?>gestionSeccion'>
-                            <i class="fa fa-2x fa-plus-circle wow bounceIn text-primary" data-wow-delay=".2s">
-                                <a id="linkSeccion" href="#">Crear Secci&oacute;n</a>
+                            <i class="fa fa-2x fa-edit wow bounceIn text-primary" data-wow-delay=".2s">
+                                <a id="linkSeccion" href="#">Gesti&oacute;n de Secciones</a>
                             </i>
                             <input type="hidden" name='hdCentroUnidad' value="<?php echo $this->id;?>"/>
                         </form>
@@ -27,7 +27,7 @@
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
                         <form method='post' name='frmPost2' id='frmPost2' action='<?php echo BASE_URL?>gestionCurso/agregarCurso'>
-                            <i class="fa fa-2x fa-user-plus wow bounceIn text-primary" data-wow-delay=".2s">
+                            <i class="fa fa-2x fa-tags wow bounceIn text-primary" data-wow-delay=".2s">
                                 <a id="linkNuevoUsr" href="#">Agregar Curso</a>
                             </i>
                             <input type="hidden" name='hdCentroUnidad' value="<?php echo $this->id;?>"/>

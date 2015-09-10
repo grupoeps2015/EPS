@@ -60,30 +60,30 @@ ALTER FUNCTION speliminarAsignacionEdificio(integer, integer)
 
 
   
--- Function: spInformacionEdificio(integer)
+-- Function: spDatosEdificio(integer)
 
--- DROP FUNCTION spInformacionEdificio(integer);
+-- DROP FUNCTION spDatosEdificio(integer);
 
-CREATE OR REPLACE FUNCTION spInformacionEdificio(
-    IN _idEdificio integer,
-    OUT _nombreUnidadAcademica text,
-    OUT _nombreCentro text,
-	OUT _jornada text,
-    OUT _estado text)
+CREATE OR REPLACE FUNCTION spDatosEdificio(
+    IN idEdificio integer,
+    OUT nombreUnidadAcademica text,
+    OUT nombreCentro text,
+    OUT jornada text,
+    OUT estado integer)
   RETURNS SETOF record AS
 $BODY$
 BEGIN
   RETURN query
-	select u.nombre, c.nombre, j.nombre, query1.estado from ADM_UnidadAcademica u JOIN (
+	select u.nombre nombreUnidad, c.nombre nombreCentro, j.nombre jornada, query1.estado estado from ADM_UnidadAcademica u JOIN (
 	select acu.unidadAcademica unidad, acu.centro centro, ace.edificio edificio, ace.jornada jornada, ace.estado estado 
 	from ADM_CentroUnidad_Edificio ace join ADM_Centro_UnidadAcademica acu ON ace.centro_unidadAcademica = acu.centro_unidadAcademica) query1 ON
-	u.unidadacademica = query1.unidad JOIN ADM_Centro c ON c.centro = query1.centro JOIN cur_jornada j ON j.jornada = query1.jornada where query1.edificio = _idEdificio;
+	u.unidadacademica = query1.unidad JOIN ADM_Centro c ON c.centro = query1.centro JOIN cur_jornada j ON j.jornada = query1.jornada where query1.edificio = idEdificio;
 END;
 $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100
   ROWS 1000;
-ALTER FUNCTION spInformacionEdificio(integer)
+ALTER FUNCTION spDatosEdificio(integer)
   OWNER TO postgres;
 
   

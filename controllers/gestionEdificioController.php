@@ -26,7 +26,15 @@ class gestionEdificioController extends Controller {
             $idEdificio = $id;
         }
         $this->_view->id = $idEdificio;
-        $this->_view->lstEdificio = $this->_post->informacionAsignacionEdificio($idEdificio);
+        
+        $info = $this->_post->informacionAsignacionEdificio($idEdificio);
+        if(is_array($info)){
+            $this->_view->lstEdificio = $info;
+        }else{
+            $this->redireccionar("error/sql/" . $info);
+            exit;
+        }
+        
         $this->_view->titulo = 'Gestión de Edificios - ' . APP_TITULO;
         $this->_view->setJs(array('gestionEdificio'));
         $this->_view->setJs(array('jquery.dataTables.min'), "public");

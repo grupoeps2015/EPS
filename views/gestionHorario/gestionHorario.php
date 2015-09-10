@@ -24,6 +24,7 @@
                             </i>
                             <input type="hidden" name='hdIdCurso' value="<?php if(isset($this->idcurso)) echo $this->idcurso;?>"/>
                             <input type="hidden" name='hdCurso' value="<?php if(isset($this->curso)) echo $this->curso;?>"/>
+                            <input type="hidden" name='hdCentroUnidad' value="<?php echo $this->id;?>"/>
                         </form>
                     </div>
                 </div>
@@ -39,8 +40,8 @@
                         <tr>
                             <th style="text-align:center">Jornada</th>
                             <th style="text-align:center">Duraci&oacute;n</th>
-                            <th style="text-align:center">Hora Inicio</th>
-                            <th style="text-align:center">Hora Fin</th>
+                            <th style="text-align:center">D&iacute;a</th>
+                            <th style="text-align:center">Inicio - Fin</th>
                             <th style="text-align:center">Edificio</th>
                             <th style="text-align:center">Sal&oacute;n</th>
                             <th style="text-align:center">Catedr&aacute;tico</th>

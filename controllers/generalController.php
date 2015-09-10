@@ -28,7 +28,14 @@ class generalController extends Controller{
         }
         session_start();
         if (isset($_SESSION["rol"]) && $_SESSION["rol"] == ROL_ADMINISTRADOR){
-            $this->_view->lstCentros = $this->_ajax->getCentro();
+            $lstCentros = $this->_ajax->getCentro();
+            if(is_array($lstCentros)){
+                $this->_view->lstCentros = $lstCentros;
+            }else{
+                $this->redireccionar("error/sql/" . $lstCentros);
+                exit;
+            }
+            
             $this->_view->titulo = 'Seleccionar Centro y Unidad - ' . APP_TITULO;
             $this->_view->url = $url;
             $this->_view->setJs(array('seleccionarCentroUnidad'));

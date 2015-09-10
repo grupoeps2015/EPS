@@ -24,11 +24,22 @@ class gestionSeccionController extends Controller {
     public function index($id=0) {
         if($this->getInteger('hdCentroUnidad')){
             $idCentroUnidad = $this->getInteger('hdCentroUnidad');
-        }else{
+        }else if ($id != 0){
             $idCentroUnidad = $id;
+        }else{
+            session_start();
+            $idCentroUnidad = $_SESSION["centrounidad"];
         }
         $this->_view->id= $idCentroUnidad;
-        $this->_view->lstSec = $this->_post->informacionSeccion($idCentroUnidad);
+        
+        $lstSec = $this->_post->informacionSeccion($idCentroUnidad);
+        if(is_array($lstSec)){
+            $this->_view->lstSec = $lstSec;
+        }else{
+            $this->redireccionar("error/sql/" . $lstSec);
+            exit;
+        }
+        
         $this->_view->titulo = 'Gestión de secciones - ' . APP_TITULO;
         $this->_view->setJs(array('gestionSeccion'));
         $this->_view->setJs(array('jquery.dataTables.min'), "public");
@@ -38,8 +49,23 @@ class gestionSeccionController extends Controller {
 
     public function agregarSeccion() {
         $idCentroUnidad = $this->getInteger('hdCentroUnidad');
-        $this->_view->tiposSeccion = $this->_post->getTiposSeccion();
-        $this->_view->cursos = $this->_postCurso->informacionCurso(CENTRO_UNIDADACADEMICA);
+        
+        $secciones = $this->_post->getTiposSeccion();
+        if(is_array($secciones)){
+            $this->_view->tiposSeccion = $secciones;
+        }else{
+            $this->redireccionar("error/sql/" . $secciones);
+            exit;
+        }
+        
+        $cursos = $this->_postCurso->informacionCurso(CENTRO_UNIDADACADEMICA);
+        if(is_array($cursos)){
+            $this->_view->cursos = $cursos;
+        }else{
+            $this->redireccionar("error/sql/" . $cursos);
+            exit;
+        }
+        
         $this->_view->titulo = 'Agregar Sección - ' . APP_TITULO;
         $this->_view->id = $idCentroUnidad;
         $this->_view->setJs(array('agregarSeccion'));
@@ -58,7 +84,12 @@ class gestionSeccionController extends Controller {
             $arraySec['curso'] = $curso;
             $arraySec['estado'] = ESTADO_ACTIVO;
 
-            $this->_post->agregarSeccion($arraySec);
+            $info = $this->_post->agregarSeccion($arraySec);
+            if(!is_array($info)){
+                $this->redireccionar("error/sql/" . $info);
+                exit;
+            }
+            
             $this->redireccionar('gestionSeccion/index/'.$idCentroUnidad);
         }
         
@@ -67,7 +98,11 @@ class gestionSeccionController extends Controller {
     
     public function eliminarSeccion($intNuevoEstado, $intIdSeccion, $idCentroUnidad) {
         if ($intNuevoEstado == -1 || $intNuevoEstado == 1) {
-            $this->_post->eliminarSeccion($intIdSeccion, $intNuevoEstado);
+            $info = $this->_post->eliminarSeccion($intIdSeccion, $intNuevoEstado);
+            if(!is_array($info)){
+                $this->redireccionar("error/sql/" . $info);
+                exit;
+            }
             $this->redireccionar('gestionSeccion/index/'.$idCentroUnidad);
         } else {
             echo "Error al desactivar sección";
@@ -84,9 +119,30 @@ class gestionSeccionController extends Controller {
         $this->_view->idCentroUnidad = $idCentroUnidad;
         
         $this->_view->titulo = 'Actualizar Sección - ' . APP_TITULO;
-        $this->_view->tiposSeccion = $this->_post->getTiposSeccion();
-        $this->_view->datosSec = $this->_post->datosSeccion($intIdSeccion);
-        $this->_view->cursos = $this->_postCurso->informacionCurso(CENTRO_UNIDADACADEMICA);
+        
+        $secciones = $this->_post->getTiposSeccion();
+        if(is_array($secciones)){
+            $this->_view->tiposSeccion = $secciones;
+        }else{
+            $this->redireccionar("error/sql/" . $secciones);
+            exit;
+        }
+        
+        $info = $this->_post->datosSeccion($intIdSeccion);
+        if(is_array($info)){
+            $this->_view->datosSec = $info;
+        }else{
+            $this->redireccionar("error/sql/" . $info);
+            exit;
+        }
+        
+        $cursos = $this->_postCurso->informacionCurso(CENTRO_UNIDADACADEMICA);
+        if(is_array($cursos)){
+            $this->_view->cursos = $cursos;
+        }else{
+            $this->redireccionar("error/sql/" . $cursos);
+            exit;
+        }
         
         if ($this->getInteger('hdEnvio')) {
             $tipoSeccion = $this->getInteger('slTiposSeccion');
@@ -101,14 +157,17 @@ class gestionSeccionController extends Controller {
             $arraySec['curso'] = $curso;
 
             $respuesta = $this->_post->actualizarSeccion($arraySec);
-            if (isset($respuesta[0][0])){
+            if (is_array($respuesta)){
                 $this->redireccionar('gestionSeccion/index/'. $idCentroUnidad);
+            }else{
+                $this->redireccionar("error/sql/" . $respuesta);
+                exit;
             }
         }
         $this->_view->renderizar('actualizarSeccion', 'gestionSeccion');
     }
     
-//    public function cargarCSV(){
+    public function cargarCSV(){
 //        $iden = $this->getInteger('hdFile');
 //        $fileName = "";
 //        $fileExt = "";
@@ -137,5 +196,5 @@ class gestionSeccionController extends Controller {
 //            }
 //        }
 //        $this->redireccionar('gestionCurso/agregarCurso');
-//    }
+    }
 }

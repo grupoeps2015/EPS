@@ -181,7 +181,7 @@ $BODY$
 begin
  Return query select distinct
 		cic.ciclo,
-		cic.numerociclo || ' ' || tip.nombre || ' ' || cic.anio
+		cic.numerociclo || 'º ' || tip.nombre || ' ' || cic.anio
 	      from 
 	        cur_ciclo cic, cur_tipociclo tip 
 	      where cic.tipociclo = tip.tipociclo and cic.tipociclo = _tipo;
@@ -217,4 +217,32 @@ $BODY$
   COST 100
   ROWS 1000;
 ALTER FUNCTION spperiodoxtipo(integer)
+
   OWNER TO postgres;
+  
+  
+-- Function: spsalonesxedificio(integer)
+
+-- DROP FUNCTION spsalonesxedificio(integer);
+
+CREATE OR REPLACE FUNCTION spsalonesxedificio(
+    IN _edificio integer,
+    OUT codigo integer,
+    OUT nombre text)
+  RETURNS SETOF record AS
+$BODY$
+begin
+ Return query select distinct
+		sal.salon,
+		sal.nombre || ' - ' || sal.nivel || 'º nivel - ' || sal.capacidad || ' personas'
+	      from 
+	        cur_salon sal, cur_edificio edi 
+	      where sal.edificio = edi.edificio and edi.edificio = _edificio;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION spsalonesxedificio(integer)
+  OWNER TO postgres;
+

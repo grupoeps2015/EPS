@@ -5,7 +5,11 @@
  *
  * @author Arias
  */
-class autenticarUsuarioModel extends Model{
+class loginModel extends Model{
+    
+    public function login(){
+        
+    }
     
     public function autenticarUsuario($tipo, $usuario, $pass){
         $sp = $usuario . ',\''; 
@@ -24,12 +28,11 @@ class autenticarUsuarioModel extends Model{
             $sp .= ', \'registropersonal\', \'adm_empleado\'';
         }
         
-        try{
-            $autenticar = $this->_db->query("SELECT * from spAutenticarUsuario(" . $sp . ");");
+        $autenticar = $this->_db->query("SELECT * from spAutenticarUsuario(" . $sp . ");");
+        if($autenticar === false){
+            return "1104/autenticarUsuario";
+        }else{
             return $autenticar->fetchall();
-        }catch(Exception $e){
-            $error = "Error de sql: " . $e->getMessage();
-            return $error;
         }
     }
     
