@@ -455,7 +455,7 @@ INSERT INTO adm_rol(rol, nombre, estado) VALUES (3, 'Control Academico', 1);
 -- -----------------------------------------------------
 INSERT INTO cat_tipocatedratico(tipodocente, descripcion, estado) VALUES (1, 'Titular I', 1);
 INSERT INTO cat_tipocatedratico(tipodocente, descripcion, estado) VALUES (2, 'Titular II', 1);
-INSERT INTO cat_tipocatedratico(tipodocente, descripcion, estado) VALUES (3, 'Auxilair I', 1);
+INSERT INTO cat_tipocatedratico(tipodocente, descripcion, estado) VALUES (3, 'Auxiliar I', 1);
 INSERT INTO cat_tipocatedratico(tipodocente, descripcion, estado) VALUES (4, 'Auxiliar II', 1);
 
 -- -----------------------------------------------------

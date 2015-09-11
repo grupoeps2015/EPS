@@ -2,7 +2,7 @@
 <head>
   <meta charset="utf-8">
   <title>Men&uacute;</title>
-   <script>
+  <script type="text/javascript">
     $(document).ready(function() {
         
     $('li.padres').hover(function() {
@@ -21,18 +21,22 @@
 <body>
     
     <?php	
-    
+    include(realpath(dirname(__FILE__)) . "/application/Config.php");
     session_start();
-    $user = "postgres";
-    $password = "pruebas123";
-    $dbname = "EPS";
-    $port = "5432";
-    $host = "localhost";
-    $cadenaConexion = "host=$host port=$port dbname=$dbname user=$user password=$password";
+    $user = DB_USER;
+    $password = DB_PASS;
+    $dbname = DB_NAME;
+    
+    $host = DB_HOST;
+    $cadenaConexion = "host=$host dbname=$dbname user=$user password=$password";
     $conn = pg_connect($cadenaConexion);              
     $menus = array();    
     $listamenu = '';
     
+    /*$file = fopen("log.txt", "a");
+                fwrite($file, "HOST: " . DB_HOST. PHP_EOL);
+                fclose($file);*/
+                
     if (isset($_SESSION['rol'])){ 
        $GLOBALS['listamenu'] .= '<a id="titulomenu" href="#" class="dropdown-toggle" data-toggle="dropdown" style="color:#000080">Men&uacute; <b class="caret"></b></a>';
        $GLOBALS['listamenu'] .= '<ul class="dropdown-menu">';

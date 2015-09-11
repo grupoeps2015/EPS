@@ -69,23 +69,26 @@
                             <a class="page-scroll" style="color: darkslateblue" href="#contacto">Contacto</a>
                         </li>
                         <?php else: ?>
+                        <li>                            
+                            <!--Menú-->
+                            <div id="menugenerado" name="menugenerado"></div>
+                        </li>
                         <li>
                             <a class="page-scroll" style="color: black" href="<?php echo BASE_URL?>login/salir">Salir</a>
                         </li>
                         <?php endif; ?>
                     </ul>
                 </div>
+                
             </div>
             
-            <!--Menú-->
-            <div id="menugenerado" name="menugenerado"></div>
               
         </nav>
         <!-- FIN BARRA SUPERIOR Y MENU -->
         
         <script type="text/javascript">
             $(document).ready(function(){
-                $( "#menugenerado" ).load("<?php echo BASE_URL?>views/menu/menu.php");
+                $( "#menugenerado" ).load("<?php echo BASE_URL?>/menu.php");
              });
         </script>
         
