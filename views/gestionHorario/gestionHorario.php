@@ -22,9 +22,10 @@
                             <i class="fa fa-2x fa-clock-o wow bounceIn text-primary" data-wow-delay=".2s">
                                 <a id="linkNuevoHor" href="#">Agregar Horario</a>
                             </i>
-                            <input type="hidden" name='hdIdCurso' value="<?php if(isset($this->idcurso)) echo $this->idcurso;?>"/>
-                            <input type="hidden" name='hdCurso' value="<?php if(isset($this->curso)) echo $this->curso;?>"/>
-                            <input type="hidden" name='hdCentroUnidad' value="<?php echo $this->id;?>"/>
+                            <input type="hidden" name='slSec' value="<?php if(isset($this->idcurso)) echo $this->idcurso;?>"/>
+                            <input type="hidden" name='hdSeccion' value="<?php if(isset($this->curso)) echo $this->curso;?>"/>
+                            <input type="hidden" name='hdCentroUnidad' value="<?php if(isset($this->id)) echo $this->id;?>"/>
+                            <input type="hidden" name='slCiclo' value="<?php if(isset($this->idciclo)) echo $this->idciclo;?>"/>
                         </form>
                     </div>
                 </div>
@@ -50,17 +51,27 @@
                         </tr>
                     </thead>
                     <tbody>
-                    <?php if(isset($this->lstCar) && count($this->lstCar)): ?>
-                        <?php for($i =0; $i < count($this->lstCar); $i++) : ?>
+                    <?php if(isset($this->lstHor) && count($this->lstHor)): ?>
+                        <?php for($i =0; $i < count($this->lstHor); $i++) : ?>
                         <tr>
-                            <td style="text-align: center"><?php echo $this->lstCar[$i]['nombre']; ?></td>
-                            <td style="text-align: center"><?php echo $this->lstCar[$i]['estado']; ?></td>
-                            <td style="text-align: center;"><a href="<?php echo BASE_URL . 'gestionPensum/actualizarCarrera/' . $this->lstCar[$i]['id'];?>">Modificar</a></td>
+                            <td style="text-align: center"><?php echo $this->lstHor[$i]['jornada']; ?></td>
+                            <td style="text-align: center"><?php echo $this->lstHor[$i]['duracion']." minutos"; ?></td>
+                            <td style="text-align: center"><?php echo $this->lstHor[$i]['dia']; ?></td>
+                            <td style="text-align: center"><?php echo $this->lstHor[$i]['inicio']." - ".$this->lstHor[$i]['fin']; ?></td>
+                            <td style="text-align: center"><?php echo $this->lstHor[$i]['edificio']; ?></td>
+                            <td style="text-align: center"><?php echo $this->lstHor[$i]['salon']; ?></td>
+                            <td style="text-align: center">
+                            <?php if($this->lstHor[$i]['primernombre'] != ""){echo $this->lstHor[$i]['primernombre']." ";} ?>
+                            <?php if($this->lstHor[$i]['segundonombre'] != ""){echo $this->lstHor[$i]['segundonombre']." ";} ?>
+                            <?php if($this->lstHor[$i]['primerapellido'] != ""){echo $this->lstHor[$i]['primerapellido']." ";} ?>
+                            <?php if($this->lstHor[$i]['segundoapellido'] != ""){echo $this->lstHor[$i]['segundoapellido'];} ?>
+                            </td>
+                            <td style="text-align: center;"><a href="<?php echo BASE_URL . 'gestionPensum/actualizarCarrera/' . $this->lstHor[$i]['idhorario'];?>">Modificar</a></td>
                             <td style="text-align: center;">
-                                <?php if(strcmp($this->lstCar[$i]['estado'], 'Activo') == 0): ?>
-                                <a href="<?php echo BASE_URL . 'gestionPensum/eliminarCarrera/-1/' . $this->lstCar[$i]['id'];?>">Desactivar</a>
+                                <?php if(strcmp($this->lstHor[$i]['estado'], 'Activo') == 0): ?>
+                                <a href="<?php echo BASE_URL . 'gestionPensum/eliminarCarrera/-1/' . $this->lstHor[$i]['idhorario'];?>">Desactivar</a>
                                 <?php else : ?>
-                                <a href="<?php echo BASE_URL . 'gestionPensum/eliminarCarrera/1/' . $this->lstCar[$i]['id'] ?>">Activar</a>
+                                <a href="<?php echo BASE_URL . 'gestionPensum/eliminarCarrera/1/' . $this->lstHor[$i]['idhorario'] ?>">Activar</a>
                                 <?php endif;?>
                             </td>
                         </tr>

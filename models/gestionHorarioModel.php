@@ -48,6 +48,54 @@ class gestionHorarioModel extends Model {
         }
     }
     
+    public function informacionHorario($ciclo, $seccion) {
+        $info = $this->_db->query("select * from spInformacionHorario({$ciclo},{$seccion});");
+        if($info === false){
+            return "1104/informacionHorario";
+        }else{
+            return $info->fetchall();
+        }
+    }
+    
+    public function agregarCursoCatedratico($catedratico, $curso) {
+        $info = $this->_db->query("select * from spagregarcursocatedratico({$catedratico},{$curso}) as Id;");
+        if($info === false){
+            return "1104/agregarCursoCatedratico";
+        }else{
+            return $info->fetchall();
+        }
+    }
+    
+    public function agregarTrama($_datos) {
+        $info = $this->_db->prepare("SELECT * from spagregartrama(:cursocatedratico,:dia,:periodo,:inicio,:fin,:seccion) as Id;");
+        $info->execute($_datos);
+        if($info === false){
+            return "1101/agregarTrama";
+        }else{
+            return $info->fetchall();
+        }
+    }
+    
+    public function agregarHorario($_datos) {
+        $info = $this->_db->prepare("SELECT * from spagregarhorario(:jornada,:trama,:ciclo,:estado) as Id;");
+        $info->execute($_datos);
+        if($info === false){
+            return "1101/agregarHorario";
+        }else{
+            return $info->fetchall();
+        }
+    }
+    
+    public function agregarHorarioSalon($horario, $salon) {
+        $info = $this->_db->query("select * from spagregarhorariosalon({$horario},{$salon});");
+        if($info === false){
+            return "1104/agregarHorarioSalon";
+        }else{
+            return $info->fetchall();
+        }
+    }
+    
+    ////
     public function agregarCarrera($_datos) {
         $info = $this->_db->prepare("SELECT * from spAgregarCarrera(:nombre,:estado,:centrounidadacademica) as Id;");
         $info->execute($_datos);
