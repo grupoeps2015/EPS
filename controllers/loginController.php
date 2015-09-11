@@ -37,7 +37,7 @@ class loginController extends Controller{
         $pass = $this->getTexto('pass');
         $tipo = $this->getInteger('tipo');
         
-        $passEncrypt = $this->_encriptar->encrypt($pass, UNIDAD_ACADEMICA);
+        $passEncrypt = $this->_encriptar->encrypt($pass, DB_KEY);
         $respuesta = $this->_login->autenticarUsuario($tipo, $usuario, $passEncrypt);
         if(!is_array($respuesta)){
             $this->redireccionar("error/login/" . $respuesta);

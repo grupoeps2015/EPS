@@ -11,6 +11,8 @@ define('ALL_FOLDER','all');
 
 //Constantes del portal
 define('APP_TITULO','Sistema de control academico - USAC');
+define('DB_KEY','2015.RmGm');
+define('PARAM_KEY','MrMg.2015');
 define('UNIDAD_ACADEMICA','1');
 define('CENTRO_REGIONAL','20');
 define('CENTRO_UNIDADACADEMICA','1');

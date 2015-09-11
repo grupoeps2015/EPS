@@ -30,11 +30,20 @@ class gestionHorarioController extends Controller {
             $idCentroUnidad = $_SESSION["centrounidad"];
         }
         $this->_view->id = $idCentroUnidad;
-        $this->_view->titulo = 'Gestión de horarios - ' . APP_TITULO;
-        $this->_view->curso = $this->getTexto('hdSeccion');
+        
+        if($this->getTexto('hdSeccion')){
+            $seccionNombre = $this->getTexto('hdSeccion');
+        }
+        else if(isset($_POST)){
+            $seccionNombre = $_POST["hdSeccion"];
+        }
+        else{
+            $seccionNombre = "hola";
+        }
+        $this->_view->curso = $seccionNombre;
         $this->_view->idcurso = $this->getInteger('slSec');
         $this->_view->idciclo = $this->getInteger('slCiclo');
-        
+        $this->_view->titulo = 'Gestión de horarios - ' . APP_TITULO;
         $lsHor = $this->_post->informacionHorario($this->getInteger('slCiclo'),$this->getInteger('slSec'));
         if(is_array($lsHor)){
             $this->_view->lstHor = $lsHor;
@@ -186,7 +195,7 @@ class gestionHorarioController extends Controller {
                 exit;
             }
             
-            $this->redireccionar('gestionHorario/index/'.$idCentroUnidad);
+            $this->index($idCentroUnidad);
         }
         
         $this->_view->renderizar('agregarHorario', 'gestionHorario');    

@@ -103,7 +103,7 @@ class gestionUsuarioController extends Controller {
             $arrayUsr["correoUsr"] = $correoUsr;
             $arrayUsr["fotoUsr"] = $fotoUsr;
             $claveAleatoria = $this->_encriptar->keyGenerator();
-            $arrayUsr["claveUsr"] = $this->_encriptar->encrypt($claveAleatoria, UNIDAD_ACADEMICA);
+            $arrayUsr["claveUsr"] = $this->_encriptar->encrypt($claveAleatoria, DB_KEY);
             $arrayUsr["preguntaUsr"] = 0;
             $arrayUsr["respuestaUsr"] = "USAC";
             $arrayUsr["intentosUsr"] = 5;
@@ -277,10 +277,10 @@ class gestionUsuarioController extends Controller {
             
             //Actualizacion de contraseña
             if(strcmp($passActual,"")!=0 || strcmp($passNueva,"")!=0 || strcmp($passValida,"")!=0){
-                $encriptar = $this->_encriptar->encrypt($passActual, UNIDAD_ACADEMICA);
+                $encriptar = $this->_encriptar->encrypt($passActual, DB_KEY);
                 if(strcmp($pass,$encriptar) == 0){
                     if(strcmp($passNueva,$passValida) == 0 && strcmp($passNueva,"")!=0){
-                        $passNueva = $this->_encriptar->encrypt($passValida,UNIDAD_ACADEMICA);
+                        $passNueva = $this->_encriptar->encrypt($passValida, DB_KEY);
                     }else{
                         $this->_view->error = 'La contraseña nueva no coincide';
                         $this->_view->renderizar('actualizarUsuario', 'gestionUsuario');
@@ -359,7 +359,7 @@ class gestionUsuarioController extends Controller {
                     $arrayUsr["correoUsr"] = $data[5];
                     $arrayUsr["fotoUsr"] = "";
                     $claveAleatoria = $this->_encriptar->keyGenerator();
-                    $arrayUsr["claveUsr"] = $this->_encriptar->encrypt($claveAleatoria, UNIDAD_ACADEMICA);
+                    $arrayUsr["claveUsr"] = $this->_encriptar->encrypt($claveAleatoria, DB_KEY);
                     $arrayUsr["preguntaUsr"] = 0;
                     $arrayUsr["respuestaUsr"] = "USAC";
                     $arrayUsr["intentosUsr"] = 5;
