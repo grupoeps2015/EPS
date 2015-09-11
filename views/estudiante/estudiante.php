@@ -243,7 +243,7 @@
                                 </td>
                                 <td>&nbsp;</td>
                                 <td rowspan="2">Alergias:<br/>
-                                    <textarea id="txtAlergias" name="txtAlergias" rows="5" class="form-control input-lg"><?php echo $this->infoGeneral[0]['alergias']?></textarea>
+                                    <textarea id="txtAlergias" name="txtAlergias" rows="5" class="form-control input-lg" style="resize: none;"><?php echo $this->infoGeneral[0]['alergias']?></textarea>
                                 </td>
                             </tr>
                             <tr>
