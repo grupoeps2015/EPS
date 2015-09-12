@@ -88,13 +88,13 @@ CREATE OR REPLACE FUNCTION spdatosseccion(
     OUT curso integer,
     OUT estado integer,
     OUT tiposeccion integer,
-	OUT cursoNombre text,
-    OUT tiposeccionNombre text)
+	OUT cursonombre text,
+    OUT tiposeccionnombre text)
   RETURNS SETOF record AS
 $BODY$
 BEGIN
   RETURN query
-  SELECT s.nombre, s.descripcion, s.curso, s.estado, s.tiposeccion, (c.codigo || ' - ' || c.nombre) as cursoNombre, t.nombre as "tiposeccionNombre" FROM CUR_Seccion s 
+  SELECT s.nombre, s.descripcion, s.curso, s.estado, s.tiposeccion, (c.codigo || ' - ' || c.nombre) as cursonombre, t.nombre as "tiposeccionnombre" FROM CUR_Seccion s 
 	join CUR_TipoSeccion t on s.tiposeccion = t.tiposeccion join CUR_Curso c on s.curso = c.curso
   where s.seccion = id;
 END;
