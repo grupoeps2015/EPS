@@ -21,13 +21,17 @@ class gestionHorarioController extends Controller {
     }
 
     public function index($parametros = null) {
+        session_start();
         if(!is_null($parametros)){
             list($idCentroUnidad, $idCiclo, $idSeccion) = split('[$.-]', (string)$parametros);
         }else{
             if($this->getInteger('hdCentroUnidad')){
                 $idCentroUnidad = $this->getInteger('hdCentroUnidad');
+            }else if($_SESSION["rol"] != ROL_ADMINISTRADOR){
+                $idCentroUnidad = $_SESSION["centrounidad"];
             }else{
                 $this->redireccionar("general/seleccionarCentroUnidad/gestionHorario/seleccionarCicloCurso");
+                exit;
             }
             $idCiclo = $this->getInteger('slCiclo');
             $idSeccion = $this->getInteger('slSec');
@@ -55,6 +59,9 @@ class gestionHorarioController extends Controller {
             $this->redireccionar("error/sql/" . $lsHor);
             exit;
         }
+        $lstParametros = $idCentroUnidad . '$' . $idCiclo . '$' . $idSeccion;
+        
+        $this->_view->parametros = $lstParametros;
         $this->_view->titulo = 'Gestión de horarios - ' . APP_TITULO;
         $this->_view->setJs(array('gestionHorario'));
         $this->_view->setJs(array('jquery.dataTables.min'), "public");
@@ -64,13 +71,16 @@ class gestionHorarioController extends Controller {
     }
     
     public function seleccionarCicloCurso($id = 0){
+        session_start();
         if($this->getInteger('hdCentroUnidad')){
             $idCentroUnidad = $this->getInteger('hdCentroUnidad');
         }else if ($id != 0){
             $idCentroUnidad = $id;
-        }else{
-            session_start();
+        }else if($_SESSION["rol"] != ROL_ADMINISTRADOR){
             $idCentroUnidad = $_SESSION["centrounidad"];
+        }else{
+            $this->redireccionar("general/seleccionarCentroUnidad/gestionHorario/seleccionarCicloCurso");
+            exit;
         }
         $this->_view->id = $idCentroUnidad;
         
@@ -97,9 +107,17 @@ class gestionHorarioController extends Controller {
     }
 
     public function agregarHorario() {
+        session_start();
+        if($this->getInteger('hdCentroUnidad')){
+            $idCentroUnidad = $this->getInteger('hdCentroUnidad');
+        }else if($_SESSION["rol"] != ROL_ADMINISTRADOR){
+            $idCentroUnidad = $_SESSION["centrounidad"];
+        }else{
+            $this->redireccionar("general/seleccionarCentroUnidad/gestionHorario/seleccionarCicloCurso");
+            exit;
+        }
         $idSeccion = $this->getInteger('slSec');
         $idCiclo = $this->getInteger('slCiclo');
-        $idCentroUnidad = $this->getInteger('hdCentroUnidad');
         $lstParametros = $idCentroUnidad . '$' . $idCiclo . '$' . $idSeccion;
         
         $this->_view->parametros = $lstParametros;
@@ -220,16 +238,16 @@ class gestionHorarioController extends Controller {
         $this->_view->renderizar('agregarHorario', 'gestionHorario');    
     }
     
-    public function eliminarHorario($intNuevoEstado, $intIdHorario) {
+    public function eliminarHorario($intNuevoEstado, $intIdHorario, $parametros) {
         if ($intNuevoEstado == -1 || $intNuevoEstado == 1) {
             $info = $this->_post->eliminarHorario($intIdHorario, $intNuevoEstado);
             if(!is_array($info)){
                 $this->redireccionar("error/sql/" . $info);
                 exit;
             }
-            $this->redireccionar('gestionHorario');
+            $this->redireccionar("gestionHorario/index/{$parametros}");
         } else {
-            echo "Error al desactivar carrera";
+            echo "Error al desactivar horario";
         }
     }
     

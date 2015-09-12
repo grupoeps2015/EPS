@@ -60,8 +60,8 @@ class gestionHorarioModel extends Model {
     public function agregarCursoCatedratico($catedratico, $curso) {
         $info = $this->_db->query("select * from spagregarcursocatedratico({$catedratico},{$curso}) as Id;");
         if($info === false){
-            return "select * from spagregarcursocatedratico({$catedratico},{$curso}) as Id;";
-            //return "1101/agregarCursoCatedratico";
+            //return "select * from spagregarcursocatedratico({$catedratico},{$curso}) as Id;";
+            return "1101/agregarCursoCatedratico";
         }else{
             return $info->fetchall();
         }
@@ -90,12 +90,20 @@ class gestionHorarioModel extends Model {
     public function agregarHorarioSalon($horario, $salon) {
         $info = $this->_db->query("select * from spagregarhorariosalon({$horario},{$salon});");
         if($info === false){
-            return "1104/agregarHorarioSalon";
+            return "1101/agregarHorarioSalon";
         }else{
             return $info->fetchall();
         }
     }
     
+    public function eliminarHorario($intIdHorario, $intEstadoNuevo) {
+        $info = $this->_db->query("SELECT spActivarDesactivarHorario(" . $intIdHorario . "," . $intEstadoNuevo . ");");
+        if($info === false){
+            return "1102/eliminarHorario";
+        }else{
+            return $info->fetchall();
+        }
+    }
     ////
     public function agregarCarrera($_datos) {
         $info = $this->_db->prepare("SELECT * from spAgregarCarrera(:nombre,:estado,:centrounidadacademica) as Id;");

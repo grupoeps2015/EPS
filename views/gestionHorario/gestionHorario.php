@@ -68,9 +68,9 @@
                             <td style="text-align: center;"><a href="<?php echo BASE_URL . 'gestionPensum/actualizarCarrera/' . $this->lstHor[$i]['idhorario'];?>">Modificar</a></td>
                             <td style="text-align: center;">
                                 <?php if(strcmp($this->lstHor[$i]['estado'], 'Activo') == 0): ?>
-                                <a href="<?php echo BASE_URL . 'gestionHorario/eliminarHorario/-1/' . $this->lstHor[$i]['idhorario'];?>">Desactivar</a>
+                                <a href="<?php echo BASE_URL . 'gestionHorario/eliminarHorario/-1/' . $this->lstHor[$i]['idhorario'] .'/'. $this->parametros ;?>">Desactivar</a>
                                 <?php else : ?>
-                                <a href="<?php echo BASE_URL . 'gestionHorario/eliminarHorario/1/' . $this->lstHor[$i]['idhorario'] ?>">Activar</a>
+                                <a href="<?php echo BASE_URL . 'gestionHorario/eliminarHorario/1/' . $this->lstHor[$i]['idhorario'] .'/'. $this->parametros ;?>">Activar</a>
                                 <?php endif;?>
                             </td>
                         </tr>
