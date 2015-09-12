@@ -4,7 +4,7 @@
             <div class="col-lg-12 text-center">
                 <h2 class="section-heading">Gesti&oacute;n de Horarios</h2>
                 <hr class="primary">
-                <h4 class="section-heading"><?php if(isset($this->curso)) echo $this->curso;?></h4>
+                <h4 class="section-heading"><?php if(isset($this->curso)) print_r($this->curso);?></h4>
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
                         <i class="fa fa-2x fa-backward wow bounceIn text-primary" data-wow-delay=".2s">

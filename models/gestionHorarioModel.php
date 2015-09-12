@@ -60,7 +60,8 @@ class gestionHorarioModel extends Model {
     public function agregarCursoCatedratico($catedratico, $curso) {
         $info = $this->_db->query("select * from spagregarcursocatedratico({$catedratico},{$curso}) as Id;");
         if($info === false){
-            return "1104/agregarCursoCatedratico";
+            return "select * from spagregarcursocatedratico({$catedratico},{$curso}) as Id;";
+            //return "1101/agregarCursoCatedratico";
         }else{
             return $info->fetchall();
         }
