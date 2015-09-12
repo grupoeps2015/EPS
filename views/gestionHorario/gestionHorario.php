@@ -4,7 +4,7 @@
             <div class="col-lg-12 text-center">
                 <h2 class="section-heading">Gesti&oacute;n de Horarios</h2>
                 <hr class="primary">
-                <h4 class="section-heading"><?php if(isset($this->curso)) echo $this->curso;?></h4>
+                <h4 class="section-heading"><?php if(isset($this->curso)) print_r($this->curso);?></h4>
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
                         <i class="fa fa-2x fa-backward wow bounceIn text-primary" data-wow-delay=".2s">
@@ -65,12 +65,12 @@
                             <?php if($this->lstHor[$i]['primerapellido'] != ""){echo $this->lstHor[$i]['primerapellido']." ";} ?>
                             <?php if($this->lstHor[$i]['segundoapellido'] != ""){echo $this->lstHor[$i]['segundoapellido'];} ?>
                             </td>
-                            <td style="text-align: center;"><a href="<?php echo BASE_URL . 'gestionPensum/actualizarCarrera/' . $this->lstHor[$i]['idhorario'];?>">Modificar</a></td>
+                            <td style="text-align: center;"><a href="<?php echo BASE_URL . 'gestionHorario/actualizarHorario/' . $this->lstHor[$i]['idhorario'] .'/'. $this->parametros ;?>">Modificar</a></td>
                             <td style="text-align: center;">
                                 <?php if(strcmp($this->lstHor[$i]['estado'], 'Activo') == 0): ?>
-                                <a href="<?php echo BASE_URL . 'gestionHorario/eliminarHorario/-1/' . $this->lstHor[$i]['idhorario'];?>">Desactivar</a>
+                                <a href="<?php echo BASE_URL . 'gestionHorario/eliminarHorario/-1/' . $this->lstHor[$i]['idhorario'] .'/'. $this->parametros ;?>">Desactivar</a>
                                 <?php else : ?>
-                                <a href="<?php echo BASE_URL . 'gestionHorario/eliminarHorario/1/' . $this->lstHor[$i]['idhorario'] ?>">Activar</a>
+                                <a href="<?php echo BASE_URL . 'gestionHorario/eliminarHorario/1/' . $this->lstHor[$i]['idhorario'] .'/'. $this->parametros ;?>">Activar</a>
                                 <?php endif;?>
                             </td>
                         </tr>

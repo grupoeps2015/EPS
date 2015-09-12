@@ -84,10 +84,21 @@ CREATE OR REPLACE FUNCTION spagregarhorariosalon(
   RETURNS integer AS
 $BODY$
 DECLARE idHorario integer;
+DECLARE idSalon integer;
 BEGIN
+	SELECT horario into idHorario FROM cur_horario_salon WHERE horario = _horario;
+	SELECT salon into idSalon FROM cur_horario_salon WHERE horario = _horario;
+IF idHorario IS NOT NULL THEN
+	IF idSalon <> _salon THEN
+		UPDATE CUR_Horario_Salon SET salon = _salon
+		WHERE horario = _horario;
+	END IF;
+	RETURN idHorario;
+ELSE
 	INSERT INTO cur_horario_salon (horario, salon) 
 	VALUES (_horario, _salon) RETURNING horario into idHorario;
 	RETURN idHorario;
+END IF;
 END; $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
@@ -156,6 +167,105 @@ $BODY$
   ROWS 1000;
 ALTER FUNCTION spinformacionhorario(integer, integer)
   OWNER TO postgres;
+  
+  
+-- Function: spactivardesactivarhorario(integer, integer)
+
+-- DROP FUNCTION spactivardesactivarhorario(integer, integer);
+
+CREATE OR REPLACE FUNCTION spactivardesactivarhorario(
+    _idhorario integer,
+    _estadonuevo integer)
+  RETURNS void AS
+$BODY$
+BEGIN
+  EXECUTE format('UPDATE cur_horario SET estado = %L WHERE horario = %L',_estadoNuevo,_idhorario);
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION spactivardesactivarhorario(integer, integer)
+  OWNER TO postgres;
+  
+
+-- Function: spdatoshorario(integer)
+
+-- DROP FUNCTION spdatoshorario(integer);
+
+CREATE OR REPLACE FUNCTION spdatoshorario(
+    IN id integer,
+    OUT jornada integer,
+    OUT trama integer,
+    OUT ciclo integer,
+    OUT cursocatedratico integer,
+    OUT dia integer,
+    OUT periodo integer,
+    OUT tipoperiodo integer,
+    OUT inicio text,
+    OUT fin text,
+    OUT seccion integer,
+    OUT catedratico integer,
+    OUT salon integer,
+    OUT edificio integer)
+  RETURNS SETOF record AS
+$BODY$
+BEGIN
+  RETURN query
+  SELECT h.jornada, h.trama, h.ciclo, t.curso_catedratico, t.dia, t.periodo, p.tipoperiodo, to_char(t.inicio, 'HH24:MI') as inicio, to_char(t.fin, 'HH24:MI') as fin, t.seccion, cc.catedratico, hs.salon, s.edificio FROM CUR_Horario h join CUR_Trama t on t.trama = h.trama join CUR_Horario_Salon hs on hs.horario = h.horario join CUR_Salon s on s.salon = hs.salon join CUR_Periodo p on p.periodo = t.periodo join CUR_Curso_Catedratico cc on cc.curso_catedratico = t.curso_catedratico where h.horario = id;
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION spdatoshorario(integer)
+  OWNER TO postgres;
+
+  
+-- Function: spactualizarhorario(integer, integer)
+
+-- DROP FUNCTION spactualizarhorario(integer, integer);
+
+CREATE OR REPLACE FUNCTION spactualizarhorario(
+    _jornada integer,
+    _idhorario integer)
+  RETURNS integer AS
+$BODY$
+DECLARE idHorario integer;
+BEGIN
+	UPDATE CUR_Horario SET jornada = _jornada
+	WHERE Horario = _idHorario RETURNING Horario into idHorario;
+	RETURN idHorario;
+END; $BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION spactualizarhorario(integer, integer)
+  OWNER TO postgres;
+  
+
+-- Function: spactualizartrama(integer, integer, integer, text, text, integer)
+
+-- DROP FUNCTION spactualizartrama(integer, integer, integer, text, text, integer);
+
+CREATE OR REPLACE FUNCTION spactualizartrama(
+    _cursocatedratico integer,
+    _dia integer,
+    _periodo integer,
+    _inicio text,
+    _fin text,
+    _idtrama integer)
+  RETURNS integer AS
+$BODY$
+DECLARE idTrama integer;
+BEGIN
+	UPDATE cur_trama SET curso_catedratico = _cursocatedratico, dia = _dia, periodo = _periodo, inicio = cast(_inicio as time), fin = cast(_fin as time) 
+	WHERE trama = _idTrama RETURNING trama into idTrama;
+	RETURN idTrama;
+END; $BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION spactualizartrama(integer, integer, integer, text, text, integer)
+  OWNER TO postgres;
+
 --------------------------------------------------------------------------------------------------------------------------------------------------
 
 -- Function: spagregarcarrera(text, integer, integer)
