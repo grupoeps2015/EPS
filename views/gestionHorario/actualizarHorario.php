@@ -25,7 +25,7 @@
     <div class="header-content">
         <div class="header-content-inner">
             <div id="divCentros" class="row">
-                <form id="frCarreras" method="post" action="<?php echo BASE_URL; ?>gestionHorario/agregarHorario">
+                <form id="frCarreras" method="post" action="<?php echo BASE_URL; ?>gestionHorario/actualizarHorario/<?php echo $this->id . "/" . $this->parametros; ?>">
                     <div id="divEstudiantes" class="form-group" >
                         <div class="col-md-6 col-md-offset-3">
                              <table>
@@ -179,10 +179,6 @@
                         </div>
                     </div>
                     <input type="hidden" name="hdEnvio" value="1">
-                    <input type="hidden" name='slSec' value="<?php if(isset($this->idcurso)) echo $this->idcurso;?>"/>
-                    <input type="hidden" name='hdSeccion' value="<?php if(isset($this->curso)) echo $this->curso;?>"/>
-                    <input type="hidden" name='hdCentroUnidad' value="<?php if(isset($this->id)) echo $this->id;?>"/>
-                    <input type="hidden" name='slCiclo' value="<?php if(isset($this->idciclo)) echo $this->idciclo;?>"/>
                 </form>
             </div>
         </div>
