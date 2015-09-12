@@ -37,6 +37,7 @@ class gestionHorarioController extends Controller {
         }else{
             $idCiclo = $idC;
         }
+        
         $this->_view->idciclo = $idCiclo;
         //idSeccion
         if($this->getInteger('slSec')){
