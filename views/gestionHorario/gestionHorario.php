@@ -65,7 +65,7 @@
                             <?php if($this->lstHor[$i]['primerapellido'] != ""){echo $this->lstHor[$i]['primerapellido']." ";} ?>
                             <?php if($this->lstHor[$i]['segundoapellido'] != ""){echo $this->lstHor[$i]['segundoapellido'];} ?>
                             </td>
-                            <td style="text-align: center;"><a href="<?php echo BASE_URL . 'gestionPensum/actualizarCarrera/' . $this->lstHor[$i]['idhorario'];?>">Modificar</a></td>
+                            <td style="text-align: center;"><a href="<?php echo BASE_URL . 'gestionHorario/actualizarHorario/' . $this->lstHor[$i]['idhorario'] .'/'. $this->parametros ;?>">Modificar</a></td>
                             <td style="text-align: center;">
                                 <?php if(strcmp($this->lstHor[$i]['estado'], 'Activo') == 0): ?>
                                 <a href="<?php echo BASE_URL . 'gestionHorario/eliminarHorario/-1/' . $this->lstHor[$i]['idhorario'] .'/'. $this->parametros ;?>">Desactivar</a>
