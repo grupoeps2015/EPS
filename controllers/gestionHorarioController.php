@@ -20,37 +20,49 @@ class gestionHorarioController extends Controller {
         $this->_ajax = $this->loadModel("ajax");
     }
 
-    public function index($id=0) {
-        if($this->getInteger('hdCentroUnidad')){
-            $idCentroUnidad = $this->getInteger('hdCentroUnidad');
-        }else if ($id != 0){
-            $idCentroUnidad = $id;
+    public function index($parametros = null) {
+        session_start();
+        if(!is_null($parametros)){
+            list($idCentroUnidad, $idCiclo, $idSeccion) = split('[$.-]', (string)$parametros);
         }else{
-            session_start();
-            $idCentroUnidad = $_SESSION["centrounidad"];
+            if($this->getInteger('hdCentroUnidad')){
+                $idCentroUnidad = $this->getInteger('hdCentroUnidad');
+            }else if($_SESSION["rol"] != ROL_ADMINISTRADOR){
+                $idCentroUnidad = $_SESSION["centrounidad"];
+            }else{
+                $this->redireccionar("general/seleccionarCentroUnidad/gestionHorario/seleccionarCicloCurso");
+                exit;
+            }
+            $idCiclo = $this->getInteger('slCiclo');
+            $idSeccion = $this->getInteger('slSec');
         }
+        
+        $this->_view->idciclo = $idCiclo;
+        $this->_view->idcurso = $idSeccion;
         $this->_view->id = $idCentroUnidad;
         
-        if($this->getTexto('hdSeccion')){
-            $seccionNombre = $this->getTexto('hdSeccion');
-        }
-        else if(isset($_POST)){
-            $seccionNombre = $_POST["hdSeccion"];
-        }
-        else{
-            $seccionNombre = "hola";
-        }
-        $this->_view->curso = $seccionNombre;
-        $this->_view->idcurso = $this->getInteger('slSec');
-        $this->_view->idciclo = $this->getInteger('slCiclo');
-        $this->_view->titulo = 'Gestión de horarios - ' . APP_TITULO;
-        $lsHor = $this->_post->informacionHorario($this->getInteger('slCiclo'),$this->getInteger('slSec'));
+        //nombreSeccion
+        $seccionNombre = $this->_postSeccion->datosSeccion($idSeccion);
+        if(is_array($seccionNombre)){
+            if(isset($seccionNombre[0]['nombre'])){
+               $this->_view->curso = $seccionNombre[0]['nombre']." - ".$seccionNombre[0]['tiposeccionnombre']." - ".$seccionNombre[0]['cursonombre']; 
+            }
+        }else{
+            $this->redireccionar("error/sql/" . $seccionNombre);
+            exit;
+        }  
+        
+        $lsHor = $this->_post->informacionHorario($idCiclo,$idSeccion);
         if(is_array($lsHor)){
             $this->_view->lstHor = $lsHor;
         }else{
             $this->redireccionar("error/sql/" . $lsHor);
             exit;
         }
+        $lstParametros = $idCentroUnidad . '$' . $idCiclo . '$' . $idSeccion;
+        
+        $this->_view->parametros = $lstParametros;
+        $this->_view->titulo = 'Gestión de horarios - ' . APP_TITULO;
         $this->_view->setJs(array('gestionHorario'));
         $this->_view->setJs(array('jquery.dataTables.min'), "public");
         $this->_view->setCSS(array('jquery.dataTables.min'));
@@ -58,13 +70,17 @@ class gestionHorarioController extends Controller {
         $this->_view->renderizar('gestionHorario');
     }
     
-    public function seleccionarCicloCurso($id=0){
+    public function seleccionarCicloCurso($id = 0){
+        session_start();
         if($this->getInteger('hdCentroUnidad')){
             $idCentroUnidad = $this->getInteger('hdCentroUnidad');
         }else if ($id != 0){
             $idCentroUnidad = $id;
-        }else{
+        }else if($_SESSION["rol"] != ROL_ADMINISTRADOR){
             $idCentroUnidad = $_SESSION["centrounidad"];
+        }else{
+            $this->redireccionar("general/seleccionarCentroUnidad/gestionHorario/seleccionarCicloCurso");
+            exit;
         }
         $this->_view->id = $idCentroUnidad;
         
@@ -91,10 +107,34 @@ class gestionHorarioController extends Controller {
     }
 
     public function agregarHorario() {
-        $idCentroUnidad = $this->getInteger('hdCentroUnidad');
+        session_start();
+        if($this->getInteger('hdCentroUnidad')){
+            $idCentroUnidad = $this->getInteger('hdCentroUnidad');
+        }else if($_SESSION["rol"] != ROL_ADMINISTRADOR){
+            $idCentroUnidad = $_SESSION["centrounidad"];
+        }else{
+            $this->redireccionar("general/seleccionarCentroUnidad/gestionHorario/seleccionarCicloCurso");
+            exit;
+        }
+        $idSeccion = $this->getInteger('slSec');
         $idCiclo = $this->getInteger('slCiclo');
+        $lstParametros = $idCentroUnidad . '$' . $idCiclo . '$' . $idSeccion;
+        
+        $this->_view->parametros = $lstParametros;
         $this->_view->id = $idCentroUnidad;
         $this->_view->idciclo = $idCiclo;
+        $this->_view->idcurso = $idSeccion;
+        
+        $seccionNombre = $this->_postSeccion->datosSeccion($idSeccion);
+        if(is_array($seccionNombre)){
+            if(isset($seccionNombre[0]['nombre'])){
+                $this->_view->curso = $seccionNombre[0]['nombre']." - ".$seccionNombre[0]['tiposeccionnombre']." - ".$seccionNombre[0]['cursonombre'];
+            }
+        }else{
+            $this->redireccionar("error/sql/" . $seccionNombre);
+            exit;
+        } 
+        
         $jornadas = $this->_post->getJornadas();
         if(is_array($jornadas)){
             $this->_view->jornadas = $jornadas;
@@ -135,12 +175,6 @@ class gestionHorarioController extends Controller {
             exit;
         }
         
-        $idcurso = $this->getInteger('slSec');
-        $this->_view->idcurso = $idcurso;
-        
-        $curso = $this->getTexto('hdSeccion');
-        $this->_view->curso = $curso;
-        
         
         $this->_view->titulo = 'Agregar Horario - ' . APP_TITULO;
         $this->_view->setJs(array('agregarHorario'));
@@ -154,30 +188,32 @@ class gestionHorarioController extends Controller {
             $jornada = $this->getInteger('slJornadas');
             $inicio = $this->getTexto('txtHoraInicial').":".$this->getTexto('txtMinutoInicial');
             $fin = $this->getTexto('txtHoraFinal').":".$this->getTexto('txtMinutoFinal');
-            $Sec = $this->_postSeccion->datosSeccion($idcurso);
-            if(is_array($Sec)){
-            }else{
+            $Sec = $this->_postSeccion->datosSeccion($idSeccion);
+            if(!is_array($Sec)){
                 $this->redireccionar("error/sql/" . $Sec);
                 exit;
             }
+            
             //Llena o cunsulta la tabla CUR_Curso_Catedratico
-            $cursocatedratico =  $this->_post->agregarCursoCatedratico($catedratico,$Sec[0]['curso']);
+            $cursocatedratico =  $this->_post->agregarCursoCatedratico($catedratico, $Sec[0]['curso']);
             if(!is_array($cursocatedratico)){
                 $this->redireccionar("error/sql/" . $cursocatedratico);
                 exit;
             }
+            
             //Llena la tabla CUR_Trama
             $arrayTra['cursocatedratico'] = $cursocatedratico[0][0];
             $arrayTra['dia'] = $dia;
             $arrayTra['periodo'] = $periodo;
             $arrayTra['inicio'] = $inicio;
             $arrayTra['fin'] = $fin;
-            $arrayTra['seccion'] = $idcurso;
+            $arrayTra['seccion'] = $idSeccion;
             $trama =  $this->_post->agregarTrama($arrayTra);
             if(!is_array($trama)){
                 $this->redireccionar("error/sql/" . $trama);
                 exit;
             }
+            
             //Llena la tabla CUR_Horario
             $arrayHor['jornada'] = $jornada;
             $arrayHor['trama'] = $trama[0][0];
@@ -188,6 +224,7 @@ class gestionHorarioController extends Controller {
                 $this->redireccionar("error/sql/" . $horario);
                 exit;
             }
+            
             //Llena la tabla CUR_Horario_Salon
             $horariosalon = $this->_post->agregarHorarioSalon($horario[0][0],$this->getInteger('slSalones'));
             if(!is_array($horariosalon)){
@@ -195,22 +232,22 @@ class gestionHorarioController extends Controller {
                 exit;
             }
             
-            $this->index($idCentroUnidad);
+            $this->redireccionar("gestionHorario/index/" . $lstParametros);
         }
         
         $this->_view->renderizar('agregarHorario', 'gestionHorario');    
     }
     
-    public function eliminarCarrera($intNuevoEstado, $intIdCarrera) {
+    public function eliminarHorario($intNuevoEstado, $intIdHorario, $parametros) {
         if ($intNuevoEstado == -1 || $intNuevoEstado == 1) {
-            $info = $this->_post->eliminarCarrera($intIdCarrera, $intNuevoEstado);
+            $info = $this->_post->eliminarHorario($intIdHorario, $intNuevoEstado);
             if(!is_array($info)){
                 $this->redireccionar("error/sql/" . $info);
                 exit;
             }
-            $this->redireccionar('gestionPensum/listadoCarrera');
+            $this->redireccionar("gestionHorario/index/{$parametros}");
         } else {
-            echo "Error al desactivar carrera";
+            echo "Error al desactivar horario";
         }
     }
     

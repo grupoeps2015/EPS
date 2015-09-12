@@ -140,4 +140,15 @@ class ajaxModel extends Model{
             return $post->fetchall();
         }
     }
+    
+    public function spGetNombreCentroUnidad($id){
+        $info = $this ->_db->query("select * from spGetNombreCentroUnidadacademica({$id})");
+        $info->setFetchMode(PDO::FETCH_ASSOC);
+        if($info === false){
+            return "1200/spGetNombreCentroUnidad";
+        }else{
+            return $info->fetchall();
+        }
+    }
+    
 }

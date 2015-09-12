@@ -4,7 +4,7 @@
             <div class="col-lg-12 text-center">
                 <h2 class="section-heading">Gesti&oacute;n de Horarios</h2>
                 <hr class="primary">
-                <h4 class="section-heading"><?php if(isset($this->curso)) echo $this->curso;?></h4>
+                <h4 class="section-heading"><?php if(isset($this->curso)) print_r($this->curso);?></h4>
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
                         <i class="fa fa-2x fa-backward wow bounceIn text-primary" data-wow-delay=".2s">
@@ -23,7 +23,6 @@
                                 <a id="linkNuevoHor" href="#">Agregar Horario</a>
                             </i>
                             <input type="hidden" name='slSec' value="<?php if(isset($this->idcurso)) echo $this->idcurso;?>"/>
-                            <input type="hidden" name='hdSeccion' value="<?php if(isset($this->curso)) echo $this->curso;?>"/>
                             <input type="hidden" name='hdCentroUnidad' value="<?php if(isset($this->id)) echo $this->id;?>"/>
                             <input type="hidden" name='slCiclo' value="<?php if(isset($this->idciclo)) echo $this->idciclo;?>"/>
                         </form>
@@ -69,9 +68,9 @@
                             <td style="text-align: center;"><a href="<?php echo BASE_URL . 'gestionPensum/actualizarCarrera/' . $this->lstHor[$i]['idhorario'];?>">Modificar</a></td>
                             <td style="text-align: center;">
                                 <?php if(strcmp($this->lstHor[$i]['estado'], 'Activo') == 0): ?>
-                                <a href="<?php echo BASE_URL . 'gestionPensum/eliminarCarrera/-1/' . $this->lstHor[$i]['idhorario'];?>">Desactivar</a>
+                                <a href="<?php echo BASE_URL . 'gestionHorario/eliminarHorario/-1/' . $this->lstHor[$i]['idhorario'] .'/'. $this->parametros ;?>">Desactivar</a>
                                 <?php else : ?>
-                                <a href="<?php echo BASE_URL . 'gestionPensum/eliminarCarrera/1/' . $this->lstHor[$i]['idhorario'] ?>">Activar</a>
+                                <a href="<?php echo BASE_URL . 'gestionHorario/eliminarHorario/1/' . $this->lstHor[$i]['idhorario'] .'/'. $this->parametros ;?>">Activar</a>
                                 <?php endif;?>
                             </td>
                         </tr>

@@ -87,12 +87,16 @@ CREATE OR REPLACE FUNCTION spdatosseccion(
     OUT descripcion text,
     OUT curso integer,
     OUT estado integer,
-    OUT tiposeccion integer)
+    OUT tiposeccion integer,
+	OUT cursonombre text,
+    OUT tiposeccionnombre text)
   RETURNS SETOF record AS
 $BODY$
 BEGIN
   RETURN query
-  SELECT s.nombre, s.descripcion, s.curso, s.estado, s.tiposeccion FROM CUR_Seccion s where s.seccion = id;
+  SELECT s.nombre, s.descripcion, s.curso, s.estado, s.tiposeccion, (c.codigo || ' - ' || c.nombre) as cursonombre, t.nombre as "tiposeccionnombre" FROM CUR_Seccion s 
+	join CUR_TipoSeccion t on s.tiposeccion = t.tiposeccion join CUR_Curso c on s.curso = c.curso
+  where s.seccion = id;
 END;
 $BODY$
   LANGUAGE plpgsql VOLATILE

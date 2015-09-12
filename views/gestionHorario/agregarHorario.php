@@ -9,7 +9,7 @@
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
                         <i class="fa fa-2x fa-backward wow bounceIn text-primary" data-wow-delay=".2s">
-                            <a href="<?php echo BASE_URL?>gestionHorario/index/<?php echo $this->id;?>">
+                            <a href="<?php echo BASE_URL?>gestionHorario/index/<?php echo $this->parametros; ?>">
                                 Regresar
                             </a>
                         </i>

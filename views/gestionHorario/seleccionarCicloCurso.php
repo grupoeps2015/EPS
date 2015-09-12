@@ -7,7 +7,7 @@
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
                         <i class="fa fa-2x fa-backward wow bounceIn text-primary" data-wow-delay=".2s">
-                            <a href="<?php echo BASE_URL?>gestionSeccion/index/<?php echo $this->id?>">
+                            <a href="<?php echo BASE_URL?>general/seleccionarCentroUnidad/gestionHorario/seleccionarCicloCurso">
                                 Regresar
                             </a>
                         </i>
@@ -87,7 +87,6 @@
                         <td colspan="5"><hr class="hr1"/></td>
                     </tr>
                 </table>
-                <input type="hidden" id="hdSeccion" name="hdSeccion">
                 <input type="hidden" name='hdCentroUnidad' value="<?php echo $this->id;?>"/>
             </form>
         </div>

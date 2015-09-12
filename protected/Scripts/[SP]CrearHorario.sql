@@ -156,6 +156,25 @@ $BODY$
   ROWS 1000;
 ALTER FUNCTION spinformacionhorario(integer, integer)
   OWNER TO postgres;
+  
+  
+-- Function: spactivardesactivarhorario(integer, integer)
+
+-- DROP FUNCTION spactivardesactivarhorario(integer, integer);
+
+CREATE OR REPLACE FUNCTION spactivardesactivarhorario(
+    _idhorario integer,
+    _estadonuevo integer)
+  RETURNS void AS
+$BODY$
+BEGIN
+  EXECUTE format('UPDATE cur_horario SET estado = %L WHERE horario = %L',_estadoNuevo,_idhorario);
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION spactivardesactivarhorario(integer, integer)
+  OWNER TO postgres;
 --------------------------------------------------------------------------------------------------------------------------------------------------
 
 -- Function: spagregarcarrera(text, integer, integer)
