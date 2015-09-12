@@ -24,14 +24,13 @@ class gestionHorarioController extends Controller {
         if(!is_null($parametros)){
             list($idCentroUnidad, $idCiclo, $idSeccion) = split('[$.-]', (string)$parametros);
         }else{
-            $idCiclo = $this->getInteger('slCiclo');
-            $idSeccion = $this->getInteger('slSec');
             if($this->getInteger('hdCentroUnidad')){
                 $idCentroUnidad = $this->getInteger('hdCentroUnidad');
             }else{
-                session_start();
-                $idCentroUnidad = $_SESSION["centrounidad"];
+                $this->redireccionar("general/seleccionarCentroUnidad/gestionHorario/seleccionarCicloCurso");
             }
+            $idCiclo = $this->getInteger('slCiclo');
+            $idSeccion = $this->getInteger('slSec');
         }
         
         $this->_view->idciclo = $idCiclo;
@@ -70,6 +69,7 @@ class gestionHorarioController extends Controller {
         }else if ($id != 0){
             $idCentroUnidad = $id;
         }else{
+            session_start();
             $idCentroUnidad = $_SESSION["centrounidad"];
         }
         $this->_view->id = $idCentroUnidad;
