@@ -252,12 +252,9 @@ class gestionHorarioController extends Controller {
     }
     
     public function actualizarHorario($intIdHorario, $parametros) {
-        $this->_view->setJs(array('jquery.validate'), "public");
-        $this->_view->setJs(array('actualizarCarrera'));
-        
-        $arrayHor = array();
-        $actualizar = false;
-        $this->_view->id = $intIdHorario;
+        if(!is_null($parametros)){
+            list($idCentroUnidad, $idCiclo, $idSeccion) = split('[$.-]', (string)$parametros);
+        }
         
         $hor = $this->_post->datosHorario($intIdHorario);
         if(is_array($hor)){
@@ -266,6 +263,81 @@ class gestionHorarioController extends Controller {
             $this->redireccionar("error/sql/" . $hor);
             exit;
         }
+        
+        $periodos = $this->_ajax->getPeriodosAjax((isset($hor[0]['tipoperiodo']) ? $hor[0]['tipoperiodo'] : 0));
+        if(is_array($periodos)){
+            $this->_view->periodos = $periodos;
+        }else{
+            $this->redireccionar("error/sql/" . $periodos);
+            exit;
+        }
+        
+        $salones = $this->_ajax->getSalonesAjax((isset($hor[0]['edificio']) ? $hor[0]['edificio'] : 0));
+        if(is_array($salones)){
+            $this->_view->salones = $salones;
+        }else{
+            $this->redireccionar("error/sql/" . $salones);
+            exit;
+        }
+        
+        $seccionNombre = $this->_postSeccion->datosSeccion($idSeccion);
+        if(is_array($seccionNombre)){
+            if(isset($seccionNombre[0]['nombre'])){
+                $this->_view->curso = $seccionNombre[0]['nombre']." - ".$seccionNombre[0]['tiposeccionnombre']." - ".$seccionNombre[0]['cursonombre'];
+            }
+        }else{
+            $this->redireccionar("error/sql/" . $seccionNombre);
+            exit;
+        } 
+        
+        $jornadas = $this->_post->getJornadas();
+        if(is_array($jornadas)){
+            $this->_view->jornadas = $jornadas;
+        }else{
+            $this->redireccionar("error/sql/" . $jornadas);
+            exit;
+        }
+        
+        $tiposPeriodo = $this->_post->getTiposPeriodo();
+        if(is_array($tiposPeriodo)){
+            $this->_view->tiposPeriodo = $tiposPeriodo;
+        }else{
+            $this->redireccionar("error/sql/" . $tiposPeriodo);
+            exit;
+        }
+        
+        $catedraticos = $this->_postCatedratico->getCatedraticos($idCentroUnidad);
+        if(is_array($catedraticos)){
+            $this->_view->catedraticos = $catedraticos;
+        }else{
+            $this->redireccionar("error/sql/" . $catedraticos);
+            exit;
+        }
+        
+        $dias = $this->_post->getDias();
+        if(is_array($dias)){
+            $this->_view->dias = $dias;
+        }else{
+            $this->redireccionar("error/sql/" . $dias);
+            exit;
+        }
+        
+        $edificios = $this->_post->informacionEdificio($idCentroUnidad);
+        if(is_array($edificios)){
+            $this->_view->edificios = $edificios;
+        }else{
+            $this->redireccionar("error/sql/" . $edificios);
+            exit;
+        }
+        
+        $this->_view->setJs(array('jquery.validate'), "public");
+        $this->_view->setJs(array('actualizarHorario'));
+        
+        $arrayHor = array();
+        $actualizar = false;
+        $this->_view->id = $intIdHorario;
+        $this->_view->parametros = $parametros;
+        
         
         $this->_view->titulo = 'Actualizar Horario - ' . APP_TITULO;
         
@@ -282,8 +354,8 @@ class gestionHorarioController extends Controller {
                 exit;
             }
         }
-        print_r($hor);
-        //$this->_view->renderizar('actualizarHorario', 'gestionHorario');  
+        //print_r($hor);
+        $this->_view->renderizar('actualizarHorario', 'gestionHorario');  
     }
     
     public function cargarCSV(){
