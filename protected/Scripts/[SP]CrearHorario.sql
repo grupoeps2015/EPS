@@ -175,6 +175,40 @@ $BODY$
   COST 100;
 ALTER FUNCTION spactivardesactivarhorario(integer, integer)
   OWNER TO postgres;
+  
+
+-- Function: spdatoshorario(integer)
+
+-- DROP FUNCTION spdatoshorario(integer);
+
+CREATE OR REPLACE FUNCTION spdatoshorario(
+    IN id integer,
+    OUT jornada integer,
+    OUT trama integer,
+    OUT ciclo integer,
+    OUT cursocatedratico integer,
+    OUT dia integer,
+    OUT periodo integer,
+    OUT tipoperiodo integer,
+    OUT inicio text,
+    OUT fin text,
+    OUT seccion integer,
+    OUT catedratico integer,
+    OUT salon integer,
+    OUT edificio integer)
+  RETURNS SETOF record AS
+$BODY$
+BEGIN
+  RETURN query
+  SELECT h.jornada, h.trama, h.ciclo, t.curso_catedratico, t.dia, t.periodo, p.tipoperiodo, to_char(t.inicio, 'HH24:MI') as inicio, to_char(t.fin, 'HH24:MI') as fin, t.seccion, cc.catedratico, hs.salon, s.edificio FROM CUR_Horario h join CUR_Trama t on t.trama = h.trama join CUR_Horario_Salon hs on hs.horario = h.horario join CUR_Salon s on s.salon = hs.salon join CUR_Periodo p on p.periodo = t.periodo join CUR_Curso_Catedratico cc on cc.curso_catedratico = t.curso_catedratico where h.horario = id;
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION spdatoshorario(integer)
+  OWNER TO postgres;
+
 --------------------------------------------------------------------------------------------------------------------------------------------------
 
 -- Function: spagregarcarrera(text, integer, integer)

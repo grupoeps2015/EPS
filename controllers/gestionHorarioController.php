@@ -251,38 +251,39 @@ class gestionHorarioController extends Controller {
         }
     }
     
-    public function actualizarCarrera($intIdCarrera = 0) {
+    public function actualizarHorario($intIdHorario, $parametros) {
         $this->_view->setJs(array('jquery.validate'), "public");
         $this->_view->setJs(array('actualizarCarrera'));
         
-        $arrayCar = array();
+        $arrayHor = array();
         $actualizar = false;
-        $this->_view->id = $intIdCarrera;
+        $this->_view->id = $intIdHorario;
         
-        $carr = $this->_post->datosCarrera($intIdCarrera);
-        if(is_array($carr)){
-            $this->_view->datosCar = $carr;
+        $hor = $this->_post->datosHorario($intIdHorario);
+        if(is_array($hor)){
+            $this->_view->datosHor = $hor;
         }else{
-            $this->redireccionar("error/sql/" . $carr);
+            $this->redireccionar("error/sql/" . $hor);
             exit;
         }
         
-        $this->_view->titulo = 'Actualizar Carrera - ' . APP_TITULO;
+        $this->_view->titulo = 'Actualizar Horario - ' . APP_TITULO;
         
         if ($this->getInteger('hdEnvio')) {
             $nombreCarrera = $this->getTexto('txtNombre');
 
-            $arrayCar['id'] = $intIdCarrera;
+            $arrayCar['id'] = $intIdHorario;
             $arrayCar['nombre'] = $nombreCarrera;
             $respuesta = $this->_post->actualizarCarrera($arrayCar);
             if (is_array($respuesta)){
-                $this->redireccionar('gestionPensum/listadoCarrera');
+                $this->redireccionar("gestionHorario/index/{$parametros}");
             }else{
                 $this->redireccionar("error/sql/" . $respuesta);
                 exit;
             }
         }
-        $this->_view->renderizar('actualizarCarrera', 'gestionPensum');
+        print_r($hor);
+        //$this->_view->renderizar('actualizarHorario', 'gestionHorario');  
     }
     
     public function cargarCSV(){

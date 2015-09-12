@@ -104,6 +104,15 @@ class gestionHorarioModel extends Model {
             return $info->fetchall();
         }
     }
+    
+    public function datosHorario($idHorario) {
+        $info = $this->_db->query("select * from spDatosHorario(" . $idHorario . ");");
+        if($info === false){
+            return "1104/datosHorario";
+        }else{
+            return $info->fetchall();
+        }
+    }
     ////
     public function agregarCarrera($_datos) {
         $info = $this->_db->prepare("SELECT * from spAgregarCarrera(:nombre,:estado,:centrounidadacademica) as Id;");
