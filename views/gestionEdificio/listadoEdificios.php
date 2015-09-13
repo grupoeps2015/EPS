@@ -7,7 +7,7 @@
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
                         <i class="fa fa-2x fa-backward wow bounceIn text-primary" data-wow-delay=".2s">
-                            <a href="<?php echo BASE_URL?>gestionEdificios/listadoEdificio">
+                            <a href="<?php echo BASE_URL?>login/inicio">
                                 Regresar
                             </a>
                         </i>
@@ -17,7 +17,7 @@
                 <div class="col-lg-3 col-md-6 text-center"></div>
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
-                        <i class="fa fa-2x fa-user-plus wow bounceIn text-primary" data-wow-delay=".2s">
+                        <i class="fa fa-2x fa-building-o wow bounceIn text-primary" data-wow-delay=".2s">
                             <a href="<?php echo BASE_URL?>gestionEdificio/agregarEdificio">
                                 Agregar Edificio
                             </a>
@@ -40,7 +40,6 @@
                                 <th style="text-align:center; width: 100px;">Estado</th>
                                 <th style="text-align:center; width: 100px;">&nbsp;</th>
                                 <th style="text-align:center; width: 200px;">&nbsp;</th>
-                                <th style="text-align:center; width: 200px;">&nbsp;</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -51,11 +50,12 @@
                                 <td style="text-align: center;"><?php echo $this->lstEdif[$i]['_nombre']; ?></td>
                                 <td style="text-align: center;"><?php echo $this->lstEdif[$i]['_descripcion']; ?></td>
                                 <td style="text-align: center;"><?php echo $this->lstEdif[$i]['_estado']; ?></td>
-                                <td style="text-align: center;"><a href="#">Modificar</a></td>
                                 <td style="text-align: center;">
                                      <?php if(strcmp($this->lstEdif[$i]['_estado'], 'Activo') == 0): ?>
+                                      
                                     <a href="<?php echo BASE_URL . 'gestionEdificio/activarDesactivarEdificio/-1/' . $this->lstEdif[$i]['_id'];?>">Desactivar</a>
                                     <?php else : ?>
+                                     
                                     <a href="<?php echo BASE_URL . 'gestionEdificio/activarDesactivarEdificio/1/' . $this->lstEdif[$i]['_id'] ?>">Activar</a>
                                     <?php endif;?>
                                 </td>

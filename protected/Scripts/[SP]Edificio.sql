@@ -51,7 +51,7 @@ BEGIN
     nombre,
     descripcion,
 	case 
-	when e.estado=0 then 'Inactivo'
+	when e.estado=-1 then 'Inactivo'
 	when e.estado=1 then 'Activo'
 	end as "Estado"
   from 

@@ -75,12 +75,24 @@ class gestionEdificioController extends Controller {
             $arrayCar['descripcion'] = $nombreDescripcion;
             $arrayCar['estado'] = ESTADO_ACTIVO;
             $this->_post->agregarEdificio($arrayCar);
-            $this->redireccionar('gestionEdificio/gestionEdificio');
+            $this->redireccionar('gestionEdificio/listadoEdificio');
         }
 
         $this->_view->renderizar('agregarEdificio', 'gestionEdificio');
     }
     
-     
+     public function activarDesactivarEdificio($intNuevoEstado, $intIdEdificio) {
+        if ($intNuevoEstado == -1 || $intNuevoEstado == 1) {
+            $info = $this->_post->activarDesactivarEdificio($intIdEdificio, $intNuevoEstado);
+            
+            if(!is_array($info)){
+                $this->redireccionar("error/sql/" . $info);
+                exit;
+            }
+            $this->redireccionar('gestionEdificio/listadoEdificio');
+        } else {
+            echo "Error al desactivar el edificio";
+        }
+    }
 
 }

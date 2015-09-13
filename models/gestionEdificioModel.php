@@ -63,9 +63,9 @@ class gestionEdificioModel extends Model {
     }
     
     public function activarDesactivarEdificio($intIdEdificio, $intEstadoNuevo) {
-        $info = $this->_db->query("SELECT spActivarDesactivarEdificio(" . $intIdEdificio . "," . $intEstadoNuevo . ");");
+        $info = $this->_db->query("SELECT spactivardesactivaredificio(" . $intIdEdificio . "," . $intEstadoNuevo . ");");
         if($info === false){
-            return "1103/activarDesactivarEdificio";
+            return "1103/activardesactivaredificio";
         }else{
             return $info->fetchall();
         }
