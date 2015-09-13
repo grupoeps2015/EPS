@@ -557,46 +557,161 @@ INSERT INTO cur_dia (codigo,nombre) VALUES (6,'Sábado');
 INSERT INTO cur_dia (codigo,nombre) VALUES (7,'Domingo');
 
 
-/* ****************Datos de prueba para el menú (no oficiales)*/
+
 -- -----------------------------------------------------
 -- Insert adm_modulo
 -- -----------------------------------------------------
+--DELETE FROM adm_modulo
 INSERT INTO adm_modulo (modulo,nombre,descripcion,estado) values (1,'ADM','Administracion',1);
+INSERT INTO adm_modulo (modulo,nombre,descripcion,estado) values (2,'CUR','Cursos',1);
+INSERT INTO adm_modulo (modulo,nombre,descripcion,estado) values (3,'CAT','Catedraticos',1);
+INSERT INTO adm_modulo (modulo,nombre,descripcion,estado) values (4,'EST','Estudiantes',1);
 
 -- -----------------------------------------------------
 -- Insert adm_funcion
 -- -----------------------------------------------------
-INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (1,1,null,'Funcion1',1,'Funcion1');
-INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (2,1,null,'Funcion2',1,'Funcion2');
-INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (3,1,null,'Funcion3',1,'Funcion3');
-INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (4,1,1,'Funcion1.1',1,'Funcion1.1');
-INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (5,1,1,'Funcion1.2',1,'Funcion1.2');
-INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (6,1,2,'Funcion2.1',1,'Funcion2.2');
-INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (7,1,4,'Funcion1.1.1',1,'Funcion1.1.1');
+--DELETE FROM adm_funcion
+
+/*Reservados para el sistema - no insertar -
+--INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (1,1,null,'Login',1,'Login');
+--INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (2,1,null,'Logout',1,'Logout');
+*/
+
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (3,1,null,'Administracion',1,'Gestión de usuarios');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (4,1,null,'Cursos',1,'Gestión de usuarios');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (5,1,null,'Catedraticos',1,'Gestión de usuarios');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (6,1,null,'Estudiantes',1,'Gestión de usuarios');
+
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (7,1,3,'GestionUsuario',1,'Gestión de usuarios');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (8,1,7,'ConsultarUsuario',1,'Consultar usuario');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (9,1,7,'CrearUsuario',1,'Crear usuario');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (10,1,7,'ModificarUsuario',1,'Modificar usuario');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (11,1,7,'EliminarUsuario',1,'Eliminar usuario');
+
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (12,1,3,'GestionParametro',1,'Gestión de parámetros');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (13,1,12,'ConsultarParametro',1,'Consultar parametro');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (14,1,12,'CrearParametro',1,'Crear parametro');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (15,1,12,'ModificarParametro',1,'Modificar parametro');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (16,1,12,'EliminarParametro',1,'Eliminar parametro');
+
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (17,1,3,'GestionEdificio',1,'Gestión de edificios');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (18,1,17,'ConsultarEdificio',1,'Consultar edificio');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (19,1,17,'CrearEdificio',1,'Crear edificio');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (20,1,17,'ModificarEdificio',1,'Modificar edificio');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (21,1,17,'EliminarEdificio',1,'Eliminar edificio');
+
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (22,2,4,'GestionCurso',1,'Gestión de cursos');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (23,2,22,'ConsultarCurso',1,'Consultar curso');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (24,2,22,'CrearCurso',1,'Crear curso');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (25,2,22,'ModificarCurso',1,'Modificar curso');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (26,2,22,'EliminarCurso',1,'Eliminar curso');
+
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (27,2,22,'GestionSeccion',1,'Gestión de secciones');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (28,2,27,'ConsultarSeccion',1,'Consultar seccion');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (29,2,27,'CrearSeccion',1,'Crear seccion');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (30,2,27,'ModificarSeccion',1,'Modificar seccion');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (31,2,27,'EliminarSeccion',1,'Eliminar seccion');
+
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (32,2,4,'GestionPensum',1,'Gestión de pensum');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (33,2,32,'ConsultarPensum',1,'Consultar pensum');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (34,2,32,'CrearPensum',1,'Crear pensum');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (35,2,32,'ModificarPensum',1,'Modificar pensum');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (36,2,32,'EliminarPensum',1,'Eliminar pensum');
+
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (37,2,32,'GestionCarrera',1,'Gestión de carreras');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (38,2,37,'ConsultarCarrera',1,'Consultar carrera');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (39,2,37,'CrearCarrera',1,'Crear carrera');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (40,2,37,'ModificarCarrera',1,'Modificar carrera');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (41,2,37,'EliminarSeccion',1,'Eliminar carrera');
+
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (42,2,4,'GestionHorario',1,'Gestión de horarios');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (43,2,42,'ConsultarHorario',1,'Consultar horario');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (44,2,38,'CrearHorario',1,'Crear horario');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (45,2,38,'ModificarHorario',1,'Modificar horario');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (46,2,38,'EliminarHorario',1,'Eliminar horario');
+
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (47,2,4,'GestionNota',1,'Gestión de notas');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (48,2,47,'ConsultarNota',1,'Consultar nota');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (49,2,47,'CrearNota',1,'Crear nota');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (50,2,47,'ModificarNota',1,'Modificar nota');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (51,2,47,'EliminarNota',1,'Eliminar nota');
+
+
+
 
 -- -----------------------------------------------------
 -- Insert adm_rol_funcion
 -- -----------------------------------------------------
-INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,1);
-INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,2);
+--DELETE FROM adm_rol_funcion
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,3);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,4);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,5);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,6);
-INSERT INTO adm_rol_funcion (rol,funcion) VALUES (1,3);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,3);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,7);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,8);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,9);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,10);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,11);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,12);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,13);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,14);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,15);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,16);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,17);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,18);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,19);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,20);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,21);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,22);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,23);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,24);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,25);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,27);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,28);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,29);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,30);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,31);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,32);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,33);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,34);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,35);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,36);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,37);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,38);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,39);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,40);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,41);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,42);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,43);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,44);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,45);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,46);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,47);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,48);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,49);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,50);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,51);
 
 -- -----------------------------------------------------
 -- Insert adm_funcionmenu
 -- -----------------------------------------------------
-INSERT INTO adm_funcionmenu (funcionmenu,nombre,tipo,url,funcionpadre,funcion,orden,estado) VALUES (1,'FuncionMenu1',1,null,null,1,1,1);
-INSERT INTO adm_funcionmenu (funcionmenu,nombre,tipo,url,funcionpadre,funcion,orden,estado) VALUES (2,'FuncionMenu2',1,null,null,2,1,1);
-INSERT INTO adm_funcionmenu (funcionmenu,nombre,tipo,url,funcionpadre,funcion,orden,estado) VALUES (3,'FuncionMenu3',1,null,null,3,1,1);
-INSERT INTO adm_funcionmenu (funcionmenu,nombre,tipo,url,funcionpadre,funcion,orden,estado) VALUES (4,'FuncionMenu1.1',2,null,1,4,1,1);
-INSERT INTO adm_funcionmenu (funcionmenu,nombre,tipo,url,funcionpadre,funcion,orden,estado) VALUES (5,'FuncionMenu1.2',2,null,1,5,1,1);
-INSERT INTO adm_funcionmenu (funcionmenu,nombre,tipo,url,funcionpadre,funcion,orden,estado) VALUES (6,'FuncionMenu2.1',2,null,2,6,1,1);
-INSERT INTO adm_funcionmenu (funcionmenu,nombre,tipo,url,funcionpadre,funcion,orden,estado) VALUES (7,'FuncionMenu1.1.1',3,null,4,7,1,1);
+--DELETE FROM adm_funcionmenu
+INSERT INTO adm_funcionmenu (funcionmenu,nombre,tipo,url,funcionpadre,funcion,orden,estado) VALUES (1,'Administración',1,null,null,3,1,1);
+INSERT INTO adm_funcionmenu (funcionmenu,nombre,tipo,url,funcionpadre,funcion,orden,estado) VALUES (2,'Cursos',1,null,null,4,1,1);
+INSERT INTO adm_funcionmenu (funcionmenu,nombre,tipo,url,funcionpadre,funcion,orden,estado) VALUES (3,'Catedráticos',1,null,null,5,1,1);
+INSERT INTO adm_funcionmenu (funcionmenu,nombre,tipo,url,funcionpadre,funcion,orden,estado) VALUES (4,'Estudiantes',1,null,null,6,1,1);
+INSERT INTO adm_funcionmenu (funcionmenu,nombre,tipo,url,funcionpadre,funcion,orden,estado) VALUES (5,'Gestión de usuarios',2,'general/seleccionarCentroUnidad/gestionUsuario',1,3,1,1);
+INSERT INTO adm_funcionmenu (funcionmenu,nombre,tipo,url,funcionpadre,funcion,orden,estado) VALUES (6,'Gestión de parámetros',2,'gestionParametro',1,8,1,1);
+INSERT INTO adm_funcionmenu (funcionmenu,nombre,tipo,url,funcionpadre,funcion,orden,estado) VALUES (7,'Gestión de edificios',2,'gestionEdificio/listadoEdificio',1,13,1,1);
+INSERT INTO adm_funcionmenu (funcionmenu,nombre,tipo,url,funcionpadre,funcion,orden,estado) VALUES (8,'Gestión de cursos',2,'general/seleccionarCentroUnidad/gestionCurso',2,18,1,1);
+INSERT INTO adm_funcionmenu (funcionmenu,nombre,tipo,url,funcionpadre,funcion,orden,estado) VALUES (9,'Gestión general de pénsum',2,'gestionPensum/inicio',2,28,1,1);
+INSERT INTO adm_funcionmenu (funcionmenu,nombre,tipo,url,funcionpadre,funcion,orden,estado) VALUES (10,'Gestión de carreras',3,'general/seleccionarCentroUnidad/gestionPensum/listadoCarrera',9,33,1,1);
+INSERT INTO adm_funcionmenu (funcionmenu,nombre,tipo,url,funcionpadre,funcion,orden,estado) VALUES (11,'Gestión de horarios',3,'general/seleccionarCentroUnidad/gestionHorario/seleccionarCicloCurso',2,38,1,1);
+INSERT INTO adm_funcionmenu (funcionmenu,nombre,tipo,url,funcionpadre,funcion,orden,estado) VALUES (12,'Gestión de notas',3,'general/seleccionarCentroUnidad/gestionNotas',2,43,1,1);
 
 
-/* ****************Terminan datos de prueba para menú*/
+
+
+
 

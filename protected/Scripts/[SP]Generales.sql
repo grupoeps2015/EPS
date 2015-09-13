@@ -43,6 +43,7 @@ language 'plpgsql';
 --Se llama a la función de la siguiente manera:
 --select parametro from spconsultageneral2('adm_parametro') as par(parametro integer,nombre text, valor text,descripcion text, centro integer,unidadacademica integer, carrera integer,extension integer, estado integer,tipoparametro integer);
 
+
 -- -----------------------------------------------------
 -- Function: spfuncionmenupadre()
 -- -----------------------------------------------------
@@ -82,6 +83,23 @@ BEGIN
 END;
 $BODY$
 LANGUAGE 'plpgsql';
+
+-- -----------------------------------------------------
+-- Function: spValidarRolFuncion()
+-- -----------------------------------------------------
+-- DROP FUNCTION spValidarRolFuncion(integer,integer);
+CREATE OR REPLACE FUNCTION spValidarRolFuncion(Rol integer, Funcion integer)
+  RETURNS integer AS
+$BODY$
+BEGIN
+
+RETURN (SELECT EXISTS (SELECT rf.funcion FROM ADM_Rol_Funcion rf WHERE rf.Rol = $1 AND rf.Funcion = $2)::int);
+
+END;
+$BODY$
+LANGUAGE 'plpgsql';
+  
+  
 
 -- -----------------------------------------------------
 -- Function: spMunicipioXDepto()

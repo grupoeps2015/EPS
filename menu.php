@@ -4,13 +4,11 @@
   <title>Men&uacute;</title>
   <script type="text/javascript">
     $(document).ready(function() {
-        
+      
     $('li.padres').hover(function() {
-        $(this).children('ul.hijos').show('slow');
-    });
-    //$('li.padres').mouseleave(function(event) {
-        //$('ul.hijos').hide('slow');
-    //});
+      $(this).children('ul.hijos').show('slow');
+      //$(this).siblings('li').children('ul.hijos').hide(1150);
+   });
     $('#titulomenu').click(function() {
         $('ul.hijos').hide('slow');
     });
@@ -89,8 +87,13 @@
     }
 
     function imprimirMenu(&$menu){
+            if($menu["url"]!=''){
+            $GLOBALS['listamenu'] .= '<li class="padres"><a href="'.BASE_URL.$menu["url"].'">'.$menu["nombre"]."</a>\n";
+            }
+            else {
+                $GLOBALS['listamenu'] .= '<li class="padres" >'." - ".$menu["nombre"]."\n</a>\n";
             
-            $GLOBALS['listamenu'] .= '<li class="padres"><a href="'.$menu["url"].'">'.$menu["nombre"]."</a>\n";
+            }
 
             if($menu["hijos"]){
                     $GLOBALS['listamenu'] .= "<ul class='hijos' style='list-style:none;'>\n";
