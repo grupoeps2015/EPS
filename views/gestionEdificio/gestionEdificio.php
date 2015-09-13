@@ -17,7 +17,7 @@
                 <div class="col-lg-3 col-md-6 text-center"></div>
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
-                        <form method='post' name='frmPost' id='frmPost'>
+                        <form method='post' name='frmPost' id='frmPost' action='<?php echo BASE_URL?>gestionEdificio/asignacionEdificio'>
                             <i class="fa fa-2x fa-building wow bounceIn text-primary" data-wow-delay=".2s">
                                 <a id="linkNuevoUsr" href="gestionEdificio/asignacionEdificio">Asignar Edificio</a>
                             </i>
