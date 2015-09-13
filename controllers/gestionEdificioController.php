@@ -19,6 +19,23 @@ class gestionEdificioController extends Controller {
         $this->_ajax = $this->loadModel("ajax");
     }
     
+    public function listadoEdificio() {
+        $info = $this->_post->allEdificios();
+        if(is_array($info)){
+            $this->_view->lstEdif = $info;
+        }else{
+            $this->redireccionar("error/sql/" . $info);
+            exit;
+        }
+        
+        $this->_view->titulo = 'Gestión de Edificios - ' . APP_TITULO;
+        $this->_view->setJs(array('listadoEdificios'));
+        $this->_view->setJs(array('jquery.dataTables.min'), "public");
+        $this->_view->setCSS(array('jquery.dataTables.min'));
+
+        $this->_view->renderizar('listadoEdificios');
+    }
+    
     public function index($id=0){
         if($this->getInteger('hdEdificio')){
             $idEdificio = $this->getInteger('hdEdificio');
@@ -63,5 +80,7 @@ class gestionEdificioController extends Controller {
 
         $this->_view->renderizar('agregarEdificio', 'gestionEdificio');
     }
+    
+     
 
 }

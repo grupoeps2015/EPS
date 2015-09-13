@@ -7,7 +7,7 @@
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
                         <i class="fa fa-2x fa-backward wow bounceIn text-primary" data-wow-delay=".2s">
-                            <a href="<?php echo BASE_URL; ?>gestionEdificio/gestionEdificio">
+                            <a href="<?php echo BASE_URL; ?>gestionEdificio/listadoEdificio">
                                 Regresar
                             </a>
                         </i>
@@ -34,8 +34,8 @@
             <div class="row">
                 <form id="frEdificios" method="post" action="<?php echo BASE_URL; ?>gestionEdificios/agregarEdificio">
                     <div id="divEdificios" class="form-group" >
-                        <div align="center" style="margin-top: 30px; margin-left: 10%; margin-right: 10%;">
-                            <table id="tbEdificios">
+                        <div align="center" style="margin-top: 10px; margin-left: 10%; margin-right: 10%;">
+                            <table id="tbEdificios" border="2" align="center">
                                 <thead>
                                     <tr>
                                         <th style="text-align:center; padding-right: 20px;">Nombre Unidad Academica</th>

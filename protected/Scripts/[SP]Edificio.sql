@@ -32,3 +32,34 @@ $BODY$
   ROWS 1000;
 ALTER FUNCTION spinformacionedificio(integer)
   OWNER TO postgres;
+  
+  -- Function: spmostraredificios()
+
+-- DROP FUNCTION spmostraredificios();
+
+CREATE OR REPLACE FUNCTION spmostraredificios(
+    OUT _id integer,
+    OUT _nombre text,
+    OUT _descripcion text,
+    OUT _estado text)
+  RETURNS SETOF record AS
+$BODY$
+BEGIN
+  RETURN query
+  Select 
+    edificio,
+    nombre,
+    descripcion,
+	case 
+	when e.estado=0 then 'Inactivo'
+	when e.estado=1 then 'Activo'
+	end as "Estado"
+  from 
+    CUR_Edificio e;
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION spmostraredificios()
+  OWNER TO postgres;

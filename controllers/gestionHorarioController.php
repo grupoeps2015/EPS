@@ -179,7 +179,6 @@ class gestionHorarioController extends Controller {
         $this->_view->titulo = 'Agregar Horario - ' . APP_TITULO;
         $this->_view->setJs(array('agregarHorario'));
         $this->_view->setJs(array('jquery.validate'), "public");
-        $arrayCar = array();
         
         if ($this->getInteger('hdEnvio')) {
             $catedratico = $this->getInteger('slCatedraticos');
@@ -252,12 +251,9 @@ class gestionHorarioController extends Controller {
     }
     
     public function actualizarHorario($intIdHorario, $parametros) {
-        $this->_view->setJs(array('jquery.validate'), "public");
-        $this->_view->setJs(array('actualizarCarrera'));
-        
-        $arrayHor = array();
-        $actualizar = false;
-        $this->_view->id = $intIdHorario;
+        if(!is_null($parametros)){
+            list($idCentroUnidad, $idCiclo, $idSeccion) = split('[$.-]', (string)$parametros);
+        }
         
         $hor = $this->_post->datosHorario($intIdHorario);
         if(is_array($hor)){
@@ -267,23 +263,136 @@ class gestionHorarioController extends Controller {
             exit;
         }
         
+        $periodos = $this->_ajax->getPeriodosAjax((isset($hor[0]['tipoperiodo']) ? $hor[0]['tipoperiodo'] : 0));
+        if(is_array($periodos)){
+            $this->_view->periodos = $periodos;
+        }else{
+            $this->redireccionar("error/sql/" . $periodos);
+            exit;
+        }
+        
+        $salones = $this->_ajax->getSalonesAjax((isset($hor[0]['edificio']) ? $hor[0]['edificio'] : 0));
+        if(is_array($salones)){
+            $this->_view->salones = $salones;
+        }else{
+            $this->redireccionar("error/sql/" . $salones);
+            exit;
+        }
+        
+        $seccionNombre = $this->_postSeccion->datosSeccion($idSeccion);
+        if(is_array($seccionNombre)){
+            if(isset($seccionNombre[0]['nombre'])){
+                $this->_view->curso = $seccionNombre[0]['nombre']." - ".$seccionNombre[0]['tiposeccionnombre']." - ".$seccionNombre[0]['cursonombre'];
+            }
+        }else{
+            $this->redireccionar("error/sql/" . $seccionNombre);
+            exit;
+        } 
+        
+        $jornadas = $this->_post->getJornadas();
+        if(is_array($jornadas)){
+            $this->_view->jornadas = $jornadas;
+        }else{
+            $this->redireccionar("error/sql/" . $jornadas);
+            exit;
+        }
+        
+        $tiposPeriodo = $this->_post->getTiposPeriodo();
+        if(is_array($tiposPeriodo)){
+            $this->_view->tiposPeriodo = $tiposPeriodo;
+        }else{
+            $this->redireccionar("error/sql/" . $tiposPeriodo);
+            exit;
+        }
+        
+        $catedraticos = $this->_postCatedratico->getCatedraticos($idCentroUnidad);
+        if(is_array($catedraticos)){
+            $this->_view->catedraticos = $catedraticos;
+        }else{
+            $this->redireccionar("error/sql/" . $catedraticos);
+            exit;
+        }
+        
+        $dias = $this->_post->getDias();
+        if(is_array($dias)){
+            $this->_view->dias = $dias;
+        }else{
+            $this->redireccionar("error/sql/" . $dias);
+            exit;
+        }
+        
+        $edificios = $this->_post->informacionEdificio($idCentroUnidad);
+        if(is_array($edificios)){
+            $this->_view->edificios = $edificios;
+        }else{
+            $this->redireccionar("error/sql/" . $edificios);
+            exit;
+        }
+        
+        $this->_view->setJs(array('jquery.validate'), "public");
+        $this->_view->setJs(array('actualizarHorario'));
+        
+        $arrayHor = array();
+        $actualizar = false;
+        $this->_view->id = $intIdHorario;
+        $this->_view->parametros = $parametros;
+        
+        
         $this->_view->titulo = 'Actualizar Horario - ' . APP_TITULO;
         
         if ($this->getInteger('hdEnvio')) {
-            $nombreCarrera = $this->getTexto('txtNombre');
-
-            $arrayCar['id'] = $intIdHorario;
-            $arrayCar['nombre'] = $nombreCarrera;
-            $respuesta = $this->_post->actualizarCarrera($arrayCar);
-            if (is_array($respuesta)){
-                $this->redireccionar("gestionHorario/index/{$parametros}");
-            }else{
-                $this->redireccionar("error/sql/" . $respuesta);
+            $catedratico = $this->getInteger('slCatedraticos');
+            $dia = $this->getInteger('slDias');
+            $periodo = $this->getInteger('slPeriodos');
+            $jornada = $this->getInteger('slJornadas');
+            $inicio = $this->getTexto('txtHoraInicial').":".$this->getTexto('txtMinutoInicial');
+            $fin = $this->getTexto('txtHoraFinal').":".$this->getTexto('txtMinutoFinal');
+            $Sec = $this->_postSeccion->datosSeccion($idSeccion);
+            if(!is_array($Sec)){
+                $this->redireccionar("error/sql/" . $Sec);
                 exit;
             }
+            
+            //Llena o cunsulta la tabla CUR_Curso_Catedratico
+            $cursocatedratico =  $this->_post->agregarCursoCatedratico($catedratico, $Sec[0]['curso']);
+            if(!is_array($cursocatedratico)){
+                $this->redireccionar("error/sql/" . $cursocatedratico);
+                exit;
+            }
+            
+            //Llena la tabla CUR_Trama
+            $arrayTra['cursocatedratico'] = $cursocatedratico[0][0];
+            $arrayTra['dia'] = $dia;
+            $arrayTra['periodo'] = $periodo;
+            $arrayTra['inicio'] = $inicio;
+            $arrayTra['fin'] = $fin;
+            $arrayTra['id'] = $hor[0]['trama'];
+            $trama =  $this->_post->actualizarTrama($arrayTra);
+            if(!is_array($trama)){
+                $this->redireccionar("error/sql/" . $trama);
+                exit;
+            }
+            
+            //Llena la tabla CUR_Horario
+            $arrayHor['jornada'] = $jornada;
+            $arrayHor['horario'] = $intIdHorario;
+            $horario =  $this->_post->actualizarHorario($arrayHor);
+            if(!is_array($horario)){
+                $this->redireccionar("error/sql/" . $horario);
+                exit;
+            }
+            
+            //Llena la tabla CUR_Horario_Salon
+            $horariosalon = $this->_post->agregarHorarioSalon($horario[0][0],$this->getInteger('slSalones'));
+            if(!is_array($horariosalon)){
+                $this->redireccionar("error/sql/" . $horariosalon);
+                exit;
+            }
+            
+            $this->redireccionar("gestionHorario/index/" . $parametros);
         }
-        print_r($hor);
-        //$this->_view->renderizar('actualizarHorario', 'gestionHorario');  
+        //print_r($hor);
+        $this->_view->renderizar('actualizarHorario', 'gestionHorario');  
     }
     
     public function cargarCSV(){

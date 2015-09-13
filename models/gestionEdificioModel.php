@@ -52,5 +52,23 @@ class gestionEdificioModel extends Model {
             return $post->fetchall();
         }
     }
+    
+    public function allEdificios() {
+        $info = $this->_db->query("select * from spmostraredificios();");
+        if($info === false){
+            return "1104/listadoEdificios";
+        }else{
+            return $info->fetchall();
+        }
+    }
+    
+    public function activarDesactivarEdificio($intIdEdificio, $intEstadoNuevo) {
+        $info = $this->_db->query("SELECT spActivarDesactivarEdificio(" . $intIdEdificio . "," . $intEstadoNuevo . ");");
+        if($info === false){
+            return "1103/activarDesactivarEdificio";
+        }else{
+            return $info->fetchall();
+        }
+    }
 
 }

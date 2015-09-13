@@ -14,7 +14,11 @@
             <div class="col-lg-4 col-md-8 text-center">
                 <div class="service-box">
                     <i class="fa fa-4x fa-building wow bounceIn text-primary"></i>
-                    <h3>Gesti&oacute;n de edificios</h3>
+                    <h3>
+                        <a href="<?php echo BASE_URL; ?>gestionEdificio/listadoEdificio">
+                                Gesti&oacute;n de Edificios
+                        </a>                        
+                    </h3>
                     <p class="text-muted">Capacidad de salones y gesti&oacute;n de uso</p>
                 </div>
             </div>
@@ -25,7 +29,7 @@
                     <i class="fa fa-4x fa-group wow bounceIn text-primary" data-wow-delay=".1s"></i>
                     <h3>
                         <a href="<?php echo BASE_URL; ?>general/seleccionarCentroUnidad/gestionUsuario">
-                                Gesti&oacute;n de usuarios
+                                Gesti&oacute;n de Usuarios
                         </a>
                     </h3>
                     <p class="text-muted">Directores, Control Acad&eacute;mico, Catedr&aacute;ticos y Estudiantes</p>

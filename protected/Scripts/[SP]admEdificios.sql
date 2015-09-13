@@ -74,7 +74,11 @@ CREATE OR REPLACE FUNCTION spDatosEdificio(
 $BODY$
 BEGIN
   RETURN query
-	select u.nombre nombreUnidad, c.nombre nombreCentro, j.nombre jornada, query1.estado estado from ADM_UnidadAcademica u JOIN (
+	select u.nombre nombreUnidad, c.nombre nombreCentro, j.nombre jornada, case 
+	when query1.estado=0 then 'Inactivo'
+	when query1.estado=1 then 'Activo'
+	end as "Estado"
+	 from ADM_UnidadAcademica u JOIN (
 	select acu.unidadAcademica unidad, acu.centro centro, ace.edificio edificio, ace.jornada jornada, ace.estado estado 
 	from ADM_CentroUnidad_Edificio ace join ADM_Centro_UnidadAcademica acu ON ace.centro_unidadAcademica = acu.centro_unidadAcademica) query1 ON
 	u.unidadacademica = query1.unidad JOIN ADM_Centro c ON c.centro = query1.centro JOIN cur_jornada j ON j.jornada = query1.jornada where query1.edificio = idEdificio;
@@ -84,6 +88,47 @@ $BODY$
   COST 100
   ROWS 1000;
 ALTER FUNCTION spDatosEdificio(integer)
+  OWNER TO postgres;
+  
+  -- Function: spactivardesactivaredificio(integer, integer)
+
+-- DROP FUNCTION spactivardesactivaredificio(integer, integer);
+
+CREATE OR REPLACE FUNCTION spactivardesactivaredificio(
+    _idEdificio integer,
+    _estadonuevo integer)
+  RETURNS void AS
+$BODY$
+BEGIN
+  EXECUTE format('UPDATE cur_edificio SET estado = %L WHERE edificio = %L',_estadoNuevo,_idEdificio);
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION spactivardesactivaredificio(integer, integer)
+  OWNER TO postgres;
+
+
+  
+-- Function: spdatoscarrera(integer)
+
+-- DROP FUNCTION spdatoscarrera(integer);
+
+CREATE OR REPLACE FUNCTION spdatoscarrera(
+    IN id integer,
+    OUT nombre text,
+    OUT estado integer)
+  RETURNS SETOF record AS
+$BODY$
+BEGIN
+  RETURN query
+  SELECT c.nombre, c.estado FROM CUR_Carrera c where c.carrera = id;
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION spdatoscarrera(integer)
   OWNER TO postgres;
 
   
@@ -102,7 +147,7 @@ CREATE OR REPLACE FUNCTION spagregarsalon(
     _estado integer)
   RETURNS integer AS
 $BODY$
-DECLARE idSalon INTEGER;
+DECLARE idSalon INTEGER
 BEGIN
 	INSERT INTO CUR_Salon(nombre, edificio, nivel, capacidad, estado) 
 	VALUES (_nombre, _edificio, _nivel, _capacidad, _estado) RETURNING Salon into idSalon;
@@ -121,7 +166,7 @@ CREATE OR REPLACE FUNCTION spcrearjornada(
     _estado integer)
   RETURNS integer AS
 $BODY$
- DECLARE idJornada INTEGER;
+ DECLARE idJornada INTEGER
 BEGIN
 	INSERT INTO cur_jornada(nombre, estado) 
 	VALUES (_nombre, _estado) RETURNING Jornada into idJornada;
@@ -142,7 +187,7 @@ CREATE OR REPLACE FUNCTION spcrearhorario(
     _estado integer)
   RETURNS integer AS
 $BODY$
- DECLARE idHorario INTEGER;
+ DECLARE idHorario INTEGER
 BEGIN
 	INSERT INTO cur_horario(jornada, trama, ciclo, estado) 
 	VALUES (_jornada, _trama, _ciclo, _estado) RETURNING Horario into idHorario;
@@ -163,7 +208,7 @@ CREATE OR REPLACE FUNCTION spagregarciclo(
     _estado integer)
   RETURNS integer AS
 $BODY$
-	DECLARE idCiclo INTEGER;
+	DECLARE idCiclo INTEGER
 BEGIN
 	INSERT INTO cur_ciclo(numeroCiclo, anio, tipoCiclo, estado) 
 	VALUES (_numeroCiclo, _anio, _tipoCiclo, _estado) RETURNING Ciclo into idCiclo;
@@ -183,7 +228,7 @@ CREATE OR REPLACE FUNCTION spagregartipociclo(
     _estado integer)
   RETURNS integer AS
 $BODY$
-	DECLARE idTipoCiclo INTEGER;
+	DECLARE idTipoCiclo INTEGER
 BEGIN
 	INSERT INTO cur_TipoCiclo(nombre, descripcion, estado) 
 	VALUES (_nombre, _descripcion, _estado) RETURNING TipoCiclo into idTipoCiclo;
@@ -209,7 +254,7 @@ CREATE OR REPLACE FUNCTION spagregartrama(
     _seccion integer)
   RETURNS integer AS
 $BODY$
-	DECLARE idTrama INTEGER;
+	DECLARE idTrama INTEGER
 BEGIN
 	INSERT INTO cur_Trama(curso, catedratico, dia, periodo, inicio, fin, seccion) 
 	VALUES (_curso, _catedratico, _dia, _periodo, _inicio, _fin, _seccion) RETURNING Trama into idTrama;
@@ -228,7 +273,7 @@ CREATE OR REPLACE FUNCTION spagregarperiodo(
     _tipoPeriodo integer)
   RETURNS integer AS
 $BODY$
-	DECLARE idPeriodo INTEGER;
+	DECLARE idPeriodo INTEGER
 BEGIN
 	INSERT INTO cur_Periodo(duracionMinutos,tipoPeriodo) 
 	VALUES (_duracionMinutos, _tipoPeriodo) RETURNING Periodo into idPeriodo;
@@ -248,7 +293,7 @@ CREATE OR REPLACE FUNCTION spagregartipoperiodo(
     _estado integer)
   RETURNS integer AS
 $BODY$
-	DECLARE idTipoPeriodo INTEGER;
+	DECLARE idTipoPeriodo INTEGER
 BEGIN
 	INSERT INTO cur_TipoPeriodo(nombre, descripcion, estado) 
 	VALUES (_nombre, _descripcion, _estado) RETURNING TipoPeriodo into idTipoPeriodo;

@@ -84,10 +84,21 @@ CREATE OR REPLACE FUNCTION spagregarhorariosalon(
   RETURNS integer AS
 $BODY$
 DECLARE idHorario integer;
+DECLARE idSalon integer;
 BEGIN
+	SELECT horario into idHorario FROM cur_horario_salon WHERE horario = _horario;
+	SELECT salon into idSalon FROM cur_horario_salon WHERE horario = _horario;
+IF idHorario IS NOT NULL THEN
+	IF idSalon <> _salon THEN
+		UPDATE CUR_Horario_Salon SET salon = _salon
+		WHERE horario = _horario;
+	END IF;
+	RETURN idHorario;
+ELSE
 	INSERT INTO cur_horario_salon (horario, salon) 
 	VALUES (_horario, _salon) RETURNING horario into idHorario;
 	RETURN idHorario;
+END IF;
 END; $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
@@ -207,6 +218,52 @@ $BODY$
   COST 100
   ROWS 1000;
 ALTER FUNCTION spdatoshorario(integer)
+  OWNER TO postgres;
+
+  
+-- Function: spactualizarhorario(integer, integer)
+
+-- DROP FUNCTION spactualizarhorario(integer, integer);
+
+CREATE OR REPLACE FUNCTION spactualizarhorario(
+    _jornada integer,
+    _idhorario integer)
+  RETURNS integer AS
+$BODY$
+DECLARE idHorario integer;
+BEGIN
+	UPDATE CUR_Horario SET jornada = _jornada
+	WHERE Horario = _idHorario RETURNING Horario into idHorario;
+	RETURN idHorario;
+END; $BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION spactualizarhorario(integer, integer)
+  OWNER TO postgres;
+  
+
+-- Function: spactualizartrama(integer, integer, integer, text, text, integer)
+
+-- DROP FUNCTION spactualizartrama(integer, integer, integer, text, text, integer);
+
+CREATE OR REPLACE FUNCTION spactualizartrama(
+    _cursocatedratico integer,
+    _dia integer,
+    _periodo integer,
+    _inicio text,
+    _fin text,
+    _idtrama integer)
+  RETURNS integer AS
+$BODY$
+DECLARE idTrama integer;
+BEGIN
+	UPDATE cur_trama SET curso_catedratico = _cursocatedratico, dia = _dia, periodo = _periodo, inicio = cast(_inicio as time), fin = cast(_fin as time) 
+	WHERE trama = _idTrama RETURNING trama into idTrama;
+	RETURN idTrama;
+END; $BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION spactualizartrama(integer, integer, integer, text, text, integer)
   OWNER TO postgres;
 
 --------------------------------------------------------------------------------------------------------------------------------------------------
