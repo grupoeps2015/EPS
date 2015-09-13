@@ -122,7 +122,7 @@ class ajaxModel extends Model{
     }
     
     public function getSecuencia($campo, $tabla){
-        $secuencia = $this->_db->query("select * from spcarreraxunidad({$unidad})");
+        $secuencia = $this->_db->query("select * from spcarreraxunidad({$campo},{$tabla})");
         $secuencia->setFetchMode(PDO::FETCH_ASSOC);
         if($secuencia === false){
             return "1200/getSecuencia";
@@ -148,6 +148,16 @@ class ajaxModel extends Model{
             return "1200/spGetNombreCentroUnidad";
         }else{
             return $info->fetchall();
+        }
+    }
+    
+    public function getDocenteSeccion($cat,$ciclo){
+        $post = $this->_db->query("select * from spDocenteCicloCursos({$cat},{$ciclo})");
+        $post->setFetchMode(PDO::FETCH_ASSOC);
+        if($post === false){
+            return "1200/getDocenteSeccion";
+        }else{
+            return $post->fetchall();
         }
     }
     
