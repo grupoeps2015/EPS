@@ -50,10 +50,10 @@
                     <?php for ($i = 0; $i < count($this->lstCat); $i++) : ?>
                     <tr>
                         <td style="text-align: center"><?php echo $this->lstCat[$i]['registro']; ?></td>
-                        <td style="text-align: center"><?php echo $this->lstCat[$i]['primernombre'] . ' ' . $this->lstCat[$i]['segundonombre'] . ' ' . $this->lstCat[$i]['primerapellido'] . ' ' . $this->lstCat[$i]['segundoapellido']; ?></td>
+                        <td style="text-align: center"><?php echo $this->lstCat[$i]['nombrecompleto']; ?></td>
                         <td style="text-align: center"><?php echo $this->lstCat[$i]['tipodocente']; ?></td>
                         <td style="text-align: center">
-                            <a href="<?php echo BASE_URL?>gestionNotas/cursosXDocente/<?php echo $this->lstCat[$i]['usuario']?>">
+                            <a href="<?php echo BASE_URL?>gestionNotas/cursosXDocente/<?php echo $this->lstCat[$i]['usuario']?>/<?php echo $this->id;?>">
                                 Ver Cursos
                             </a>
                         </td>

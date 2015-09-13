@@ -8,19 +8,26 @@
 class gestionNotasController extends Controller{
     private $_ajax;
     private $_notas;
-    private $_catedratico;
     
     public function __construct() {
         parent::__construct();
         $this->_ajax = $this->loadModel('ajax');
         $this->_notas = $this->loadModel('gestionNotas');
-        $this->_catedratico = $this->loadModel('catedratico');
     }
     
-    public function index(){
-        $idCentroUnidad = $this->getInteger('hdCentroUnidad');
+    public function index($id = 0){
+        if($this->getInteger('hdCentroUnidad')){
+            $idCentroUnidad = $this->getInteger('hdCentroUnidad');
+        }else if ($id != 0){
+            $idCentroUnidad = $id;
+        }else{
+            session_start();
+            $idCentroUnidad = $_SESSION["centrounidad"];
+        }
         
-        $lsCat = $this->_catedratico->getCatedraticos($idCentroUnidad);
+        $this->_view->id = $idCentroUnidad;
+        
+        $lsCat = $this->_notas->getDocentesActivos($idCentroUnidad);
         if(is_array($lsCat)){
             $this->_view->lstCat = $lsCat;
         }else{
@@ -44,18 +51,25 @@ class gestionNotasController extends Controller{
         $this->_view->renderizar('gestionNotas');
     }
     
-    public function cursosXDocente($idRegistro = 0){
+    public function cursosXDocente($idUsuario, $UnidadCentro){
+        $this->_view->id = $UnidadCentro;
+        $this->_view->idUsuario = $idUsuario;
         
-        $this->_view->registroCat = $idRegistro;
+        $datosCat = $this->_notas->getDocenteEspecifico($idUsuario);
+        if(is_array($datosCat)){
+            $this->_view->datosCat = $datosCat;
+        }else{
+            $this->redireccionar('error/sql/' . $datosCat);
+            exit;
+        }
         
-        $lsTipoCiclo = $this->_view->getTipoCiclo();
+        $lsTipoCiclo = $this->_ajax->getTipoCiclo();
         if(is_array($lsTipoCiclo)){
             $this->_view->lsTipoCiclo = $lsTipoCiclo;
         }else{
             $this->redireccionar('error/sql/' . $lsTipoCiclo);
             exit;
         }
-        
         
         $this->_view->titulo = 'Gestión de notas - ' . APP_TITULO;
         $this->_view->setJs(array('cursosXDocente'));
