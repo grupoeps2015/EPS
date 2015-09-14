@@ -22,29 +22,43 @@ class gestionSeccionController extends Controller {
     }
 
     public function index($id=0) {
-        if($this->getInteger('hdCentroUnidad')){
-            $idCentroUnidad = $this->getInteger('hdCentroUnidad');
-        }else if ($id != 0){
-            $idCentroUnidad = $id;
-        }else{
-            session_start();
-            $idCentroUnidad = $_SESSION["centrounidad"];
-        }
-        $this->_view->id= $idCentroUnidad;
+        session_start();
+        $rol = $_SESSION["rol"];        
+        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_GESTIONSECCION);
+                    
+        if($rolValido[0]["valido"]!=0){
         
-        $lstSec = $this->_post->informacionSeccion($idCentroUnidad);
-        if(is_array($lstSec)){
-            $this->_view->lstSec = $lstSec;
-        }else{
-            $this->redireccionar("error/sql/" . $lstSec);
-            exit;
+            if($this->getInteger('hdCentroUnidad')){
+                $idCentroUnidad = $this->getInteger('hdCentroUnidad');
+            }else if ($id != 0){
+                $idCentroUnidad = $id;
+            }else{
+                //session_start();
+                $idCentroUnidad = $_SESSION["centrounidad"];
+            }
+            $this->_view->id= $idCentroUnidad;
+
+            $lstSec = $this->_post->informacionSeccion($idCentroUnidad);
+            if(is_array($lstSec)){
+                $this->_view->lstSec = $lstSec;
+            }else{
+                $this->redireccionar("error/sql/" . $lstSec);
+                exit;
+            }
+
+            $this->_view->titulo = 'Gestión de secciones - ' . APP_TITULO;
+            $this->_view->setJs(array('gestionSeccion'));
+            $this->_view->setJs(array('jquery.dataTables.min'), "public");
+            $this->_view->setCSS(array('jquery.dataTables.min'));
+            $this->_view->renderizar('gestionSeccion');
         }
-        
-        $this->_view->titulo = 'Gestión de secciones - ' . APP_TITULO;
-        $this->_view->setJs(array('gestionSeccion'));
-        $this->_view->setJs(array('jquery.dataTables.min'), "public");
-        $this->_view->setCSS(array('jquery.dataTables.min'));
-        $this->_view->renderizar('gestionSeccion');
+        else
+        {         
+            echo "<script>
+                alert('No tiene permisos para acceder a esta función.');
+                window.location.href='" . BASE_URL . "login/inicio';
+                </script>";
+        }
     }
 
     public function agregarSeccion() {

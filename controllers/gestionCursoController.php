@@ -21,31 +21,44 @@ class gestionCursoController extends Controller {
     }
 
     public function index($id=0) {
-        if($this->getInteger('hdCentroUnidad')){
-            $idCentroUnidad = $this->getInteger('hdCentroUnidad');
-        }else if ($id != 0){
-            $idCentroUnidad = $id;
-        }else{
-            session_start();
-            $idCentroUnidad = $_SESSION["centrounidad"];
-        }
+        session_start();
+        $rol = $_SESSION["rol"];        
+        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_GESTIONCURSO);
         
-        $this->_view->titulo = 'Gestión de cursos - ' . APP_TITULO;
-        $this->_view->id = $idCentroUnidad;
-        
-        $lstCur = $this->_post->informacionCurso($idCentroUnidad);
-        if(is_array($lstCur)){
-            $this->_view->lstCur = $lstCur;
-        }else{
-            $this->redireccionar("error/sql/" . $lstCur);
-            exit;
-        }
-        
-        $this->_view->setJs(array('gestionCurso'));
-        $this->_view->setJs(array('jquery.dataTables.min'), "public");
-        $this->_view->setCSS(array('jquery.dataTables.min'));
+        if($rolValido[0]["valido"]!=0){        
+            if($this->getInteger('hdCentroUnidad')){
+                $idCentroUnidad = $this->getInteger('hdCentroUnidad');
+            }else if ($id != 0){
+                $idCentroUnidad = $id;
+            }else{
+                //session_start();
+                $idCentroUnidad = $_SESSION["centrounidad"];
+            }
 
-        $this->_view->renderizar('gestionCurso');
+            $this->_view->titulo = 'Gestión de cursos - ' . APP_TITULO;
+            $this->_view->id = $idCentroUnidad;
+
+            $lstCur = $this->_post->informacionCurso($idCentroUnidad);
+            if(is_array($lstCur)){
+                $this->_view->lstCur = $lstCur;
+            }else{
+                $this->redireccionar("error/sql/" . $lstCur);
+                exit;
+            }
+
+            $this->_view->setJs(array('gestionCurso'));
+            $this->_view->setJs(array('jquery.dataTables.min'), "public");
+            $this->_view->setCSS(array('jquery.dataTables.min'));
+
+            $this->_view->renderizar('gestionCurso');
+        }
+        else
+        {         
+            echo "<script>
+                alert('No tiene permisos para acceder a esta función.');
+                window.location.href='" . BASE_URL . "login/inicio';
+                </script>";
+        }
     }
 
     public function agregarCurso() {

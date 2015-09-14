@@ -20,30 +20,44 @@ class gestionUsuarioController extends Controller {
     }
 
     public function index($id=0){
-        if($this->getInteger('hdCentroUnidad')){
-            $idCentroUnidad = $this->getInteger('hdCentroUnidad');
-        }else if ($id != 0){
-            $idCentroUnidad = $id;
-        }else{
-            session_start();
-            $idCentroUnidad = $_SESSION["centrounidad"];
+        session_start();
+         $rol = $_SESSION["rol"];        
+        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_GESTIONUSUARIO);
+                    
+        if($rolValido[0]["valido"]!=0){
+       
+            if($this->getInteger('hdCentroUnidad')){
+                $idCentroUnidad = $this->getInteger('hdCentroUnidad');
+            }else if ($id != 0){
+                $idCentroUnidad = $id;
+            }else{
+                //session_start();
+                $idCentroUnidad = $_SESSION["centrounidad"];
+            }
+
+            $this->_view->titulo = 'Gestión de usuarios - ' . APP_TITULO;
+            $this->_view->id = $idCentroUnidad;
+            $this->_view->setJs(array('gestionUsuario'));
+            $this->_view->setJs(array('jquery.dataTables.min'), "public");
+            $this->_view->setCSS(array('jquery.dataTables.min'));
+
+            $lstUsr = $this->_post->informacionUsuario($idCentroUnidad);
+            if(is_array($lstUsr)){
+                $this->_view->lstUsr = $lstUsr;
+            }else{
+                $this->redireccionar("error/sql/" . $lstUsr);
+                exit;
+            }
+
+            $this->_view->renderizar('gestionUsuario');
         }
-        
-        $this->_view->titulo = 'Gestión de usuarios - ' . APP_TITULO;
-        $this->_view->id = $idCentroUnidad;
-        $this->_view->setJs(array('gestionUsuario'));
-        $this->_view->setJs(array('jquery.dataTables.min'), "public");
-        $this->_view->setCSS(array('jquery.dataTables.min'));
-        
-        $lstUsr = $this->_post->informacionUsuario($idCentroUnidad);
-        if(is_array($lstUsr)){
-            $this->_view->lstUsr = $lstUsr;
-        }else{
-            $this->redireccionar("error/sql/" . $lstUsr);
-            exit;
+        else
+        {         
+            echo "<script>
+                alert('No tiene permisos para acceder a esta función.');
+                window.location.href='" . BASE_URL . "login/inicio';
+                </script>";
         }
-        
-        $this->_view->renderizar('gestionUsuario');
     }
     
     public function agregarUsuario() {

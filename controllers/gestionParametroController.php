@@ -12,19 +12,34 @@ class gestionParametroController extends Controller{
     public function __construct() {
         parent::__construct();
         $this->_post = $this->loadModel('gestionParametro');
+        $this->_ajax = $this->loadModel("ajax");
     }
 
     public function index(){
-        $this->_view->lstPar = $this->_post->informacionParametro();
-        $this->_view->titulo = 'Gestión de parámetros - ' . APP_TITULO;
+        session_start();
+        $rol = $_SESSION["rol"];        
+        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_GESTIONPARAMETRO);
+                    
+        if($rolValido[0]["valido"]!=0){
+            $this->_view->lstPar = $this->_post->informacionParametro();
+            $this->_view->titulo = 'Gestión de parámetros - ' . APP_TITULO;
+
+            //Se agregan los archivos JS, CSS, locales y publicos
+            $this->_view->setJs(array('gestionParametro'));
+            $this->_view->setJs(array('jquery.dataTables.min'), "public");
+            $this->_view->setCSS(array('jquery.dataTables.min'));
+
+            //se renderiza la vista a mostrar
+            $this->_view->renderizar('gestionParametro');
+        }
+        else
+        {         
+            echo "<script>
+                alert('No tiene permisos para acceder a esta función.');
+                window.location.href='" . BASE_URL . "login/inicio';
+                </script>";
+        }
         
-        //Se agregan los archivos JS, CSS, locales y publicos
-        $this->_view->setJs(array('gestionParametro'));
-        $this->_view->setJs(array('jquery.dataTables.min'), "public");
-        $this->_view->setCSS(array('jquery.dataTables.min'));
-        
-        //se renderiza la vista a mostrar
-        $this->_view->renderizar('gestionParametro');
     }
     
     public function agregarParametro(){
