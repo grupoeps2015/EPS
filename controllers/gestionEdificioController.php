@@ -95,4 +95,22 @@ class gestionEdificioController extends Controller {
         }
     }
 
+    public function asignacionEdificio() {
+        
+        $lsCentros = $this->_view->centros = $this->_ajax->getCentro();
+        if(is_array($lsCentros)){
+            $this->_view->centros = $lsCentros;
+        }else{
+            $this->redireccionar("error/sql/" . $lsCentros);
+            exit;
+        }
+        
+        $this->_view->titulo = 'Asignacion de Edificio - ' . APP_TITULO;
+        $this->_view->setJs(array('asignacionEdificio'));
+        $this->_view->setJs(array('jquery.validate'), "public");
+        $arrayAsignacion = array();
+
+        
+        $this->_view->renderizar('asignacionEdificio', 'gestionEdificio');
+    }
 }
