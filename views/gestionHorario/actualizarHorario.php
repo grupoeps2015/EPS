@@ -5,7 +5,7 @@
                 <h2 class="section-heading">Actualizar Horario</h2>
                 <p><?php if(isset($this->query)) echo $this->query; ?></p>
                 <hr class="primary">
-                <h4 class="section-heading"><?php if(isset($this->curso)) echo $this->curso;?></h4>
+                <h4 class="section-heading text-warning"><?php if(isset($this->curso)) echo $this->curso;?></h4>
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
                         <i class="fa fa-2x fa-backward wow bounceIn text-primary" data-wow-delay=".2s">
@@ -28,58 +28,9 @@
                 <form id="frCarreras" method="post" action="<?php echo BASE_URL; ?>gestionHorario/actualizarHorario/<?php echo $this->id . "/" . $this->parametros; ?>">
                     <div id="divEstudiantes" class="form-group" >
                         <div class="col-md-6 col-md-offset-3">
-                             <table>
+                            <table class="text-primary table-hover">
                                 <tr>
-                                    <td colspan="3">
-                                        *Jornada:
-                                        <?php if(isset($this->jornadas) && count($this->jornadas)): ?>
-                                        <select id="slJornadas" name="slJornadas" class="form-control input-lg">
-                                            <?php for($i =0; $i < count($this->jornadas); $i++) : ?>
-                                            <option value="<?php echo $this->jornadas[$i]['codigo'];?>" <?php if(isset($this->datosHor[0]['jornada']) && $this->datosHor[0]['jornada'] == $this->jornadas[$i]['codigo']) echo 'selected'?>>
-                                                <?php echo $this->jornadas[$i]['nombre']; ?>
-                                            </option>
-                                            <?php endfor;?>
-                                        </select><br/>
-                                        <?php else : ?>
-                                        &nbsp;
-                                        <?php endif;?>
-                                    </td>
-                                    <td>&nbsp;</td>
-                                </tr>
-                                <tr>
-                                    <td>*Tipo período:
-                                        <?php if(isset($this->tiposPeriodo) && count($this->tiposPeriodo)): ?>
-                                        <select id="slTiposPeriodos" name="slTiposPeriodos" class="form-control input-lg">
-                                            <option value="">-- Tipo período --</option>
-                                            <?php for($i =0; $i < count($this->tiposPeriodo); $i++) : ?>
-                                            <option value="<?php echo $this->tiposPeriodo[$i]['codigo'];?>" <?php if(isset($this->datosHor[0]['tipoperiodo']) && $this->datosHor[0]['tipoperiodo'] == $this->tiposPeriodo[$i]['codigo']) echo 'selected'?>>
-                                                <?php echo $this->tiposPeriodo[$i]['nombre']; ?>
-                                            </option>
-                                            <?php endfor;?>
-                                        </select><br/>
-                                        <?php else : ?>
-                                        &nbsp;
-                                        <?php endif;?>
-                                    </td>
-                                    <td>&nbsp;</td>
-                                    <td>
-                                        *Período:
-                                        <?php if(isset($this->periodos) && count($this->periodos)): ?>
-                                        <select id="slPeriodos" name="slPeriodos" class="form-control input-lg">
-                                            <?php for($i =0; $i < count($this->periodos); $i++) : ?>
-                                            <option value="<?php echo $this->periodos[$i]['codigo'];?>" <?php if(isset($this->datosHor[0]['periodo']) && $this->datosHor[0]['periodo'] == $this->periodos[$i]['codigo']) echo 'selected'?>>
-                                                <?php echo $this->periodos[$i]['minutos']. " minutos"; ?>
-                                            </option>
-                                            <?php endfor;?>
-                                        </select><br/>
-                                        <?php else : ?>
-                                        &nbsp;
-                                        <?php endif;?>
-                                    </td>
-                                    <td>&nbsp;</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">
+                                    <td colspan="7">
                                         *Catedrático:     
                                         <?php if(isset($this->catedraticos) && count($this->catedraticos)): ?>
                                         <select id="slCatedraticos" name="slCatedraticos" class="form-control input-lg">
@@ -99,10 +50,19 @@
                                         <?php endif;?>
                                     </td>
                                     <td>&nbsp;</td>
-                                </tr>
-                                <tr>
                                     <td colspan="3">
-                                        *Día:     
+                                        *Día:<br/>
+                                        <!--
+                                        <?php if(isset($this->dias) && count($this->dias)): ?>
+                                            <?php for($i =0; $i < count($this->dias); $i++) : ?>
+                                            <input type="checkbox" name="cbx<?php echo $this->dias[$i]['nombre'];?>" value="<?php echo $this->dias[$i]['codigo'];?>"/>
+                                            <?php echo $this->dias[$i]['nombre']; ?><br/>
+                                            <?php endfor;?>
+                                        </select><br/>
+                                        <?php else : ?>
+                                        &nbsp;
+                                        <?php endif;?>
+                                        -->
                                         <?php if(isset($this->dias) && count($this->dias)): ?>
                                         <select id="slDias" name="slDias" class="form-control input-lg">
                                             <?php for($i =0; $i < count($this->dias); $i++) : ?>
@@ -115,35 +75,9 @@
                                         &nbsp;
                                         <?php endif;?>
                                     </td>
-                                    <td>&nbsp;</td>
                                 </tr>
                                 <tr>
-                                    <td>*Hora inicio:
-                                        <input type="text" id="txtHoraInicial" name="txtHoraInicial" class="form-control input-lg" value="<?php if(isset($this->datosHor[0]['inicio'])) {$var = (array)(explode(":", $this->datosHor[0]['inicio'])); echo $var[0];}?>" style="text-align:right">
-                                        <br/>
-                                    </td>
-                                    <td>:</td>
-                                    <td>
-                                        <input type="text" id="txtMinutoInicial" name="txtMinutoInicial" class="form-control input-lg" value="<?php if(isset($this->datosHor[0]['inicio'])) {$var = (array)(explode(":", $this->datosHor[0]['inicio'])); echo $var[1];}?>">
-                                    </td>    
-                                    <td>&nbsp;</td>
-                                </tr>
-                                <tr>
-                                    <td>*Hora fin:
-                                        <input type="text" id="txtHoraFinal" name="txtHoraFinal" class="form-control input-lg" value="<?php if(isset($this->datosHor[0]['inicio'])) {$var = (array)(explode(":", $this->datosHor[0]['fin'])); echo $var[0];}?>" style="text-align:right">
-                                        <br/>
-                                    </td>
-                                    <td>:</td>
-                                    <td>
-                                        <input type="text" id="txtMinutoFinal" name="txtMinutoFinal" class="form-control input-lg" value="<?php if(isset($this->datosHor[0]['inicio'])) {$var = (array)(explode(":", $this->datosHor[0]['fin'])); echo $var[1];}?>">
-                                    </td>    
-                                    <td>&nbsp;</td>
-                                    <td rowspan="2" colspan="2">
-                                        <input type="submit" id="btnActualizarHor" name="btnActualizarHor" value="Actualizar" class="btn btn-danger btn-lg btn-block">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>*Edificio:
+                                    <td colspan="3">*Edificio:
                                         <?php if(isset($this->edificios) && count($this->edificios)): ?>
                                         <select id="slEdificios" name="slEdificios" class="form-control input-lg">
                                             <option value="">-- Edificio --</option>
@@ -158,7 +92,7 @@
                                         <?php endif;?>
                                     </td>
                                     <td>&nbsp;</td>
-                                    <td>
+                                    <td colspan="7">
                                         *Salón:
                                         <?php if(isset($this->salones) && count($this->salones)): ?>
                                         <select id="slSalones" name="slSalones" class="form-control input-lg">
@@ -173,6 +107,74 @@
                                         <?php endif;?>
                                     </td>
                                     <td>&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" style="width: 30%;">*Jornada:
+                                        <?php if(isset($this->jornadas) && count($this->jornadas)): ?>
+                                        <select id="slJornadas" name="slJornadas" class="form-control input-lg">
+                                            <option value="">(Seleccione)</option>
+                                            <?php for($i =0; $i < count($this->jornadas); $i++) : ?>
+                                            <option value="<?php echo $this->jornadas[$i]['codigo'];?>" <?php if(isset($this->datosHor[0]['jornada']) && $this->datosHor[0]['jornada'] == $this->jornadas[$i]['codigo']) echo 'selected'?>>
+                                                <?php echo $this->jornadas[$i]['nombre']; ?>
+                                            </option>
+                                            <?php endfor;?>
+                                        </select><br/>
+                                        <?php else : ?>
+                                        &nbsp;
+                                        <?php endif;?>
+                                    </td>
+                                    <td style="width: 5%;">&nbsp;</td>
+                                    <td colspan="3" style="width: 30%;">*Tipo per&iacute;odo
+                                        <?php if(isset($this->tiposPeriodo) && count($this->tiposPeriodo)): ?>
+                                        <select id="slTiposPeriodos" name="slTiposPeriodos" class="form-control input-lg">
+                                            <option value="">(Seleccione)</option>
+                                            <?php for($i =0; $i < count($this->tiposPeriodo); $i++) : ?>
+                                            <option value="<?php echo $this->tiposPeriodo[$i]['codigo'];?>" <?php if(isset($this->datosHor[0]['tipoperiodo']) && $this->datosHor[0]['tipoperiodo'] == $this->tiposPeriodo[$i]['codigo']) echo 'selected'?>>
+                                                <?php echo $this->tiposPeriodo[$i]['nombre']; ?>
+                                            </option>
+                                            <?php endfor;?>
+                                        </select><br/>
+                                        <?php else : ?>
+                                        &nbsp;
+                                        <?php endif;?>
+                                    </td>
+                                    <td style="width: 5%;">&nbsp;</td>
+                                    <td colspan="3" style="width: 30%;">*Per&iacute;odo
+                                        <?php if(isset($this->periodos) && count($this->periodos)): ?>
+                                        <select id="slPeriodos" name="slPeriodos" class="form-control input-lg">
+                                            <?php for($i =0; $i < count($this->periodos); $i++) : ?>
+                                            <option value="<?php echo $this->periodos[$i]['codigo'];?>" <?php if(isset($this->datosHor[0]['periodo']) && $this->datosHor[0]['periodo'] == $this->periodos[$i]['codigo']) echo 'selected'?>>
+                                                <?php echo $this->periodos[$i]['minutos']. " minutos"; ?>
+                                            </option>
+                                            <?php endfor;?>
+                                        </select><br/>
+                                        <?php else : ?>
+                                        &nbsp;
+                                        <?php endif;?>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>*Hora inicio:
+                                        <input type="number" min="0" max="23" id="txtHoraInicial" name="txtHoraInicial" class="form-control input-lg" value="<?php if(isset($this->datosHor[0]['inicio'])) {$var = (array)(explode(":", $this->datosHor[0]['inicio'])); echo $var[0];}?>" style="text-align:right">
+                                        <br/>
+                                    </td>
+                                    <td style="text-align:center">:</td>
+                                    <td>
+                                        <input type="number" min="0" max="59" id="txtMinutoInicial" name="txtMinutoInicial" class="form-control input-lg" value="<?php if(isset($this->datosHor[0]['inicio'])) {$var = (array)(explode(":", $this->datosHor[0]['inicio'])); echo $var[1];}?>">
+                                    </td>    
+                                    <td>&nbsp;</td>
+                                    <td>*Hora fin:
+                                        <input type="number" min="0" max="23" id="txtHoraFinal" name="txtHoraFinal" class="form-control input-lg" value="<?php if(isset($this->datosHor[0]['inicio'])) {$var = (array)(explode(":", $this->datosHor[0]['fin'])); echo $var[0];}?>" style="text-align:right">
+                                        <br/>
+                                    </td>
+                                    <td style="text-align:center">:</td>
+                                    <td>
+                                        <input type="number" min="0" max="59" id="txtMinutoFinal" name="txtMinutoFinal" class="form-control input-lg" value="<?php if(isset($this->datosHor[0]['inicio'])) {$var = (array)(explode(":", $this->datosHor[0]['fin'])); echo $var[1];}?>">
+                                    </td>    
+                                    <td>&nbsp;</td>
+                                    <td colspan="3">
+                                        <input type="submit" id="btnActualizarHor" name="btnActualizarHor" value="Actualizar" class="btn btn-danger btn-lg btn-block">
+                                    </td>
                                 </tr>
                             </table>
                             <br />
