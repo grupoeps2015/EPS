@@ -68,9 +68,9 @@
             <!-- Menu Opcion 6 -->
             <div class="col-lg-3 col-md-6 text-center">
                 <div class="service-box">
-                    <i class="fa fa-4x fa-navicon wow bounceIn text-primary"></i>
+                    <i class="fa fa-4x fa-calendar wow bounceIn text-primary"></i>
                     <h3><a href="<?php echo BASE_URL; ?>general/seleccionarCentroUnidad/gestionHorario/seleccionarCicloCurso">Gesti&oacute;n de Horarios</a></h3>
-                    <p class="text-muted">Creaci&oacute;n y actualizaci&oacute;n de cursos</p>
+                    <p class="text-muted">Asignaci&oacute;n de salones, catedr&aacute;ticos y horarios de clase</p>
                 </div>
             </div>
             
