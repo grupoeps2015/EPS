@@ -21,11 +21,15 @@ class gestionUsuarioController extends Controller {
 
     public function index($id=0){
         session_start();
-         $rol = $_SESSION["rol"];        
-        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_GESTIONUSUARIO);
-                    
+        if(isset($_SESSION["rol"])){
+            $rol = $_SESSION["rol"];
+            $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_GESTIONUSUARIO);
+        }else{
+            $this->redireccionar("error/index/1000");
+            exit;
+        }
+        
         if($rolValido[0]["valido"]!=0){
-       
             if($this->getInteger('hdCentroUnidad')){
                 $idCentroUnidad = $this->getInteger('hdCentroUnidad');
             }else if ($id != 0){

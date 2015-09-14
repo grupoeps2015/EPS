@@ -12,10 +12,10 @@ class errorController extends Controller {
         parent::__construct();
     }
             
-    public function index(){
+    public function index($codigo = 0){
         $this->_view->titulo = 'Error';
         $this->_view->mensaje = 'Error';
-        $this->_view->detalle = $this->getError();
+        $this->_view->detalle = $this->getError($codigo);
         $this->_view->renderizar('index');
     }
     
