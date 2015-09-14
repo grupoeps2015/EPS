@@ -50,19 +50,18 @@
                                         <?php endif;?>
                                     </td>
                                     <td>&nbsp;</td>
-                                    <td colspan="3">
-                                        *Día:<br/>
-                                        <!--
-                                        <?php if(isset($this->dias) && count($this->dias)): ?>
-                                            <?php for($i =0; $i < count($this->dias); $i++) : ?>
-                                            <input type="checkbox" name="cbx<?php echo $this->dias[$i]['nombre'];?>" value="<?php echo $this->dias[$i]['codigo'];?>"/>
-                                            <?php echo $this->dias[$i]['nombre']; ?><br/>
-                                            <?php endfor;?>
-                                        </select><br/>
-                                        <?php else : ?>
-                                        &nbsp;
-                                        <?php endif;?>
-                                        -->
+                                    <!--
+                                    <?php if(isset($this->dias) && count($this->dias)): ?>
+                                        <?php for($i =0; $i < count($this->dias); $i++) : ?>
+                                        <?php echo "<td>" . substr($this->dias[$i]['nombre'],0,1); ?><br/>
+                                        <input type="checkbox" name="cbx<?php echo $this->dias[$i]['nombre'];?>" value="<?php echo $this->dias[$i]['codigo'];?>"/>
+                                        <?php echo "</td>"; ?>
+                                        <?php endfor;?><br/>
+                                    <?php else : ?>
+                                    &nbsp;
+                                    <?php endif;?>
+                                    -->
+                                    <td colspan="3">*D&iacute;a:
                                         <?php if(isset($this->dias) && count($this->dias)): ?>
                                         <select id="slDias" name="slDias" class="form-control input-lg">
                                             <?php for($i =0; $i < count($this->dias); $i++) : ?>
@@ -92,7 +91,7 @@
                                         <?php endif;?>
                                     </td>
                                     <td>&nbsp;</td>
-                                    <td colspan="7">
+                                    <td colspan="14">
                                         *Salón:
                                         <select id="slSalones" name="slSalones" class="form-control input-lg">
                                             <option value="" disabled>-- Salón --</option>
@@ -115,7 +114,7 @@
                                         <?php endif;?>
                                     </td>
                                     <td style="width: 5%;">&nbsp;</td>
-                                    <td colspan="3" style="width: 30%;">*Tipo per&iacute;odo
+                                    <td colspan="3" style="width: 30%;">*Tipo per&iacute;odo:
                                         <?php if(isset($this->tiposPeriodo) && count($this->tiposPeriodo)): ?>
                                         <select id="slTiposPeriodos" name="slTiposPeriodos" class="form-control input-lg">
                                             <option value="">(Seleccione)</option>
@@ -130,7 +129,7 @@
                                         <?php endif;?>
                                     </td>
                                     <td style="width: 5%;">&nbsp;</td>
-                                    <td colspan="3" style="width: 30%;">*Per&iacute;odo
+                                    <td colspan="10" style="width: 30%;">*Per&iacute;odo:
                                         <select id="slPeriodos" name="slPeriodos" class="form-control input-lg">
                                             <option value="" disabled>(Seleccione)</option>
                                         </select><br/>
@@ -155,7 +154,7 @@
                                         <input type="number" min="0" max="59" id="txtMinutoFinal" name="txtMinutoFinal" class="form-control input-lg" value="">
                                     </td>    
                                     <td>&nbsp;</td>
-                                    <td rowspan="2" colspan="3">
+                                    <td rowspan="2" colspan="10">
                                         <input type="submit" id="btnAgregarHor" name="btnAgregarHor" value="Guardar" class="btn btn-danger btn-lg btn-block">
                                     </td>
                                 </tr>

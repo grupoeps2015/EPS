@@ -124,7 +124,7 @@
                                         <?php endif;?>
                                     </td>
                                     <td style="width: 5%;">&nbsp;</td>
-                                    <td colspan="3" style="width: 30%;">*Tipo per&iacute;odo
+                                    <td colspan="3" style="width: 30%;">*Tipo per&iacute;odo:
                                         <?php if(isset($this->tiposPeriodo) && count($this->tiposPeriodo)): ?>
                                         <select id="slTiposPeriodos" name="slTiposPeriodos" class="form-control input-lg">
                                             <option value="">(Seleccione)</option>
@@ -139,7 +139,7 @@
                                         <?php endif;?>
                                     </td>
                                     <td style="width: 5%;">&nbsp;</td>
-                                    <td colspan="3" style="width: 30%;">*Per&iacute;odo
+                                    <td colspan="3" style="width: 30%;">*Per&iacute;odo:
                                         <?php if(isset($this->periodos) && count($this->periodos)): ?>
                                         <select id="slPeriodos" name="slPeriodos" class="form-control input-lg">
                                             <?php for($i =0; $i < count($this->periodos); $i++) : ?>
