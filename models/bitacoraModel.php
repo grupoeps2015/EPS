@@ -26,9 +26,10 @@ class bitacoraModel extends Model {
         else{
             $tabla = 'ADM_Bitacora';
         }
-        
+                
         $_datos[":tabla"] = $tabla;
-        $info = $this->_db->prepare("SELECT from spInsertarBitacoraUsuario(:tabla,:usuario,:nombreusuario,:funcion,:ip,:registro,:tablacampo,:descripcion);");
+        
+        $info = $this->_db->prepare("SELECT * from spInsertarBitacoraUsuario(:tabla,:usuario,:nombreusuario,:funcion,:ip,:registro,:tablacampo,:descripcion);");
         $info->execute($_datos);
         if($info === false){
             return "1101/insertarBitacoraUsuario";
