@@ -6,7 +6,7 @@ class empleadoModel extends Model {
         parent::__construct();
     }
     
-    public function getInfo($idUsuario){
+    public function getInfoGeneral($idUsuario){
         $info = $this->_db->query("select * from spInfoGeneralEmpleado({$idUsuario})");
         return $info->fetchAll();
     }
