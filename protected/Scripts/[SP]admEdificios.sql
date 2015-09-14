@@ -1,7 +1,7 @@
--- Function: spagregaredificio(text, integer, integer)
-
--- DROP FUNCTION spagregaredificio(text, text, integer);
-
+﻿------------------------------------------------------------------------------------------------------------------------------------
+-- Function: spagregaredificio()
+------------------------------------------------------------------------------------------------------------------------------------
+-- DROP FUNCTION spagregaredificio(text, text, integer)
 CREATE OR REPLACE FUNCTION spagregaredificio(
     _nombre text,
     _descripcion text,
@@ -19,8 +19,9 @@ END; $BODY$
 ALTER FUNCTION spagregaredificio(text, text, integer)
   OWNER TO postgres;
 
--- Function: spasignaredificioacentrounidadacademica(integer, integer, integer, integer)
-
+------------------------------------------------------------------------------------------------------------------------------------
+-- Function: spasignaredificioacentrounidadacademica()
+------------------------------------------------------------------------------------------------------------------------------------
 -- DROP FUNCTION spasignaredificioacentrounidadacademica(integer, integer, integer, integer);
 CREATE OR REPLACE FUNCTION spasignaredificioacentrounidadacademica(
     _Centro_UnidadAcademica integer,
@@ -40,10 +41,10 @@ END; $BODY$
 ALTER FUNCTION spasignaredificioacentrounidadacademica(integer, integer, integer, integer)
   OWNER TO postgres;
 
-  -- Function: speliminarAsignacionEdificio(integer, integer, integer)
-
+------------------------------------------------------------------------------------------------------------------------------------
+-- Function: speliminarAsignacionEdificio()
+------------------------------------------------------------------------------------------------------------------------------------
 -- DROP FUNCTION speliminarAsignacionEdificio(integer, integer);
-
 CREATE OR REPLACE FUNCTION speliminarAsignacionEdificio(
     _idAsignacion integer,
     _estadonuevo integer)
@@ -59,11 +60,10 @@ ALTER FUNCTION speliminarAsignacionEdificio(integer, integer)
   OWNER TO postgres;
 
 
-  
--- Function: spDatosEdificio(integer)
-
--- DROP FUNCTION spDatosEdificio(integer);
-
+------------------------------------------------------------------------------------------------------------------------------------
+-- Function: spDatosEdificio()
+------------------------------------------------------------------------------------------------------------------------------------
+-- DROP FUNCTION spDatosEdificio(integer)
 CREATE OR REPLACE FUNCTION spDatosEdificio(
     IN idEdificio integer,
     OUT nombreUnidadAcademica text,
@@ -89,11 +89,11 @@ $BODY$
   ROWS 1000;
 ALTER FUNCTION spDatosEdificio(integer)
   OWNER TO postgres;
-  
-  -- Function: spactivardesactivaredificio(integer, integer)
 
+------------------------------------------------------------------------------------------------------------------------------------
+-- Function: spactivardesactivaredificio()
+------------------------------------------------------------------------------------------------------------------------------------
 -- DROP FUNCTION spactivardesactivaredificio(integer, integer);
-
 CREATE OR REPLACE FUNCTION spactivardesactivaredificio(
     _idEdificio integer,
     _estadonuevo integer)
@@ -108,12 +108,10 @@ $BODY$
 ALTER FUNCTION spactivardesactivaredificio(integer, integer)
   OWNER TO postgres;
 
-
-  
--- Function: spdatoscarrera(integer)
-
--- DROP FUNCTION spdatoscarrera(integer);
-
+------------------------------------------------------------------------------------------------------------------------------------
+-- Function: spdatoscarrera()
+------------------------------------------------------------------------------------------------------------------------------------
+-- DROP FUNCTION spdatoscarrera(integer)
 CREATE OR REPLACE FUNCTION spdatoscarrera(
     IN id integer,
     OUT nombre text,
@@ -131,13 +129,9 @@ $BODY$
 ALTER FUNCTION spdatoscarrera(integer)
   OWNER TO postgres;
 
-  
---*********************************************************************************************************************************************************
-  
-  
-  
-﻿-- Function: spagregarsalon(text, integer, integer, integer, integer)
-
+----------------------------------------------------------------------------------------------------------------------------------
+-- Function: spagregarsalon()
+----------------------------------------------------------------------------------------------------------------------------------
 -- DROP FUNCTION spagregarsalon(text, integer, integer, integer, integer);
 CREATE OR REPLACE FUNCTION spagregarsalon(
     _nombre text,
@@ -158,8 +152,9 @@ END; $BODY$
 ALTER FUNCTION spagregarsalon(text, integer, integer, integer, integer)
   OWNER TO postgres;
 
-﻿-- Function: spcrearjornada(text, integer)
-
+----------------------------------------------------------------------------------------------------------------------------------
+-- Function: spcrearjornada()
+----------------------------------------------------------------------------------------------------------------------------------
 -- DROP FUNCTION spcrearjornada(text, integer)
 CREATE OR REPLACE FUNCTION spcrearjornada(
     _nombre text,
@@ -177,8 +172,9 @@ END; $BODY$
 ALTER FUNCTION spcrearjornada(text, integer)
   OWNER TO postgres;
 
-﻿-- Function: spcrearhorario(integer, integer, integer, integer)
-
+------------------------------------------------------------------------------------------------------------------------------------
+-- Function: spcrearhorario()
+------------------------------------------------------------------------------------------------------------------------------------
 -- DROP FUNCTION spcrearhorario(integer, integer, integer, integer);
 CREATE OR REPLACE FUNCTION spcrearhorario(
     _jornada integer,
@@ -198,8 +194,9 @@ END; $BODY$
 ALTER FUNCTION spcrearhorario(integer, integer, integer, integer)
   OWNER TO postgres;
 
-﻿-- Function: spagregarciclo(integer, integer, integer, integer)
-
+------------------------------------------------------------------------------------------------------------------------------------
+-- Function: spagregarciclo()
+------------------------------------------------------------------------------------------------------------------------------------
 -- DROP FUNCTION spagregarciclo(integer, integer, integer, integer);
 CREATE OR REPLACE FUNCTION spagregarciclo(
     _numeroCiclo integer,
@@ -219,8 +216,9 @@ END; $BODY$
 ALTER FUNCTION spagregarciclo(integer, integer, integer, integer)
   OWNER TO postgres;
 
-﻿-- Function: spagregartipociclo(text, text, integer)
-
+------------------------------------------------------------------------------------------------------------------------------------
+-- Function: spagregartipociclo()
+------------------------------------------------------------------------------------------------------------------------------------
 -- DROP FUNCTION spagregartipociclo(text, text, integer);
 CREATE OR REPLACE FUNCTION spagregartipociclo(
     _nombre text,
@@ -241,8 +239,9 @@ ALTER FUNCTION spagregartipociclo(text, text, integer)
 
 /*cur_trama cur_periodo cur_tipoPeriodo*/
 
-﻿-- Function: spagregartrama(integer,integer,integer,integer,time,time,integer)
-
+------------------------------------------------------------------------------------------------------------------------------------
+-- Function: spagregartrama()
+------------------------------------------------------------------------------------------------------------------------------------
 -- DROP FUNCTION spagregartrama(integer,integer,integer,integer,time,time,integer);
 CREATE OR REPLACE FUNCTION spagregartrama(
     _curso integer,
@@ -265,8 +264,9 @@ END; $BODY$
 ALTER FUNCTION spagregartrama(integer,integer,integer,integer,time,time,integer)
   OWNER TO postgres;
 
-﻿-- Function: spagregarperiodo(integer, integer)
-
+------------------------------------------------------------------------------------------------------------------------------------
+-- Function: spagregarperiodo()
+------------------------------------------------------------------------------------------------------------------------------------
 -- DROP FUNCTION spagregarperiodo(integer, integer);
 CREATE OR REPLACE FUNCTION spagregarperiodo(
     _duracionMinutos integer,
@@ -284,8 +284,9 @@ END; $BODY$
 ALTER FUNCTION spagregarperiodo(integer, integer)
   OWNER TO postgres;
 
-﻿-- Function: spagregartipoperiodo(text, text, integer)
-
+------------------------------------------------------------------------------------------------------------------------------------
+-- Function: spagregartipoperiodo()
+------------------------------------------------------------------------------------------------------------------------------------
 -- DROP FUNCTION spagregartipoperiodo(text, text, integer);
 CREATE OR REPLACE FUNCTION spagregartipoperiodo(
     _nombre text,
