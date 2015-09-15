@@ -26,7 +26,7 @@ class gestionUsuarioController extends Controller {
             $rol = $_SESSION["rol"];
             $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_GESTIONUSUARIO);
         }else{
-            $this->redireccionar("error/index/1000");
+            $this->redireccionar("error/noRol/1000");
             exit;
         }
         

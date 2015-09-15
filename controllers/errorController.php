@@ -33,6 +33,13 @@ class errorController extends Controller {
         $this->_view->renderizar('index');
     }
     
+    public function noRol($codigo){
+        $this->_view->titulo = 'Error de credenciales';
+        $this->_view->mensaje = 'Error de credenciales';;
+        $this->_view->detalle = $this->getError($codigo);
+        $this->_view->renderizar('noRol');
+    }
+    
     private function getError($codigo = false){
         if($codigo){
             if(is_numeric($codigo)){
