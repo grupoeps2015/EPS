@@ -55,14 +55,14 @@
                                                 <td style="text-align: center; padding-right: 20px;"><?php echo $this->lstEdificio[$i]['nombrecentro']; ?></td>
                                                 <td style="text-align: center; padding-right: 20px;"><?php echo $this->lstEdificio[$i]['jornada']; ?></td>
                                                 <td style="text-align: center; padding-right: 20px;"><?php echo $this->lstEdificio[$i]['estado']; ?></td>
-                                                <td style="text-align: center; padding-right: 20px;"><a href="<?php echo BASE_URL . 'gestionSeccion/actualizarEdificio/' . $this->lstEdificio[$i]['idEdificio']; ?>">Modificar</a></td>
+                                                <td style="text-align: center; padding-right: 20px;"><a href="<?php echo BASE_URL . 'gestionSeccion/actualizarEdificio/' . $this->lstEdificio[$i]['edificio']; ?>">Modificar</a></td>
                                                 <td style="text-align: center; padding-right: 20px;">
                                                     <?php if (strcmp($this->lstEdificio[$i]['estado'], 'Activo') == 0): ?>
 
-                                                        <a href="<?php echo BASE_URL . 'gestionSeccion/eliminarEdificio/-1/' . $this->lstEdificio[$i]['id']; ?>">Desactivar</a>
+                                                        <a href="<?php echo BASE_URL . 'gestionSeccion/eliminarEdificio/-1/' . $this->lstEdificio[$i]['edificio']; ?>">Desactivar</a>
                                                     <?php else : ?>
 
-                                                        <a href="<?php echo BASE_URL . 'gestionSeccion/eliminarEdificio/1/' . $this->lstEdificio[$i]['id'] ?>">Activar</a>
+                                                        <a href="<?php echo BASE_URL . 'gestionSeccion/eliminarEdificio/1/' . $this->lstEdificio[$i]['edificio'] ?>">Activar</a>
                                                     <?php endif; ?>
                                                 </td>
                                             </tr>

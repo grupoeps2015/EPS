@@ -99,7 +99,7 @@ CREATE OR REPLACE FUNCTION spDatosEdificio(
     OUT nombreUnidadAcademica text,
     OUT nombreCentro text,
     OUT jornada text,
-    OUT estado text)
+    OUT estado text, OUT edificio integer)
   RETURNS SETOF record AS
 $BODY$
 BEGIN
@@ -107,7 +107,7 @@ BEGIN
 	select u.nombre nombreUnidad, c.nombre nombreCentro, j.nombre jornada, case 
 	when query1.estado=-1 then 'Inactivo'
 	when query1.estado=1 then 'Activo'
-	end as "Estado"
+	end as "Estado", query1.edificio AS edificio
 	 from ADM_UnidadAcademica u JOIN (
 	select acu.unidadAcademica unidad, acu.centro centro, ace.edificio edificio, ace.jornada jornada, ace.estado estado 
 	from ADM_CentroUnidad_Edificio ace join ADM_Centro_UnidadAcademica acu ON ace.centro_unidadAcademica = acu.centro_unidadAcademica) query1 ON

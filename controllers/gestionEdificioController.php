@@ -59,7 +59,7 @@ class gestionEdificioController extends Controller {
 
             $info = $this->_post->informacionAsignacionEdificio($idEdificio);
             if(is_array($info)){
-                $this->_view->lstEdificio = $info;
+                $this->_view->lstEdificio = $info;                
             }else{
                 $this->redireccionar("error/sql/" . $info);
                 exit;
@@ -87,7 +87,7 @@ class gestionEdificioController extends Controller {
 
             $arrayCar['nombre'] = $nombreEdificio;
             $arrayCar['descripcion'] = $nombreDescripcion;
-            $arrayCar['estado'] = ESTADO_ACTIVO;
+            $arrayCar['estado'] = ESTADO_PENDIENTE;
             $this->_post->agregarEdificio($arrayCar);
             $this->redireccionar('gestionEdificio/listadoEdificio');
         }
@@ -142,7 +142,7 @@ class gestionEdificioController extends Controller {
             $arrayAsignacion['jornada'] = $jornada;
             $arrayAsignacion['estado'] = ESTADO_ACTIVO;
             $this->_post->asignarUnidadEdificio($arrayAsignacion);
-            $this->redireccionar('gestionEdificio/gestionEdificio/'.$intIdEdificio);
+            $this->redireccionar('gestionEdificio/gestionEdificio/'. $intIdEdificio);
         }
 
         $this->_view->renderizar('asignacionEdificio', 'gestionEdificio');
