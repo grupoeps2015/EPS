@@ -95,9 +95,10 @@ class gestionEdificioController extends Controller {
         }
     }
 
-    public function asignacionEdificio() {
-        
-        $lsCentros = $this->_view->centros = $this->_ajax->getCentro();
+    public function asignacionEdificio($intIdEdificio = 0) {
+         $this->_view->id = $intIdEdificio;
+
+        $lsCentros = $this->_view->centros = $this->_ajax->getDatosCentroUnidad();
         if(is_array($lsCentros)){
             $this->_view->centros = $lsCentros;
         }else{
@@ -105,12 +106,31 @@ class gestionEdificioController extends Controller {
             exit;
         }
         
+        $lsJornadas = $this->_view->jornadas = $this->_ajax->getJornada();
+        if(is_array($lsJornadas)){
+            $this->_view->jornadas = $lsJornadas;
+        }else{
+            $this->redireccionar("error/sql/" . $lsJornadas);
+            exit;
+        }
+        
         $this->_view->titulo = 'Asignacion de Edificio - ' . APP_TITULO;
         $this->_view->setJs(array('asignacionEdificio'));
         $this->_view->setJs(array('jquery.validate'), "public");
         $arrayAsignacion = array();
-
         
+        if ($this->getInteger('hdEnvio')) {
+            $centroUnidadAcademica = $this->getInteger('slCentros');
+            $jornada = $this->getInteger('slJornadas');
+
+            $arrayAsignacion['centroUnidadAcademica'] = $centroUnidadAcademica;
+            $arrayAsignacion['edificio'] = $intIdEdificio;
+            $arrayAsignacion['jornada'] = $jornada;
+            $arrayAsignacion['estado'] = ESTADO_ACTIVO;
+            $this->_post->asignarUnidadEdificio($arrayAsignacion);
+            $this->redireccionar('gestionEdificio/gestionEdificio/'.$intIdEdificio);
+        }
+
         $this->_view->renderizar('asignacionEdificio', 'gestionEdificio');
     }
 }

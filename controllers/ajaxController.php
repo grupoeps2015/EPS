@@ -29,6 +29,12 @@ class ajaxController extends Controller{
         }
     }
     
+    public function getJornadasAjax(){
+        if($this->getInteger('jornada')){
+            echo json_encode($this->_ajax->getJornadas());
+        }
+    }
+    
     public function getCiclosAjax(){
         if($this->getInteger('tipo')){
             echo json_encode($this->_ajax->getCiclosAjax($this->getInteger('tipo')));
@@ -38,6 +44,12 @@ class ajaxController extends Controller{
     public function getPeriodosAjax(){
         if($this->getInteger('tipo')){
             echo json_encode($this->_ajax->getPeriodosAjax($this->getInteger('tipo')));
+        }
+    }
+    
+     public function getDatosCentroUnidadAjax(){
+        if($this->getInteger('centroUnidad')){
+            echo json_encode($this->_ajax->getDatosCentroUnidad());
         }
     }
     

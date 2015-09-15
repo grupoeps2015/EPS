@@ -24,19 +24,21 @@
     <div class="header-content">
         <div class="header-content-inner">
             <div id="divCentros" class="row">
-                <form id="frCarreras" method="post" action="<?php echo BASE_URL; ?>gestionEdificio/asignacionEdificio">
+                <form id="frCarreras" method="post" action="<?php echo BASE_URL; ?>gestionEdificio/asignacionEdificio/<?php echo $this->id;?>">
                     <div id="divEstudiantes" class="form-group" >
                         <div class="col-md-6 col-md-offset-3">
                             <table align="center">
                                 <tr>
-                                    <td>
+                                    <td> Centro Unidad:
                                         <?php if (isset($this->centros) && count($this->centros)): ?>
-                                            <select id="slCentros" name="slCentros" class="form-control input-lg">
-                                                <option value="">(Centros)
+                                        <select id="slCentros" name="slCentros" class="form-control input-lg">
+                                                <option value="">(Centro-Unidad Academica)
                                                 </option>
                                                 <?php for ($i = 0; $i < count($this->centros); $i++) : ?>
-                                                    <option value="<?php echo $this->centros[$i]['codigo']; ?>">
-                                                        <?php echo $this->centros[$i]['nombre']; ?>
+                                                
+                                                    <option value="<?php echo $this->centros[$i]['_id']; ?>">
+                                                        
+                                                        <?php echo $this->centros[$i]['_centro']; ?> - <?php echo $this->centros[$i]['_unidadacademica']; ?>
                                                     </option>
                                                 <?php endfor; ?>
                                             </select>
@@ -46,21 +48,31 @@
                                         <?php endif; ?>
                                     </td>
                                     <td>&nbsp;</td>
-                                    <td>&nbsp;</td>
-                                </tr>
-                                <tr>
-                                   <td  ><label style="font-weight: normal;">Unidad Academica:</label>
-                                        <select id="slCarreras" name="slUnidades" class="form-control input-lg">
-                                            <option value="" disabled>(Unidades)</option>
-                                        </select>
+                                    <td> Jornada:
+                                        <?php if (isset($this->jornadas) && count($this->jornadas)): ?>
+                                            <select id="slJornadas" name="slJornadas" class="form-control input-lg">
+                                                <option value="">(Jornadas)
+                                                </option>
+                                                <?php for ($i = 0; $i < count($this->jornadas); $i++) : ?>
+                                                    <option value="<?php echo $this->jornadas[$i]['codigo']; ?>">
+                                                        <?php echo $this->jornadas[$i]['nombre']; ?>
+                                                    </option>
+                                                <?php endfor; ?>
+                                            </select>
+                                        <?php else : ?>
+                                            <input type="text" id="txtJornadas" name="txtjornadas" class="form-control input-lg" value="-">
+                                            <br/>
+                                        <?php endif; ?>
                                     </td>
+
                                 </tr>
-                                
+
+
                                 <tr>
-                                    <td style="width: 30%">&nbsp;</td>
+                                    <td>&nbsp;</td>
                                     <td colspan="3">
                                         <br/>
-                                        <input type="submit" id="btnActualizar" name="btnActualizar" value="Actualizar" class="btn btn-danger btn-lg btn-block">
+                                        <input type="submit" id="btnActualizar" name="btnAsignar" value="Asignar" class="btn btn-danger btn-lg btn-block">
                                     </td>
                                     <td>&nbsp;</td>
                                 </tr>
@@ -70,6 +82,7 @@
                         </div>
                     </div>
                     <input type="hidden" name="hdEnvio" value="1">
+                     <input type="hidden" name="hdEdificio" value="<?php echo $this->id; ?>">
                 </form>
             </div>
         </div>

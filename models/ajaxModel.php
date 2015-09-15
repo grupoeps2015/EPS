@@ -34,6 +34,15 @@ class ajaxModel extends Model{
         }
     }
     
+    public function getJornada(){
+        $jornada = $this->_db->query("select * from spconsultageneral('jornada,nombre','cur_jornada');");
+        if($jornada === false){
+            return "1200/getJornada";
+        }else{
+            return $jornada->fetchall();
+        }
+    }
+    
     public function getCentro(){
         $centros = $this->_db->query("select * from spconsultageneral('centro,nombre','adm_centro');");
         if($centros === false){
@@ -158,6 +167,14 @@ class ajaxModel extends Model{
             return "1200/getDocenteSeccion";
         }else{
             return $post->fetchall();
+        }
+    }
+    public function getDatosCentroUnidad(){
+        $centroUnidad = $this->_db->query("select * from spdatoscentrounidad();");
+        if($centroUnidad === false){
+            return "1200/getDatosCentroUnidad";
+        }else{
+            return $centroUnidad->fetchall();
         }
     }
     

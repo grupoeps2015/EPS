@@ -23,16 +23,16 @@ ALTER FUNCTION spagregaredificio(text, text, integer)
 
 -- DROP FUNCTION spasignaredificioacentrounidadacademica(integer, integer, integer, integer);
 CREATE OR REPLACE FUNCTION spasignaredificioacentrounidadacademica(
-    _Centro_UnidadAcademica integer,
+    _centroUnidadAcademica integer,
     _edificio integer,
     _jornada integer,
     _estado integer)
   RETURNS integer AS
 $BODY$
-declare idAsignacion INTEGER;
+DECLARE idAsignacion INTEGER;
 BEGIN
 	INSERT INTO ADM_CentroUnidad_edificio(Centro_UnidadAcademica,edificio,jornada, estado) 
-	VALUES (_Centro_UnidadAcademica,_edificio, _jornada, _estado) RETURNING Asignacion into idAsignacion;
+	VALUES (_centroUnidadAcademica,_edificio, _jornada, _estado) RETURNING centrounidad_edificio into idAsignacion;
 	RETURN idAsignacion;
 END; $BODY$
   LANGUAGE plpgsql VOLATILE
@@ -108,7 +108,34 @@ $BODY$
 ALTER FUNCTION spactivardesactivaredificio(integer, integer)
   OWNER TO postgres;
 
+  -- Function: spdatoscentrounidad()
 
+-- DROP FUNCTION spdatoscentrounidad();
+
+CREATE OR REPLACE FUNCTION spdatoscentrounidad(
+    OUT _id integer,
+    OUT _centro text,
+	out _unidadAcademica text)
+  RETURNS SETOF record AS
+$BODY$
+BEGIN
+  RETURN query
+  Select 
+    cua.centro_unidadAcademica,
+    c.nombre,
+    ua.nombre
+  from 
+    ADM_Centro_UnidadAcademica cua
+	join ADM_Centro c ON c.centro = cua.centro
+	join ADM_UnidadAcademica ua ON ua.unidadAcademica = cua.unidadAcademica;
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION spdatoscentrounidad()
+  OWNER TO postgres;
+  
   
 -- Function: spdatoscarrera(integer)
 
