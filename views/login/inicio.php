@@ -49,7 +49,7 @@
             <div class="col-lg-3 col-md-6 text-center">
                 <div class="service-box">
                     <i class="fa fa-4x fa-pencil wow bounceIn text-primary" data-wow-delay=".2s"></i>
-                    <h3><a href="<?php echo BASE_URL; ?>gestionParametro">Parametrizaci&oacute;n</a></h3>
+                    <h3><a href="<?php echo BASE_URL; ?>general/seleccionarCentroUnidad/gestionParametro">Parametrizaci&oacute;n</a></h3>
                     <p class="text-muted">M&oacute;dulo de parametrizaci&oacute;n diseñado para administradores</p>
                 </div>
             </div>
