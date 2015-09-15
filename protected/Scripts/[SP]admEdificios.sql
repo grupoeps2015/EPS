@@ -105,7 +105,7 @@ $BODY$
 BEGIN
   RETURN query
 	select u.nombre nombreUnidad, c.nombre nombreCentro, j.nombre jornada, case 
-	when query1.estado=0 then 'Inactivo'
+	when query1.estado=-1 then 'Inactivo'
 	when query1.estado=1 then 'Activo'
 	end as "Estado"
 	 from ADM_UnidadAcademica u JOIN (
