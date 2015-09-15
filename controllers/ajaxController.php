@@ -82,6 +82,7 @@ class ajaxController extends Controller{
             echo json_encode($this->_ajax->getDocenteSeccion($this->getInteger('cat'),$this->getInteger('ciclo')));
         }
     }
+    
 }
 
 ?>

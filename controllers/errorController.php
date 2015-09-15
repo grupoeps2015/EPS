@@ -12,10 +12,10 @@ class errorController extends Controller {
         parent::__construct();
     }
             
-    public function index(){
+    public function index($codigo = 0){
         $this->_view->titulo = 'Error';
         $this->_view->mensaje = 'Error';
-        $this->_view->detalle = $this->getError();
+        $this->_view->detalle = $this->getError($codigo);
         $this->_view->renderizar('index');
     }
     
@@ -31,6 +31,13 @@ class errorController extends Controller {
         $this->_view->mensaje = 'Error de SQL';
         $this->_view->detalle = 'Funci&oacute;n: ' . $funcion . '<br/>' . $this->getError($codigo);
         $this->_view->renderizar('index');
+    }
+    
+    public function noRol($codigo){
+        $this->_view->titulo = 'Error de credenciales';
+        $this->_view->mensaje = 'Error de credenciales';;
+        $this->_view->detalle = $this->getError($codigo);
+        $this->_view->renderizar('noRol');
     }
     
     private function getError($codigo = false){

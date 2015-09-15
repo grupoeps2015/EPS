@@ -178,4 +178,15 @@ class ajaxModel extends Model{
         }
     }
     
+    public function getPermisosRolFuncion($rol,$funcion)
+    {
+        $post = $this->_db->query("SELECT * FROM spValidarRolFuncion({$rol},{$funcion}) AS valido");
+        $post->setFetchMode(PDO::FETCH_ASSOC);
+        if($post === false){
+            return "1200/getPermisosRolFuncion";
+        }else{
+            return $post->fetchall();
+        }
+    }
+        
 }

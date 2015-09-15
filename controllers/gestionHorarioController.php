@@ -21,57 +21,69 @@ class gestionHorarioController extends Controller {
     }
 
     public function index($parametros = null) {
-        session_start();
-        if(!is_null($parametros)){
-            list($idCentroUnidad, $idCiclo, $idSeccion) = split('[$.-]', (string)$parametros);
-        }else{
-            if($this->getInteger('hdCentroUnidad')){
-                $idCentroUnidad = $this->getInteger('hdCentroUnidad');
-            }else if($_SESSION["rol"] != ROL_ADMINISTRADOR){
-                $idCentroUnidad = $_SESSION["centrounidad"];
+                
+            if(!is_null($parametros)){
+                list($idCentroUnidad, $idCiclo, $idSeccion) = split('[$.-]', (string)$parametros);
             }else{
-                $this->redireccionar("general/seleccionarCentroUnidad/gestionHorario/seleccionarCicloCurso");
+                if($this->getInteger('hdCentroUnidad')){
+                    $idCentroUnidad = $this->getInteger('hdCentroUnidad');
+                }else if($_SESSION["rol"] != ROL_ADMINISTRADOR){
+                    $idCentroUnidad = $_SESSION["centrounidad"];
+                }else{
+                    $this->redireccionar("general/seleccionarCentroUnidad/gestionHorario/seleccionarCicloCurso");
+                    exit;
+                }
+                $idCiclo = $this->getInteger('slCiclo');
+                $idSeccion = $this->getInteger('slSec');
+            }
+
+            $this->_view->idciclo = $idCiclo;
+            $this->_view->idcurso = $idSeccion;
+            $this->_view->id = $idCentroUnidad;
+
+            //nombreSeccion
+            $seccionNombre = $this->_postSeccion->datosSeccion($idSeccion);
+            if(is_array($seccionNombre)){
+                if(isset($seccionNombre[0]['nombre'])){
+                   $this->_view->curso = $seccionNombre[0]['nombre']." - ".$seccionNombre[0]['tiposeccionnombre']." - ".$seccionNombre[0]['cursonombre']; 
+                }
+            }else{
+                $this->redireccionar("error/sql/" . $seccionNombre);
+                exit;
+            }  
+
+            $lsHor = $this->_post->informacionHorario($idCiclo,$idSeccion);
+            if(is_array($lsHor)){
+                $this->_view->lstHor = $lsHor;
+            }else{
+                $this->redireccionar("error/sql/" . $lsHor);
                 exit;
             }
-            $idCiclo = $this->getInteger('slCiclo');
-            $idSeccion = $this->getInteger('slSec');
-        }
-        
-        $this->_view->idciclo = $idCiclo;
-        $this->_view->idcurso = $idSeccion;
-        $this->_view->id = $idCentroUnidad;
-        
-        //nombreSeccion
-        $seccionNombre = $this->_postSeccion->datosSeccion($idSeccion);
-        if(is_array($seccionNombre)){
-            if(isset($seccionNombre[0]['nombre'])){
-               $this->_view->curso = $seccionNombre[0]['nombre']." - ".$seccionNombre[0]['tiposeccionnombre']." - ".$seccionNombre[0]['cursonombre']; 
-            }
-        }else{
-            $this->redireccionar("error/sql/" . $seccionNombre);
-            exit;
-        }  
-        
-        $lsHor = $this->_post->informacionHorario($idCiclo,$idSeccion);
-        if(is_array($lsHor)){
-            $this->_view->lstHor = $lsHor;
-        }else{
-            $this->redireccionar("error/sql/" . $lsHor);
-            exit;
-        }
-        $lstParametros = $idCentroUnidad . '$' . $idCiclo . '$' . $idSeccion;
-        
-        $this->_view->parametros = $lstParametros;
-        $this->_view->titulo = 'Gestión de horarios - ' . APP_TITULO;
-        $this->_view->setJs(array('gestionHorario'));
-        $this->_view->setJs(array('jquery.dataTables.min'), "public");
-        $this->_view->setCSS(array('jquery.dataTables.min'));
+            $lstParametros = $idCentroUnidad . '$' . $idCiclo . '$' . $idSeccion;
 
-        $this->_view->renderizar('gestionHorario');
+            $this->_view->parametros = $lstParametros;
+            $this->_view->titulo = 'Gestión de horarios - ' . APP_TITULO;
+            $this->_view->setJs(array('gestionHorario'));
+            $this->_view->setJs(array('jquery.dataTables.min'), "public");
+            $this->_view->setCSS(array('jquery.dataTables.min'));
+
+            $this->_view->renderizar('gestionHorario');
+        
     }
     
     public function seleccionarCicloCurso($id = 0){
         session_start();
+        $rol = $_SESSION["rol"];        
+        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_GESTIONHORARIO);
+                    
+        if($rolValido[0]["valido"]!=PERMISO_GESTIONAR){      
+            echo "<script>
+                alert('No tiene permisos para acceder a esta función.');
+                window.location.href='" . BASE_URL . "login/inicio';
+                </script>";        
+        }
+        
+        //session_start();
         if($this->getInteger('hdCentroUnidad')){
             $idCentroUnidad = $this->getInteger('hdCentroUnidad');
         }else if ($id != 0){
@@ -108,6 +120,8 @@ class gestionHorarioController extends Controller {
 
     public function agregarHorario() {
         session_start();
+        
+        
         if($this->getInteger('hdCentroUnidad')){
             $idCentroUnidad = $this->getInteger('hdCentroUnidad');
         }else if($_SESSION["rol"] != ROL_ADMINISTRADOR){
@@ -119,6 +133,17 @@ class gestionHorarioController extends Controller {
         $idSeccion = $this->getInteger('slSec');
         $idCiclo = $this->getInteger('slCiclo');
         $lstParametros = $idCentroUnidad . '$' . $idCiclo . '$' . $idSeccion;
+        
+        //Validación de permisos
+        $rol = $_SESSION["rol"];        
+        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_CREARHORARIO);
+         
+        if($rolValido[0]["valido"]!= PERMISO_CREAR){
+           echo "<script>
+                alert('No tiene permisos suficientes para acceder a esta función.');
+                window.location.href='" . BASE_URL . "gestionHorario/index/" . $lstParametros . "';
+                </script>";
+        }
         
         $this->_view->parametros = $lstParametros;
         $this->_view->id = $idCentroUnidad;
@@ -238,19 +263,44 @@ class gestionHorarioController extends Controller {
     }
     
     public function eliminarHorario($intNuevoEstado, $intIdHorario, $parametros) {
-        if ($intNuevoEstado == -1 || $intNuevoEstado == 1) {
-            $info = $this->_post->eliminarHorario($intIdHorario, $intNuevoEstado);
-            if(!is_array($info)){
-                $this->redireccionar("error/sql/" . $info);
-                exit;
+         session_start();
+        $rol = $_SESSION["rol"];        
+        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_ELIMINARHORARIO);
+        
+        if($rolValido[0]["valido"]== PERMISO_ELIMINAR){
+       
+            if ($intNuevoEstado == -1 || $intNuevoEstado == 1) {
+                $info = $this->_post->eliminarHorario($intIdHorario, $intNuevoEstado);
+                if(!is_array($info)){
+                    $this->redireccionar("error/sql/" . $info);
+                    exit;
+                }
+                $this->redireccionar("gestionHorario/index/{$parametros}");
+            } else {
+                echo "Error al desactivar horario";
             }
-            $this->redireccionar("gestionHorario/index/{$parametros}");
-        } else {
-            echo "Error al desactivar horario";
+        }
+        else
+        {         
+            echo "<script>
+                alert('No tiene permisos suficientes para acceder a esta función.');
+                window.location.href='" . BASE_URL . "gestionHorario/index/" . $parametros . "';
+                </script>";
         }
     }
     
     public function actualizarHorario($intIdHorario, $parametros) {
+        session_start();
+        $rol = $_SESSION["rol"];        
+        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_MODIFICARHORARIO);
+         
+        if($rolValido[0]["valido"]!= PERMISO_MODIFICAR){
+           echo "<script>
+                alert('No tiene permisos suficientes para acceder a esta función.');
+                window.location.href='" . BASE_URL . "gestionHorario/index/" . $parametros . "';
+                </script>";
+        }
+        
         if(!is_null($parametros)){
             list($idCentroUnidad, $idCiclo, $idSeccion) = split('[$.-]', (string)$parametros);
         }

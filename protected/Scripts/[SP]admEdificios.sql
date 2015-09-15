@@ -1,114 +1,4 @@
--- Function: spagregaredificio(text, integer, integer)
-
--- DROP FUNCTION spagregaredificio(text, text, integer);
-
-CREATE OR REPLACE FUNCTION spagregaredificio(
-    _nombre text,
-    _descripcion text,
-    _estado integer)
-  RETURNS integer AS
-$BODY$
-DECLARE idEdificio integer;
-BEGIN
-	INSERT INTO cur_edificio (nombre, descripcion, estado) 
-	VALUES (_nombre, _descripcion, _estado) RETURNING Edificio into idEdificio;
-	RETURN idEdificio;
-END; $BODY$
-  LANGUAGE plpgsql VOLATILE
-  COST 100;
-ALTER FUNCTION spagregaredificio(text, text, integer)
-  OWNER TO postgres;
-
--- Function: spasignaredificioacentrounidadacademica(integer, integer, integer, integer)
-
--- DROP FUNCTION spasignaredificioacentrounidadacademica(integer, integer, integer, integer);
-CREATE OR REPLACE FUNCTION spasignaredificioacentrounidadacademica(
-    _centroUnidadAcademica integer,
-    _edificio integer,
-    _jornada integer,
-    _estado integer)
-  RETURNS integer AS
-$BODY$
-DECLARE idAsignacion INTEGER;
-BEGIN
-	INSERT INTO ADM_CentroUnidad_edificio(Centro_UnidadAcademica,edificio,jornada, estado) 
-	VALUES (_centroUnidadAcademica,_edificio, _jornada, _estado) RETURNING centrounidad_edificio into idAsignacion;
-	RETURN idAsignacion;
-END; $BODY$
-  LANGUAGE plpgsql VOLATILE
-  COST 100;
-ALTER FUNCTION spasignaredificioacentrounidadacademica(integer, integer, integer, integer)
-  OWNER TO postgres;
-
-  -- Function: speliminarAsignacionEdificio(integer, integer, integer)
-
--- DROP FUNCTION speliminarAsignacionEdificio(integer, integer);
-
-CREATE OR REPLACE FUNCTION speliminarAsignacionEdificio(
-    _idAsignacion integer,
-    _estadonuevo integer)
-  RETURNS void AS
-$BODY$
-BEGIN
-  EXECUTE format('UPDATE adm_centrounidad_edificio SET estado = %L WHERE centrounidad_edificio = %L',_estadoNuevo,_idAsignacion);
-END;
-$BODY$
-  LANGUAGE plpgsql VOLATILE
-  COST 100;
-ALTER FUNCTION speliminarAsignacionEdificio(integer, integer)
-  OWNER TO postgres;
-
-
-  
--- Function: spDatosEdificio(integer)
-
--- DROP FUNCTION spDatosEdificio(integer);
-
-CREATE OR REPLACE FUNCTION spDatosEdificio(
-    IN idEdificio integer,
-    OUT nombreUnidadAcademica text,
-    OUT nombreCentro text,
-    OUT jornada text,
-    OUT estado integer)
-  RETURNS SETOF record AS
-$BODY$
-BEGIN
-  RETURN query
-	select u.nombre nombreUnidad, c.nombre nombreCentro, j.nombre jornada, case 
-	when query1.estado=0 then 'Inactivo'
-	when query1.estado=1 then 'Activo'
-	end as "Estado"
-	 from ADM_UnidadAcademica u JOIN (
-	select acu.unidadAcademica unidad, acu.centro centro, ace.edificio edificio, ace.jornada jornada, ace.estado estado 
-	from ADM_CentroUnidad_Edificio ace join ADM_Centro_UnidadAcademica acu ON ace.centro_unidadAcademica = acu.centro_unidadAcademica) query1 ON
-	u.unidadacademica = query1.unidad JOIN ADM_Centro c ON c.centro = query1.centro JOIN cur_jornada j ON j.jornada = query1.jornada where query1.edificio = idEdificio;
-END;
-$BODY$
-  LANGUAGE plpgsql VOLATILE
-  COST 100
-  ROWS 1000;
-ALTER FUNCTION spDatosEdificio(integer)
-  OWNER TO postgres;
-  
-  -- Function: spactivardesactivaredificio(integer, integer)
-
--- DROP FUNCTION spactivardesactivaredificio(integer, integer);
-
-CREATE OR REPLACE FUNCTION spactivardesactivaredificio(
-    _idEdificio integer,
-    _estadonuevo integer)
-  RETURNS void AS
-$BODY$
-BEGIN
-  EXECUTE format('UPDATE cur_edificio SET estado = %L WHERE edificio = %L',_estadoNuevo,_idEdificio);
-END;
-$BODY$
-  LANGUAGE plpgsql VOLATILE
-  COST 100;
-ALTER FUNCTION spactivardesactivaredificio(integer, integer)
-  OWNER TO postgres;
-
-  -- Function: spdatoscentrounidad()
+﻿  -- Function: spdatoscentrounidad()
 
 -- DROP FUNCTION spdatoscentrounidad();
 
@@ -136,11 +26,122 @@ $BODY$
 ALTER FUNCTION spdatoscentrounidad()
   OWNER TO postgres;
   
-  
--- Function: spdatoscarrera(integer)
 
--- DROP FUNCTION spdatoscarrera(integer);
 
+------------------------------------------------------------------------------------------------------------------------------------
+-- Function: spagregaredificio()
+------------------------------------------------------------------------------------------------------------------------------------
+-- DROP FUNCTION spagregaredificio(text, text, integer)
+CREATE OR REPLACE FUNCTION spagregaredificio(
+    _nombre text,
+    _descripcion text,
+    _estado integer)
+  RETURNS integer AS
+$BODY$
+DECLARE idEdificio integer;
+BEGIN
+	INSERT INTO cur_edificio (nombre, descripcion, estado) 
+	VALUES (_nombre, _descripcion, _estado) RETURNING Edificio into idEdificio;
+	RETURN idEdificio;
+END; $BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION spagregaredificio(text, text, integer)
+  OWNER TO postgres;
+
+------------------------------------------------------------------------------------------------------------------------------------
+-- Function: spasignaredificioacentrounidadacademica()
+------------------------------------------------------------------------------------------------------------------------------------
+-- DROP FUNCTION spasignaredificioacentrounidadacademica(integer, integer, integer, integer);
+CREATE OR REPLACE FUNCTION spasignaredificioacentrounidadacademica(
+    _centroUnidadAcademica integer,
+    _edificio integer,
+    _jornada integer,
+    _estado integer)
+  RETURNS integer AS
+$BODY$
+DECLARE idAsignacion INTEGER;
+BEGIN
+	INSERT INTO ADM_CentroUnidad_edificio(Centro_UnidadAcademica,edificio,jornada, estado) 
+	VALUES (_centroUnidadAcademica,_edificio, _jornada, _estado) RETURNING centrounidad_edificio into idAsignacion;
+	RETURN idAsignacion;
+END; $BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION spasignaredificioacentrounidadacademica(integer, integer, integer, integer)
+  OWNER TO postgres;
+
+------------------------------------------------------------------------------------------------------------------------------------
+-- Function: speliminarAsignacionEdificio()
+------------------------------------------------------------------------------------------------------------------------------------
+-- DROP FUNCTION speliminarAsignacionEdificio(integer, integer);
+CREATE OR REPLACE FUNCTION speliminarAsignacionEdificio(
+    _idAsignacion integer,
+    _estadonuevo integer)
+  RETURNS void AS
+$BODY$
+BEGIN
+  EXECUTE format('UPDATE adm_centrounidad_edificio SET estado = %L WHERE centrounidad_edificio = %L',_estadoNuevo,_idAsignacion);
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION speliminarAsignacionEdificio(integer, integer)
+  OWNER TO postgres;
+
+
+------------------------------------------------------------------------------------------------------------------------------------
+-- Function: spDatosEdificio()
+------------------------------------------------------------------------------------------------------------------------------------
+-- DROP FUNCTION spDatosEdificio(integer)
+CREATE OR REPLACE FUNCTION spDatosEdificio(
+    IN idEdificio integer,
+    OUT nombreUnidadAcademica text,
+    OUT nombreCentro text,
+    OUT jornada text,
+    OUT estado integer)
+  RETURNS SETOF record AS
+$BODY$
+BEGIN
+  RETURN query
+	select u.nombre nombreUnidad, c.nombre nombreCentro, j.nombre jornada, case 
+	when query1.estado=0 then 'Inactivo'
+	when query1.estado=1 then 'Activo'
+	end as "Estado"
+	 from ADM_UnidadAcademica u JOIN (
+	select acu.unidadAcademica unidad, acu.centro centro, ace.edificio edificio, ace.jornada jornada, ace.estado estado 
+	from ADM_CentroUnidad_Edificio ace join ADM_Centro_UnidadAcademica acu ON ace.centro_unidadAcademica = acu.centro_unidadAcademica) query1 ON
+	u.unidadacademica = query1.unidad JOIN ADM_Centro c ON c.centro = query1.centro JOIN cur_jornada j ON j.jornada = query1.jornada where query1.edificio = idEdificio;
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION spDatosEdificio(integer)
+  OWNER TO postgres;
+
+------------------------------------------------------------------------------------------------------------------------------------
+-- Function: spactivardesactivaredificio()
+------------------------------------------------------------------------------------------------------------------------------------
+-- DROP FUNCTION spactivardesactivaredificio(integer, integer);
+CREATE OR REPLACE FUNCTION spactivardesactivaredificio(
+    _idEdificio integer,
+    _estadonuevo integer)
+  RETURNS void AS
+$BODY$
+BEGIN
+  EXECUTE format('UPDATE cur_edificio SET estado = %L WHERE edificio = %L',_estadoNuevo,_idEdificio);
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION spactivardesactivaredificio(integer, integer)
+  OWNER TO postgres;
+
+------------------------------------------------------------------------------------------------------------------------------------
+-- Function: spdatoscarrera()
+------------------------------------------------------------------------------------------------------------------------------------
+-- DROP FUNCTION spdatoscarrera(integer)
 CREATE OR REPLACE FUNCTION spdatoscarrera(
     IN id integer,
     OUT nombre text,
@@ -158,13 +159,9 @@ $BODY$
 ALTER FUNCTION spdatoscarrera(integer)
   OWNER TO postgres;
 
-  
---*********************************************************************************************************************************************************
-  
-  
-  
-﻿-- Function: spagregarsalon(text, integer, integer, integer, integer)
-
+----------------------------------------------------------------------------------------------------------------------------------
+-- Function: spagregarsalon()
+----------------------------------------------------------------------------------------------------------------------------------
 -- DROP FUNCTION spagregarsalon(text, integer, integer, integer, integer);
 CREATE OR REPLACE FUNCTION spagregarsalon(
     _nombre text,
@@ -185,8 +182,9 @@ END; $BODY$
 ALTER FUNCTION spagregarsalon(text, integer, integer, integer, integer)
   OWNER TO postgres;
 
-﻿-- Function: spcrearjornada(text, integer)
-
+----------------------------------------------------------------------------------------------------------------------------------
+-- Function: spcrearjornada()
+----------------------------------------------------------------------------------------------------------------------------------
 -- DROP FUNCTION spcrearjornada(text, integer)
 CREATE OR REPLACE FUNCTION spcrearjornada(
     _nombre text,
@@ -204,8 +202,9 @@ END; $BODY$
 ALTER FUNCTION spcrearjornada(text, integer)
   OWNER TO postgres;
 
-﻿-- Function: spcrearhorario(integer, integer, integer, integer)
-
+------------------------------------------------------------------------------------------------------------------------------------
+-- Function: spcrearhorario()
+------------------------------------------------------------------------------------------------------------------------------------
 -- DROP FUNCTION spcrearhorario(integer, integer, integer, integer);
 CREATE OR REPLACE FUNCTION spcrearhorario(
     _jornada integer,
@@ -225,8 +224,9 @@ END; $BODY$
 ALTER FUNCTION spcrearhorario(integer, integer, integer, integer)
   OWNER TO postgres;
 
-﻿-- Function: spagregarciclo(integer, integer, integer, integer)
-
+------------------------------------------------------------------------------------------------------------------------------------
+-- Function: spagregarciclo()
+------------------------------------------------------------------------------------------------------------------------------------
 -- DROP FUNCTION spagregarciclo(integer, integer, integer, integer);
 CREATE OR REPLACE FUNCTION spagregarciclo(
     _numeroCiclo integer,
@@ -246,8 +246,9 @@ END; $BODY$
 ALTER FUNCTION spagregarciclo(integer, integer, integer, integer)
   OWNER TO postgres;
 
-﻿-- Function: spagregartipociclo(text, text, integer)
-
+------------------------------------------------------------------------------------------------------------------------------------
+-- Function: spagregartipociclo()
+------------------------------------------------------------------------------------------------------------------------------------
 -- DROP FUNCTION spagregartipociclo(text, text, integer);
 CREATE OR REPLACE FUNCTION spagregartipociclo(
     _nombre text,
@@ -268,8 +269,9 @@ ALTER FUNCTION spagregartipociclo(text, text, integer)
 
 /*cur_trama cur_periodo cur_tipoPeriodo*/
 
-﻿-- Function: spagregartrama(integer,integer,integer,integer,time,time,integer)
-
+------------------------------------------------------------------------------------------------------------------------------------
+-- Function: spagregartrama()
+------------------------------------------------------------------------------------------------------------------------------------
 -- DROP FUNCTION spagregartrama(integer,integer,integer,integer,time,time,integer);
 CREATE OR REPLACE FUNCTION spagregartrama(
     _curso integer,
@@ -292,8 +294,9 @@ END; $BODY$
 ALTER FUNCTION spagregartrama(integer,integer,integer,integer,time,time,integer)
   OWNER TO postgres;
 
-﻿-- Function: spagregarperiodo(integer, integer)
-
+------------------------------------------------------------------------------------------------------------------------------------
+-- Function: spagregarperiodo()
+------------------------------------------------------------------------------------------------------------------------------------
 -- DROP FUNCTION spagregarperiodo(integer, integer);
 CREATE OR REPLACE FUNCTION spagregarperiodo(
     _duracionMinutos integer,
@@ -311,8 +314,9 @@ END; $BODY$
 ALTER FUNCTION spagregarperiodo(integer, integer)
   OWNER TO postgres;
 
-﻿-- Function: spagregartipoperiodo(text, text, integer)
-
+------------------------------------------------------------------------------------------------------------------------------------
+-- Function: spagregartipoperiodo()
+------------------------------------------------------------------------------------------------------------------------------------
 -- DROP FUNCTION spagregartipoperiodo(text, text, integer);
 CREATE OR REPLACE FUNCTION spagregartipoperiodo(
     _nombre text,

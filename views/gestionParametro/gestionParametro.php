@@ -63,9 +63,9 @@
                                 <td style="text-align: center"><?php echo $this->lstPar[$i]['nombretipoparametro']; ?></td>
                                 <td style="text-align: center">
                                     <?php if(strcmp($this->lstPar[$i]['estadoparametro'], '1') == 0): ?>
-                                    <a href="<?php echo BASE_URL . 'gestionParametro/eliminarParametro/-1/' . $this->lstPar[$i]['parametro'];?>">Desactivar</a>
-                                    <?php else : ?>
-                                    <a href="<?php echo BASE_URL . 'gestionParametro/eliminarParametro/1/' . $this->lstPar[$i]['parametro'] ?>">Activar</a>
+                                        <a href="<?php echo BASE_URL . 'gestionParametro/eliminarParametro/-1/' . $this->lstPar[$i]['parametro'];?>">Desactivar</a>
+                                        <?php else : ?>
+                                        <a href="<?php echo BASE_URL . 'gestionParametro/eliminarParametro/1/' . $this->lstPar[$i]['parametro'] ?>">Activar</a>
                                     <?php endif;?>
                                 </td>
                                 <td style="text-align: center;"><a href="<?php echo BASE_URL . 'gestionParametro/actualizarParametro/' . $this->lstPar[$i]['parametro'];?>">Modificar</a></td>
