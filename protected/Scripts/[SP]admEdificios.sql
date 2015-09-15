@@ -99,7 +99,7 @@ CREATE OR REPLACE FUNCTION spDatosEdificio(
     OUT nombreUnidadAcademica text,
     OUT nombreCentro text,
     OUT jornada text,
-    OUT estado integer)
+    OUT estado text)
   RETURNS SETOF record AS
 $BODY$
 BEGIN
