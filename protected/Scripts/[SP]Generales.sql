@@ -100,6 +100,21 @@ $BODY$
 LANGUAGE 'plpgsql';
   
   
+-- -----------------------------------------------------
+-- Function: spValidarPrimerIngresoUsuario()
+-- -----------------------------------------------------
+-- DROP FUNCTION spValidarPrimerIngresoUsuario(integer);
+CREATE OR REPLACE FUNCTION spValidarPrimerIngresoUsuario(Usuario integer)
+  RETURNS integer AS
+$BODY$
+BEGIN
+
+RETURN (SELECT EXISTS (SELECT u.usuario FROM ADM_Usuario u WHERE u.Usuario = $1 AND u.estado = 0)::int);
+
+END;
+$BODY$
+LANGUAGE 'plpgsql';
+
 
 -- -----------------------------------------------------
 -- Function: spMunicipioXDepto()

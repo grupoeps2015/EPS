@@ -35,7 +35,13 @@
                 fwrite($file, "HOST: " . DB_HOST. PHP_EOL);
                 fclose($file);*/
                 
-    if (isset($_SESSION['rol'])){ 
+    //Valida si el usuario entró por primera vez: 0 (false)->estado = activo o inactivo, 1 (true)->estado = pendiente de validacion
+   if(isset($_SESSION["usuario"])){     
+     $sqlValidacion = "SELECT * from spValidarPrimerIngresoUsuario( " . $_SESSION["usuario"] .  " ) AS primerintento";							
+     $resultValidacion=pg_query($GLOBALS['conn'], $sqlValidacion);
+     $rowValidado = pg_fetch_array($resultValidacion);
+   
+    if (isset($_SESSION['rol']) && $rowValidado["primerintento"]==0){ 
        $GLOBALS['listamenu'] .= '<a id="titulomenu" href="#" class="dropdown-toggle" data-toggle="dropdown" style="color:#000080">Men&uacute; <b class="caret"></b></a>';
        $GLOBALS['listamenu'] .= '<ul class="dropdown-menu">';
                                    
@@ -67,7 +73,11 @@
     else {     
         $GLOBALS['listamenu'] .= '';
     }
-    
+   }
+   else
+   {
+       $GLOBALS['listamenu'] .= '';
+   }
     function agregarSubMenus(&$menu){
         
             $sql = "SELECT * FROM spFuncionMenuHijo(" .$menu["funcionmenu"] ."," ."0);";
