@@ -25,7 +25,13 @@ class gestionCursoController extends Controller {
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_GESTIONCURSO);
         
-        if($rolValido[0]["valido"]!=0){        
+        if($rolValido[0]["valido"]!=PERMISO_GESTIONAR){        
+            echo "<script>
+                alert('No tiene permisos para acceder a esta función.');
+                window.location.href='" . BASE_URL . "login/inicio';
+                </script>";
+        }
+          
             if($this->getInteger('hdCentroUnidad')){
                 $idCentroUnidad = $this->getInteger('hdCentroUnidad');
             }else if ($id != 0){
@@ -51,17 +57,21 @@ class gestionCursoController extends Controller {
             $this->_view->setCSS(array('jquery.dataTables.min'));
 
             $this->_view->renderizar('gestionCurso');
-        }
-        else
-        {         
-            echo "<script>
-                alert('No tiene permisos para acceder a esta función.');
-                window.location.href='" . BASE_URL . "login/inicio';
-                </script>";
-        }
+        
     }
 
     public function agregarCurso() {
+        session_start();
+        $rol = $_SESSION["rol"];        
+        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_CREARCURSO);
+         
+        if($rolValido[0]["valido"]!= PERMISO_CREAR){
+           echo "<script>
+                alert('No tiene permisos suficientes para acceder a esta función.');
+                window.location.href='" . BASE_URL . "gestionCurso';
+                </script>";
+        }
+        
         $idCentroUnidad = $this->getInteger('hdCentroUnidad');
         
         $this->_view->titulo = 'Agregar Curso - ' . APP_TITULO;
@@ -106,19 +116,44 @@ class gestionCursoController extends Controller {
     }
     
     public function eliminarCurso($intNuevoEstado, $intIdCurso, $idCentroUnidad) {
-        if ($intNuevoEstado == -1 || $intNuevoEstado == 1) {
-            $info = $this->_post->eliminarCurso($intIdCurso, $intNuevoEstado);
-            if(!is_array($info)){
-                $this->redireccionar("error/sql/" . $info);
-                exit;
+        session_start();
+        $rol = $_SESSION["rol"];        
+        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_ELIMINARCURSO);
+        
+        if($rolValido[0]["valido"]== PERMISO_ELIMINAR){
+       
+            if ($intNuevoEstado == -1 || $intNuevoEstado == 1) {
+                $info = $this->_post->eliminarCurso($intIdCurso, $intNuevoEstado);
+                if(!is_array($info)){
+                    $this->redireccionar("error/sql/" . $info);
+                    exit;
+                }
+                $this->redireccionar('gestionCurso/index/' . $idCentroUnidad);
+            } else {
+                echo "Error al desactivar curso";
             }
-            $this->redireccionar('gestionCurso/index/' . $idCentroUnidad);
-        } else {
-            echo "Error al desactivar curso";
+        }
+        else
+        {         
+            echo "<script>
+                alert('No tiene permisos suficientes para acceder a esta función.');
+                window.location.href='" . BASE_URL . "gestionCurso';
+                </script>";
         }
     }
     
     public function actualizarCurso($intIdCurso = 0) {
+        session_start();
+        $rol = $_SESSION["rol"];        
+        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_MODIFICARCURSO);
+         
+        if($rolValido[0]["valido"]!= PERMISO_MODIFICAR){
+           echo "<script>
+                alert('No tiene permisos suficientes para acceder a esta función.');
+                window.location.href='" . BASE_URL . "gestionCurso';
+                </script>";
+        }
+        
         $idCentroUnidad = $this->getInteger('hdCentroUnidad');
         $this->_view->setJs(array('jquery.validate'), "public");
         $this->_view->setJs(array('actualizarCurso'));

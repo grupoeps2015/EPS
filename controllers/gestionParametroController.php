@@ -19,8 +19,14 @@ class gestionParametroController extends Controller{
         session_start();
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_GESTIONPARAMETRO);
-                    
-        if($rolValido[0]["valido"]!=0){
+         
+        if($rolValido[0]["valido"]!= PERMISO_GESTIONAR){
+           echo "<script>
+                alert('No tiene permisos para acceder a esta función.');
+                window.location.href='" . BASE_URL . "login/inicio';
+                </script>";
+        }
+        
             $this->_view->lstPar = $this->_post->informacionParametro();
             $this->_view->titulo = 'Gestión de parámetros - ' . APP_TITULO;
 
@@ -31,18 +37,22 @@ class gestionParametroController extends Controller{
 
             //se renderiza la vista a mostrar
             $this->_view->renderizar('gestionParametro');
-        }
-        else
-        {         
-            echo "<script>
-                alert('No tiene permisos para acceder a esta función.');
-                window.location.href='" . BASE_URL . "login/inicio';
-                </script>";
-        }
+       
         
     }
     
     public function agregarParametro(){
+        session_start();
+        $rol = $_SESSION["rol"];        
+        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_CREARPARAMETRO);
+         
+        if($rolValido[0]["valido"]!= PERMISO_CREAR){
+           echo "<script>
+                alert('No tiene permisos suficientes para acceder a esta función.');
+                window.location.href='" . BASE_URL . "gestionParametro';
+                </script>";
+        }
+        
         $iden = $this->getInteger('hdEnvio');
         $arrayPar = array();
         
@@ -88,19 +98,44 @@ class gestionParametroController extends Controller{
     }
     
     public function eliminarParametro($intNuevoEstado, $intIdParametro){
-        if($intNuevoEstado == -1 || $intNuevoEstado == 1){
-            $info = $this->_post->eliminarParametro($intIdParametro,$intNuevoEstado);
-            if(!is_array($info)){
-                $this->redireccionar("error/sql/" . $info);
-                exit;
+        session_start();
+        $rol = $_SESSION["rol"];        
+        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_ELIMINARPARAMETRO);
+        
+        if($rolValido[0]["valido"]== PERMISO_ELIMINAR){
+       
+            if($intNuevoEstado == -1 || $intNuevoEstado == 1){
+                $info = $this->_post->eliminarParametro($intIdParametro,$intNuevoEstado);
+                if(!is_array($info)){
+                    $this->redireccionar("error/sql/" . $info);
+                    exit;
+                }
+                $this->redireccionar('gestionParametro');
+            }else{
+                $this->_view->cambio = "No reconocio ningun parametro";    
             }
-            $this->redireccionar('gestionParametro');
-        }else{
-            $this->_view->cambio = "No reconocio ningun parametro";    
+        }
+        else
+        {         
+            echo "<script>
+                alert('No tiene permisos suficientes para acceder a esta función.');
+                window.location.href='" . BASE_URL . "gestionParametro';
+                </script>";
         }
     }
     
     public function actualizarParametro($intIdParametro = 0) {
+        session_start();
+        $rol = $_SESSION["rol"];        
+        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_MODIFICARPARAMETRO);
+         
+        if($rolValido[0]["valido"]!= PERMISO_MODIFICAR){
+           echo "<script>
+                alert('No tiene permisos suficientes para acceder a esta función.');
+                window.location.href='" . BASE_URL . "gestionParametro';
+                </script>";
+        }
+        
         $valorPagina = $this->getInteger('hdEnvio');
         $this->_view->setJs(array('jquery.validate'), "public");
         $this->_view->setJs(array('actualizarParametro'));

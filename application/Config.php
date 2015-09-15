@@ -23,6 +23,12 @@ define('ROL_EMPLEADO','3');
 define('ESTADO_ACTIVO','1');
 define('ESTADO_PENDIENTE','0');
 define('ESTADO_INACTIVO','-1');
+define('PERMISO_GESTIONAR','1');
+define('PERMISO_CONSULTAR','1');
+define('PERMISO_CREAR','1');
+define('PERMISO_MODIFICAR','1');
+define('PERMISO_ELIMINAR','1');
+
 
 //Constantes de base de datos
 define('DB_HOST','localhost');

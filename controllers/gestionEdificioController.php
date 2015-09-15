@@ -24,7 +24,13 @@ class gestionEdificioController extends Controller {
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_GESTIONEDIFICIO);
                     
-        if($rolValido[0]["valido"]!=0){   
+        if($rolValido[0]["valido"]!=PERMISO_GESTIONAR){        
+            echo "<script>
+                alert('No tiene permisos para acceder a esta función.');
+                window.location.href='" . BASE_URL . "login/inicio';
+                </script>";
+        }
+        
         $info = $this->_post->allEdificios();
         if(is_array($info)){
             $this->_view->lstEdif = $info;
@@ -39,14 +45,7 @@ class gestionEdificioController extends Controller {
         $this->_view->setCSS(array('jquery.dataTables.min'));
 
         $this->_view->renderizar('listadoEdificios');
-        }
-        else
-        {         
-            echo "<script>
-                alert('No tiene permisos para acceder a esta función.');
-                window.location.href='" . BASE_URL . "login/inicio';
-                </script>";
-        }
+        
     }
     
     public function index($id=0){

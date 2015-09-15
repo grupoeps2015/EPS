@@ -26,7 +26,12 @@ class gestionSeccionController extends Controller {
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_GESTIONSECCION);
                     
-        if($rolValido[0]["valido"]!=0){
+        if($rolValido[0]["valido"]!=PERMISO_GESTIONAR){      
+            echo "<script>
+                alert('No tiene permisos para acceder a esta función.');
+                window.location.href='" . BASE_URL . "gestionCurso';
+                </script>";
+        }
         
             if($this->getInteger('hdCentroUnidad')){
                 $idCentroUnidad = $this->getInteger('hdCentroUnidad');
@@ -51,18 +56,21 @@ class gestionSeccionController extends Controller {
             $this->_view->setJs(array('jquery.dataTables.min'), "public");
             $this->_view->setCSS(array('jquery.dataTables.min'));
             $this->_view->renderizar('gestionSeccion');
-        }
-        else
-        {         
-            echo "<script>
-                alert('No tiene permisos para acceder a esta función.');
-                window.location.href='" . BASE_URL . "login/inicio';
-                </script>";
-        }
+        
     }
 
     public function agregarSeccion() {
         $idCentroUnidad = $this->getInteger('hdCentroUnidad');
+        session_start();
+        $rol = $_SESSION["rol"];        
+        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_CREARSECCION);
+         
+        if($rolValido[0]["valido"]!= PERMISO_CREAR){
+           echo "<script>
+                alert('No tiene permisos suficientes para acceder a esta función.');
+                window.location.href='" . BASE_URL . "gestionSeccion/index/" . $idCentroUnidad . "';
+                </script>";
+        }
         
         $secciones = $this->_post->getTiposSeccion();
         if(is_array($secciones)){
@@ -111,19 +119,36 @@ class gestionSeccionController extends Controller {
     }
     
     public function eliminarSeccion($intNuevoEstado, $intIdSeccion, $idCentroUnidad) {
-        if ($intNuevoEstado == -1 || $intNuevoEstado == 1) {
-            $info = $this->_post->eliminarSeccion($intIdSeccion, $intNuevoEstado);
-            if(!is_array($info)){
-                $this->redireccionar("error/sql/" . $info);
-                exit;
+        session_start();
+        $rol = $_SESSION["rol"];        
+        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_ELIMINARSECCION);
+        
+        if($rolValido[0]["valido"]== PERMISO_ELIMINAR){
+       
+            if ($intNuevoEstado == -1 || $intNuevoEstado == 1) {
+                $info = $this->_post->eliminarSeccion($intIdSeccion, $intNuevoEstado);
+                if(!is_array($info)){
+                    $this->redireccionar("error/sql/" . $info);
+                    exit;
+                }
+                $this->redireccionar('gestionSeccion/index/'.$idCentroUnidad);
+            } else {
+                echo "Error al desactivar sección";
             }
-            $this->redireccionar('gestionSeccion/index/'.$idCentroUnidad);
-        } else {
-            echo "Error al desactivar sección";
         }
+        else
+        {         
+            echo "<script>
+                alert('No tiene permisos suficientes para acceder a esta función.');
+                window.location.href='" . BASE_URL . "gestionSeccion/index/" . $idCentroUnidad . "';
+                </script>";
+        }
+        
     }
     
     public function actualizarSeccion($intIdSeccion = 0, $idCentroUnidad = 0) {
+        session_start();
+        
         $arraySec = array();
         
         $this->_view->setJs(array('jquery.validate'), "public");
@@ -131,6 +156,16 @@ class gestionSeccionController extends Controller {
         
         $this->_view->id = $intIdSeccion;
         $this->_view->idCentroUnidad = $idCentroUnidad;
+        
+        $rol = $_SESSION["rol"];        
+        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,100);
+         
+        if($rolValido[0]["valido"]!= PERMISO_MODIFICAR){
+           echo "<script>
+                alert('No tiene permisos suficientes para acceder a esta función.');
+                window.location.href='" . BASE_URL . "gestionSeccion/index/" . $idCentroUnidad . "';
+                </script>";
+        }
         
         $this->_view->titulo = 'Actualizar Sección - ' . APP_TITULO;
         

@@ -33,18 +33,17 @@ class gestionPensumController extends Controller {
     public function inicio(){
         session_start();
         $rol = $_SESSION["rol"];        
-        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_CREARPENSUM);
+        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_GESTIONPENSUM);
                     
-        if($rolValido[0]["valido"]!=0){        
-            $this->_view->renderizar('inicio');
-        }
-        else
-        {         
+        if($rolValido[0]["valido"]!=PERMISO_GESTIONAR){          
             echo "<script>
                 alert('No tiene permisos para acceder a esta función.');
                 window.location.href='" . BASE_URL . "login/inicio';
                 </script>";
         }
+           
+            $this->_view->renderizar('inicio');
+        
     }
     
     public function listadoCarrera() {
@@ -52,7 +51,13 @@ class gestionPensumController extends Controller {
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_GESTIONCARRERA);
                     
-        if($rolValido[0]["valido"]!=0){        
+        if($rolValido[0]["valido"]!=PERMISO_GESTIONAR){         
+            echo "<script>
+                alert('No tiene permisos para acceder a esta función.');
+                window.location.href='" . BASE_URL . "gestionPensum/inicio';
+                </script>";
+        }
+         
             if($this->getInteger('hdCentroUnidad')){
                 $idCentroUnidad = $this->getInteger('hdCentroUnidad');
             }else{
@@ -73,17 +78,21 @@ class gestionPensumController extends Controller {
             $this->_view->setCSS(array('jquery.dataTables.min'));
 
             $this->_view->renderizar('gestionCarrera');
-        }
-        else
-        {         
-            echo "<script>
-                alert('No tiene permisos para acceder a esta función.');
-                window.location.href='" . BASE_URL . "login/inicio';
-                </script>";
-        }
+        
     }
 
     public function agregarCarrera() {
+        session_start();
+        $rol = $_SESSION["rol"];        
+        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_CREARCARRERA);
+         
+        if($rolValido[0]["valido"]!= PERMISO_CREAR){
+           echo "<script>
+                alert('No tiene permisos suficientes para acceder a esta función.');
+                window.location.href='" . BASE_URL . "gestionPensum/listadoCarrera';
+                </script>";
+        }
+        
         $this->_view->titulo = 'Agregar Carrera - ' . APP_TITULO;
         $this->_view->setJs(array('agregarCarrera'));
         $this->_view->setJs(array('jquery.validate'), "public");
@@ -106,19 +115,43 @@ class gestionPensumController extends Controller {
     }
     
     public function eliminarCarrera($intNuevoEstado, $intIdCarrera) {
-        if ($intNuevoEstado == -1 || $intNuevoEstado == 1) {
-            $info = $this->_post->eliminarCarrera($intIdCarrera, $intNuevoEstado);
-            if(!is_array($info)){
-                $this->redireccionar("error/sql/" . $info);
-                exit;
+        session_start();
+        $rol = $_SESSION["rol"];        
+        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_ELIMINARCARRERA);
+        
+        if($rolValido[0]["valido"]== PERMISO_ELIMINAR){
+            if ($intNuevoEstado == -1 || $intNuevoEstado == 1) {
+                $info = $this->_post->eliminarCarrera($intIdCarrera, $intNuevoEstado);
+                if(!is_array($info)){
+                    $this->redireccionar("error/sql/" . $info);
+                    exit;
+                }
+                $this->redireccionar('gestionPensum/listadoCarrera');
+            } else {
+                echo "Error al desactivar carrera";
             }
-            $this->redireccionar('gestionPensum/listadoCarrera');
-        } else {
-            echo "Error al desactivar carrera";
+        }
+        else
+        {
+            echo "<script>
+                alert('No tiene permisos suficientes para acceder a esta función.');
+                window.location.href='" . BASE_URL . "gestionPensum/listadoCarrera';
+                </script>";
         }
     }
     
     public function actualizarCarrera($intIdCarrera = 0) {
+        session_start();
+        $rol = $_SESSION["rol"];        
+        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_MODIFICARCARRERA);
+         
+        if($rolValido[0]["valido"]!= PERMISO_MODIFICAR){
+           echo "<script>
+                alert('No tiene permisos suficientes para acceder a esta función.');
+                window.location.href='" . BASE_URL . "gestionPensum/listadoCarrera';
+                </script>";
+        }
+        
         $this->_view->setJs(array('jquery.validate'), "public");
         $this->_view->setJs(array('actualizarCarrera'));
         

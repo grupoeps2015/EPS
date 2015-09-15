@@ -20,7 +20,13 @@ class gestionNotasController extends Controller{
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_GESTIONNOTA);
                     
-        if($rolValido[0]["valido"]!=0){
+        if($rolValido[0]["valido"]!=PERMISO_GESTIONAR){
+            echo "<script>
+                alert('No tiene permisos para acceder a esta función.');
+                window.location.href='" . BASE_URL . "login/inicio';
+                </script>";
+        }
+        
             if($this->getInteger('hdCentroUnidad')){
                 $idCentroUnidad = $this->getInteger('hdCentroUnidad');
             }else if ($id != 0){
@@ -54,14 +60,7 @@ class gestionNotasController extends Controller{
             $this->_view->titulo = 'Gestión de notas - ' . APP_TITULO;
             $this->_view->id = $idCentroUnidad;
             $this->_view->renderizar('gestionNotas');
-        }
-        else
-        {         
-            echo "<script>
-                alert('No tiene permisos para acceder a esta función.');
-                window.location.href='" . BASE_URL . "login/inicio';
-                </script>";
-        }
+       
     }
     
     public function cursosXDocente($idUsuario, $UnidadCentro){
