@@ -65,6 +65,7 @@ class gestionUsuarioController extends Controller {
     }
     
     public function agregarUsuario() {
+        session_start();
         
         $iden = $this->getInteger('hdEnvio');
         $idCentroUnidad = $this->getInteger('hdCentroUnidad');
@@ -100,7 +101,6 @@ class gestionUsuarioController extends Controller {
         $this->_view->setJs(array('agregarUsuario'));
         $this->_view->setJs(array('jquery.validate'), "public");
 
-        session_start();
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_CREARUSUARIO);
          

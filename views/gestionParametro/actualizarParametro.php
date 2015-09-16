@@ -8,8 +8,8 @@
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
                         <i class="fa fa-2x fa-backward wow bounceIn text-primary" data-wow-delay=".2s">
-                            <a href="<?php echo BASE_URL?>gestionParametro">
-                                Regresar
+                            <a href="<?php echo BASE_URL ?>gestionParametro/index/<?php echo $this->datosPar[0]['centrounidadacademica'];?>">
+                                Regresar 
                             </a>
                         </i>
                     </div>
@@ -116,6 +116,7 @@
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
                                 <td>
+                                    <input type="hidden" name='hdCentroUnidad' value="<?php echo $this->idCentroUnidad;?>"/>
                                     <input type="hidden" id="idCarrera" name="idCarrera" value=<?php echo $this->datosPar[0]['carrera'] ?>>
                                     <input type="submit" id="btnActualizarParametro" name="btnActualizar" value="Actualizar" class="btn btn-danger btn-lg btn-block" style="width:60%">
                                 </td>
