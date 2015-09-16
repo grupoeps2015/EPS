@@ -390,6 +390,119 @@ class gestionUsuarioController extends Controller {
         $this->_view->renderizar('actualizarUsuario', 'gestionUsuario');
     }
 
+    public function validarUsuario($intIdUsuario){
+        if(!$this->usuarioCorrecto($intIdUsuario)){
+            $this->redireccionar("error/index/1000");
+            exit;
+        }
+        
+        $paises = $this->_ajax->getPais();
+        if(is_array($paises)){
+            $this->_view->paises = $paises;
+        }else{
+            $this->redireccionar("error/sql/" . $paises);
+            exit;
+        }
+        
+        $lsDeptos = $this->_ajax->getDeptos();
+        if(is_array($lsDeptos)){
+            $this->_view->deptos = $lsDeptos;
+        }else{
+            $this->redireccionar("error/sql/" . $lsDeptos);
+            exit;
+        }
+        
+        $dtUsr = $this->_post->datosUsuario($intIdUsuario);
+        if(is_array($dtUsr)){
+            $this->_view->datosUsr = $dtUsr;
+        }else{
+            $this->redireccionar("error/sql/" . $dtUsr);
+            exit;
+        }
+        
+        $lsPreguntas = $this->_post->getPreguntas();
+        if(is_array($lsPreguntas)){
+            $this->_view->preguntas = $lsPreguntas;
+        }else{
+            $this->redireccionar("error/sql/" . $lsPreguntas);
+            exit;
+        }
+        
+        $this->_view->titulo = 'Gestión de usuarios - ' . APP_TITULO;
+        $this->_view->setJs(array('validarUsuario'));
+        $this->_view->setJs(array('jquery.validate'), "public");
+        
+        
+        $this->_view->renderizar('validarUsuario');
+    }
+    
+    public function activarUsuario(){
+        $arrayUsr = array();
+        $arrayGen = array();
+        $idUsuario = $this->getInteger('hdWho');
+        $arrayUsr['id'] = $idUsuario;
+        $arrayUsr['correoUsr'] = $this->getTexto('txtCorreo');
+        $passNueva = $this->_encriptar->encrypt($this->getTexto('txtPasswordNuevo'), DB_KEY);
+        $arrayUsr['clave'] = $passNueva;
+        $arrayUsr['preguntaUsr'] = $this->getInteger('slPregunta');
+        $arrayUsr['respuestaUsr'] = $this->getTexto('txtRespuesta');
+        
+        $actualizarUsr = $this->_post->actualizarUsuario($arrayUsr);
+        if(!is_array($actualizarUsr)){
+            $this->redireccionar("error/sql/" . $actualizarUsr);
+            exit;
+        }
+        
+        $rol = $this->getInteger('hdRol');
+        $arrayGen["id"] = $idUsuario;
+        $arrayGen["direccion"] = $this->getTexto('txtDireccion');
+        $arrayGen["zona"] = $this->getInteger('txtZona');
+        $arrayGen["muni"] = $this->getInteger('slMunis');
+        $arrayGen["telefono"] = $this->getTexto('txtTelefono');
+        $arrayGen["pais"] = $this->getInteger('slPaises');
+        if($rol == 1){
+            $est = $this->loadModel("estudiante");
+            $info = $est->setInfoGeneral($arrayGen);
+            if(!is_array($info)){
+                $this->redireccionar("error/sql/" . $info);
+                exit;
+            }
+            
+            $arrayEmg = array();
+            $arrayEmg["id"] = $idUsuario;
+            $arrayEmg["telefonoE"] = $this->getTexto('txtTelefonoE');
+            $arrayEmg["alergias"] = $this->getTexto('txtAlergias');
+            $arrayEmg["sangre"] = $this->getTexto('txtTipoSangre');
+            $arrayEmg["centro"] = $this->getTexto('txtHospital');
+            $arrayEmg["seguro"] = $this->getInteger('rbSeguro');
+            $infoEm = $est->setInfoEmergencia($arrayEmg);
+            if(!is_array($info)){
+                $this->redireccionar("error/sql/" . $infoEm);
+                exit;
+            }
+        }else if($rol == 2){
+            $cat = $this->loadModel("catedratico");
+            $info = $cat->setInfo($arrayGen);
+            if(!is_array($info)){
+                $this->redireccionar("error/sql/" . $info);
+                exit;
+            }
+        }else if($rol == 3 || $rol == 0){
+            $emp = $this->loadModel("empleado");
+            $info = $emp->setInfo($arrayGen);
+            if(!is_array($info)){
+                $this->redireccionar("error/sql/" . $info);
+                exit;
+            }
+        }
+        $activar = $this->_post->eliminarUsuario($idUsuario, 1);
+        if(!is_array($activar)){
+            $this->redireccionar("error/sql/" . $activar);
+            exit;
+        }
+        $this->redireccionar('login/bienvenida');
+    }
+    
     public function cargarCSV(){
         $iden = $this->getInteger('hdFile');
         $idCentroUnidad = $this->getInteger('hdCentroUnidad');
@@ -527,6 +640,19 @@ class gestionUsuarioController extends Controller {
         $this->redireccionar('gestionUsuario/agregarUsuario');
     }
     
+    private function usuarioCorrecto($idUsuario){
+        session_start();
+        if(isset($_SESSION['usuario'])){
+            if($_SESSION['usuario'] == $idUsuario){
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
+    }
+    
     protected function notificacionEMAIL() {
         // El mensaje
         $mensaje = "Este es un mensaje de prueba";
@@ -537,6 +663,7 @@ class gestionUsuarioController extends Controller {
         // Enviarlo
         mail('rick.shark130@gmail.com', 'Mi título', $mensaje);
     }
+    
 }
 
 ?>
