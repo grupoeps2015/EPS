@@ -21,7 +21,6 @@
                             <i class="fa fa-2x fa-edit wow bounceIn text-primary" data-wow-delay=".2s">
                                 <a id="linkSeccion" href="#">Gesti&oacute;n de Secciones</a>
                             </i>
-                            <input type="hidden" name='hdCentroUnidad' value="<?php echo $this->id;?>"/>
                         </form>
                     </div>
                     <?php endif; ?>
@@ -32,7 +31,6 @@
                             <i class="fa fa-2x fa-tags wow bounceIn text-primary" data-wow-delay=".2s">
                                 <a id="linkNuevoUsr" href="#">Agregar Curso</a>
                             </i>
-                            <input type="hidden" name='hdCentroUnidad' value="<?php echo $this->id;?>"/>
                         </form>
                     </div>
                 </div>
@@ -68,9 +66,9 @@
                                 <td style="text-align: center;"><a href="<?php echo BASE_URL . 'gestionCurso/actualizarCurso/' . $this->lstCur[$i]['id'];?>">Modificar</a></td>
                                 <td style="text-align: center;">
                                     <?php if(strcmp($this->lstCur[$i]['estado'], 'Activo') == 0): ?>
-                                    <a href="<?php echo BASE_URL . 'gestionCurso/eliminarCurso/-1/' . $this->lstCur[$i]['id'] . '/' . $this->id;?>">Desactivar</a>
+                                    <a href="<?php echo BASE_URL . 'gestionCurso/eliminarCurso/-1/' . $this->lstCur[$i]['id'];?>">Desactivar</a>
                                     <?php else : ?>
-                                    <a href="<?php echo BASE_URL . 'gestionCurso/eliminarCurso/1/' . $this->lstCur[$i]['id'] . '/' . $this->id;?>">Activar</a>
+                                    <a href="<?php echo BASE_URL . 'gestionCurso/eliminarCurso/1/' . $this->lstCur[$i]['id'];?>">Activar</a>
                                     <?php endif;?>
                                 </td>
                             </tr>

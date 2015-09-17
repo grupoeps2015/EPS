@@ -27,7 +27,11 @@ class loginController extends Controller{
     }
     
     public function inicio(){
-        $this->_view->renderizar('inicio');
+        $this->_view->renderizar('inicio','login');
+    }
+    
+    public function bienvenida(){
+        $this->_view->renderizar('bienvenida','login');
     }
     
     public function autenticar(){
@@ -80,7 +84,7 @@ class loginController extends Controller{
                 if($respuesta[0]['estado'] == ESTADO_ACTIVO){
                     $this->redireccionar('login/inicio');
                 }else if($respuesta[0]['estado'] == ESTADO_PENDIENTE){
-                    //$this->redireccionar('gestionUsuario/actualizarUsuario');
+                    $this->redireccionar('gestionUsuario/validarUsuario/'.$_SESSION["usuario"]);
                 }
                 else{
                     $this->redireccionar('login/salir');

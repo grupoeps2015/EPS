@@ -6,9 +6,9 @@
                 <hr class="primary">
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
-                        <i class="fa fa-2x fa-home wow bounceIn text-primary" data-wow-delay=".2s">
-                            <a href="<?php echo BASE_URL?>login/inicio">
-                                Inicio
+                        <i class="fa fa-2x fa-backward wow bounceIn text-primary" data-wow-delay=".2s">
+                            <a href="<?php echo BASE_URL; ?>general/seleccionarCentroUnidad/gestionParametro">
+                                Regresar
                             </a>
                         </i>
                     </div>
@@ -17,11 +17,12 @@
                 <div class="col-lg-3 col-md-6 text-center"></div>
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
-                        <i class="fa fa-2x fa-plus wow bounceIn text-primary" data-wow-delay=".2s">
-                            <a href="<?php echo BASE_URL?>gestionParametro/agregarParametro">
-                                Agregar Par&aacute;metro
-                            </a>
-                        </i>
+                        <form method='post' name='frmPost' id='frmPost' action='<?php echo BASE_URL?>gestionParametro/agregarParametro'>
+                            <i class="fa fa-2x fa-user-plus wow bounceIn text-primary" data-wow-delay=".2s">
+                                <a id="linkNuevoPar" href="#">Agregar Parametro</a>
+                            </i>
+                            <input type="hidden" name='hdCentroUnidad' value="<?php echo $this->id;?>"/>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -29,7 +30,6 @@
     </div>
     <br/>
     <div>
-        <form id="frParametros" method="post" action="<?php echo BASE_URL; ?>admCrearParametro/agregarParametro">
             <div id="divParametros" class="form-group" >
                 <div style="margin-left: 5%; margin-right: 5%">
                     <table id="tbParametros" border="2">
@@ -63,20 +63,19 @@
                                 <td style="text-align: center"><?php echo $this->lstPar[$i]['nombretipoparametro']; ?></td>
                                 <td style="text-align: center">
                                     <?php if(strcmp($this->lstPar[$i]['estadoparametro'], '1') == 0): ?>
-                                        <a href="<?php echo BASE_URL . 'gestionParametro/eliminarParametro/-1/' . $this->lstPar[$i]['parametro'];?>">Desactivar</a>
+                                        <a href="<?php echo BASE_URL . 'gestionParametro/eliminarParametro/-1/' . $this->lstPar[$i]['parametro'] . '/' . $this->id;?>">Desactivar</a>
                                         <?php else : ?>
-                                        <a href="<?php echo BASE_URL . 'gestionParametro/eliminarParametro/1/' . $this->lstPar[$i]['parametro'] ?>">Activar</a>
+                                        <a href="<?php echo BASE_URL . 'gestionParametro/eliminarParametro/1/' . $this->lstPar[$i]['parametro'] . '/' . $this->id;?>">Activar</a>
                                     <?php endif;?>
                                 </td>
-                                <td style="text-align: center;"><a href="<?php echo BASE_URL . 'gestionParametro/actualizarParametro/' . $this->lstPar[$i]['parametro'];?>">Modificar</a></td>
+                                <td style="text-align: center;"><a href="<?php echo BASE_URL . 'gestionParametro/actualizarParametro/' . $this->lstPar[$i]['parametro'] . '/' . $this->id;?>">Modificar</a></td>
                             </tr>
                             <?php endfor;?>
-                        <?php endif;?>
+                        <?php endif;?> 
                         </tbody>
                     </table>
                     <br />
                 </div>
             </div>
-        </form>
     </div>   
 </section>

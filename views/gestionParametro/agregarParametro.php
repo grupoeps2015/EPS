@@ -8,7 +8,7 @@
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
                         <i class="fa fa-2x fa-backward wow bounceIn text-primary" data-wow-delay=".2s">
-                            <a href="<?php echo BASE_URL?>gestionParametro">
+                            <a href="<?php echo BASE_URL?>gestionParametro/index/<?php echo $this->idCentroUnidad;?>">
                                 Regresar
                             </a>
                         </i>
@@ -99,11 +99,12 @@
                         <tr>
                             <td>&nbsp;</td>
                             <td style="text-align:center;">
-                                <input type="submit" id="btnAgregarParametro" name="btnAgregarParametro" value="Nuevo Parámetro" class="btn btn-danger btn-lg btn-block" style="width:75%">
-                            </td>
+                                
+                            </td><input type="submit" id="btnAgregarParametro" name="btnAgregarParametro" value="Nuevo Parámetro" class="btn btn-danger btn-lg btn-block" style="width:75%">
                         </tr>
                     </table>
                     <input type="hidden" name="hdEnvio" value="1" />
+                    <input type="hidden" name="hdCentroUnidad" value="<?php echo $this->idCentroUnidad;?>">
                 </div>
             </div>
         </form>

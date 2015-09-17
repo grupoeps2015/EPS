@@ -57,7 +57,7 @@
                     <tr>
                         <td>&nbsp;</td>
                         <td style="text-align:right;">
-                            <input type="submit" id="btnConsultar" value="Consultar" class="btn btn-danger btn-lg btn-warning" disabled>
+                            <input type="submit" id="btnConsultar" value="Seleccionar" class="btn btn-danger btn-lg btn-warning" disabled>
                         </td>
                     </tr>
                     <tr>
