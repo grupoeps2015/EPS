@@ -71,10 +71,6 @@
                         <?php else: ?>
                         <li>                            
                             <!--Menú-->
-                            <div><?php echo $_SESSION["centrounidad"]?></div>
-                        </li>
-                        <li>                            
-                            <!--Menú-->
                             <div id="menugenerado" name="menugenerado"></div>
                         </li>
                         <li>
