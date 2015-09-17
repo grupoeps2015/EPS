@@ -667,6 +667,7 @@ INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,22);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,23);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,24);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,25);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,26);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,27);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,28);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,29);
