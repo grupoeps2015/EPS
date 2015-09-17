@@ -70,5 +70,24 @@ class gestionEdificioModel extends Model {
             return $info->fetchall();
         }
     }
+    
+    public function actualizarEdificio($_datos) {
+        $info = $this->_db->prepare("SELECT * spactualizarAsignacion(:centroUnidad,:edificio,:jornada,:asignacion) as Id;");
+        $info->execute($_datos);
+        if($info === false){
+            return "1103/actualizarAsignacion";
+        }else{
+            return $info->fetchall();
+        }
+    }
+    
+    public function getJornadas() {
+        $info = $this->_db->query("select * from spconsultageneral('jornada,nombre','cur_jornada');");
+        if($info === false){
+            return "1104/getJornadas";
+        }else{
+            return $info->fetchall();
+        }
+    }
 
 }

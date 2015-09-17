@@ -20,16 +20,16 @@ class gestionEdificioController extends Controller {
     }
     
     public function listadoEdificio() {
-        session_start();
-        $rol = $_SESSION["rol"];        
-        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_GESTIONEDIFICIO);
-                    
-        if($rolValido[0]["valido"]!=PERMISO_GESTIONAR){        
-            echo "<script>
-                alert('No tiene permisos para acceder a esta función.');
-                window.location.href='" . BASE_URL . "login/inicio';
-                </script>";
-        }
+//        session_start();
+//        $rol = $_SESSION["rol"];        
+//        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_GESTIONEDIFICIO);
+//                    
+//        if($rolValido[0]["valido"]!=PERMISO_GESTIONAR){        
+//            echo "<script>
+//                alert('No tiene permisos para acceder a esta función.');
+//                window.location.href='" . BASE_URL . "login/inicio';
+//                </script>";
+//        }
         
         $info = $this->_post->allEdificios();
         if(is_array($info)){
@@ -74,6 +74,73 @@ class gestionEdificioController extends Controller {
         
     }
 
+    public function actualizarAsignacion($intIdEdificio) {
+//        session_start();
+//        $rol = $_SESSION["rol"];        
+//        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_MODIFICARHORARIO);
+         
+//        if($rolValido[0]["valido"]!= PERMISO_MODIFICAR){
+//           echo "<script>
+//                alert('No tiene permisos suficientes para acceder a esta función.');
+//                window.location.href='" . BASE_URL . "gestionHorario/index/" . $parametros . "';
+//                </script>";
+//        }
+        
+        
+        
+        $centroUnidad = $this->_post->informacionAsignacionEdificio($intIdEdificio);
+        if(is_array($centroUnidad)){
+            $this->_view->datosAsig = $centroUnidad;
+        }else{
+            $this->redireccionar("error/sql/" . $centroUnidad);
+            exit;
+        }
+        
+            
+        $centro = $this->_ajax->spGetNombreCentroUnidad((isset($centroUnidad[0]['nombreunidad']) ? $centroUnidad[0]['nombreunidadacademica'] : 0));
+        print_r($centroUnidad);
+        if(is_array($centro)){
+            $this->_view->centro = $centro;
+        }else{
+            $this->redireccionar("error/sql/" . $centro);
+            exit;
+        }
+        
+        $jornadas = $this->_post->getJornadas();
+        if(is_array($jornadas)){
+            $this->_view->jornadas = $jornadas;
+        }else{
+            $this->redireccionar("error/sql/" . $jornadas);
+            exit;
+        }
+        
+        
+        
+        $this->_view->setJs(array('jquery.validate'), "public");
+        
+        $arrayAsig = array();
+        $this->_view->id = $intIdEdificio;
+        $this->_view->titulo = 'Actualizar Asignación - ' . APP_TITULO;
+        
+        if ($this->getInteger('hdEnvio')) {
+            $unidad = $this->getInteger('slUnidades');
+            $centro = $this->getInteger('slCentro');
+            $jornada = $this->getInteger('slJornadas');
+            
+            $arrayAsig['jornada'] = $jornada;
+            $arrayAsig['edificio'] = $intIdEdificio;
+            $asignacion =  $this->_post->actualizarAsignacion($arrayAsig);
+            if(!is_array($asignacion)){
+                $this->redireccionar("error/sql/" . $asignacion);
+                exit;
+            }
+            
+            
+            $this->redireccionar("gestionEdificio/gestionEdificio/" . $parametros);
+        }
+        //print_r($hor);
+        $this->_view->renderizar('actualizarAsignacion', 'gestionEdificio');  
+    }
 
     public function agregarEdificio() {
         $this->_view->titulo = 'Agregar Edificio - ' . APP_TITULO;
