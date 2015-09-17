@@ -135,7 +135,7 @@ class gestionParametroController extends Controller{
         {         
             echo "<script>
                 alert('No tiene permisos suficientes para acceder a esta función.');
-                window.location.href='" . BASE_URL . "gestionParametro';
+                window.location.href='" . BASE_URL . "gestionParametro/index/" . $idCentroUnidad . "';
                 </script>";
         }
     }
@@ -148,7 +148,7 @@ class gestionParametroController extends Controller{
         if($rolValido[0]["valido"]!= PERMISO_MODIFICAR){
            echo "<script>
                 alert('No tiene permisos suficientes para acceder a esta función.');
-                window.location.href='" . BASE_URL . "gestionParametro';
+                window.location.href='" . BASE_URL . "gestionParametro/index/" . $idCentroUnidad . "';
                 </script>";
         }
         
@@ -201,7 +201,7 @@ class gestionParametroController extends Controller{
                 exit;
             }
             
-            $this->redireccionar('gestionParametro/actualizarParametro/' . $intIdParametro);
+            $this->redireccionar('gestionParametro/actualizarParametro/' . $intIdParametro . '/' . $idCentroUnidad);
         }
         $this->_view->renderizar('actualizarParametro', 'gestionParametro');
     }
