@@ -21,7 +21,6 @@
                             <i class="fa fa-2x fa-user-plus wow bounceIn text-primary" data-wow-delay=".2s">
                                 <a id="linkNuevoUsr" href="#">Agregar Usuario</a>
                             </i>
-                            <input type="hidden" name='hdCentroUnidad' value="<?php echo $this->id;?>"/>
                         </form>
                     </div>
                 </div>
@@ -65,9 +64,9 @@
                             </td>
                             <td style="text-align: center;">
                                 <?php if(strcmp($this->lstUsr[$i]['estado'], 'Activo') == 0): ?>
-                                <a href="<?php echo BASE_URL . 'gestionUsuario/eliminarUsuario/-1/' . $this->lstUsr[$i]['id'] . '/' . $this->id;?>">Desactivar</a>
+                                <a href="<?php echo BASE_URL . 'gestionUsuario/eliminarUsuario/-1/' . $this->lstUsr[$i]['id'];?>">Desactivar</a>
                                 <?php else : ?>
-                                <a href="<?php echo BASE_URL . 'gestionUsuario/eliminarUsuario/1/' . $this->lstUsr[$i]['id'] . '/' . $this->id;?>">Activar</a>
+                                <a href="<?php echo BASE_URL . 'gestionUsuario/eliminarUsuario/1/' . $this->lstUsr[$i]['id'];?>">Activar</a>
                                 <?php endif;?>
                             </td>
                         </tr>
