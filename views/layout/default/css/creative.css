@@ -87,13 +87,13 @@ h6 {
     font-family: 'Open Sans','Helvetica Neue',Arial,sans-serif;
 }
 
+/* Inicia rc-added */
 .fileUpload {
     position: relative;
     overflow: hidden;
     margin: 10px;
 }
 
-//*added by rickardo
 .fileUpload input.upload {
     position: absolute;
     top: 0;
@@ -159,7 +159,8 @@ h6 {
 #passInfo {
     display:none;
 }
-//finish added by rickardo
+/* fin rc-added */
+
 p {
     margin-bottom: 20px;
     font-size: 16px;
