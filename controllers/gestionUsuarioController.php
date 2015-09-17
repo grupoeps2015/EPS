@@ -19,7 +19,7 @@ class gestionUsuarioController extends Controller {
         $this->_ajax = $this->loadModel("ajax");
     }
 
-    public function index($id=0){
+    public function index(){
         session_start();
 
         if(isset($_SESSION["rol"])){
@@ -37,14 +37,8 @@ class gestionUsuarioController extends Controller {
                 </script>";
         }
         
-            if($this->getInteger('hdCentroUnidad')){
-                $idCentroUnidad = $this->getInteger('hdCentroUnidad');
-            }else if ($id != 0){
-                $idCentroUnidad = $id;
-            }else{
-                //session_start();
-                $idCentroUnidad = $_SESSION["centrounidad"];
-            }
+            
+            $idCentroUnidad = $_SESSION["centrounidad"];
 
             $this->_view->titulo = 'Gestión de usuarios - ' . APP_TITULO;
             $this->_view->id = $idCentroUnidad;
@@ -68,7 +62,7 @@ class gestionUsuarioController extends Controller {
         session_start();
         
         $iden = $this->getInteger('hdEnvio');
-        $idCentroUnidad = $this->getInteger('hdCentroUnidad');
+        $idCentroUnidad = $_SESSION["centrounidad"];
         $idUsr = 0;
         $nombreUsr = '';
         $correoUsr = '';
@@ -107,7 +101,7 @@ class gestionUsuarioController extends Controller {
         if($rolValido[0]["valido"]!= PERMISO_CREAR){
            echo "<script>
                 alert('No tiene permisos suficientes para acceder a esta función.');
-                window.location.href='" . BASE_URL . "gestionUsuario/index/" . $idCentroUnidad . "';
+                window.location.href='" . BASE_URL . "gestionUsuario" . "';
                 </script>";
         }
         
@@ -228,14 +222,14 @@ class gestionUsuarioController extends Controller {
                 }
             }
             //$this->notificacionEMAIL();
-            $this->redireccionar('gestionUsuario/index/'.$idCentroUnidad);
+            $this->redireccionar('gestionUsuario');
             exit;
         }
 
         $this->_view->renderizar('agregarUsuario', 'gestionUsuario');
     }
 
-    public function eliminarUsuario($intNuevoEstado, $intIdUsuario, $idCentroUnidad) {
+    public function eliminarUsuario($intNuevoEstado, $intIdUsuario) {
         session_start();
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_ELIMINARUSUARIO);
@@ -252,13 +246,13 @@ class gestionUsuarioController extends Controller {
             } else {
                 $this->_view->cambio = "No reconocio ningun parametro";
             }
-            $this->redireccionar('gestionUsuario/index/'.$idCentroUnidad);
+            $this->redireccionar('gestionUsuario');
         }
         else
         {         
             echo "<script>
                 alert('No tiene permisos suficientes para acceder a esta función.');
-                window.location.href='" . BASE_URL . "gestionUsuario/index/" . $idCentroUnidad . "';
+                window.location.href='" . BASE_URL . "gestionUsuario" . "';
                 </script>";
         }
     }
@@ -271,7 +265,7 @@ class gestionUsuarioController extends Controller {
         if($rolValido[0]["valido"]!= PERMISO_MODIFICAR){
            echo "<script>
                 alert('No tiene permisos suficientes para acceder a esta función.');
-                window.location.href='" . BASE_URL . "gestionUsuario/index/" . $_SESSION["centrounidad"] . "';
+                window.location.href='" . BASE_URL . "gestionUsuario" . "';
                 </script>";
         }
         
@@ -505,7 +499,8 @@ class gestionUsuarioController extends Controller {
     
     public function cargarCSV(){
         $iden = $this->getInteger('hdFile');
-        $idCentroUnidad = $this->getInteger('hdCentroUnidad');
+        session_start();
+        $idCentroUnidad = $_SESSION["centrounidad"];
         $fileName = "";
         $fileExt = "";
         $rol = "";
@@ -631,7 +626,7 @@ class gestionUsuarioController extends Controller {
                     }
                 }
                 fclose($handle);
-                $this->redireccionar('gestionUsuario/index/'.$idCentroUnidad);
+                $this->redireccionar('gestionUsuario');
                 exit;
             }else{
                 echo "<script>alert('El archivo cargado no cumple con el formato csv');</script>";
