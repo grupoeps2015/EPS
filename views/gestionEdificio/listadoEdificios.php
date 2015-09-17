@@ -29,10 +29,10 @@
     </div>
     <br/>
     <div>
-        <form id="frCarreras" method="post" action="<?php echo BASE_URL; ?>gestionEdificio/agregarEdificio">
-            <div id="divCarreras" class="form-group" >
-                <div style="margin-left: 10%; margin-right: 10%; margin-top: 25px;">
-                    <table id="tbCarreras" border="2" align="center">
+        <form id="frEdificios" method="post" action="<?php echo BASE_URL; ?>gestionEdificio/agregarEdificio">
+            <div id="divEdificios" class="form-group" >
+                <div style="margin-left: 5%; margin-right: 5%">
+                    <table id="tbEdificios" border="2" align="center">
                         <thead>
                             <tr>
                                 <th style="text-align:center; width: 250px;">Nombre</th>

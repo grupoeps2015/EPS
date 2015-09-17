@@ -7,7 +7,7 @@
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
                         <i class="fa fa-2x fa-backward wow bounceIn text-primary" data-wow-delay=".2s">
-                            <a href="<?php echo BASE_URL?>gestionSeccion/index/<?php echo $this->idCentroUnidad;?>">
+                            <a href="<?php echo BASE_URL?>gestionSeccion">
                                 Regresar
                             </a>
                         </i>
@@ -23,7 +23,7 @@
     <div class="header-content">
         <div class="header-content-inner">
             <div id="divCentros" class="row">
-                <form id="frSecciones" method="post" action="<?php echo BASE_URL; ?>gestionSeccion/actualizarSeccion/<?php echo $this->id . '/' . $this->idCentroUnidad; ?>">
+                <form id="frSecciones" method="post" action="<?php echo BASE_URL; ?>gestionSeccion/actualizarSeccion/<?php echo $this->id; ?>">
                     <div id="divEstudiantes" class="form-group" >
                         <div class="col-md-6 col-md-offset-3">
                             <table>

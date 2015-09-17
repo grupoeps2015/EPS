@@ -26,8 +26,8 @@ class gestionParametroModel extends Model{
     }
         
     //Metodos utilizados para cambiar estado del usuario
-    public function informacionParametro(){
-        $info = $this->_db->query("select * from spInformacionParametro();");
+    public function informacionParametro($idCentroUnidad){
+        $info = $this->_db->query("select * from spInformacionParametro({$idCentroUnidad});");
         if($info === false){
             return "1104/informacionParametro";
         }else{
@@ -68,8 +68,8 @@ class gestionParametroModel extends Model{
         }
     }
     
-    public function getCentro_UnidadAcademica() {
-        $info = $this->_db->query("select * from spconsultacentrounidadacademica();");
+    public function getCentro_UnidadAcademica($idCentroUnidadAcademica) {
+        $info = $this->_db->query("select * from spconsultacentrounidadacademica( " . $idCentroUnidadAcademica . ");");
         if($info === false){
             return "1104/getCentro_UnidadAcademica";
         }else{

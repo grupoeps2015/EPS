@@ -8,7 +8,7 @@
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
                         <i class="fa fa-2x fa-backward wow bounceIn text-primary" data-wow-delay=".2s">
-                            <a href="<?php echo BASE_URL ?>gestionUsuario/index/<?php echo $this->datosUsr[0]['unidadcentro'];?>">
+                            <a href="<?php echo BASE_URL ?>gestionUsuario">
                                 Regresar
                             </a>
                         </i>

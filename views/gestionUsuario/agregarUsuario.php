@@ -9,7 +9,7 @@
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
                         <i class="fa fa-2x fa-backward wow bounceIn text-primary" data-wow-delay=".2s">
-                            <a href="<?php echo BASE_URL?>gestionUsuario/index/<?php echo $this->idCentroUnidad;?>">
+                            <a href="<?php echo BASE_URL?>gestionUsuario">
                                 Regresar
                             </a>
                         </i>
@@ -97,7 +97,6 @@
                         </div>
                     </div>
                     <input type="hidden" name="hdEnvio" value="1">
-                    <input type="hidden" name="hdCentroUnidad" value="<?php echo $this->idCentroUnidad;?>">
                 </form>
                 
                 <!-- FORM Crear Catedratico -->
@@ -179,7 +178,6 @@
                         </div>
                     </div>
                     <input type="hidden" name="hdEnvio" value="2">
-                    <input type="hidden" name="hdCentroUnidad" value="<?php echo $this->idCentroUnidad;?>">
                 </form>
                 
                 <!-- FORM Crear Empleado -->
@@ -247,7 +245,6 @@
                         </div>
                     </div>
                     <input type="hidden" name="hdEnvio" value="3">
-                    <input type="hidden" name="hdCentroUnidad" value="<?php echo $this->idCentroUnidad;?>">
                 </form>
                 
             </div>
@@ -281,7 +278,6 @@
                 </div>
                 <div class="col-lg-3 col-md-6 text-center"></div>
                 <input type="hidden" id="hdFile" name="hdFile" value="0">
-                <input type="hidden" name="hdCentroUnidad" value="<?php echo $this->idCentroUnidad;?>">
             </form>
         </div>
     </div>

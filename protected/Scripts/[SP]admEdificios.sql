@@ -1,4 +1,27 @@
-﻿  -- Function: spdatoscentrounidad()
+﻿-- Function: spactualizarAsignacion(integer, integer, integer, integer)
+
+-- DROP FUNCTION spactualizarAsignacion(integer, integer, integer, integer);
+CREATE OR REPLACE FUNCTION spactualizarAsignacion(
+    _centroUnidad integer,
+    _edificio integer,
+	_jornada integer,
+	_asignacion integer)
+  RETURNS integer AS
+$BODY$
+DECLARE idAsignacion integer;
+BEGIN
+	UPDATE ADM_CentroUnidad_Edificio SET centro_unidadAcademica= _centroUnidad,
+	edificio = _edificio, jornada = _jornada
+	WHERE centrounidad_edificio = _asignacion RETURNING centrounidad_edificio into idAsignacion;
+	RETURN idAsignacion;
+END; $BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION spactualizarAsignacion(integer, integer,integer, integer)
+  OWNER TO postgres;
+  
+
+  -- Function: spdatoscentrounidad()
 
 -- DROP FUNCTION spdatoscentrounidad();
 

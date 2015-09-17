@@ -21,7 +21,7 @@ class gestionSeccionController extends Controller {
         $this->_ajax = $this->loadModel("ajax");
     }
 
-    public function index($id=0) {
+    public function index() {
         session_start();
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_GESTIONSECCION);
@@ -33,14 +33,9 @@ class gestionSeccionController extends Controller {
                 </script>";
         }
         
-            if($this->getInteger('hdCentroUnidad')){
-                $idCentroUnidad = $this->getInteger('hdCentroUnidad');
-            }else if ($id != 0){
-                $idCentroUnidad = $id;
-            }else{
-                //session_start();
-                $idCentroUnidad = $_SESSION["centrounidad"];
-            }
+            
+            $idCentroUnidad = $_SESSION["centrounidad"];
+            
             $this->_view->id= $idCentroUnidad;
 
             $lstSec = $this->_post->informacionSeccion($idCentroUnidad);
@@ -60,7 +55,8 @@ class gestionSeccionController extends Controller {
     }
 
     public function agregarSeccion() {
-        $idCentroUnidad = $this->getInteger('hdCentroUnidad');
+        
+        
         session_start();
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_CREARSECCION);
@@ -68,8 +64,31 @@ class gestionSeccionController extends Controller {
         if($rolValido[0]["valido"]!= PERMISO_CREAR){
            echo "<script>
                 alert('No tiene permisos suficientes para acceder a esta función.');
-                window.location.href='" . BASE_URL . "gestionSeccion/index/" . $idCentroUnidad . "';
+                window.location.href='" . BASE_URL . "gestionSeccion';
                 </script>";
+        }
+        
+        $idCentroUnidad = $_SESSION["centrounidad"];
+        
+        if ($this->getInteger('hdEnvio')) {
+            $tipoSeccion = $this->getInteger('slTiposSeccion');
+            $nombreSeccion = $this->getTexto('txtNombre');
+            $descSeccion = $this->getTexto('txtDesc');
+            $curso = $this->getTexto('slCursos');
+
+            $arraySec['tiposeccion'] = $tipoSeccion;
+            $arraySec['descripcion'] = $descSeccion;
+            $arraySec['nombre'] = $nombreSeccion;
+            $arraySec['curso'] = $curso;
+            $arraySec['estado'] = ESTADO_ACTIVO;
+
+            $info = $this->_post->agregarSeccion($arraySec);
+            if(!is_array($info)){
+                $this->redireccionar("error/sql/" . $info);
+                exit;
+            }
+            
+            $this->redireccionar('gestionSeccion');
         }
         
         $secciones = $this->_post->getTiposSeccion();
@@ -94,31 +113,10 @@ class gestionSeccionController extends Controller {
         $this->_view->setJs(array('jquery.validate'), "public");
         $arraySec = array();
         
-        if ($this->getInteger('hdEnvio')) {
-            $tipoSeccion = $this->getInteger('slTiposSeccion');
-            $nombreSeccion = $this->getTexto('txtNombre');
-            $descSeccion = $this->getTexto('txtDesc');
-            $curso = $this->getTexto('slCursos');
-
-            $arraySec['tiposeccion'] = $tipoSeccion;
-            $arraySec['descripcion'] = $descSeccion;
-            $arraySec['nombre'] = $nombreSeccion;
-            $arraySec['curso'] = $curso;
-            $arraySec['estado'] = ESTADO_ACTIVO;
-
-            $info = $this->_post->agregarSeccion($arraySec);
-            if(!is_array($info)){
-                $this->redireccionar("error/sql/" . $info);
-                exit;
-            }
-            
-            $this->redireccionar('gestionSeccion/index/'.$idCentroUnidad);
-        }
-        
         $this->_view->renderizar('agregarSeccion', 'gestionSeccion');    
     }
     
-    public function eliminarSeccion($intNuevoEstado, $intIdSeccion, $idCentroUnidad) {
+    public function eliminarSeccion($intNuevoEstado, $intIdSeccion) {
         session_start();
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_ELIMINARSECCION);
@@ -131,7 +129,7 @@ class gestionSeccionController extends Controller {
                     $this->redireccionar("error/sql/" . $info);
                     exit;
                 }
-                $this->redireccionar('gestionSeccion/index/'.$idCentroUnidad);
+                $this->redireccionar('gestionSeccion');
             } else {
                 echo "Error al desactivar sección";
             }
@@ -140,32 +138,51 @@ class gestionSeccionController extends Controller {
         {         
             echo "<script>
                 alert('No tiene permisos suficientes para acceder a esta función.');
-                window.location.href='" . BASE_URL . "gestionSeccion/index/" . $idCentroUnidad . "';
+                window.location.href='" . BASE_URL . "gestionSeccion" . "';
                 </script>";
         }
         
     }
     
-    public function actualizarSeccion($intIdSeccion = 0, $idCentroUnidad = 0) {
+    public function actualizarSeccion($intIdSeccion = 0) {
         session_start();
-        
+        $rol = $_SESSION["rol"];        
+        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_MODIFICARSECCION);
+        if($rolValido[0]["valido"]!= PERMISO_MODIFICAR){
+           echo "<script>
+                alert('No tiene permisos suficientes para acceder a esta función.');
+                window.location.href='" . BASE_URL . "gestionSeccion" . "';
+                </script>";
+        }
+        $idCentroUnidad = $_SESSION["centrounidad"];
         $arraySec = array();
+        if ($this->getInteger('hdEnvio')) {
+            $tipoSeccion = $this->getInteger('slTiposSeccion');
+            $nombreSeccion = $this->getTexto('txtNombre');
+            $descSeccion = $this->getTexto('txtDesc');
+            $curso = $this->getTexto('slCursos');
+
+            $arraySec['id'] = $intIdSeccion;
+            $arraySec['tiposeccion'] = $tipoSeccion;
+            $arraySec['descripcion'] = $descSeccion;
+            $arraySec['nombre'] = $nombreSeccion;
+            $arraySec['curso'] = $curso;
+
+            $respuesta = $this->_post->actualizarSeccion($arraySec);
+            if (is_array($respuesta)){
+                $this->redireccionar('gestionSeccion');
+            }else{
+                $this->redireccionar("error/sql/" . $respuesta);
+                exit;
+            }
+        }
+        
         
         $this->_view->setJs(array('jquery.validate'), "public");
         $this->_view->setJs(array('actualizarSeccion'));
         
         $this->_view->id = $intIdSeccion;
-        $this->_view->idCentroUnidad = $idCentroUnidad;
         
-        $rol = $_SESSION["rol"];        
-        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,100);
-         
-        if($rolValido[0]["valido"]!= PERMISO_MODIFICAR){
-           echo "<script>
-                alert('No tiene permisos suficientes para acceder a esta función.');
-                window.location.href='" . BASE_URL . "gestionSeccion/index/" . $idCentroUnidad . "';
-                </script>";
-        }
         
         $this->_view->titulo = 'Actualizar Sección - ' . APP_TITULO;
         
@@ -193,26 +210,7 @@ class gestionSeccionController extends Controller {
             exit;
         }
         
-        if ($this->getInteger('hdEnvio')) {
-            $tipoSeccion = $this->getInteger('slTiposSeccion');
-            $nombreSeccion = $this->getTexto('txtNombre');
-            $descSeccion = $this->getTexto('txtDesc');
-            $curso = $this->getTexto('slCursos');
-
-            $arraySec['id'] = $intIdSeccion;
-            $arraySec['tiposeccion'] = $tipoSeccion;
-            $arraySec['descripcion'] = $descSeccion;
-            $arraySec['nombre'] = $nombreSeccion;
-            $arraySec['curso'] = $curso;
-
-            $respuesta = $this->_post->actualizarSeccion($arraySec);
-            if (is_array($respuesta)){
-                $this->redireccionar('gestionSeccion/index/'. $idCentroUnidad);
-            }else{
-                $this->redireccionar("error/sql/" . $respuesta);
-                exit;
-            }
-        }
+        
         $this->_view->renderizar('actualizarSeccion', 'gestionSeccion');
     }
     

@@ -19,8 +19,8 @@ LANGUAGE 'plpgsql';
 -- -----------------------------------------------------
 -- Function: spInformacionParametro()
 -- -----------------------------------------------------
--- DROP FUNCTION spInformacionParametro();
-CREATE OR REPLACE FUNCTION spInformacionParametro(OUT Parametro int, OUT NombreParametro text, 
+-- DROP FUNCTION spInformacionParametro(integer);
+CREATE OR REPLACE FUNCTION spInformacionParametro(idCentroUnidadAcademica integer, OUT Parametro int, OUT NombreParametro text, 
 					          OUT ValorParametro text, OUT DescripcionParametro text, 
 					          OUT NombreCentro text, OUT NombreUnidadAcademica text, 
 					          OUT NombreCarrera text, OUT ExtensionParametro int, 
@@ -44,6 +44,7 @@ BEGIN
 	JOIN ADM_Centro c ON c.centro = cu.centro
 	JOIN CUR_Carrera car ON car.carrera = p.carrera
 	JOIN ADM_TipoParametro tp ON tp.tipoparametro = p.tipoparametro
+	WHERE cu.centro_unidadacademica = $1
 	ORDER BY p.nombre;
 
 END;
@@ -120,16 +121,25 @@ $$;
 -- -----------------------------------------------------
 -- Function: spConsultaCentroUnidadacademica()
 -- -----------------------------------------------------
--- DROP FUNCTION spConsultaCentroUnidadacademica();
-CREATE OR REPLACE FUNCTION spConsultaCentroUnidadacademica(OUT NombreCentro text, OUT NombreUnidadAcademica text, OUT Centro_UnidadAcademica int) RETURNS setof record as 
+-- DROP FUNCTION spConsultaCentroUnidadacademica(integer);
+CREATE OR REPLACE FUNCTION spConsultaCentroUnidadacademica(CentroUnidad integer, OUT NombreCentro text, OUT NombreUnidadAcademica text, OUT Centro_UnidadAcademica int) RETURNS setof record as 
 $BODY$
-BEGIN
-  RETURN query
-  SELECT c.nombre AS NombreCentro, ua.nombre AS NombreUnidadAcademica, cu.centro_unidadacademica AS Centro_UnidadAcademica
+
+  DECLARE
+  sql text := 'SELECT c.nombre AS NombreCentro, ua.nombre AS NombreUnidadAcademica, cu.centro_unidadacademica AS Centro_UnidadAcademica
   FROM ADM_Centro_UnidadAcademica cu
   JOIN ADM_Centro c ON c.Centro = cu.Centro
-  JOIN ADM_UnidadAcademica ua ON ua.UnidadAcademica = cu.UnidadAcademica
-  ORDER BY c.nombre;
+  JOIN ADM_UnidadAcademica ua ON ua.UnidadAcademica = cu.UnidadAcademica';
+BEGIN
+   IF $1 != 0 THEN
+      sql := sql || ' WHERE cu.centro_unidadacademica = ' || $1;
+	  sql := sql || ' ORDER BY c.nombre;';
+	ELSE 
+	  sql := sql || ' ORDER BY c.nombre;';
+   END IF;
+
+   RETURN QUERY EXECUTE sql;
+   
 END;
 $BODY$
 LANGUAGE 'plpgsql';

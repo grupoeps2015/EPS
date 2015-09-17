@@ -55,7 +55,8 @@ BEGIN
 	when e.estado=1 then 'Activo'
 	end as "Estado"
   from 
-    CUR_Edificio e;
+    CUR_Edificio e
+	order by e.nombre;
 END;
 $BODY$
   LANGUAGE plpgsql VOLATILE

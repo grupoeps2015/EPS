@@ -56,7 +56,7 @@ class catedraticoController extends Controller{
             exit;
         }
         
-        $this->_view->setJs(array('admCatedratico'));
+        $this->_view->setJs(array('catedratico'));
         $this->_view->setJs(array('jquery.validate'), "public");
         
         if($iden == 1){

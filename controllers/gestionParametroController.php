@@ -8,6 +8,7 @@
 
 class gestionParametroController extends Controller{
     private $_post;
+    private $_ajax;
     
     public function __construct() {
         parent::__construct();
@@ -15,7 +16,7 @@ class gestionParametroController extends Controller{
         $this->_ajax = $this->loadModel("ajax");
     }
 
-    public function index(){
+    public function index($id=0){
         session_start();
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_GESTIONPARAMETRO);
@@ -27,14 +28,24 @@ class gestionParametroController extends Controller{
                 </script>";
         }
         
-            $this->_view->lstPar = $this->_post->informacionParametro();
-            $this->_view->titulo = 'Gestión de parámetros - ' . APP_TITULO;
+            if($this->getInteger('hdCentroUnidad')){
+                $idCentroUnidad = $this->getInteger('hdCentroUnidad');
+            }else if ($id != 0){
+                $idCentroUnidad = $id;
+            }else{
+                //session_start();
+                $idCentroUnidad = $_SESSION["centrounidad"];
+            }
 
+            $this->_view->titulo = 'Gestión de parámetros - ' . APP_TITULO;
+            $this->_view->id = $idCentroUnidad;
+            
             //Se agregan los archivos JS, CSS, locales y publicos
             $this->_view->setJs(array('gestionParametro'));
             $this->_view->setJs(array('jquery.dataTables.min'), "public");
             $this->_view->setCSS(array('jquery.dataTables.min'));
-
+            $this->_view->lstPar = $this->_post->informacionParametro($idCentroUnidad);
+            
             //se renderiza la vista a mostrar
             $this->_view->renderizar('gestionParametro');
        
@@ -43,20 +54,14 @@ class gestionParametroController extends Controller{
     
     public function agregarParametro(){
         session_start();
-        $rol = $_SESSION["rol"];        
-        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_CREARPARAMETRO);
-         
-        if($rolValido[0]["valido"]!= PERMISO_CREAR){
-           echo "<script>
-                alert('No tiene permisos suficientes para acceder a esta función.');
-                window.location.href='" . BASE_URL . "gestionParametro';
-                </script>";
-        }
-        
+                
         $iden = $this->getInteger('hdEnvio');
+        $idCentroUnidad = $this->getInteger('hdCentroUnidad');
+        
         $arrayPar = array();
         
-        $unicentro = $this->_post->getCentro_UnidadAcademica();
+        $this->_view->idCentroUnidad = $idCentroUnidad;
+        $unicentro = $this->_post->getCentro_UnidadAcademica($idCentroUnidad);
         if(is_array($unicentro)){
             $this->_view->centro_unidadacademica = $unicentro;
         }else{
@@ -73,8 +78,19 @@ class gestionParametroController extends Controller{
         }
         
         $this->_view->titulo = 'Agregar Parametro - ' . APP_TITULO;
+        
         $this->_view->setJs(array('agregarParametro'));
         $this->_view->setJs(array('jquery.validate'), "public");
+        
+        $rol = $_SESSION["rol"];        
+        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_CREARPARAMETRO);
+         
+        if($rolValido[0]["valido"]!= PERMISO_CREAR){
+           echo "<script>
+                alert('No tiene permisos suficientes para acceder a esta función.');
+                window.location.href='" . BASE_URL . "gestionParametro/index/" . $idCentroUnidad . "';
+                </script>";
+        }
         
         if($iden == 1){
             $arrayPar["nombre"] = $this->getTexto('txtNombreParametro');
@@ -91,13 +107,13 @@ class gestionParametroController extends Controller{
                 exit;
             }
             
-            $this->redireccionar('gestionParametro');
+            $this->redireccionar('gestionParametro/index/'.$idCentroUnidad);
         }
         
         $this->_view->renderizar('agregarParametro', 'gestionParametro');
     }
     
-    public function eliminarParametro($intNuevoEstado, $intIdParametro){
+    public function eliminarParametro($intNuevoEstado, $intIdParametro, $idCentroUnidad){
         session_start();
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_ELIMINARPARAMETRO);
@@ -110,7 +126,7 @@ class gestionParametroController extends Controller{
                     $this->redireccionar("error/sql/" . $info);
                     exit;
                 }
-                $this->redireccionar('gestionParametro');
+                $this->redireccionar('gestionParametro/index/'.$idCentroUnidad);
             }else{
                 $this->_view->cambio = "No reconocio ningun parametro";    
             }
@@ -119,12 +135,12 @@ class gestionParametroController extends Controller{
         {         
             echo "<script>
                 alert('No tiene permisos suficientes para acceder a esta función.');
-                window.location.href='" . BASE_URL . "gestionParametro';
+                window.location.href='" . BASE_URL . "gestionParametro/index/" . $idCentroUnidad . "';
                 </script>";
         }
     }
     
-    public function actualizarParametro($intIdParametro = 0) {
+    public function actualizarParametro($intIdParametro = 0,$idCentroUnidad = 0) {
         session_start();
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_MODIFICARPARAMETRO);
@@ -132,7 +148,7 @@ class gestionParametroController extends Controller{
         if($rolValido[0]["valido"]!= PERMISO_MODIFICAR){
            echo "<script>
                 alert('No tiene permisos suficientes para acceder a esta función.');
-                window.location.href='" . BASE_URL . "gestionParametro';
+                window.location.href='" . BASE_URL . "gestionParametro/index/" . $idCentroUnidad . "';
                 </script>";
         }
         
@@ -140,7 +156,9 @@ class gestionParametroController extends Controller{
         $this->_view->setJs(array('jquery.validate'), "public");
         $this->_view->setJs(array('actualizarParametro'));
         
-        $unicentro = $this->_post->getCentro_UnidadAcademica();
+        $this->_view->idCentroUnidad = $idCentroUnidad;        
+        $unicentro = $this->_post->getCentro_UnidadAcademica($idCentroUnidad);
+        
         if(is_array($unicentro)){
             $this->_view->centro_unidadacademica = $unicentro;
         }else{
@@ -158,6 +176,7 @@ class gestionParametroController extends Controller{
         
         $arrayPar = array();
         $this->_view->id = $intIdParametro;
+        
         $datosPar = $this->_post->datosParametro($intIdParametro);
         if(is_array($datosPar)){
             $this->_view->datosPar = $datosPar;
@@ -182,7 +201,7 @@ class gestionParametroController extends Controller{
                 exit;
             }
             
-            $this->redireccionar('gestionParametro/actualizarParametro/' . $intIdParametro);
+            $this->redireccionar('gestionParametro/actualizarParametro/' . $intIdParametro . '/' . $idCentroUnidad);
         }
         $this->_view->renderizar('actualizarParametro', 'gestionParametro');
     }
