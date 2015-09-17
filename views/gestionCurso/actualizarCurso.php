@@ -77,7 +77,6 @@
                         </div>
                     </div>
                     <input type="hidden" name="hdEnvio" value="1">
-                    <input type="hidden" name="hdCentroUnidad" value="<?php echo $this->datosCur[0]['centrounidad'];?>">
                 </form>
             </div>
         </div>
