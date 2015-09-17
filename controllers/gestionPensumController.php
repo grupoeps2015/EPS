@@ -124,7 +124,7 @@ class gestionPensumController extends Controller {
         if($rolValido[0]["valido"]!= PERMISO_CREAR){
            echo "<script>
                 alert('No tiene permisos suficientes para acceder a esta función.');
-                window.location.href='" . BASE_URL . "gestionPensum/listadoCarrera';
+                window.location.href='" . BASE_URL . "gestionPensum/listadoCarrera/" . $idCentroUnidad . "';
                 </script>";
         }
         
@@ -172,22 +172,13 @@ class gestionPensumController extends Controller {
         {
             echo "<script>
                 alert('No tiene permisos suficientes para acceder a esta función.');
-                window.location.href='" . BASE_URL . "gestionPensum/listadoCarrera';
+                window.location.href='" . BASE_URL . "gestionPensum/listadoCarrera/" . $idCentroUnidad . "';
                 </script>";
         }
     }
     
     public function actualizarCarrera($intIdCarrera = 0,$idCentroUnidad = 0) {
         session_start();
-        $rol = $_SESSION["rol"];        
-        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_MODIFICARCARRERA);
-         
-        if($rolValido[0]["valido"]!= PERMISO_MODIFICAR){
-           echo "<script>
-                alert('No tiene permisos suficientes para acceder a esta función.');
-                window.location.href='" . BASE_URL . "gestionPensum/listadoCarrera';
-                </script>";
-        }
         
         $this->_view->setJs(array('jquery.validate'), "public");
         $this->_view->setJs(array('actualizarCarrera'));
@@ -195,7 +186,17 @@ class gestionPensumController extends Controller {
         $arrayCar = array();
         
         $this->_view->id = $intIdCarrera;
-        $this->_view->idCentroUnidad = $idCentroUnidad;        
+        $this->_view->idCentroUnidad = $idCentroUnidad;   
+        
+        $rol = $_SESSION["rol"];        
+        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_MODIFICARCARRERA);
+         
+        if($rolValido[0]["valido"]!= PERMISO_MODIFICAR){
+           echo "<script>
+                alert('No tiene permisos suficientes para acceder a esta función.');
+                window.location.href='" . BASE_URL . "gestionPensum/listadoCarrera/" . $idCentroUnidad . "';
+                </script>";
+        }
         
         $info = $this->_post->datosCarrera($intIdCarrera);
         if(is_array($info)){
