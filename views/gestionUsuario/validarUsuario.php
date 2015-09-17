@@ -90,13 +90,34 @@
                     <tr>
                         <td>&nbsp;</td>
                         <td>&nbsp;</td>
-                        <td align="right"><br/>
+                        <td align="right">
                             <input type="button" id="btnContinuar1" name="btnContinuar1" value="Continuar" class="btn btn-warning btn-lg btn-block" style="width:50%">
                         </td>
                     </tr>
                 </table>
             </div>
-        
+            
+            <div id="passInfo" class="col-md-8 col-md-offset-2">
+                <table>
+                    <tr>
+                        <td>
+                            <h4>Su contraseña debe cumplir con lo siguiente:</h4>
+                            <ul>
+                                <li id="letra" class="passInvalid">Tener al menos <strong>una letra</strong></li>
+                                <li id="mayus" class="passInvalid">Tener al menos <strong>una letra may&uacute;cula</strong></li>
+                            </ul>
+                        </td>
+                        <td>
+                            <h4>&nbsp;</h4>
+                            <ul>
+                                <li id="numero" class="passInvalid">Tener al menos <strong>un n&uacute;mero</strong></li>
+                                <li id="total" class="passInvalid">Ser de al menos <strong>8 car&aacute;cteress</strong></li>
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            
             <div id="divEspecificos" class="col-md-4 col-md-offset-2" style="display: none;">
                 <!-- Tabla con informacion personal -->
                 <table class="text-primary" style="width: 100%;">
