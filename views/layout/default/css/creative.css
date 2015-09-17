@@ -87,7 +87,6 @@ h6 {
     font-family: 'Open Sans','Helvetica Neue',Arial,sans-serif;
 }
 
-/* Inicia rc-added */
 .fileUpload {
     position: relative;
     overflow: hidden;
@@ -111,17 +110,7 @@ h6 {
 }
 
 #passInfo {
-    position:absolute;
-    bottom:-75px;
-    bottom: -115px\9; /* IE Specific */
-    right:55px;
-    width:250px;
-    padding:15px;
-    background:#23527c;
-    font-size:.875em;
-    border-radius:5px;
-    box-shadow:0 1px 3px #ccc;
-    border: 2px solid #ddd;
+    
 }
 
 #passInfo h4 {
@@ -159,7 +148,6 @@ h6 {
 #passInfo {
     display:none;
 }
-/* fin rc-added */
 
 p {
     margin-bottom: 20px;
