@@ -8,7 +8,7 @@
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
                         <i class="fa fa-2x fa-backward wow bounceIn text-primary" data-wow-delay=".2s">
-                            <a href="<?php echo BASE_URL?>gestionPensum/listadoCarrera/<?php echo $this->idCentroUnidad;?>">
+                            <a href="<?php echo BASE_URL?>gestionPensum/listadoCarrera">
                                 Regresar
                             </a>
                         </i>
@@ -24,7 +24,7 @@
     <div class="header-content">
         <div class="header-content-inner">
             <div id="divCentros" class="row">
-                <form id="frCarreras" method="post" action="<?php echo BASE_URL; ?>gestionPensum/actualizarCarrera/<?php echo $this->id; ?>/<?php echo $this->idCentroUnidad; ?>">
+                <form id="frCarreras" method="post" action="<?php echo BASE_URL; ?>gestionPensum/actualizarCarrera/<?php echo $this->id; ?>">
                     <div id="divEstudiantes" class="form-group" >
                         <div class="col-md-6 col-md-offset-3">
                             <table>
@@ -44,7 +44,6 @@
                         </div>
                     </div>
                     <input type="hidden" name="hdEnvio" value="1">
-                    <input type="hidden" name='hdCentroUnidad' value="<?php echo $this->idCentroUnidad;?>"/>
                 </form>
             </div>
         </div>
