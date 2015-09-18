@@ -1,10 +1,10 @@
 $(document).ready( function () {
     $('#frEdificios').validate({
         rules:{
-            txtNombreParametro:{
+            txtNombre:{
                 required: true
             },
-            txtValorParametro:{
+            txtDescripcion:{
                 required: true
             },
             txtDescripcionParametro:{
