@@ -714,5 +714,23 @@ INSERT INTO adm_funcionmenu (funcionmenu,nombre,tipo,url,funcionpadre,funcion,or
 
 
 
+-- -----------------------------------------------------
+-- Insert adm_tipoperiodo
+-- -----------------------------------------------------
+INSERT INTO adm_tipoperiodo (tipoperiodo,nombre,descripcion,estado) VALUES (1,'Asignación de cursos','',1);
+INSERT INTO adm_tipoperiodo (tipoperiodo,nombre,descripcion,estado) VALUES (2,'Ingreso de notas','',1);
+
+-- -----------------------------------------------------
+-- Insert adm_tipoasignacion
+-- -----------------------------------------------------
+INSERT INTO adm_tipoasignacion (tipoasignacion,nombre,descripcion) VALUES (1,'Junta Directiva','');
+INSERT INTO adm_tipoasignacion (tipoasignacion,nombre,descripcion) VALUES (2,'Regular','');
+INSERT INTO adm_tipoasignacion (tipoasignacion,nombre,descripcion) VALUES (3,'Extemporánea','');
+
+-- -----------------------------------------------------
+-- Insert adm_periodo
+-- -----------------------------------------------------
+INSERT INTO adm_periodo (periodo,ciclo,fechainicial,fechafinal,tipoperiodo,estado,tipoasignacion,centro_unidadacademica) VALUES (1,1,NULL,NULL,1,1,1,1);
+INSERT INTO adm_periodo (periodo,ciclo,fechainicial,fechafinal,tipoperiodo,estado,tipoasignacion,centro_unidadacademica) VALUES (2,1,current_date,'31/12/2015',1,1,2,1);
 
 
