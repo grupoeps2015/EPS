@@ -23,7 +23,6 @@
                                 <a id="linkNuevoHor" href="#">Agregar Horario</a>
                             </i>
                             <input type="hidden" name='slSec' value="<?php if(isset($this->idcurso)) echo $this->idcurso;?>"/>
-                            <input type="hidden" name='hdCentroUnidad' value="<?php if(isset($this->id)) echo $this->id;?>"/>
                             <input type="hidden" name='slCiclo' value="<?php if(isset($this->idciclo)) echo $this->idciclo;?>"/>
                         </form>
                     </div>

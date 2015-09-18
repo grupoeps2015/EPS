@@ -134,4 +134,33 @@ class gestionHorarioModel extends Model {
         }
     }
     
+    //Desde gestionCursoModel 
+    public function informacionSeccion($centrounidadacademica) {
+        $info = $this->_db->query("select * from spInformacionSeccion(" . $centrounidadacademica . ");");
+        if($info === false){
+            return "1104/informacionSeccion";
+        }else{
+            return $info->fetchall();
+        }
+    }
+    
+    public function datosSeccion($idSeccion) {
+        $info = $this->_db->query("select * from spDatosSeccion(" . $idSeccion . ");");
+        if($info === false){
+            return "1104/datosSeccion";
+        }else{
+            return $info->fetchall();
+        }
+    }
+    
+    //Desde catedraticoModel
+    public function getCatedraticos($centrounidad){
+        $info = $this->_db->query("SELECT * from spinformacioncatedratico(" . $centrounidad . ");");
+        if($info === false){
+            return "1104/getCatedraticos";
+        }else{
+            return $info->fetchall();
+        }
+    }
+    
 }

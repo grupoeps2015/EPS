@@ -165,7 +165,6 @@
                     <input type="hidden" name="hdEnvio" value="1">
                     <input type="hidden" name='slSec' value="<?php if(isset($this->idcurso)) echo $this->idcurso;?>"/>
                     <input type="hidden" name='hdSeccion' value="<?php if(isset($this->curso)) echo $this->curso;?>"/>
-                    <input type="hidden" name='hdCentroUnidad' value="<?php if(isset($this->id)) echo $this->id;?>"/>
                     <input type="hidden" name='slCiclo' value="<?php if(isset($this->idciclo)) echo $this->idciclo;?>"/>
                 </form>
             </div>
