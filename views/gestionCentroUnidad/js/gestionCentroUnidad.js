@@ -1,5 +1,5 @@
 $(document).ready( function () {
-    $('#tbEdificios').DataTable( {
+    $('#tbCentrosRegionales').DataTable( {
         language: {
           emptyTable: "No hay informaci&oacute;n disponible."
         }

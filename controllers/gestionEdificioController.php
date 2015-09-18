@@ -49,28 +49,27 @@ class gestionEdificioController extends Controller {
     }
     
     public function index($id=0){
-            
-            if($this->getInteger('hdEdificio')){
-                $idEdificio = $this->getInteger('hdEdificio');
-            }else{
-                $idEdificio = $id;
-            }
-            $this->_view->id = $idEdificio;
+        if($this->getInteger('hdEdificio')){
+            $idEdificio = $this->getInteger('hdEdificio');
+        }else{
+            $idEdificio = $id;
+        }
+        $this->_view->id = $idEdificio;
 
-            $info = $this->_post->informacionAsignacionEdificio($idEdificio);
-            if(is_array($info)){
-                $this->_view->lstEdificio = $info;                
-            }else{
-                $this->redireccionar("error/sql/" . $info);
-                exit;
-            }
+        $info = $this->_post->informacionAsignacionEdificio($idEdificio);
+        if(is_array($info)){
+            $this->_view->lstEdificio = $info;                
+        }else{
+            $this->redireccionar("error/sql/" . $info);
+            exit;
+        }
 
-            $this->_view->titulo = 'Gestión de Edificios - ' . APP_TITULO;
-            $this->_view->setJs(array('gestionEdificio'));
-            $this->_view->setJs(array('jquery.dataTables.min'), "public");
-            $this->_view->setCSS(array('jquery.dataTables.min'));
+        $this->_view->titulo = 'Gestión de Edificios - ' . APP_TITULO;
+        $this->_view->setJs(array('gestionEdificio'));
+        $this->_view->setJs(array('jquery.dataTables.min'), "public");
+        $this->_view->setCSS(array('jquery.dataTables.min'));
 
-            $this->_view->renderizar('gestionEdificio');
+        $this->_view->renderizar('gestionEdificio');
         
     }
 
