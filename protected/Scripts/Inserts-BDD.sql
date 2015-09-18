@@ -376,8 +376,8 @@ Insert into ADM_Municipio(Municipio,Nombre,Departamento)values(338,'El Chal',22)
 -- -----------------------------------------------------
 -- Insert Catalogo ADM_Centro / 21 registros
 -- -----------------------------------------------------
-Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(1,'Centro de Estudios del Mar ' ,12, 'Guatemala',1);
-Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(2,'Centro Universitario de Baja Verapaz' ,36, 'Baja Verapaz',1);
+Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(1,'Ciudad Universitaria', 3, 'Guatemala', 12);
+Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(2,'Centro Universitario Metropolitano' ,1, 'Guatemala',11);
 Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(3,'Centro Universitario de Chimaltenango' ,119, 'Chimaltenango',1);
 Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(4,'Centro Universitario de El Progreso' ,56, 'El Progreso',1);
 Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(5,'Centro Universitario de Izabal' ,63, 'Izabal',1);
@@ -386,17 +386,17 @@ Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(7,'Cen
 Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(8,'Centro Universitario de Nor Occidente' ,278, 'Huehuetenango',1);
 Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(9,'Centro Universitario de Occidente' ,175, 'Quetzaltenango',1);
 Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(10,'Centro Universitario del Oriente' ,46, 'Chiquimula',1);
-Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(11,'Centro Universitario de Petén' ,326, 'Peten',1);
-Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(12,'Centro Universitario del Quiché' ,316, 'Quiche',1);
+Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(11,'Centro Universitario de Peten' ,326, 'Peten',1);
+Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(12,'Centro Universitario del Quiche' ,316, 'Quiche',1);
 Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(13,'Centro Universitario de Santa Rosa' ,104, 'Santa Rosa',1);
 Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(14,'Centro Universitario de San Marcos' ,219, 'San Marcos',1);
-Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(15,'Centro Universitario de Sololá' ,256, 'Solola',1);
+Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(15,'Centro Universitario de Solola' ,256, 'Solola',1);
 Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(16,'Centro Universitario de Sur-Occidente' ,191, 'Retalhuleu',1);
 Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(17,'Centro Universitario del Sur-Oriente' ,94, 'Jalapa',1);
-Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(18,'Centro Universitario de Totonicapán' ,268, 'Totonicapan',1);
+Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(18,'Centro Universitario de Totonicapan' ,268, 'Totonicapan',1);
 Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(19,'Centro Universitario de Zacapa' ,72, 'Zacapa',1);
-Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(20,'Ciudad Universitaria' ,1, 'Guatemala',12);
-Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(21,'Centro Universitario Metropolitano' ,1, 'Guatemala',11);
+Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(20,'Centro Universitario de Baja Verapaz' ,36, 'Baja Verapaz',1);
+Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(21,'Centro de Estudios del Mar ' ,12, 'Guatemala',1);
 
 -- -----------------------------------------------------
 -- Insert ADM_UnidadAcademica

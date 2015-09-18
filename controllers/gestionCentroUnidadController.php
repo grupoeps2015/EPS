@@ -143,4 +143,39 @@ class gestionCentroUnidadController extends Controller {
         }
         $this->_view->renderizar('actualizarCentro', 'gestionCentroUnidad');
     }
+
+    public function cargaCentroCSV(){
+        $fileName = "";
+        $fileExt = "";
+        
+        if($this->getInteger('hdFile')){
+            $fileName=$_FILES['csvFile']['name'];
+            $fileExt = explode(".",$fileName);
+            if(strtolower(end($fileExt)) == "csv"){
+                $fileName=$_FILES['csvFile']['tmp_name'];
+                $handle = fopen($fileName, "r");
+                while(($data = fgetcsv($handle, 1000, ",")) !== FALSE){
+                    $arrayCentro = array();
+                    $arrayCentro[":nombre"] = $data[0];
+                    $arrayCentro[":direccion"] = $data[2];
+                    $arrayCentro[":municipio"] = $data[1];
+                    $arrayCentro[":zona"] = $data[3];
+                    
+                    $info = $this->_gCenUni->setCentro($arrayCentro);
+                    if(!is_array($info)){
+                        fclose($handle);
+                        $this->redireccionar("error/sql/" . $info);
+                        exit;
+                    }
+                }
+                fclose($handle);
+                $this->redireccionar('gestionCentroUnidad');
+                exit;
+            }else{
+                echo "<script>alert('El archivo cargado no cumple con el formato csv');</script>";
+            }
+        }
+        $this->_view->renderizar('agregarCentro', 'gestionCentroUnidad'); 
+    }
+    
 }
