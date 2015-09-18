@@ -203,7 +203,7 @@ class gestionEdificioController extends Controller {
             $arrayAsignacion['centroUnidadAcademica'] = $centroUnidadAcademica;
             $arrayAsignacion['edificio'] = $intIdEdificio;
             $arrayAsignacion['jornada'] = $jornada;
-            $arrayAsignacion['estado'] = ESTADO_ACTIVO;
+            $arrayAsignacion['estado'] = ESTADO_PENDIENTE;
             $this->_post->asignarUnidadEdificio($arrayAsignacion);
             $this->redireccionar('gestionEdificio/gestionEdificio/'. $intIdEdificio);
         }

@@ -737,6 +737,8 @@ CREATE TABLE ADM_CentroUnidad_Edificio (
   CONSTRAINT fk_ADM_UnidadAcademica_Edificio_CUR_Jornada1
     FOREIGN KEY (Jornada)
     REFERENCES CUR_Jornada (Jornada));
+	
+CREATE UNIQUE INDEX u_Centro_UnidadAcademica_Edificio_Jornada ON ADM_CentroUnidad_Edificio (Centro_UnidadAcademica, Edificio, Jornada);
 
 
 -- -----------------------------------------------------
