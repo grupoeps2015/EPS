@@ -53,6 +53,28 @@ class gestionEdificioModel extends Model {
         }
     }
     
+     public function datosAsignacionEdificio($idAsignacion) {
+
+        $post = $this->_db->query("select * from spinformacionasignacionedificio(" . $idAsignacion . ");");
+        //print_r("select * from spInformacionEdificio(" . $idEdificio . ");");
+        if ($post === FALSE) {
+            return "1104/datosAsignacionEdificio";
+        } else {
+            return $post->fetchall();
+        }
+    }
+    
+    
+    public function getCentro_UnidadAcademica($idCentroUnidadAcademica) {
+        $info = $this->_db->query("select * from spconsultacentrounidadacademica( " . $idCentroUnidadAcademica . ");");
+        if($info === false){
+            return "1104/getCentro_UnidadAcademica";
+        }else{
+            return $info->fetchall();
+        }
+    }
+    
+    
     public function allEdificios() {
         $info = $this->_db->query("select * from spmostraredificios();");
         if($info === false){

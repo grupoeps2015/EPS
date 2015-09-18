@@ -1,5 +1,6 @@
-﻿-- Function: spactualizarAsignacion(integer, integer, integer, integer)
-
+﻿------------------------------------------------------------------------------------------------------------------------------------
+-- Function: spactualizarAsignacion(integer, integer, integer, integer)
+------------------------------------------------------------------------------------------------------------------------------------
 -- DROP FUNCTION spactualizarAsignacion(integer, integer, integer, integer);
 CREATE OR REPLACE FUNCTION spactualizarAsignacion(
     _centroUnidad integer,
@@ -21,10 +22,10 @@ ALTER FUNCTION spactualizarAsignacion(integer, integer,integer, integer)
   OWNER TO postgres;
   
 
-  -- Function: spdatoscentrounidad()
-
+------------------------------------------------------------------------------------------------------------------------------------
+-- Function: spdatoscentrounidad()
+------------------------------------------------------------------------------------------------------------------------------------
 -- DROP FUNCTION spdatoscentrounidad();
-
 CREATE OR REPLACE FUNCTION spdatoscentrounidad(
     OUT _id integer,
     OUT _centro text,
@@ -50,6 +51,34 @@ ALTER FUNCTION spdatoscentrounidad()
   OWNER TO postgres;
   
 
+------------------------------------------------------------------------------------------------------------------------------------
+-- Function: spinformacionasignacionedificio()
+------------------------------------------------------------------------------------------------------------------------------------
+-- DROP FUNCTION spinformacionasignacionedificio(integer);
+CREATE OR REPLACE FUNCTION spinformacionasignacionedificio(_centrounidad_edificio integer,
+    OUT centro_unidadacademica integer,
+    OUT edificio integer,
+	OUT nombreedificio text,
+	OUT jornada integer,
+	OUT nombrejornada text)
+  RETURNS SETOF record AS
+$BODY$
+BEGIN
+  RETURN query
+  SELECT cu.centro_unidadacademica,e.edificio,e.nombre AS nombreedificio,j.jornada,j.nombre AS nombrejornada
+	FROM ADM_Centrounidad_Edificio ce 
+	JOIN ADM_Centro_Unidadacademica cu ON cu.centro_unidadacademica = ce.centro_unidadacademica
+	JOIN CUR_Edificio e ON ce.edificio = e.edificio
+	JOIN CUR_Jornada j ON j.jornada = ce.jornada
+	WHERE ce.centrounidad_edificio = _centrounidad_edificio;
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION spdatoscentrounidad()
+  OWNER TO postgres;
+  
 
 ------------------------------------------------------------------------------------------------------------------------------------
 -- Function: spagregaredificio()
@@ -122,7 +151,8 @@ CREATE OR REPLACE FUNCTION spDatosEdificio(
     OUT nombreUnidadAcademica text,
     OUT nombreCentro text,
     OUT jornada text,
-    OUT estado text, OUT edificio integer)
+    OUT estado text, OUT edificio integer,
+	OUT centrounidad_edificio integer)
   RETURNS SETOF record AS
 $BODY$
 BEGIN
@@ -130,9 +160,9 @@ BEGIN
 	select u.nombre nombreUnidad, c.nombre nombreCentro, j.nombre jornada, case 
 	when query1.estado=-1 then 'Inactivo'
 	when query1.estado=1 then 'Activo'
-	end as "Estado", query1.edificio AS edificio
+	end as "Estado", query1.edificio AS edificio, query1.centrounidad_edificio 
 	 from ADM_UnidadAcademica u JOIN (
-	select acu.unidadAcademica unidad, acu.centro centro, ace.edificio edificio, ace.jornada jornada, ace.estado estado 
+	select acu.unidadAcademica unidad, acu.centro centro, ace.edificio edificio, ace.jornada jornada, ace.estado estado, ace.centrounidad_edificio
 	from ADM_CentroUnidad_Edificio ace join ADM_Centro_UnidadAcademica acu ON ace.centro_unidadAcademica = acu.centro_unidadAcademica) query1 ON
 	u.unidadacademica = query1.unidad JOIN ADM_Centro c ON c.centro = query1.centro JOIN cur_jornada j ON j.jornada = query1.jornada where query1.edificio = idEdificio;
 END;
