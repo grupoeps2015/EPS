@@ -8,7 +8,7 @@
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
                         <i class="fa fa-2x fa-backward wow bounceIn text-primary" data-wow-delay=".2s">
-                            <a href="<?php echo BASE_URL?>gestionPensum/listadoCarrera/<?php echo $this->idCentroUnidad;?>">
+                            <a href="<?php echo BASE_URL?>gestionPensum/listadoCarrera">
                                 Regresar
                             </a>
                         </i>
@@ -44,7 +44,6 @@
                         </div>
                     </div>
                     <input type="hidden" name="hdEnvio" value="1">
-                    <input type="hidden" name="hdCentroUnidad" value="<?php echo $this->idCentroUnidad;?>">
                 </form>
             </div>
         </div>

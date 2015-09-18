@@ -14,10 +14,10 @@
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 text-center"></div>
-                <div class="col-lg-3 col-md-6 text-center"></div>
-                <div class="col-lg-3 col-md-6 text-center">
+                <div class="col-lg-2 col-md-4 text-center"></div>
+                <div class="col-lg-4 col-md-8 text-center">
                     <div class="service-box">
-                        <i class="fa fa-2x fa-user-plus wow bounceIn text-primary" data-wow-delay=".2s">
+                        <i class="fa fa-2x fa-upload wow bounceIn text-primary" data-wow-delay=".2s">
                             <a href="<?php echo BASE_URL ?>gestionEdificio/asignacionEdificio/<?php echo $this->id;?>">
                                 Agregar Asignacion
                             </a>

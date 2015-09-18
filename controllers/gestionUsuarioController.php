@@ -131,7 +131,7 @@ class gestionUsuarioController extends Controller {
             $arrayUsr["preguntaUsr"] = 0;
             $arrayUsr["respuestaUsr"] = "USAC";
             $arrayUsr["intentosUsr"] = 5;
-            $arrayUsr["centroUnidad"] = CENTRO_UNIDADACADEMICA;
+            $arrayUsr["centroUnidad"] = $_SESSION["centrounidad"];
             
             $nuevoUsr = $this->_post->agregarUsuario($arrayUsr);
             if(is_array($nuevoUsr)){

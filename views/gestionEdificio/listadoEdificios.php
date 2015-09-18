@@ -31,7 +31,7 @@
     <div>
         <form id="frEdificios" method="post" action="<?php echo BASE_URL; ?>gestionEdificio/agregarEdificio">
             <div id="divEdificios" class="form-group" >
-                <div style="margin-left: 5%; margin-right: 5%">
+                <div style="margin-left: 10%; margin-right: 10%">
                     <table id="tbEdificios" border="2" align="center">
                         <thead>
                             <tr>

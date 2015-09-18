@@ -313,7 +313,7 @@ class gestionCursoController extends Controller {
             exit;
         }
         
-        $cursos = $this->_post->informacionCurso(CENTRO_UNIDADACADEMICA);
+        $cursos = $this->_post->informacionCurso($idCentroUnidad);
         if(is_array($cursos)){
             $this->_view->cursos = $cursos;
         }else{
@@ -416,7 +416,7 @@ class gestionCursoController extends Controller {
             exit;
         }
         
-        $cursos = $this->_post->informacionCurso(CENTRO_UNIDADACADEMICA);
+        $cursos = $this->_post->informacionCurso($idCentroUnidad);
         if(is_array($cursos)){
             $this->_view->cursos = $cursos;
         }else{
