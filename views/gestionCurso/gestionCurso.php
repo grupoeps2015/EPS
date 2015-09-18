@@ -17,7 +17,7 @@
                 <div class="col-lg-4 col-md-6 text-center">
                     <?php if(isset($this->lstCur) && count($this->lstCur)): ?>
                     <div class="service-box">
-                        <form method='post' name='frmPost1' id='frmPost1' action='<?php echo BASE_URL?>gestionSeccion'>
+                        <form method='post' name='frmPost1' id='frmPost1' action='<?php echo BASE_URL?>gestionCurso/listadoSeccion'>
                             <i class="fa fa-2x fa-edit wow bounceIn text-primary" data-wow-delay=".2s">
                                 <a id="linkSeccion" href="#">Gesti&oacute;n de Secciones</a>
                             </i>

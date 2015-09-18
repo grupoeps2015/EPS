@@ -279,3 +279,34 @@ $BODY$
 ALTER FUNCTION spsalonesxedificio(integer)
   OWNER TO postgres;
 
+  
+
+-- -----------------------------------------------------
+-- Function: spestudiantexusuario(integer)
+-- -----------------------------------------------------
+-- DROP FUNCTION spestudiantexusuario(integer);
+
+CREATE OR REPLACE FUNCTION spestudiantexusuario(IN _usuario int) RETURNS INTEGER AS
+$BODY$
+DECLARE ESTUDIANTE INTEGER;
+begin
+ select e.estudiante INTO ESTUDIANTE from est_estudiante e join adm_usuario u on u.usuario = e.usuario where e.usuario = _usuario;
+ RETURN ESTUDIANTE;
+end;
+$BODY$
+LANGUAGE 'plpgsql';
+
+
+
+-- -----------------------------------------------------
+-- Function: spcarrerasxestudiante(integer)
+-- -----------------------------------------------------
+-- DROP FUNCTION spcarrerasxestudiante(integer);
+
+CREATE OR REPLACE FUNCTION spcarrerasxestudiante(IN _estudiante int, OUT codigo int, OUT nombre text) RETURNS setof record AS
+$BODY$
+begin
+ Return query select c.carrera, c.nombre from cur_carrera c join est_estudiante_carrera ec on ec.carrera = c.carrera where ec.estudiante =_estudiante and ec.estado = 1;
+end;
+$BODY$
+LANGUAGE 'plpgsql';

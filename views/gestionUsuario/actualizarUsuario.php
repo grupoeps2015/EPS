@@ -42,45 +42,35 @@
             <div id="divCentros" class="row">
                 <form id="frmUsuario" method="post" action="<?php echo BASE_URL; ?>gestionUsuario/actualizarUsuario/<?php echo $this->id ?>">
                     <div id="divEstudiantes" class="form-group" >
-                        <div class="col-md-6 col-md-offset-3">
+                        <div class="col-md-8 col-md-offset-2">
                             <table align="center">
                                 <tr>
-                                    <td colspan="2" style="width: 50%">
+                                    <td colspan="2" style="width: 49%">
                                         <label class="text-primary" style="font-weight: normal;"><b>Nombre Usuario:</b>
                                         &nbsp;<?php if (isset($this->datosUsr) && count($this->datosUsr)) echo $this->datosUsr[0]['nombre']; ?></label>
                                         <label class="text-primary" style="font-weight: normal;"><b>Unidad Academica:</b>
                                         &nbsp;<?php if (isset($this->datosUsr) && count($this->datosUsr)) echo $this->datosUsr[0]['unidadacademica']; ?></label>
                                     </td>
-                                    <td style="display:none" >
-                                        <?php if (isset($this->unidades) && count($this->unidades)): ?>
-                                            <select id="slUnidadAcademica" name="slUnidadAcademica" class="form-control input-lg">
-                                                <option value="">(Unidad Academica)
-                                                </option>
-                                                <?php for ($i = 0; $i < count($this->unidades); $i++) : ?>
-                                                    <option value="<?php echo $this->unidades[$i]['codigo']; ?>">
-                                                        <?php echo $this->unidades[$i]['nombre']; ?>
-                                                    </option>
-                                                <?php endfor; ?>
-                                            </select>
-                                        <?php else : ?>
-                                            <input type="text" id="txtUnidadAcademica" name="txtUnidadAcademica" class="form-control input-lg" value="<?php if (isset($this->datosUsr) && count($this->datosUsr)) echo $this->datosUsr[0]['unidadacademica']; ?>">
-                                            <br/>
-                                        <?php endif; ?>
+                                    <td style="width: 2%">&nbsp;</td>
+                                    <td colspan="2" rowspan="2" style="width: 49%">
+                                        <div id="passInfo">
+                                            <h4>Su contraseña debe cumplir con lo siguiente:</h4>
+                                            <ul>
+                                                <li id="letra" class="passInvalid">Tener al menos <strong>una letra</strong></li>
+                                                <li id="mayus" class="passInvalid">Tener al menos <strong>una letra may&uacute;cula</strong></li>
+                                                <li id="numero" class="passInvalid">Tener al menos <strong>un n&uacute;mero</strong></li>
+                                                <li id="total" class="passInvalid">Ser de al menos <strong>8 car&aacute;cteress</strong></li>
+                                            </ul>
+                                        </div>
                                     </td>
-                                    <td>&nbsp;</td>
-                                    <td>&nbsp;</td>
                                 </tr>
                                 <tr>
-                                    <td colspan="5">
+                                    <td colspan="2">
                                         <br/>
                                         <label class="text-primary" style="font-weight: normal;">Correo:</label>
                                         <input type="text" id="txtCorreo" name="txtCorreo" class="form-control input-lg" value="<?php if (isset($this->datosUsr) && count($this->datosUsr)) echo $this->datosUsr[0]['correo']; ?>">
                                     </td>
-                                    <td  style="display:none" ><label style="font-weight: normal;">Carrera:</label>
-                                        <select id="slCarreras" name="slCarreras" class="form-control input-lg">
-                                            <option value="" disabled>(Carreras)</option>
-                                        </select>
-                                    </td>
+                                    <td>&nbsp;</td>
                                 </tr>
                                 <tr>
                                     <td colspan="5"><hr class="hr1"/></td>
@@ -119,7 +109,7 @@
                                     </td>
                                     <td>&nbsp;&nbsp;</td>
                                     <td colspan="2">
-                                        <input type="password" id="txtPasswordNuevo" name="txtPasswordNuevo" class="form-control input-lg" value="" placeholder="Contraseña Nueva">
+                                        <input type="password" id="txtPasswordNuevo" name="txtPasswordNuevo" class="form-control input-lg" value="" placeholder="Contraseña Nueva" disabled>
                                     </td>
                                 </tr>
                                 <tr>
@@ -128,13 +118,12 @@
                                     </td>
                                     <td>&nbsp;&nbsp;</td>
                                     <td colspan="2">
-                                        <input type="password" id="txtPasswordNuevo2" name="txtPasswordNuevo2" class="form-control input-lg" value="" placeholder="Repita la Contraseña Nueva">
+                                        <input type="password" id="txtPasswordNuevo2" name="txtPasswordNuevo2" class="form-control input-lg" value="" placeholder="Repita la Contraseña Nueva" disabled>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width: 30%">&nbsp;</td>
-                                    <td colspan="3">
-                                        <br/>
+                                    <td>&nbsp;</td>
+                                    <td colspan="3" align="center"><br/>
                                         <input type="submit" id="btnActualizar" name="btnActualizar" value="Actualizar" class="btn btn-danger btn-lg btn-block">
                                     </td>
                                     <td>&nbsp;</td>
@@ -144,6 +133,7 @@
                         </div>
                     </div>
                     <input type="hidden" name="hdEnvio" value="1">
+                    <input type="hidden" name="hdPassValido" value="0">
                 </form>
 
             </div>

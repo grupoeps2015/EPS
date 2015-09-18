@@ -188,5 +188,24 @@ class ajaxModel extends Model{
             return $post->fetchall();
         }
     }
-        
+    
+    public function getEstudianteUsuario($usuario){
+        $info = $this ->_db->query("select * from spEstudianteXUsuario({$usuario}) AS id;");
+        $info->setFetchMode(PDO::FETCH_ASSOC);
+        if($info === false){
+            return "1200/getEstudianteUsuario";
+        }else{
+            return $info->fetchall();
+        }
+    }
+    
+    public function getCarrerasEstudiante($estudiante){
+        $info = $this ->_db->query("select * from spCarrerasXEstudiante({$estudiante})");
+        $info->setFetchMode(PDO::FETCH_ASSOC);
+        if($info === false){
+            return "1200/getCarrerasEstudiante";
+        }else{
+            return $info->fetchall();
+        }
+    }
 }

@@ -1,6 +1,4 @@
 $(document).ready(function(){
-    var passValido = false;
-    
     $('#txtPasswordNuevo')
         .keyup(function() {
             var pswd = $('#txtPasswordNuevo').val();
