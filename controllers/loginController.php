@@ -54,10 +54,13 @@ class loginController extends Controller{
                     $indice = $i;
                     break;
                 }
-                else if($respuesta[$i]['centrounidadacademica'] == CENTRO_UNIDADACADEMICA){
-                    $indice = $i;
-                    break;
+                else{
+                    //El empleado, estudiante o catedratico escoge a qué centro_unidad entrar
                 }
+//                else if($respuesta[$i]['centrounidadacademica'] == CENTRO_UNIDADACADEMICA){
+//                    $indice = $i;
+//                    break;
+//                }
             }
             if(isset($indice)){
                 session_start();

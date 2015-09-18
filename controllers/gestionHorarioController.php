@@ -87,7 +87,7 @@ class gestionHorarioController extends Controller {
             exit;
         }
         
-        $lsSec = $this->_post->informacionSeccion(CENTRO_UNIDADACADEMICA);
+        $lsSec = $this->_post->informacionSeccion($idCentroUnidad);
         if(is_array($lsSec)){
             $this->_view->lstSec = $lsSec;
         }else{
