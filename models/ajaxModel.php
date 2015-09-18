@@ -80,8 +80,18 @@ class ajaxModel extends Model{
         }
     }
     
-    public function getCiclosAjax($tipo){
-        $ciclos = $this->_db->query("select * from spCicloxTipo({$tipo})");
+    public function getAniosAjax($tipo){
+        $anios = $this->_db->query("select * from spanioxtipociclo({$tipo}) as anio");
+        $anios->setFetchMode(PDO::FETCH_ASSOC);
+        if($anios === false){
+            return "1200/getAniosAjax";
+        }else{
+            return $anios->fetchall();
+        }
+    }
+    
+    public function getCiclosAjax($tipo,$anio){
+        $ciclos = $this->_db->query("select * from spCicloxTipo({$tipo},{$anio})");
         $ciclos->setFetchMode(PDO::FETCH_ASSOC);
         if($ciclos === false){
             return "1200/getCiclosAjax";

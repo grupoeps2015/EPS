@@ -41,9 +41,15 @@ class ajaxController extends Controller{
         }
     }
     
-    public function getCiclosAjax(){
+    public function getAniosAjax(){
         if($this->getInteger('tipo')){
-            echo json_encode($this->_ajax->getCiclosAjax($this->getInteger('tipo')));
+            echo json_encode($this->_ajax->getAniosAjax($this->getInteger('tipo')));
+        }
+    }
+    
+    public function getCiclosAjax(){
+        if($this->getInteger('tipo') && $this->getInteger('anio')){
+            echo json_encode($this->_ajax->getCiclosAjax($this->getInteger('tipo'),$this->getInteger('anio')));
         }
     }
     

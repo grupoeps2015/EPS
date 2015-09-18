@@ -1,6 +1,16 @@
 $(document).ready( function () {
     $("#slTipos").change(function(){
         if(!$("#slTipos").val()){
+            $("#slAnio").html('');
+            $("#slAnio").append('<option value="" disabled>-- A&ntilde;o --</option>')
+        }else{
+            $('#divTabla').css("display","none");
+            getAniosAjax();
+        }
+    });
+    
+    $("#slAnio").change(function(){
+        if(!$("#slAnio").val()){
             $("#slCiclo").html('');
             $("#slCiclo").append('<option value="" disabled>-- Ciclo --</option>')
         }else{
@@ -26,9 +36,26 @@ $(document).ready( function () {
         }
     });
     
+    function getAniosAjax(){
+        $.post('/EPS/ajax/getAniosAjax',
+               'tipo=' + $("#slTipos").val(),
+               function(datos){
+                    $("#slAnio").html('');
+                    if(datos.length>0){
+                        $("#slAnio").append('<option value="">-- A&ntilde;o --</option>' );
+                        for(var i =0; i < datos.length; i++){
+                            $("#slAnio").append('<option value="' + datos[i].anio + '">' + datos[i].anio + '</option>' );
+                        }
+                    }else{
+                        $("#slAnio").append('<option value="" disabled>No hay informaci&oacute;n disponible</option>' );
+                    }
+               },
+               'json');
+    }
+    
     function getCiclosAjax(){
         $.post('/EPS/ajax/getCiclosAjax',
-               'tipo=' + $("#slTipos").val(),
+               { tipo: $("#slTipos").val(), anio: $("#slAnio").val() },
                function(datos){
                     $("#slCiclo").html('');
                     if(datos.length>0){
