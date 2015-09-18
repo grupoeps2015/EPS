@@ -50,7 +50,7 @@
                             <td style="text-align: center;"><?php echo $this->lstCentros[$i]['nombre']; ?></td>
                             <td style="text-align: center;"><?php echo $this->lstCentros[$i]['direccion']; ?></td>
                             <td style="text-align: center;">
-                                <a href="<?php echo BASE_URL . 'gestionCentroUnidad/actualizarCentroUnidad/' . $this->lstCentros[$i]['centro'];?>">Modificar</a>
+                                <a href="<?php echo BASE_URL . 'gestionCentroUnidad/actualizarCentro/' . $this->lstCentros[$i]['centro'];?>">Modificar</a>
                             </td>
                             <td style="text-align: center;">
                                 <a href="<?php echo BASE_URL . 'gestionCentroUnidad/agregarUnidad/' . $this->lstCentros[$i]['centro'];?>">Ver Unidades Acad&eacute;micas</a>

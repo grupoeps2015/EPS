@@ -211,7 +211,7 @@ BEGIN
 END;
 $BODY$
 LANGUAGE 'plpgsql';
-select * from spdatosusuario(49);
+
 -- -----------------------------------------------------
 -- Function: spactualizarusuario()
 -- -----------------------------------------------------

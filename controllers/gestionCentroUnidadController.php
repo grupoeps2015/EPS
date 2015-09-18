@@ -90,5 +90,57 @@ class gestionCentroUnidadController extends Controller {
         $this->_view->renderizar('agregarCentro', 'gestionCentroUnidad');
     }
     
-    
+    public function actualizarCentro($idCentro){
+        session_start();
+        $rol = $_SESSION["rol"];        
+        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_MODIFICARCURSO);
+         
+        if($rolValido[0]["valido"]!= PERMISO_MODIFICAR){
+           echo "<script>
+                alert('No tiene permisos suficientes para acceder a esta función.');
+                window.location.href='" . BASE_URL . "gestionCurso';
+                </script>";
+        }
+        
+        $this->_view->setJs(array('jquery.validate'), "public");
+        $this->_view->setJs(array('actualizarCentro'));
+        
+        $lsDeptos = $this->_ajax->getDeptos();
+        if(is_array($lsDeptos)){
+            $this->_view->lsDeptos = $lsDeptos;
+        }else{
+            $this->redireccionar('error/sql/' . $lsDeptos);
+        }
+        
+        $datosCentro = $this->_gCenUni->getDatosCentro($idCentro);
+        if(is_array($datosCentro)){
+            $this->_view->datosCentro = $datosCentro;
+        }else{
+            $this->redireccionar("error/sql/" . $datosCentro);
+            exit;
+        }
+        
+        $this->_view->titulo = 'Actualizar Centro Universitario - ' . APP_TITULO;
+        $this->_view->id = $idCentro;
+        
+        if ($this->getInteger('hdEnvio')) {
+            $arrayCentro = array();
+            $arrayCentro[":id"] = $idCentro;
+            $arrayCentro[":nombre"] = $this->getTexto('txtNombreCen');
+            $arrayCentro[":direccion"] = $this->getTexto('txtDireccion');
+            $arrayCentro[":municipio"] = $this->getInteger('slMunis');
+            $arrayCentro[":zona"] = $this->getInteger('txtZona');
+            
+            $info = $this->_gCenUni->updateCentro($arrayCentro);
+            if(!is_array($info)){
+                $this->redireccionar("error/sql/" . $info);
+                exit;
+            }else{
+                $this->_view->exito = "Informaci&oacute;n actualizada con &eacute;xito";
+            }
+            $this->redireccionar('gestionCentroUnidad/actualizarCentro/' . $idCentro);
+            exit;
+        }
+        $this->_view->renderizar('actualizarCentro', 'gestionCentroUnidad');
+    }
 }
