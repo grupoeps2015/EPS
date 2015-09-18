@@ -23,7 +23,7 @@
     <div class="header-content">
         <div class="header-content-inner">
             <div id="divCentros" class="row">
-                <form id="frAsignacion" method="post" action="<?php echo BASE_URL; ?>gestionEdificio/actualizarAsignacion/<?php echo $this->id; ?>">
+                <form id="frAsignacion" method="post" action="<?php echo BASE_URL; ?>gestionEdificio/actualizarAsignacion/<?php echo $this->id; ?>/<?php echo $this->idEdificio; ?>">
                     <div id="divEstudiantes" class="form-group" >
                         <div class="col-md-6 col-md-offset-3">
                             <table class="text-primary table-hover">
