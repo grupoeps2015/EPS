@@ -416,9 +416,9 @@ INSERT INTO adm_centro_unidadacademica (centro_unidadacademica, centro, unidadac
 INSERT INTO cur_carrera(carrera, nombre, estado, centro_unidadacademica) VALUES (default, 'Licenciatura en Historia', 1, 1);
 INSERT INTO cur_carrera(carrera, nombre, estado, centro_unidadacademica) VALUES (default, 'Licenciatura en Arqueologia', 1, 1);
 INSERT INTO cur_carrera(carrera, nombre, estado, centro_unidadacademica) VALUES (default, 'Licenciatura en Antropologia', 1, 1);
+INSERT INTO cur_carrera(carrera, nombre, estado, centro_unidadacademica) VALUES (default, 'Licenciatura para la Enseñanza de la Historia', 1, 1);
 INSERT INTO cur_carrera(carrera, nombre, estado, centro_unidadacademica) VALUES (default, 'Profesorado en Enseñanza Media', 1, 1);
 INSERT INTO cur_carrera(carrera, nombre, estado, centro_unidadacademica) VALUES (default, 'Tecnico Universitario en Archivos', 1, 1);
-INSERT INTO cur_carrera(carrera, nombre, estado, centro_unidadacademica) VALUES (default, 'Maestria en Historia del Arte', 1, 1);
 
 -- -----------------------------------------------------
 -- Insert catalogo adm_preguntasecreta / 6 registros
