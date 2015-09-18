@@ -31,6 +31,7 @@ class gestionEdificioModel extends Model {
         }
     }
     
+    
     public function asignarUnidadEdificio($_datos) {
             $post = $this->_db->prepare("SELECT * from spasignaredificioacentrounidadacademica(:centroUnidadAcademica,:edificio,:jornada, :estado) as Id;");
             $post->execute($_datos);

@@ -50,6 +50,7 @@
                                 <td style="text-align: center;"><?php echo $this->lstEdif[$i]['_nombre']; ?></td>
                                 <td style="text-align: center;"><?php echo $this->lstEdif[$i]['_descripcion']; ?></td>
                                 <td style="text-align: center;"><?php echo $this->lstEdif[$i]['_estado']; ?></td>
+                                <td style="text-align: center; padding-right: 20px;"><a href="<?php echo BASE_URL . 'gestionEdificio/actualizarEdificio/' . $this->lstEdif[$i]['_id']; ?>">Modificar</a></td>
                                 <td style="text-align: center;">
                                      <?php if(strcmp($this->lstEdif[$i]['_estado'], 'Activo') == 0): ?>
                                       
