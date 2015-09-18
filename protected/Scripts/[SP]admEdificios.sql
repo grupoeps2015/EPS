@@ -1,5 +1,6 @@
-﻿-- Function: spactualizarAsignacion(integer, integer, integer, integer)
-
+﻿------------------------------------------------------------------------------------------------------------------------------------
+-- Function: spactualizarAsignacion(integer, integer, integer, integer)
+------------------------------------------------------------------------------------------------------------------------------------
 -- DROP FUNCTION spactualizarAsignacion(integer, integer, integer, integer);
 CREATE OR REPLACE FUNCTION spactualizarAsignacion(
     _centroUnidad integer,
@@ -20,11 +21,10 @@ END; $BODY$
 ALTER FUNCTION spactualizarAsignacion(integer, integer,integer, integer)
   OWNER TO postgres;
   
-
-  -- Function: spdatoscentrounidad()
-
+------------------------------------------------------------------------------------------------------------------------------------
+-- Function: spdatoscentrounidad()
+------------------------------------------------------------------------------------------------------------------------------------
 -- DROP FUNCTION spdatoscentrounidad();
-
 CREATE OR REPLACE FUNCTION spdatoscentrounidad(
     OUT _id integer,
     OUT _centro text,
