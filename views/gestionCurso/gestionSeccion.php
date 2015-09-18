@@ -17,7 +17,7 @@
                 <div class="col-lg-3 col-md-6 text-center"></div>
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
-                        <form method='post' name='frmPost' id='frmPost' action='<?php echo BASE_URL?>gestionSeccion/agregarSeccion'>
+                        <form method='post' name='frmPost' id='frmPost' action='<?php echo BASE_URL?>gestionCurso/agregarSeccion'>
                             <i class="fa fa-2x fa-bell-o wow bounceIn text-primary" data-wow-delay=".2s">
                                 <a id="linkSeccionNueva" href="#">Agregar Secci&oacute;n</a>
                             </i>
@@ -29,7 +29,7 @@
     </div>
     <br/>
     <div>
-        <form id="frSecciones" method="post" action="<?php echo BASE_URL; ?>gestionSeccion/agregarSeccion">
+        <form id="frSecciones" method="post" action="<?php echo BASE_URL; ?>gestionCurso/agregarSeccion">
             <div id="divSecciones" class="form-group" >
                 <div style="margin-left: 10%; margin-right: 10%">
                     <table id="tbSecciones" border="2">
@@ -52,15 +52,15 @@
                                 <td style="text-align: center"><?php echo $this->lstSec[$i]['tiposeccion']; ?></td>
                                 <td style="text-align: center"><?php echo $this->lstSec[$i]['estado']; ?></td>
                                 <td style="text-align: center;">
-                                    <a href="<?php echo BASE_URL . 'gestionSeccion/actualizarSeccion/' . $this->lstSec[$i]['id'];?>">
+                                    <a href="<?php echo BASE_URL . 'gestionCurso/actualizarSeccion/' . $this->lstSec[$i]['id'];?>">
                                         Modificar
                                     </a>
                                 </td>
                                 <td style="text-align: center;">
                                     <?php if(strcmp($this->lstSec[$i]['estado'], 'Activo') == 0): ?>
-                                    <a href="<?php echo BASE_URL . 'gestionSeccion/eliminarSeccion/-1/' . $this->lstSec[$i]['id'];?>">Desactivar</a>
+                                    <a href="<?php echo BASE_URL . 'gestionCurso/eliminarSeccion/-1/' . $this->lstSec[$i]['id'];?>">Desactivar</a>
                                     <?php else : ?>
-                                    <a href="<?php echo BASE_URL . 'gestionSeccion/eliminarSeccion/1/' . $this->lstSec[$i]['id'];?>">Activar</a>
+                                    <a href="<?php echo BASE_URL . 'gestionCurso/eliminarSeccion/1/' . $this->lstSec[$i]['id'];?>">Activar</a>
                                     <?php endif;?>
                                 </td>
                             </tr>
