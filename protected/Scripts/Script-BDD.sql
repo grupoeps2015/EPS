@@ -620,14 +620,51 @@ CREATE TABLE EST_Estudiante (
 
 
 -- -----------------------------------------------------
--- Table EST_TipoAsignacion
+-- Table ADM_TipoAsignacion
 -- -----------------------------------------------------
-CREATE TABLE EST_TipoAsignacion (
+CREATE TABLE ADM_TipoAsignacion (
   TipoAsignacion SERIAL NOT NULL,
   Nombre TEXT NOT NULL,
   Descripcion TEXT NULL,
-  Adjuntos TEXT NULL,
   PRIMARY KEY (TipoAsignacion));
+
+  
+  -- -----------------------------------------------------
+-- Table ADM_TipoPeriodo
+-- -----------------------------------------------------
+CREATE TABLE ADM_TipoPeriodo (
+  TipoPeriodo SERIAL NOT NULL,
+  Nombre TEXT NOT NULL,
+  Descripcion TEXT NULL,
+  Estado INTEGER NOT NULL,
+  PRIMARY KEY (TipoPeriodo));
+
+
+-- -----------------------------------------------------
+-- Table ADM_Periodo
+-- -----------------------------------------------------
+CREATE TABLE ADM_Periodo (
+  Periodo SERIAL NOT NULL,
+  Ciclo INTEGER NOT NULL,
+  FechaInicial DATE NULL,
+  FechaFinal DATE NULL,
+  TipoPeriodo INTEGER NOT NULL,
+  TipoAsignacion INTEGER NOT NULL,
+  Estado INTEGER NOT NULL,
+  Centro_UnidadAcademica INTEGER NOT NULL,
+  PRIMARY KEY (Periodo),
+  CONSTRAINT Centro_UnidadAcademica
+    FOREIGN KEY (Centro_UnidadAcademica)
+    REFERENCES ADM_Centro_UnidadAcademica (Centro_UnidadAcademica),
+  CONSTRAINT Tipo_Periodo
+    FOREIGN KEY (TipoPeriodo)
+    REFERENCES ADM_TipoPeriodo (TipoPeriodo),
+  CONSTRAINT Tipo_Asignacion
+    FOREIGN KEY (TipoAsignacion)
+    REFERENCES ADM_TipoAsignacion (TipoAsignacion),
+  CONSTRAINT Ciclo
+    FOREIGN KEY (Ciclo)
+    REFERENCES CUR_Ciclo (Ciclo));
 
 
 -- -----------------------------------------------------
@@ -635,33 +672,30 @@ CREATE TABLE EST_TipoAsignacion (
 -- -----------------------------------------------------
 CREATE TABLE EST_Ciclo_Asignacion (
   Ciclo_Asignacion INTEGER NOT NULL,
-  Ciclo INTEGER NOT NULL,
+  Estudiante INTEGER NOT NULL,
+  Fecha DATE NOT NULL,
+  Hora TIME NOT NULL,
+  Periodo INTEGER NOT NULL,
   PRIMARY KEY (Ciclo_Asignacion),
-  CONSTRAINT fk_EST_Ciclo_Asignacion_CUR_Ciclo1
-    FOREIGN KEY (Ciclo)
-    REFERENCES CUR_Ciclo (Ciclo));
-
+  CONSTRAINT Estudiante
+    FOREIGN KEY (Estudiante)
+    REFERENCES EST_Estudiante (Estudiante),
+  CONSTRAINT Periodo
+    FOREIGN KEY (Periodo)
+    REFERENCES ADM_Periodo (Periodo));
+	
 
 -- -----------------------------------------------------
 -- Table EST_CUR_Asignacion
 -- -----------------------------------------------------
 CREATE TABLE EST_CUR_Asignacion (
   Asignacion SERIAL NOT NULL,
-  TipoAsignacion INTEGER NOT NULL,
-  Estudiante INTEGER NOT NULL,
-  Fecha DATE NOT NULL,
   OportunidadActual INTEGER NOT NULL,
-  Hora TIME NOT NULL,
   Estado INTEGER NOT NULL,
   Seccion INTEGER NOT NULL,
   Ciclo_Asignacion INTEGER NOT NULL,
+  Adjuntos TEXT NULL,
   PRIMARY KEY (Asignacion),
-  CONSTRAINT Estudiante
-    FOREIGN KEY (Estudiante)
-    REFERENCES EST_Estudiante (Estudiante),
-  CONSTRAINT fk_EST_Curso_Estudiante_EST_Tipo_Asignacion1
-    FOREIGN KEY (TipoAsignacion)
-    REFERENCES EST_TipoAsignacion (TipoAsignacion),
   CONSTRAINT Seccion
     FOREIGN KEY (Seccion)
     REFERENCES CUR_Seccion (Seccion),
@@ -737,6 +771,8 @@ CREATE TABLE ADM_CentroUnidad_Edificio (
   CONSTRAINT fk_ADM_UnidadAcademica_Edificio_CUR_Jornada1
     FOREIGN KEY (Jornada)
     REFERENCES CUR_Jornada (Jornada));
+	
+CREATE UNIQUE INDEX u_Centro_UnidadAcademica_Edificio_Jornada ON ADM_CentroUnidad_Edificio (Centro_UnidadAcademica, Edificio, Jornada);
 
 
 -- -----------------------------------------------------
@@ -1081,43 +1117,8 @@ CREATE TABLE EST_CursoAprobado (
   CONSTRAINT fk_EST_CursoAprobado_EST_AsignacionRetrasada1
     FOREIGN KEY (AsignacionRetrasada)
     REFERENCES EST_AsignacionRetrasada (AsignacionRetrasada));
-
-
--- -----------------------------------------------------
--- Table ADM_PeriodoAsignacion
--- -----------------------------------------------------
-CREATE TABLE ADM_PeriodoAsignacion (
-  PeriodoAsignacion SERIAL NOT NULL,
-  TipoAsignacion INTEGER NOT NULL,
-  Ciclo INTEGER NOT NULL,
-  FechaInicial INTEGER NOT NULL,
-  FechaFinal INTEGER NOT NULL,
-  Estado INTEGER NOT NULL,
-  PRIMARY KEY (PeriodoAsignacion),
-  CONSTRAINT fk_Periodo_Tipo_Asignacion_EST_TipoAsignacion1
-    FOREIGN KEY (TipoAsignacion)
-    REFERENCES EST_TipoAsignacion (TipoAsignacion),
-  CONSTRAINT fk_Periodo_Tipo_Asignacion_CUR_Ciclo1
-    FOREIGN KEY (Ciclo)
-    REFERENCES CUR_Ciclo (Ciclo));
-
-
--- -----------------------------------------------------
--- Table EST_CUR_Periodo
--- -----------------------------------------------------
-CREATE TABLE EST_CUR_Periodo (
-  Periodo SERIAL NOT NULL,
-  Ciclo INTEGER NOT NULL,
-  FechaInicial DATE NOT NULL,
-  FechaFinal DATE NOT NULL,
-  Tipo INTEGER NOT NULL,
-  Estado INTEGER NOT NULL,
-  PRIMARY KEY (Periodo),
-  CONSTRAINT Ciclo
-    FOREIGN KEY (Ciclo)
-    REFERENCES CUR_Ciclo (Ciclo));
-
-
+	
+	
 -- -----------------------------------------------------
 -- Table EST_CUR_Nota_Bitacora
 -- -----------------------------------------------------

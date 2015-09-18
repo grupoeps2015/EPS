@@ -703,16 +703,34 @@ INSERT INTO adm_funcionmenu (funcionmenu,nombre,tipo,url,funcionpadre,funcion,or
 INSERT INTO adm_funcionmenu (funcionmenu,nombre,tipo,url,funcionpadre,funcion,orden,estado) VALUES (3,'Catedráticos',1,null,null,5,1,1);
 INSERT INTO adm_funcionmenu (funcionmenu,nombre,tipo,url,funcionpadre,funcion,orden,estado) VALUES (4,'Estudiantes',1,null,null,6,1,1);
 INSERT INTO adm_funcionmenu (funcionmenu,nombre,tipo,url,funcionpadre,funcion,orden,estado) VALUES (5,'Gestión de usuarios',2,'general/seleccionarCentroUnidad/gestionUsuario',1,3,1,1);
-INSERT INTO adm_funcionmenu (funcionmenu,nombre,tipo,url,funcionpadre,funcion,orden,estado) VALUES (6,'Gestión de parámetros',2,'gestionParametro',1,8,1,1);
+INSERT INTO adm_funcionmenu (funcionmenu,nombre,tipo,url,funcionpadre,funcion,orden,estado) VALUES (6,'Gestión de parámetros',2,'general/seleccionarCentroUnidad/gestionParametro',1,8,1,1);
 INSERT INTO adm_funcionmenu (funcionmenu,nombre,tipo,url,funcionpadre,funcion,orden,estado) VALUES (7,'Gestión de edificios',2,'gestionEdificio/listadoEdificio',1,13,1,1);
 INSERT INTO adm_funcionmenu (funcionmenu,nombre,tipo,url,funcionpadre,funcion,orden,estado) VALUES (8,'Gestión de cursos',2,'general/seleccionarCentroUnidad/gestionCurso',2,18,1,1);
 INSERT INTO adm_funcionmenu (funcionmenu,nombre,tipo,url,funcionpadre,funcion,orden,estado) VALUES (9,'Gestión general de pénsum',2,'gestionPensum/inicio',2,28,1,1);
 INSERT INTO adm_funcionmenu (funcionmenu,nombre,tipo,url,funcionpadre,funcion,orden,estado) VALUES (10,'Gestión de carreras',3,'general/seleccionarCentroUnidad/gestionPensum/listadoCarrera',9,33,1,1);
 INSERT INTO adm_funcionmenu (funcionmenu,nombre,tipo,url,funcionpadre,funcion,orden,estado) VALUES (11,'Gestión de horarios',3,'general/seleccionarCentroUnidad/gestionHorario/seleccionarCicloCurso',2,38,1,1);
 INSERT INTO adm_funcionmenu (funcionmenu,nombre,tipo,url,funcionpadre,funcion,orden,estado) VALUES (12,'Gestión de notas',3,'general/seleccionarCentroUnidad/gestionNotas',2,43,1,1);
+--UPDATE adm_funcionmenu set url = 'general/seleccionarCentroUnidad/gestionParametro' where funcionmenu = 6
 
 
 
+-- -----------------------------------------------------
+-- Insert adm_tipoperiodo
+-- -----------------------------------------------------
+INSERT INTO adm_tipoperiodo (tipoperiodo,nombre,descripcion,estado) VALUES (1,'Asignación de cursos','',1);
+INSERT INTO adm_tipoperiodo (tipoperiodo,nombre,descripcion,estado) VALUES (2,'Ingreso de notas','',1);
 
+-- -----------------------------------------------------
+-- Insert adm_tipoasignacion
+-- -----------------------------------------------------
+INSERT INTO adm_tipoasignacion (tipoasignacion,nombre,descripcion) VALUES (1,'Junta Directiva','');
+INSERT INTO adm_tipoasignacion (tipoasignacion,nombre,descripcion) VALUES (2,'Regular','');
+INSERT INTO adm_tipoasignacion (tipoasignacion,nombre,descripcion) VALUES (3,'Extemporánea','');
+
+-- -----------------------------------------------------
+-- Insert adm_periodo
+-- -----------------------------------------------------
+INSERT INTO adm_periodo (periodo,ciclo,fechainicial,fechafinal,tipoperiodo,estado,tipoasignacion,centro_unidadacademica) VALUES (1,1,NULL,NULL,1,1,1,1);
+INSERT INTO adm_periodo (periodo,ciclo,fechainicial,fechafinal,tipoperiodo,estado,tipoasignacion,centro_unidadacademica) VALUES (2,1,current_date,'31/12/2015',1,1,2,1);
 
 

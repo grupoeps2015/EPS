@@ -24,8 +24,8 @@
     <div class="header-content">
         <div class="header-content-inner">
             <div id="divCentros" class="row">
-                <form id="frCarreras" method="post" action="<?php echo BASE_URL; ?>gestionEdificio/agregarEdificio">
-                    <div id="divEstudiantes" class="form-group" >
+                <form id="frEdificios" method="post" action="<?php echo BASE_URL; ?>gestionEdificio/agregarEdificio">
+                    <div id="divEdificios" class="form-group" >
                         <div class="col-md-6 col-md-offset-3">
                             <table style="margin-top: 30px;">
                                 <tr>

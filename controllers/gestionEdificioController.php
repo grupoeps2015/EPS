@@ -73,7 +73,7 @@ class gestionEdificioController extends Controller {
         
     }
 
-    public function actualizarAsignacion($intIdEdificio) {
+    public function actualizarAsignacion($intIdAsignacion = 0, $intIdEdificio = 0) {
 //        session_start();
 //        $rol = $_SESSION["rol"];        
 //        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_MODIFICARHORARIO);
@@ -85,60 +85,55 @@ class gestionEdificioController extends Controller {
 //                </script>";
 //        }
         
-        
-        
-        $centroUnidad = $this->_post->informacionAsignacionEdificio($intIdEdificio);
-        if(is_array($centroUnidad)){
-            $this->_view->datosAsig = $centroUnidad;
-        }else{
-            $this->redireccionar("error/sql/" . $centroUnidad);
-            exit;
-        }
-        
-            
-        $centro = $this->_ajax->spGetNombreCentroUnidad((isset($centroUnidad[0]['nombreunidad']) ? $centroUnidad[0]['nombreunidadacademica'] : 0));
-        print_r($centroUnidad);
-        if(is_array($centro)){
-            $this->_view->centro = $centro;
-        }else{
-            $this->redireccionar("error/sql/" . $centro);
-            exit;
-        }
-        
-        $jornadas = $this->_post->getJornadas();
-        if(is_array($jornadas)){
-            $this->_view->jornadas = $jornadas;
-        }else{
-            $this->redireccionar("error/sql/" . $jornadas);
-            exit;
-        }
-        
-        
-        
+        $valorPagina = $this->getInteger('hdEnvio');
         $this->_view->setJs(array('jquery.validate'), "public");
+        $this->_view->setJs(array('actualizarAsignacion'));
+        $this->_view->setCSS(array('jquery.dataTables.min'));
         
         $arrayAsig = array();
-        $this->_view->id = $intIdEdificio;
-        $this->_view->titulo = 'Actualizar Asignación - ' . APP_TITULO;
+        $this->_view->id = $intIdAsignacion;
+        $this->_view->idEdificio = $intIdEdificio;
         
-        if ($this->getInteger('hdEnvio')) {
-            $unidad = $this->getInteger('slUnidades');
-            $centro = $this->getInteger('slCentro');
-            $jornada = $this->getInteger('slJornadas');
+        $datosAsig = $this->_post->datosAsignacionEdificio($intIdAsignacion);
+        if(is_array($datosAsig)){
+            $this->_view->datosAsig = $datosAsig;
+        }else{
+            $this->redireccionar("error/sql/" . $datosAsig);
+            exit;
+        }
+        
+        $unicentro = $this->_post->getCentro_UnidadAcademica(0);
+        if(is_array($unicentro)){
+            $this->_view->centro_unidadacademica = $unicentro;
+        }else{
+            $this->redireccionar("error/sql/" . $unicentro);
+            exit;
+        }
+        
+        $lsJornadas = $this->_view->jornadas = $this->_ajax->getJornada();
+        if(is_array($lsJornadas)){
+            $this->_view->jornadas = $lsJornadas;
+        }else{
+            $this->redireccionar("error/sql/" . $lsJornadas);
+            exit;
+        }
+        
+        if ($valorPagina == 1) {
+            $arrayAsig["centro_unidadacademica"] = $this->getInteger('slCentroUnidadAcademica');
+            $arrayAsig["edificio"] = $intIdEdificio;  
+            $arrayAsig["jornada"] = $this->getInteger('slJornadas');         
+            $arrayAsig["centrounidad_edificio"] = $intIdAsignacion;
             
-            $arrayAsig['jornada'] = $jornada;
-            $arrayAsig['edificio'] = $intIdEdificio;
-            $asignacion =  $this->_post->actualizarAsignacion($arrayAsig);
-            if(!is_array($asignacion)){
-                $this->redireccionar("error/sql/" . $asignacion);
+            $info = $this->_post->actualizarAsignacionEdificio($arrayAsig);
+            if(!is_array($info)){
+                $this->redireccionar("error/sql/" . $info);
                 exit;
             }
             
-            
-            $this->redireccionar("gestionEdificio/gestionEdificio/" . $parametros);
+            $this->redireccionar('gestionEdificio/actualizarAsignacion/' . $intIdAsignacion . '/' . $intIdEdificio);
+       
         }
-        //print_r($hor);
-        $this->_view->renderizar('actualizarAsignacion', 'gestionEdificio');  
+        $this->_view->renderizar('actualizarAsignacion', 'gestionEdificio');
     }
 
     public function agregarEdificio() {
@@ -206,11 +201,26 @@ class gestionEdificioController extends Controller {
             $arrayAsignacion['centroUnidadAcademica'] = $centroUnidadAcademica;
             $arrayAsignacion['edificio'] = $intIdEdificio;
             $arrayAsignacion['jornada'] = $jornada;
-            $arrayAsignacion['estado'] = ESTADO_ACTIVO;
+            $arrayAsignacion['estado'] = ESTADO_PENDIENTE;
             $this->_post->asignarUnidadEdificio($arrayAsignacion);
             $this->redireccionar('gestionEdificio/gestionEdificio/'. $intIdEdificio);
         }
 
         $this->_view->renderizar('asignacionEdificio', 'gestionEdificio');
     }
+    
+     public function eliminarAsignacionEdificio($intNuevoEstado, $intIdAsignacion, $idEdificio){
+       
+            if($intNuevoEstado == -1 || $intNuevoEstado == 1){
+                $info = $this->_post->eliminarAsignacion($intIdAsignacion,$intNuevoEstado);
+                if(!is_array($info)){
+                    $this->redireccionar("error/sql/" . $info);
+                    exit;
+                }
+                $this->redireccionar('gestionEdificio/gestionEdificio/' . $idEdificio);
+            }else{
+                $this->_view->cambio = "No reconocio ningun parametro";    
+            }
+        }
+    
 }

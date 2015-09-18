@@ -21,6 +21,16 @@ class gestionEdificioModel extends Model {
             }
     }
 
+    public function actualizarAsignacionEdificio($_datos) {
+        $info = $this->_db->prepare("SELECT spactualizarAsignacion(:centro_unidadacademica,:edificio,:jornada,:centrounidad_edificio) as Id;");
+        $info->execute($_datos);
+        if($info === false){
+            return "1103/actualizarAsignacionEdificio";
+        }else{
+            return $info->fetchall();
+        }
+    }
+    
     public function asignarUnidadEdificio($_datos) {
             $post = $this->_db->prepare("SELECT * from spasignaredificioacentrounidadacademica(:centroUnidadAcademica,:edificio,:jornada, :estado) as Id;");
             $post->execute($_datos);
@@ -53,6 +63,28 @@ class gestionEdificioModel extends Model {
         }
     }
     
+     public function datosAsignacionEdificio($idAsignacion) {
+
+        $post = $this->_db->query("select * from spinformacionasignacionedificio(" . $idAsignacion . ");");
+        //print_r("select * from spInformacionEdificio(" . $idEdificio . ");");
+        if ($post === FALSE) {
+            return "1104/datosAsignacionEdificio";
+        } else {
+            return $post->fetchall();
+        }
+    }
+    
+    
+    public function getCentro_UnidadAcademica($idCentroUnidadAcademica) {
+        $info = $this->_db->query("select * from spconsultacentrounidadacademica( " . $idCentroUnidadAcademica . ");");
+        if($info === false){
+            return "1104/getCentro_UnidadAcademica";
+        }else{
+            return $info->fetchall();
+        }
+    }
+    
+    
     public function allEdificios() {
         $info = $this->_db->query("select * from spmostraredificios();");
         if($info === false){
@@ -71,11 +103,12 @@ class gestionEdificioModel extends Model {
         }
     }
     
+    //Utilizar este para actualizar edificio
     public function actualizarEdificio($_datos) {
         $info = $this->_db->prepare("SELECT * spactualizarAsignacion(:centroUnidad,:edificio,:jornada,:asignacion) as Id;");
         $info->execute($_datos);
         if($info === false){
-            return "1103/actualizarAsignacion";
+            return "1103/actualizarEdificio";
         }else{
             return $info->fetchall();
         }
