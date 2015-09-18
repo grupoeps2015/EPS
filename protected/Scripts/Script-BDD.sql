@@ -626,7 +626,6 @@ CREATE TABLE ADM_TipoAsignacion (
   TipoAsignacion SERIAL NOT NULL,
   Nombre TEXT NOT NULL,
   Descripcion TEXT NULL,
-  Adjuntos TEXT NULL,
   PRIMARY KEY (TipoAsignacion));
 
   
@@ -647,8 +646,8 @@ CREATE TABLE ADM_TipoPeriodo (
 CREATE TABLE ADM_Periodo (
   Periodo SERIAL NOT NULL,
   Ciclo INTEGER NOT NULL,
-  FechaInicial DATE NOT NULL,
-  FechaFinal DATE NOT NULL,
+  FechaInicial DATE NULL,
+  FechaFinal DATE NULL,
   TipoPeriodo INTEGER NOT NULL,
   TipoAsignacion INTEGER NOT NULL,
   Estado INTEGER NOT NULL,
@@ -695,6 +694,7 @@ CREATE TABLE EST_CUR_Asignacion (
   Estado INTEGER NOT NULL,
   Seccion INTEGER NOT NULL,
   Ciclo_Asignacion INTEGER NOT NULL,
+  Adjuntos TEXT NULL,
   PRIMARY KEY (Asignacion),
   CONSTRAINT Seccion
     FOREIGN KEY (Seccion)
