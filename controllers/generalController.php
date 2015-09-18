@@ -51,16 +51,36 @@ class generalController extends Controller{
     }
     
     public function seleccionarCarreraEstudiante(){
+        session_start();
         if($this->getInteger('slCarreras')){
-            
+            $_SESSION["carrera"] = $this->getInteger('slCarreras');
+            $this->redireccionar("login/inicio");
         }
         else{
-            session_start();
-            $lstCentros = $this->_ajax->getCentro();
-            if(is_array($lstCentros)){
-                $this->_view->lstCentros = $lstCentros;
+            $estudiante = $this->_ajax->getEstudianteUsuario($_SESSION["usuario"]);
+            if(is_array($estudiante)){
             }else{
-                $this->redireccionar("error/sql/" . $lstCentros);
+                $this->redireccionar("error/sql/" . $estudiante);
+                exit;
+            }
+            if(!isset($estudiante[0]['id'])){
+                $this->redireccionar("login/salir");
+                exit;
+            }
+            $carreras = $this->_ajax->getCarrerasEstudiante($estudiante[0]['id']);
+            if(is_array($carreras)){
+                if(count($carreras) > 1){
+                    $this->_view->lstCarreras = $carreras;
+                }else if(count($carreras) == 1){
+                    $_SESSION["carrera"] = $carreras[0]['codigo'];
+                    $this->redireccionar("login/inicio");
+                }else{
+                    $this->redireccionar("login/salir");
+                    exit;
+                }
+                
+            }else{
+                $this->redireccionar("error/sql/" . $carreras);
                 exit;
             }
             $this->_view->titulo = 'Seleccionar Carrera - ' . APP_TITULO;
