@@ -48,8 +48,10 @@ class ajaxController extends Controller{
     }
     
     public function getCiclosAjax(){
-        if($this->getInteger('tipo') && $this->getInteger('anio')){
-            echo json_encode($this->_ajax->getCiclosAjax($this->getInteger('tipo'),$this->getInteger('anio')));
+        if($this->getInteger('anio')){
+            $tipo = 1;
+            //TODO: Marlen: consultar parámetro en base de datos
+            echo json_encode($this->_ajax->getCiclosAjax($tipo,$this->getInteger('anio')));
         }
     }
     

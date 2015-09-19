@@ -55,7 +55,7 @@ $(document).ready( function () {
     
     function getCiclosAjax(){
         $.post('/EPS/ajax/getCiclosAjax',
-               { tipo: $("#slTipos").val(), anio: $("#slAnio").val() },
+               { anio: $("#slAnio").val() },
                function(datos){
                     $("#slCiclo").html('');
                     if(datos.length>0){
