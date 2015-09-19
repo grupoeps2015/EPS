@@ -31,6 +31,17 @@ class gestionEdificioModel extends Model {
         }
     }
     
+    public function consultaEdificio($idEdificio) {
+
+        $post = $this->_db->query("select * from spconsultaedificio(" . $idEdificio . ");");
+        
+        if ($post === FALSE) {
+            return "1104/consultaEdificio";
+        } else {
+            return $post->fetchall();
+        }
+    }
+    
     
     public function asignarUnidadEdificio($_datos) {
             $post = $this->_db->prepare("SELECT * from spasignaredificioacentrounidadacademica(:centroUnidadAcademica,:edificio,:jornada, :estado) as Id;");
@@ -56,7 +67,6 @@ class gestionEdificioModel extends Model {
     public function informacionAsignacionEdificio($idEdificio) {
 
         $post = $this->_db->query("select * from spDatosEdificio(" . $idEdificio . ");");
-        //print_r("select * from spInformacionEdificio(" . $idEdificio . ");");
         if ($post === FALSE) {
             return "1104/gestionEdificio";
         } else {
@@ -104,10 +114,12 @@ class gestionEdificioModel extends Model {
         }
     }
     
-    //Utilizar este para actualizar edificio
+   
     public function actualizarEdificio($_datos) {
-        $info = $this->_db->prepare("SELECT * spactualizarAsignacion(:centroUnidad,:edificio,:jornada,:asignacion) as Id;");
-        $info->execute($_datos);
+        $sp = $_datos["edificio"] . ',';
+        $sp .= '\'' . $_datos["nombre"] . '\',\'' . $_datos["descripcion"] . '\'';
+       
+        $info = $this->_db->query("SELECT spModificarEdificio(" . $sp. ");");
         if($info === false){
             return "1103/actualizarEdificio";
         }else{

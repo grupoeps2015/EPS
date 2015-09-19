@@ -66,7 +66,6 @@
                                                 <?php endfor; ?>
                                             </select>
                                         <?php else : ?>
-                                            <input type="text" id="txtJornadas" name="txtjornadas" class="form-control input-lg" value="-">
                                             <br/>
                                         <?php endif; ?>                                            
                                     </td>                                    

@@ -40,6 +40,7 @@
                                 <th style="text-align:center; width: 100px;">Estado</th>
                                 <th style="text-align:center; width: 100px;">&nbsp;</th>
                                 <th style="text-align:center; width: 200px;">&nbsp;</th>
+                                <th style="text-align:center; width: 200px;">&nbsp;</th>
                             </tr>
                         </thead>
                         <tbody>

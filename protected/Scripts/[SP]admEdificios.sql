@@ -190,3 +190,48 @@ $BODY$
   COST 100;
 ALTER FUNCTION spactivardesactivaredificio(integer, integer)
   OWNER TO postgres;
+  
+
+-- -----------------------------------------------------
+-- Function: spModificarEdificio()
+-- -----------------------------------------------------
+-- DROP FUNCTION spmodificaredificio(integer, text, text); 
+CREATE OR REPLACE FUNCTION spModificarEdificio(_edificio integer, 
+						_nombre text, 
+					        _descripcion text
+							)RETURNS BOOLEAN LANGUAGE plpgsql SECURITY DEFINER AS $$
+
+BEGIN
+    UPDATE CUR_Edificio
+       SET nombre = COALESCE(spModificarEdificio._nombre, CUR_Edificio.nombre),
+           descripcion = COALESCE(spModificarEdificio._descripcion, CUR_Edificio.descripcion)
+     WHERE CUR_Edificio.edificio = spModificarEdificio._edificio;       
+    RETURN FOUND;
+END;
+$$;
+
+
+------------------------------------------------------------------------------------------------------------------------------------
+-- Function: spConsultaEdificio()
+------------------------------------------------------------------------------------------------------------------------------------
+-- DROP FUNCTION spConsultaEdificio(integer)
+CREATE OR REPLACE FUNCTION spConsultaEdificio(
+    IN idEdificio integer,
+    OUT nombre text,
+    OUT descripcion text)
+  RETURNS SETOF record AS
+$BODY$
+BEGIN
+  RETURN query
+	SELECT e.nombre, e.descripcion
+	FROM CUR_Edificio e
+	WHERE e.edificio = idEdificio;
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION spConsultaEdificio(integer)
+  OWNER TO postgres;
+
+

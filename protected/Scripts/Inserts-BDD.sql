@@ -636,8 +636,11 @@ INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) V
 INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (50,2,47,'ModificarNota',1,'Modificar nota');
 INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (51,2,47,'EliminarNota',1,'Eliminar nota');
 
-
-
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (52,1,17,'GestionAsignacionEdificio',1,'Gestión de asignación de edificios');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (53,1,52,'ConsultarAsignacionEdificio',1,'Consultar asignación de edificio');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (54,1,52,'CrearAsignacionEdificio',1,'Crear asignación de edificio');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (55,1,52,'ModificarAsignacionEdificio',1,'Modificar asignación de edificio');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (56,1,52,'EliminarAsignacionEdificio',1,'Eliminar asignación de edificio');
 
 -- -----------------------------------------------------
 -- Insert adm_rol_funcion
@@ -693,6 +696,11 @@ INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,48);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,49);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,50);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,51);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,52);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,53);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,54);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,55);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,56);
 
 -- -----------------------------------------------------
 -- Insert adm_funcionmenu
