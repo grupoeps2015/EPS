@@ -194,7 +194,7 @@ class gestionPensumController extends Controller {
         }
         
         $this->_view->titulo = 'Actualizar Carrera - ' . APP_TITULO;
-        
+        $this->_view->renderizar('actualizarCarrera', 'gestionPensum');
         if ($this->getInteger('hdEnvio')) {
             $nombreCarrera = $this->getTexto('txtNombre');
 
@@ -208,7 +208,7 @@ class gestionPensumController extends Controller {
                 exit;
             }
         }
-        $this->_view->renderizar('actualizarCarrera', 'gestionPensum');
+        
     }
     
     public function cargarCSV(){

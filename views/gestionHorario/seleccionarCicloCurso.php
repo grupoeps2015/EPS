@@ -47,6 +47,17 @@
                     </tr>
                     <tr>
                         <td style="width: 10%">
+                            <h4>A&ntilde;o: </h4>
+                            <br/>
+                        </td>
+                        <td style="width:40%;">
+                            <select id="slAnio" name="slAnio" class="form-control input-lg">
+                                <option value="" disabled>-- A&ntilde;o --</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 10%">
                             <h4>Ciclo: </h4>
                             <br/>
                         </td>

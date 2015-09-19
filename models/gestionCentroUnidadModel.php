@@ -48,4 +48,13 @@ class gestionCentroUnidadModel extends Model{
         }
     }
     
+    public function getInfoUnidades($idCentro){
+        $unidades = $this->_db->query("select * from spInfoUnidades({$idCentro});");
+        if($unidades === false){
+            return "1104/getInfoUnidades";
+        }else{
+            return $unidades->fetchall();
+        }
+    }
+    
 }

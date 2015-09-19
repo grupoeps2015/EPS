@@ -30,7 +30,6 @@ class gestionCentroUnidadController extends Controller {
          
         $this->_view->titulo = 'Gestión de Centros Regionales - ' . APP_TITULO;
         
-
         $lstCentros = $this->_gCenUni->getInfoCentros();
         if(is_array($lstCentros)){
             $this->_view->lstCentros = $lstCentros;
@@ -44,7 +43,6 @@ class gestionCentroUnidadController extends Controller {
         $this->_view->setCSS(array('jquery.dataTables.min'));
 
         $this->_view->renderizar('gestionCentroUnidad');
-        
     }
 
     public function agregarCentro() {
@@ -143,4 +141,68 @@ class gestionCentroUnidadController extends Controller {
         }
         $this->_view->renderizar('actualizarCentro', 'gestionCentroUnidad');
     }
+
+    public function cargaCentroCSV(){
+        $fileName = "";
+        $fileExt = "";
+        
+        if($this->getInteger('hdFile')){
+            $fileName=$_FILES['csvFile']['name'];
+            $fileExt = explode(".",$fileName);
+            if(strtolower(end($fileExt)) == "csv"){
+                $fileName=$_FILES['csvFile']['tmp_name'];
+                $handle = fopen($fileName, "r");
+                while(($data = fgetcsv($handle, 1000, ",")) !== FALSE){
+                    $arrayCentro = array();
+                    $arrayCentro[":nombre"] = $data[0];
+                    $arrayCentro[":direccion"] = $data[2];
+                    $arrayCentro[":municipio"] = $data[1];
+                    $arrayCentro[":zona"] = $data[3];
+                    
+                    $info = $this->_gCenUni->setCentro($arrayCentro);
+                    if(!is_array($info)){
+                        fclose($handle);
+                        $this->redireccionar("error/sql/" . $info);
+                        exit;
+                    }
+                }
+                fclose($handle);
+                $this->redireccionar('gestionCentroUnidad');
+                exit;
+            }else{
+                echo "<script>alert('El archivo cargado no cumple con el formato csv');</script>";
+            }
+        }
+        $this->_view->renderizar('agregarCentro', 'gestionCentroUnidad'); 
+    }
+    
+    public function listadoUnidades($idCentro){
+        session_start();
+        $rol = $_SESSION["rol"];        
+        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_GESTIONCURSO);
+        
+        if($rolValido[0]["valido"]!=PERMISO_GESTIONAR){        
+            echo "<script>
+                alert('No tiene permisos para acceder a esta función.');
+                window.location.href='" . BASE_URL . "login/inicio';
+                </script>";
+        }
+         
+        $this->_view->titulo = 'Gestión de Centros Regionales - ' . APP_TITULO;
+        
+        $lstUnidades = $this->_gCenUni->getInfoUnidades($idCentro);
+        if(is_array($lstUnidades)){
+            $this->_view->lstUnidades = $lstUnidades;
+        }else{
+            $this->redireccionar("error/sql/" . $lstUnidades);
+            exit;
+        }
+
+        $this->_view->setJs(array('listadoUnidades'));
+        $this->_view->setJs(array('jquery.dataTables.min'), "public");
+        $this->_view->setCSS(array('jquery.dataTables.min'));
+
+        $this->_view->renderizar('listadoUnidades', 'gestionCentroUnidad');
+    }
+    
 }

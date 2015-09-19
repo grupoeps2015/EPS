@@ -1,5 +1,36 @@
 $(document).ready(function(){
-	//
+    $("#slAnio").change(function(){
+        if(!$("#slAnio").val()){
+            $("#slCiclo").html('');
+            $("#slCiclo").append('<option value="" disabled>-- Ciclo --</option>')
+        }else{
+            getCiclosAjax();
+        }
+    });
+    $("#slCiclo").change(function(){
+        if(!$("#slCiclo").val()){
+            $('#btnConsultar').prop("disabled",true);
+        }else{
+            $('#btnConsultar').prop("disabled",false);
+        }
+    });
+    function getCiclosAjax(){
+        $.post('/EPS/ajax/getCiclosAjax',
+               { anio: $("#slAnio").val() },
+               function(datos){
+                    $("#slCiclo").html('');
+                    if(datos.length>0){
+                        $("#slCiclo").append('<option value="">-- Ciclo --</option>' );
+                        for(var i =0; i < datos.length; i++){
+                            $("#slCiclo").append('<option value="' + datos[i].codigo + '">' + datos[i].nombre + '</option>' );
+                        }
+                    }else{
+                        $("#slCiclo").append('<option value="" disabled>No hay informaci&oacute;n disponible</option>' );
+                    }
+               },
+               'json');
+    }
+    //tabla dinámica
 	$(document).on('click','caption',function(){
 		//obtener la tabla que contiene el caption clickeado
 		var objTabla=$(this).parent();
@@ -117,47 +148,5 @@ $(document).ready(function(){
 		//alert("hola " + idi);
 	});
         
-    function getTipoCiclo(){
-        var cadena = "";
-        $.ajax({
-          type: "POST",
-          url: '/EPS/ajax/getTipoCiclo',
-          data: {tipoCiclo:1},
-          async: false,
-          success: function(datos){
-                    cadena += '<option value="-1">Seleccione</option>';
-                    if(datos.length>0){
-                        for(var i =0; i < datos.length; i++){
-                            cadena += '<option value="' + datos[i].codigo + '">' + datos[i].nombre + '</option>';
-                        }
-                    }else{
-                        cadena += '<option value="" disabled>No hay informaci&oacute;n disponible</option>';
-                    }
-               },
-          dataType: 'json'
-        });
-        return cadena;
-    }
-    function getCiclosAjax(tipo){
-        var cadena = "";
-        $.ajax({
-          type: "POST",
-          url: '/EPS/ajax/getCiclosAjax',
-          data: {tipo:tipo},
-          async: false,
-          success: function(datos){
-                    cadena += '<option value="-1">Seleccione</option>';
-                    if(datos.length>0){
-                        for(var i =0; i < datos.length; i++){
-                            cadena += '<option value="' + datos[i].codigo + '">' + datos[i].nombre + '</option>';
-                        }
-                    }else{
-                        cadena += '<option value="" disabled>No hay informaci&oacute;n disponible</option>';
-                    }
-               },
-          dataType: 'json'
-        });
-        return cadena;
-    }
 			
 });

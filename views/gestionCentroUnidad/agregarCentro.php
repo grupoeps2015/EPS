@@ -77,7 +77,7 @@
     <br/>
     <div class="container">
         <div class="row">
-            <form id="frFile" name="frFile" method='post' enctype="multipart/form-data" action='<?php echo BASE_URL; ?>gestionCurso/cargarCSV'>
+            <form id="frFile" name="frFile" method='post' enctype="multipart/form-data" action='<?php echo BASE_URL; ?>gestionCentroUnidad/cargaCentroCSV'>
                 <div class="col-lg-3 col-md-6 text-center"></div>
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
