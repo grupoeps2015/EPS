@@ -189,6 +189,7 @@ class gestionCentroUnidadController extends Controller {
         }
          
         $this->_view->titulo = 'Gestión de Centros Regionales - ' . APP_TITULO;
+        $this->_view->id = $idCentro;
         
         $lstUnidades = $this->_gCenUni->getInfoUnidades($idCentro);
         if(is_array($lstUnidades)){
@@ -198,11 +199,85 @@ class gestionCentroUnidadController extends Controller {
             exit;
         }
 
+        $lsExistentes = $this->_ajax->getUnidades();
+        if(is_array($lsExistentes)){
+            $this->_view->lsExistentes = $lsExistentes;
+        }else{
+            $this->redireccionar('error/sql/' . $lsExistentes);
+        }
+        
         $this->_view->setJs(array('listadoUnidades'));
         $this->_view->setJs(array('jquery.dataTables.min'), "public");
         $this->_view->setCSS(array('jquery.dataTables.min'));
-
         $this->_view->renderizar('listadoUnidades', 'gestionCentroUnidad');
     }
     
+    public function agregarExistente(){
+        $idCentro = $this->getInteger('hdCentro');
+        $idUnidad = $this->getInteger('slExistentes');
+        
+        $info = $this->_gCenUni->setCentroUnidad($idCentro,$idUnidad);
+        if(!is_array($info)){
+            $this->redireccionar("error/sql/" . $info);
+            exit;
+        }
+        $this->redireccionar('gestionCentroUnidad/listadoUnidades/' . $idCentro);
+    }
+    
+    public function agregarUnidad($idCentro){
+        session_start();
+        $rol = $_SESSION["rol"];        
+        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_CREARCURSO);
+        if($rolValido[0]["valido"]!= PERMISO_CREAR){
+           echo "<script>
+                alert('No tiene permisos suficientes para acceder a esta función.');
+                window.location.href='" . BASE_URL . "gestionCurso';
+                </script>";
+        }
+        
+        $lsExistentes = $this->_ajax->getUnidades();
+        if(is_array($lsExistentes)){
+            $this->_view->lsExistentes = $lsExistentes;
+        }else{
+            $this->redireccionar('error/sql/' . $lsExistentes);
+        }
+        
+        $lsPadres = $this->_gCenUni->getUnidadesPadre($idCentro);
+        if(is_array($lsPadres)){
+            $this->_view->lsPadres = $lsPadres;
+        }else{
+            $this->redireccionar('error/sql/' . $lsPadres);
+        }
+        
+        $lsTipos = $this->_ajax->getTipoUnidadAcademica();
+        if(is_array($lsTipos)){
+            $this->_view->lsTipos = $lsTipos;
+        }else{
+            $this->redireccionar('error/sql/' . $lsTipos);
+        }
+        
+        $this->_view->titulo = 'Agregar Unidad Acad&eacute;mica - ' . APP_TITULO;
+        $this->_view->id = $idCentro;
+        $this->_view->setJs(array('agregarUnidad'));
+        $this->_view->setJs(array('jquery.validate'), "public");
+        
+//        if ($this->getInteger('hdEnvio')) {
+//            $arrayCentro = array();
+//            $arrayCentro[":nombre"] = $this->getTexto('txtNombreCen');
+//            $arrayCentro[":direccion"] = $this->getTexto('txtDireccion');
+//            $arrayCentro[":municipio"] = $this->getInteger('slMunis');
+//            $arrayCentro[":zona"] = $this->getInteger('txtZona');
+//            
+//            $info = $this->_gCenUni->setCentro($arrayCentro);
+//            if(!is_array($info)){
+//                $this->redireccionar("error/sql/" . $info);
+//                exit;
+//            }
+//            
+//            $this->redireccionar('gestionCentroUnidad');
+//            exit;
+//        }
+        
+        $this->_view->renderizar('agregarUnidad', 'gestionCentroUnidad');
+    }
 }

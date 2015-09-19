@@ -218,4 +218,13 @@ class ajaxModel extends Model{
             return $info->fetchall();
         }
     }
+    
+    public function getTipoUnidadAcademica(){
+        $info = $this->_db->query("select * from spconsultageneral('tipounidadacademica,nombre','adm_tipounidadacademica');");
+        if($info === false){
+            return "1200/getTipoUnidadAcademica";
+        }else{
+            return $info->fetchall();
+        }
+    }
 }

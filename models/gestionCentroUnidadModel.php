@@ -57,4 +57,31 @@ class gestionCentroUnidadModel extends Model{
         }
     }
     
+    public function getUnidadesPadre($idCentro){
+        $unidades = $this->_db->query("select * from spInfoPadres({$idCentro});");
+        if($unidades === false){
+            return "1104/getInfoUnidades";
+        }else{
+            return $unidades->fetchall();
+        }
+    }
+    
+    public function setUnidad($_datos){
+        $info = $this->_db->prepare("SELECT * from spAgregarUnidad();");
+        $info->execute($_datos);
+        if($info === false){
+            return "1101/setUnidad";
+        }else{
+            return $info->fetchall();
+        }
+    }
+    
+    public function setCentroUnidad($idCentro, $idUnidad){
+        $info = $this->_db->query("SELECT * from spAgregarCentroUnidad({$idCentro},{$idUnidad});");
+        if($info === false){
+            return "1101/setCentro";
+        }else{
+            return $info->fetchall();
+        }
+    }
 }

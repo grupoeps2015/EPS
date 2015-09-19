@@ -1,0 +1,10 @@
+$(document).ready(function(){
+    $('#cbTienePadre').click(function(){
+        if($(this).is(':checked')){
+            $('#slExistentes').prop("disabled",false);
+        }else{
+            $('#slExistentes').prop("disabled",true);
+            $('#slExistentes').val("NULL");
+        }
+    });
+});

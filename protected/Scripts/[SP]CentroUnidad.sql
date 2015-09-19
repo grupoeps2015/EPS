@@ -82,10 +82,10 @@ LANGUAGE plpgsql
 -- -----------------------------------------------------
 -- Function: spInfoUnidades()
 -- -----------------------------------------------------
--- DROP FUNCTION spInfoUnidades(int, int, text, int, text, text);
+-- DROP FUNCTION spInfoUnidades(int);
 CREATE OR REPLACE FUNCTION spInfoUnidades(IN _idCentro int, OUT unidad int, 
 					  OUT nombre text, OUT idPadre int, 
-					  OUT direccion text, OUT tipo text) RETURNS setof record as 
+					  OUT nombrepadre text, OUT tipo text) RETURNS setof record as 
 $BODY$
 BEGIN 
   RETURN query
@@ -93,12 +93,59 @@ BEGIN
 	  cau.unidadacademica as unidad,
 	  ua.nombre,
 	  coalesce(ua.unidadacademicasuperior,0) as idPadre,
-	  coalesce((select ua1.nombre from adm_unidadacademica ua1 where ua1.unidadacademica=ua.unidadacademicasuperior),'No tiene padre') as nombrePadre,
+	  coalesce((select ua1.nombre from adm_unidadacademica ua1 where ua1.unidadacademica=ua.unidadacademicasuperior),'No tiene') as nombrePadre,
 	  tp.nombre as tipo
 	from adm_centro_unidadacademica cau
 	join adm_unidadacademica ua on ua.unidadacademica = cau.unidadacademica
 	join adm_tipounidadacademica tp on ua.tipo = tp.tipounidadacademica
 	where cau.centro = _idCentro;
+END;
+$BODY$
+LANGUAGE 'plpgsql';
+
+-- -----------------------------------------------------
+-- Function: spInfoPadres()
+-- -----------------------------------------------------
+-- DROP FUNCTION spInfoPadres(int);
+CREATE OR REPLACE FUNCTION spInfoPadres(IN _idCentro int, OUT unidad int, OUT nombre text) RETURNS setof record as 
+$BODY$
+BEGIN 
+  RETURN query
+	select 
+	  cau.unidadacademica as unidad,
+	  ua.nombre
+	from adm_centro_unidadacademica cau
+	join adm_unidadacademica ua on ua.unidadacademica = cau.unidadacademica
+	where cau.centro = _idCentro;
+END;
+$BODY$
+LANGUAGE 'plpgsql';
+
+-- -----------------------------------------------------
+-- Function: spAgregarUnidad()
+-- -----------------------------------------------------
+-- DROP FUNCTION spAgregarUnidad(text,text,int,int);
+CREATE OR REPLACE FUNCTION spAgregarUnidad(_nombre text, _idPadre int) RETURNS void as 
+$BODY$
+Declare id integer;
+BEGIN
+  
+END;
+$BODY$
+LANGUAGE 'plpgsql';
+
+-- -----------------------------------------------------
+-- Function: spAgregarCentroUnidad()
+-- -----------------------------------------------------
+-- DROP FUNCTION spAgregarCentroUnidad(int,int);
+CREATE OR REPLACE FUNCTION spAgregarCentroUnidad(_centro int, _unidad int) RETURNS void as 
+$BODY$
+Declare id integer;
+BEGIN
+  select * from spObtenerSecuencia('centro_unidadacademica','adm_centro_unidadacademica') into id;
+  INSERT INTO adm_centro_unidadacademica(centro_unidadacademica, centro, unidadacademica)
+	 VALUES (id, _centro, _unidad);
+
 END;
 $BODY$
 LANGUAGE 'plpgsql';
