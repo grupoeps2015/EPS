@@ -214,7 +214,7 @@ begin
 		cic.anio
 	      from 
 	        cur_ciclo cic
-	      where cic.tipociclo = _tipo::INTEGER);
+	      where cic.tipociclo = _tipo order by cic.anio asc) ::INTEGER;
 end;
 $BODY$
   LANGUAGE plpgsql VOLATILE
@@ -232,16 +232,18 @@ CREATE OR REPLACE FUNCTION spcicloxtipo(
     IN _tipo integer,
 	IN _anio integer,
     OUT codigo integer,
-    OUT nombre text)
+    OUT nombre text,
+	OUT numerociclo integer)
   RETURNS SETOF record AS
 $BODY$
 begin
  Return query select distinct
 		cic.ciclo,
-		to_char(cic.numerociclo, 'FMRN') || ' ' || tip.nombre 
+		to_char(cic.numerociclo, 'FMRN') || ' ' || tip.nombre ,
+		cic.numerociclo
 	      from 
 	        cur_ciclo cic, cur_tipociclo tip 
-	      where cic.tipociclo = tip.tipociclo and cic.tipociclo = _tipo and cic.anio = _anio;
+	      where cic.tipociclo = tip.tipociclo and cic.tipociclo = _tipo and cic.anio = _anio order by cic.numerociclo asc;
 end;
 $BODY$
   LANGUAGE plpgsql VOLATILE
