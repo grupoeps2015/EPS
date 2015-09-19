@@ -78,3 +78,27 @@ BEGIN
 END;
 $BODY$
 LANGUAGE plpgsql
+
+-- -----------------------------------------------------
+-- Function: spInfoUnidades()
+-- -----------------------------------------------------
+-- DROP FUNCTION spInfoUnidades(int, int, text, int, text, text);
+CREATE OR REPLACE FUNCTION spInfoUnidades(IN _idCentro int, OUT unidad int, 
+					  OUT nombre text, OUT idPadre int, 
+					  OUT direccion text, OUT tipo text) RETURNS setof record as 
+$BODY$
+BEGIN 
+  RETURN query
+	select 
+	  cau.unidadacademica as unidad,
+	  ua.nombre,
+	  coalesce(ua.unidadacademicasuperior,0) as idPadre,
+	  coalesce((select ua1.nombre from adm_unidadacademica ua1 where ua1.unidadacademica=ua.unidadacademicasuperior),'No tiene padre') as nombrePadre,
+	  tp.nombre as tipo
+	from adm_centro_unidadacademica cau
+	join adm_unidadacademica ua on ua.unidadacademica = cau.unidadacademica
+	join adm_tipounidadacademica tp on ua.tipo = tp.tipounidadacademica
+	where cau.centro = _idCentro;
+END;
+$BODY$
+LANGUAGE 'plpgsql';
