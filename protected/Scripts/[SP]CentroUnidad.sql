@@ -18,6 +18,20 @@ $BODY$
 LANGUAGE 'plpgsql';
 
 -- -----------------------------------------------------
+-- Function: spNombreCentro()
+-- -----------------------------------------------------
+-- DROP FUNCTION spNombreCentro(int);
+CREATE OR REPLACE FUNCTION spNombreCentro(IN _centro int) RETURNS text as
+$BODY$
+declare nombreCentro text;
+BEGIN 
+  select cen.nombre from adm_centro cen where cen.centro = _centro into nombreCentro;
+  return nombreCentro;
+END;
+$BODY$
+LANGUAGE 'plpgsql';
+
+-- -----------------------------------------------------
 -- Function: spAgregarCentros()
 -- -----------------------------------------------------
 -- DROP FUNCTION spAgregarCentros(text,text,int,int);
@@ -82,10 +96,10 @@ LANGUAGE plpgsql
 -- -----------------------------------------------------
 -- Function: spInfoUnidades()
 -- -----------------------------------------------------
--- DROP FUNCTION spInfoUnidades(int, int, text, int, text, text);
+-- DROP FUNCTION spInfoUnidades(int);
 CREATE OR REPLACE FUNCTION spInfoUnidades(IN _idCentro int, OUT unidad int, 
 					  OUT nombre text, OUT idPadre int, 
-					  OUT direccion text, OUT tipo text) RETURNS setof record as 
+					  OUT nombrepadre text, OUT tipo text) RETURNS setof record as 
 $BODY$
 BEGIN 
   RETURN query
@@ -93,12 +107,70 @@ BEGIN
 	  cau.unidadacademica as unidad,
 	  ua.nombre,
 	  coalesce(ua.unidadacademicasuperior,0) as idPadre,
-	  coalesce((select ua1.nombre from adm_unidadacademica ua1 where ua1.unidadacademica=ua.unidadacademicasuperior),'No tiene padre') as nombrePadre,
+	  coalesce((select ua1.nombre from adm_unidadacademica ua1 where ua1.unidadacademica=ua.unidadacademicasuperior),'No tiene') as nombrePadre,
 	  tp.nombre as tipo
 	from adm_centro_unidadacademica cau
 	join adm_unidadacademica ua on ua.unidadacademica = cau.unidadacademica
 	join adm_tipounidadacademica tp on ua.tipo = tp.tipounidadacademica
 	where cau.centro = _idCentro;
+END;
+$BODY$
+LANGUAGE 'plpgsql';
+
+-- -----------------------------------------------------
+-- Function: spUnidadesPropias()
+-- -----------------------------------------------------
+-- DROP FUNCTION spUnidadesPropias(int);
+CREATE OR REPLACE FUNCTION spUnidadesPropias(IN _idCentro int, OUT unidad int, OUT nombre text) RETURNS setof record as 
+$BODY$
+BEGIN 
+  RETURN query
+	select 
+	  cau.unidadacademica as unidad,
+	  ua.nombre
+	from adm_centro_unidadacademica cau
+	join adm_unidadacademica ua on ua.unidadacademica = cau.unidadacademica
+	where cau.centro = _idCentro;
+END;
+$BODY$
+LANGUAGE 'plpgsql';
+
+-- -----------------------------------------------------
+-- Function: spAgregarUnidad()
+-- -----------------------------------------------------
+-- DROP FUNCTION spAgregarUnidad(text,text,int,int);
+CREATE OR REPLACE FUNCTION spAgregarUnidad(_codigo int, _idPadre int, _nombre text, _idTipo int) RETURNS void as 
+$BODY$
+BEGIN
+	INSERT INTO adm_unidadacademica(unidadacademica, unidadacademicasuperior, nombre, tipo) VALUES (_codigo, _idPadre, _nombre, _idTipo);
+END;
+$BODY$
+LANGUAGE 'plpgsql';
+
+-- -----------------------------------------------------
+-- Function: spAgregarCentroUnidad()
+-- -----------------------------------------------------
+-- DROP FUNCTION spAgregarCentroUnidad(int,int);
+CREATE OR REPLACE FUNCTION spAgregarCentroUnidad(_centro int, _unidad int) RETURNS void as 
+$BODY$
+Declare id integer;
+BEGIN
+  select * from spObtenerSecuencia('centro_unidadacademica','adm_centro_unidadacademica') into id;
+  INSERT INTO adm_centro_unidadacademica(centro_unidadacademica, centro, unidadacademica)
+	 VALUES (id, _centro, _unidad);
+
+END;
+$BODY$
+LANGUAGE 'plpgsql';
+
+-- -----------------------------------------------------
+-- Function: spQuitarCentroUnidad()
+-- -----------------------------------------------------
+-- DROP FUNCTION spQuitarCentroUnidad(int,int);
+CREATE OR REPLACE FUNCTION spQuitarCentroUnidad(_centro int, _unidad int) RETURNS void as 
+$BODY$
+BEGIN
+  DELETE FROM adm_centro_unidadacademica WHERE centro=_centro AND unidadacademica=_unidad;
 END;
 $BODY$
 LANGUAGE 'plpgsql';

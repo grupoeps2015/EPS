@@ -25,7 +25,10 @@ define('PERMISO_CONSULTAR','1');
 define('PERMISO_CREAR','1');
 define('PERMISO_MODIFICAR','1');
 define('PERMISO_ELIMINAR','1');
-
+define('PERIODO_ASIGNACION_CURSOS','1');
+define('PERIODO_INGRESO_NOTAS','2');
+define('ASIGN_JUNTADIRECTIVA','1');
+define('ASIGN_OTRAS','0');
 
 //Constantes de base de datos
 define('DB_HOST','localhost');
