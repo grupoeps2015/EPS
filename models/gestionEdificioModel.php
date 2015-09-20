@@ -135,5 +135,57 @@ class gestionEdificioModel extends Model {
             return $info->fetchall();
         }
     }
+    
+    //Región de gestión de salones
+    public function listadoSalones($intIdEdificio,$intIdEstadoActivo) {
+        $info = $this->_db->query("select * from spinformacionsalon(" . $intIdEdificio . "," . $intIdEstadoActivo . ");");
+        if($info === false){
+            return "1104/listadoSalones";
+        }else{
+            return $info->fetchall();
+        }
+    }
+    
+     public function eliminarSalon($intIdSalon, $intEstadoNuevo){
+        $info = $this->_db->query("SELECT * from spModificarSalon(" . $intIdSalon . ",null,null,null," . $intEstadoNuevo . ");");
+        if($info === false){
+            return "1102/eliminarSalon";
+        }else{
+            return $info->fetchall();
+        }
+    }
 
+    public function agregarSalon($_datos) {
+            $post = $this->_db->prepare("SELECT spagregarsalon(:nombre,:edificio,:nivel,:capacidad);");
+            $post->execute($_datos);
+            if ($post === false) {
+                return "1101/agregarSalon";
+            } else {
+                return $post->fetchall();
+            }
+    }
+    
+     public function consultaSalon($idSalon) {
+
+        $post = $this->_db->query("select * from spdatossalon(" . $idSalon . ");");
+        
+        if ($post === FALSE) {
+            return "1104/consultaSalon";
+        } else {
+            return $post->fetchall();
+        }
+    }
+    
+    public function actualizarSalon($_datos) {
+        $sp = $_datos["salon"] . ',';
+        $sp .= '\'' . $_datos["nombre"] . '\',' . $_datos["nivel"] . ',';
+        $sp .= $_datos["capacidad"] . ',null';
+        
+        $info = $this->_db->query("SELECT * from spModificarSalon(" . $sp. ");");
+        if($info === false){
+            return "1103/actualizarSalon";
+        }else{
+            return $info->fetchall();
+        }
+    }
 }

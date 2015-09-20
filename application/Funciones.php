@@ -1,6 +1,6 @@
 <?php
-//Secuencia actual = 56
-//Inicuar nueva con 57
+//Secuencia actual = 61
+//Iniciar nueva con 62
 
 //Constantes de funciones generales
 define('CONS_FUNC_LOGIN',1);
@@ -75,6 +75,12 @@ define('CONS_FUNC_CUR_CONSULTARNOTA',48);
 define('CONS_FUNC_CUR_CREARNOTA',49);
 define('CONS_FUNC_CUR_MODIFICARNOTA',50);
 define('CONS_FUNC_CUR_ELIMINARNOTA',51);
+
+define('CONS_FUNC_CUR_GESTIONSALON',57);
+define('CONS_FUNC_CUR_CONSULTASALON',58);
+define('CONS_FUNC_CUR_CREARSALON',59);
+define('CONS_FUNC_CUR_MODIFICARSALON',60);
+define('CONS_FUNC_CUR_ELIMINARSALON',61);
 
 
 //Constantes de funciones CAT

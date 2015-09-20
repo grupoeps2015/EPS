@@ -31,14 +31,14 @@
                                 <tr>
                                     <td colspan="3">
                                         *Nombre:
-                                        <input type="text" id="txtNombre" name="txtNombre" style="width: 700px;" class="form-control input-lg" value="<?php if(isset($this->datos['txtNombre'])) echo $this->datos['txtNombre']?>">
+                                        <input type="text" id="txtNombre" name="txtNombre" style="width: 700px;" class="form-control input-lg" value="">
                                         <br/>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td colspan="3">
                                         *Descripción:
-                                        <textarea name="txtDescripcion" id="txtDescripcion" style="width: 700px; resize: none;" rows="3"><?php if(isset($this->datos['txtNombre'])) echo $this->datos['txtNombre']?></textarea>
+                                        <textarea name="txtDescripcion" id="txtDescripcion" style="width: 700px; resize: none;" rows="3"></textarea>
                                         
                                         <br/>
                                     </td>

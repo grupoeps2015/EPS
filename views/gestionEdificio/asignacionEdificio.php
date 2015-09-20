@@ -43,7 +43,7 @@
                                                 <?php endfor; ?>
                                             </select>
                                         <?php else : ?>
-                                            <input type="text" id="txtCentro" name="txtCentro" class="form-control input-lg" value="-">
+                                            
                                             <br/>
                                         <?php endif; ?>
                                     </td>

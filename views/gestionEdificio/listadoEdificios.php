@@ -41,6 +41,7 @@
                                 <th style="text-align:center; width: 100px;">&nbsp;</th>
                                 <th style="text-align:center; width: 200px;">&nbsp;</th>
                                 <th style="text-align:center; width: 200px;">&nbsp;</th>
+                                <th style="text-align:center; width: 200px;">&nbsp;</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -61,6 +62,9 @@
                                     <a href="<?php echo BASE_URL . 'gestionEdificio/activarDesactivarEdificio/1/' . $this->lstEdif[$i]['_id'] ?>">Activar</a>
                                     <?php endif;?>
                                 </td>
+                                <th style="text-align:center; width: 100px;">
+                                    <a href="<?php echo BASE_URL . 'gestionEdificio/gestionSalon/' . $this->lstEdif[$i]['_id'];?>">Salones</a>
+                                </th>
                                 <th style="text-align:center; width: 100px;">
                                     <a href="<?php echo BASE_URL . 'gestionEdificio/gestionEdificio/' . $this->lstEdif[$i]['_id'];?>">Unidades Asignadas</a>
                                 </th>

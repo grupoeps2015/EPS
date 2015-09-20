@@ -218,7 +218,7 @@ class gestionEdificioController extends Controller {
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_ELIMINAREDIFICIO);
         
         if($rolValido[0]["valido"]== PERMISO_ELIMINAR){
-            if ($intNuevoEstado == -1 || $intNuevoEstado == 1) {
+            if ($intNuevoEstado == ESTADO_INACTIVO || $intNuevoEstado == ESTADO_ACTIVO) {
                 $info = $this->_post->activarDesactivarEdificio($intIdEdificio, $intNuevoEstado);
 
                 if(!is_array($info)){
@@ -297,7 +297,7 @@ class gestionEdificioController extends Controller {
         
         if($rolValido[0]["valido"]== PERMISO_ELIMINAR){
        
-            if($intNuevoEstado == -1 || $intNuevoEstado == 1){
+            if($intNuevoEstado == ESTADO_INACTIVO || $intNuevoEstado == ESTADO_ACTIVO){
                 $info = $this->_post->eliminarAsignacion($intIdAsignacion,$intNuevoEstado);
                 if(!is_array($info)){
                     $this->redireccionar("error/sql/" . $info);
@@ -316,5 +316,152 @@ class gestionEdificioController extends Controller {
                 </script>";
         }
         }
+        
+        
+        //Región de salones
+        public function gestionSalon($intIdEdificio = 0) {
+        session_start();
+        $rol = $_SESSION["rol"];        
+        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_GESTIONSALON);
+                    
+        if($rolValido[0]["valido"]!=PERMISO_GESTIONAR){        
+            echo "<script>
+                alert('No tiene permisos para acceder a esta función.');
+                window.location.href='" . BASE_URL . "gestionEdificio/listadoEdificio';
+                </script>";
+        }
+        
+        $this->_view->id = $intIdEdificio;
+        $info = $this->_post->listadoSalones($intIdEdificio,ESTADO_ACTIVO);
+        if(is_array($info)){
+            $this->_view->lstSalones= $info;
+        }else{
+            $this->redireccionar("error/sql/" . $info);
+            exit;
+        }
+        
+        $this->_view->titulo = 'Gestión de Salones - ' . APP_TITULO;
+        $this->_view->setJs(array('gestionSalon'));
+        $this->_view->setJs(array('jquery.dataTables.min'), "public");
+        $this->_view->setCSS(array('jquery.dataTables.min'));
+
+        $this->_view->renderizar('gestionSalon');
+        
+    }
     
+    public function eliminarSalon($intNuevoEstado, $intIdSalon, $intIdEdificio){
+        
+        session_start();
+        $rol = $_SESSION["rol"];        
+        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_ELIMINARSALON);
+        if($rolValido[0]["valido"]== PERMISO_ELIMINAR){
+            
+            if($intNuevoEstado == ESTADO_INACTIVO || $intNuevoEstado == ESTADO_ACTIVO){
+                $info = $this->_post->eliminarSalon($intIdSalon,$intNuevoEstado);
+                if(!is_array($info)){
+                    $this->redireccionar("error/sql/" . $info);
+                    exit;
+                }
+                $this->redireccionar('gestionEdificio/gestionSalon/' . $intIdEdificio);
+            }else{
+                $this->_view->cambio = "No reconocio ningun parametro";    
+            }
+        }
+        else
+        {         
+            echo "<script>
+                alert('No tiene permisos suficientes para acceder a esta función.');
+                window.location.href='" . BASE_URL . "gestionEdificio/gestionSalon/" . $intIdEdificio . "';
+                </script>";
+        }
+    }
+    
+    public function agregarSalon($intIdEdificio = 0){
+        session_start();
+                
+        
+        $arraySal = array();
+        
+        $this->_view->idEdificio = $intIdEdificio;
+       
+        $this->_view->titulo = 'Agregar Salón - ' . APP_TITULO;
+        $this->_view->setJs(array('agregarSalon'));
+        $this->_view->setJs(array('jquery.validate'), "public");
+        
+        $rol = $_SESSION["rol"];        
+        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_CREARSALON);
+        $iden = $this->getInteger('hdEnvio');
+       
+        if($rolValido[0]["valido"]!= PERMISO_CREAR){
+           echo "<script>
+                alert('No tiene permisos suficientes para acceder a esta función.');
+                window.location.href='" . BASE_URL . "gestionEdificio/gestionSalon/" . $intIdEdificio . "';
+                </script>";
+        }
+        
+        if($iden == 1){
+            $arraySal["nombre"] = $this->getTexto('txtNombre');
+            $arraySal["edificio"] = $intIdEdificio;
+            $arraySal["nivel"] = $this->getInteger('txtNivel');
+            $arraySal["capacidad"] = $this->getInteger('txtCapacidad');
+           
+            $info = $this->_view->query = $this->_post->agregarSalon($arraySal);
+            if(!is_array($info)){
+                $this->redireccionar("error/sql/" . $info);
+                exit;
+            }
+            
+            $this->redireccionar('gestionEdificio/gestionSalon/'.$intIdEdificio);
+        }
+        
+        $this->_view->renderizar('agregarSalon', 'gestionSalon');
+    }
+    
+    
+    public function actualizarSalon($intIdSalon = 0,$intIdEdificio = 0) {
+        session_start();
+        $rol = $_SESSION["rol"];        
+        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_MODIFICARSALON);
+       
+        if($rolValido[0]["valido"]!= PERMISO_MODIFICAR){
+           echo "<script>
+                alert('No tiene permisos suficientes para acceder a esta función.');
+                window.location.href='" . BASE_URL . "gestionEdificio/gestionSalon/" . $intIdEdificio . "';
+                </script>";
+        }
+        
+        $valorPagina = $this->getInteger('hdEnvio');
+        $this->_view->setJs(array('jquery.validate'), "public");
+        $this->_view->setJs(array('actualizarSalon'));
+        $this->_view->setCSS(array('jquery.dataTables.min'));
+        
+        $arraySal = array();
+        $this->_view->id = $intIdSalon;
+        $this->_view->idEdificio = $intIdEdificio;
+        
+        $datosSal = $this->_post->consultaSalon($intIdSalon);
+        if(is_array($datosSal)){
+            $this->_view->datosSal = $datosSal;
+        }else{
+            $this->redireccionar("error/sql/" . $datosSal);
+            exit;
+        }
+        
+        if ($valorPagina == 1) {
+          $arraySal["salon"] = $intIdSalon;
+          $arraySal["nombre"] = $this->getTexto('txtNombre');
+            $arraySal["nivel"] = $this->getInteger('txtNivel');         
+            $arraySal["capacidad"] = $this->getInteger('txtCapacidad');         
+            
+            $info = $this->_post->actualizarSalon($arraySal);
+            if(!is_array($info)){
+                $this->redireccionar("error/sql/" . $info);
+                exit;
+            }
+             
+            $this->redireccionar('gestionEdificio/actualizarSalon/' . $intIdSalon .'/' . $intIdEdificio);
+        
+        }
+        $this->_view->renderizar('actualizarSalon', 'gestionSalon');
+    }
 }
