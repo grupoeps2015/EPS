@@ -3,6 +3,7 @@
         <div class="row">
             <div class="col-lg-12 text-center">
                 <h2 class="section-heading">Unidades Acad&eacute;micas</h2>
+                <h4 class="section-heading text-warning"><?php if(isset($this->nombreCentro)) echo '-' . $this->nombreCentro . '-';?></h4>
                 <hr class="primary">
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
@@ -93,17 +94,45 @@
                     </tr>
                     <tr>
                         <td colspan="3" align="center"><br/>
-                            <input type="submit" id="btnAgregar" name="btnAgregar" value="Agregar" class="btn btn-danger" style="width: 60%" disabled>
+                            <input type="submit" id="btnAgregar" name="btnAgregar" value="Agregar" class="btn btn-warning" style="width: 60%" disabled>
                         </td>
                     </tr>
-                    <tr>
-                        <td>
-                            <span id="spError"><?php if(isset($this->errorUA)) echo $this->errorUA; ?></span>
-                        </td>
                     <tr>
                         <td colspan="3"><hr class="hr1"/></td>
                     </tr>
-                    </form>
+                </table>
+                <input type="hidden" name="hdEnvio" value="1">
+                <input type="hidden" name="hdCentro" value="<?php echo $this->id;?>">
+            </form>
+            
+            <form id="frUnidadBaja" method="post" action="<?php echo BASE_URL; ?>gestionCentroUnidad/quitarExistente">
+                <table class="text-primary" style="width: 100%;">
+                    <tr>
+                        <td colspan="3" class="text-info">
+                            <span><b>Descartar Unidad Acad&eacute;mica</b></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <select id="slPropias" name="slPropias" class="form-control input-lg">
+                                <?php if(isset($this->lsPropias) && count($this->lsPropias)): ?>
+                                    <option value="NULL">(Unidad Acad&eacutemica)</option>
+                                    <?php for($i =0; $i < count($this->lsPropias); $i++) : ?>
+                                    <option value="<?php echo $this->lsPropias[$i]['unidad'];?>">
+                                        <?php echo $this->lsPropias[$i]['nombre']; ?>
+                                    </option>
+                                    <?php endfor;?>
+                                <?php else : ?>
+                                    <option value="NULL">- No hay informaci&oacute;n disponible -</option>
+                                <?php endif;?>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" align="center"><br/>
+                            <input type="submit" id="btnQuitar" name="btnQuitar" value="Remover" class="btn btn-danger" style="width: 60%" disabled>
+                        </td>
+                    </tr>
                 </table>
                 <input type="hidden" name="hdEnvio" value="1">
                 <input type="hidden" name="hdCentro" value="<?php echo $this->id;?>">

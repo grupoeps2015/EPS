@@ -7,6 +7,14 @@ $(document).ready( function () {
         }
     });
     
+    $('#slPropias').change(function(){
+        if($('#slPropias').val() === "NULL"){
+            $('#btnQuitar').prop("disabled",true);
+        }else{
+            $('#btnQuitar').prop("disabled",false);
+        }
+    });
+    
     $('#tbUnidadesAcademicas').DataTable( {
         language: {
             emptyTable: "No hay informaci&oacute;n disponible.",

@@ -18,6 +18,20 @@ $BODY$
 LANGUAGE 'plpgsql';
 
 -- -----------------------------------------------------
+-- Function: spNombreCentro()
+-- -----------------------------------------------------
+-- DROP FUNCTION spNombreCentro(int);
+CREATE OR REPLACE FUNCTION spNombreCentro(IN _centro int) RETURNS text as
+$BODY$
+declare nombreCentro text;
+BEGIN 
+  select cen.nombre from adm_centro cen where cen.centro = _centro into nombreCentro;
+  return nombreCentro;
+END;
+$BODY$
+LANGUAGE 'plpgsql';
+
+-- -----------------------------------------------------
 -- Function: spAgregarCentros()
 -- -----------------------------------------------------
 -- DROP FUNCTION spAgregarCentros(text,text,int,int);
@@ -104,10 +118,10 @@ $BODY$
 LANGUAGE 'plpgsql';
 
 -- -----------------------------------------------------
--- Function: spInfoPadres()
+-- Function: spUnidadesPropias()
 -- -----------------------------------------------------
--- DROP FUNCTION spInfoPadres(int);
-CREATE OR REPLACE FUNCTION spInfoPadres(IN _idCentro int, OUT unidad int, OUT nombre text) RETURNS setof record as 
+-- DROP FUNCTION spUnidadesPropias(int);
+CREATE OR REPLACE FUNCTION spUnidadesPropias(IN _idCentro int, OUT unidad int, OUT nombre text) RETURNS setof record as 
 $BODY$
 BEGIN 
   RETURN query
@@ -125,11 +139,10 @@ LANGUAGE 'plpgsql';
 -- Function: spAgregarUnidad()
 -- -----------------------------------------------------
 -- DROP FUNCTION spAgregarUnidad(text,text,int,int);
-CREATE OR REPLACE FUNCTION spAgregarUnidad(_nombre text, _idPadre int) RETURNS void as 
+CREATE OR REPLACE FUNCTION spAgregarUnidad(_codigo int, _idPadre int, _nombre text, _idTipo int) RETURNS void as 
 $BODY$
-Declare id integer;
 BEGIN
-  
+	INSERT INTO adm_unidadacademica(unidadacademica, unidadacademicasuperior, nombre, tipo) VALUES (_codigo, _idPadre, _nombre, _idTipo);
 END;
 $BODY$
 LANGUAGE 'plpgsql';
@@ -146,6 +159,18 @@ BEGIN
   INSERT INTO adm_centro_unidadacademica(centro_unidadacademica, centro, unidadacademica)
 	 VALUES (id, _centro, _unidad);
 
+END;
+$BODY$
+LANGUAGE 'plpgsql';
+
+-- -----------------------------------------------------
+-- Function: spQuitarCentroUnidad()
+-- -----------------------------------------------------
+-- DROP FUNCTION spQuitarCentroUnidad(int,int);
+CREATE OR REPLACE FUNCTION spQuitarCentroUnidad(_centro int, _unidad int) RETURNS void as 
+$BODY$
+BEGIN
+  DELETE FROM adm_centro_unidadacademica WHERE centro=_centro AND unidadacademica=_unidad;
 END;
 $BODY$
 LANGUAGE 'plpgsql';

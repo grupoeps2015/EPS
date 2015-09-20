@@ -136,7 +136,7 @@ class gestionCentroUnidadController extends Controller {
             }else{
                 $this->_view->exito = "Informaci&oacute;n actualizada con &eacute;xito";
             }
-            $this->redireccionar('gestionCentroUnidad/actualizarCentro/' . $idCentro);
+            $this->redireccionar('gestionCentroUnidad');
             exit;
         }
         $this->_view->renderizar('actualizarCentro', 'gestionCentroUnidad');
@@ -191,6 +191,13 @@ class gestionCentroUnidadController extends Controller {
         $this->_view->titulo = 'Gestión de Centros Regionales - ' . APP_TITULO;
         $this->_view->id = $idCentro;
         
+        $nombreCentro = $this->_gCenUni->getNombreCentro($idCentro);
+        if(is_array($nombreCentro)){
+            $this->_view->nombreCentro = $nombreCentro[0][0];
+        }else{
+            $this->redireccionar('error/sql/' . $nombreCentro);
+        }
+        
         $lstUnidades = $this->_gCenUni->getInfoUnidades($idCentro);
         if(is_array($lstUnidades)){
             $this->_view->lstUnidades = $lstUnidades;
@@ -206,6 +213,14 @@ class gestionCentroUnidadController extends Controller {
             $this->redireccionar('error/sql/' . $lsExistentes);
         }
         
+        $lsPropias = $this->_gCenUni->getUnidadesPropias($idCentro);
+        if(is_array($lsPropias)){
+            $this->_view->lsPropias = $lsPropias;
+        }else{
+            $this->redireccionar('error/sql/' . $lsPropias);
+        }
+        
+        
         $this->_view->setJs(array('listadoUnidades'));
         $this->_view->setJs(array('jquery.dataTables.min'), "public");
         $this->_view->setCSS(array('jquery.dataTables.min'));
@@ -217,6 +232,18 @@ class gestionCentroUnidadController extends Controller {
         $idUnidad = $this->getInteger('slExistentes');
         
         $info = $this->_gCenUni->setCentroUnidad($idCentro,$idUnidad);
+        if(!is_array($info)){
+            $this->redireccionar("error/sql/" . $info);
+            exit;
+        }
+        $this->redireccionar('gestionCentroUnidad/listadoUnidades/' . $idCentro);
+    }
+    
+    public function quitarExistente(){
+        $idCentro = $this->getInteger('hdCentro');
+        $idUnidad = $this->getInteger('slPropias');
+        
+        $info = $this->_gCenUni->removeCentroUnidad($idCentro,$idUnidad);
         if(!is_array($info)){
             $this->redireccionar("error/sql/" . $info);
             exit;
@@ -242,13 +269,6 @@ class gestionCentroUnidadController extends Controller {
             $this->redireccionar('error/sql/' . $lsExistentes);
         }
         
-        $lsPadres = $this->_gCenUni->getUnidadesPadre($idCentro);
-        if(is_array($lsPadres)){
-            $this->_view->lsPadres = $lsPadres;
-        }else{
-            $this->redireccionar('error/sql/' . $lsPadres);
-        }
-        
         $lsTipos = $this->_ajax->getTipoUnidadAcademica();
         if(is_array($lsTipos)){
             $this->_view->lsTipos = $lsTipos;
@@ -261,22 +281,32 @@ class gestionCentroUnidadController extends Controller {
         $this->_view->setJs(array('agregarUnidad'));
         $this->_view->setJs(array('jquery.validate'), "public");
         
-//        if ($this->getInteger('hdEnvio')) {
-//            $arrayCentro = array();
-//            $arrayCentro[":nombre"] = $this->getTexto('txtNombreCen');
-//            $arrayCentro[":direccion"] = $this->getTexto('txtDireccion');
-//            $arrayCentro[":municipio"] = $this->getInteger('slMunis');
-//            $arrayCentro[":zona"] = $this->getInteger('txtZona');
-//            
-//            $info = $this->_gCenUni->setCentro($arrayCentro);
-//            if(!is_array($info)){
-//                $this->redireccionar("error/sql/" . $info);
-//                exit;
-//            }
-//            
-//            $this->redireccionar('gestionCentroUnidad');
-//            exit;
-//        }
+        if($this->getInteger('hdEnvio')){
+            $arrayUni = array();
+            if($this->getInteger('slExistentes')){
+                $arrayUni[":padre"] = $this->getInteger('slExistentes');
+            }else{
+                $arrayUni[":padre"] = "NULL";
+            }
+            
+            $arrayUni[":id"] = $this->getInteger('txtCodigoUni');
+            $arrayUni[":nombre"] = $this->getTexto('txtNombreUni');
+            $arrayUni[":tipo"] = $this->getInteger('slTipos');
+            
+            $info = $this->_gCenUni->setUnidad($arrayUni);
+            if(!is_array($info)){
+                $this->redireccionar("error/sql/" . $info);
+                exit;
+            }else{
+                $tupla = $this->_gCenUni->setCentroUnidad($idCentro,$arrayUni[":id"]);
+                if(!is_array($tupla)){
+                    $this->redireccionar("error/sql/" . $tupla);
+                    exit;
+                }
+            }
+            $this->redireccionar('gestionCentroUnidad/listadoUnidades/'.$idCentro);
+            exit;   
+        }
         
         $this->_view->renderizar('agregarUnidad', 'gestionCentroUnidad');
     }
