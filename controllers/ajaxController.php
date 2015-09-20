@@ -83,6 +83,12 @@ class ajaxController extends Controller{
         }
     }
     
+    public function getAllCarreras(){
+        if($this->getInteger('carrera')){
+            echo json_encode($this->_ajax->getAllCarerras());
+        }
+    }
+    
     public function getDocenteSeccion(){
         if($this->getInteger('cat') && $this->getInteger('ciclo')){
             echo json_encode($this->_ajax->getDocenteSeccion($this->getInteger('cat'),$this->getInteger('ciclo')));

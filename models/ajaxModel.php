@@ -140,6 +140,15 @@ class ajaxModel extends Model{
         }
     }
     
+    public function getAllCarreras(){
+        $info = $this->_db->query("select * from spconsultageneral('carrera,nombre','cur_carrera');");
+        if($info === false){
+            return "1105/getAllCarrera";
+        }else{
+            return $info->fetchall();
+        }
+    }
+    
     public function getInfoCarreras($centro_unidadacademica){
         $post = $this->_db->query("select * from spinformacioncarrera({$centro_unidadacademica})");
         $post->setFetchMode(PDO::FETCH_ASSOC);

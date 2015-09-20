@@ -34,7 +34,7 @@
             <div class="col-lg-4 col-md-8 text-center">
                 <div class="service-box">
                     <i class="fa fa-4x fa-group wow bounceIn text-primary" data-wow-delay=".1s"></i>
-                    <h3>Gesti&oacute;n de p&eacute;nsums</h3>
+                    <h3><a href="<?php echo BASE_URL; ?>pensum/listadoPensum">Gesti&oacute;n de p&eacute;nsums</a></h3>
                     <p class="text-muted">P&eacute;nsum de estudios por Carrera</p>
                 </div>
             </div>

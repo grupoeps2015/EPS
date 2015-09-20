@@ -113,3 +113,61 @@ END; $BODY$
   COST 100;
 ALTER FUNCTION spactualizarcarrera(text, integer)
   OWNER TO postgres;
+  
+
+  
+-- Function: spagregarpensum(integer, integer, text, text, text, text)
+
+-- drop function spagregarpensum(integer, integer, text, text, text, text)
+
+CREATE OR REPLACE FUNCTION spagregarpensum(
+    _carrera integer,
+    _tipo integer,
+    _inicioVigencia text,
+    _duracionAnios text,
+    _finVigencia text,
+    _descripcion text)
+  RETURNS integer AS
+$BODY$
+DECLARE idPensum integer;
+BEGIN
+	INSERT INTO adm_pensum (carrera, tipo, inicioVigencia, duracionAnios, finVigencia, descripcion) 
+	VALUES (_carrera, _tipo, cast(_inicioVigencia as date), cast(_duracionAnios as real), cast(_finVigencia as date), _descripcion) RETURNING Pensum into idPensum;
+	RETURN idPensum;
+END; $BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION spagregarpensum(integer, integer, text, text, text, text)
+  OWNER TO postgres;
+
+  
+-- Function: spallpensum()
+
+-- DROP FUNCTION spallpensum();
+
+CREATE OR REPLACE FUNCTION spallpensum(
+    OUT carrera text,
+    OUT tipo text,
+	OUT inicioVigencia text,
+	OUT duracionAnios text,
+	OUT finVigencia text,
+	OUT descripcion text)
+  RETURNS SETOF record AS
+$BODY$
+BEGIN
+  RETURN query
+    SELECT c.nombre, 
+	 case 
+	   when p.tipo=1 then 'Cerrado'
+           when p.tipo=2 then 'Abierto'
+	end as "Tipo",
+	cast(p.inicioVigencia as text), cast(p.duracionAnios as text), cast(p.finVigencia as text), p.descripcion FROM adm_pensum p 
+	join cur_carrera c ON p.carrera = c.carrera;
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION spallpensum()
+  OWNER TO postgres;
+  
