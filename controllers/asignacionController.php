@@ -29,7 +29,7 @@ class asignacionController extends Controller{
             $this->redireccionar("error/sql/" . $lsAnios);
             exit;
         }
-        $anio = (isset($lsAnios[count($lsAnios)-1]['anio']) ? $lsAnios[count($lsAnios)-1]['anio'] : NULL);
+        $anio = (isset($lsAnios[count($lsAnios)-1]['anio']) ? $lsAnios[count($lsAnios)-1]['anio'] : -1);
             
         $lsCiclos = $this->_ajax->getCiclosAjax($tipociclo, $anio);
         if(is_array($lsCiclos)){
@@ -38,11 +38,12 @@ class asignacionController extends Controller{
             $this->redireccionar("error/sql/" . $lsCiclos);
             exit;
         }
-        $ciclo = (isset($lsCiclos[count($lsCiclos)-1]['codigo']) ? $lsCiclos[count($lsCiclos)-1]['codigo'] : NULL);
+        $ciclo = (isset($lsCiclos[count($lsCiclos)-1]['codigo']) ? $lsCiclos[count($lsCiclos)-1]['codigo'] : -1);
         
         if ($this->getInteger('hdEnvio')) {
             $anio = $this->getInteger('slAnio');
             $ciclo = $this->getInteger('slCiclo');
+            
             $this->_view->asignacion = 1;
             
         }
