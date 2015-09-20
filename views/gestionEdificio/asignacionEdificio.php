@@ -24,8 +24,8 @@
     <div class="header-content">
         <div class="header-content-inner">
             <div id="divCentros" class="row">
-                <form id="frCarreras" method="post" action="<?php echo BASE_URL; ?>gestionEdificio/asignacionEdificio/<?php echo $this->id;?>">
-                    <div id="divEstudiantes" class="form-group" >
+                <form id="frAsignacion" method="post" action="<?php echo BASE_URL; ?>gestionEdificio/asignacionEdificio/<?php echo $this->id;?>">
+                    <div id="divAsignacion" class="form-group" >
                         <div class="col-md-6 col-md-offset-3">
                             <table align="center">
                                 <tr>
@@ -43,7 +43,7 @@
                                                 <?php endfor; ?>
                                             </select>
                                         <?php else : ?>
-                                            <input type="text" id="txtCentro" name="txtCentro" class="form-control input-lg" value="-">
+                                            
                                             <br/>
                                         <?php endif; ?>
                                     </td>
@@ -60,9 +60,7 @@
                                                 <?php endfor; ?>
                                             </select>
                                         <?php else : ?>
-                                            <input type="text" id="txtJornadas" name="txtjornadas" class="form-control input-lg" value="-">
-                                            <br/>
-                                        <?php endif; ?>
+                                         <?php endif; ?>
                                     </td>
 
                                 </tr>

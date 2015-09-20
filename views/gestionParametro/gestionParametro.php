@@ -17,11 +17,9 @@
                 <div class="col-lg-4 col-md-6 text-center">
                     <?php if($_SESSION["rol"] == ROL_ADMINISTRADOR): ?>
                     <div class="service-box">
-                        <form method='post' name='frmPost1' id='frmPost1' action='<?php echo BASE_URL?>gestionParametro/listadoPeriodo'>
                             <i class="fa fa-2x fa-edit wow bounceIn text-primary" data-wow-delay=".2s">
-                                <a id="linkSeccion" href="#">Gesti&oacute;n de Per&iacute;odos</a>
+                                <a href="<?php echo BASE_URL?>gestionParametro/listadoPeriodo">Gesti&oacute;n de Per&iacute;odos</a>
                             </i>
-                        </form>
                     </div>
                     <?php endif; ?>
                 </div>
@@ -29,7 +27,7 @@
                     <div class="service-box">
                         <form method='post' name='frmPost' id='frmPost' action='<?php echo BASE_URL?>gestionParametro/agregarParametro'>
                             <i class="fa fa-2x fa-user-plus wow bounceIn text-primary" data-wow-delay=".2s">
-                                <a id="linkNuevoPar" href="#">Agregar Parametro</a>
+                                <a id="linkNuevoPar" href="#">Agregar Par&aacute;metro</a>
                             </i>
                             <input type="hidden" name='hdCentroUnidad' value="<?php echo $this->id;?>"/>
                         </form>

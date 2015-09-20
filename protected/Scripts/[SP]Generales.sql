@@ -165,12 +165,13 @@ LANGUAGE 'plpgsql';
 CREATE OR REPLACE FUNCTION spUnidadxCentro(IN _centro int, OUT codigo int, OUT nombre text) RETURNS setof record AS
 $BODY$
 begin
- Return query select distinct
-		coalesce(uni.unidadacademica, 0),
-		coalesce(uni.nombre,'No se encontro informacion')
-	      from 
-	        adm_unidadacademica uni, adm_centro_unidadacademica mix 
-	      where mix.centro = _centro;
+ Return query 
+        select 
+	  cau.unidadacademica as codigo,
+	  ua.nombre as nombre
+	from adm_centro_unidadacademica cau
+	join adm_unidadacademica ua on ua.unidadacademica = cau.unidadacademica
+	where cau.centro = _centro;
 end;
 $BODY$
 LANGUAGE 'plpgsql';
@@ -200,30 +201,56 @@ $BODY$
 ALTER FUNCTION spcentrounidad(integer, integer)
   OWNER TO postgres;
   
+  
+-- Function: spanioxtipociclo(integer)
 
--- Function: spcicloxtipo(integer)
+-- DROP FUNCTION spanioxtipociclo(integer);
 
--- DROP FUNCTION spcicloxtipo(integer);
+CREATE OR REPLACE FUNCTION spanioxtipociclo(
+    IN _tipo integer)
+  RETURNS INTEGER AS
+$BODY$
+begin
+ Return (select distinct
+		cic.anio
+	      from 
+	        cur_ciclo cic
+	      where cic.tipociclo = _tipo order by cic.anio asc) ::INTEGER;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION spanioxtipociclo(integer)
+  OWNER TO postgres;
+  
+  
+  
+-- Function: spcicloxtipo(integer, integer)
+
+-- DROP FUNCTION spcicloxtipo(integer, integer);
 
 CREATE OR REPLACE FUNCTION spcicloxtipo(
     IN _tipo integer,
+	IN _anio integer,
     OUT codigo integer,
-    OUT nombre text)
+    OUT nombre text,
+	OUT numerociclo integer)
   RETURNS SETOF record AS
 $BODY$
 begin
  Return query select distinct
 		cic.ciclo,
-		cic.numerociclo || 'º ' || tip.nombre || ' ' || cic.anio
+		to_char(cic.numerociclo, 'FMRN') || ' ' || tip.nombre ,
+		cic.numerociclo
 	      from 
 	        cur_ciclo cic, cur_tipociclo tip 
-	      where cic.tipociclo = tip.tipociclo and cic.tipociclo = _tipo;
+	      where cic.tipociclo = tip.tipociclo and cic.tipociclo = _tipo and cic.anio = _anio order by cic.numerociclo asc;
 end;
 $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100
   ROWS 1000;
-ALTER FUNCTION spcicloxtipo(integer)
+ALTER FUNCTION spcicloxtipo(integer, integer)
   OWNER TO postgres;
 
   

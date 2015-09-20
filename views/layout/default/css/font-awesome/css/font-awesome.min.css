@@ -1297,6 +1297,10 @@
     content:"\f133"
 }
 
+.fa-calendar-plus-o:before{
+    content: "\f271"
+}
+
 .fa-fire-extinguisher:before{
     content:"\f134"
 }

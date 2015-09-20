@@ -376,8 +376,8 @@ Insert into ADM_Municipio(Municipio,Nombre,Departamento)values(338,'El Chal',22)
 -- -----------------------------------------------------
 -- Insert Catalogo ADM_Centro / 21 registros
 -- -----------------------------------------------------
-Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(1,'Centro de Estudios del Mar ' ,12, 'Guatemala',1);
-Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(2,'Centro Universitario de Baja Verapaz' ,36, 'Baja Verapaz',1);
+Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(1,'Ciudad Universitaria', 3, 'Guatemala', 12);
+Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(2,'Centro Universitario Metropolitano' ,1, 'Guatemala',11);
 Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(3,'Centro Universitario de Chimaltenango' ,119, 'Chimaltenango',1);
 Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(4,'Centro Universitario de El Progreso' ,56, 'El Progreso',1);
 Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(5,'Centro Universitario de Izabal' ,63, 'Izabal',1);
@@ -386,17 +386,17 @@ Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(7,'Cen
 Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(8,'Centro Universitario de Nor Occidente' ,278, 'Huehuetenango',1);
 Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(9,'Centro Universitario de Occidente' ,175, 'Quetzaltenango',1);
 Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(10,'Centro Universitario del Oriente' ,46, 'Chiquimula',1);
-Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(11,'Centro Universitario de Petén' ,326, 'Peten',1);
-Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(12,'Centro Universitario del Quiché' ,316, 'Quiche',1);
+Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(11,'Centro Universitario de Peten' ,326, 'Peten',1);
+Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(12,'Centro Universitario del Quiche' ,316, 'Quiche',1);
 Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(13,'Centro Universitario de Santa Rosa' ,104, 'Santa Rosa',1);
 Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(14,'Centro Universitario de San Marcos' ,219, 'San Marcos',1);
-Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(15,'Centro Universitario de Sololá' ,256, 'Solola',1);
+Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(15,'Centro Universitario de Solola' ,256, 'Solola',1);
 Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(16,'Centro Universitario de Sur-Occidente' ,191, 'Retalhuleu',1);
 Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(17,'Centro Universitario del Sur-Oriente' ,94, 'Jalapa',1);
-Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(18,'Centro Universitario de Totonicapán' ,268, 'Totonicapan',1);
+Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(18,'Centro Universitario de Totonicapan' ,268, 'Totonicapan',1);
 Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(19,'Centro Universitario de Zacapa' ,72, 'Zacapa',1);
-Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(20,'Ciudad Universitaria' ,1, 'Guatemala',12);
-Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(21,'Centro Universitario Metropolitano' ,1, 'Guatemala',11);
+Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(20,'Centro Universitario de Baja Verapaz' ,36, 'Baja Verapaz',1);
+Insert into ADM_Centro(Centro, nombre, municipio, direccion, zona) values(21,'Centro de Estudios del Mar ' ,12, 'Guatemala',1);
 
 -- -----------------------------------------------------
 -- Insert ADM_UnidadAcademica
@@ -416,9 +416,9 @@ INSERT INTO adm_centro_unidadacademica (centro_unidadacademica, centro, unidadac
 INSERT INTO cur_carrera(carrera, nombre, estado, centro_unidadacademica) VALUES (default, 'Licenciatura en Historia', 1, 1);
 INSERT INTO cur_carrera(carrera, nombre, estado, centro_unidadacademica) VALUES (default, 'Licenciatura en Arqueologia', 1, 1);
 INSERT INTO cur_carrera(carrera, nombre, estado, centro_unidadacademica) VALUES (default, 'Licenciatura en Antropologia', 1, 1);
+INSERT INTO cur_carrera(carrera, nombre, estado, centro_unidadacademica) VALUES (default, 'Licenciatura para la Enseñanza de la Historia', 1, 1);
 INSERT INTO cur_carrera(carrera, nombre, estado, centro_unidadacademica) VALUES (default, 'Profesorado en Enseñanza Media', 1, 1);
 INSERT INTO cur_carrera(carrera, nombre, estado, centro_unidadacademica) VALUES (default, 'Tecnico Universitario en Archivos', 1, 1);
-INSERT INTO cur_carrera(carrera, nombre, estado, centro_unidadacademica) VALUES (default, 'Maestria en Historia del Arte', 1, 1);
 
 -- -----------------------------------------------------
 -- Insert catalogo adm_preguntasecreta / 6 registros
@@ -636,8 +636,17 @@ INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) V
 INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (50,2,47,'ModificarNota',1,'Modificar nota');
 INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (51,2,47,'EliminarNota',1,'Eliminar nota');
 
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (52,1,17,'GestionAsignacionEdificio',1,'Gestión de asignación de edificios');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (53,1,52,'ConsultarAsignacionEdificio',1,'Consultar asignación de edificio');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (54,1,52,'CrearAsignacionEdificio',1,'Crear asignación de edificio');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (55,1,52,'ModificarAsignacionEdificio',1,'Modificar asignación de edificio');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (56,1,52,'EliminarAsignacionEdificio',1,'Eliminar asignación de edificio');
 
-
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (57,1,17,'GestionSalon',1,'Gestión de salones');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (58,1,57,'ConsultarSalon',1,'Consultar salón');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (59,1,57,'CrearSalon',1,'Crear salón');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (60,1,57,'ModificarSalon',1,'Modificar salón');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (61,1,57,'EliminarSalon',1,'Eliminar salón');
 
 -- -----------------------------------------------------
 -- Insert adm_rol_funcion
@@ -693,6 +702,16 @@ INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,48);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,49);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,50);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,51);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,52);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,53);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,54);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,55);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,56);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,57);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,58);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,59);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,60);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,61);
 
 -- -----------------------------------------------------
 -- Insert adm_funcionmenu
@@ -703,16 +722,34 @@ INSERT INTO adm_funcionmenu (funcionmenu,nombre,tipo,url,funcionpadre,funcion,or
 INSERT INTO adm_funcionmenu (funcionmenu,nombre,tipo,url,funcionpadre,funcion,orden,estado) VALUES (3,'Catedráticos',1,null,null,5,1,1);
 INSERT INTO adm_funcionmenu (funcionmenu,nombre,tipo,url,funcionpadre,funcion,orden,estado) VALUES (4,'Estudiantes',1,null,null,6,1,1);
 INSERT INTO adm_funcionmenu (funcionmenu,nombre,tipo,url,funcionpadre,funcion,orden,estado) VALUES (5,'Gestión de usuarios',2,'general/seleccionarCentroUnidad/gestionUsuario',1,3,1,1);
-INSERT INTO adm_funcionmenu (funcionmenu,nombre,tipo,url,funcionpadre,funcion,orden,estado) VALUES (6,'Gestión de parámetros',2,'gestionParametro',1,8,1,1);
+INSERT INTO adm_funcionmenu (funcionmenu,nombre,tipo,url,funcionpadre,funcion,orden,estado) VALUES (6,'Gestión de parámetros',2,'general/seleccionarCentroUnidad/gestionParametro',1,8,1,1);
 INSERT INTO adm_funcionmenu (funcionmenu,nombre,tipo,url,funcionpadre,funcion,orden,estado) VALUES (7,'Gestión de edificios',2,'gestionEdificio/listadoEdificio',1,13,1,1);
 INSERT INTO adm_funcionmenu (funcionmenu,nombre,tipo,url,funcionpadre,funcion,orden,estado) VALUES (8,'Gestión de cursos',2,'general/seleccionarCentroUnidad/gestionCurso',2,18,1,1);
 INSERT INTO adm_funcionmenu (funcionmenu,nombre,tipo,url,funcionpadre,funcion,orden,estado) VALUES (9,'Gestión general de pénsum',2,'gestionPensum/inicio',2,28,1,1);
 INSERT INTO adm_funcionmenu (funcionmenu,nombre,tipo,url,funcionpadre,funcion,orden,estado) VALUES (10,'Gestión de carreras',3,'general/seleccionarCentroUnidad/gestionPensum/listadoCarrera',9,33,1,1);
 INSERT INTO adm_funcionmenu (funcionmenu,nombre,tipo,url,funcionpadre,funcion,orden,estado) VALUES (11,'Gestión de horarios',3,'general/seleccionarCentroUnidad/gestionHorario/seleccionarCicloCurso',2,38,1,1);
 INSERT INTO adm_funcionmenu (funcionmenu,nombre,tipo,url,funcionpadre,funcion,orden,estado) VALUES (12,'Gestión de notas',3,'general/seleccionarCentroUnidad/gestionNotas',2,43,1,1);
+--UPDATE adm_funcionmenu set url = 'general/seleccionarCentroUnidad/gestionParametro' where funcionmenu = 6
 
 
 
+-- -----------------------------------------------------
+-- Insert adm_tipoperiodo
+-- -----------------------------------------------------
+INSERT INTO adm_tipoperiodo (tipoperiodo,nombre,descripcion,estado) VALUES (1,'Asignación de cursos','',1);
+INSERT INTO adm_tipoperiodo (tipoperiodo,nombre,descripcion,estado) VALUES (2,'Ingreso de notas','',1);
 
+-- -----------------------------------------------------
+-- Insert adm_tipoasignacion
+-- -----------------------------------------------------
+INSERT INTO adm_tipoasignacion (tipoasignacion,nombre,descripcion) VALUES (1,'Junta Directiva','');
+INSERT INTO adm_tipoasignacion (tipoasignacion,nombre,descripcion) VALUES (2,'Regular','');
+INSERT INTO adm_tipoasignacion (tipoasignacion,nombre,descripcion) VALUES (3,'Extemporánea','');
+
+-- -----------------------------------------------------
+-- Insert adm_periodo
+-- -----------------------------------------------------
+INSERT INTO adm_periodo (periodo,ciclo,fechainicial,fechafinal,tipoperiodo,estado,tipoasignacion,centro_unidadacademica) VALUES (1,2,NULL,NULL,1,1,1,1);
+INSERT INTO adm_periodo (periodo,ciclo,fechainicial,fechafinal,tipoperiodo,estado,tipoasignacion,centro_unidadacademica) VALUES (2,2,current_date,'31/12/2015',1,1,2,1);
 
 

@@ -19,7 +19,7 @@ class gestionPensumController extends Controller {
         $this->_ajax = $this->loadModel("ajax");
     }
 
-    public function index($id=0) {
+    public function index() {
          session_start();
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_CREARCARRERA);
@@ -31,14 +31,8 @@ class gestionPensumController extends Controller {
                 </script>";
         }
         
-            if($this->getInteger('hdCentroUnidad')){
-                $idCentroUnidad = $this->getInteger('hdCentroUnidad');
-            }else if ($id != 0){
-                $idCentroUnidad = $id;
-            }else{
-                //session_start();
+           
                 $idCentroUnidad = $_SESSION["centrounidad"];
-            }
             
         $this->_view->id = $idCentroUnidad;
         $info = $this->_post->informacionCarrera($idCentroUnidad);
@@ -74,7 +68,7 @@ class gestionPensumController extends Controller {
         
     }
     
-    public function listadoCarrera($id=0) {
+    public function listadoCarrera() {
         session_start();
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_GESTIONCARRERA);
@@ -86,14 +80,8 @@ class gestionPensumController extends Controller {
                 </script>";
         }
          
-            if($this->getInteger('hdCentroUnidad')){
-                $idCentroUnidad = $this->getInteger('hdCentroUnidad');
-            }else if ($id != 0){
-                $idCentroUnidad = $id;
-            }else{
-                //session_start();
+            
                 $idCentroUnidad = $_SESSION["centrounidad"];
-            }
             
             $this->_view->id = $idCentroUnidad;
             
@@ -117,14 +105,14 @@ class gestionPensumController extends Controller {
     public function agregarCarrera() {
         session_start();
         
-        $idCentroUnidad = $this->getInteger('hdCentroUnidad');
+        $idCentroUnidad = $_SESSION["centrounidad"];
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_CREARCARRERA);
          
         if($rolValido[0]["valido"]!= PERMISO_CREAR){
            echo "<script>
                 alert('No tiene permisos suficientes para acceder a esta función.');
-                window.location.href='" . BASE_URL . "gestionPensum/listadoCarrera/" . $idCentroUnidad . "';
+                window.location.href='" . BASE_URL . "gestionPensum/listadoCarrera/" . "';
                 </script>";
         }
         
@@ -146,12 +134,12 @@ class gestionPensumController extends Controller {
                 $this->redireccionar("error/sql/" . $info);
                 exit;
             }
-            $this->redireccionar('gestionPensum/listadoCarrera/'.$idCentroUnidad);
+            $this->redireccionar('gestionPensum/listadoCarrera');
         }
         $this->_view->renderizar('agregarCarrera', 'gestionPensum');    
     }
     
-    public function eliminarCarrera($intNuevoEstado, $intIdCarrera, $idCentroUnidad) {
+    public function eliminarCarrera($intNuevoEstado, $intIdCarrera) {
         session_start();
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_ELIMINARCARRERA);
@@ -163,7 +151,7 @@ class gestionPensumController extends Controller {
                     $this->redireccionar("error/sql/" . $info);
                     exit;
                 }
-                $this->redireccionar('gestionPensum/listadoCarrera/'.$idCentroUnidad);
+                $this->redireccionar('gestionPensum/listadoCarrera');
             } else {
                 echo "Error al desactivar carrera";
             }
@@ -172,12 +160,12 @@ class gestionPensumController extends Controller {
         {
             echo "<script>
                 alert('No tiene permisos suficientes para acceder a esta función.');
-                window.location.href='" . BASE_URL . "gestionPensum/listadoCarrera/" . $idCentroUnidad . "';
+                window.location.href='" . BASE_URL . "gestionPensum/listadoCarrera/" . "';
                 </script>";
         }
     }
     
-    public function actualizarCarrera($intIdCarrera = 0,$idCentroUnidad = 0) {
+    public function actualizarCarrera($intIdCarrera = 0) {
         session_start();
         
         $this->_view->setJs(array('jquery.validate'), "public");
@@ -185,8 +173,7 @@ class gestionPensumController extends Controller {
         
         $arrayCar = array();
         
-        $this->_view->id = $intIdCarrera;
-        $this->_view->idCentroUnidad = $idCentroUnidad;   
+        $this->_view->id = $intIdCarrera; 
         
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_MODIFICARCARRERA);
@@ -194,7 +181,7 @@ class gestionPensumController extends Controller {
         if($rolValido[0]["valido"]!= PERMISO_MODIFICAR){
            echo "<script>
                 alert('No tiene permisos suficientes para acceder a esta función.');
-                window.location.href='" . BASE_URL . "gestionPensum/listadoCarrera/" . $idCentroUnidad . "';
+                window.location.href='" . BASE_URL . "gestionPensum/listadoCarrera" . "';
                 </script>";
         }
         
@@ -207,7 +194,7 @@ class gestionPensumController extends Controller {
         }
         
         $this->_view->titulo = 'Actualizar Carrera - ' . APP_TITULO;
-        
+        $this->_view->renderizar('actualizarCarrera', 'gestionPensum');
         if ($this->getInteger('hdEnvio')) {
             $nombreCarrera = $this->getTexto('txtNombre');
 
@@ -215,13 +202,13 @@ class gestionPensumController extends Controller {
             $arrayCar['nombre'] = $nombreCarrera;
             $respuesta = $this->_post->actualizarCarrera($arrayCar);
             if (is_array($respuesta)){
-                $this->redireccionar('gestionPensum/actualizarCarrera/'. $intIdCarrera .'/' . $idCentroUnidad);
+                $this->redireccionar('gestionPensum/actualizarCarrera/'. $intIdCarrera );
             }else{
                 $this->redireccionar("error/sql/" . $respuesta);
                 exit;
             }
         }
-        $this->_view->renderizar('actualizarCarrera', 'gestionPensum');
+        
     }
     
     public function cargarCSV(){

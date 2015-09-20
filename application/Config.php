@@ -13,9 +13,6 @@ define('ALL_FOLDER','all');
 define('APP_TITULO','Sistema de control academico - USAC');
 define('DB_KEY','2015.RmGm');
 define('PARAM_KEY','MrMg.2015');
-define('UNIDAD_ACADEMICA','1');
-define('CENTRO_REGIONAL','20');
-define('CENTRO_UNIDADACADEMICA','1');
 define('ROL_ADMINISTRADOR','0');
 define('ROL_ESTUDIANTE','1');
 define('ROL_DOCENTE','2');
@@ -28,7 +25,10 @@ define('PERMISO_CONSULTAR','1');
 define('PERMISO_CREAR','1');
 define('PERMISO_MODIFICAR','1');
 define('PERMISO_ELIMINAR','1');
-
+define('PERIODO_ASIGNACION_CURSOS','1');
+define('PERIODO_INGRESO_NOTAS','2');
+define('ASIGN_JUNTADIRECTIVA','1');
+define('ASIGN_OTRAS','0');
 
 //Constantes de base de datos
 define('DB_HOST','localhost');

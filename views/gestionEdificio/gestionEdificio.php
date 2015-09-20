@@ -14,10 +14,10 @@
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 text-center"></div>
-                <div class="col-lg-3 col-md-6 text-center"></div>
-                <div class="col-lg-3 col-md-6 text-center">
+                <div class="col-lg-2 col-md-4 text-center"></div>
+                <div class="col-lg-4 col-md-8 text-center">
                     <div class="service-box">
-                        <i class="fa fa-2x fa-user-plus wow bounceIn text-primary" data-wow-delay=".2s">
+                        <i class="fa fa-2x fa-upload wow bounceIn text-primary" data-wow-delay=".2s">
                             <a href="<?php echo BASE_URL ?>gestionEdificio/asignacionEdificio/<?php echo $this->id;?>">
                                 Agregar Asignacion
                             </a>
@@ -55,14 +55,14 @@
                                                 <td style="text-align: center; padding-right: 20px;"><?php echo $this->lstEdificio[$i]['nombrecentro']; ?></td>
                                                 <td style="text-align: center; padding-right: 20px;"><?php echo $this->lstEdificio[$i]['jornada']; ?></td>
                                                 <td style="text-align: center; padding-right: 20px;"><?php echo $this->lstEdificio[$i]['estado']; ?></td>
-                                                <td style="text-align: center; padding-right: 20px;"><a href="<?php echo BASE_URL . 'gestionEdificio/actualizarAsignacion/' . $this->lstEdificio[$i]['edificio']; ?>">Modificar</a></td>
+                                                <td style="text-align: center; padding-right: 20px;"><a href="<?php echo BASE_URL . 'gestionEdificio/actualizarAsignacion/' . $this->lstEdificio[$i]['centrounidad_edificio'] . '/' . $this->lstEdificio[$i]['edificio']; ?>">Modificar</a></td>
                                                 <td style="text-align: center; padding-right: 20px;">
                                                     <?php if (strcmp($this->lstEdificio[$i]['estado'], 'Activo') == 0): ?>
 
-                                                        <a href="<?php echo BASE_URL . 'gestionSeccion/eliminarEdificio/-1/' . $this->lstEdificio[$i]['edificio']; ?>">Desactivar</a>
+                                                        <a href="<?php echo BASE_URL . 'gestionEdificio/eliminarAsignacionEdificio/-1/' . $this->lstEdificio[$i]['centrounidad_edificio'] . '/' . $this->lstEdificio[$i]['edificio']; ?>">Desactivar</a>
                                                     <?php else : ?>
 
-                                                        <a href="<?php echo BASE_URL . 'gestionSeccion/eliminarEdificio/1/' . $this->lstEdificio[$i]['edificio'] ?>">Activar</a>
+                                                        <a href="<?php echo BASE_URL . 'gestionEdificio/eliminarAsignacionEdificio/1/' . $this->lstEdificio[$i]['centrounidad_edificio'] . '/' . $this->lstEdificio[$i]['edificio']; ?>">Activar</a>
                                                     <?php endif; ?>
                                                 </td>
                                             </tr>
