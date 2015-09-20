@@ -14,12 +14,12 @@ IF _tipoasignacion <> 1 THEN
  Return (select per.periodo
 	      from 
 	        adm_periodo per
-	      where per.ciclo = _ciclo and per.tipoperiodo = _tipoperiodo and per.tipoasignacion = _tipoasignacion and per.centro_unidadacademica = _centrounidad and current_date between per.fechainicial and per.fechafinal) ::INTEGER;
+	      where per.ciclo = _ciclo and per.tipoperiodo = _tipoperiodo and per.centro_unidadacademica = _centrounidad and current_date between per.fechainicial and per.fechafinal and per.estado = 1) ::INTEGER;
 ELSE
  Return (select per.periodo
 	      from 
 	        adm_periodo per
-	      where per.ciclo = _ciclo and per.tipoperiodo = _tipoperiodo and per.tipoasignacion = _tipoasignacion and per.centro_unidadacademica = _centrounidad) ::INTEGER;
+	      where per.ciclo = _ciclo and per.tipoperiodo = _tipoperiodo and per.tipoasignacion = _tipoasignacion and per.centro_unidadacademica = _centrounidad and per.estado = 1) ::INTEGER;
 END IF;
 end;
 $BODY$

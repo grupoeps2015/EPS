@@ -21,6 +21,7 @@ class asignacionController extends Controller{
     }
     
     public function index(){
+        session_start();
         $tipociclo = 1;//TODO: Marlen: consultar parámetro en base de datos
         $lsAnios = $this->_ajax->getAniosAjax($tipociclo);
         if(is_array($lsAnios)){
@@ -42,13 +43,25 @@ class asignacionController extends Controller{
         
         if ($this->getInteger('hdEnvio')) {
             $anio = $this->getInteger('slAnio');
-            $ciclo = $this->getInteger('slCiclo');
-            
-            $this->_view->asignacion = 1;
-            
+            $ciclo = $this->getInteger('slCiclo');            
         }
+        
         $this->_view->anio = $anio;
         $this->_view->ciclo = $ciclo;
+        
+        $periodo = $this->_asign->getPeriodo($ciclo, PERIODO_ASIGNACION_CURSOS, ASIGN_OTRAS, $_SESSION["centrounidad"]);
+        if(is_array($periodo)){
+            if(isset($periodo[0]['periodo'])){
+                $this->_view->asignacion = $periodo[0]['periodo'];
+                //TODO: Marlen: agregar listado de cursos
+            }
+            else{
+                //TODO: Marlen: mostrar boleta de asignación de cursos
+            }
+        }else{
+            $this->redireccionar("error/sql/" . $periodo);
+            exit;
+        }
         
         $this->_view->setJs(array('inicio'));
         $this->_view->renderizar('inicio');
