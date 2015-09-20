@@ -165,12 +165,13 @@ LANGUAGE 'plpgsql';
 CREATE OR REPLACE FUNCTION spUnidadxCentro(IN _centro int, OUT codigo int, OUT nombre text) RETURNS setof record AS
 $BODY$
 begin
- Return query select distinct
-		coalesce(uni.unidadacademica, 0),
-		coalesce(uni.nombre,'No se encontro informacion')
-	      from 
-	        adm_unidadacademica uni, adm_centro_unidadacademica mix 
-	      where mix.centro = _centro;
+ Return query 
+        select 
+	  cau.unidadacademica as codigo,
+	  ua.nombre as nombre
+	from adm_centro_unidadacademica cau
+	join adm_unidadacademica ua on ua.unidadacademica = cau.unidadacademica
+	where cau.centro = _centro;
 end;
 $BODY$
 LANGUAGE 'plpgsql';
