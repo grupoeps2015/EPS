@@ -67,10 +67,6 @@
                                                 </td>
                                             </tr>
                                         <?php endfor; ?>
-                                    <?php else : ?>
-                                        <tr>
-                                            <td colspan="6" style="text-align: center">No hay informaci&oacute;n disponible.</td>
-                                        </tr>
                                     <?php endif; ?>
                                 </tbody>
                             </table>
