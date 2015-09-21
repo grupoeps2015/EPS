@@ -39,7 +39,7 @@ BEGIN
   Select 
     s.seccion,
     s.nombre,
-    (c.codigo || ' - ' || c.nombre) as curso,
+    ('[' || c.codigo || '] ' || c.nombre) as curso,
     t.nombre as "tiposeccion",
     case 
 	when s.estado=0 then 'Validación Pendiente'
@@ -94,7 +94,7 @@ CREATE OR REPLACE FUNCTION spdatosseccion(
 $BODY$
 BEGIN
   RETURN query
-  SELECT s.nombre, s.descripcion, s.curso, s.estado, s.tiposeccion, (c.codigo || ' - ' || c.nombre) as cursonombre, t.nombre as "tiposeccionnombre" FROM CUR_Seccion s 
+  SELECT s.nombre, s.descripcion, s.curso, s.estado, s.tiposeccion, ('[' || c.codigo || '] ' || c.nombre) as cursonombre, t.nombre as "tiposeccionnombre" FROM CUR_Seccion s 
 	join CUR_TipoSeccion t on s.tiposeccion = t.tiposeccion join CUR_Curso c on s.curso = c.curso
   where s.seccion = id;
 END;
