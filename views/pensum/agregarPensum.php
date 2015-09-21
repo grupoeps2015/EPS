@@ -109,47 +109,17 @@
                                             <textarea name="txtDescripcion"  placeholder="(ingresa aquí la descripción del pensum)" id="txtDescripcion" style="height: 130px; width: 450px; resize: none; margin-left: 7px; margin-right: 7px;" rows="3"></textarea>
                                         </td>
                                     </tr>
-
                                     <tr>
-                                        <td colspan="3"> <label style="margin-top: 7px; margin-bottom: 8px; margin-left: 7px; margin-right: 7px;">Fecha final vigencia:</label></td>
+                                        <td>   </td>
+                                    </tr>
+                                    <tr>
+                                        <td>   </td>
+                                        <td>   </td>
+                                        <td>   </td>
+                                        
                                     </tr>
 
-                                    <tr>
-                                        <td> 
-                                            <select id="slDiaF" name="slDiaF" style="width: 110px; margin-bottom: 7px; margin-top: 7px; margin-left: 7px; margin-right: 7px;" class="form-control input-lg">
-                                                <option value="">(Dia)
-                                                </option>
-                                                <?php for ($i = 1; $i < 32; $i++) : ?>
-                                                    <option value="<?php echo $i; ?>">
-                                                        <?php echo $i; ?>
-                                                    </option>
-                                                <?php endfor; ?>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <select id="slMesF" name="slMesF" style="width: 110px; margin-bottom: 7px; margin-top: 7px; margin-left: 7px; margin-right: 7px;" class="form-control input-lg">
-                                                <option value="">(Mes)
-                                                </option>
-                                                <?php for ($i = 1; $i < 13; $i++) : ?>
-                                                    <option value="<?php echo $i; ?>">
-                                                        <?php echo $i; ?>
-                                                    </option>
-                                                <?php endfor; ?>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <select id="slAnioF" name="slAnioF" style="width: 110px; margin-bottom: 7px; margin-top: 7px; margin-left: 7px; margin-right: 7px;" class="form-control input-lg">
-                                                <option value="">(Año)
-                                                </option>
-                                                <?php for ($i = 2000; $i < 2017; $i++) : ?>
-                                                    <option value="<?php echo $i; ?>">
-                                                        <?php echo $i; ?>
-                                                    </option>
-                                                <?php endfor; ?>
-                                            </select>
-                                        </td>
 
-                                    </tr>
                                     <tr>
                                         <td colspan="5">
                                             <input type="submit" id="btnAgregarPensum" style="width: 200px; margin-top: 10px; float: right; margin-bottom: 25px;" 

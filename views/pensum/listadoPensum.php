@@ -36,25 +36,34 @@
                         <thead>
                             <tr>
                                 <th style="text-align:center; width: 250px;">Carrera</th>
-                                <th style="text-align:center; width: 250px;">Tipo</th>
-                                <th style="text-align:center; width: 200px;">Descripción</th>
-                                <th style="text-align:center; width: 100px;">Vigencia</th>
+                                <th style="text-align:center; width: 250px;">Descripción</th>
+                                <th style="text-align:center; width: 200px;">Tipo</th>
+                                <th style="text-align:center; width: 100px;">Fecha Inicial</th>
+                                <th style="text-align:center; width: 100px;">Fecha Final</th>
                                 <th style="text-align:center; width: 100px;">Duración(años)</th>
+                                <th style="text-align:center; width: 100px;"></th>
 
                             </tr>
                         </thead>
                         <tbody>
                             <?php if (isset($this->lstPensum) && count($this->lstPensum)): ?>
-                             
-                            <?php print_r($this->lstPensum); ?>
+
                                 <?php for ($i = 0; $i < count($this->lstPensum); $i++) : ?>
                                     <tr>
                                         <td style="text-align: center; padding-right: 20px;"><?php echo $this->lstPensum[$i]['carrera']; ?></td>
-                                        <td style="text-align: center; padding-right: 20px;"><?php echo $this->lstPensum[$i]['tipo']; ?></td>
-                                        <td style="text-align: center; padding-right: 20px;"><?php echo $this->lstPensum[$i]['inicioVigencia']; ?></td>
-                                        <td style="text-align: center; padding-right: 20px;"><?php echo $this->lstPensum[$i]['duracionAnios']; ?></td>
-                                        <td style="text-align: center; padding-right: 20px;"><?php echo $this->lstPensum[$i]['finVigencia']; ?></td>
                                         <td style="text-align: center; padding-right: 20px;"><?php echo $this->lstPensum[$i]['descripcion']; ?></td>
+                                        <td style="text-align: center; padding-right: 20px;"><?php echo $this->lstPensum[$i]['tipo']; ?></td>
+                                        <td style="text-align: center; padding-right: 20px;"><?php echo $this->lstPensum[$i]['iniciovigencia']; ?></td>
+                                        <td style="text-align: center; padding-right: 20px;"><?php echo $this->lstPensum[$i]['finvigencia']; ?></td>
+                                        <td style="text-align: center; padding-right: 20px;"><?php echo $this->lstPensum[$i]['duracionanios']; ?></td>
+                                        <td style="text-align: center; padding-right: 20px;">
+                                            <?php if (strcmp($this->lstPensum[$i]['finvigencia'], null) == 0): ?>
+                                                <a href="<?php echo BASE_URL . 'pensum/finalizarVigenciaPensum/'. $this->lstPensum[$i]['id']?>">Desactivar Pensum</a>
+                                            <?php else : ?>
+                                                    Pensum desactivo
+                                            <?php endif; ?>
+                                        </td>
+
                                     </tr>
                                 <?php endfor; ?>
                             <?php else : ?>

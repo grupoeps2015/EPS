@@ -12,7 +12,7 @@ class pensumModel extends Model {
     }
 
     public function agregarPensum($_datos) {
-        $info = $this->_db->prepare("SELECT * from spagregarpensum(:carrera, :tipo, :inicioVigencia, :duracionAnios, :finVigencia, :descripcion) as Id;");
+        $info = $this->_db->prepare("SELECT * from spagregarpensum(:carrera, :tipo, :inicioVigencia, :duracionAnios, :descripcion) as Id;");
         $info->execute($_datos);
         if ($info === false) {
             return "1101/agregarPensum";
@@ -24,7 +24,25 @@ class pensumModel extends Model {
     public function getAllPensum() {
         $info = $this->_db->query("select * from spallpensum();");
         if ($info === false) {
-            return "1104/getJornadas";
+            return "1104/getPensum";
+        } else {
+            return $info->fetchall();
+        }
+    }
+    
+    public function getAllPensumActivos() {
+        $info = $this->_db->query("select * from spallpensumactivos();");
+        if ($info === false) {
+            return "1104/getPensum";
+        } else {
+            return $info->fetchall();
+        }
+    }
+
+    public function spfinalizarVigenciaPensum($intIdPensum) {
+        $info = $this->_db->query("SELECT spfinalizarVigenciaPensum(" . $intIdPensum . ");");
+        if ($info === false) {
+            return "1103/finalizarVigenciaPensum";
         } else {
             return $info->fetchall();
         }
