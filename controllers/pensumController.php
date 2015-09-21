@@ -20,25 +20,25 @@ class pensumController extends Controller {
     }
 
     public function index($id = 0) {
-        session_start();
-        $rol = $_SESSION["rol"];
-        $rolValido = $this->_ajax->getPermisosRolFuncion($rol, CONS_FUNC_CUR_CREARCARRERA);
+//        session_start();
+//        $rol = $_SESSION["rol"];
+//        $rolValido = $this->_ajax->getPermisosRolFuncion($rol, CONS_FUNC_CUR_CREARCARRERA);
+//
+//        if ($rolValido[0]["valido"] != PERMISO_GESTIONAR) {
+//            echo "<script>
+//                alert('No tiene permisos para acceder a esta función.');
+//                window.location.href='" . BASE_URL . "login/inicio';
+//                </script>";
+//        }
 
-        if ($rolValido[0]["valido"] != PERMISO_GESTIONAR) {
-            echo "<script>
-                alert('No tiene permisos para acceder a esta función.');
-                window.location.href='" . BASE_URL . "login/inicio';
-                </script>";
-        }
-
-        if ($this->getInteger('hdPensum')) {
-            $idPensum = $this->getInteger('hdPensum');
-        } else if ($id != 0) {
-            $idPensum = $id;
-        } else {
-            session_start();
-            $idPensum = $_SESSION["pensum"];
-        }
+//        if ($this->getInteger('hdPensum')) {
+//            $idPensum = $this->getInteger('hdPensum');
+//        } else if ($id != 0) {
+//            $idPensum = $id;
+//        } else {
+//            session_start();
+//            $idPensum = $_SESSION["pensum"];
+//        }
 
 
         $this->_view->titulo = 'Gestión de Pensum - ' . APP_TITULO;
@@ -50,24 +50,24 @@ class pensumController extends Controller {
     }
 
     public function listadoPensum() {
-        session_start();
-        $rol = $_SESSION["rol"];
-        $rolValido = $this->_ajax->getPermisosRolFuncion($rol, CONS_FUNC_CUR_GESTIONCARRERA);
-
-        if ($rolValido[0]["valido"] != PERMISO_GESTIONAR) {
-            echo "<script>
-                alert('No tiene permisos para acceder a esta función.');
-                window.location.href='" . BASE_URL . "gestionPensum/inicio';
-                </script>";
-        }
-        if ($this->getInteger('hdPensum')) {
+//        session_start();
+//        $rol = $_SESSION["rol"];
+//        $rolValido = $this->_ajax->getPermisosRolFuncion($rol, CONS_FUNC_CUR_GESTIONCARRERA);
+//
+//        if ($rolValido[0]["valido"] != PERMISO_GESTIONAR) {
+//            echo "<script>
+//                alert('No tiene permisos para acceder a esta función.');
+//                window.location.href='" . BASE_URL . "gestionPensum/inicio';
+//                </script>";
+//        }
+//        if ($this->getInteger('hdPensum')) {
             $pensum = $this->getInteger('hdPensum');
-        } else if ($id != 0) {
-            $pensum = $id;
-        } else {
-            //session_start();
-            $pensum = $_SESSION["pensum"];
-        }
+//        } else if ($id != 0) {
+//            $pensum = $id;
+//        } else {
+//            //session_start();
+//            $pensum = $_SESSION["pensum"];
+//        }
         $this->_view->id = $pensum;
         /* informacionPensum */
         $info = $this->_post->getAllPensum();
@@ -87,19 +87,19 @@ class pensumController extends Controller {
     }
 
     public function agregarPensum() {
-        session_start();
-
+//        session_start();
+//
         $pensum = $this->getInteger('hdPensum');
-        $rol = $_SESSION["rol"];
-        $rolValido = $this->_ajax->getPermisosRolFuncion($rol, CONS_FUNC_CUR_CREARCARRERA);
-
-        if ($rolValido[0]["valido"] != PERMISO_CREAR) {
-            echo "<script>
-                alert('No tiene permisos suficientes para acceder a esta función.');
-                window.location.href='" . BASE_URL . "pensum/listadoPensum/" . $pensum . "';
-                </script>";
-        }
-
+//        $rol = $_SESSION["rol"];
+//        $rolValido = $this->_ajax->getPermisosRolFuncion($rol, CONS_FUNC_CUR_CREARCARRERA);
+//
+//        if ($rolValido[0]["valido"] != PERMISO_CREAR) {
+//            echo "<script>
+//                alert('No tiene permisos suficientes para acceder a esta función.');
+//                window.location.href='" . BASE_URL . "pensum/listadoPensum/" . $pensum . "';
+//                </script>";
+//        }
+//
 
         $lsCarreras = $this->_view->carreras = $this->_ajax->getAllCarreras();
         if (is_array($lsCarreras)) {
@@ -161,11 +161,11 @@ class pensumController extends Controller {
     }
 
     public function finalizarVigenciaPensum($intIdPensum) {
-        session_start();
-        $rol = $_SESSION["rol"];
-        $rolValido = $this->_ajax->getPermisosRolFuncion($rol, CONS_FUNC_CUR_ELIMINARCARRERA);
-
-        if ($rolValido[0]["valido"] == PERMISO_ELIMINAR) {
+//        session_start();
+//        $rol = $_SESSION["rol"];
+//        $rolValido = $this->_ajax->getPermisosRolFuncion($rol, CONS_FUNC_CUR_ELIMINARCARRERA);
+//
+//        if ($rolValido[0]["valido"] == PERMISO_ELIMINAR) {
 
             $info = $this->_post->spfinalizarVigenciaPensum($intIdPensum);
             if (!is_array($info)) {
@@ -173,12 +173,12 @@ class pensumController extends Controller {
                 exit;
             }
             $this->redireccionar('pensum/listadoPensum');
-        } else {
-            echo "<script>
-                alert('No tiene permisos suficientes para acceder a esta función.');
-                window.location.href='" . BASE_URL . "gestionPensum/listadoCarrera/" . "';
-                </script>";
-        }
+//        } else {
+//            echo "<script>
+//                alert('No tiene permisos suficientes para acceder a esta función.');
+//                window.location.href='" . BASE_URL . "gestionPensum/listadoCarrera/" . "';
+//                </script>";
+//        }
     }
 
 }
