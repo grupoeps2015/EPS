@@ -16,7 +16,7 @@ class gestionParametroController extends Controller{
         $this->_ajax = $this->loadModel("ajax");
     }
 
-    public function index($id=0){
+    public function index(){
         session_start();
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_GESTIONPARAMETRO);
@@ -28,14 +28,8 @@ class gestionParametroController extends Controller{
                 </script>";
         }
         
-            if($this->getInteger('hdCentroUnidad')){
-                $idCentroUnidad = $this->getInteger('hdCentroUnidad');
-            }else if ($id != 0){
-                $idCentroUnidad = $id;
-            }else{
-                //session_start();
-                $idCentroUnidad = $_SESSION["centrounidad"];
-            }
+            
+            $idCentroUnidad = $_SESSION["centrounidad"];
 
             $this->_view->titulo = 'Gestión de parámetros - ' . APP_TITULO;
             $this->_view->id = $idCentroUnidad;
@@ -56,7 +50,7 @@ class gestionParametroController extends Controller{
         session_start();
                 
         $iden = $this->getInteger('hdEnvio');
-        $idCentroUnidad = $this->getInteger('hdCentroUnidad');
+        $idCentroUnidad = $_SESSION["centrounidad"];
         
         $arrayPar = array();
         
@@ -88,7 +82,7 @@ class gestionParametroController extends Controller{
         if($rolValido[0]["valido"]!= PERMISO_CREAR){
            echo "<script>
                 alert('No tiene permisos suficientes para acceder a esta función.');
-                window.location.href='" . BASE_URL . "gestionParametro/index/" . $idCentroUnidad . "';
+                window.location.href='" . BASE_URL . "gestionParametro" . "';
                 </script>";
         }
         
@@ -107,13 +101,13 @@ class gestionParametroController extends Controller{
                 exit;
             }
             
-            $this->redireccionar('gestionParametro/index/'.$idCentroUnidad);
+            $this->redireccionar('gestionParametro');
         }
         
         $this->_view->renderizar('agregarParametro', 'gestionParametro');
     }
     
-    public function eliminarParametro($intNuevoEstado, $intIdParametro, $idCentroUnidad){
+    public function eliminarParametro($intNuevoEstado, $intIdParametro){
         session_start();
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_ELIMINARPARAMETRO);
@@ -126,7 +120,7 @@ class gestionParametroController extends Controller{
                     $this->redireccionar("error/sql/" . $info);
                     exit;
                 }
-                $this->redireccionar('gestionParametro/index/'.$idCentroUnidad);
+                $this->redireccionar('gestionParametro');
             }else{
                 $this->_view->cambio = "No reconocio ningun parametro";    
             }
@@ -135,20 +129,21 @@ class gestionParametroController extends Controller{
         {         
             echo "<script>
                 alert('No tiene permisos suficientes para acceder a esta función.');
-                window.location.href='" . BASE_URL . "gestionParametro/index/" . $idCentroUnidad . "';
+                window.location.href='" . BASE_URL . "gestionParametro" . "';
                 </script>";
         }
     }
     
     public function actualizarParametro($intIdParametro = 0,$idCentroUnidad = 0) {
         session_start();
-        $rol = $_SESSION["rol"];        
+        $rol = $_SESSION["rol"];  
+        $idCentroUnidad = $_SESSION["centrounidad"];
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_MODIFICARPARAMETRO);
          
         if($rolValido[0]["valido"]!= PERMISO_MODIFICAR){
            echo "<script>
                 alert('No tiene permisos suficientes para acceder a esta función.');
-                window.location.href='" . BASE_URL . "gestionParametro/index/" . $idCentroUnidad . "';
+                window.location.href='" . BASE_URL . "gestionParametro" . "';
                 </script>";
         }
         
@@ -201,9 +196,72 @@ class gestionParametroController extends Controller{
                 exit;
             }
             
-            $this->redireccionar('gestionParametro/actualizarParametro/' . $intIdParametro . '/' . $idCentroUnidad);
+            $this->redireccionar('gestionParametro/actualizarParametro/' . $intIdParametro );
         }
         $this->_view->renderizar('actualizarParametro', 'gestionParametro');
     }
- 
+    
+    public function listadoPeriodo() {
+        session_start();
+        $rol = $_SESSION["rol"];  
+        
+        //TODO: Marlen: Funciones de períodos
+//        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_GESTIONSECCION);
+//                    
+//        if($rolValido[0]["valido"]!=PERMISO_GESTIONAR){      
+//            echo "<script>
+//                alert('No tiene permisos para acceder a esta función.');
+//                window.location.href='" . BASE_URL . "gestionCurso';
+//                </script>";
+//        }
+        
+            
+            $idCentroUnidad = $_SESSION["centrounidad"];
+            
+            $this->_view->id= $idCentroUnidad;
+
+            $lstPeriodos = $this->_post->informacionPeriodoParametro($idCentroUnidad);
+            if(is_array($lstPeriodos)){
+                $this->_view->lstPer = $lstPeriodos;
+            }else{
+                $this->redireccionar("error/sql/" . $lstPeriodos);
+                exit;
+            }
+
+            $this->_view->titulo = 'Gestión de períodos - ' . APP_TITULO;
+            $this->_view->setJs(array('gestionPeriodo'));
+            $this->_view->setJs(array('jquery.dataTables.min'), "public");
+            $this->_view->setCSS(array('jquery.dataTables.min'));
+            $this->_view->renderizar('gestionPeriodo');
+        
+    }
+    
+    public function eliminarPeriodo($intNuevoEstado, $intIdPeriodo) {
+        session_start();
+        $rol = $_SESSION["rol"]; 
+        //TODO: Marlen: Funciones de períodos
+//        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_ELIMINARSECCION);
+//        
+//        if($rolValido[0]["valido"]== PERMISO_ELIMINAR){
+       
+            if ($intNuevoEstado == -1 || $intNuevoEstado == 1) {
+                $info = $this->_post->eliminarPeriodoParametro($intIdPeriodo, $intNuevoEstado);
+                if(!is_array($info)){
+                    $this->redireccionar("error/sql/" . $info);
+                    exit;
+                }
+                $this->redireccionar('gestionParametro/listadoPeriodo');
+            } else {
+                echo "Error al desactivar período";
+            }
+//        }
+//        else
+//        {         
+//            echo "<script>
+//                alert('No tiene permisos suficientes para acceder a esta función.');
+//                window.location.href='" . BASE_URL . "gestionCurso/listadoSeccion" . "';
+//                </script>";
+//        }
+        
+    }
 }

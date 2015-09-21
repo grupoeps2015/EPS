@@ -159,3 +159,69 @@ BEGIN
 END;
 $BODY$
 LANGUAGE 'plpgsql';
+
+
+-- Function: spinformacionperiodoparametro(integer)
+
+-- DROP FUNCTION spinformacionperiodoparametro(integer);
+
+CREATE OR REPLACE FUNCTION spinformacionperiodoparametro(
+    IN _cenntrounidad integer,
+	OUT id integer,
+    OUT anio integer,
+    OUT ciclo integer,
+    OUT nombreciclo text,
+    OUT tipo text,
+    OUT asignacion text,
+    OUT inicio date,
+    OUT fin date,
+    OUT estado text)
+  RETURNS SETOF record AS
+$BODY$
+begin
+ Return query select
+		per.periodo,
+		cic.anio, cic.ciclo,
+		to_char(cic.numerociclo, 'FMRN') || ' ' || tip.nombre ,
+		tipper.nombre,
+		tipasi.nombre,
+		per.fechainicial,
+		per.fechafinal,
+		case 
+			when per.estado=0 then 'Validación Pendiente'
+			when per.estado=1 then 'Activo'
+			when per.estado=-1 then 'Desactivado'
+		end as "Estado"
+	      from 
+	        cur_ciclo cic
+	      join cur_tipociclo tip on tip.tipociclo = cic.tipociclo
+	      join adm_periodo per on cic.ciclo = per.ciclo
+	      join adm_tipoperiodo tipper on per.tipoperiodo = tipper.tipoperiodo
+	      join adm_tipoasignacion tipasi on per.tipoasignacion = tipasi.tipoasignacion
+	      order by cic.anio desc;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION spinformacionperiodoparametro(integer)
+  OWNER TO postgres;
+
+  
+-- Function: spactivardesactivarperiodoparametro(integer, integer)
+
+-- DROP FUNCTION spactivardesactivarperiodoparametro(integer, integer);
+
+CREATE OR REPLACE FUNCTION spactivardesactivarperiodoparametro(
+    _idperiodo integer,
+    _estadonuevo integer)
+  RETURNS void AS
+$BODY$
+BEGIN
+  EXECUTE format('UPDATE adm_periodo SET estado = %L WHERE periodo = %L',_estadoNuevo,_idperiodo);
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION spactivardesactivarperiodoparametro(integer, integer)
+  OWNER TO postgres;
