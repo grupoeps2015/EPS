@@ -52,7 +52,15 @@ class asignacionController extends Controller{
         $periodo = $this->_asign->getPeriodo($ciclo, PERIODO_ASIGNACION_CURSOS, ASIGN_OTRAS, $_SESSION["centrounidad"]);
         if(is_array($periodo)){
             if(isset($periodo[0]['periodo'])){
+                $carrera = 1; //TODO: Marlen: $_SESSION["carrera"];
                 $this->_view->asignacion = $periodo[0]['periodo'];
+                $lsCursosDisponibles = $this->_asign->getCursosDisponibles($ciclo, $carrera);
+                if(is_array($lsCursosDisponibles)){
+                    $this->_view->lstCursos = $lsCursosDisponibles;
+                }else{
+                    $this->redireccionar("error/sql/" . $lsCursosDisponibles);
+                    exit;
+                }
                 //TODO: Marlen: agregar listado de cursos
             }
             else{

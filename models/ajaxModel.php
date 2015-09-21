@@ -236,4 +236,14 @@ class ajaxModel extends Model{
             return $info->fetchall();
         }
     }
+    
+    public function getSeccionesCursoHorarioAjax($curso,$ciclo){
+        $post = $this->_db->query("select * from spSeccionesCursoHorario({$curso},{$ciclo})");
+        $post->setFetchMode(PDO::FETCH_ASSOC);
+        if($post === false){
+            return "1200/getSeccionesCursoHorarioAjax";
+        }else{
+            return $post->fetchall();
+        }
+    }
 }

@@ -16,7 +16,7 @@ $(document).ready(function(){
     });
     function getCiclosAjax(){
         $.post('/EPS/ajax/getCiclosAjax',
-               { anio: $("#slAnio").val() },
+               {anio: $("#slAnio").val()},
                function(datos){
                     $("#slCiclo").html('');
                     if(datos.length>0){
@@ -31,6 +31,14 @@ $(document).ready(function(){
                'json');
     }
     //tabla dinámica
+    $("#slCursos").change(function(){
+        if(!$("#slCursos").val()){
+            $('.clsAgregarFila').prop("disabled",true);
+        }else{
+            $('.clsAgregarFila').prop("disabled",false);
+        }
+    });
+    
 	$(document).on('click','caption',function(){
 		//obtener la tabla que contiene el caption clickeado
 		var objTabla=$(this).parent();
@@ -56,8 +64,8 @@ $(document).ready(function(){
 		//almacenamos en una variable todo el contenido de la nueva fila que deseamos
 		//agregar. pueden incluirse id's, nombres y cualquier tag... sigue siendo html
 		var strNueva_Fila='<tr>'+
-			'<td><select class="clsCurso form-control input-lg"><option>Seleccione</option></select></td>'+
-			'<td><select class="clsSeccion form-control input-lg"><option>Seleccione</option></select></td>'+
+			'<td><label type="text" class="clsCurso" value="'+$("#slCursos").val()+'">'+$("#slCursos option[value='"+$("#slCursos").val()+"']").text()+'</label></td>'+
+			'<td><select class="clsSeccion form-control input-lg">'+getSeccionesCursoHorarioAjax($("#slCursos").val(),$("#slCiclo").val())+'</select></td>'+
 			'<td align="right"><input type="button" value="-" class="clsEliminarFila btn btn-danger btn-lg btn-warning"></td>'+
 		'</tr>';
 				
@@ -79,6 +87,8 @@ $(document).ready(function(){
 			//le hacemos clic al titulo de la tabla, para mostrar el contenido
 			$(objTabla).find('caption').click();
 		}
+                $("select#slCursos").val("");
+                $('.clsAgregarFila').prop("disabled",true);
 	});
 	
 	//cuando se haga clic en cualquier clase .clsEliminarFila se dispara el evento
@@ -125,28 +135,27 @@ $(document).ready(function(){
 			$('#divContenedor').append($(objTabla).clone());
 	});
         
-        $(document).on('focus','.clsCurso',function(){
-            var objFila=$(this).parents().get(1);
-			/*eliminamos el tr que contiene los datos del contacto (se elimina todo el
-			contenido (en este caso los td, los text y logicamente, el boton */
-                        var item1 = $( "select.clsCurso" );
-                        var a = getTipoCiclo();
-                        $(objFila).find(item1).html(a);
-                        $(objFila).find(item1).change();
-                //var idi = $(this).val();
-		//alert("hola " + idi);
-	});
-        
-        $(document).on('change','.clsCurso',function(){
-            var objFila=$(this).parents().get(1);
-			/*eliminamos el tr que contiene los datos del contacto (se elimina todo el
-			contenido (en este caso los td, los text y logicamente, el boton */
-                        var item1 = $( "select.clsSeccion" );
-                        var a = getCiclosAjax($(this).val());
-                        $(objFila).find(item1).html(a);
-                //var idi = $(this).val();
-		//alert("hola " + idi);
-	});
+        function getSeccionesCursoHorarioAjax(curso,ciclo){
+        var cadena = "";
+        $.ajax({
+          type: "POST",
+          url: '/EPS/ajax/getSeccionesCursoHorarioAjax',
+          data: {curso:curso,ciclo:ciclo},
+          async: false,
+          success: function(datos){
+                    cadena += '<option value="-1">Seleccione</option>';
+                    if(datos.length>0){
+                        for(var i =0; i < datos.length; i++){
+                            cadena += '<option value="' + datos[i].codigo + '">' + datos[i].nombre + '</option>';
+                        }
+                    }else{
+                        cadena += '<option value="" disabled>No hay informaci&oacute;n disponible</option>';
+                    }
+               },
+          dataType: 'json'
+        });
+        return cadena;
+        }
         
 			
 });
