@@ -41,7 +41,7 @@ class gestionCursoModel extends Model {
     }
     
     public function eliminarCurso($intIdCurso, $intEstadoNuevo) {
-        $info = $this->_db->query("SELECT spActivarDesactivarCurso(" . $intIdCurso . "," . $intEstadoNuevo . ");");
+        $info = $this->_db->query("SELECT * from spActivarDesactivarCurso(" . $intIdCurso . "," . $intEstadoNuevo . ");");
         if($info === false){
             return "1102/eliminarCurso";
         }else{
@@ -98,7 +98,7 @@ class gestionCursoModel extends Model {
     }
     
     public function eliminarSeccion($intIdSeccion, $intEstadoNuevo) {
-        $info = $this->_db->query("SELECT spactivardesactivarseccion(" . $intIdSeccion . "," . $intEstadoNuevo . ");");
+        $info = $this->_db->query("SELECT * from spactivardesactivarseccion(" . $intIdSeccion . "," . $intEstadoNuevo . ");");
         if($info === false){
             return "1102/eliminarSeccion";
         }else{

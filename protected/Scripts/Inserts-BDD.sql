@@ -407,8 +407,8 @@ INSERT INTO adm_unidadacademica(unidadacademica, unidadacademicasuperior, nombre
 -- -----------------------------------------------------
 -- Insert ADM_Centro_UnidadAcademica
 -- -----------------------------------------------------
-INSERT INTO adm_centro_unidadacademica (centro_unidadacademica, centro, unidadacademica) VALUES (1, 20,1);
-INSERT INTO adm_centro_unidadacademica (centro_unidadacademica, centro, unidadacademica) VALUES (2, 20,2);
+INSERT INTO adm_centro_unidadacademica (centro_unidadacademica, centro, unidadacademica) VALUES (1,1,1);
+INSERT INTO adm_centro_unidadacademica (centro_unidadacademica, centro, unidadacademica) VALUES (2,1,2);
 
 -- -----------------------------------------------------
 -- Insert cur_carrera / escuela de historia

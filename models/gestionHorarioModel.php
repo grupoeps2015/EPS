@@ -97,7 +97,7 @@ class gestionHorarioModel extends Model {
     }
     
     public function eliminarHorario($intIdHorario, $intEstadoNuevo) {
-        $info = $this->_db->query("SELECT spActivarDesactivarHorario(" . $intIdHorario . "," . $intEstadoNuevo . ");");
+        $info = $this->_db->query("SELECT * from spActivarDesactivarHorario(" . $intIdHorario . "," . $intEstadoNuevo . ");");
         if($info === false){
             return "1102/eliminarHorario";
         }else{

@@ -63,7 +63,7 @@ class gestionUsuarioModel extends Model {
         $sp .= $_datos["nombreEst2"] . '\',\'' . $_datos["apellidoEst"] . '\',\'';
         $sp .= $_datos["apellidoEst2"] . '\',' . $_datos["id"];
 
-        $info = $this->_db->query("SELECT spagregarestudiante(" . $sp . ");");
+        $info = $this->_db->query("SELECT * from spagregarestudiante(" . $sp . ");");
         if($info === false){
             return "1101/agregarEstudiante";
         }else{
@@ -79,7 +79,7 @@ class gestionUsuarioModel extends Model {
         $sp .= $_datos["nombreCat2"] . '\',\'' . $_datos["apellidoCat"] . '\',\'';
         $sp .= $_datos["apellidoCat2"] . '\',' . $_datos["id"];
         
-        $info = $this->_db->query("SELECT spAgregarCatedratico(" . $sp . ");");
+        $info = $this->_db->query("SELECT * from spAgregarCatedratico(" . $sp . ");");
         if($info === false){
             return "1101/agregarCatedratico";
         }else{
@@ -95,7 +95,7 @@ class gestionUsuarioModel extends Model {
         $sp .= $_datos["nombreEmp2"] . '\',\'' . $_datos["apellidoEmp"] . '\',\'';
         $sp .= $_datos["apellidoEmp2"] . '\',' . $_datos["id"];
 
-        $info = $this->_db->query("SELECT spAgregarEmpleado(" . $sp . ");");
+        $info = $this->_db->query("SELECT * from spAgregarEmpleado(" . $sp . ");");
         if($info === false){
             return "1101/agregarEmpleado";
         }else{
@@ -104,7 +104,7 @@ class gestionUsuarioModel extends Model {
     }
 
     public function asignarRolUsuario($idRol, $id) {
-        $info = $this->_db->query("SELECT spAsignarRolUsuario(" . $idRol . "," . $id . ");");
+        $info = $this->_db->query("SELECT * from spAsignarRolUsuario(" . $idRol . "," . $id . ");");
         if($info === false){
             return "1101/asignarRolUsuario";
         }else{
@@ -123,7 +123,7 @@ class gestionUsuarioModel extends Model {
     }
 
     public function eliminarUsuario($intIdUsuario, $intEstadoNuevo) {
-        $info = $this->_db->query("SELECT spActivarDesactivarUsuario(" . $intIdUsuario . "," . $intEstadoNuevo . ");");
+        $info = $this->_db->query("SELECT * from spActivarDesactivarUsuario(" . $intIdUsuario . "," . $intEstadoNuevo . ");");
         if($info === false){
             return "1102/eliminarUsuario";
         }else{

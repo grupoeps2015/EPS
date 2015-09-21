@@ -92,5 +92,3 @@ BEGIN
 END;
 $BODY$
 LANGUAGE 'plpgsql';
-
-select * from spDocenteCicloCursos(4,2);
