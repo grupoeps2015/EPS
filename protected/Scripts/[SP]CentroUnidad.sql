@@ -91,7 +91,7 @@ BEGIN
 					_nombre, _direccion, _municipio, _zona, _idCentro);
 END;
 $BODY$
-LANGUAGE plpgsql
+LANGUAGE plpgsql;
 
 -- -----------------------------------------------------
 -- Function: spInfoUnidades()

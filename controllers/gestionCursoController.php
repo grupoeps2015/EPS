@@ -235,7 +235,7 @@ class gestionCursoController extends Controller {
         
     }
     
-        public function listadoSeccion() {
+    public function listadoSeccion() {
         session_start();
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_GESTIONSECCION);

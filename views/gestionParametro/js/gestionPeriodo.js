@@ -1,5 +1,5 @@
-$(document).ready( function () {
-    $('#tbSalones').DataTable({
+$(document).ready(function(){
+    $('#tbPeriodos').DataTable({
         language:{
             emptyTable: "No hay informaci&oacute;n disponible.",
             sZeroRecords: "No se encontro informaci&oacute;n compatible con la busqueda",
@@ -13,4 +13,5 @@ $(document).ready( function () {
             lengthMenu: "Mostrar _MENU_ registros"
         }
     });
-} );
+    
+});  

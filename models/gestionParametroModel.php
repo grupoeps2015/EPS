@@ -86,4 +86,22 @@ class gestionParametroModel extends Model{
         }
     }
     
+    //Métodos para períodos en parámetros
+    public function informacionPeriodoParametro($idCentroUnidad){
+        $info = $this->_db->query("select * from spInformacionPeriodoParametro({$idCentroUnidad});");
+        if($info === false){
+            return "1104/informacionPeriodoParametro";
+        }else{
+            return $info->fetchall();
+        }
+    }
+    
+    public function eliminarPeriodoParametro($intIdPeriodo, $intEstadoNuevo) {
+        $info = $this->_db->query("SELECT spactivardesactivarperiodoparametro(" . $intIdPeriodo . "," . $intEstadoNuevo . ");");
+        if($info === false){
+            return "1102/eliminarPeriodoParametro";
+        }else{
+            return $info->fetchall();
+        }
+    }
 }

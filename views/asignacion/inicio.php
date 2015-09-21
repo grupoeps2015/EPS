@@ -75,8 +75,35 @@
                 </table>
             </form>
             <?php if(isset($this->asignacion)) :?>
+            <table>
+                <tr>
+                    <td style="width: 10%">
+                        <h4>Listado de cursos: </h4>
+                        <br/>
+                    </td>
+                    <td style="width:40%;">
+                        <select id="slCursos" name="slCursos" class="form-control input-lg">
+                            <?php if (isset($this->lstAnios) && count($this->lstCursos)): ?>
+                                <option value="">-- Curso --</option>
+                                <?php for ($i = 0; $i < count($this->lstCursos); $i++) : ?>
+                                    <option value="<?php echo $this->lstCursos[$i]['curso']; ?>">
+                                        <?php echo "[".$this->lstCursos[$i]['codigo']."] ".$this->lstCursos[$i]['nombre']; ?>
+                                    </option>
+                                <?php endfor; ?>
+                            <?php else : ?>
+                                <option value="">-- No existen cursos disponibles --</option>
+                            <?php endif; ?>
+                        </select>
+                    </td>
+                </tr>
+            </table>
             <table id="tabla" name="tabla">
                 <thead>
+                    <tr>
+                        <td colspan="3" align="right">
+                            <input type="button" value="Agregar curso" class="clsAgregarFila btn btn-danger btn-lg btn-warning" disabled>
+                        </td>
+                    </tr>
                     <tr>
                         <th><h4>Curso</h4></th>
                         <th><h4>Secci&oacute;n</h4></th>
@@ -84,18 +111,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td><select class="clsCurso form-control input-lg"><option>Seleccione</option></select></td>
-                        <td><select class="clsSeccion form-control input-lg"><option>Seleccione</option></select></td>
-                        <td align="right"><input type="button" value="-" class="clsEliminarFila btn btn-danger btn-lg btn-warning"></td>
-                    </tr>
                 </tbody>
                 <tfoot>
-                    <tr>
-                        <td colspan="3" align="right">
-                            <input type="button" value="Agregar curso" class="clsAgregarFila btn btn-danger btn-lg btn-warning">
-                        </td>
-                    </tr>
                     <tr>
                         <td colspan="3" align="right">
                             <input type="submit" id="btnAsignar" value="Asignar" class="btn btn-danger btn-lg btn-warning" disabled>

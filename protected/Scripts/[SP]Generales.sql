@@ -337,3 +337,35 @@ begin
 end;
 $BODY$
 LANGUAGE 'plpgsql';
+
+
+-- Function: spseccionescursohorario(integer, integer)
+
+-- DROP FUNCTION spseccionescursohorario(integer, integer);
+
+CREATE OR REPLACE FUNCTION spseccionescursohorario(
+    IN _curso integer,
+    IN _ciclo integer,
+    OUT codigo integer,
+    OUT nombre text)
+  RETURNS SETOF record AS
+$BODY$
+begin
+ Return query
+ select distinct sec.seccion, sec.nombre
+	      from 
+	        cur_curso cur
+	      join
+	        cur_seccion sec on cur.curso = sec.curso
+	      join
+	        cur_trama tra on tra.seccion = sec.seccion
+	      join
+	        cur_horario hor on hor.trama = tra.trama
+	      where hor.ciclo = _ciclo and cur.curso = _curso;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION spseccionescursohorario(integer, integer)
+  OWNER TO postgres;
