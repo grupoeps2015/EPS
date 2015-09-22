@@ -214,7 +214,7 @@ ALTER FUNCTION spallpensumactivos()
   RETURNS void AS
 $BODY$
 BEGIN
-  EXECUTE format('UPDATE adm_pensum SET fechaVigencia = current_date WHERE pensum = %L',_idPensum);
+  EXECUTE format('UPDATE adm_pensum SET finVigencia = current_date WHERE pensum = %L',_idPensum);
 END;
 $BODY$
   LANGUAGE plpgsql VOLATILE
