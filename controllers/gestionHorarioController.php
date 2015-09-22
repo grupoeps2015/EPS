@@ -195,7 +195,7 @@ class gestionHorarioController extends Controller {
             }
             
             //Llena o cunsulta la tabla CUR_Curso_Catedratico
-            $cursocatedratico =  $this->_post->agregarCursoCatedratico($catedratico, $Sec[0]['curso']);
+            $cursocatedratico =  $this->_post->agregarCursoCatedratico($catedratico, (isset($Sec[0]['curso']) ? $Sec[0]['curso'] : -1));
             if(!is_array($cursocatedratico)){
                 $this->redireccionar("error/sql/" . $cursocatedratico);
                 exit;
@@ -289,7 +289,7 @@ class gestionHorarioController extends Controller {
             exit;
         }
         
-        $periodos = $this->_ajax->getPeriodosAjax((isset($hor[0]['tipoperiodo']) ? $hor[0]['tipoperiodo'] : 0));
+        $periodos = $this->_ajax->getPeriodosAjax((isset($hor[0]['tipoperiodo']) ? $hor[0]['tipoperiodo'] : -1));
         if(is_array($periodos)){
             $this->_view->periodos = $periodos;
         }else{
@@ -297,7 +297,7 @@ class gestionHorarioController extends Controller {
             exit;
         }
         
-        $salones = $this->_ajax->getSalonesAjax((isset($hor[0]['edificio']) ? $hor[0]['edificio'] : 0));
+        $salones = $this->_ajax->getSalonesAjax((isset($hor[0]['edificio']) ? $hor[0]['edificio'] : -1));
         if(is_array($salones)){
             $this->_view->salones = $salones;
         }else{
@@ -380,19 +380,19 @@ class gestionHorarioController extends Controller {
             }
             
             //Llena o cunsulta la tabla CUR_Curso_Catedratico
-            $cursocatedratico =  $this->_post->agregarCursoCatedratico($catedratico, $Sec[0]['curso']);
+            $cursocatedratico =  $this->_post->agregarCursoCatedratico($catedratico, (isset($Sec[0]['curso']) ? $Sec[0]['curso'] : -1));
             if(!is_array($cursocatedratico)){
                 $this->redireccionar("error/sql/" . $cursocatedratico);
                 exit;
             }
             
             //Llena la tabla CUR_Trama
-            $arrayTra['cursocatedratico'] = $cursocatedratico[0][0];
+            $arrayTra['cursocatedratico'] = (isset($cursocatedratico[0][0]) ? $cursocatedratico[0][0] : -1);
             $arrayTra['dia'] = $dia;
             $arrayTra['periodo'] = $periodo;
             $arrayTra['inicio'] = $inicio;
             $arrayTra['fin'] = $fin;
-            $arrayTra['id'] = $hor[0]['trama'];
+            $arrayTra['id'] = (isset($hor[0]['trama']) ? $hor[0]['trama'] : -1);
             $trama =  $this->_post->actualizarTrama($arrayTra);
             if(!is_array($trama)){
                 $this->redireccionar("error/sql/" . $trama);
@@ -409,7 +409,7 @@ class gestionHorarioController extends Controller {
             }
             
             //Llena la tabla CUR_Horario_Salon
-            $horariosalon = $this->_post->agregarHorarioSalon($horario[0][0],$this->getInteger('slSalones'));
+            $horariosalon = $this->_post->agregarHorarioSalon((isset($horario[0][0]) ? $horario[0][0] : -1),$this->getInteger('slSalones'));
             if(!is_array($horariosalon)){
                 $this->redireccionar("error/sql/" . $horariosalon);
                 exit;
