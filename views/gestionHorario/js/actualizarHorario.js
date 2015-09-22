@@ -46,6 +46,7 @@ $(document).ready(function(){
                     
                     if(datos.length>0){
                         $("#slPeriodos").html('');
+                        $("#slPeriodos").append('<option value="">(Seleccione)</option>');
                         for(var i =0; i < datos.length; i++){
                             $("#slPeriodos").append('<option value="' + datos[i].codigo + '">' + datos[i].minutos + ' minutos</option>' );
                         }
@@ -82,7 +83,7 @@ $(document).ready(function(){
                'json');
     }
     
-    $("#txtMinutoInicial,#txtHoraInicial").change(function(){
+    $("#txtMinutoInicial,#txtHoraInicial,#slPeriodos").change(function(){
         var minutosArreglados = parseInt($("#txtMinutoInicial").val()) < 10 ? '0' + parseInt($("#txtMinutoInicial").val()) : parseInt($("#txtMinutoInicial").val());
         $("#txtMinutoInicial").val(minutosArreglados);
         var horasArregladas = parseInt($("#txtHoraInicial").val()) < 10 ? '0' + parseInt($("#txtHoraInicial").val()) : parseInt($("#txtHoraInicial").val());
@@ -104,6 +105,8 @@ $(document).ready(function(){
             $("#txtHoraFinal").val(horas);
             $("#txtMinutoFinal").val(minutos);
         }else{
+            $("#txtHoraFinal").val("");
+            $("#txtMinutoFinal").val("");
         }
     });
 });

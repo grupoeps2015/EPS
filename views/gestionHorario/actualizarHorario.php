@@ -82,9 +82,11 @@
                                         <select id="slEdificios" name="slEdificios" class="form-control input-lg">
                                             <option value="">-- Edificio --</option>
                                             <?php for($i =0; $i < count($this->edificios); $i++) : ?>
+                                            <?php if($this->edificios[$i]['estado'] == 'Activo'): ?>
                                             <option value="<?php echo $this->edificios[$i]['id'];?>" <?php if(isset($this->datosHor[0]['edificio']) && $this->datosHor[0]['edificio'] == $this->edificios[$i]['id']) echo 'selected'?>>
                                                 <?php echo $this->edificios[$i]['nombre']; ?>
                                             </option>
+                                            <?php endif;?>
                                             <?php endfor;?>
                                         </select><br/>
                                         <?php else : ?>
@@ -103,7 +105,9 @@
                                             <?php endfor;?>
                                         </select><br/>
                                         <?php else : ?>
-                                        &nbsp;
+                                        <select id="slSalones" name="slSalones" class="form-control input-lg">
+                                        <option value="" disabled>-- Salón --</option>
+                                        </select><br/>
                                         <?php endif;?>
                                     </td>
                                     <td>&nbsp;</td>
@@ -142,6 +146,7 @@
                                     <td colspan="3" style="width: 30%;">*Per&iacute;odo:
                                         <?php if(isset($this->periodos) && count($this->periodos)): ?>
                                         <select id="slPeriodos" name="slPeriodos" class="form-control input-lg">
+                                            <option value="">(Seleccione)</option>
                                             <?php for($i =0; $i < count($this->periodos); $i++) : ?>
                                             <option value="<?php echo $this->periodos[$i]['codigo'];?>" <?php if(isset($this->datosHor[0]['periodo']) && $this->datosHor[0]['periodo'] == $this->periodos[$i]['codigo']) echo 'selected'?>>
                                                 <?php echo $this->periodos[$i]['minutos']. " minutos"; ?>

@@ -81,9 +81,11 @@
                                         <select id="slEdificios" name="slEdificios" class="form-control input-lg">
                                             <option value="">-- Edificio --</option>
                                             <?php for($i =0; $i < count($this->edificios); $i++) : ?>
+                                            <?php if($this->edificios[$i]['estado'] == 'Activo'): ?>
                                             <option value="<?php echo $this->edificios[$i]['id'];?>">
                                                 <?php echo $this->edificios[$i]['nombre']; ?>
                                             </option>
+                                            <?php endif;?>
                                             <?php endfor;?>
                                         </select><br/>
                                         <?php else : ?>
