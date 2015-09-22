@@ -10,7 +10,7 @@ $(document).ready(function(){
             txtHoraInicial:{
                 required: true
             },
-            txtHolaFinal:{
+            txtHoraFinal:{
                 required: true
             }
         },
@@ -24,7 +24,7 @@ $(document).ready(function(){
             txtHoraInicial:{
                 required: "Ingrese la hora"
             },
-            txtHolaFinal:{
+            txtHoraFinal:{
                 required: "Ingrese la hora"
             }
         }
