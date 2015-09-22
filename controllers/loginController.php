@@ -49,18 +49,18 @@ class loginController extends Controller{
         }
         
         if (count($respuesta) > 0){
-            for ($i=0;$i<count($respuesta);$i++){
+            for ($i=0; $i<count($respuesta); $i++){
                 if($respuesta[$i]['rol'] == ROL_ADMINISTRADOR){
                     $indice = $i;
                     break;
                 }
-                else{
-                    //El empleado, estudiante o catedratico escoge a qué centro_unidad entrar
-                }
-//                else if($respuesta[$i]['centrounidadacademica'] == CENTRO_UNIDADACADEMICA){
-//                    $indice = $i;
-//                    break;
+//                else{
+//                    //El empleado, estudiante o catedratico escoge a qué centro_unidad entrar
 //                }
+                else if($respuesta[$i]['centrounidadacademica'] == 1){
+                    $indice = $i;
+                    break;
+                }
             }
             if(isset($indice)){
                 session_start();
