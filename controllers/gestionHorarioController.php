@@ -51,7 +51,7 @@ class gestionHorarioController extends Controller {
                 $this->redireccionar("error/sql/" . $lsHor);
                 exit;
             }
-            $lstParametros = $idCentroUnidad . '$' . $idCiclo . '$' . $idSeccion;
+            $lstParametros = $idCiclo . '$' . $idSeccion;
 
             $this->_view->parametros = $lstParametros;
             $this->_view->titulo = 'Gestión de horarios - ' . APP_TITULO;
@@ -202,7 +202,7 @@ class gestionHorarioController extends Controller {
             }
             
             //Llena la tabla CUR_Trama
-            $arrayTra['cursocatedratico'] = $cursocatedratico[0][0];
+            $arrayTra['cursocatedratico'] = (isset($cursocatedratico[0][0]) ? $cursocatedratico[0][0] : -1);
             $arrayTra['dia'] = $dia;
             $arrayTra['periodo'] = $periodo;
             $arrayTra['inicio'] = $inicio;
@@ -216,7 +216,7 @@ class gestionHorarioController extends Controller {
             
             //Llena la tabla CUR_Horario
             $arrayHor['jornada'] = $jornada;
-            $arrayHor['trama'] = $trama[0][0];
+            $arrayHor['trama'] = (isset($trama[0][0]) ? $trama[0][0] : -1);
             $arrayHor['ciclo'] = $idCiclo;
             $arrayHor['estado'] = ESTADO_ACTIVO;
             $horario =  $this->_post->agregarHorario($arrayHor);
@@ -226,7 +226,7 @@ class gestionHorarioController extends Controller {
             }
             
             //Llena la tabla CUR_Horario_Salon
-            $horariosalon = $this->_post->agregarHorarioSalon($horario[0][0],$this->getInteger('slSalones'));
+            $horariosalon = $this->_post->agregarHorarioSalon((isset($horario[0][0]) ? $horario[0][0] : -1),$this->getInteger('slSalones'));
             if(!is_array($horariosalon)){
                 $this->redireccionar("error/sql/" . $horariosalon);
                 exit;

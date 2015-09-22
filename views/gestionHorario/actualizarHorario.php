@@ -164,12 +164,12 @@
                                     </td>    
                                     <td>&nbsp;</td>
                                     <td>*Hora fin:
-                                        <input type="number" min="0" max="23" id="txtHoraFinal" name="txtHoraFinal" class="form-control input-lg" value="<?php if(isset($this->datosHor[0]['inicio'])) {$var = (array)(explode(":", $this->datosHor[0]['fin'])); echo $var[0];}?>" style="text-align:right">
+                                        <input type="number" min="0" max="23" id="txtHoraFinal" name="txtHoraFinal" class="form-control input-lg" value="<?php if(isset($this->datosHor[0]['inicio'])) {$var = (array)(explode(":", $this->datosHor[0]['fin'])); echo $var[0];}?>" style="text-align:right" readonly>
                                         <br/>
                                     </td>
                                     <td style="text-align:center">:</td>
                                     <td>
-                                        <input type="number" min="0" max="59" id="txtMinutoFinal" name="txtMinutoFinal" class="form-control input-lg" value="<?php if(isset($this->datosHor[0]['inicio'])) {$var = (array)(explode(":", $this->datosHor[0]['fin'])); echo $var[1];}?>">
+                                        <input type="number" min="0" max="59" id="txtMinutoFinal" name="txtMinutoFinal" class="form-control input-lg" value="<?php if(isset($this->datosHor[0]['inicio'])) {$var = (array)(explode(":", $this->datosHor[0]['fin'])); echo $var[1];}?>" readonly>
                                     </td>    
                                     <td>&nbsp;</td>
                                     <td colspan="3">

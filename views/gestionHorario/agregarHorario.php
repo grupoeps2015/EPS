@@ -146,12 +146,12 @@
                                     </td>
                                     <td>&nbsp;</td>
                                     <td>*Hora fin:
-                                        <input type="number" min="0" max="23" id="txtHoraFinal" name="txtHoraFinal" class="form-control input-lg" value="" style="text-align:right">
+                                        <input type="number" min="0" max="23" id="txtHoraFinal" name="txtHoraFinal" class="form-control input-lg" value="" style="text-align:right" readonly>
                                         <br/>
                                     </td>
                                     <td style="text-align:center">:</td>
                                     <td>
-                                        <input type="number" min="0" max="59" id="txtMinutoFinal" name="txtMinutoFinal" class="form-control input-lg" value="">
+                                        <input type="number" min="0" max="59" id="txtMinutoFinal" name="txtMinutoFinal" class="form-control input-lg" value="" readonly>
                                     </td>    
                                     <td>&nbsp;</td>
                                     <td rowspan="2" colspan="10">
