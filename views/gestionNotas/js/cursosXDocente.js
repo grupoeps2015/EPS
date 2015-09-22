@@ -1,23 +1,53 @@
 $(document).ready( function () {
     $("#slTipos").change(function(){
         if(!$("#slTipos").val()){
+            $("#slAnio").html('');
             $("#slCiclo").html('');
             $("#slSeccion").html('');
-            $("#slCiclo").append('<option value="" disabled>-- Tipo Ciclo --</option>')
+            $("#slAnio").append('<option value="" disabled>-- A&ntilde;o --</option>')
+            $("#slCiclo").append('<option value="" disabled>-- Ciclo --</option>')
+            $("#slSeccion").append('<option value="" disabled>-- Secci&oacute;n Asignada --</option>')
+        }else{
+            getAniosAjax();
+        }
+    });
+    
+    $("#slAnio").change(function(){
+        if(!$("#slAnio").val()){
+            $("#slCiclo").html('');
+            $("#slSeccion").html('');
+            $("#slCiclo").append('<option value="" disabled>-- Ciclo --</option>')
             $("#slSeccion").append('<option value="" disabled>-- Secci&oacute;n Asignada --</option>')
         }else{
             getCiclosAjax();
         }
     });
     
+    function getAniosAjax(){
+        $.post('/EPS/ajax/getAniosAjax',
+               'tipo=' + $("#slTipos").val(),
+               function(datos){
+                    $("#slAnio").html('');
+                    if(datos.length>0 ){
+                        $("#slAnio").append('<option value="">-- A&ntilde;o --</option>' );
+                        for(var i =0; i < datos.length; i++){
+                            $("#slAnio").append('<option value="' + datos[i].anio + '">' + datos[i].anio + '</option>' );
+                        }
+                    }else{
+                        $("#slAnio").append('<option value="" disabled>No hay informaci&oacute;n disponible</option>' );
+                    }
+               },
+               'json');
+    }
+    
     function getCiclosAjax(){
         $.post('/EPS/ajax/getCiclosAjax',
-               'tipo=' + $("#slTipos").val(),
+               'anio=' + $("#slAnio").val(),
                function(datos){
                     $("#slCiclo").html('');
                     if(datos.length>0){
                         $("#slCiclo").append('<option value="">-- Ciclo --</option>' );
-                        for(var i =0; i < datos.length; i++){
+                        for(var i=0; i < datos.length; i++){
                             $("#slCiclo").append('<option value="' + datos[i].codigo + '">' + datos[i].nombre + '</option>' );
                         }
                     }else{

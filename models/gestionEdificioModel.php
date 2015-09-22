@@ -22,7 +22,7 @@ class gestionEdificioModel extends Model {
     }
 
     public function actualizarAsignacionEdificio($_datos) {
-        $info = $this->_db->prepare("SELECT spactualizarAsignacion(:centro_unidadacademica,:edificio,:jornada,:centrounidad_edificio) as Id;");
+        $info = $this->_db->prepare("SELECT * from spactualizarAsignacion(:centro_unidadacademica,:edificio,:jornada,:centrounidad_edificio) as Id;");
         $info->execute($_datos);
         if($info === false){
             return "1103/actualizarAsignacionEdificio";
@@ -56,7 +56,7 @@ class gestionEdificioModel extends Model {
 
     public function eliminarAsignacion($intIdAsignacion, $intEstadoNuevo) {
 
-        $info = $this->_db->query("SELECT spEliminarAsignacionEdificio(" . $intIdAsignacion . "," . $intEstadoNuevo . ");");
+        $info = $this->_db->query("SELECT * from spEliminarAsignacionEdificio(" . $intIdAsignacion . "," . $intEstadoNuevo . ");");
         if ($info === false) {
             return "1102/eliminarEdificio";
         } else {
@@ -106,7 +106,7 @@ class gestionEdificioModel extends Model {
     }
     
     public function activarDesactivarEdificio($intIdEdificio, $intEstadoNuevo) {
-        $info = $this->_db->query("SELECT spactivardesactivaredificio(" . $intIdEdificio . "," . $intEstadoNuevo . ");");
+        $info = $this->_db->query("SELECT * from spactivardesactivaredificio(" . $intIdEdificio . "," . $intEstadoNuevo . ");");
         if($info === false){
             return "1103/activardesactivaredificio";
         }else{
@@ -119,7 +119,7 @@ class gestionEdificioModel extends Model {
         $sp = $_datos["edificio"] . ',';
         $sp .= '\'' . $_datos["nombre"] . '\',\'' . $_datos["descripcion"] . '\'';
        
-        $info = $this->_db->query("SELECT spModificarEdificio(" . $sp. ");");
+        $info = $this->_db->query("SELECT * from spModificarEdificio(" . $sp. ");");
         if($info === false){
             return "1103/actualizarEdificio";
         }else{
@@ -156,7 +156,7 @@ class gestionEdificioModel extends Model {
     }
 
     public function agregarSalon($_datos) {
-            $post = $this->_db->prepare("SELECT spagregarsalon(:nombre,:edificio,:nivel,:capacidad);");
+            $post = $this->_db->prepare("SELECT * from spagregarsalon(:nombre,:edificio,:nivel,:capacidad);");
             $post->execute($_datos);
             if ($post === false) {
                 return "1101/agregarSalon";

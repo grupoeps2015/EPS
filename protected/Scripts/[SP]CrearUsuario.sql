@@ -85,13 +85,15 @@ CREATE OR REPLACE FUNCTION spAgregarEstudiante(_carnet integer,
 					       _idUsuario int
 					       ) RETURNS void AS 
 $BODY$
-BEGIN
+DECLARE id integer;
+BEGIN 
+	SELECT * FROM spObtenerSecuencia('estudiante','est_estudiante') into id;
 	INSERT INTO est_estudiante(
             estudiante, carnet, direccion, zona, municipio, telefono, estado, 
             telefonoemergencia, tiposangre, alergias, segurovida, centroemergencia, 
             usuario, paisorigen, primernombre, segundonombre, primerapellido, 
             segundoapellido)
-	VALUES (DEFAULT, _carnet, _direccion, _zona, _municipio, _telefono, 0, 
+	VALUES (id, _carnet, _direccion, _zona, _municipio, _telefono, 0, 
             _emergencia, _tiposangre, _alergias, _segurovida, _centroemergencia, 
             _idUsuario, _paisorigen, _primernombre, _segundonombre, _primerapellido, 
             _segundoapellido);
@@ -116,12 +118,14 @@ CREATE OR REPLACE FUNCTION spAgregarEmpleado(_registro integer,
 					     _idUsuario int
 					     ) RETURNS void AS 
 $BODY$
-BEGIN
+DECLARE id integer;
+BEGIN 
+	SELECT * FROM spObtenerSecuencia('empleado','adm_empleado') into id;
 	INSERT INTO adm_empleado(
             empleado, registropersonal, direccion, zona, municipio, telefono, 
             usuario, estado, paisorigen, primernombre, segundonombre, primerapellido, 
             segundoapellido)
-	VALUES (DEFAULT, _registro, _direccion, _zona, _municipio, _telefono,
+	VALUES (id, _registro, _direccion, _zona, _municipio, _telefono,
             _idUsuario, 0, _paisorigen, _primernombre, _segundonombre, _primerapellido, 
             _segundoapellido);
 
@@ -146,12 +150,14 @@ CREATE OR REPLACE FUNCTION spAgregarCatedratico(_registro integer,
 						_idUsuario int
 						) RETURNS void AS 
 $BODY$
-BEGIN
+DECLARE id integer;
+BEGIN 
+	SELECT * FROM spObtenerSecuencia('catedratico','cat_catedratico') into id;
 	INSERT INTO cat_catedratico(
             catedratico, registropersonal, direccion, zona, municipio, telefono, 
             tipodocente, usuario, estado, paisorigen, primernombre, segundonombre, 
             primerapellido, segundoapellido)
-	VALUES (DEFAULT, _registro, _direccion, _zona, _municipio, _telefono, _tipodocente,
+	VALUES (id, _registro, _direccion, _zona, _municipio, _telefono, _tipodocente,
             _idUsuario, 0, _paisorigen, _primernombre, _segundonombre, _primerapellido, 
             _segundoapellido);
 

@@ -32,7 +32,7 @@ class gestionPensumModel extends Model {
     }
     
     public function eliminarCarrera($intIdCarrera, $intEstadoNuevo) {
-        $info = $this->_db->query("SELECT spActivarDesactivarCarrera(" . $intIdCarrera . "," . $intEstadoNuevo . ");");
+        $info = $this->_db->query("SELECT * from spActivarDesactivarCarrera(" . $intIdCarrera . "," . $intEstadoNuevo . ");");
         if($info === false){
             return "1103/eliminarCarrera";
         }else{

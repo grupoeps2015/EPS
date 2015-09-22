@@ -1,4 +1,5 @@
 $(document).ready(function(){
+    
     $('#txtPasswordNuevo')
         .keyup(function() {
             var pswd = $('#txtPasswordNuevo').val();
@@ -9,10 +10,10 @@ $(document).ready(function(){
             //verifica longitud
             if ( pswd.length < 8 ) {
                 $('#total').removeClass('passValid').addClass('passInvalid');
-                bltotal=true;
+                bltotal=false;
             } else {
                 $('#total').removeClass('passInvalid').addClass('passValid');
-                bltotal=false;
+                bltotal=true;
             }
             
             //verifica que tenga una letra

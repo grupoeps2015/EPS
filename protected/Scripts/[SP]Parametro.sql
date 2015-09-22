@@ -166,7 +166,7 @@ LANGUAGE 'plpgsql';
 -- DROP FUNCTION spinformacionperiodoparametro(integer);
 
 CREATE OR REPLACE FUNCTION spinformacionperiodoparametro(
-    IN _cenntrounidad integer,
+    IN _centrounidad integer,
 	OUT id integer,
     OUT anio integer,
     OUT ciclo integer,
@@ -198,7 +198,7 @@ begin
 	      join adm_periodo per on cic.ciclo = per.ciclo
 	      join adm_tipoperiodo tipper on per.tipoperiodo = tipper.tipoperiodo
 	      join adm_tipoasignacion tipasi on per.tipoasignacion = tipasi.tipoasignacion
-	      order by cic.anio desc;
+	      where per.centro_unidadacademica = _centrounidad order by cic.anio desc;
 end;
 $BODY$
   LANGUAGE plpgsql VOLATILE

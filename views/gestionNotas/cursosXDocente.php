@@ -22,14 +22,15 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
-                <table>
+                <table class="table-hover">
                     <tr>
                         <td class="text-primary" style="width:10%">Nombre:&nbsp;</td>
                         <td style="width: 1%"></td>
                         <td colspan="2" style="width: 39%"><?php echo $this->datosCat[0][2];?></td>
                         <td style="width: 1%">&nbsp;</td>
-                        <td style="width: 25%">&nbsp;</td>
-                        <td>&nbsp;</td>
+                        <td style="width: 24%">&nbsp;</td>
+                        <td style="width: 1%"></td>
+                        <td style="width: 24%">&nbsp;</td>
                     </tr>
                     <tr>
                         <td class="text-primary" style="width:10%">Registro:&nbsp;</td>
@@ -38,9 +39,10 @@
                         <td>&nbsp;</td>
                         <td>&nbsp;</td>
                         <td>&nbsp;</td>
+                        <td>&nbsp;</td>
                     </tr>
                     <tr>
-                        <td colspan="7"><hr class="hr1"/></td>
+                        <td colspan="8"><hr class="hr1"/></td>
                         </tr>
                     <tr>
                         <td>&nbsp;</td>
@@ -60,6 +62,12 @@
                             </select>
                         </td>
                         <td>&nbsp;</td>
+                        <td>
+                            <select id="slAnio" name="slAnio" class="form-control input-lg">
+                                <option value="" disabled>-- A&ntilde;o --</option>
+                            </select>
+                        </td>
+                        <td>&nbsp;</td>
                         <td colspan="2">
                             <select id="slCiclo" name="slCiclo" class="form-control input-lg">
                                 <option value="" disabled>-- Ciclo --</option>
@@ -75,12 +83,6 @@
                                 <option value="" disabled>-- Secci&oacute;n Asignada --</option>
                             </select>
                         </td>
-                    </tr>
-                    <tr>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
                         <td>&nbsp;</td>
                         <td><br/>
                             <input type="submit" id="btnActividades" name="btnActividades" value="Ver Actividades" class="btn btn-danger btn-lg btn-block" disabled="disabled">

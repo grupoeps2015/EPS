@@ -17,7 +17,7 @@ class gestionParametroModel extends Model{
         $sp .= $_datos["carrera"] . ',';
         $sp .= $_datos["extension"] . ',' . $_datos["tipoparametro"];
         
-        $info = $this->_db->query("SELECT spagregarparametro(" . $sp . ");");
+        $info = $this->_db->query("SELECT * from spagregarparametro(" . $sp . ");");
         if($info === false){
             return "1101/agregarParametro";
         }else{
@@ -36,7 +36,7 @@ class gestionParametroModel extends Model{
     }
     
     public function eliminarParametro($intIdParametro, $intEstadoNuevo){
-        $info = $this->_db->query("SELECT spModificarParametro(" . $intIdParametro . ",null,null,null,null,null,null," . $intEstadoNuevo . ",null);");
+        $info = $this->_db->query("SELECT * from spModificarParametro(" . $intIdParametro . ",null,null,null,null,null,null," . $intEstadoNuevo . ",null);");
         if($info === false){
             return "1102/eliminarParametro";
         }else{
@@ -51,7 +51,7 @@ class gestionParametroModel extends Model{
         $sp .= $_datos["carrera"] . ',';
         $sp .= $_datos["extension"] . ',null,' . $_datos["tipoparametro"];
         
-        $info = $this->_db->query("SELECT spModificarParametro(" . $sp. ");");
+        $info = $this->_db->query("SELECT * from spModificarParametro(" . $sp. ");");
         if($info === false){
             return "1103/actualizarParametro";
         }else{
@@ -97,7 +97,7 @@ class gestionParametroModel extends Model{
     }
     
     public function eliminarPeriodoParametro($intIdPeriodo, $intEstadoNuevo) {
-        $info = $this->_db->query("SELECT spactivardesactivarperiodoparametro(" . $intIdPeriodo . "," . $intEstadoNuevo . ");");
+        $info = $this->_db->query("SELECT * from spactivardesactivarperiodoparametro(" . $intIdPeriodo . "," . $intEstadoNuevo . ");");
         if($info === false){
             return "1102/eliminarPeriodoParametro";
         }else{

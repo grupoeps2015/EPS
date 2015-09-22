@@ -16,7 +16,7 @@ class empleadoModel extends Model {
         $sp .= $_datos["zona"] . ',' . $_datos["muni"] . ',\'';
         $sp .= $_datos["telefono"] . '\',' . $_datos["pais"];
         
-        $info = $this->_db->query("SELECT spUpdateInfoGeneralEmpleado(" . $sp . ");");
+        $info = $this->_db->query("SELECT * from spUpdateInfoGeneralEmpleado(" . $sp . ");");
         if($info === false){
             return "1103/setInfo";
         }else{

@@ -40,9 +40,9 @@ class pensumModel extends Model {
     }
 
     public function spfinalizarVigenciaPensum($intIdPensum) {
-        $info = $this->_db->query("SELECT spfinalizarVigenciaPensum(" . $intIdPensum . ");");
+        $info = $this->_db->query("SELECT * from spfinalizarVigenciaPensum(" . $intIdPensum . ");");
         if ($info === false) {
-            return "1103/finalizarVigenciaPensum";
+            return "1103/finalizarVigenciaPensum/" . "SELECT * from spfinalizarVigenciaPensum(" . $intIdPensum . ");";
         } else {
             return $info->fetchall();
         }

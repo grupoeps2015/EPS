@@ -18,7 +18,7 @@ LANGUAGE 'plpgsql';
 CREATE OR REPLACE FUNCTION spObtenerSecuencia(_campo text, _tabla text) RETURNS int as $BODY$
 DECLARE secuencia int;
 BEGIN
-	EXECUTE format('SELECT max(%s) FROM %s',_campo, _tabla) into secuencia;
+	EXECUTE format('SELECT coalesce(max(%s),0) FROM %s',_campo, _tabla) into secuencia;
 	RETURN secuencia+1;
 END; $BODY$
 LANGUAGE 'plpgsql';

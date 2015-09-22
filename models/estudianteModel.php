@@ -20,7 +20,7 @@ class estudianteModel extends Model {
         $sp .= $_datos["zona"] . ',' . $_datos["muni"] . ',\'';
         $sp .= $_datos["telefono"] . '\',' . $_datos["pais"];
         
-        $info = $this->_db->query("SELECT spUpdateInfoGeneralEstudiante(" . $sp . ");");
+        $info = $this->_db->query("SELECT * from spUpdateInfoGeneralEstudiante(" . $sp . ");");
         if($info === false){
             return "1103/setInfoGeneral";
         }else{
@@ -32,7 +32,7 @@ class estudianteModel extends Model {
         $sp  = $_datos["id"] . ',\'' . $_datos["telefonoE"] . '\',\'';
         $sp .= $_datos["alergias"] . '\',\'' . $_datos["seguro"] . '\',\'';
         $sp .= $_datos["centro"] . '\',\'' . $_datos["sangre"] . '\'';
-        $info = $this->_db->query("SELECT spUpdateInfoEmergenciaEstudiante(" . $sp . ");");
+        $info = $this->_db->query("SELECT * from spUpdateInfoEmergenciaEstudiante(" . $sp . ");");
         if($info === false){
             return "1103/setInfoEmergencia";
         }else{
