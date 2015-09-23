@@ -297,7 +297,7 @@ begin
 		sal.nombre || ' - ' || sal.nivel || 'º nivel - ' || sal.capacidad || ' personas'
 	      from 
 	        cur_salon sal, cur_edificio edi 
-	      where sal.edificio = edi.edificio and edi.edificio = _edificio;
+	      where sal.edificio = edi.edificio and edi.edificio = _edificio and sal.estado = 1 and edi.estado = 1;
 end;
 $BODY$
   LANGUAGE plpgsql VOLATILE
