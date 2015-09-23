@@ -34,14 +34,12 @@ LANGUAGE 'plpgsql';
 -- -----------------------------------------------------
 -- Function: spAgregarCentros()
 -- -----------------------------------------------------
--- DROP FUNCTION spAgregarCentros(text,text,int,int);
-CREATE OR REPLACE FUNCTION spAgregarCentros(_nombre text, _direccion text, _municipio int, _zona int) RETURNS void as 
+-- DROP FUNCTION spAgregarCentros(int,text,text,int,int);
+CREATE OR REPLACE FUNCTION spAgregarCentros(_codigo int, _nombre text, _direccion text, _municipio int, _zona int) RETURNS void as 
 $BODY$
-Declare id integer;
 BEGIN
-  select * from spObtenerSecuencia('centro','adm_centro') into id;
   INSERT INTO adm_centro(centro, nombre, direccion, municipio, zona)
-    VALUES (id, _nombre, _direccion, _municipio, _zona);
+    VALUES (_codigo, _nombre, _direccion, _municipio, _zona);
 END;
 $BODY$
 LANGUAGE 'plpgsql';

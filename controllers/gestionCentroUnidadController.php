@@ -70,6 +70,7 @@ class gestionCentroUnidadController extends Controller {
         
         if ($this->getInteger('hdEnvio')) {
             $arrayCentro = array();
+            $arrayCentro[":codigo"] = $this->getInteger('txtCodigo');
             $arrayCentro[":nombre"] = $this->getTexto('txtNombreCen');
             $arrayCentro[":direccion"] = $this->getTexto('txtDireccion');
             $arrayCentro[":municipio"] = $this->getInteger('slMunis');
@@ -88,7 +89,7 @@ class gestionCentroUnidadController extends Controller {
         $this->_view->renderizar('agregarCentro', 'gestionCentroUnidad');
     }
     
-    public function actualizarCentro($idCentro){
+    public function actualizarCentro($idCentro = -1){
         session_start();
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_MODIFICARCURSO);
@@ -98,6 +99,10 @@ class gestionCentroUnidadController extends Controller {
                 alert('No tiene permisos suficientes para acceder a esta función.');
                 window.location.href='" . BASE_URL . "gestionCurso';
                 </script>";
+        }
+        
+        if($idCentro == -1){
+            $idCentro = 0;
         }
         
         $this->_view->setJs(array('jquery.validate'), "public");
@@ -110,7 +115,7 @@ class gestionCentroUnidadController extends Controller {
             $this->redireccionar('error/sql/' . $lsDeptos);
         }
         
-        $datosCentro = $this->_gCenUni->getDatosCentro($idCentro);
+        $datosCentro = $this->_gCenUni->getDatosCentro((int)$idCentro);
         if(is_array($datosCentro)){
             $this->_view->datosCentro = $datosCentro;
         }else{
@@ -154,10 +159,11 @@ class gestionCentroUnidadController extends Controller {
                 $handle = fopen($fileName, "r");
                 while(($data = fgetcsv($handle, 1000, ",")) !== FALSE){
                     $arrayCentro = array();
-                    $arrayCentro[":nombre"] = $data[0];
-                    $arrayCentro[":direccion"] = $data[2];
-                    $arrayCentro[":municipio"] = $data[1];
-                    $arrayCentro[":zona"] = $data[3];
+                    $arrayCentro[":codigo"] = $data[0];
+                    $arrayCentro[":nombre"] = $data[1];
+                    $arrayCentro[":direccion"] = $data[3];
+                    $arrayCentro[":municipio"] = $data[2];
+                    $arrayCentro[":zona"] = $data[4];
                     
                     $info = $this->_gCenUni->setCentro($arrayCentro);
                     if(!is_array($info)){
@@ -176,7 +182,7 @@ class gestionCentroUnidadController extends Controller {
         $this->_view->renderizar('agregarCentro', 'gestionCentroUnidad'); 
     }
     
-    public function listadoUnidades($idCentro){
+    public function listadoUnidades($idCentro = -1){
         session_start();
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_GESTIONCURSO);
@@ -187,7 +193,11 @@ class gestionCentroUnidadController extends Controller {
                 window.location.href='" . BASE_URL . "login/inicio';
                 </script>";
         }
-         
+        
+        if($idCentro == -1){
+            $idCentro = 0;
+        }
+        
         $this->_view->titulo = 'Gestión de Centros Regionales - ' . APP_TITULO;
         $this->_view->id = $idCentro;
         
@@ -206,7 +216,7 @@ class gestionCentroUnidadController extends Controller {
             exit;
         }
 
-        $lsExistentes = $this->_ajax->getUnidades();
+        $lsExistentes = $this->_gCenUni->getUnidadesPropias($idCentro);
         if(is_array($lsExistentes)){
             $this->_view->lsExistentes = $lsExistentes;
         }else{
@@ -251,7 +261,7 @@ class gestionCentroUnidadController extends Controller {
         $this->redireccionar('gestionCentroUnidad/listadoUnidades/' . $idCentro);
     }
     
-    public function agregarUnidad($idCentro){
+    public function agregarUnidad($idCentro = -1){
         session_start();
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_CREARCURSO);
@@ -262,7 +272,11 @@ class gestionCentroUnidadController extends Controller {
                 </script>";
         }
         
-        $lsExistentes = $this->_ajax->getUnidades();
+        if($idCentro == -1){
+            $idCentro = 0;
+        }
+        
+        $lsExistentes = $this->_gCenUni->getUnidadesPropias($idCentro);
         if(is_array($lsExistentes)){
             $this->_view->lsExistentes = $lsExistentes;
         }else{

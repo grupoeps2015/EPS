@@ -27,12 +27,12 @@
                 <table>
                     <tr>
                         <td style="width: 10%">
-                            <h4>Centro Educativo: </h4>
+                            <h4>Centro Universitario: </h4>
                         </td>
                         <td style="width: 38%">
                             <select id="slCentros" name="slCentros" class="form-control input-lg">
                             <?php if (isset($this->lstCentros) && count($this->lstCentros)): ?>
-                                    <option value="">-- Centro Educativo --</option>
+                                    <option value="">-- Centro Universitario --</option>
                                     <?php for ($i = 0; $i < count($this->lstCentros); $i++) : ?>
                                         <option value="<?php echo $this->lstCentros[$i]['codigo']; ?>">
                                             <?php echo $this->lstCentros[$i]['nombre']; ?>

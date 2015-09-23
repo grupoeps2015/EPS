@@ -29,7 +29,9 @@
                             <input type="text" name="txtNombreCen" id="txtNombreCen" class="form-control input-lg" value=""/>
                         </td>
                         <td>&nbsp;</td>
-                        <td>&nbsp;</td>
+                        <td><br/>C&oacute;digo:
+                            <input type="number" name="txtCodigo" id="txtCodigo" class="form-control input-lg" value=""/>
+                        </td>
                     <tr>
                         <td colspan="3"><br/>Direcci&oacute;n:
                             <select id="slDeptos" name="slDeptos" class="form-control input-lg">
@@ -45,10 +47,8 @@
                                 <?php endif;?>
                             </select>
                         </td>
-                        <td>&nbsp;</td>
-                        <td rowspan="2">
-                            <input type="submit" id="btnAgregar" name="btnAgregar" value="Agregar" class="btn btn-warning btn-lg btn-block">
-                        </td>
+                        <td style="width: 2%">&nbsp;</td>
+                        <td style="width: 23%">&nbsp;</td>
                     </tr>
                     <tr>
                         <td colspan="3">
@@ -57,6 +57,9 @@
                             </select>
                         </td>
                         <td>&nbsp;</td>
+                        <td>
+                            <input type="submit" id="btnAgregar" name="btnAgregar" value="Agregar" class="btn btn-warning btn-lg btn-block">
+                        </td>
                     </tr>
                     <tr>
                         <td style="width: 53%">
@@ -66,8 +69,8 @@
                         <td style="width: 20%">
                             <input id="txtZona" name="txtZona" type="number" min="0" max="27" class="form-control input-lg" value="" placeholder="Zona"/>
                         </td>
-                        <td style="width: 2%">&nbsp;</td>
-                        <td style="width: 23%">
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
                     </tr>
                 </table>
                 <input type="hidden" name="hdEnvio" value="1">
