@@ -19,7 +19,7 @@ class pensumController extends Controller {
         $this->_ajax = $this->loadModel("ajax");
     }
 
-    public function index($id = 0) {
+    public function index() {
 //        session_start();
 //        $rol = $_SESSION["rol"];
 //        $rolValido = $this->_ajax->getPermisosRolFuncion($rol, CONS_FUNC_CUR_CREARCARRERA);
@@ -30,7 +30,6 @@ class pensumController extends Controller {
 //                window.location.href='" . BASE_URL . "login/inicio';
 //                </script>";
 //        }
-
 //        if ($this->getInteger('hdPensum')) {
 //            $idPensum = $this->getInteger('hdPensum');
 //        } else if ($id != 0) {
@@ -42,8 +41,8 @@ class pensumController extends Controller {
 
 
         $this->_view->titulo = 'Gestión de Pensum - ' . APP_TITULO;
-        $this->_view->setJs(array('gestionPensum'));
-        $this->_view->setJs(array('jquery.dataTables.min'), "public");
+//        $this->_view->setJs(array('gestionPensum'));
+//        $this->_view->setJs(array('jquery.dataTables.min'), "public");
         $this->_view->setCSS(array('jquery.dataTables.min'));
 
         $this->_view->renderizar('listadoPensum');
@@ -61,7 +60,7 @@ class pensumController extends Controller {
 //                </script>";
 //        }
 //        if ($this->getInteger('hdPensum')) {
-            $pensum = $this->getInteger('hdPensum');
+        $pensum = $this->getInteger('hdPensum');
 //        } else if ($id != 0) {
 //            $pensum = $id;
 //        } else {
@@ -139,24 +138,23 @@ class pensumController extends Controller {
             $tipo = $this->getInteger('slTipos');
             $duracion = $this->getTexto('txtTiempo');
             $descripcion = $this->getTexto('txtDescripcion');
-            $inicio = $this->getInteger('slDia') . "/" . $this->getInteger('slMes') . "/" . $this->getInteger("slAnio");
+            $inicio = $this->getTexto('inputFecha');
 
-            //     $aja = var_dump(checkdate($this->getInteger('slDia'), $this->getInteger('slMes'), $this->getInteger("slAnio")));
 
-            $arrayPensum['carrera'] = $carrera;
-            $arrayPensum['tipo'] = $tipo;
-            $arrayPensum['inicioVigencia'] = $inicio;
-            $arrayPensum['duracionAnios'] = $duracion;
-            $arrayPensum['descripcion'] = $descripcion;
+                $arrayPensum['carrera'] = $carrera;
+                $arrayPensum['tipo'] = $tipo;
+                $arrayPensum['inicioVigencia'] = $inicio;
+                $arrayPensum['duracionAnios'] = $duracion;
+                $arrayPensum['descripcion'] = $descripcion;
 
-            $info = $this->_post->agregarPensum($arrayPensum);
+                $info = $this->_post->agregarPensum($arrayPensum);
 
-            if (!is_array($info)) {
-                $this->redireccionar("error/sql/" . $info);
-                exit;
+                if (!is_array($info)) {
+                    $this->redireccionar("error/sql/" . $info);
+                    exit;
+                }
+                $this->redireccionar('pensum/listadoPensum');
             }
-            $this->redireccionar('pensum/listadoPensum');
-        }
         $this->_view->renderizar('agregarPensum', 'pensum');
     }
 
@@ -167,12 +165,12 @@ class pensumController extends Controller {
 //
 //        if ($rolValido[0]["valido"] == PERMISO_ELIMINAR) {
 
-            $info = $this->_post->spfinalizarVigenciaPensum($intIdPensum);
-            if (!is_array($info)) {
-                $this->redireccionar("error/sql/" . $info);
-                exit;
-            }
-            $this->redireccionar('pensum/listadoPensum');
+        $info = $this->_post->spfinalizarVigenciaPensum($intIdPensum);
+        if (!is_array($info)) {
+            $this->redireccionar("error/sql/" . $info);
+            exit;
+        }
+        $this->redireccionar('pensum/listadoPensum');
 //        } else {
 //            echo "<script>
 //                alert('No tiene permisos suficientes para acceder a esta función.');

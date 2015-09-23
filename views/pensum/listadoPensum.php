@@ -29,7 +29,7 @@
     </div>
     <br/>
     <div>
-        <form id="frPensum" method="post" action="<?php echo BASE_URL; ?>pensum/agregarPensum">
+        <form id="frPensum" method="post" action="<?php echo BASE_URL; ?>pensum/listadoPensum">
             <div id="divPensum" class="form-group" >
                 <div style="margin-left: 5%; margin-right: 5%">
                     <table id="tbEdificios" border="2" align="center">
@@ -41,8 +41,8 @@
                                 <th style="text-align:center; width: 100px;">Fecha Inicial</th>
                                 <th style="text-align:center; width: 100px;">Fecha Final</th>
                                 <th style="text-align:center; width: 100px;">Duración(años)</th>
-                                <th style="text-align:center; width: 100px;"></th>
-
+                                <th style="text-align:center; width: 200px;"></th>
+                                <th style="text-align:center; width: 150px;"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -58,11 +58,20 @@
                                         <td style="text-align: center; padding-right: 20px;"><?php echo $this->lstPensum[$i]['duracionanios']; ?></td>
                                         <td style="text-align: center; padding-right: 20px;">
                                             <?php if (strcmp($this->lstPensum[$i]['finvigencia'], null) == 0): ?>
-                                                <a href="<?php echo BASE_URL . 'pensum/finalizarVigenciaPensum/'. $this->lstPensum[$i]['id']?>">Desactivar Pensum</a>
+                                                <a href="<?php echo BASE_URL . 'pensum/finalizarVigenciaPensum/' . $this->lstPensum[$i]['id'] ?>">Desactivar Pensum</a>
                                             <?php else : ?>
-                                                    Pensum desactivo
+                                                Pensum desactivo
                                             <?php endif; ?>
                                         </td>
+                                        <td style="text-align: center; padding-right: 20px;">
+                                            <?php if (strcmp($this->lstPensum[$i]['finvigencia'], null) == 0): ?>
+                                                <a href="<?php echo BASE_URL . 'pensum/crearPensum/' . $this->lstPensum[$i]['id'] ?>">Registrar cursos</a>
+                                            <?php else : ?>
+
+                                            <?php endif; ?>
+
+                                        </td>
+
 
                                     </tr>
                                 <?php endfor; ?>
