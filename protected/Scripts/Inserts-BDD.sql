@@ -752,4 +752,8 @@ INSERT INTO adm_tipoasignacion (tipoasignacion,nombre,descripcion) VALUES (3,'Ex
 INSERT INTO adm_periodo (periodo,ciclo,fechainicial,fechafinal,tipoperiodo,estado,tipoasignacion,centro_unidadacademica) VALUES (1,2,NULL,NULL,1,1,1,1);
 INSERT INTO adm_periodo (periodo,ciclo,fechainicial,fechafinal,tipoperiodo,estado,tipoasignacion,centro_unidadacademica) VALUES (2,2,current_date,'31/12/2015',1,1,2,1);
 
-
+-- -----------------------------------------------------
+-- Insert cur_tipoprerrequisito
+-- -----------------------------------------------------
+INSERT INTO CUR_TipoPrerrequisito (tipoprerrequisito,descripcion) values (1,'Curso');
+INSERT INTO CUR_TipoPrerrequisito (tipoprerrequisito,descripcion) values (2,'Créditos');

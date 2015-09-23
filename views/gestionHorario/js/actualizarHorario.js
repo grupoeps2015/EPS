@@ -1,13 +1,31 @@
 $(document).ready(function(){
     $('#frCarreras').validate({
         rules:{
-            txtNombre:{
+            txtMinutoInicial:{
+                required: true
+            },
+            txtMinutoFinal:{
+                required: true
+            },
+            txtHoraInicial:{
+                required: true
+            },
+            txtHoraFinal:{
                 required: true
             }
         },
         messages:{
-            txtNombre:{
-                required: "Ingrese el nombre de la carrera"
+            txtMinutoInicial:{
+                required: "Ingrese los minutos"
+            },
+            txtMinutoFinal:{
+                required: "Ingrese los minutos"
+            },
+            txtHoraInicial:{
+                required: "Ingrese la hora"
+            },
+            txtHoraFinal:{
+                required: "Ingrese la hora"
             }
         }
     });
@@ -28,6 +46,7 @@ $(document).ready(function(){
                     
                     if(datos.length>0){
                         $("#slPeriodos").html('');
+                        $("#slPeriodos").append('<option value="">(Seleccione)</option>');
                         for(var i =0; i < datos.length; i++){
                             $("#slPeriodos").append('<option value="' + datos[i].codigo + '">' + datos[i].minutos + ' minutos</option>' );
                         }
@@ -63,5 +82,99 @@ $(document).ready(function(){
                },
                'json');
     }
+    
+    $("#txtMinutoInicial,#txtHoraInicial,#slPeriodos").change(function(){
+        var minutosArreglados = parseInt($("#txtMinutoInicial").val()) < 10 ? '0' + parseInt($("#txtMinutoInicial").val()) : parseInt($("#txtMinutoInicial").val());
+        $("#txtMinutoInicial").val(minutosArreglados);
+        var horasArregladas = parseInt($("#txtHoraInicial").val()) < 10 ? '0' + parseInt($("#txtHoraInicial").val()) : parseInt($("#txtHoraInicial").val());
+        $("#txtHoraInicial").val(horasArregladas);
+        if($("#txtHoraInicial").val() && $("#txtMinutoInicial").val() && $("#slPeriodos").val()){
+            var minutosPeriodo = parseInt($("#slPeriodos option:selected").text());
+            var minutosIngresados = parseInt($("#txtHoraInicial").val()) * 60 + parseInt($("#txtMinutoInicial").val());
+            var minutosFinal = parseInt(minutosPeriodo) + parseInt(minutosIngresados);
+            var horas = Math.floor( minutosFinal / 60 );
+            var minutos = minutosFinal % 60;
+ 
+            //Anteponiendo un 0 a las horas si son menos de 10 
+            horas = horas < 10 ? '0' + horas : horas;
+ 
+            //Anteponiendo un 0 a los minutos si son menos de 10 
+            minutos = minutos < 10 ? '0' + minutos : minutos;
+
+            var result = horas + ":" + minutos;
+            $("#txtHoraFinal").val(horas);
+            $("#txtMinutoFinal").val(minutos);
+        }else{
+            $("#txtHoraFinal").val("");
+            $("#txtMinutoFinal").val("");
+        }
+    });
+    
+    $('#btnActualizarHor').click(function(){
+        if (getDisponibilidadSalonAjax()){
+            if (getDisponibilidadCatedraticoAjax()){
+                $('#frCarreras').submit();
+            }
+            else{
+                alert("Imposible guardar: El catedrático se encuentra ocupado en el horario indicado.");
+            }
+        }
+        else{
+            alert("Imposible guardar: El salón se encuentra ocupado en el horario indicado.");
+        }
+    });
+    
+    function getDisponibilidadSalonAjax(){
+        var cadena = false;
+        var ciclo = $('#slCiclo').val();
+        var salon = $('#slSalones').val();
+        var dia = $('#slDias').val();
+        var inicio = $("#txtHoraInicial").val()+":"+$("#txtMinutoInicial").val();
+        var fin = $("#txtHoraFinal").val()+":"+$("#txtMinutoFinal").val();
+        $.ajax({
+          type: "POST",
+          url: '/EPS/ajax/getDisponibilidadSalonAjax',
+          data: {ciclo:ciclo, salon:salon, dia:dia, inicio:inicio, fin:fin},
+          async: false,
+          success: function(datos){
+                    if(datos.length>0){
+                        if(datos[0].id==$('#hdHorario').val()){
+                            cadena = true;
+                        }
+                        else{
+                            cadena = false;
+                        }
+                    }else{
+                        cadena = true;
+                    }
+               },
+          dataType: 'json'
+        });
+        return cadena;
+     }
+     
+     function getDisponibilidadCatedraticoAjax(){
+        var cadena = false;
+        var ciclo = $('#slCiclo').val();
+        var cat = $('#slCatedraticos').val();
+        var dia = $('#slDias').val();
+        var inicio = $("#txtHoraInicial").val()+":"+$("#txtMinutoInicial").val();
+        var fin = $("#txtHoraFinal").val()+":"+$("#txtMinutoFinal").val();
+        $.ajax({
+          type: "POST",
+          url: '/EPS/ajax/getDisponibilidadCatedraticoAjax',
+          data: {ciclo:ciclo, cat:cat, dia:dia, inicio:inicio, fin:fin},
+          async: false,
+          success: function(datos){
+                    if(datos.length>0){
+                        cadena = false;
+                    }else{
+                        cadena = true;
+                    }
+               },
+          dataType: 'json'
+        });
+        return cadena;
+     }
 });
 

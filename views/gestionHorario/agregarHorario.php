@@ -81,9 +81,11 @@
                                         <select id="slEdificios" name="slEdificios" class="form-control input-lg">
                                             <option value="">-- Edificio --</option>
                                             <?php for($i =0; $i < count($this->edificios); $i++) : ?>
+                                            <?php if($this->edificios[$i]['estado'] == 'Activo'): ?>
                                             <option value="<?php echo $this->edificios[$i]['id'];?>">
                                                 <?php echo $this->edificios[$i]['nombre']; ?>
                                             </option>
+                                            <?php endif;?>
                                             <?php endfor;?>
                                         </select><br/>
                                         <?php else : ?>
@@ -146,16 +148,16 @@
                                     </td>
                                     <td>&nbsp;</td>
                                     <td>*Hora fin:
-                                        <input type="number" min="0" max="23" id="txtHoraFinal" name="txtHoraFinal" class="form-control input-lg" value="" style="text-align:right">
+                                        <input type="number" min="0" max="23" id="txtHoraFinal" name="txtHoraFinal" class="form-control input-lg" value="" style="text-align:right" readonly>
                                         <br/>
                                     </td>
                                     <td style="text-align:center">:</td>
                                     <td>
-                                        <input type="number" min="0" max="59" id="txtMinutoFinal" name="txtMinutoFinal" class="form-control input-lg" value="">
+                                        <input type="number" min="0" max="59" id="txtMinutoFinal" name="txtMinutoFinal" class="form-control input-lg" value="" readonly>
                                     </td>    
                                     <td>&nbsp;</td>
                                     <td rowspan="2" colspan="10">
-                                        <input type="submit" id="btnAgregarHor" name="btnAgregarHor" value="Guardar" class="btn btn-danger btn-lg btn-block">
+                                        <input type="button" id="btnAgregarHor" name="btnAgregarHor" value="Guardar" class="btn btn-danger btn-lg btn-block">
                                     </td>
                                 </tr>
                             </table>
@@ -165,7 +167,7 @@
                     <input type="hidden" name="hdEnvio" value="1">
                     <input type="hidden" name='slSec' value="<?php if(isset($this->idcurso)) echo $this->idcurso;?>"/>
                     <input type="hidden" name='hdSeccion' value="<?php if(isset($this->curso)) echo $this->curso;?>"/>
-                    <input type="hidden" name='slCiclo' value="<?php if(isset($this->idciclo)) echo $this->idciclo;?>"/>
+                    <input type="hidden" name='slCiclo' id='slCiclo' value="<?php if(isset($this->idciclo)) echo $this->idciclo;?>"/>
                 </form>
             </div>
         </div>
