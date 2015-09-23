@@ -204,6 +204,21 @@ class gestionHorarioController extends Controller {
                 $this->redireccionar("error");
                 exit;
             }
+            $arr2['ciclo'] = $idCiclo;
+            $arr2['dia'] = $dia;
+            $arr2['cat'] = $catedratico;
+            $arr2['inicio'] = $inicio;
+            $arr2['fin'] = $fin;
+            $catDisponible = $this->_ajax->getDisponibilidadCatedratico($arr2);
+            if(!is_array($catDisponible)){
+                $this->redireccionar("error/sql/" . $catDisponible);
+                exit;
+            }
+            
+            if(isset($catDisponible[0]['id'])){
+                $this->redireccionar("error");
+                exit;
+            }
             
             $Sec = $this->_post->datosSeccion($idSeccion);
             if(!is_array($Sec)){
@@ -404,6 +419,25 @@ class gestionHorarioController extends Controller {
             
             if(isset($salonDisponible[0]['id'])){
                 if($salonDisponible[0]['id'] == $intIdHorario){
+                }
+                else{
+                    $this->redireccionar("error");
+                    exit;
+                }
+            }
+            $arr2['ciclo'] = $idCiclo;
+            $arr2['cat'] = $catedratico;
+            $arr2['dia'] = $dia;
+            $arr2['inicio'] = $inicio;
+            $arr2['fin'] = $fin;
+            $catDisponible = $this->_ajax->getDisponibilidadCatedratico($arr2);
+            if(!is_array($catDisponible)){
+                $this->redireccionar("error/sql/" . $catDisponible);
+                exit;
+            }
+            
+            if(isset($catDisponible[0]['id'])){
+                if($catDisponible[0]['id'] == $intIdHorario){
                 }
                 else{
                     $this->redireccionar("error");

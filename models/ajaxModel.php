@@ -256,4 +256,14 @@ class ajaxModel extends Model{
             return $info->fetchall();
         }
     }
+    
+    public function getDisponibilidadCatedratico($_datos) {
+        $info = $this->_db->prepare("SELECT * from spDisponibilidadCatedratico(:ciclo,:cat,:dia,:inicio,:fin) as Id;");
+        $info->execute($_datos);
+        if($info === false){
+            return "1200/getDisponibilidadCatedratico";
+        }else{
+            return $info->fetchall();
+        }
+    }
 }

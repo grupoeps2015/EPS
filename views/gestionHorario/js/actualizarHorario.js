@@ -112,7 +112,12 @@ $(document).ready(function(){
     
     $('#btnActualizarHor').click(function(){
         if (getDisponibilidadSalonAjax()){
-            $('#frCarreras').submit();
+            if (getDisponibilidadCatedraticoAjax()){
+                $('#frCarreras').submit();
+            }
+            else{
+                alert("Imposible guardar: El catedrático se encuentra ocupado en el horario indicado.");
+            }
         }
         else{
             alert("Imposible guardar: El salón se encuentra ocupado en el horario indicado.");
@@ -139,6 +144,30 @@ $(document).ready(function(){
                         else{
                             cadena = false;
                         }
+                    }else{
+                        cadena = true;
+                    }
+               },
+          dataType: 'json'
+        });
+        return cadena;
+     }
+     
+     function getDisponibilidadCatedraticoAjax(){
+        var cadena = false;
+        var ciclo = $('#slCiclo').val();
+        var cat = $('#slCatedraticos').val();
+        var dia = $('#slDias').val();
+        var inicio = $("#txtHoraInicial").val()+":"+$("#txtMinutoInicial").val();
+        var fin = $("#txtHoraFinal").val()+":"+$("#txtMinutoFinal").val();
+        $.ajax({
+          type: "POST",
+          url: '/EPS/ajax/getDisponibilidadCatedraticoAjax',
+          data: {ciclo:ciclo, cat:cat, dia:dia, inicio:inicio, fin:fin},
+          async: false,
+          success: function(datos){
+                    if(datos.length>0){
+                        cadena = false;
                     }else{
                         cadena = true;
                     }
