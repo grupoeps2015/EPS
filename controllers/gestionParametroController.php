@@ -264,4 +264,76 @@ class gestionParametroController extends Controller{
 //        }
         
     }
+    
+    public function agregarPeriodo() {
+        
+        
+        session_start();
+        $rol = $_SESSION["rol"];
+        //TODO: Marlen: Funciones de períodos
+//        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_CREARSECCION);
+//         
+//        if($rolValido[0]["valido"]!= PERMISO_CREAR){
+//           echo "<script>
+//                alert('No tiene permisos suficientes para acceder a esta función.');
+//                window.location.href='" . BASE_URL . "gestionCurso/listadoSeccion';
+//                </script>";
+//        }
+        
+        $idCentroUnidad = $_SESSION["centrounidad"];
+        
+        if ($this->getInteger('hdEnvio')) {
+            $tipoPeriodo = $this->getInteger('slTiposSeccion');
+            $nombreSeccion = $this->getTexto('txtNombre');
+            $descSeccion = $this->getTexto('txtDesc');
+            $curso = $this->getTexto('slCursos');
+
+            $arraySec['tiposeccion'] = $tipoSeccion;
+            $arraySec['descripcion'] = $descSeccion;
+            $arraySec['nombre'] = $nombreSeccion;
+            $arraySec['curso'] = $curso;
+            $arraySec['estado'] = ESTADO_ACTIVO;
+
+            $info = $this->_post->agregarSeccion($arraySec);
+            if(!is_array($info)){
+                $this->redireccionar("error/sql/" . $info);
+                exit;
+            }
+            
+            $this->redireccionar('gestionCurso/listadoSeccion');
+        }
+        
+        $tiposPeriodo = $this->_post->getTiposPeriodo();
+        if(is_array($tiposPeriodo)){
+            $this->_view->tiposPeriodo = $tiposPeriodo;
+        }else{
+            $this->redireccionar("error/sql/" . $tiposPeriodo);
+            exit;
+        }
+        
+        $tiposAsign = $this->_post->getTiposAsign();
+        if(is_array($tiposAsign)){
+            $this->_view->tiposAsign = $tiposAsign;
+        }else{
+            $this->redireccionar("error/sql/" . $tiposAsign);
+            exit;
+        }
+        
+        $tipociclo = 1;//TODO: Marlen: consultar parámetro en base de datos
+        $lsAnios = $this->_ajax->getAniosAjax($tipociclo);
+        if(is_array($lsAnios)){
+            $this->_view->lstAnios = $lsAnios;
+        }else{
+            $this->redireccionar("error/sql/" . $lsAnios);
+            exit;
+        }
+        
+        $this->_view->titulo = 'Agregar Período - ' . APP_TITULO;
+        $this->_view->id = $idCentroUnidad;
+        $this->_view->setJs(array('agregarPeriodo'));
+        $this->_view->setJs(array('jquery.validate'), "public");
+        $arraySec = array();
+        
+        $this->_view->renderizar('agregarPeriodo');    
+    }
 }

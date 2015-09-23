@@ -26,11 +26,8 @@
             <form id="frEstudiantes" method="post" action="<?php echo BASE_URL; ?>asignacion">
                 <table>
                     <tr>
-                        <td style="width: 10%">
-                            <h4>A&ntilde;o: </h4>
-                            <br/>
-                        </td>
-                        <td style="width:40%;">
+                        <td>
+                            A&ntilde;o:
                             <select id="slAnio" name="slAnio" class="form-control input-lg">
                                 <?php if (isset($this->lstAnios) && count($this->lstAnios)): ?>
                                     <option value="">-- A&ntilde;o --</option>
@@ -42,15 +39,11 @@
                                 <?php else : ?>
                                     <option value="">-- No existen a&ntilde;o registrados --</option>
                                 <?php endif; ?>
-                            </select>
+                            </select><br/>
                         </td>
-                    </tr>
-                    <tr>
-                        <td style="width: 10%">
-                            <h4>Ciclo: </h4>
-                            <br/>
-                        </td>
-                        <td style="width:40%;">
+                        <td>&nbsp;</td>
+                        <td>
+                            Ciclo:
                             <select id="slCiclo" name="slCiclo" class="form-control input-lg">
                                 <?php if (isset($this->lstCiclos) && count($this->lstCiclos)): ?>
                                     <option value="">-- Ciclo --</option>
@@ -62,14 +55,15 @@
                                 <?php else : ?>
                                     <option value="" disabled>-- Ciclo --</option>
                                 <?php endif; ?>
-                            </select>
+                            </select><br/>
                         </td>
+                        <td>&nbsp;</td>
                     </tr>
                     <tr>
-                        <td>&nbsp;</td>
-                        <td style="text-align:right;">
+                        <td colspan="3" style="text-align:right;">
                             <input type="submit" id="btnConsultar" value="Consultar" class="btn btn-danger btn-lg btn-warning" disabled>
                         </td>
+                        <td>&nbsp;</td>
                     </tr>
                     <input type="hidden" name="hdEnvio" value="1">
                 </table>

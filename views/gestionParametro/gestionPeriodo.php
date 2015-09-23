@@ -17,11 +17,9 @@
                 <div class="col-lg-3 col-md-6 text-center"></div>
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
-                        <form method='post' name='frmPost' id='frmPost' action=''>
                             <i class="fa fa-2x fa-toggle-on wow bounceIn text-primary" data-wow-delay=".2s">
-                                <a id="linkSeccionNueva" href="#">Agregar Per&iacute;odo</a>
+                                <a id="linkSeccionNueva" href="<?php echo BASE_URL?>gestionParametro/agregarPeriodo">Agregar Per&iacute;odo</a>
                             </i>
-                        </form>
                     </div>
                 </div>
             </div>
