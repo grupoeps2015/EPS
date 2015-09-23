@@ -82,9 +82,11 @@
                                         <select id="slEdificios" name="slEdificios" class="form-control input-lg">
                                             <option value="">-- Edificio --</option>
                                             <?php for($i =0; $i < count($this->edificios); $i++) : ?>
+                                            <?php if($this->edificios[$i]['estado'] == 'Activo'): ?>
                                             <option value="<?php echo $this->edificios[$i]['id'];?>" <?php if(isset($this->datosHor[0]['edificio']) && $this->datosHor[0]['edificio'] == $this->edificios[$i]['id']) echo 'selected'?>>
                                                 <?php echo $this->edificios[$i]['nombre']; ?>
                                             </option>
+                                            <?php endif;?>
                                             <?php endfor;?>
                                         </select><br/>
                                         <?php else : ?>
@@ -103,7 +105,9 @@
                                             <?php endfor;?>
                                         </select><br/>
                                         <?php else : ?>
-                                        &nbsp;
+                                        <select id="slSalones" name="slSalones" class="form-control input-lg">
+                                        <option value="" disabled>-- Salón --</option>
+                                        </select><br/>
                                         <?php endif;?>
                                     </td>
                                     <td>&nbsp;</td>
@@ -142,6 +146,7 @@
                                     <td colspan="3" style="width: 30%;">*Per&iacute;odo:
                                         <?php if(isset($this->periodos) && count($this->periodos)): ?>
                                         <select id="slPeriodos" name="slPeriodos" class="form-control input-lg">
+                                            <option value="">(Seleccione)</option>
                                             <?php for($i =0; $i < count($this->periodos); $i++) : ?>
                                             <option value="<?php echo $this->periodos[$i]['codigo'];?>" <?php if(isset($this->datosHor[0]['periodo']) && $this->datosHor[0]['periodo'] == $this->periodos[$i]['codigo']) echo 'selected'?>>
                                                 <?php echo $this->periodos[$i]['minutos']. " minutos"; ?>
@@ -164,22 +169,24 @@
                                     </td>    
                                     <td>&nbsp;</td>
                                     <td>*Hora fin:
-                                        <input type="number" min="0" max="23" id="txtHoraFinal" name="txtHoraFinal" class="form-control input-lg" value="<?php if(isset($this->datosHor[0]['inicio'])) {$var = (array)(explode(":", $this->datosHor[0]['fin'])); echo $var[0];}?>" style="text-align:right">
+                                        <input type="number" min="0" max="23" id="txtHoraFinal" name="txtHoraFinal" class="form-control input-lg" value="<?php if(isset($this->datosHor[0]['inicio'])) {$var = (array)(explode(":", $this->datosHor[0]['fin'])); echo $var[0];}?>" style="text-align:right" readonly>
                                         <br/>
                                     </td>
                                     <td style="text-align:center">:</td>
                                     <td>
-                                        <input type="number" min="0" max="59" id="txtMinutoFinal" name="txtMinutoFinal" class="form-control input-lg" value="<?php if(isset($this->datosHor[0]['inicio'])) {$var = (array)(explode(":", $this->datosHor[0]['fin'])); echo $var[1];}?>">
+                                        <input type="number" min="0" max="59" id="txtMinutoFinal" name="txtMinutoFinal" class="form-control input-lg" value="<?php if(isset($this->datosHor[0]['inicio'])) {$var = (array)(explode(":", $this->datosHor[0]['fin'])); echo $var[1];}?>" readonly>
                                     </td>    
                                     <td>&nbsp;</td>
                                     <td colspan="3">
-                                        <input type="submit" id="btnActualizarHor" name="btnActualizarHor" value="Actualizar" class="btn btn-danger btn-lg btn-block">
+                                        <input type="button" id="btnActualizarHor" name="btnActualizarHor" value="Actualizar" class="btn btn-danger btn-lg btn-block">
                                     </td>
                                 </tr>
                             </table>
                             <br />
                         </div>
                     </div>
+                    <input type="hidden" name="hdHorario" id="hdHorario" value="<?php echo $this->id?>">
+                    <input type="hidden" name='slCiclo' id='slCiclo' value="<?php if(isset($this->idciclo)) echo $this->idciclo;?>"/>
                     <input type="hidden" name="hdEnvio" value="1">
                 </form>
             </div>

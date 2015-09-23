@@ -57,7 +57,7 @@ begin
 	        cur_trama tra on tra.seccion = sec.seccion
 	      join
 	        cur_horario hor on hor.trama = tra.trama
-	      where hor.ciclo = _ciclo and pen.carrera = _carrera and pen.finvigencia is null;
+	      where hor.ciclo = _ciclo and hor.estado = 1 and pen.carrera = _carrera and pen.finvigencia is null;
 end;
 $BODY$
   LANGUAGE plpgsql VOLATILE
