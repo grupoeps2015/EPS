@@ -1,6 +1,7 @@
 var nodeid = "";
 var chkOtros = false;
 var nodoSeleccionado = false;
+
 $(document).ready(function(){
     
     $('#divPensum').css("display", "block");
@@ -16,14 +17,15 @@ $(document).ready(function(){
     
     var data = [
 			{
-			 id:-1,
-			 label: 'Pensum',
-			 children: [
-			 //{ label: 'nodo_child1',id:Math.random().toString(36).substr(2, 9) },
-			 //{ label: 'nodo_child2',id:Math.random().toString(36).substr(2, 9) }
-                        ]
+                            id:-1,
+                            label: 'Pensum',
+                            children: [
+                            //{ label: 'nodo_child1',id:Math.random().toString(36).substr(2, 9) },
+                            //{ label: 'nodo_child2',id:Math.random().toString(36).substr(2, 9) }
+                           ]
 			}
 	];
+        
 	var padre=$('#arbolPensum').tree({
         data: data,
         autoOpen: true,
@@ -37,7 +39,25 @@ $(document).ready(function(){
             nodeid = $('#arbolPensum').tree('getSelectedNode');
         }
     );
-        
+    
+    $('#arbolPensum').bind(
+    'tree.select',
+    function(event) {
+        if (event.node) {
+            // node was selected
+            nodoSeleccionado = true;
+            //nodeid = $('#arbolPensum').tree('getSelectedNode');
+            nodeid = event.node.id;
+            //alert(node.name);
+        }
+        else {
+            // event.node is null
+            // a node was deselected
+            // e.previous_node contains the deselected node
+        }
+    }
+);
+            
     $('#chkOtrosPrerrequisitos').change(function() {
         if(document.getElementById("chkOtrosPrerrequisitos").checked){
             chkOtros = true;
@@ -50,8 +70,8 @@ $(document).ready(function(){
             document.getElementById("txtOtrosPrerrequisitos").disabled = true;
             document.getElementById("slCursos").disabled = false;               
         }
-    });
-  
+    });    
+    
 });
 
 function agregar() {
@@ -71,16 +91,17 @@ function agregar() {
             $('#arbolPensum').tree('openNode', parent_node);
         } 
         nodoSeleccionado = false;
+        
     }
     else{
-        alert("Debe seleccionar un elemento del pensum para continuar definiendo la estructura.")
+        alert("Debe seleccionar un elemento del pensum para continuar definiendo la estructura.");
     }
 }
 
 function mostrar() {alert($('#arbolPensum').tree('toJson'));}
 
 function remover() {
-		var parent_node = $('#arbolPensum').tree('getNodeById', nodeid.id);
+	var parent_node = $('#arbolPensum').tree('getNodeById', nodeid.id);
         $('#arbolPensum').tree('removeNode',parent_node);
     }
 
