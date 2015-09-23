@@ -24,7 +24,7 @@
     <div class="header-content">
         <div class="header-content-inner">
             <div class="row">
-                <form id="frSecciones" method="post" action="<?php echo BASE_URL; ?>gestionCurso/agregarSeccion">
+                <form id="frSecciones" method="post" action="<?php echo BASE_URL; ?>gestionParametro/agregarPeriodo">
                     <div id="divSecciones" class="form-group" >
                         <div class="col-md-6 col-md-offset-3">
                             <table>
@@ -65,11 +65,11 @@
                                 <tr>
                                     <td colspan="3">
                                         *Tipo de período:
-                                        <?php if(isset($this->tiposSeccion) && count($this->tiposSeccion)): ?>
-                                        <select id="slTiposSeccion" name="slTiposSeccion" class="form-control input-lg">
-                                            <?php for($i =0; $i < count($this->tiposSeccion); $i++) : ?>
-                                            <option value="<?php echo $this->tiposSeccion[$i]['codigo'];?>">
-                                                <?php echo $this->tiposSeccion[$i]['nombre']; ?>
+                                        <?php if(isset($this->tiposPeriodo) && count($this->tiposPeriodo)): ?>
+                                        <select id="slTiposPeriodo" name="slTiposPeriodo" class="form-control input-lg">
+                                            <?php for($i =0; $i < count($this->tiposPeriodo); $i++) : ?>
+                                            <option value="<?php echo $this->tiposPeriodo[$i]['codigo'];?>">
+                                                <?php echo $this->tiposPeriodo[$i]['nombre']; ?>
                                             </option>
                                             <?php endfor;?>
                                         </select><br/>
@@ -82,11 +82,11 @@
                                 <tr>
                                     <td colspan="3">
                                         *Tipo de asignación:
-                                        <?php if(isset($this->cursos) && count($this->cursos)): ?>
-                                        <select id="slCursos" name="slCursos" class="form-control input-lg">
-                                            <?php for($i =0; $i < count($this->cursos); $i++) : ?>
-                                            <option value="<?php echo $this->cursos[$i]['codigo'];?>">
-                                                <?php echo $this->cursos[$i]['nombre']; ?>
+                                        <?php if(isset($this->tiposAsign) && count($this->tiposAsign)): ?>
+                                        <select id="slTiposAsign" name="slTiposAsign" class="form-control input-lg">
+                                            <?php for($i =0; $i < count($this->tiposAsign); $i++) : ?>
+                                            <option value="<?php echo $this->tiposAsign[$i]['codigo'];?>">
+                                                <?php echo $this->tiposAsign[$i]['nombre']; ?>
                                             </option>
                                             <?php endfor;?>
                                         </select><br/>

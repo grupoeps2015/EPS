@@ -12,6 +12,27 @@ $(document).ready(function(){
             },
             txtHoraFinal:{
                 required: true
+            },
+            slCatedraticos:{
+                required: true
+            },
+            slDias:{
+                required: true
+            },
+            slEdificios:{
+                required: true
+            },
+            slSalones:{
+                required: true
+            },
+            slJornadas:{
+                required: true
+            },
+            slTiposPeriodos:{
+                required: true
+            },
+            slPeriodos:{
+                required: true
             }
         },
         messages:{
@@ -26,6 +47,27 @@ $(document).ready(function(){
             },
             txtHoraFinal:{
                 required: "Ingrese la hora"
+            },
+            slCatedraticos:{
+                required: "Seleccione un catedrático"
+            },
+            slDias:{
+                required: "Seleccione un día"
+            },
+            slEdificios:{
+                required: "Seleccione un edificio"
+            },
+            slSalones:{
+                required: "Seleccione un salón"
+            },
+            slJornadas:{
+                required: "Seleccione una jornada"
+            },
+            slTiposPeriodos:{
+                required: "Seleccione un tipo de período"
+            },
+            slPeriodos:{
+                required: "Seleccione un período"
             }
         }
     });
@@ -83,7 +125,7 @@ $(document).ready(function(){
                'json');
     }
     
-    $("#txtMinutoInicial,#txtHoraInicial,#slPeriodos").change(function(){
+    $("#txtMinutoInicial,#txtHoraInicial,#slPeriodos,#slTiposPeriodos").change(function(){
         var minutosArreglados = parseInt($("#txtMinutoInicial").val()) < 10 ? '0' + parseInt($("#txtMinutoInicial").val()) : parseInt($("#txtMinutoInicial").val());
         $("#txtMinutoInicial").val(minutosArreglados);
         var horasArregladas = parseInt($("#txtHoraInicial").val()) < 10 ? '0' + parseInt($("#txtHoraInicial").val()) : parseInt($("#txtHoraInicial").val());
@@ -131,20 +173,30 @@ $(document).ready(function(){
         var dia = $('#slDias').val();
         var inicio = $("#txtHoraInicial").val()+":"+$("#txtMinutoInicial").val();
         var fin = $("#txtHoraFinal").val()+":"+$("#txtMinutoFinal").val();
-        $.ajax({
-          type: "POST",
-          url: '/EPS/ajax/getDisponibilidadSalonAjax',
-          data: {ciclo:ciclo, salon:salon, dia:dia, inicio:inicio, fin:fin},
-          async: false,
-          success: function(datos){
-                    if(datos.length>0){
-                        cadena = false;
-                    }else{
-                        cadena = true;
-                    }
-               },
-          dataType: 'json'
-        });
+        if(ciclo && salon && dia && inicio && fin){
+            $.ajax({
+              type: "POST",
+              url: '/EPS/ajax/getDisponibilidadSalonAjax',
+              data: {ciclo:ciclo, salon:salon, dia:dia, inicio:inicio, fin:fin},
+              async: false,
+              success: function(datos){
+                        if(datos.length>0){
+                            if(datos[0].id==$('#hdHorario').val()){
+                                cadena = true;
+                            }
+                            else{
+                                cadena = false;
+                            }
+                        }else{
+                            cadena = true;
+                        }
+                   },
+              dataType: 'json'
+            });
+        }
+        else{
+            cadena = true;
+        }
         return cadena;
      }
      
@@ -155,20 +207,26 @@ $(document).ready(function(){
         var dia = $('#slDias').val();
         var inicio = $("#txtHoraInicial").val()+":"+$("#txtMinutoInicial").val();
         var fin = $("#txtHoraFinal").val()+":"+$("#txtMinutoFinal").val();
-        $.ajax({
-          type: "POST",
-          url: '/EPS/ajax/getDisponibilidadCatedraticoAjax',
-          data: {ciclo:ciclo, cat:cat, dia:dia, inicio:inicio, fin:fin},
-          async: false,
-          success: function(datos){
-                    if(datos.length>0){
-                        cadena = false;
-                    }else{
-                        cadena = true;
-                    }
-               },
-          dataType: 'json'
-        });
+        if(ciclo && cat && dia && inicio && fin){
+            $.ajax({
+              type: "POST",
+              url: '/EPS/ajax/getDisponibilidadCatedraticoAjax',
+              data: {ciclo:ciclo, cat:cat, dia:dia, inicio:inicio, fin:fin},
+              async: false,
+              success: function(datos){
+                        if(datos.length>0){
+                            cadena = false;
+                        }else{
+                            cadena = true;
+                        }
+                   },
+              dataType: 'json'
+            });
+        }
+        else{
+            cadena = true;
+        }
+            
         return cadena;
      }
 });

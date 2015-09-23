@@ -7,6 +7,12 @@ $(document).ready(function(){
             },
             txtNombre:{
                 required: true
+            },
+            slTiposCurso:{
+                required: true
+            },
+            slTraslape:{
+                required: true
             }
         },
         messages:{
@@ -15,6 +21,12 @@ $(document).ready(function(){
             },
             txtNombre:{
                 required: "Ingrese el nombre del curso"
+            },
+            slTiposCurso:{
+                required: "Seleccione un tipo de curso"
+            },
+            slTraslape:{
+                required: "Seleccione el traslape"
             }
         }
     });

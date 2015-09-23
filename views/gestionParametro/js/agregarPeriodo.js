@@ -1,8 +1,32 @@
 $(document).ready(function(){
     $('#frSecciones').validate({
         rules:{
+            slAnio:{
+                required: true
+            },
+            slCiclo:{
+                required: true
+            },
+            slTiposPeriodo:{
+                required: true
+            },
+            slTiposAsign:{
+                required: true
+            }
         },
         messages:{
+            slAnio:{
+                required: "Seleccione un año"
+            },
+            slCiclo:{
+                required: "Seleccione un ciclo"
+            },
+            slTiposPeriodo:{
+                required: "Seleccione un tipo de período"
+            },
+            slTiposAsign:{
+                required: "Seleccione un tipo de asignación"
+            }
         }
     });
     

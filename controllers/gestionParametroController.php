@@ -283,7 +283,7 @@ class gestionParametroController extends Controller{
         $idCentroUnidad = $_SESSION["centrounidad"];
         
         if ($this->getInteger('hdEnvio')) {
-            $tipoSeccion = $this->getInteger('slTiposSeccion');
+            $tipoPeriodo = $this->getInteger('slTiposSeccion');
             $nombreSeccion = $this->getTexto('txtNombre');
             $descSeccion = $this->getTexto('txtDesc');
             $curso = $this->getTexto('slCursos');
@@ -303,19 +303,19 @@ class gestionParametroController extends Controller{
             $this->redireccionar('gestionCurso/listadoSeccion');
         }
         
-        $secciones = $this->_post->getTiposPeriodo();
-        if(is_array($secciones)){
-            $this->_view->tiposSeccion = $secciones;
+        $tiposPeriodo = $this->_post->getTiposPeriodo();
+        if(is_array($tiposPeriodo)){
+            $this->_view->tiposPeriodo = $tiposPeriodo;
         }else{
-            $this->redireccionar("error/sql/" . $secciones);
+            $this->redireccionar("error/sql/" . $tiposPeriodo);
             exit;
         }
         
-        $cursos = $this->_post->getTiposAsign();
-        if(is_array($cursos)){
-            $this->_view->cursos = $cursos;
+        $tiposAsign = $this->_post->getTiposAsign();
+        if(is_array($tiposAsign)){
+            $this->_view->tiposAsign = $tiposAsign;
         }else{
-            $this->redireccionar("error/sql/" . $cursos);
+            $this->redireccionar("error/sql/" . $tiposAsign);
             exit;
         }
         
