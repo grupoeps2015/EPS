@@ -18,6 +18,11 @@ $(document).ready(function(){
             },
             txtNombreCen:{
                 required: true
+            },
+            txtCodigo:{
+                required: true,
+                max: 99,
+                min: 0
             }
         },
         messages:{
@@ -37,6 +42,11 @@ $(document).ready(function(){
             },
             txtNombreCen:{
                 required: "Ingrese el nombre del centro que va a agregar"
+            },
+            txtCodigo:{
+                required: "Ingrese el codigo del centro universitario",
+                max: "El codigo debe ser como maximo 99",
+                min: "El codigo debe ser como minimo 0"
             }
         }
     });

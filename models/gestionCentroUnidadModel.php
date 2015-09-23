@@ -38,9 +38,9 @@ class gestionCentroUnidadModel extends Model{
     }
     
     public function setCentro($_datos){
-        $info = $this->_db->prepare("SELECT * from spAgregarCentros(:nombre,:direccion,:municipio,:zona);");
-        $info->execute($_datos);
-        if($info === false){
+        $info = $this->_db->prepare("SELECT * from spAgregarCentros(:codigo,:nombre,:direccion,:municipio,:zona);");
+        $data = $info->execute($_datos);
+        if($data === false){
             return "1101/setCentro";
         }else{
             return $info->fetchall();

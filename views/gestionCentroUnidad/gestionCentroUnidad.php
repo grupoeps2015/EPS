@@ -2,7 +2,7 @@
     <div class="header">
         <div class="row">
             <div class="col-lg-12 text-center">
-                <h2 class="section-heading">Gesti&oacute; de Centros Regionales</h2>
+                <h2 class="section-heading">Gesti&oacute; de Centros Universitarios</h2>
                 <hr class="primary">
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
@@ -34,7 +34,7 @@
             <table id="tbCentrosRegionales" border="2" align="center">
                 <thead>
                     <tr>
-                        <th style="text-align:center;">No.</th>
+                        <th style="text-align:center;">C&oacute;digo</th>
                         <th style="text-align:center;">Nombre</th>
                         <th style="text-align:center;">Direcci&oacute;n</th>
                         <th style="text-align:center;">&nbsp;</th>
