@@ -109,5 +109,43 @@ $(document).ready(function(){
             $("#txtMinutoFinal").val("");
         }
     });
+    
+    $('#btnActualizarHor').click(function(){
+        if (getDisponibilidadSalonAjax()){
+            $('#frCarreras').submit();
+        }
+        else{
+            alert("Imposible guardar: El salón se encuentra ocupado en el horario indicado.");
+        }
+    });
+    
+    function getDisponibilidadSalonAjax(){
+        var cadena = false;
+        var ciclo = $('#slCiclo').val();
+        var salon = $('#slSalones').val();
+        var dia = $('#slDias').val();
+        var inicio = $("#txtHoraInicial").val()+":"+$("#txtMinutoInicial").val();
+        var fin = $("#txtHoraFinal").val()+":"+$("#txtMinutoFinal").val();
+        $.ajax({
+          type: "POST",
+          url: '/EPS/ajax/getDisponibilidadSalonAjax',
+          data: {ciclo:ciclo, salon:salon, dia:dia, inicio:inicio, fin:fin},
+          async: false,
+          success: function(datos){
+                    if(datos.length>0){
+                        if(datos[0].id==$('#hdHorario').val()){
+                            cadena = true;
+                        }
+                        else{
+                            cadena = false;
+                        }
+                    }else{
+                        cadena = true;
+                    }
+               },
+          dataType: 'json'
+        });
+        return cadena;
+     }
 });
 

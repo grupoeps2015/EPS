@@ -383,3 +383,33 @@ END; $BODY$
   COST 100;
 ALTER FUNCTION spactualizarcarrera(text, integer)
   OWNER TO postgres;
+  
+  
+-- Function: spdisponibilidadsalon(integer, integer, integer, text, text)
+
+-- DROP FUNCTION spdisponibilidadsalon(integer, integer, integer, text, text);
+
+CREATE OR REPLACE FUNCTION spdisponibilidadsalon(
+    _ciclo integer,
+    _salon integer,
+    _dia integer,
+    _inicio text,
+    _fin text)
+  RETURNS setof integer AS
+$BODY$
+BEGIN
+  RETURN query Select 
+    h.horario
+  from 
+    CUR_Horario h 
+    join CUR_Trama t on h.trama = t.trama
+    join CUR_Dia d on d.codigo = t.dia 
+    join CUR_Horario_Salon hs on h.horario = hs.horario 
+    join CUR_Salon s on s.salon = hs.salon
+  where h.ciclo = _ciclo and hs.salon = _salon and t.dia = _dia and cast(_inicio as time) < t.fin and cast(_fin as time) > t.inicio and h.estado = 1;
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION spdisponibilidadsalon(integer, integer, integer, text, text)
+  OWNER TO postgres;

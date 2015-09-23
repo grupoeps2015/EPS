@@ -208,14 +208,14 @@ ALTER FUNCTION spcentrounidad(integer, integer)
 
 CREATE OR REPLACE FUNCTION spanioxtipociclo(
     IN _tipo integer)
-  RETURNS INTEGER AS
+  RETURNS setof INTEGER AS
 $BODY$
 begin
- Return (select distinct
+ Return query select distinct
 		cic.anio
 	      from 
 	        cur_ciclo cic
-	      where cic.tipociclo = _tipo order by cic.anio asc) ::INTEGER;
+	      where cic.tipociclo = _tipo order by cic.anio asc;
 end;
 $BODY$
   LANGUAGE plpgsql VOLATILE

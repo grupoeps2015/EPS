@@ -178,13 +178,15 @@
                                     </td>    
                                     <td>&nbsp;</td>
                                     <td colspan="3">
-                                        <input type="submit" id="btnActualizarHor" name="btnActualizarHor" value="Actualizar" class="btn btn-danger btn-lg btn-block">
+                                        <input type="button" id="btnActualizarHor" name="btnActualizarHor" value="Actualizar" class="btn btn-danger btn-lg btn-block">
                                     </td>
                                 </tr>
                             </table>
                             <br />
                         </div>
                     </div>
+                    <input type="hidden" name="hdHorario" id="hdHorario" value="<?php echo $this->id?>">
+                    <input type="hidden" name='slCiclo' id='slCiclo' value="<?php if(isset($this->idciclo)) echo $this->idciclo;?>"/>
                     <input type="hidden" name="hdEnvio" value="1">
                 </form>
             </div>

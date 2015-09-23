@@ -246,4 +246,14 @@ class ajaxModel extends Model{
             return $post->fetchall();
         }
     }
+    
+    public function getDisponibilidadSalon($_datos) {
+        $info = $this->_db->prepare("SELECT * from spDisponibilidadSalon(:ciclo,:salon,:dia,:inicio,:fin) as Id;");
+        $info->execute($_datos);
+        if($info === false){
+            return "1200/getDisponibilidadSalon";
+        }else{
+            return $info->fetchall();
+        }
+    }
 }

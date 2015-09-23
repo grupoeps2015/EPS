@@ -157,7 +157,7 @@
                                     </td>    
                                     <td>&nbsp;</td>
                                     <td rowspan="2" colspan="10">
-                                        <input type="submit" id="btnAgregarHor" name="btnAgregarHor" value="Guardar" class="btn btn-danger btn-lg btn-block">
+                                        <input type="button" id="btnAgregarHor" name="btnAgregarHor" value="Guardar" class="btn btn-danger btn-lg btn-block">
                                     </td>
                                 </tr>
                             </table>
@@ -167,7 +167,7 @@
                     <input type="hidden" name="hdEnvio" value="1">
                     <input type="hidden" name='slSec' value="<?php if(isset($this->idcurso)) echo $this->idcurso;?>"/>
                     <input type="hidden" name='hdSeccion' value="<?php if(isset($this->curso)) echo $this->curso;?>"/>
-                    <input type="hidden" name='slCiclo' value="<?php if(isset($this->idciclo)) echo $this->idciclo;?>"/>
+                    <input type="hidden" name='slCiclo' id='slCiclo' value="<?php if(isset($this->idciclo)) echo $this->idciclo;?>"/>
                 </form>
             </div>
         </div>

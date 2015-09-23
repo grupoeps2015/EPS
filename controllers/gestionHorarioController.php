@@ -188,6 +188,23 @@ class gestionHorarioController extends Controller {
             $jornada = $this->getInteger('slJornadas');
             $inicio = $this->getTexto('txtHoraInicial').":".$this->getTexto('txtMinutoInicial');
             $fin = $this->getTexto('txtHoraFinal').":".$this->getTexto('txtMinutoFinal');
+            $salon = $this->getInteger('slSalones');
+            $arr['ciclo'] = $idCiclo;
+            $arr['salon'] = $salon;
+            $arr['dia'] = $dia;
+            $arr['inicio'] = $inicio;
+            $arr['fin'] = $fin;
+            $salonDisponible = $this->_ajax->getDisponibilidadSalon($arr);
+            if(!is_array($salonDisponible)){
+                $this->redireccionar("error/sql/" . $salonDisponible);
+                exit;
+            }
+            
+            if(isset($salonDisponible[0]['id'])){
+                $this->redireccionar("error");
+                exit;
+            }
+            
             $Sec = $this->_post->datosSeccion($idSeccion);
             if(!is_array($Sec)){
                 $this->redireccionar("error/sql/" . $Sec);
@@ -226,7 +243,7 @@ class gestionHorarioController extends Controller {
             }
             
             //Llena la tabla CUR_Horario_Salon
-            $horariosalon = $this->_post->agregarHorarioSalon((isset($horario[0][0]) ? $horario[0][0] : -1),$this->getInteger('slSalones'));
+            $horariosalon = $this->_post->agregarHorarioSalon((isset($horario[0][0]) ? $horario[0][0] : -1),$salon);
             if(!is_array($horariosalon)){
                 $this->redireccionar("error/sql/" . $horariosalon);
                 exit;
@@ -362,7 +379,7 @@ class gestionHorarioController extends Controller {
         $actualizar = false;
         $this->_view->id = $intIdHorario;
         $this->_view->parametros = $parametros;
-        
+        $this->_view->idciclo = $idCiclo;
         
         $this->_view->titulo = 'Actualizar Horario - ' . APP_TITULO;
         
@@ -373,6 +390,27 @@ class gestionHorarioController extends Controller {
             $jornada = $this->getInteger('slJornadas');
             $inicio = $this->getTexto('txtHoraInicial').":".$this->getTexto('txtMinutoInicial');
             $fin = $this->getTexto('txtHoraFinal').":".$this->getTexto('txtMinutoFinal');
+            $salon = $this->getInteger('slSalones');
+            $arr['ciclo'] = $idCiclo;
+            $arr['salon'] = $salon;
+            $arr['dia'] = $dia;
+            $arr['inicio'] = $inicio;
+            $arr['fin'] = $fin;
+            $salonDisponible = $this->_ajax->getDisponibilidadSalon($arr);
+            if(!is_array($salonDisponible)){
+                $this->redireccionar("error/sql/" . $salonDisponible);
+                exit;
+            }
+            
+            if(isset($salonDisponible[0]['id'])){
+                if($salonDisponible[0]['id'] == $intIdHorario){
+                }
+                else{
+                    $this->redireccionar("error");
+                    exit;
+                }
+            }
+            
             $Sec = $this->_post->datosSeccion($idSeccion);
             if(!is_array($Sec)){
                 $this->redireccionar("error/sql/" . $Sec);
@@ -409,7 +447,7 @@ class gestionHorarioController extends Controller {
             }
             
             //Llena la tabla CUR_Horario_Salon
-            $horariosalon = $this->_post->agregarHorarioSalon((isset($horario[0][0]) ? $horario[0][0] : -1),$this->getInteger('slSalones'));
+            $horariosalon = $this->_post->agregarHorarioSalon((isset($horario[0][0]) ? $horario[0][0] : -1),$salon);
             if(!is_array($horariosalon)){
                 $this->redireccionar("error/sql/" . $horariosalon);
                 exit;

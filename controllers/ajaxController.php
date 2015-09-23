@@ -109,6 +109,17 @@ class ajaxController extends Controller{
         }
     }
     
+    public function getDisponibilidadSalonAjax(){
+        if($this->getInteger('ciclo') && $this->getInteger('salon') && $this->getInteger('dia') && $this->getTexto('inicio') && $this->getTexto('fin')){
+            $arr['ciclo'] = $this->getInteger('ciclo');
+            $arr['salon'] = $this->getInteger('salon');
+            $arr['dia'] = $this->getInteger('dia');
+            $arr['inicio'] = $this->getTexto('inicio');
+            $arr['fin'] = $this->getTexto('fin');
+            echo json_encode($this->_ajax->getDisponibilidadSalon($arr));
+        }
+    }
+    
 }
 
 ?>
