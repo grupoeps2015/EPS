@@ -1053,17 +1053,21 @@ CREATE TABLE EST_Inscripcion (
 
 
 -- -----------------------------------------------------
--- Table ADM_UnidadAcademica_Catedratico
+-- Table ADM_UnidadAcademica_Usuario
 -- -----------------------------------------------------
-CREATE TABLE ADM_UnidadAcademica_Catedratico (
-  Catedratico INTEGER NOT NULL,
+CREATE TABLE ADM_UnidadAcademica_Usuario (
+  Usuario INTEGER NOT NULL,
   UnidadAcademica INTEGER NOT NULL,
-  CONSTRAINT fk_ADM_UnidadAcademica_Catedratico_CAT_Catedratico1
-    FOREIGN KEY (Catedratico)
-    REFERENCES CAT_Catedratico (Catedratico),
-  CONSTRAINT fk_ADM_UnidadAcademica_Catedratico_ADM_UnidadAcademica1
+  Estado INTEGER NOT NULL,
+  CONSTRAINT fk_ADM_UnidadAcademica_Usuario_ADM_Usuario1
+    FOREIGN KEY (Usuario)
+    REFERENCES ADM_Usuario (Usuario),
+  CONSTRAINT fk_ADM_UnidadAcademica_Usuario_ADM_UnidadAcademica1
     FOREIGN KEY (UnidadAcademica)
     REFERENCES ADM_UnidadAcademica (UnidadAcademica));
+
+
+CREATE UNIQUE INDEX u_UnidadAcademica_Usuario ON ADM_UnidadAcademica_Usuario (Usuario, UnidadAcademica);
 
 
 -- -----------------------------------------------------

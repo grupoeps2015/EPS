@@ -373,11 +373,11 @@ class gestionPensumController extends Controller {
 //        }
     }
     
-    public function crearPensum($idPensum = 0, $intIdCentroUnidad = 0){
-        //session_start();
+    public function crearPensum($idPensum = 0){
+        session_start();
                
         $iden = $this->getInteger('hdEnvio');
-        //$idCentroUnidad = $_SESSION["centrounidad"];
+        $idCentroUnidad = $_SESSION["centrounidad"];
         
         $arrayPen = array();
         
@@ -390,7 +390,7 @@ class gestionPensumController extends Controller {
         $this->_view->setJs(array('tree.jquery'), "public");
         $this->_view->setCSS(array('jqtree'));
 
-        $info = $this->_post->listadoCursos($intIdCentroUnidad);
+        $info = $this->_post->listadoCursos($idCentroUnidad);
         if (is_array($info)) {
             $this->_view->lstCursos = $info;
         } else {

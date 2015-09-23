@@ -34,11 +34,7 @@ $(document).ready(function(){
 		
 	
     //Seleccionado
-    $('#arbolPensum').on('click',function (e) {
-            nodoSeleccionado = true;
-            nodeid = $('#arbolPensum').tree('getSelectedNode');
-        }
-    );
+  
     
     $('#arbolPensum').bind(
     'tree.select',
@@ -46,8 +42,8 @@ $(document).ready(function(){
         if (event.node) {
             // node was selected
             nodoSeleccionado = true;
-            //nodeid = $('#arbolPensum').tree('getSelectedNode');
-            nodeid = event.node.id;
+            nodeid = $('#arbolPensum').tree('getSelectedNode');
+            //nodeid = event.node.id;
             //alert(node.name);
         }
         else {
@@ -75,22 +71,31 @@ $(document).ready(function(){
 });
 
 function agregar() {
-    if(nodoSeleccionado){
+    if(nodoSeleccionado && nodeid !== ""){
             var parent_node = $('#arbolPensum').tree('getNodeById', nodeid.id);
             var idNuevo=$("#slCursos").val();           
             var nombreNuevo=$("#slCursos option:selected").text().trim();
             var valorEntrada = document.getElementById('txtOtrosPrerrequisitos').value;
-        if(idNuevo !== "" && !chkOtros){
-            $('#arbolPensum').tree('appendNode',{label: nombreNuevo,id: idNuevo, tipo:"1", valor: ""}, parent_node);
-            $('#arbolPensum').tree('openNode', parent_node);
+            if(idNuevo !== "" && !chkOtros){
+                if(idNuevo !== parent_node){
+                $('#arbolPensum').tree('appendNode',{label: nombreNuevo,id: idNuevo, tipo:"1", valor: "-1"}, parent_node);
+                $('#arbolPensum').tree('openNode', parent_node);
+                $('#arbolPensum').tree('selectNode', null);
+            }
+            else
+            {
+               alert("El padre es el mismo que el hijo.");
+            }
         }
         else if(valorEntrada !== "" && chkOtros){
             //id = 0 ->No posee id
             var creditosValorEntrada = "Creditos >= " + valorEntrada;
             $('#arbolPensum').tree('appendNode',{label: creditosValorEntrada,id: 0, tipo:"2", valor: valorEntrada}, parent_node);
             $('#arbolPensum').tree('openNode', parent_node);
+            $('#arbolPensum').tree('selectNode', null);
         } 
         nodoSeleccionado = false;
+        nodeid= "";
         
     }
     else{
@@ -98,11 +103,14 @@ function agregar() {
     }
 }
 
-function mostrar() {alert($('#arbolPensum').tree('toJson'));}
+function mostrar() {
+    alert($('#arbolPensum').tree('toJson'));   
+}
 
 function remover() {
 	var parent_node = $('#arbolPensum').tree('getNodeById', nodeid.id);
         $('#arbolPensum').tree('removeNode',parent_node);
+        $('#arbolPensum').tree('selectNode', null);
     }
 
 /*function actualizar() {
