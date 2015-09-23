@@ -8,7 +8,7 @@
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
                         <i class="fa fa-2x fa-backward wow bounceIn text-primary" data-wow-delay=".2s">
-                            <a href="<?php echo BASE_URL ?>pensum/listadoPensum">
+                            <a href="<?php echo BASE_URL ?>gestionPensum/listadoPensum">
                                 Regresar
                             </a>
                         </i>
@@ -25,7 +25,7 @@
     <div class="header-content">
         <div class="header-content-inner">
             <div id="divCentros" class="row">
-                <form id="frPensum" method="post" action="<?php echo BASE_URL; ?>pensum/agregarPensum">
+                <form id="frPensum" method="post" action="<?php echo BASE_URL; ?>gestionPensum/agregarPensum">
                     <div id="divCarreras" class="form-group" >
                         <div class="col-md-6 col-md-offset-3">
                             <table  width="100%" style="margin-left: 135px;">

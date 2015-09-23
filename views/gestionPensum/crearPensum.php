@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center">
-                <h2 class="section-heading">Listado de Pensum</h2>
+                <h2 class="section-heading">Creaci&oacute;n de Pensum</h2>
                 <hr class="primary">
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
@@ -17,11 +17,11 @@
                 <div class="col-lg-3 col-md-6 text-center"></div>
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
-                        <i class="fa fa-2x fa-building-o wow bounceIn text-primary" data-wow-delay=".2s">
-                            <a href="<?php echo BASE_URL ?>pensum/agregarPensum">
+                        <!--<i class="fa fa-2x fa-building-o wow bounceIn text-primary" data-wow-delay=".2s">
+                            <a href="<?php echo BASE_URL ?>gestionPensum/agregarPensum">
                                 Agregar Pensum
                             </a>
-                        </i>
+                        </i>-->
                     </div>
                 </div>
             </div>
@@ -29,10 +29,38 @@
     </div>
     <br/>
     <div>
-        <form id="frPensum" method="post" action="<?php echo BASE_URL; ?>pensum/listadoPensum">
+        <form id="frPensum" method="post" action="<?php echo BASE_URL; ?>gestionPensum/agregarPensum">
             <div id="divPensum" class="form-group" >
                 <div style="margin-left: 5%; margin-right: 5%">
-                    <table id="tbEdificios" border="2" align="center">
+                    <input onclick="mostrar()" value="Json valor" type="button"/><br/>
+                    <?php if(isset($this->lstCursos) && count($this->lstCursos)): ?>
+                                <select id="slCursos" name="slCursos" class="form-control input-lg">
+                                   <option value="">- Cursos disponibles -</option>
+                                    <?php for($i =0; $i < count($this->lstCursos); $i++) : ?>
+                                    <?php if($this->lstCursos[$i]['estado'] == "Activo"): ?>
+                                     <option value="<?php echo $this->lstCursos[$i]['id'];?>">
+                                         <?php echo $this->lstCursos[$i]['codigo']; echo " - "; echo $this->lstCursos[$i]['nombre'];?>
+                                     </option>                                    
+                                     <?php endif;?>
+                                    <?php endfor;?>
+                                </select>
+                                <?php else : ?>
+                                No hay cursos disponibles.
+                                <?php endif;?>
+                    <br/>
+                    
+                    <input type="checkbox" id="chkOtrosPrerrequisitos" name="chkOtrosPrerrequisitos"> Otros Prerrequisitos<br>
+                    <input type="text" id="txtOtrosPrerrequisitos" name="txtOtrosPrerrequisitos" disabled="true" placeholder="Cantidad de créditos">
+                    <br/>
+                    <input onclick="agregar()" value="Agregar elemento" type="button"  class="btn btn-danger btn-lg btn-block" style="width:25%; float:left;"/>
+                    <input onclick="remover()" value="Eliminar elemento" type="button"  class="btn btn-danger btn-lg btn-block" style="width:25%; float:left;"/>
+                    <!--<input onclick="actualizar()" value="actualizar" type="button"/>-->
+         
+		    <!--  Contenedor del pensum -->
+                    
+                    <div id="arbolPensum"></div>
+                        
+                    <!--<table id="tbEdificios" border="2" align="center">
                         <thead>
                             <tr>
                                 <th style="text-align:center; width: 250px;">Carrera</th>
@@ -41,8 +69,8 @@
                                 <th style="text-align:center; width: 100px;">Fecha Inicial</th>
                                 <th style="text-align:center; width: 100px;">Fecha Final</th>
                                 <th style="text-align:center; width: 100px;">Duración(años)</th>
-                                <th style="text-align:center; width: 200px;"></th>
-                                <th style="text-align:center; width: 150px;"></th>
+                                <th style="text-align:center; width: 100px;"></th>
+
                             </tr>
                         </thead>
                         <tbody>
@@ -58,20 +86,11 @@
                                         <td style="text-align: center; padding-right: 20px;"><?php echo $this->lstPensum[$i]['duracionanios']; ?></td>
                                         <td style="text-align: center; padding-right: 20px;">
                                             <?php if (strcmp($this->lstPensum[$i]['finvigencia'], null) == 0): ?>
-                                                <a href="<?php echo BASE_URL . 'pensum/finalizarVigenciaPensum/' . $this->lstPensum[$i]['id'] ?>">Desactivar Pensum</a>
+                                                <a href="<?php echo BASE_URL . 'gestionPensum/finalizarVigenciaPensum/'. $this->lstPensum[$i]['id']?>">Desactivar Pensum</a>
                                             <?php else : ?>
-                                                Pensum desactivo
+                                                    Pensum desactivo
                                             <?php endif; ?>
                                         </td>
-                                        <td style="text-align: center; padding-right: 20px;">
-                                            <?php if (strcmp($this->lstPensum[$i]['finvigencia'], null) == 0): ?>
-                                                <a href="<?php echo BASE_URL . 'pensum/crearPensum/' . $this->lstPensum[$i]['id'] ?>">Registrar cursos</a>
-                                            <?php else : ?>
-
-                                            <?php endif; ?>
-
-                                        </td>
-
 
                                     </tr>
                                 <?php endfor; ?>
@@ -81,7 +100,7 @@
                                 </tr>
                             <?php endif; ?>
                         </tbody>
-                    </table>
+                    </table>-->
                     <br />
                 </div>
             </div>
