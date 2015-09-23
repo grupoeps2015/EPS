@@ -104,4 +104,22 @@ class gestionParametroModel extends Model{
             return $info->fetchall();
         }
     }
+    
+    public function getTiposPeriodo() {
+        $info = $this->_db->query("select * from spconsultageneral('tipoperiodo,nombre','adm_tipoperiodo');");
+        if($info === false){
+            return "1104/getTiposPeriodo";
+        }else{
+            return $info->fetchall();
+        }
+    }
+    
+    public function getTiposAsign() {
+        $info = $this->_db->query("select * from spconsultageneral('tipoasignacion,nombre','adm_tipoasignacion');");
+        if($info === false){
+            return "1104/getTiposAsign";
+        }else{
+            return $info->fetchall();
+        }
+    }
 }
