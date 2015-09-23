@@ -222,4 +222,4 @@ $BODY$
 ALTER FUNCTION spfinalizarVigenciaPensum(integer)
   OWNER TO postgres;
   
-  
+ 

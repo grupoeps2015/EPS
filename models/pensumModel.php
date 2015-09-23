@@ -47,5 +47,13 @@ class pensumModel extends Model {
             return $info->fetchall();
         }
     }
-
+    
+    public function listadoCursos($intIdCentroUnidad) {
+        $info = $this->_db->query("SELECT * from spinformacioncurso(" . $intIdCentroUnidad . ");");
+        if ($info === false) {
+            return "1104/listadoCursos";
+        } else {
+            return $info->fetchall();
+        }
+    }
 }
