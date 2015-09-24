@@ -65,3 +65,5 @@ $BODY$
   ROWS 1000;
 ALTER FUNCTION spcursosdisponiblesasignacion(integer, integer)
   OWNER TO postgres;
+
+Select 'Script de Asignaciones Instalado' as "Asignacion";

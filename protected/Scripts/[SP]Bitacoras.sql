@@ -27,4 +27,4 @@ end;
 ALTER FUNCTION spinsertarbitacorausuario(text, integer, text, integer, text, integer, text, text)
   OWNER TO postgres;
 
-  
+Select 'Script de Bitacoras Instalado' as "Bitacoras";

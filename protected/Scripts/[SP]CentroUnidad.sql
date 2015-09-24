@@ -172,3 +172,5 @@ BEGIN
 END;
 $BODY$
 LANGUAGE 'plpgsql';
+
+Select 'Script para Gestion Centro-Unidad Instalado' as "Gestion Centro Unidad";

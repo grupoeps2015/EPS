@@ -369,3 +369,5 @@ $BODY$
   ROWS 1000;
 ALTER FUNCTION spseccionescursohorario(integer, integer)
   OWNER TO postgres;
+
+ Select 'Script para funciones generales Instalado' as "Generales";

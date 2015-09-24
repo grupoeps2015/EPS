@@ -300,3 +300,5 @@ $BODY$
   ROWS 1000;
 ALTER FUNCTION spdatosperiodoparametro(integer)
   OWNER TO postgres;
+
+Select 'Script para Gestion de Parametros Instalado' as "Gestion parametros";

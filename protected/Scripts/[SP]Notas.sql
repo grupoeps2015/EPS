@@ -92,3 +92,5 @@ BEGIN
 END;
 $BODY$
 LANGUAGE 'plpgsql';
+
+Select 'Script para Gestion de Notas Instalado' as "Gestion Notas";
