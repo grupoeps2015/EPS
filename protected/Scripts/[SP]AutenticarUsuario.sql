@@ -16,7 +16,7 @@ CREATE OR REPLACE FUNCTION spautenticarusuario(
   RETURNS SETOF record AS
 $BODY$
 begin
- Return query EXECUTE format('SELECT adm_usuario.usuario, adm_usuario.nombre, adm_usuario.estado, adm_rol_usuario.rol, adm_usuario.centro_unidadacademica FROM adm_usuario join %s on adm_usuario.usuario = %s.usuario and %s.%s = %s and adm_usuario.clave = ''%s'' join adm_rol_usuario on adm_rol_usuario.usuario = adm_usuario.usuario', _tabla, _tabla, _tabla, _campo, _id, _clave);
+ Return query EXECUTE format('SELECT adm_usuario.usuario, adm_usuario.nombre, adm_usuario.estado, adm_rol_usuario.rol, adm_centro_unidadacademica_usuario.centro_unidadacademica FROM adm_usuario join %s on adm_usuario.usuario = %s.usuario and %s.%s = %s and adm_usuario.clave = ''%s'' join adm_rol_usuario on adm_rol_usuario.usuario = adm_usuario.usuario join adm_centro_unidadacademica_usuario on adm_usuario.usuario = adm_centro_unidadacademica_usuario.usuario', _tabla, _tabla, _tabla, _campo, _id, _clave);
 
 end;
   $BODY$
