@@ -83,3 +83,4 @@ BEGIN
 END;
 $$;
 
+Select 'Script para Gestion de salones Instalado' as "Gestion Salones";

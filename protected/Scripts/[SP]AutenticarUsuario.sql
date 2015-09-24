@@ -45,3 +45,5 @@ END; $BODY$
   COST 100;
 ALTER FUNCTION spvalidarpermisousuario(integer, integer)
   OWNER TO postgres;
+
+Select 'Scripts de Login Instalados' as "Login";

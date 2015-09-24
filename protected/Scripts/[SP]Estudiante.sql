@@ -89,3 +89,5 @@ BEGIN
 END;
 $BODY$
 LANGUAGE 'plpgsql';
+
+Select 'Script para Estudiantes Instalado' as "Gestion Estudiante";

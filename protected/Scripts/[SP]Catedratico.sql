@@ -100,3 +100,5 @@ $BODY$
   ROWS 1000;
 ALTER FUNCTION spinformacioncatedratico(integer)
   OWNER TO postgres;
+
+Select 'Script de Catedraticos Instalado' as "Catedraticos";

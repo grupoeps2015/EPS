@@ -245,3 +245,5 @@ $BODY$
 
 ALTER FUNCTION spactualizarusuario(integer, text, text, integer, text)
   OWNER TO postgres;
+
+Select 'Script para Gestion de usuarios Instalado' as "Gestion Usuarios";

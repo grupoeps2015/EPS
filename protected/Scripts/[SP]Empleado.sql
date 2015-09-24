@@ -60,5 +60,4 @@ END;
 $BODY$
 LANGUAGE 'plpgsql';
 
--- select * from adm_empleado
--- select * from spUpdateInfoGeneralEmpleado('1','3ra Calle E 6-19', 8, 17, '50442896', 1);
+Select 'Script para Empleados Instalado' as "Empleados";

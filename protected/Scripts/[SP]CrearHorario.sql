@@ -328,3 +328,5 @@ $BODY$
   ROWS 1000;
 ALTER FUNCTION spdisponibilidadcatedratico(integer, integer, integer, text, text)
   OWNER TO postgres;  
+
+ Select 'Script para Gestion de Horarios Instalado' as "Gestion Horario";
