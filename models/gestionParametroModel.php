@@ -96,6 +96,35 @@ class gestionParametroModel extends Model{
         }
     }
     
+    public function agregarPeriodoParametro($_datos) {
+        $info = $this->_db->prepare("SELECT * from spAgregarPeriodoParametro(:ciclo,:tipoperiodo,:tipoasign,:fechainicial,:fechafinal,:centrounidad) as Id;");
+        $data = $info->execute($_datos);
+        if($data === false){
+            return "1101/agregarPeriodoParametro";
+        }else{
+            return $info->fetchall();
+        }
+    }
+    
+    public function actualizarPeriodoParametro($_datos) {
+        $info = $this->_db->prepare("SELECT * from spActualizarPeriodoParametro(:id,:ciclo,:tipoperiodo,:tipoasign,:fechainicial,:fechafinal) as Id;");
+        $data = $info->execute($_datos);
+        if($data === false){
+            return "1103/actualizarPeriodoParametro";
+        }else{
+            return $info->fetchall();
+        }
+    }
+    
+    public function datosPeriodoParametro($idPeriodo) {
+        $info = $this->_db->query("select * from spDatosPeriodoParametro(" . $idPeriodo . ");");
+        if($info === false){
+            return "1104/datosPeriodoParametro";
+        }else{
+            return $info->fetchall();
+        }
+    }
+    
     public function eliminarPeriodoParametro($intIdPeriodo, $intEstadoNuevo) {
         $info = $this->_db->query("SELECT * from spactivardesactivarperiodoparametro(" . $intIdPeriodo . "," . $intEstadoNuevo . ");");
         if($info === false){

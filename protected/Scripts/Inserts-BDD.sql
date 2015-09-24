@@ -461,8 +461,9 @@ INSERT INTO cat_tipocatedratico(tipodocente, descripcion, estado) VALUES (4, 'Au
 -- -----------------------------------------------------
 -- Insert adm_usuario
 -- -----------------------------------------------------
-INSERT INTO adm_usuario(usuario, nombre, correo, clave, estado, preguntasecreta, respuestasecreta, fechaultimaautenticacion, intentosautenticacion, foto, centro_unidadacademica)
-	VALUES (1, 'admin', 'adm@historia.usac.gt', 'zpadmqM=', 1, 0, 'USAC', current_timestamp, 100, '', 1);
+INSERT INTO adm_usuario(usuario, nombre, correo, clave, estado, preguntasecreta, respuestasecreta, fechaultimaautenticacion, intentosautenticacion, foto)
+	VALUES (1, 'admin', 'adm@historia.usac.gt', 'zpadmqM=', 1, 0, 'USAC', current_timestamp, 100, '');
+INSERT INTO adm_centro_unidadacademica_usuario VALUES(1,1,1)
 
 -- -----------------------------------------------------
 -- Insert adm_empleado

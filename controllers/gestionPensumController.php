@@ -314,6 +314,8 @@ class gestionPensumController extends Controller {
         $this->_view->titulo = 'Agregar Pensum - ' . APP_TITULO;
         $this->_view->setJs(array('agregarPensum'));
         $this->_view->setJs(array('jquery.validate'), "public");
+        $this->_view->setJs(array('jquery-ui'), "public");
+        $this->_view->setCss(array('jquery-ui'), "public");
         $arrayPensum = array();
 
         if ($this->getInteger('hdEnvio')) {

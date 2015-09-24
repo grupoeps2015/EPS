@@ -72,7 +72,7 @@
                                         <td>
                                             <label style="margin-top: 7px; margin-bottom: 8px; margin-left: 7px; margin-right: 7px;">Fecha inicio vigencia:</label>
                                             <br/>
-                                            <input type="date" name="inputFecha" id="inputFecha" style="margin-top: 7px; margin-bottom: 8px; margin-left: 7px; margin-right: 7px;">
+                                            <input type="text" name="inputFecha" id="inputFecha" style="margin-top: 7px; margin-bottom: 8px; margin-left: 7px; margin-right: 7px;" value="" placeholder="dd/mm/aaaa">
                                             
                                         </td>
 
