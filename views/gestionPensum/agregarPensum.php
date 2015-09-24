@@ -99,7 +99,7 @@
                         </div>
                     </div>
                     <input type="hidden" name="hdEnvio" value="1">
-                    <input type="hidden" name="hdPensum" value="<?php echo $this->id; ?>">
+                    <input type="hidden" name="hdPensum" value="<?php echo $this->idPensum; ?>">
                 </form>
             </div>
         </div>

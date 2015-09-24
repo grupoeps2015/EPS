@@ -90,6 +90,7 @@ CREATE TABLE ADM_Centro_UnidadAcademica (
   Centro_UnidadAcademica INTEGER NOT NULL,
   Centro INTEGER NOT NULL,
   UnidadAcademica INTEGER NOT NULL,
+  Estado INTEGER NOT NULL,
   PRIMARY KEY (Centro_UnidadAcademica),
   CONSTRAINT Centro
     FOREIGN KEY (UnidadAcademica)
@@ -130,11 +131,7 @@ CREATE TABLE ADM_Usuario (
   FechaUltimaAutenticacion TIMESTAMP NOT NULL,
   IntentosAutenticacion INTEGER NOT NULL,
   Foto TEXT NOT NULL,
-  Centro_UnidadAcademica INTEGER NOT NULL,
   PRIMARY KEY (Usuario),
-  CONSTRAINT fk_ADM_Usuario_ADM_Centro_UnidadAcademica1
-    FOREIGN KEY (Centro_UnidadAcademica)
-    REFERENCES ADM_Centro_UnidadAcademica (Centro_UnidadAcademica),
   CONSTRAINT fk_ADM_Usuario_ADM_PreguntaSecreta1
     FOREIGN KEY (PreguntaSecreta)
     REFERENCES ADM_PreguntaSecreta (PreguntaSecreta)	
