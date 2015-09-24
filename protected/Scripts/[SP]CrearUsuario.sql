@@ -1,14 +1,14 @@
 ﻿-- -----------------------------------------------------
 -- Function: spInformacionUsuario()
 -- -----------------------------------------------------
--- DROP FUNCTION spInformacionUsuario(int,int);
+-- DROP FUNCTION spInformacionUsuario(int);
 CREATE OR REPLACE FUNCTION spInformacionUsuario(IN _cenuni int, 
 						OUT Id int, OUT registro int, OUT nombre text, 
 						OUT Rol text, OUT Correo text, OUT Estado text) RETURNS setof record as 
 $BODY$
 BEGIN 
   RETURN query
-  Select 
+  Select distinct
     u.usuario,
     coalesce((select Carnet from Est_Estudiante where usuario=u.usuario),
 	     (select registropersonal from Adm_Empleado where usuario=u.usuario),
@@ -31,8 +31,7 @@ BEGIN
     end as "Estado"
   from 
     adm_Usuario u
-  where 
-    u.centro_unidadacademica = _cenuni
+  join adm_centro_unidadacademica_usuario acuu on acuu.centro_unidadacademica =_cenuni
   order by 
     u.usuario;
 END;
@@ -51,13 +50,14 @@ CREATE OR REPLACE FUNCTION spAgregarUsuarios(_nombre text, _correo text,
 DECLARE idUsuario integer;
 DECLARE fecha timestamp;
 BEGIN
+	SELECT * FROM spObtenerSecuencia('usuario','adm_usuario') into idUsuario;
 	SELECT current_timestamp into fecha;
 	INSERT INTO adm_usuario (usuario, nombre, correo, clave, estado, preguntasecreta, respuestasecreta, 
-		fechaultimaautenticacion, intentosautenticacion, foto, centro_unidadacademica) 
-	VALUES (DEFAULT,_nombre, _correo, _clave, 0, _preguntasecreta, _respuestasecreta, 
-		fecha, _intentosautenticacion, _foto, _centrounidad);
+		fechaultimaautenticacion, intentosautenticacion, foto) 
+	VALUES (idUsuario,_nombre, _correo, _clave, 0, _preguntasecreta, _respuestasecreta, 
+		fecha, _intentosautenticacion, _foto);
 
-	SELECT usuario from adm_usuario where nombre=_nombre and clave=_clave and fechaultimaautenticacion = fecha into idUsuario;
+	INSERT INTO adm_centro_unidadacademica_usuario values (idUsuario,_centroUnidad,1);
 	RETURN idUsuario;
 END; $BODY$
 LANGUAGE 'plpgsql';
