@@ -228,6 +228,16 @@ class ajaxModel extends Model{
         }
     }
     
+    public function getCentroUnidadUsuario($usuario){
+        $info = $this ->_db->query("select * from spcentrounidadxusuario({$usuario})");
+        $info->setFetchMode(PDO::FETCH_ASSOC);
+        if($info === false){
+            return "1200/getCentroUnidadUsuario";
+        }else{
+            return $info->fetchall();
+        }
+    }
+    
     public function getCentrosUsuario($usuario){
         $info = $this ->_db->query("select * from spcentroxusuario({$usuario})");
         $info->setFetchMode(PDO::FETCH_ASSOC);

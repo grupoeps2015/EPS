@@ -47,8 +47,17 @@ class generalController extends Controller{
         }
         else if(!isset($_SESSION["centrounidad"])){
             if($this->getInteger('hdCentroUnidad')){
-                $_SESSION["centrounidad"] = $this->getInteger('hdCentroUnidad');
-                $this->redireccionar($url);
+                $centroUnidad = $this->getInteger('hdCentroUnidad');
+                $lstCentroUnidad = $this->_ajax->getCentroUnidadUsuario($_SESSION["usuario"]);
+                if(is_array($lstCentroUnidad)){
+                }else{
+                    $this->redireccionar("error/sql/" . $lstCentroUnidad);
+                    exit;
+                }
+                if(in_array($centroUnidad, array_column($lstCentroUnidad, 'centrounidad'))){
+                    $_SESSION["centrounidad"] = $centroUnidad;
+                    $this->redireccionar($url);
+                }
             }
             $lstCentros = $this->_ajax->getCentrosUsuario($_SESSION["usuario"]);
             if(is_array($lstCentros)){
@@ -57,6 +66,7 @@ class generalController extends Controller{
                 $this->redireccionar("error/sql/" . $lstCentros);
                 exit;
             }
+            
             //TODO: Marlen: validar que el escogido este en el listado de centrounidad asignados al usuario
             $this->_view->titulo = 'Seleccionar Centro y Unidad - ' . APP_TITULO;
             $this->_view->url = 'general/seleccionarCentroUnidad/'.$url;
