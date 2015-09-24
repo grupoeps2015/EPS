@@ -25,7 +25,13 @@ class ajaxController extends Controller{
     
     public function getUnidadesAjax(){
         if($this->getInteger('centro')){
-            echo json_encode($this->_ajax->getUnidadesAjax($this->getInteger('centro')));
+            session_start();
+            if (isset($_SESSION["rol"]) && $_SESSION["rol"] == ROL_ADMINISTRADOR){
+                echo json_encode($this->_ajax->getUnidadesAjax($this->getInteger('centro')));
+            }
+            else{
+                echo json_encode($this->_ajax->getUnidadesCentrosUsuario($_SESSION["usuario"],$this->getInteger('centro')));
+            }
         }
     }
     

@@ -228,6 +228,26 @@ class ajaxModel extends Model{
         }
     }
     
+    public function getCentrosUsuario($usuario){
+        $info = $this ->_db->query("select * from spcentroxusuario({$usuario})");
+        $info->setFetchMode(PDO::FETCH_ASSOC);
+        if($info === false){
+            return "1200/getCentrosUsuario";
+        }else{
+            return $info->fetchall();
+        }
+    }
+    
+    public function getUnidadesCentrosUsuario($usuario,$centro){
+        $info = $this ->_db->query("select * from spunidadxcentroxusuario({$usuario},{$centro})");
+        $info->setFetchMode(PDO::FETCH_ASSOC);
+        if($info === false){
+            return "1200/getUnidadesCentrosUsuario";
+        }else{
+            return $info->fetchall();
+        }
+    }
+    
     public function getTipoUnidadAcademica(){
         $info = $this->_db->query("select * from spconsultageneral('tipounidadacademica,nombre','adm_tipounidadacademica');");
         if($info === false){
