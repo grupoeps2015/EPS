@@ -25,9 +25,9 @@ BEGIN
     end as "Rol",
     u.correo,
     case 
-	when u.estado=0 then 'Validacion Pendiente'
-	when u.estado=1 then 'Activo'
-	when u.estado=-1 then 'Desactivado'
+	when acuu.estado=0 then 'Validacion Pendiente'
+	when acuu.estado=1 then 'Activo'
+	when acuu.estado=-1 then 'Desactivado'
     end as "Estado"
   from 
     adm_Usuario u
@@ -189,6 +189,18 @@ END;
 $BODY$
 LANGUAGE 'plpgsql';
 
+-- -----------------------------------------------------
+-- Function: spEstadoCentroUnidadUsuario()
+-- -----------------------------------------------------
+-- DROP FUNCTION spEstadoCentroUnidadUsuario(int,int,int);
+CREATE OR REPLACE FUNCTION spEstadoCentroUnidadUsuario(_idUsuario int, _idCentroUnidad int, _estadoNuevo int) RETURNS void AS 
+$BODY$
+BEGIN
+  EXECUTE format('UPDATE adm_centro_unidadacademica_usuario SET estado = %L WHERE usuario = %L and centro_unidadacademica = %L', _estadoNuevo, _idUsuario, _idCentroUnidad);
+END;
+$BODY$
+LANGUAGE 'plpgsql';
+select * from spEstadoCentroUnidadUsuario(1,2,-1);
 -- -----------------------------------------------------
 -- Function: spdatosusuario()
 -- -----------------------------------------------------

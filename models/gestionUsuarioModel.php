@@ -158,8 +158,8 @@ class gestionUsuarioModel extends Model {
         }
     }
 
-    public function eliminarUsuario($intIdUsuario, $intEstadoNuevo) {
-        $info = $this->_db->query("SELECT * from spActivarDesactivarUsuario(" . $intIdUsuario . "," . $intEstadoNuevo . ");");
+    public function eliminarUsuario($intIdUsuario, $intIdCentroUnidad, $intEstadoNuevo) {
+        $info = $this->_db->query("SELECT * from spEstadoCentroUnidadUsuario({$intIdUsuario},{$intIdCentroUnidad},{$intEstadoNuevo});");
         if($info === false){
             return "1102/eliminarUsuario";
         }else{

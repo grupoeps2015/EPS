@@ -234,12 +234,14 @@ class gestionUsuarioController extends Controller {
 
     public function eliminarUsuario($intNuevoEstado, $intIdUsuario) {
         session_start();
-        $rol = $_SESSION["rol"];        
+        $rol = $_SESSION["rol"];
+        $idCentroUnidad = $_SESSION["centrounidad"];
+        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_ELIMINARUSUARIO);
         
         if($rolValido[0]["valido"]== PERMISO_ELIMINAR){
             if ($intNuevoEstado == -1 || $intNuevoEstado == 1) {
-                $borrar = $this->_post->eliminarUsuario($intIdUsuario, $intNuevoEstado);
+                $borrar = $this->_post->eliminarUsuario($intIdUsuario, $idCentroUnidad, $intNuevoEstado);
                 if(is_array($borrar)){
                     $this->_view->docentes = $borrar;
                 }else{
