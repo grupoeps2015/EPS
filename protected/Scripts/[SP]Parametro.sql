@@ -42,7 +42,7 @@ BEGIN
 	JOIN ADM_Centro_UnidadAcademica cu ON cu.centro_unidadacademica = p.centro_unidadacademica
 	JOIN ADM_UnidadAcademica ua ON ua.unidadacademica = cu.unidadacademica
 	JOIN ADM_Centro c ON c.centro = cu.centro
-	JOIN CUR_Carrera car ON car.carrera = p.carrera
+	LEFT JOIN CUR_Carrera car ON car.carrera = p.carrera
 	JOIN ADM_TipoParametro tp ON tp.tipoparametro = p.tipoparametro
 	WHERE cu.centro_unidadacademica = $1
 	ORDER BY p.nombre;
@@ -79,7 +79,7 @@ BEGIN
 	JOIN ADM_Centro_UnidadAcademica cu ON cu.centro_unidadacademica = p.centro_unidadacademica
 	JOIN ADM_Centro c ON c.centro = cu.centro
 	JOIN ADM_UnidadAcademica ua ON ua.unidadacademica = cu.unidadacademica
-	JOIN CUR_Carrera car ON car.carrera = p.carrera
+	LEFT JOIN CUR_Carrera car ON car.carrera = p.carrera
 	JOIN ADM_TipoParametro tp ON tp.tipoparametro = p.tipoparametro
 	WHERE p.parametro = $1;
 
@@ -109,7 +109,7 @@ BEGIN
            valor = COALESCE(spModificarParametro._valor, ADM_Parametro.valor),
            descripcion = COALESCE(spModificarParametro._descripcion, ADM_Parametro.descripcion),
            centro_unidadacademica = COALESCE(spModificarParametro._centro_unidadacademica, ADM_Parametro.centro_unidadacademica),
-	   carrera = COALESCE(spModificarParametro._carrera, ADM_Parametro.carrera),
+	   carrera = spModificarParametro._carrera,
 	   codigo = COALESCE(spModificarParametro._codigo, ADM_Parametro.codigo),
 	   estado = COALESCE(spModificarParametro._estado, ADM_Parametro.estado),
 	   tipoparametro = COALESCE(spModificarParametro._tipoparametro, ADM_Parametro.tipoparametro)

@@ -46,7 +46,7 @@
                             <td colspan="2">
                                 &nbsp;
                                 <select id="slCarreras" name="slCarreras" class="form-control input-lg">
-                                    <option value="null" disabled>- Carrera -</option>
+                                    <option value="" disabled>- Carrera -</option>
                                 </select>
                                 <br/>
                             </td>

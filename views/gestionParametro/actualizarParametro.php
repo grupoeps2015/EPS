@@ -53,7 +53,7 @@
                             <tr>
                                 <td colspan="3"> 
                                     <select id="slCarreras" name="slCarreras" class="form-control input-lg">
-                                        <option value="null">- Carrera -</option>
+                                        <option value="">- Carrera -</option>
                                     </select>
                                     <br/>
                                 </td>
