@@ -803,9 +803,9 @@ CREATE TABLE ADM_Parametro (
   Valor TEXT NOT NULL,
   Descripcion TEXT NOT NULL,
   Centro_UnidadAcademica INTEGER NOT NULL,
-  Carrera INTEGER NOT NULL,
+  Carrera INTEGER NULL,
   TipoParametro INTEGER NOT NULL,
-  Extension INTEGER NOT NULL,
+  Codigo INTEGER NOT NULL,
   Estado INTEGER NOT NULL,
   PRIMARY KEY (Parametro),
   CONSTRAINT fk_ADM_Parametro_CUR_Carrera1
