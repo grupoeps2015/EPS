@@ -246,4 +246,62 @@ $BODY$
 ALTER FUNCTION spactualizarusuario(integer, text, text, integer, text)
   OWNER TO postgres;
 
+-- -----------------------------------------------------
+-- Function: spBuscarEstudiante()
+-- -----------------------------------------------------
+-- DROP FUNCTION spBuscarEstudiante(int);
+CREATE OR REPLACE FUNCTION spBuscarEstudiante(_carnet integer)
+  RETURNS integer AS
+$BODY$
+DECLARE regreso int;
+BEGIN
+  Select coalesce(usuario,-1) from est_estudiante where carnet = _carnet into regreso;
+  RETURN regreso;
+END;
+$BODY$
+LANGUAGE plpgsql;
+
+-- -----------------------------------------------------
+-- Function: spBuscarEmpleado()
+-- -----------------------------------------------------
+-- DROP FUNCTION spBuscarEmpleado(int);
+CREATE OR REPLACE FUNCTION spBuscarEmpleado(_registro integer)
+  RETURNS integer AS
+$BODY$
+DECLARE regreso int;
+BEGIN
+  Select coalesce(usuario,-1) from adm_empleado where registropersonal = _registro into regreso;
+  RETURN regreso;
+END;
+$BODY$
+LANGUAGE plpgsql;
+
+-- -----------------------------------------------------
+-- Function: spBuscarCatedratico()
+-- -----------------------------------------------------
+-- DROP FUNCTION spBuscarCatedratico(int);
+CREATE OR REPLACE FUNCTION spBuscarCatedratico(_registro integer)
+  RETURNS integer AS
+$BODY$
+DECLARE regreso int;
+BEGIN
+  Select coalesce(usuario,-1) from cat_catedratico where registropersonal = _registro into regreso;
+  RETURN regreso;
+END;
+$BODY$
+LANGUAGE plpgsql;
+
+-- -----------------------------------------------------
+-- Function: spAgregarCentroUnidadUsuario()
+-- -----------------------------------------------------
+-- DROP FUNCTION spAgregarCentroUnidadUsuario(int,int);
+CREATE OR REPLACE FUNCTION spAgregarCentroUnidadUsuario(_idUsuario int, _centroUnidad int)
+  RETURNS void AS
+$BODY$
+BEGIN
+  INSERT INTO adm_centro_unidadacademica_usuario values (_idUsuario,_centroUnidad,1);
+END;
+$BODY$
+LANGUAGE plpgsql;
+
 Select 'Script para Gestion de usuarios Instalado' as "Gestion Usuarios";

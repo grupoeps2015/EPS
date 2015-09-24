@@ -50,9 +50,45 @@ class gestionUsuarioModel extends Model {
             return "1101/agregarUsuario";
         }else{
             return $info->fetchall();
-        }   
+        }
     }
 
+    public function buscarEstudiante($carnet){
+        $info = $this->_db->query("SELECT * from spBuscarEstudiante(" . $carnet . ") as Id;");
+        if($info === false){
+            return "1101/buscarEstudiante";
+        }else{
+            return $info->fetchall();
+        }
+    }
+    
+    public function buscarCatedratico($registro){
+        $info = $this->_db->query("SELECT * from spBuscarCatedratico(" . $registro . ") as Id;");
+        if($info === false){
+            return "1101/buscarCatedratico";
+        }else{
+            return $info->fetchall();
+        }
+    }
+    
+    public function buscarEmpleado($registro){
+        $info = $this->_db->query("SELECT * from spBuscarEmpleado(" . $registro . ") as Id;");
+        if($info === false){
+            return "1101/buscarEmpleado";
+        }else{
+            return $info->fetchall();
+        }
+    }
+    
+    public function setCentroUnidadUsuario($idUsuario, $idSede){
+        $info = $this->_db->query("SELECT * from spAgregarCentroUnidadUsuario({$idUsuario},{$idSede}) as Id;");
+        if($info === false){
+            return "1102/setCentroUnidadUsuario";
+        }else{
+            return $info->fetchall();
+        }
+    }
+    
     public function agregarEstudiante($_datos) {
         $sp = $_datos["carnetEst"] . ',\'' . $_datos["direccionEst"] . '\',';
         $sp .= $_datos["zonaEst"] . ',' . $_datos["municipioEst"] . ',\'';

@@ -106,20 +106,23 @@ class gestionUsuarioController extends Controller {
         }
         
         if ($iden == 1) {
+            $carnet = $this->getTexto('txtCarnetEst');
             $nombreUsr = $this->getTexto('txtNombreEst1');
             $correoUsr = $this->getTexto('txtCorreoEst');
             $fotoUsr = $this->getTexto('txtFotoEst');
-            $crearUsr = true;
+            $crearUsr = $this->validarExistencia($carnet,$idCentroUnidad,1);
         } elseif ($iden == 2) {
+            $registro = $this->getTexto('txtCodigoCat');
             $nombreUsr = $this->getTexto('txtNombreCat1');
             $correoUsr = $this->getTexto('txtCorreoCat');
             $fotoUsr = $this->getTexto('txtFotoCat');
-            $crearUsr = true;
+            $crearUsr = $this->validarExistencia($registro,$idCentroUnidad,2);
         } elseif ($iden == 3) {
+            $registro = $this->getTexto('txtCodigoEmp');
             $nombreUsr = $this->getTexto('txtNombreEmp1');
             $correoUsr = $this->getTexto('txtCorreoEmp');
             $fotoUsr = $this->getTexto('txtFotoEmp');
-            $crearUsr = true;
+            $crearUsr = $this->validarExistencia($registro,$idCentroUnidad,3);
         }
 
         if ($crearUsr) {
@@ -646,6 +649,33 @@ class gestionUsuarioController extends Controller {
         }else{
             return false;
         }
+    }
+    
+    private function validarExistencia($id, $cen, $tipo){
+        $existe;
+        if($tipo == 1){
+            $existe = $this->_post->buscarEstudiante($id);
+        }else if($tipo == 2){
+            $existe = $this->_post->buscarCatedratico($id);
+        }else if($tipo==3){
+            $existe = $this->_post->buscarEmpleado($id);
+        }
+        
+        if(!is_array($existe)){
+            $this->redireccionar("error/sql/" . $existe);
+            exit;
+        }else{
+            if(is_numeric($existe[0][0])){
+                $agrega = $this->_post->setCentroUnidadUsuario($existe[0][0],$cen);
+                if(!is_array($agrega)){
+                    $this->redireccionar("error/sql/" . $agrega);
+                    exit;
+                }
+                $this->redireccionar('gestionUsuario');
+                exit;
+            }
+        }
+        return true;
     }
     
     protected function notificacionEMAIL() {
