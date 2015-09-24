@@ -225,3 +225,78 @@ $BODY$
   COST 100;
 ALTER FUNCTION spactivardesactivarperiodoparametro(integer, integer)
   OWNER TO postgres;
+  
+  
+-- Function: spagregarperiodoparametro(integer, integer, integer, text, text, integer)
+
+-- DROP FUNCTION spagregarperiodoparametro(integer, integer, integer, text, text, integer);
+
+CREATE OR REPLACE FUNCTION spagregarperiodoparametro(
+    _ciclo integer,
+    _tipoperiodo integer,
+    _tipoasign integer,
+    _fechainicial text,
+    _fechafinal text,
+    _centrounidad integer)
+  RETURNS integer AS
+$BODY$
+DECLARE idPeriodo integer;
+BEGIN
+	INSERT INTO adm_periodo (ciclo, fechainicial, fechafinal, tipoperiodo, estado, tipoasignacion, centro_unidadacademica) 
+	VALUES (_ciclo, case when _fechainicial <> '' then cast(_fechainicial as date) else null end, case when _fechafinal <> '' then cast(_fechafinal as date) else null end, _tipoperiodo, 1, _tipoasign, _centrounidad) RETURNING Periodo into idPeriodo;
+	RETURN idPeriodo;
+END; $BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+
+  
+-- Function: spactualizarperiodoparametro(integer, integer, integer, integer, text, text)
+
+-- DROP FUNCTION spactualizarperiodoparametro(integer, integer, integer, integer, text, text);
+
+CREATE OR REPLACE FUNCTION spactualizarperiodoparametro(
+    _id integer,
+    _ciclo integer,
+    _tipoperiodo integer,
+    _tipoasign integer,
+    _fechainicial text,
+    _fechafinal text)
+  RETURNS integer AS
+$BODY$
+DECLARE idPeriodo integer;
+BEGIN
+	UPDATE ADM_Periodo SET ciclo = _ciclo, tipoperiodo = _tipoperiodo, tipoasignacion = _tipoasign, fechainicial = case when _fechainicial <> '' then cast(_fechainicial as date) else null end, fechafinal = case when _fechafinal <> '' then cast(_fechafinal as date) else null end
+	WHERE periodo = _id RETURNING Periodo into idPeriodo;
+	RETURN idPeriodo;
+END; $BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION spactualizarperiodoparametro(integer, integer, integer, integer, text, text)
+  OWNER TO postgres;
+
+  
+-- Function: spdatosperiodoparametro(integer)
+
+-- DROP FUNCTION spdatosperiodoparametro(integer);
+
+CREATE OR REPLACE FUNCTION spdatosperiodoparametro(
+    IN id integer,
+    OUT ciclo integer,
+    OUT tipoperiodo integer,
+    OUT tipoasignacion integer,
+    OUT fechainicial text,
+    OUT fechafinal text,
+    OUT anio integer)
+  RETURNS SETOF record AS
+$BODY$
+BEGIN
+  RETURN query
+  SELECT p.ciclo, p.tipoperiodo, p.tipoasignacion, to_char(p.fechainicial, 'DD/MM/YYYY'), to_char(p.fechafinal, 'DD/MM/YYYY'), c.anio from adm_periodo p join cur_ciclo c on c.ciclo = p.ciclo
+  where p.periodo = id;
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION spdatosperiodoparametro(integer)
+  OWNER TO postgres;

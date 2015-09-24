@@ -283,24 +283,26 @@ class gestionParametroController extends Controller{
         $idCentroUnidad = $_SESSION["centrounidad"];
         
         if ($this->getInteger('hdEnvio')) {
-            $tipoPeriodo = $this->getInteger('slTiposSeccion');
-            $nombreSeccion = $this->getTexto('txtNombre');
-            $descSeccion = $this->getTexto('txtDesc');
-            $curso = $this->getTexto('slCursos');
+            $idCiclo = $this->getInteger('slCiclo');
+            $tipoPeriodo = $this->getInteger('slTiposPeriodo');
+            $tipoAsign = $this->getInteger('slTiposAsign');
+            $fechaInicial = $this->getTexto('txtFechaInicial');
+            $fechaFinal = $this->getTexto('txtFechaFinal');
 
-            $arraySec['tiposeccion'] = $tipoSeccion;
-            $arraySec['descripcion'] = $descSeccion;
-            $arraySec['nombre'] = $nombreSeccion;
-            $arraySec['curso'] = $curso;
-            $arraySec['estado'] = ESTADO_ACTIVO;
-
-            $info = $this->_post->agregarSeccion($arraySec);
+            $array['ciclo'] = $idCiclo;
+            $array['tipoperiodo'] = $tipoPeriodo;
+            $array['tipoasign'] = $tipoAsign;
+            $array['fechainicial'] = $fechaInicial;
+            $array['fechafinal'] = $fechaFinal;
+            $array['centrounidad'] = $idCentroUnidad;
+            
+            $info = $this->_post->agregarPeriodoParametro($array);
             if(!is_array($info)){
                 $this->redireccionar("error/sql/" . $info);
                 exit;
             }
             
-            $this->redireccionar('gestionCurso/listadoSeccion');
+            $this->redireccionar('gestionParametro/listadoPeriodo');
         }
         
         $tiposPeriodo = $this->_post->getTiposPeriodo();
@@ -332,8 +334,100 @@ class gestionParametroController extends Controller{
         $this->_view->id = $idCentroUnidad;
         $this->_view->setJs(array('agregarPeriodo'));
         $this->_view->setJs(array('jquery.validate'), "public");
-        $arraySec = array();
-        
+        $this->_view->setJs(array('jquery-ui'), "public");
+        $this->_view->setCss(array('jquery-ui'), "public");
         $this->_view->renderizar('agregarPeriodo');    
+    }
+    
+    public function actualizarPeriodo($idPeriodo = 0) {
+        session_start();
+        $rol = $_SESSION["rol"];      
+        //TODO: Marlen: Funciones de períodos
+//        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_MODIFICARSECCION);
+//        if($rolValido[0]["valido"]!= PERMISO_MODIFICAR){
+//           echo "<script>
+//                alert('No tiene permisos suficientes para acceder a esta función.');
+//                window.location.href='" . BASE_URL . "gestionCurso/listadoSeccion" . "';
+//                </script>";
+//        }
+        $idCentroUnidad = $_SESSION["centrounidad"];
+        
+        $array = array();
+        if ($this->getInteger('hdEnvio')) {
+            $idCiclo = $this->getInteger('slCiclo');
+            $tipoPeriodo = $this->getInteger('slTiposPeriodo');
+            $tipoAsign = $this->getInteger('slTiposAsign');
+            $fechaInicial = $this->getTexto('txtFechaInicial');
+            $fechaFinal = $this->getTexto('txtFechaFinal');
+
+            $array['ciclo'] = $idCiclo;
+            $array['tipoperiodo'] = $tipoPeriodo;
+            $array['tipoasign'] = $tipoAsign;
+            $array['fechainicial'] = $fechaInicial;
+            $array['fechafinal'] = $fechaFinal;
+            $array['id'] = $idPeriodo;
+
+            $respuesta = $this->_post->actualizarPeriodoParametro($array);
+            if (is_array($respuesta)){
+                $this->redireccionar('gestionParametro/listadoPeriodo');
+            }else{
+                $this->redireccionar("error/sql/" . $respuesta);
+                exit;
+            }
+        }
+        $tipociclo = 1;//TODO: Marlen: consultar parámetro en base de datos
+        
+        $this->_view->setJs(array('jquery.validate'), "public");
+        $this->_view->setJs(array('jquery-ui'), "public");
+        $this->_view->setCss(array('jquery-ui'), "public");
+        $this->_view->setJs(array('actualizarPeriodo'));
+        
+        $this->_view->id = $idPeriodo;
+        
+        
+        $this->_view->titulo = 'Actualizar Período - ' . APP_TITULO;
+        
+        $lsAnios = $this->_ajax->getAniosAjax($tipociclo);
+        if(is_array($lsAnios)){
+            $this->_view->lstAnios = $lsAnios;
+        }else{
+            $this->redireccionar("error/sql/" . $lsAnios);
+            exit;
+        }
+        
+        $info = $this->_post->datosPeriodoParametro($idPeriodo);
+        if(is_array($info)){
+            $this->_view->datosSec = $info;
+        }else{
+            $this->redireccionar("error/sql/" . $info);
+            exit;
+        }
+        
+        $lsCiclos = $this->_ajax->getCiclosAjax($tipociclo, (isset($info[0]['anio']) ? $info[0]['anio'] : -1));
+        if(is_array($lsCiclos)){
+            $this->_view->lstCiclos = $lsCiclos;
+        }else{
+            $this->redireccionar("error/sql/" . $lsCiclos);
+            exit;
+        }
+        
+        $tiposPeriodo = $this->_post->getTiposPeriodo();
+        if(is_array($tiposPeriodo)){
+            $this->_view->tiposPeriodo = $tiposPeriodo;
+        }else{
+            $this->redireccionar("error/sql/" . $tiposPeriodo);
+            exit;
+        }
+        
+        $tiposAsign = $this->_post->getTiposAsign();
+        if(is_array($tiposAsign)){
+            $this->_view->tiposAsign = $tiposAsign;
+        }else{
+            $this->redireccionar("error/sql/" . $tiposAsign);
+            exit;
+        }
+        
+        
+        $this->_view->renderizar('actualizarPeriodo');
     }
 }
