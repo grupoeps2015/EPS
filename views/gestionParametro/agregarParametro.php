@@ -46,7 +46,7 @@
                             <td colspan="2">
                                 &nbsp;
                                 <select id="slCarreras" name="slCarreras" class="form-control input-lg">
-                                    <option value="" disabled>- Carrera -</option>
+                                    <option value="null" disabled>- Carrera -</option>
                                 </select>
                                 <br/>
                             </td>
@@ -73,9 +73,9 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>*Extensi&oacute;n:&nbsp;</td>
+                            <td>*C&oacute;digo:&nbsp;</td>
                             <td>
-                                <input type="text" id="txtExtensionParametro" name="txtExtensionParametro" class="form-control input-lg" value="">
+                                <input type="text" id="txtCodigoParametro" name="txtCodigoParametro" class="form-control input-lg" value="">
                                 <br/>
                             </td>
                         </tr>

@@ -92,7 +92,7 @@ class gestionParametroController extends Controller{
             $arrayPar["descripcion"] = $this->getTexto('txtDescripcionParametro');
             $arrayPar["centro_unidadacademica"] = $this->getInteger('slCentroUnidadAcademica');
             $arrayPar["carrera"] = $this->getInteger('slCarreras');
-            $arrayPar["extension"] = $this->getTexto('txtExtensionParametro');         
+            $arrayPar["codigo"] = $this->getTexto('txtCodigoParametro');         
             $arrayPar["tipoparametro"] =  $this->getInteger('slTipoParametro');
             
             $info = $this->_view->query = $this->_post->agregarParametro($arrayPar);
@@ -187,7 +187,7 @@ class gestionParametroController extends Controller{
             $arrayPar["descripcion"] = $this->getTexto('txtDescripcionParametro');
             $arrayPar["centro_unidadacademica"] = $this->getInteger('slCentroUnidadAcademica');
             $arrayPar["carrera"] = $this->getInteger('slCarreras');
-            $arrayPar["extension"] = $this->getTexto('txtExtensionParametro');         
+            $arrayPar["codigo"] = $this->getTexto('txtCodigoParametro');         
             $arrayPar["tipoparametro"] =  $this->getInteger('slTipoParametro');
             
             $info = $this->_post->actualizarParametro($arrayPar);

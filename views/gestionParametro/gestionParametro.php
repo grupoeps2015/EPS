@@ -66,7 +66,7 @@
                                 <td style="text-align: center"><?php echo $this->lstPar[$i]['nombrecentro']; ?></td>
                                 <td style="text-align: center"><?php echo $this->lstPar[$i]['nombreunidadacademica']; ?></td>
                                 <td style="text-align: center"><?php echo $this->lstPar[$i]['nombrecarrera']; ?></td>
-                                <!--<td style="text-align: center"><?php echo $this->lstPar[$i]['extensionparametro']; ?></td>-->
+                                <!--<td style="text-align: center"><?php echo $this->lstPar[$i]['codigoparametro']; ?></td>-->
                                 <td style="text-align: center"><?php echo $this->lstPar[$i]['nombretipoparametro']; ?></td>
                                 <td style="text-align: center">
                                     <?php if(strcmp($this->lstPar[$i]['estadoparametro'], '1') == 0): ?>

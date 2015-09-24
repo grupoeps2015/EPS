@@ -5,13 +5,13 @@
 CREATE OR REPLACE FUNCTION spAgregarParametro(_nombre text, _valor text,
 					      _descripcion text, 
 					      _centro_unidadacademica integer, _carrera integer,
-					      _extension integer, _tipoparametro integer
+					      _codigo integer, _tipoparametro integer
 					     ) RETURNS void AS 
 $BODY$
 BEGIN
 	INSERT INTO adm_parametro(
-            parametro, nombre,valor,descripcion,centro_unidadacademica,carrera,extension,tipoparametro,estado)
-	VALUES (DEFAULT,_nombre,_valor,_descripcion,_centro_unidadacademica,_carrera,_extension,_tipoparametro,0);
+            parametro, nombre,valor,descripcion,centro_unidadacademica,carrera,codigo,tipoparametro,estado)
+	VALUES (DEFAULT,_nombre,_valor,_descripcion,_centro_unidadacademica,_carrera,_codigo,_tipoparametro,0);
 
 END; $BODY$
 LANGUAGE 'plpgsql';
@@ -23,7 +23,7 @@ LANGUAGE 'plpgsql';
 CREATE OR REPLACE FUNCTION spInformacionParametro(idCentroUnidadAcademica integer, OUT Parametro int, OUT NombreParametro text, 
 					          OUT ValorParametro text, OUT DescripcionParametro text, 
 					          OUT NombreCentro text, OUT NombreUnidadAcademica text, 
-					          OUT NombreCarrera text, OUT ExtensionParametro int, 
+					          OUT NombreCarrera text, OUT CodigoParametro int, 
 					          OUT NombreTipoParametro text, OUT EstadoParametro int) RETURNS setof record as 
 $BODY$
 BEGIN
@@ -35,7 +35,7 @@ BEGIN
 	 c.nombre AS NombreCentro,
 	 ua.nombre AS NombreUnidadAcademica,
 	 car.nombre AS NombreCarrera,
-	 p.extension AS ExtensionParametro,
+	 p.codigo AS CodigoParametro,
 	 tp.nombre AS NombreTipoParametro,
 	 p.estado AS EstadoParametro
   FROM ADM_Parametro p
@@ -60,7 +60,7 @@ CREATE OR REPLACE FUNCTION spDatosParametro(Parametro int,
 					    OUT NombreParametro text, OUT ValorParametro text, 
 					    OUT DescripcionParametro text, OUT NombreCentro text, 
 					    OUT NombreUnidadAcademica text, OUT CentroUnidadAcademica int, OUT NombreCarrera text,  OUT Carrera int,
-					    OUT ExtensionParametro int, OUT NombreTipoParametro text, OUT TipoParametro int) RETURNS setof record as 
+					    OUT CodigoParametro int, OUT NombreTipoParametro text, OUT TipoParametro int) RETURNS setof record as 
 $BODY$
 BEGIN
   RETURN query
@@ -72,7 +72,7 @@ BEGIN
 		 p.centro_unidadacademica AS CentroUnidadAcademica,
          car.nombre AS NombreCarrera,
 		 p.carrera AS Carrera,
-         p.extension AS ExtensionParametro,
+         p.codigo AS CodigoParametro,
          tp.nombre AS NombreTipoParametro,
 		 p.tipoparametro AS TipoParametro
   FROM ADM_Parametro p
@@ -98,7 +98,7 @@ CREATE OR REPLACE FUNCTION spModificarParametro(_parametro integer,
 					        _descripcion text, 
 					        _centro_unidadacademica integer,
 					        _carrera integer,
-						_extension integer, 
+						_codigo integer, 
 						_estado integer,
 						_tipoparametro integer
 					     )RETURNS BOOLEAN LANGUAGE plpgsql SECURITY DEFINER AS $$
@@ -110,7 +110,7 @@ BEGIN
            descripcion = COALESCE(spModificarParametro._descripcion, ADM_Parametro.descripcion),
            centro_unidadacademica = COALESCE(spModificarParametro._centro_unidadacademica, ADM_Parametro.centro_unidadacademica),
 	   carrera = COALESCE(spModificarParametro._carrera, ADM_Parametro.carrera),
-	   extension = COALESCE(spModificarParametro._extension, ADM_Parametro.extension),
+	   codigo = COALESCE(spModificarParametro._codigo, ADM_Parametro.codigo),
 	   estado = COALESCE(spModificarParametro._estado, ADM_Parametro.estado),
 	   tipoparametro = COALESCE(spModificarParametro._tipoparametro, ADM_Parametro.tipoparametro)
      WHERE ADM_Parametro.parametro = spModificarParametro._parametro;       

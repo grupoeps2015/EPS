@@ -15,7 +15,7 @@ class gestionParametroModel extends Model{
         $sp = '\'' . $_datos["nombre"] . '\',\'' . $_datos["valor"] . '\',';
         $sp .= '\'' . trim($_datos["descripcion"]) . '\',' . $_datos["centro_unidadacademica"] . ',';
         $sp .= $_datos["carrera"] . ',';
-        $sp .= $_datos["extension"] . ',' . $_datos["tipoparametro"];
+        $sp .= $_datos["codigo"] . ',' . $_datos["tipoparametro"];
         
         $info = $this->_db->query("SELECT * from spagregarparametro(" . $sp . ");");
         if($info === false){
@@ -49,7 +49,7 @@ class gestionParametroModel extends Model{
         $sp .= '\'' . $_datos["nombre"] . '\',\'' . $_datos["valor"] . '\',';
         $sp .= '\'' . trim($_datos["descripcion"]) . '\',' . $_datos["centro_unidadacademica"] . ',';
         $sp .= $_datos["carrera"] . ',';
-        $sp .= $_datos["extension"] . ',null,' . $_datos["tipoparametro"];
+        $sp .= $_datos["codigo"] . ',null,' . $_datos["tipoparametro"];
         
         $info = $this->_db->query("SELECT * from spModificarParametro(" . $sp. ");");
         if($info === false){
