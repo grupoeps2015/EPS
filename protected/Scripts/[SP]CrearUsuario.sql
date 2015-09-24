@@ -8,7 +8,7 @@ CREATE OR REPLACE FUNCTION spInformacionUsuario(IN _cenuni int,
 $BODY$
 BEGIN 
   RETURN query
-  Select distinct
+  Select
     u.usuario,
     coalesce((select Carnet from Est_Estudiante where usuario=u.usuario),
 	     (select registropersonal from Adm_Empleado where usuario=u.usuario),
@@ -31,7 +31,7 @@ BEGIN
     end as "Estado"
   from 
     adm_Usuario u
-  join adm_centro_unidadacademica_usuario acuu on acuu.centro_unidadacademica =_cenuni
+  join adm_centro_unidadacademica_usuario acuu on acuu.centro_unidadacademica =_cenuni and acuu.usuario = u.usuario
   order by 
     u.usuario;
 END;
