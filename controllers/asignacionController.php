@@ -16,12 +16,16 @@ class asignacionController extends Controller{
     
     public function __construct() {
         parent::__construct();
+        $this->getLibrary('session');
+        $this->_session = new session();
+        if(!$this->_session->validarSesion()){
+            $this->redireccionar('login/salir');
+        }
         $this->_asign=$this->loadModel('asignacion');
         $this->_ajax = $this->loadModel("ajax");
     }
     
     public function index(){
-        session_start();
         $tipociclo = 1;//TODO: Marlen: consultar parámetro en base de datos
         $lsAnios = $this->_ajax->getAniosAjax($tipociclo);
         if(is_array($lsAnios)){
