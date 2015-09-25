@@ -218,8 +218,8 @@ class ajaxModel extends Model{
         }
     }
     
-    public function getCarrerasEstudiante($estudiante){
-        $info = $this ->_db->query("select * from spCarrerasXEstudiante({$estudiante})");
+    public function getCarrerasEstudiante($estudiante,$centrounidad){
+        $info = $this ->_db->query("select * from spCarrerasXEstudiante({$estudiante},{$centrounidad})");
         $info->setFetchMode(PDO::FETCH_ASSOC);
         if($info === false){
             return "1200/getCarrerasEstudiante";
