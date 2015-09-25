@@ -986,26 +986,6 @@ CREATE TABLE CUR_Desasignacion (
 
 
 -- -----------------------------------------------------
--- Table CUR_Prerrequisito
--- -----------------------------------------------------
-CREATE TABLE CUR_Prerrequisito (
-  CursoPensumArea INTEGER NOT NULL,
-  TipoPrerrequisito INTEGER NOT NULL,
-  Creditos INTEGER NULL,
-  OtrosPrerrequisitos TEXT NOT NULL,
-  Curso INTEGER NULL,
-  CONSTRAINT fk_CUR_Requisito_CUR_Pensum_Area1
-    FOREIGN KEY (CursoPensumArea)
-    REFERENCES CUR_Pensum_Area (CursoPensumArea),
-  CONSTRAINT fk_CUR_Requisito_CUR_TipoPrerrequisito1
-    FOREIGN KEY (TipoPrerrequisito)
-    REFERENCES CUR_TipoPrerrequisito (TipoPrerrequisito),
-  CONSTRAINT Curso
-    FOREIGN KEY (Curso)
-    REFERENCES CUR_Pensum_Area (CursoPensumArea));
-
-
--- -----------------------------------------------------
 -- Table EST_TipoPago
 -- -----------------------------------------------------
 CREATE TABLE EST_TipoPago (
