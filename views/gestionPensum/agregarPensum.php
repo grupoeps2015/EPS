@@ -28,71 +28,56 @@
                 <form id="frPensum" method="post" action="<?php echo BASE_URL; ?>gestionPensum/agregarPensum">
                     <div id="divCarreras" class="form-group" >
                         <div class="col-md-6 col-md-offset-3">
-                            <table  width="100%" style="margin-left: 135px;">
-                                <col style="width: 1%">
-                                <col style="width: 20%">
-                                <tbody>
-                                    <tr>
-                                        <td > <label style="margin-top: 7px; margin-bottom: 8px; margin-left: 7px; margin-right: 7px;">Carrera:</label>
+                            <table  width="100%">
+                                <tbody class="text-primary">
+                                    <tr style="width: 49%">
+                                        <td><label>Carrera:</label>
                                             <?php if (isset($this->carreras) && count($this->carreras)): ?>
-                                                <select style="width: 330px; margin-bottom: 7px; margin-top: 7px; margin-left: 7px; margin-right: 7px;" id="slCarreras" name="slCarreras" class="form-control input-lg">
+                                                <select id="slCarreras" name="slCarreras" class="form-control input-lg">
                                                     <option value="">(Carreras)
                                                     </option>
                                                     <?php for ($i = 0; $i < count($this->carreras); $i++) : ?>
-
                                                         <option value="<?php echo $this->carreras[$i]['codigo']; ?>">
                                                             <?php echo $this->carreras[$i]['nombre']; ?>
                                                         </option>
                                                     <?php endfor; ?>
                                                 </select>
-                                            <?php else : ?>
-                                                <input type="text" id="txtCarrera" name="txtCarrera" class="form-control input-lg" value="-">
-                                                <br/>
                                             <?php endif; ?>
                                         </td>
-                                        <td> <label style="margin-top: 7px; margin-bottom: 8px; margin-left: 7px; margin-right: 7px;">Tipo:</label>
-                                            <select style="margin-bottom: 7px; margin-top: 7px; margin-left: 7px; margin-right: 7px; width: 170px;" id="slTipos" name="slTipos" class="form-control input-lg">
+                                        <td style="width: 2%">&nbsp;</td>
+                                        <td style="width: 49%"><label>Tipo:</label>
+                                            <select id="slTipos" name="slTipos" class="form-control input-lg">
                                                 <option value="">(Tipo)
                                                 </option>
                                                 <option value="1">Cerrado</option>
                                                 <option value="2">Abierto</option>
                                             </select>
                                         </td>
-
-                                    </tr>
-
-                                    <tr> 
-                                        <td>
-                                            <label style="margin-top: 7px; margin-bottom: 8px; margin-left: 7px; margin-right: 7px;">Duracion (ciclos):</label>
-                                            <input type="text"  placeholder="(ingresa el número de ciclos)" id="txtTiempo" name="txtTiempo"  
-                                                   style="width: 300px; margin-bottom: 7px; margin-top: 7px; margin-left: 7px; margin-right: 7px;" class="form-control input-lg">
-
-                                        </td>
-
-                                        <td>
-                                            <label style="margin-top: 7px; margin-bottom: 8px; margin-left: 7px; margin-right: 7px;">Fecha inicio vigencia:</label>
-                                            <br/>
-                                            <input type="text" name="inputFecha" id="inputFecha" style="margin-top: 7px; margin-bottom: 8px; margin-left: 7px; margin-right: 7px;" value="" placeholder="dd/mm/aaaa">
-                                            
-                                        </td>
-
                                     </tr>
                                     <tr> 
-                                        <td colspan="2">
-                                            <label style="margin-top: 7px; margin-bottom: 8px; margin-left: 7px; margin-right: 7px;">Descripcion:</label>
-                                            <br/>
-                                            <textarea name="txtDescripcion"  placeholder="(ingresa aquí la descripción del pensum)" id="txtDescripcion" style="height: 130px; width: 515px; resize: none; margin-left: 7px; margin-right: 7px;" rows="3"></textarea>
+                                        <td><br/>
+                                            <label>Duracion (ciclos):</label>
+                                            <input type="number"  placeholder="(ingresa el número de ciclos)" id="txtTiempo" name="txtTiempo" class="form-control input-lg">
+                                        </td>
+                                        <td>&nbsp;</td>
+                                        <td><br/>
+                                            <label>Fecha inicio vigencia:</label>
+                                            <input type="text" name="inputFecha" id="inputFecha" class="form-control input-lg" value="" placeholder="dd/mm/aaaa" >
                                         </td>
                                     </tr>
-
+                                    <tr> 
+                                        <td colspan="3"><br/>
+                                            <label>Descripcion:</label>
+                                            <textarea name="txtDescripcion"  placeholder="(ingresa aquí la descripción del pensum)" id="txtDescripcion" rows="5" style="resize: none; width: 100%"></textarea>
+                                        </td>
+                                    </tr>
                                     <tr>
-                                        <td>
-                                            <input type="submit" id="btnAgregarPensum" style="width: 200px; margin-top: 10px; float: right; margin-bottom: 25px;" 
-                                                   name="btnAgregarPensum" value="Guardar" class="btn btn-danger btn-lg btn-block">
-
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td align="center"><br />
+                                            <input type="submit" id="btnAgregarPensum" name="btnAgregarPensum" value="Guardar" class="btn btn-danger btn-lg btn-block" style="width:70%">
                                         </td>
                                     </tr>
-
                                 </tbody>
                             </table>
                             <br />
