@@ -34,6 +34,7 @@ define('ASIGN_OTRAS','0');
 define('DB_HOST','localhost');
 define('DB_USER','postgres');
 define('DB_PASS','pruebas123');
+//define('DB_PASS','USAC2015pg');
 //define('DB_PASS','moino');
 define('DB_NAME','EPS');
 define('DB_CHAR','utf8');
