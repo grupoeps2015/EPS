@@ -36,7 +36,7 @@ BEGIN
     CAT_catedratico c 
   join CAT_tipocatedratico t on c.tipodocente = t.tipodocente 
   join adm_usuario u on u.usuario = c.usuario 
-  where u.centro_unidadacademica = _centrounidadacademica and u.estado >= 0;
+  join adm_centro_unidadacademica_usuario ucuu on ucuu.centro_unidadacademica = _centrounidadacademica and ucuu.usuario = u.usuario and u.estado >= 0;
 END;
 $BODY$
 LANGUAGE 'plpgsql';

@@ -27,11 +27,21 @@ class loginController extends Controller{
     }
     
     public function inicio(){
-        $this->_view->renderizar('inicio','login');
+        session_start();
+        if(isset($_SESSION["usuario"])){
+            $this->_view->renderizar('inicio','login');
+        }else{
+            $this->_view->renderizar('login');
+        }
     }
     
     public function bienvenida(){
-        $this->_view->renderizar('bienvenida','login');
+        session_start();
+        if(isset($_SESSION["usuario"])){
+            $this->_view->renderizar('bienvenida','login');
+        }else{
+            $this->_view->renderizar('login');
+        }
     }
     
     public function autenticar(){
