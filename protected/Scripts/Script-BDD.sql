@@ -429,6 +429,7 @@ CREATE TABLE CUR_Pensum_Area (
   NumeroCiclo INTEGER NOT NULL,
   TipoCiclo INTEGER NOT NULL,
   Creditos INTEGER NULL,
+  Prerrequisitos TEXT NULL,
   PRIMARY KEY (CursoPensumArea),
   CONSTRAINT fk_CUR_Pensum_CUR_Curso1
     FOREIGN KEY (Curso)
