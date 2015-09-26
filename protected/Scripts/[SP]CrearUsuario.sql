@@ -1,14 +1,14 @@
 ﻿-- -----------------------------------------------------
 -- Function: spInformacionUsuario()
 -- -----------------------------------------------------
--- DROP FUNCTION spInformacionUsuario(int,int);
+-- DROP FUNCTION spInformacionUsuario(int);
 CREATE OR REPLACE FUNCTION spInformacionUsuario(IN _cenuni int, 
 						OUT Id int, OUT registro int, OUT nombre text, 
 						OUT Rol text, OUT Correo text, OUT Estado text) RETURNS setof record as 
 $BODY$
 BEGIN 
   RETURN query
-  Select 
+  Select
     u.usuario,
     coalesce((select Carnet from Est_Estudiante where usuario=u.usuario),
 	     (select registropersonal from Adm_Empleado where usuario=u.usuario),
@@ -25,14 +25,13 @@ BEGIN
     end as "Rol",
     u.correo,
     case 
-	when u.estado=0 then 'Validacion Pendiente'
-	when u.estado=1 then 'Activo'
-	when u.estado=-1 then 'Desactivado'
+	when acuu.estado=0 then 'Validacion Pendiente'
+	when acuu.estado=1 then 'Activo'
+	when acuu.estado=-1 then 'Desactivado'
     end as "Estado"
   from 
     adm_Usuario u
-  where 
-    u.centro_unidadacademica = _cenuni
+  join adm_centro_unidadacademica_usuario acuu on acuu.centro_unidadacademica =_cenuni and acuu.usuario = u.usuario
   order by 
     u.usuario;
 END;
@@ -51,13 +50,14 @@ CREATE OR REPLACE FUNCTION spAgregarUsuarios(_nombre text, _correo text,
 DECLARE idUsuario integer;
 DECLARE fecha timestamp;
 BEGIN
+	SELECT * FROM spObtenerSecuencia('usuario','adm_usuario') into idUsuario;
 	SELECT current_timestamp into fecha;
 	INSERT INTO adm_usuario (usuario, nombre, correo, clave, estado, preguntasecreta, respuestasecreta, 
-		fechaultimaautenticacion, intentosautenticacion, foto, centro_unidadacademica) 
-	VALUES (DEFAULT,_nombre, _correo, _clave, 0, _preguntasecreta, _respuestasecreta, 
-		fecha, _intentosautenticacion, _foto, _centrounidad);
+		fechaultimaautenticacion, intentosautenticacion, foto) 
+	VALUES (idUsuario,_nombre, _correo, _clave, 0, _preguntasecreta, _respuestasecreta, 
+		fecha, _intentosautenticacion, _foto);
 
-	SELECT usuario from adm_usuario where nombre=_nombre and clave=_clave and fechaultimaautenticacion = fecha into idUsuario;
+	INSERT INTO adm_centro_unidadacademica_usuario values (idUsuario,_centroUnidad,1);
 	RETURN idUsuario;
 END; $BODY$
 LANGUAGE 'plpgsql';
@@ -190,30 +190,42 @@ $BODY$
 LANGUAGE 'plpgsql';
 
 -- -----------------------------------------------------
+-- Function: spEstadoCentroUnidadUsuario()
+-- -----------------------------------------------------
+-- DROP FUNCTION spEstadoCentroUnidadUsuario(int,int,int);
+CREATE OR REPLACE FUNCTION spEstadoCentroUnidadUsuario(_idUsuario int, _idCentroUnidad int, _estadoNuevo int) RETURNS void AS 
+$BODY$
+BEGIN
+  EXECUTE format('UPDATE adm_centro_unidadacademica_usuario SET estado = %L WHERE usuario = %L and centro_unidadacademica = %L', _estadoNuevo, _idUsuario, _idCentroUnidad);
+END;
+$BODY$
+LANGUAGE 'plpgsql';
+
+-- -----------------------------------------------------
 -- Function: spdatosusuario()
 -- -----------------------------------------------------
 -- DROP FUNCTION spdatosusuario(int);
 
-CREATE OR REPLACE FUNCTION spdatosusuario(Id int, 
+CREATE OR REPLACE FUNCTION spdatosusuario(Id int, UnidadCentro int,
 					  OUT nombre text, OUT correo text, 
 					  OUT unidadacademica text, OUT clave text, OUT idPregunta int,
 					  OUT preguntasecreta text, OUT respuestasecreta text, 
-                                          OUT unidadCentro int, OUT estado int ) RETURNS setof record as 
+                                          OUT estado int ) RETURNS setof record as 
 $BODY$
 BEGIN
-  RETURN query EXECUTE format('SELECT u.nombre, 
+  RETURN query EXECUTE format('SELECT u.nombre,
 				      u.correo, 
-				      (select ua.nombre from adm_unidadacademica ua where ua.unidadacademica = cen.unidadacademica),
+				      (select ua.nombre from adm_unidadacademica ua
+					      join adm_centro_unidadacademica cen 
+					      on cen.centro_unidadacademica=%s and ua.unidadacademica = cen.unidadacademica),
 				      u.clave,
 				      ps.preguntasecreta,
 				      ps.descripcion, 
 				      u.respuestasecreta,
-				      u.centro_unidadacademica,
                                       u.estado
 			       FROM adm_usuario u 
-				      JOIN adm_centro_unidadacademica cen ON u.centro_unidadacademica = cen.unidadacademica 
 				      JOIN adm_preguntasecreta ps ON u.preguntasecreta = ps.preguntasecreta 
-			       WHERE usuario = %s',Id);
+			       WHERE usuario = %s',UnidadCentro, Id);
 END;
 $BODY$
 LANGUAGE 'plpgsql';
@@ -245,3 +257,63 @@ $BODY$
 
 ALTER FUNCTION spactualizarusuario(integer, text, text, integer, text)
   OWNER TO postgres;
+
+-- -----------------------------------------------------
+-- Function: spBuscarEstudiante()
+-- -----------------------------------------------------
+-- DROP FUNCTION spBuscarEstudiante(int);
+CREATE OR REPLACE FUNCTION spBuscarEstudiante(_carnet integer)
+  RETURNS integer AS
+$BODY$
+DECLARE regreso int;
+BEGIN
+  Select coalesce(usuario,-1) from est_estudiante where carnet = _carnet into regreso;
+  RETURN regreso;
+END;
+$BODY$
+LANGUAGE plpgsql;
+
+-- -----------------------------------------------------
+-- Function: spBuscarEmpleado()
+-- -----------------------------------------------------
+-- DROP FUNCTION spBuscarEmpleado(int);
+CREATE OR REPLACE FUNCTION spBuscarEmpleado(_registro integer)
+  RETURNS integer AS
+$BODY$
+DECLARE regreso int;
+BEGIN
+  Select coalesce(usuario,-1) from adm_empleado where registropersonal = _registro into regreso;
+  RETURN regreso;
+END;
+$BODY$
+LANGUAGE plpgsql;
+
+-- -----------------------------------------------------
+-- Function: spBuscarCatedratico()
+-- -----------------------------------------------------
+-- DROP FUNCTION spBuscarCatedratico(int);
+CREATE OR REPLACE FUNCTION spBuscarCatedratico(_registro integer)
+  RETURNS integer AS
+$BODY$
+DECLARE regreso int;
+BEGIN
+  Select coalesce(usuario,-1) from cat_catedratico where registropersonal = _registro into regreso;
+  RETURN regreso;
+END;
+$BODY$
+LANGUAGE plpgsql;
+
+-- -----------------------------------------------------
+-- Function: spAgregarCentroUnidadUsuario()
+-- -----------------------------------------------------
+-- DROP FUNCTION spAgregarCentroUnidadUsuario(int,int);
+CREATE OR REPLACE FUNCTION spAgregarCentroUnidadUsuario(_idUsuario int, _centroUnidad int)
+  RETURNS void AS
+$BODY$
+BEGIN
+  INSERT INTO adm_centro_unidadacademica_usuario values (_idUsuario,_centroUnidad,1);
+END;
+$BODY$
+LANGUAGE plpgsql;
+
+Select 'Script para Gestion de usuarios Instalado' as "Gestion Usuarios";

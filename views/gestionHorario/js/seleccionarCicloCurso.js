@@ -37,7 +37,7 @@ $(document).ready( function () {
     });
     
     function getAniosAjax(){
-        $.post('/EPS/ajax/getAniosAjax',
+        $.post('../../ajax/getAniosAjax',
                'tipo=' + $("#slTipos").val(),
                function(datos){
                     $("#slAnio").html('');
@@ -54,7 +54,7 @@ $(document).ready( function () {
     }
     
     function getCiclosAjax(){
-        $.post('/EPS/ajax/getCiclosAjax',
+        $.post('../../ajax/getCiclosAjax',
                { anio: $("#slAnio").val() },
                function(datos){
                     $("#slCiclo").html('');

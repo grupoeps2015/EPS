@@ -19,7 +19,7 @@ $(document).ready( function () {
     });
     
     function getUnidadesAjax(){
-        $.post('/EPS/ajax/getUnidadesAjax',
+        $.post('../../ajax/getUnidadesAjax',
                'centro=' + $("#slCentros").val(),
                function(datos){
                     $("#slUnidad").html('');
@@ -36,7 +36,7 @@ $(document).ready( function () {
     }
     
     function getCentroUnidadAjax(){
-        $.post('/EPS/ajax/getCentroUnidadAjax',
+        $.post('../../ajax/getCentroUnidadAjax',
                 { centro: $("#slCentros").val(), unidad: $("#slUnidad").val() },
                function(datos){
                     if(datos.length>0){

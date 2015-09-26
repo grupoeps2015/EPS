@@ -407,8 +407,8 @@ INSERT INTO adm_unidadacademica(unidadacademica, unidadacademicasuperior, nombre
 -- -----------------------------------------------------
 -- Insert ADM_Centro_UnidadAcademica
 -- -----------------------------------------------------
-INSERT INTO adm_centro_unidadacademica (centro_unidadacademica, centro, unidadacademica) VALUES (1,1,1);
-INSERT INTO adm_centro_unidadacademica (centro_unidadacademica, centro, unidadacademica) VALUES (2,1,2);
+INSERT INTO adm_centro_unidadacademica (centro_unidadacademica, centro, unidadacademica, estado) VALUES (1,1,1,1);
+INSERT INTO adm_centro_unidadacademica (centro_unidadacademica, centro, unidadacademica, estado) VALUES (2,1,2,1);
 
 -- -----------------------------------------------------
 -- Insert cur_carrera / escuela de historia
@@ -461,8 +461,9 @@ INSERT INTO cat_tipocatedratico(tipodocente, descripcion, estado) VALUES (4, 'Au
 -- -----------------------------------------------------
 -- Insert adm_usuario
 -- -----------------------------------------------------
-INSERT INTO adm_usuario(usuario, nombre, correo, clave, estado, preguntasecreta, respuestasecreta, fechaultimaautenticacion, intentosautenticacion, foto, centro_unidadacademica)
-	VALUES (1, 'admin', 'adm@historia.usac.gt', 'zpadmqM=', 1, 0, 'USAC', current_timestamp, 100, '', 1);
+INSERT INTO adm_usuario(usuario, nombre, correo, clave, estado, preguntasecreta, respuestasecreta, fechaultimaautenticacion, intentosautenticacion, foto)
+	VALUES (1, 'admin', 'adm@historia.usac.gt', 'zpadmqM=', 1, 0, 'USAC', current_timestamp, 100, '');
+INSERT INTO adm_centro_unidadacademica_usuario VALUES(1,1,1);
 
 -- -----------------------------------------------------
 -- Insert adm_empleado
@@ -495,8 +496,8 @@ INSERT INTO cur_tipoactividad (tipoactividad,nombre,descripcion,estado) VALUES (
 -- -----------------------------------------------------
 -- Insert cur_tipociclo
 -- -----------------------------------------------------
-INSERT INTO cur_tipociclo (tipociclo,nombre,descripcion,estado) VALUES (1,'Semestre','',1);
-INSERT INTO cur_tipociclo (tipociclo,nombre,descripcion,estado) VALUES (2,'Bimestre','',1);
+INSERT INTO cur_tipociclo (tipociclo,nombre,descripcion,duracionmeses,estado) VALUES (1,'Semestre','',6,1);
+INSERT INTO cur_tipociclo (tipociclo,nombre,descripcion,duracionmeses,estado) VALUES (2,'Bimestre','',2,1);
 
 -- -----------------------------------------------------
 -- Insert cur_ciclo

@@ -218,11 +218,41 @@ class ajaxModel extends Model{
         }
     }
     
-    public function getCarrerasEstudiante($estudiante){
-        $info = $this ->_db->query("select * from spCarrerasXEstudiante({$estudiante})");
+    public function getCarrerasEstudiante($estudiante,$centrounidad){
+        $info = $this ->_db->query("select * from spCarrerasXEstudiante({$estudiante},{$centrounidad})");
         $info->setFetchMode(PDO::FETCH_ASSOC);
         if($info === false){
             return "1200/getCarrerasEstudiante";
+        }else{
+            return $info->fetchall();
+        }
+    }
+    
+    public function getCentroUnidadUsuario($usuario){
+        $info = $this ->_db->query("select * from spcentrounidadxusuario({$usuario})");
+        $info->setFetchMode(PDO::FETCH_ASSOC);
+        if($info === false){
+            return "1200/getCentroUnidadUsuario";
+        }else{
+            return $info->fetchall();
+        }
+    }
+    
+    public function getCentrosUsuario($usuario){
+        $info = $this ->_db->query("select * from spcentroxusuario({$usuario})");
+        $info->setFetchMode(PDO::FETCH_ASSOC);
+        if($info === false){
+            return "1200/getCentrosUsuario";
+        }else{
+            return $info->fetchall();
+        }
+    }
+    
+    public function getUnidadesCentrosUsuario($usuario,$centro){
+        $info = $this ->_db->query("select * from spunidadxcentroxusuario({$usuario},{$centro})");
+        $info->setFetchMode(PDO::FETCH_ASSOC);
+        if($info === false){
+            return "1200/getUnidadesCentrosUsuario";
         }else{
             return $info->fetchall();
         }

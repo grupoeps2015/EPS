@@ -1,4 +1,25 @@
 $(document).ready(function(){
+    $(function($){
+        $.datepicker.regional['es'] = {
+            closeText: 'Cerrar',
+            prevText: '<Ant',
+            nextText: 'Sig>',
+            currentText: 'Hoy',
+            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+            monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
+            dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+            dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
+            dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
+            weekHeader: 'Sm',
+            dateFormat: 'dd/mm/yy',
+            firstDay: 1,
+            isRTL: false,
+            showMonthAfterYear: false,
+            yearSuffix: ''
+        };
+        $.datepicker.setDefaults($.datepicker.regional['es']);
+    });
+    
     $('#frSecciones').validate({
         rules:{
             slAnio:{
@@ -30,6 +51,9 @@ $(document).ready(function(){
         }
     });
     
+    $("#txtFechaInicial").datepicker();
+    $("#txtFechaFinal").datepicker();
+    
     $("#slAnio").change(function(){
         if(!$("#slAnio").val()){
             $("#slCiclo").html('');
@@ -39,14 +63,14 @@ $(document).ready(function(){
         }
     });
     
-    $("#txtFechaInicial").focusout(function(){
+    $("#txtFechaInicial").change(function(){
         if(!existeFecha($("#txtFechaInicial").val())){
             $("#txtFechaInicial").val("");
             alert("Fecha inválida");
         }
     });
     
-    $("#txtFechaFinal").focusout(function(){
+    $("#txtFechaFinal").change(function(){
         if(!existeFecha($("#txtFechaFinal").val())){
             $("#txtFechaFinal").val("");
             alert("Fecha inválida");
@@ -54,7 +78,7 @@ $(document).ready(function(){
     });
     
     function getCiclosAjax(){
-        $.post('/EPS/ajax/getCiclosAjax',
+        $.post('../ajax/getCiclosAjax',
                {anio: $("#slAnio").val()},
                function(datos){
                     $("#slCiclo").html('');
@@ -71,25 +95,23 @@ $(document).ready(function(){
     }
     
     function existeFecha(fecha){
-        var reg = /[/]|[-]/;
-        var fechaf = fecha.split(reg);
-        var day, year;
-        if(fechaf[0].trim().length == 4){
-            day = fechaf[2];
-            year = fechaf[0];
+        if(fecha != ""){
+            var fechaf = fecha.split('/');
+            var day, year;
+                day = fechaf[0];
+                year = fechaf[2];
+
+            var month = (parseInt(fechaf[1])-parseInt(1));
+            var date = new Date(year,month,day);
+            if(parseInt(date.getFullYear())==parseInt(year) && parseInt(date.getMonth())==parseInt(month) && parseInt(date.getDate())==parseInt(day)){
+                return true;
+            }
+            else{
+                return false;
+            }
         }
         else{
-            day = fechaf[0];
-            year = fechaf[2];
-        }
-        
-        var month = (parseInt(fechaf[1])-parseInt(1));
-        var date = new Date(year,month,day);
-        if(parseInt(date.getFullYear())==parseInt(year) && parseInt(date.getMonth())==parseInt(month) && parseInt(date.getDate())==parseInt(day)){
             return true;
-        }
-        else{
-            return false;
         }
     }
     
@@ -115,5 +137,7 @@ $(document).ready(function(){
             alert('Debe cargar un archivo');
         }
     });
+    
+    
 });
 

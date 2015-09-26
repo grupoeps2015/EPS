@@ -325,20 +325,101 @@ LANGUAGE 'plpgsql';
 
 
 
--- -----------------------------------------------------
--- Function: spcarrerasxestudiante(integer)
--- -----------------------------------------------------
--- DROP FUNCTION spcarrerasxestudiante(integer);
+-- Function: spcarrerasxestudiante(integer, integer)
 
-CREATE OR REPLACE FUNCTION spcarrerasxestudiante(IN _estudiante int, OUT codigo int, OUT nombre text) RETURNS setof record AS
+-- DROP FUNCTION spcarrerasxestudiante(integer, integer);
+
+CREATE OR REPLACE FUNCTION spcarrerasxestudiante(
+    IN _estudiante integer,
+    IN _centrounidad integer,
+    OUT codigo integer,
+    OUT nombre text)
+  RETURNS SETOF record AS
 $BODY$
 begin
- Return query select c.carrera, c.nombre from cur_carrera c join est_estudiante_carrera ec on ec.carrera = c.carrera where ec.estudiante =_estudiante and ec.estado = 1;
+ Return query select c.carrera, c.nombre from cur_carrera c join est_estudiante_carrera ec on ec.carrera = c.carrera where ec.estudiante =_estudiante and c.centro_unidadacademica = _centrounidad and ec.estado = 1;
 end;
 $BODY$
-LANGUAGE 'plpgsql';
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION spcarrerasxestudiante(integer, integer)
+  OWNER TO postgres;
 
+  
+-- Function: spcentrounidadxusuario(integer)
 
+-- DROP FUNCTION spcentrounidadxusuario(integer);
+
+CREATE OR REPLACE FUNCTION spcentrounidadxusuario(
+    IN _usuario integer,
+    OUT centrounidad integer)
+  RETURNS SETOF integer AS
+$BODY$
+begin
+ Return query select distinct ucu.centro_unidadacademica from adm_usuario u join adm_centro_unidadacademica_usuario ucu on u.usuario = ucu.usuario where u.usuario =_usuario and ucu.estado = 1;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION spcentrounidadxusuario(integer)
+  OWNER TO postgres;
+
+  
+-- Function: spcentroxusuario(integer)
+
+-- DROP FUNCTION spcentroxusuario(integer);
+
+CREATE OR REPLACE FUNCTION spcentroxusuario(
+    IN _usuario integer,
+    OUT codigo integer,
+    OUT nombre text)
+  RETURNS SETOF record AS
+$BODY$
+begin
+ Return query select distinct c.centro, c.nombre
+ from adm_usuario u 
+ join adm_centro_unidadacademica_usuario ucu on u.usuario = ucu.usuario 
+ join adm_centro_unidadacademica cu on cu.centro_unidadacademica = ucu.centro_unidadacademica 
+ join adm_centro c on c.centro = cu.centro
+ where u.usuario =_usuario and ucu.estado = 1;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION spcentroxusuario(integer)
+  OWNER TO postgres;
+
+  
+-- Function: spunidadxcentroxusuario(integer, integer)
+
+-- DROP FUNCTION spunidadxcentroxusuario(integer, integer);
+
+CREATE OR REPLACE FUNCTION spunidadxcentroxusuario(
+    IN _usuario integer,
+    IN _centro integer,
+    OUT codigo integer,
+    OUT nombre text)
+  RETURNS SETOF record AS
+$BODY$
+begin
+ Return query select distinct un.unidadacademica, un.nombre
+ from adm_usuario u 
+ join adm_centro_unidadacademica_usuario ucu on u.usuario = ucu.usuario 
+ join adm_centro_unidadacademica cu on cu.centro_unidadacademica = ucu.centro_unidadacademica 
+ join adm_unidadacademica un on un.unidadacademica = cu.unidadacademica
+ where u.usuario =_usuario and ucu.estado = 1 and cu.centro = _centro;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION spunidadxcentroxusuario(integer, integer)
+  OWNER TO postgres;
+  
+  
 -- Function: spseccionescursohorario(integer, integer)
 
 -- DROP FUNCTION spseccionescursohorario(integer, integer);
@@ -369,3 +450,5 @@ $BODY$
   ROWS 1000;
 ALTER FUNCTION spseccionescursohorario(integer, integer)
   OWNER TO postgres;
+
+ Select 'Script para funciones generales Instalado' as "Generales";

@@ -65,17 +65,10 @@ LANGUAGE 'plpgsql';
 
 -- DROP FUNCTION spinformacioncatedratico(integer);
 
-CREATE OR REPLACE FUNCTION spinformacioncatedratico(
-    IN _centrounidadacademica integer,
-    OUT id integer,
-    OUT registro integer,
-    OUT primernombre text,
-	OUT segundonombre text,
-	OUT primerapellido text,
-	OUT segundoapellido text,
-    OUT tipodocente text,
-    OUT usuario integer,
-    OUT estado text)
+CREATE OR REPLACE FUNCTION spinformacioncatedratico(IN _centrounidadacademica integer,
+					            OUT id integer, OUT registro integer, OUT primernombre text,
+					            OUT segundonombre text, OUT primerapellido text, OUT segundoapellido text,
+					            OUT tipodocente text, OUT usuario integer, OUT estado text)
   RETURNS SETOF record AS
 $BODY$
 BEGIN
@@ -92,7 +85,8 @@ BEGIN
 	when c.estado=-1 then 'Desactivado'
     end as "Estado"
   from 
-    CAT_catedratico c join CAT_tipocatedratico t on c.tipodocente = t.tipodocente join adm_usuario u on u.usuario = c.usuario where u.centro_unidadacademica = _centrounidadacademica;
+    CAT_catedratico c join CAT_tipocatedratico t on c.tipodocente = t.tipodocente 
+  join adm_usuario u on u.usuario = c.usuario where u.centro_unidadacademica = _centrounidadacademica;
 END;
 $BODY$
   LANGUAGE plpgsql VOLATILE
@@ -100,3 +94,5 @@ $BODY$
   ROWS 1000;
 ALTER FUNCTION spinformacioncatedratico(integer)
   OWNER TO postgres;
+
+Select 'Script de Catedraticos Instalado' as "Catedraticos";

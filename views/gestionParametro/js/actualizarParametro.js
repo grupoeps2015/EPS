@@ -11,8 +11,8 @@ $(document).ready(function(){
             txtDescripcionParametro:{
                 required: true
             },
-            txtExtensionParametro:{
-                required: true
+            txtCodigoParametro:{
+                required: false
             },
             slCentroUnidadAcademica:{
                 required: true
@@ -30,10 +30,7 @@ $(document).ready(function(){
             },
             txtDescripcionParametro:{
                 required: "Es necesario ingresar la descripción del parámetro."
-            },
-            txtExtensionParametro:{
-                required: "El necesario ingresar la extensión del parámetro."
-            },
+            },            
             slCentroUnidadAcademica:{
                 required: "Elija un centro y unidad académica."
             },
@@ -54,15 +51,13 @@ $(document).ready(function(){
    
     $("#slCarreras").change(function(){
         if(!$("#slCarreras").val()){
-            $('#btnActualizarParametro').prop("disabled",true);
         }else{
-            $('#btnActualizarParametro').prop("disabled",false);
             getCentroUnidadAjax();
         }
     });
            
     function getCarrerasAjax(){
-        $.post('/EPS/ajax/getInfoCarreras',
+        $.post('../../ajax/getInfoCarreras',
                'centro_unidadacademica=' + $("#slCentroUnidadAcademica").val(),
                function(datos){
                     $("#slCarreras").html('');

@@ -8,7 +8,11 @@ class catedraticoModel extends Model {
     
     public function getInfoGeneral($idUsuario){
         $info = $this->_db->query("select * from spInfoGeneralCatedratico({$idUsuario})");
-        return $info->fetchAll();
+        if($info === false){
+            return "1104/getInfoGeneral";
+        }else{
+            return $info->fetchall();
+        }
     }
     
     public function setInfo($_datos){

@@ -5,13 +5,13 @@
 CREATE OR REPLACE FUNCTION spAgregarParametro(_nombre text, _valor text,
 					      _descripcion text, 
 					      _centro_unidadacademica integer, _carrera integer,
-					      _extension integer, _tipoparametro integer
+					      _codigo integer, _tipoparametro integer
 					     ) RETURNS void AS 
 $BODY$
 BEGIN
 	INSERT INTO adm_parametro(
-            parametro, nombre,valor,descripcion,centro_unidadacademica,carrera,extension,tipoparametro,estado)
-	VALUES (DEFAULT,_nombre,_valor,_descripcion,_centro_unidadacademica,_carrera,_extension,_tipoparametro,0);
+            parametro, nombre,valor,descripcion,centro_unidadacademica,carrera,codigo,tipoparametro,estado)
+	VALUES (DEFAULT,_nombre,_valor,_descripcion,_centro_unidadacademica,_carrera,_codigo,_tipoparametro,0);
 
 END; $BODY$
 LANGUAGE 'plpgsql';
@@ -23,7 +23,7 @@ LANGUAGE 'plpgsql';
 CREATE OR REPLACE FUNCTION spInformacionParametro(idCentroUnidadAcademica integer, OUT Parametro int, OUT NombreParametro text, 
 					          OUT ValorParametro text, OUT DescripcionParametro text, 
 					          OUT NombreCentro text, OUT NombreUnidadAcademica text, 
-					          OUT NombreCarrera text, OUT ExtensionParametro int, 
+					          OUT NombreCarrera text, OUT CodigoParametro int, 
 					          OUT NombreTipoParametro text, OUT EstadoParametro int) RETURNS setof record as 
 $BODY$
 BEGIN
@@ -35,14 +35,14 @@ BEGIN
 	 c.nombre AS NombreCentro,
 	 ua.nombre AS NombreUnidadAcademica,
 	 car.nombre AS NombreCarrera,
-	 p.extension AS ExtensionParametro,
+	 p.codigo AS CodigoParametro,
 	 tp.nombre AS NombreTipoParametro,
 	 p.estado AS EstadoParametro
   FROM ADM_Parametro p
 	JOIN ADM_Centro_UnidadAcademica cu ON cu.centro_unidadacademica = p.centro_unidadacademica
 	JOIN ADM_UnidadAcademica ua ON ua.unidadacademica = cu.unidadacademica
 	JOIN ADM_Centro c ON c.centro = cu.centro
-	JOIN CUR_Carrera car ON car.carrera = p.carrera
+	LEFT JOIN CUR_Carrera car ON car.carrera = p.carrera
 	JOIN ADM_TipoParametro tp ON tp.tipoparametro = p.tipoparametro
 	WHERE cu.centro_unidadacademica = $1
 	ORDER BY p.nombre;
@@ -60,7 +60,7 @@ CREATE OR REPLACE FUNCTION spDatosParametro(Parametro int,
 					    OUT NombreParametro text, OUT ValorParametro text, 
 					    OUT DescripcionParametro text, OUT NombreCentro text, 
 					    OUT NombreUnidadAcademica text, OUT CentroUnidadAcademica int, OUT NombreCarrera text,  OUT Carrera int,
-					    OUT ExtensionParametro int, OUT NombreTipoParametro text, OUT TipoParametro int) RETURNS setof record as 
+					    OUT CodigoParametro int, OUT NombreTipoParametro text, OUT TipoParametro int) RETURNS setof record as 
 $BODY$
 BEGIN
   RETURN query
@@ -72,14 +72,14 @@ BEGIN
 		 p.centro_unidadacademica AS CentroUnidadAcademica,
          car.nombre AS NombreCarrera,
 		 p.carrera AS Carrera,
-         p.extension AS ExtensionParametro,
+         p.codigo AS CodigoParametro,
          tp.nombre AS NombreTipoParametro,
 		 p.tipoparametro AS TipoParametro
   FROM ADM_Parametro p
 	JOIN ADM_Centro_UnidadAcademica cu ON cu.centro_unidadacademica = p.centro_unidadacademica
 	JOIN ADM_Centro c ON c.centro = cu.centro
 	JOIN ADM_UnidadAcademica ua ON ua.unidadacademica = cu.unidadacademica
-	JOIN CUR_Carrera car ON car.carrera = p.carrera
+	LEFT JOIN CUR_Carrera car ON car.carrera = p.carrera
 	JOIN ADM_TipoParametro tp ON tp.tipoparametro = p.tipoparametro
 	WHERE p.parametro = $1;
 
@@ -98,7 +98,7 @@ CREATE OR REPLACE FUNCTION spModificarParametro(_parametro integer,
 					        _descripcion text, 
 					        _centro_unidadacademica integer,
 					        _carrera integer,
-						_extension integer, 
+						_codigo integer, 
 						_estado integer,
 						_tipoparametro integer
 					     )RETURNS BOOLEAN LANGUAGE plpgsql SECURITY DEFINER AS $$
@@ -109,8 +109,8 @@ BEGIN
            valor = COALESCE(spModificarParametro._valor, ADM_Parametro.valor),
            descripcion = COALESCE(spModificarParametro._descripcion, ADM_Parametro.descripcion),
            centro_unidadacademica = COALESCE(spModificarParametro._centro_unidadacademica, ADM_Parametro.centro_unidadacademica),
-	   carrera = COALESCE(spModificarParametro._carrera, ADM_Parametro.carrera),
-	   extension = COALESCE(spModificarParametro._extension, ADM_Parametro.extension),
+	   carrera = spModificarParametro._carrera,
+	   codigo = COALESCE(spModificarParametro._codigo, ADM_Parametro.codigo),
 	   estado = COALESCE(spModificarParametro._estado, ADM_Parametro.estado),
 	   tipoparametro = COALESCE(spModificarParametro._tipoparametro, ADM_Parametro.tipoparametro)
      WHERE ADM_Parametro.parametro = spModificarParametro._parametro;       
@@ -225,3 +225,80 @@ $BODY$
   COST 100;
 ALTER FUNCTION spactivardesactivarperiodoparametro(integer, integer)
   OWNER TO postgres;
+  
+  
+-- Function: spagregarperiodoparametro(integer, integer, integer, text, text, integer)
+
+-- DROP FUNCTION spagregarperiodoparametro(integer, integer, integer, text, text, integer);
+
+CREATE OR REPLACE FUNCTION spagregarperiodoparametro(
+    _ciclo integer,
+    _tipoperiodo integer,
+    _tipoasign integer,
+    _fechainicial text,
+    _fechafinal text,
+    _centrounidad integer)
+  RETURNS integer AS
+$BODY$
+DECLARE idPeriodo integer;
+BEGIN
+	INSERT INTO adm_periodo (ciclo, fechainicial, fechafinal, tipoperiodo, estado, tipoasignacion, centro_unidadacademica) 
+	VALUES (_ciclo, case when _fechainicial <> '' then cast(_fechainicial as date) else null end, case when _fechafinal <> '' then cast(_fechafinal as date) else null end, _tipoperiodo, 1, _tipoasign, _centrounidad) RETURNING Periodo into idPeriodo;
+	RETURN idPeriodo;
+END; $BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+
+  
+-- Function: spactualizarperiodoparametro(integer, integer, integer, integer, text, text)
+
+-- DROP FUNCTION spactualizarperiodoparametro(integer, integer, integer, integer, text, text);
+
+CREATE OR REPLACE FUNCTION spactualizarperiodoparametro(
+    _id integer,
+    _ciclo integer,
+    _tipoperiodo integer,
+    _tipoasign integer,
+    _fechainicial text,
+    _fechafinal text)
+  RETURNS integer AS
+$BODY$
+DECLARE idPeriodo integer;
+BEGIN
+	UPDATE ADM_Periodo SET ciclo = _ciclo, tipoperiodo = _tipoperiodo, tipoasignacion = _tipoasign, fechainicial = case when _fechainicial <> '' then cast(_fechainicial as date) else null end, fechafinal = case when _fechafinal <> '' then cast(_fechafinal as date) else null end
+	WHERE periodo = _id RETURNING Periodo into idPeriodo;
+	RETURN idPeriodo;
+END; $BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION spactualizarperiodoparametro(integer, integer, integer, integer, text, text)
+  OWNER TO postgres;
+
+  
+-- Function: spdatosperiodoparametro(integer)
+
+-- DROP FUNCTION spdatosperiodoparametro(integer);
+
+CREATE OR REPLACE FUNCTION spdatosperiodoparametro(
+    IN id integer,
+    OUT ciclo integer,
+    OUT tipoperiodo integer,
+    OUT tipoasignacion integer,
+    OUT fechainicial text,
+    OUT fechafinal text,
+    OUT anio integer)
+  RETURNS SETOF record AS
+$BODY$
+BEGIN
+  RETURN query
+  SELECT p.ciclo, p.tipoperiodo, p.tipoasignacion, to_char(p.fechainicial, 'DD/MM/YYYY'), to_char(p.fechafinal, 'DD/MM/YYYY'), c.anio from adm_periodo p join cur_ciclo c on c.ciclo = p.ciclo
+  where p.periodo = id;
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION spdatosperiodoparametro(integer)
+  OWNER TO postgres;
+
+Select 'Script para Gestion de Parametros Instalado' as "Gestion parametros";

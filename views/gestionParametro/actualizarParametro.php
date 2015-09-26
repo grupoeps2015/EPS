@@ -97,9 +97,9 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>Extensi&oacute;n:&nbsp;</td>
+                                <td>C&oacute;digo:&nbsp;</td>
                                 <td colspan="2">
-                                    <input type="text" id="txtExtensionParametro" name="txtExtensionParametro" class="form-control input-lg" value="<?php if(isset($this->datosPar) && count($this->datosPar)) echo $this->datosPar[0]['extensionparametro']; ?>">
+                                    <input type="text" id="txtCodigoParametro" name="txtCodigoParametro" class="form-control input-lg" value="<?php if(isset($this->datosPar) && count($this->datosPar)) echo $this->datosPar[0]['codigoparametro']; ?>">
                                     <br/>
                                 </td>
                             </tr>

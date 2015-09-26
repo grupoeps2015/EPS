@@ -128,3 +128,5 @@ END; $BODY$
   COST 100;
 ALTER FUNCTION spactualizarseccion(text, text, integer, integer, integer)
   OWNER TO postgres;
+
+Select 'Gestion de secciones instalado' as "Gestion Secciones";

@@ -52,7 +52,7 @@ $(document).ready(function(){
     });
     
     function getMunicipio(){
-        $.post('/EPS/ajax/getMunicipio',
+        $.post('../../ajax/getMunicipio',
                'Depto=' + $("#slDeptos").val(),
                function(datos){
                    $("#slMunis").html('');

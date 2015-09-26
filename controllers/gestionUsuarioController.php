@@ -38,23 +38,23 @@ class gestionUsuarioController extends Controller {
         }
         
             
-            $idCentroUnidad = $_SESSION["centrounidad"];
+        $idCentroUnidad = $_SESSION["centrounidad"];
 
-            $this->_view->titulo = 'Gestión de usuarios - ' . APP_TITULO;
-            $this->_view->id = $idCentroUnidad;
-            $this->_view->setJs(array('gestionUsuario'));
-            $this->_view->setJs(array('jquery.dataTables.min'), "public");
-            $this->_view->setCSS(array('jquery.dataTables.min'));
+        $this->_view->titulo = 'Gestión de usuarios - ' . APP_TITULO;
+        $this->_view->id = $idCentroUnidad;
+        $this->_view->setJs(array('gestionUsuario'));
+        $this->_view->setJs(array('jquery.dataTables.min'), "public");
+        $this->_view->setCSS(array('jquery.dataTables.min'));
 
-            $lstUsr = $this->_post->informacionUsuario($idCentroUnidad);
-            if(is_array($lstUsr)){
-                $this->_view->lstUsr = $lstUsr;
-            }else{
-                $this->redireccionar("error/sql/" . $lstUsr);
-                exit;
-            }
+        $lstUsr = $this->_post->informacionUsuario($idCentroUnidad);
+        if(is_array($lstUsr)){
+            $this->_view->lstUsr = $lstUsr;
+        }else{
+            $this->redireccionar("error/sql/" . $lstUsr);
+            exit;
+        }
 
-            $this->_view->renderizar('gestionUsuario');
+        $this->_view->renderizar('gestionUsuario');
         
     }
     
@@ -106,20 +106,23 @@ class gestionUsuarioController extends Controller {
         }
         
         if ($iden == 1) {
+            $carnet = $this->getTexto('txtCarnetEst');
             $nombreUsr = $this->getTexto('txtNombreEst1');
             $correoUsr = $this->getTexto('txtCorreoEst');
             $fotoUsr = $this->getTexto('txtFotoEst');
-            $crearUsr = true;
+            $crearUsr = $this->validarExistencia($carnet,$idCentroUnidad,1);
         } elseif ($iden == 2) {
+            $registro = $this->getTexto('txtCodigoCat');
             $nombreUsr = $this->getTexto('txtNombreCat1');
             $correoUsr = $this->getTexto('txtCorreoCat');
             $fotoUsr = $this->getTexto('txtFotoCat');
-            $crearUsr = true;
+            $crearUsr = $this->validarExistencia($registro,$idCentroUnidad,2);
         } elseif ($iden == 3) {
+            $registro = $this->getTexto('txtCodigoEmp');
             $nombreUsr = $this->getTexto('txtNombreEmp1');
             $correoUsr = $this->getTexto('txtCorreoEmp');
             $fotoUsr = $this->getTexto('txtFotoEmp');
-            $crearUsr = true;
+            $crearUsr = $this->validarExistencia($registro,$idCentroUnidad,3);
         }
 
         if ($crearUsr) {
@@ -231,12 +234,14 @@ class gestionUsuarioController extends Controller {
 
     public function eliminarUsuario($intNuevoEstado, $intIdUsuario) {
         session_start();
-        $rol = $_SESSION["rol"];        
+        $rol = $_SESSION["rol"];
+        $idCentroUnidad = $_SESSION["centrounidad"];
+        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_ELIMINARUSUARIO);
         
         if($rolValido[0]["valido"]== PERMISO_ELIMINAR){
             if ($intNuevoEstado == -1 || $intNuevoEstado == 1) {
-                $borrar = $this->_post->eliminarUsuario($intIdUsuario, $intNuevoEstado);
+                $borrar = $this->_post->eliminarUsuario($intIdUsuario, $idCentroUnidad, $intNuevoEstado);
                 if(is_array($borrar)){
                     $this->_view->docentes = $borrar;
                 }else{
@@ -259,7 +264,8 @@ class gestionUsuarioController extends Controller {
 
     public function actualizarUsuario($intIdUsuario = 0) {
         session_start();
-        $rol = $_SESSION["rol"];        
+        $rol = $_SESSION["rol"];
+        $idCentroUnidad = $_SESSION["centrounidad"];
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_MODIFICARUSUARIO);
          
         if($rolValido[0]["valido"]!= PERMISO_MODIFICAR){
@@ -291,7 +297,7 @@ class gestionUsuarioController extends Controller {
             exit;
         }
         
-        $dtUsr = $this->_post->datosUsuario($intIdUsuario);
+        $dtUsr = $this->_post->datosUsuario($intIdUsuario,$idCentroUnidad);
         if(is_array($dtUsr)){
             $this->_view->datosUsr = $dtUsr;
         }else{
@@ -406,7 +412,7 @@ class gestionUsuarioController extends Controller {
             exit;
         }
         
-        $dtUsr = $this->_post->datosUsuario($intIdUsuario);
+        $dtUsr = $this->_post->datosUsuario($intIdUsuario,1);
         if(is_array($dtUsr)){
             $this->_view->datosUsr = $dtUsr;
         }else{
@@ -646,6 +652,33 @@ class gestionUsuarioController extends Controller {
         }else{
             return false;
         }
+    }
+    
+    private function validarExistencia($id, $cen, $tipo){
+        $existe;
+        if($tipo == 1){
+            $existe = $this->_post->buscarEstudiante($id);
+        }else if($tipo == 2){
+            $existe = $this->_post->buscarCatedratico($id);
+        }else if($tipo==3){
+            $existe = $this->_post->buscarEmpleado($id);
+        }
+        
+        if(!is_array($existe)){
+            $this->redireccionar("error/sql/" . $existe);
+            exit;
+        }else{
+            if(is_numeric($existe[0][0])){
+                $agrega = $this->_post->setCentroUnidadUsuario($existe[0][0],$cen);
+                if(!is_array($agrega)){
+                    $this->redireccionar("error/sql/" . $agrega);
+                    exit;
+                }
+                $this->redireccionar('gestionUsuario');
+                exit;
+            }
+        }
+        return true;
     }
     
     protected function notificacionEMAIL() {

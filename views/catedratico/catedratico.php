@@ -75,7 +75,7 @@
                             
                             <?php else : ?>
                             <tr>
-                                <td>- No se encontro informacion asociada al estudiante-</td>
+                                <td>- No se encontro informacion asociada al catedr&aacute;tico-</td>
                             </tr>
                             <?php endif;?>
                         </table>
@@ -122,7 +122,7 @@
                 <h2 class="text-center">Informacion General</h2>
             </div>
             <div class="modal-body row">
-                <form id="frmGenerales" class="col-md-10 col-md-offset-1 col-xs-12 col-xs-offset-0" method="post" action="<?php echo BASE_URL; ?>admCatedratico/infoCatedratico/15">
+                <form id="frmGenerales" class="col-md-10 col-md-offset-1 col-xs-12 col-xs-offset-0" method="post" action="<?php echo BASE_URL; ?>catedratico/infoCatedratico/<?php echo $this->id;?>">
                     <div class="form-group">
                         <table align="center">
                             <tr>

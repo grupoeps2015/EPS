@@ -74,7 +74,7 @@
                             
                             <?php else : ?>
                             <tr>
-                                <td>- No se encontro informacion asociada al estudiante-</td>
+                                <td>- No se encontro informacion asociada al empleado-</td>
                             </tr>
                             <?php endif;?>
                         </table>

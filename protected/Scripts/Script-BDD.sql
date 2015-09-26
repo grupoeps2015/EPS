@@ -10,6 +10,9 @@
 --       LC_CTYPE = 'Spanish_Guatemala.1252'
 --       CONNECTION LIMIT = -1;
 
+-- UPDATE pg_database SET encoding=6 WHERE datname='EPS'
+
+
 -- -----------------------------------------------------
 -- Table CAT_TipoCatedratico
 -- -----------------------------------------------------
@@ -90,6 +93,7 @@ CREATE TABLE ADM_Centro_UnidadAcademica (
   Centro_UnidadAcademica INTEGER NOT NULL,
   Centro INTEGER NOT NULL,
   UnidadAcademica INTEGER NOT NULL,
+  Estado INTEGER NOT NULL,
   PRIMARY KEY (Centro_UnidadAcademica),
   CONSTRAINT Centro
     FOREIGN KEY (UnidadAcademica)
@@ -130,11 +134,7 @@ CREATE TABLE ADM_Usuario (
   FechaUltimaAutenticacion TIMESTAMP NOT NULL,
   IntentosAutenticacion INTEGER NOT NULL,
   Foto TEXT NOT NULL,
-  Centro_UnidadAcademica INTEGER NOT NULL,
   PRIMARY KEY (Usuario),
-  CONSTRAINT fk_ADM_Usuario_ADM_Centro_UnidadAcademica1
-    FOREIGN KEY (Centro_UnidadAcademica)
-    REFERENCES ADM_Centro_UnidadAcademica (Centro_UnidadAcademica),
   CONSTRAINT fk_ADM_Usuario_ADM_PreguntaSecreta1
     FOREIGN KEY (PreguntaSecreta)
     REFERENCES ADM_PreguntaSecreta (PreguntaSecreta)	
@@ -417,6 +417,7 @@ CREATE TABLE CUR_TipoCiclo (
   TipoCiclo SERIAL NOT NULL,
   Nombre TEXT NOT NULL,
   Descripcion TEXT NULL,
+  DuracionMeses INTEGER NOT NULL,
   Estado INTEGER NOT NULL,
   PRIMARY KEY (TipoCiclo));
 
@@ -432,6 +433,7 @@ CREATE TABLE CUR_Pensum_Area (
   NumeroCiclo INTEGER NOT NULL,
   TipoCiclo INTEGER NOT NULL,
   Creditos INTEGER NULL,
+  Prerrequisitos TEXT NULL,
   PRIMARY KEY (CursoPensumArea),
   CONSTRAINT fk_CUR_Pensum_CUR_Curso1
     FOREIGN KEY (Curso)
@@ -986,26 +988,6 @@ CREATE TABLE CUR_Desasignacion (
   CONSTRAINT fk_EST_CUR_Desasignacion_EST_CUR_Asignacion1
     FOREIGN KEY (Asignacion)
     REFERENCES EST_CUR_Asignacion (Asignacion));
-
-
--- -----------------------------------------------------
--- Table CUR_Prerrequisito
--- -----------------------------------------------------
-CREATE TABLE CUR_Prerrequisito (
-  CursoPensumArea INTEGER NOT NULL,
-  TipoPrerrequisito INTEGER NOT NULL,
-  Creditos INTEGER NULL,
-  OtrosPrerrequisitos TEXT NOT NULL,
-  Curso INTEGER NULL,
-  CONSTRAINT fk_CUR_Requisito_CUR_Pensum_Area1
-    FOREIGN KEY (CursoPensumArea)
-    REFERENCES CUR_Pensum_Area (CursoPensumArea),
-  CONSTRAINT fk_CUR_Requisito_CUR_TipoPrerrequisito1
-    FOREIGN KEY (TipoPrerrequisito)
-    REFERENCES CUR_TipoPrerrequisito (TipoPrerrequisito),
-  CONSTRAINT Curso
-    FOREIGN KEY (Curso)
-    REFERENCES CUR_Pensum_Area (CursoPensumArea));
 
 
 -- -----------------------------------------------------

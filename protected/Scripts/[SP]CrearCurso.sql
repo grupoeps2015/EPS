@@ -131,3 +131,5 @@ END; $BODY$
   COST 100;
 ALTER FUNCTION spactualizarcurso(text, text, boolean, integer, integer)
   OWNER TO postgres;
+
+ Select 'Script para Gestion de Cursos Instalado' as "Gestion Cursos";

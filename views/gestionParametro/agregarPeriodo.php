@@ -35,7 +35,7 @@
                                             <?php if (isset($this->lstAnios) && count($this->lstAnios)): ?>
                                                 <option value="">-- A&ntilde;o --</option>
                                                 <?php for ($i = 0; $i < count($this->lstAnios); $i++) : ?>
-                                                    <option value="<?php echo $this->lstAnios[$i]['anio']; ?>" <?php if (isset($this->anio) && $this->lstAnios[$i]['anio'] == $this->anio) echo "selected" ?>>
+                                                    <option value="<?php echo $this->lstAnios[$i]['anio']; ?>" >
                                                         <?php echo $this->lstAnios[$i]['anio']; ?>
                                                     </option>
                                                 <?php endfor; ?>
@@ -51,7 +51,7 @@
                                             <?php if (isset($this->lstCiclos) && count($this->lstCiclos)): ?>
                                                 <option value="">-- Ciclo --</option>
                                                 <?php for ($i = 0; $i < count($this->lstCiclos); $i++) : ?>
-                                                    <option value="<?php echo $this->lstCiclos[$i]['codigo']; ?>" <?php if (isset($this->ciclo) && $this->lstCiclos[$i]['codigo'] == $this->ciclo) echo "selected" ?>>
+                                                    <option value="<?php echo $this->lstCiclos[$i]['codigo']; ?>" >
                                                         <?php echo $this->lstCiclos[$i]['nombre']; ?>
                                                     </option>
                                                 <?php endfor; ?>
@@ -101,13 +101,13 @@
                                 </tr>
                                 <tr>
                                     <td>Fecha Inicial:
-                                        <input type="date" id="txtFechaInicial" name="txtFechaInicial" class="form-control input-lg" value="" placeholder="dd/mm/aaaa"/>
+                                        <input type="text" id="txtFechaInicial" name="txtFechaInicial" class="form-control input-lg" value="" placeholder="dd/mm/aaaa"/>
                                         <br/>
                                     </td>
                                     <td>&nbsp;</td>
                                     <td>
                                         Fecha Final:
-                                        <input type="date" id="txtFechaFinal" name="txtFechaFinal" class="form-control input-lg" value="" placeholder="dd/mm/aaaa"/>
+                                        <input type="text" id="txtFechaFinal" name="txtFechaFinal" class="form-control input-lg" value="" placeholder="dd/mm/aaaa"/>
                                         <br/>
                                     </td>
                                     <td>&nbsp;</td>

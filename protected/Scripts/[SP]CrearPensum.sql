@@ -222,4 +222,4 @@ $BODY$
 ALTER FUNCTION spfinalizarVigenciaPensum(integer)
   OWNER TO postgres;
   
- 
+ Select 'Script para Gestion de Pensum Instalado' as "Gestion Pensum";

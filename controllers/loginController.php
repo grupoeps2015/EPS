@@ -27,14 +27,25 @@ class loginController extends Controller{
     }
     
     public function inicio(){
-        $this->_view->renderizar('inicio','login');
+        session_start();
+        if(isset($_SESSION["usuario"])){
+            $this->_view->renderizar('inicio','login');
+        }else{
+            $this->_view->renderizar('login');
+        }
     }
     
     public function bienvenida(){
-        $this->_view->renderizar('bienvenida','login');
+        session_start();
+        if(isset($_SESSION["usuario"])){
+            $this->_view->renderizar('bienvenida','login');
+        }else{
+            $this->_view->renderizar('login');
+        }
     }
     
     public function autenticar(){
+        $urlCentroUnidad = '';
         $this->_view->titulo = APP_TITULO;
         
         $usuario = $this->getTexto('usuario');
@@ -49,53 +60,45 @@ class loginController extends Controller{
         }
         
         if (count($respuesta) > 0){
-            for ($i=0; $i<count($respuesta); $i++){
-                if($respuesta[$i]['rol'] == ROL_ADMINISTRADOR){
-                    $indice = $i;
-                    break;
-                }
-//                else{
-//                    //El empleado, estudiante o catedratico escoge a qué centro_unidad entrar
-//                }
-                else if($respuesta[$i]['centrounidadacademica'] == 1){
-                    $indice = $i;
-                    break;
-                }
-            }
-            if(isset($indice)){
-                session_start();
-                $_SESSION["usuario"] = $respuesta[$indice]['usuario'];
-                $_SESSION["rol"] = $respuesta[$indice]['rol'];
-                $_SESSION["nombre"] = $respuesta[$indice]['nombre'];
-                $_SESSION["centrounidad"] = $respuesta[$indice]['centrounidadacademica'];
-                
-                //Insertar en bitácora            
-                $arrayBitacora = array();
-                $arrayBitacora[":usuario"] = $_SESSION["usuario"];
-                $arrayBitacora[":nombreusuario"] = $_SESSION["nombre"];
-                $arrayBitacora[":funcion"] = CONS_FUNC_LOGIN;
-                $arrayBitacora[":ip"] = $this->get_ip_address();
-                $arrayBitacora[":registro"] = 0; //no se que es esto
-                $arrayBitacora[":tablacampo"] = ''; //tampoco se que es esto
-                $arrayBitacora[":descripcion"] = 'El usuario ha iniciado sesión.';
-                $insert = $this->_bitacora->insertarBitacoraUsuario($arrayBitacora, $_SESSION["rol"]);
-                if(!is_array($insert)){
-                    $this->redireccionar("error/sql/" . $insert);
-                    exit;
-                }
-                
-                if($respuesta[0]['estado'] == ESTADO_ACTIVO){
-                    $this->redireccionar('login/inicio');
-                }else if($respuesta[0]['estado'] == ESTADO_PENDIENTE){
-                    $this->redireccionar('gestionUsuario/validarUsuario/'.$_SESSION["usuario"]);
+            session_start();
+            if (count($respuesta) > 1){
+                if($respuesta[0]['rol'] <> ROL_ADMINISTRADOR){
+                    $urlCentroUnidad = 'general/seleccionarCentroUnidad/';
                 }
                 else{
-                    $this->redireccionar('login/salir');
+                    $_SESSION["centrounidad"] = $respuesta[0]['centrounidadacademica'];
                 }
             }
             else{
-                echo "<script>alert('Credenciales incorrectas');</script>";
-                $this->index();
+                $_SESSION["centrounidad"] = $respuesta[0]['centrounidadacademica'];
+            }
+            
+            $_SESSION["usuario"] = $respuesta[0]['usuario'];
+            $_SESSION["rol"] = $respuesta[0]['rol'];
+            $_SESSION["nombre"] = $respuesta[0]['nombre'];
+            
+            //Insertar en bitácora            
+            $arrayBitacora = array();
+            $arrayBitacora[":usuario"] = $_SESSION["usuario"];
+            $arrayBitacora[":nombreusuario"] = $_SESSION["nombre"];
+            $arrayBitacora[":funcion"] = CONS_FUNC_LOGIN;
+            $arrayBitacora[":ip"] = $this->get_ip_address();
+            $arrayBitacora[":registro"] = 0; //no se que es esto
+            $arrayBitacora[":tablacampo"] = ''; //tampoco se que es esto
+            $arrayBitacora[":descripcion"] = 'El usuario ha iniciado sesión.';
+            $insert = $this->_bitacora->insertarBitacoraUsuario($arrayBitacora, $_SESSION["rol"]);
+            if(!is_array($insert)){
+                $this->redireccionar("error/sql/" . $insert);
+                exit;
+            }
+
+            if($respuesta[0]['estado'] == ESTADO_ACTIVO){
+                $this->redireccionar($urlCentroUnidad.'login/inicio');
+            }else if($respuesta[0]['estado'] == ESTADO_PENDIENTE){
+                $this->redireccionar($urlCentroUnidad.'gestionUsuario/validarUsuario/'.$_SESSION["usuario"]);
+            }
+            else{
+                $this->redireccionar('login/salir');
             }
         }
         else{
@@ -106,22 +109,23 @@ class loginController extends Controller{
 
     public function salir(){
         session_start();
-        session_destroy();
-        
-        //Insertar en bitácora            
-        $arrayBitacora = array();
-        $arrayBitacora[":usuario"] = $_SESSION["usuario"];
-        $arrayBitacora[":nombreusuario"] = $_SESSION["nombre"];
-        $arrayBitacora[":funcion"] = CONS_FUNC_LOGOUT;
-        $arrayBitacora[":ip"] = $this->get_ip_address();
-        $arrayBitacora[":registro"] = 0; //no se que es esto
-        $arrayBitacora[":tablacampo"] = ''; //tampoco se que es esto
-        $arrayBitacora[":descripcion"] = 'El usuario ha finalizado sesión.';
-        $insert = $this->_bitacora->insertarBitacoraUsuario($arrayBitacora, $_SESSION["rol"]);
-        if(!is_array($insert)){
-            $this->redireccionar("error/sql/" . $insert);
-            exit;
-        }    
+        if($_SESSION["usuario"]){
+            //Insertar en bitácora            
+            $arrayBitacora = array();
+            $arrayBitacora[":usuario"] = $_SESSION["usuario"];
+            $arrayBitacora[":nombreusuario"] = $_SESSION["nombre"];
+            $arrayBitacora[":funcion"] = CONS_FUNC_LOGOUT;
+            $arrayBitacora[":ip"] = $this->get_ip_address();
+            $arrayBitacora[":registro"] = 0; //no se que es esto
+            $arrayBitacora[":tablacampo"] = ''; //tampoco se que es esto
+            $arrayBitacora[":descripcion"] = 'El usuario ha finalizado sesión.';
+            $insert = $this->_bitacora->insertarBitacoraUsuario($arrayBitacora, $_SESSION["rol"]);
+            if(!is_array($insert)){
+                $this->redireccionar("error/sql/" . $insert);
+                exit;
+            }
+            session_destroy();
+        }
         $this->redireccionar('login');
     }
     

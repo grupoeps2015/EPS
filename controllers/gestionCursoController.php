@@ -14,6 +14,11 @@ class gestionCursoController extends Controller {
     
     public function __construct() {
         parent::__construct();
+        $this->getLibrary('session');
+        $this->_session = new session();
+        if(!$this->_session->validarSesion()){
+            $this->redireccionar('login/salir');
+        }
         $this->getLibrary('encripted');
         $this->_encriptar = new encripted();
         $this->_post = $this->loadModel('gestionCurso');
@@ -21,7 +26,6 @@ class gestionCursoController extends Controller {
     }
 
     public function index() {
-        session_start();
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_GESTIONCURSO);
         
@@ -55,7 +59,6 @@ class gestionCursoController extends Controller {
     }
 
     public function agregarCurso() {
-        session_start();
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_CREARCURSO);
          
@@ -110,7 +113,6 @@ class gestionCursoController extends Controller {
     }
     
     public function eliminarCurso($intNuevoEstado, $intIdCurso) {
-        session_start();
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_ELIMINARCURSO);
         
@@ -137,7 +139,6 @@ class gestionCursoController extends Controller {
     }
     
     public function actualizarCurso($intIdCurso = 0) {
-        session_start();
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_MODIFICARCURSO);
          
@@ -197,7 +198,6 @@ class gestionCursoController extends Controller {
     }
     
     public function cargarCSV(){
-        session_start();
         $idCentroUnidad = $_SESSION["centrounidad"];
         $iden = $this->getInteger('hdFile');
         $fileName = "";
@@ -236,7 +236,6 @@ class gestionCursoController extends Controller {
     }
     
     public function listadoSeccion() {
-        session_start();
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_GESTIONSECCION);
                     
@@ -269,9 +268,6 @@ class gestionCursoController extends Controller {
     }
 
     public function agregarSeccion() {
-        
-        
-        session_start();
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_CREARSECCION);
          
@@ -331,7 +327,6 @@ class gestionCursoController extends Controller {
     }
     
     public function eliminarSeccion($intNuevoEstado, $intIdSeccion) {
-        session_start();
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_ELIMINARSECCION);
         
@@ -359,7 +354,6 @@ class gestionCursoController extends Controller {
     }
     
     public function actualizarSeccion($intIdSeccion = 0) {
-        session_start();
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_MODIFICARSECCION);
         if($rolValido[0]["valido"]!= PERMISO_MODIFICAR){
