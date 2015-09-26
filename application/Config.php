@@ -2,6 +2,7 @@
 //Constantes del carpetas
 define('BASE_URL','http://localhost/EPS/');
 //define('BASE_URL','http://localhost:82/EPS/');
+//define('BASE_URL','http://sitios.usac.edu.gt/eps_controlacad/');
 define('DEFAULT_CONTROLLER','index');
 define('DEFAULT_LAYOUT','default');
 define('ADM_FOLDER','adm');
