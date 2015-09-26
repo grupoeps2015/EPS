@@ -390,7 +390,7 @@ CREATE TABLE ADM_Pensum (
   Carrera INTEGER NOT NULL,
   Tipo INTEGER NOT NULL,
   InicioVigencia DATE NOT NULL,
-  DuracionAnios FLOAT NOT NULL,
+  DuracionAnios INTEGER NOT NULL,
   FinVigencia DATE NULL,
   Descripcion TEXT NULL,
   PRIMARY KEY (Pensum),

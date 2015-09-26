@@ -131,7 +131,7 @@ $BODY$
 DECLARE idPensum integer;
 BEGIN
 	INSERT INTO adm_pensum (carrera, tipo, inicioVigencia, duracionAnios, descripcion) 
-	VALUES (_carrera, _tipo, cast(_inicioVigencia as date), cast(_duracionAnios as real), _descripcion) RETURNING Pensum into idPensum;
+	VALUES (_carrera, _tipo, cast(_inicioVigencia as date), cast(_duracionAnios as integer), _descripcion) RETURNING Pensum into idPensum;
 	RETURN idPensum;
 END; $BODY$
   LANGUAGE plpgsql VOLATILE
