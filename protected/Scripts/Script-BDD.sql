@@ -417,6 +417,7 @@ CREATE TABLE CUR_TipoCiclo (
   TipoCiclo SERIAL NOT NULL,
   Nombre TEXT NOT NULL,
   Descripcion TEXT NULL,
+  DuracionMeses INTEGER NOT NULL,
   Estado INTEGER NOT NULL,
   PRIMARY KEY (TipoCiclo));
 
