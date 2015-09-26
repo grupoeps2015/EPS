@@ -200,32 +200,32 @@ BEGIN
 END;
 $BODY$
 LANGUAGE 'plpgsql';
-select * from spEstadoCentroUnidadUsuario(1,2,-1);
+
 -- -----------------------------------------------------
 -- Function: spdatosusuario()
 -- -----------------------------------------------------
 -- DROP FUNCTION spdatosusuario(int);
 
-CREATE OR REPLACE FUNCTION spdatosusuario(Id int, 
+CREATE OR REPLACE FUNCTION spdatosusuario(Id int, UnidadCentro int,
 					  OUT nombre text, OUT correo text, 
 					  OUT unidadacademica text, OUT clave text, OUT idPregunta int,
 					  OUT preguntasecreta text, OUT respuestasecreta text, 
-                                          OUT unidadCentro int, OUT estado int ) RETURNS setof record as 
+                                          OUT estado int ) RETURNS setof record as 
 $BODY$
 BEGIN
-  RETURN query EXECUTE format('SELECT u.nombre, 
+  RETURN query EXECUTE format('SELECT u.nombre,
 				      u.correo, 
-				      (select ua.nombre from adm_unidadacademica ua where ua.unidadacademica = cen.unidadacademica),
+				      (select ua.nombre from adm_unidadacademica ua
+					      join adm_centro_unidadacademica cen 
+					      on cen.centro_unidadacademica=%s and ua.unidadacademica = cen.unidadacademica),
 				      u.clave,
 				      ps.preguntasecreta,
 				      ps.descripcion, 
 				      u.respuestasecreta,
-				      u.centro_unidadacademica,
                                       u.estado
 			       FROM adm_usuario u 
-				      JOIN adm_centro_unidadacademica cen ON u.centro_unidadacademica = cen.unidadacademica 
 				      JOIN adm_preguntasecreta ps ON u.preguntasecreta = ps.preguntasecreta 
-			       WHERE usuario = %s',Id);
+			       WHERE usuario = %s',UnidadCentro, Id);
 END;
 $BODY$
 LANGUAGE 'plpgsql';

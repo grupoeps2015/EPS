@@ -82,7 +82,7 @@ $(document).ready(function(){
     });
     
     function getPeriodosAjax(){
-        $.post('/EPS/ajax/getPeriodosAjax',
+        $.post('../../ajax/getPeriodosAjax',
                'tipo=' + $("#slTiposPeriodos").val(),
                function(datos){
                     
@@ -109,7 +109,7 @@ $(document).ready(function(){
     });
     
     function getSalonesAjax(){
-        $.post('/EPS/ajax/getSalonesAjax',
+        $.post('../../ajax/getSalonesAjax',
                'edificio=' + $("#slEdificios").val(),
                function(datos){
                     
@@ -176,7 +176,7 @@ $(document).ready(function(){
         if(ciclo && salon && dia && inicio && fin){
             $.ajax({
               type: "POST",
-              url: '/EPS/ajax/getDisponibilidadSalonAjax',
+              url: '../../ajax/getDisponibilidadSalonAjax',
               data: {ciclo:ciclo, salon:salon, dia:dia, inicio:inicio, fin:fin},
               async: false,
               success: function(datos){
@@ -210,7 +210,7 @@ $(document).ready(function(){
         if(ciclo && cat && dia && inicio && fin){
             $.ajax({
               type: "POST",
-              url: '/EPS/ajax/getDisponibilidadCatedraticoAjax',
+              url: '../../ajax/getDisponibilidadCatedraticoAjax',
               data: {ciclo:ciclo, cat:cat, dia:dia, inicio:inicio, fin:fin},
               async: false,
               success: function(datos){

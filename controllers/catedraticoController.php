@@ -25,7 +25,6 @@ class catedraticoController extends Controller{
     
     public function infoCatedratico($idUsuario=0){
         $iden = $this->getInteger('hdEnvio');
-        $actualizar = false;
         $arrayInfo = array();
         
         $this->_view->titulo = APP_TITULO;
@@ -60,10 +59,6 @@ class catedraticoController extends Controller{
         $this->_view->setJs(array('jquery.validate'), "public");
         
         if($iden == 1){
-            $actualizar = true;
-        }
-        
-        if($actualizar){
             $arrayInfo["id"] = $idUsuario;
             $arrayInfo["direccion"] = $this->getTexto('txtDireccion');
             $arrayInfo["zona"] = $this->getInteger('txtZona');

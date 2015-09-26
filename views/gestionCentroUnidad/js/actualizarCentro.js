@@ -42,7 +42,7 @@ $(document).ready(function(){
     
     function getMunicipio(){
         var muniActual =  parseInt($('#hdMunicipio').val());
-        $.post('/EPS/ajax/getMunicipio',
+        $.post('../../ajax/getMunicipio',
                'Depto=' + $("#slDeptos").val(),
                function(datos){
                    $("#slMunis").html('');

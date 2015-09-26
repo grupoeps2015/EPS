@@ -186,8 +186,8 @@ class gestionUsuarioModel extends Model {
         }
     }
 
-    public function datosUsuario($idUsuario) {
-        $info = $this->_db->query("select * from spdatosusuario('" . $idUsuario . "');");
+    public function datosUsuario($idUsuario,$idCentroUnidad) {
+        $info = $this->_db->query("select * from spdatosusuario({$idUsuario},{$idCentroUnidad});");
         if($info === false){
             return "1104/datosUsuario";
         }else{

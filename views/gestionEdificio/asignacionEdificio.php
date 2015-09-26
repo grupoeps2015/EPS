@@ -32,18 +32,14 @@
                                     <td> Centro Unidad:
                                         <?php if (isset($this->centros) && count($this->centros)): ?>
                                         <select id="slCentros" name="slCentros" class="form-control input-lg">
-                                                <option value="">(Centro-Unidad Academica)
-                                                </option>
+                                                <option value="">(Centro-Unidad Academica)</option>
                                                 <?php for ($i = 0; $i < count($this->centros); $i++) : ?>
-                                                
-                                                    <option value="<?php echo $this->centros[$i]['_id']; ?>">
-                                                        
+                                                    <option value="<?php echo $this->centros[$i]['_id']; ?>"> 
                                                         <?php echo $this->centros[$i]['_centro']; ?> - <?php echo $this->centros[$i]['_unidadacademica']; ?>
                                                     </option>
                                                 <?php endfor; ?>
                                             </select>
                                         <?php else : ?>
-                                            
                                             <br/>
                                         <?php endif; ?>
                                     </td>

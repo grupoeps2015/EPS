@@ -24,7 +24,7 @@ $(document).ready( function () {
     });
     
     function getAniosAjax(){
-        $.post('/EPS/ajax/getAniosAjax',
+        $.post('../../../ajax/getAniosAjax',
                'tipo=' + $("#slTipos").val(),
                function(datos){
                     $("#slAnio").html('');
@@ -34,14 +34,14 @@ $(document).ready( function () {
                             $("#slAnio").append('<option value="' + datos[i].anio + '">' + datos[i].anio + '</option>' );
                         }
                     }else{
-                        $("#slAnio").append('<option value="" disabled>No hay informaci&oacute;n disponible</option>' );
+                        $("#slAnio").append('<option value="" disabled>No hay info.</option>' );
                     }
                },
                'json');
     }
     
     function getCiclosAjax(){
-        $.post('/EPS/ajax/getCiclosAjax',
+        $.post('../../../ajax/getCiclosAjax',
                'anio=' + $("#slAnio").val(),
                function(datos){
                     $("#slCiclo").html('');
@@ -51,7 +51,7 @@ $(document).ready( function () {
                             $("#slCiclo").append('<option value="' + datos[i].codigo + '">' + datos[i].nombre + '</option>' );
                         }
                     }else{
-                        $("#slCiclo").append('<option value="" disabled>No hay informaci&oacute;n disponible</option>' );
+                        $("#slCiclo").append('<option value="" disabled>No hay info.</option>' );
                     }
                },
                'json');
@@ -67,8 +67,8 @@ $(document).ready( function () {
     });
     
     function getDocenteSeccion(){
-        $.post('/EPS/ajax/getDocenteSeccion',
-                { cat: $("#idCatedratico").val(), ciclo: $("#slCiclo").val() },
+        $.post('../../../ajax/getDocenteSeccion',
+               { cat: $("#idCatedratico").val(), ciclo: $("#slCiclo").val() },
                function(datos){
                    $("#slSeccion").html('');
                     if(datos.length>0){

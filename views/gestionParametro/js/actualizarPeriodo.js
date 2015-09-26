@@ -78,7 +78,7 @@ $(document).ready(function(){
     });
     
     function getCiclosAjax(){
-        $.post('/EPS/ajax/getCiclosAjax',
+        $.post('../../ajax/getCiclosAjax',
                {anio: $("#slAnio").val()},
                function(datos){
                     $("#slCiclo").html('');

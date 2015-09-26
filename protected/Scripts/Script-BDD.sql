@@ -10,6 +10,9 @@
 --       LC_CTYPE = 'Spanish_Guatemala.1252'
 --       CONNECTION LIMIT = -1;
 
+-- UPDATE pg_database SET encoding=6 WHERE datname='EPS'
+
+
 -- -----------------------------------------------------
 -- Table CAT_TipoCatedratico
 -- -----------------------------------------------------

@@ -38,23 +38,23 @@ class gestionUsuarioController extends Controller {
         }
         
             
-            $idCentroUnidad = $_SESSION["centrounidad"];
+        $idCentroUnidad = $_SESSION["centrounidad"];
 
-            $this->_view->titulo = 'Gestión de usuarios - ' . APP_TITULO;
-            $this->_view->id = $idCentroUnidad;
-            $this->_view->setJs(array('gestionUsuario'));
-            $this->_view->setJs(array('jquery.dataTables.min'), "public");
-            $this->_view->setCSS(array('jquery.dataTables.min'));
+        $this->_view->titulo = 'Gestión de usuarios - ' . APP_TITULO;
+        $this->_view->id = $idCentroUnidad;
+        $this->_view->setJs(array('gestionUsuario'));
+        $this->_view->setJs(array('jquery.dataTables.min'), "public");
+        $this->_view->setCSS(array('jquery.dataTables.min'));
 
-            $lstUsr = $this->_post->informacionUsuario($idCentroUnidad);
-            if(is_array($lstUsr)){
-                $this->_view->lstUsr = $lstUsr;
-            }else{
-                $this->redireccionar("error/sql/" . $lstUsr);
-                exit;
-            }
+        $lstUsr = $this->_post->informacionUsuario($idCentroUnidad);
+        if(is_array($lstUsr)){
+            $this->_view->lstUsr = $lstUsr;
+        }else{
+            $this->redireccionar("error/sql/" . $lstUsr);
+            exit;
+        }
 
-            $this->_view->renderizar('gestionUsuario');
+        $this->_view->renderizar('gestionUsuario');
         
     }
     
@@ -264,7 +264,8 @@ class gestionUsuarioController extends Controller {
 
     public function actualizarUsuario($intIdUsuario = 0) {
         session_start();
-        $rol = $_SESSION["rol"];        
+        $rol = $_SESSION["rol"];
+        $idCentroUnidad = $_SESSION["centrounidad"];
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_MODIFICARUSUARIO);
          
         if($rolValido[0]["valido"]!= PERMISO_MODIFICAR){
@@ -296,7 +297,7 @@ class gestionUsuarioController extends Controller {
             exit;
         }
         
-        $dtUsr = $this->_post->datosUsuario($intIdUsuario);
+        $dtUsr = $this->_post->datosUsuario($intIdUsuario,$idCentroUnidad);
         if(is_array($dtUsr)){
             $this->_view->datosUsr = $dtUsr;
         }else{
@@ -411,7 +412,7 @@ class gestionUsuarioController extends Controller {
             exit;
         }
         
-        $dtUsr = $this->_post->datosUsuario($intIdUsuario);
+        $dtUsr = $this->_post->datosUsuario($intIdUsuario,1);
         if(is_array($dtUsr)){
             $this->_view->datosUsr = $dtUsr;
         }else{

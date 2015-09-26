@@ -57,7 +57,7 @@ $(document).ready(function(){
     });
            
     function getCarrerasAjax(){
-        $.post('/EPS/ajax/getInfoCarreras',
+        $.post('../../ajax/getInfoCarreras',
                'centro_unidadacademica=' + $("#slCentroUnidadAcademica").val(),
                function(datos){
                     $("#slCarreras").html('');
