@@ -103,5 +103,14 @@ class gestionPensumModel extends Model {
             return $info->fetchall();
         }
     }
+    
+    public function listadoCursosPorPensum($intIdPensum) {
+        $info = $this->_db->query("SELECT * from spinformacioncursosporpensum(" . $intIdPensum . ");");
+        if ($info === false) {
+            return "1104/listadoCursosPorPensum";
+        } else {
+            return $info->fetchall();
+        }
+    }
 
 }

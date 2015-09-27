@@ -65,7 +65,7 @@
                                         </td>
                                         <td style="text-align: center; padding-right: 20px;">
                                             <?php if (strcmp($this->lstPensum[$i]['finvigencia'], null) == 0): ?>
-                                                <a href="<?php echo BASE_URL . 'gestionPensum/crearPensum/' . $this->lstPensum[$i]['id'] ?>">Registrar cursos</a>
+                                                <a href="<?php echo BASE_URL . 'gestionPensum/gestionCursoPensum/' . $this->lstPensum[$i]['id'] ?>">Registrar cursos</a>
                                             <?php else : ?>
 
                                             <?php endif; ?>

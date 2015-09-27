@@ -7,7 +7,7 @@
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
                         <i class="fa fa-2x fa-backward wow bounceIn text-primary" data-wow-delay=".2s">
-                            <a href="<?php echo BASE_URL ?>gestionPensum/listadoPensum">
+                            <a href="<?php echo BASE_URL ?>gestionPensum/gestionCursoPensum/<?php echo $this->idPensum; ?>">
                                 Regresar
                             </a>
                         </i>
@@ -29,7 +29,7 @@
     </div>
     <br/>
     <div>
-        <form id="frPensum" method="post" action="<?php echo BASE_URL; ?>gestionPensum/agregarPensum">
+        <form id="frPensum" method="post" action="<?php echo BASE_URL; ?>gestionPensum/crearPensum">
             <div id="divPensum" class="form-group" >
                 <div style="margin-left: 5%; margin-right: 5%">
                     <input onclick="mostrar()" value="Json valor" type="button"/><br/>
@@ -52,8 +52,8 @@
                     <input type="checkbox" id="chkOtrosPrerrequisitos" name="chkOtrosPrerrequisitos"> Otros Prerrequisitos<br>
                     <input type="text" id="txtOtrosPrerrequisitos" name="txtOtrosPrerrequisitos" disabled="true" placeholder="Cantidad de créditos">
                     <br/>
-                    <input onclick="agregar()" value="Agregar elemento" type="button"  class="btn btn-danger btn-lg btn-block" style="width:25%; float:left;"/>
-                    <input onclick="remover()" value="Eliminar elemento" type="button"  class="btn btn-danger btn-lg btn-block" style="width:25%; float:left;"/>
+                    <input onclick="agregar()" value="Agregar prerrequisito" type="button"  class="btn btn-danger btn-lg btn-block" style="width:25%; float:left;"/>
+                    <input onclick="remover()" value="Eliminar prerrequisito" type="button"  class="btn btn-danger btn-lg btn-block" style="width:25%; float:left;"/>
                     <!--<input onclick="actualizar()" value="actualizar" type="button"/>-->
          
 		    <!--  Contenedor del pensum -->
