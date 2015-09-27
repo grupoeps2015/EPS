@@ -78,14 +78,22 @@ class gestionHorarioController extends Controller {
         //session_start();
         $idCentroUnidad = $_SESSION["centrounidad"];
         $this->_view->id = $idCentroUnidad;
-        
-        $lsTipos = $this->_ajax->getTipoCiclo();
-        if(is_array($lsTipos)){
-            $this->_view->lstTipos = $lsTipos;
+        $tipociclo = 1;//TODO: Marlen: consultar parámetro en base de datos
+        $this->_view->idTipoCiclo = $tipociclo;
+        $lsAnios = $this->_ajax->getAniosAjax($tipociclo);
+        if(is_array($lsAnios)){
+            $this->_view->lstAnios = $lsAnios;
         }else{
-            $this->redireccionar("error/sql/" . $lsTipos);
+            $this->redireccionar("error/sql/" . $lsAnios);
             exit;
         }
+//        $lsTipos = $this->_ajax->getTipoCiclo();
+//        if(is_array($lsTipos)){
+//            $this->_view->lstTipos = $lsTipos;
+//        }else{
+//            $this->redireccionar("error/sql/" . $lsTipos);
+//            exit;
+//        }
         
         $lsSec = $this->_post->informacionSeccion($idCentroUnidad);
         if(is_array($lsSec)){

@@ -110,7 +110,7 @@ $(document).ready( function () {
     }
     
     function getCentroUnidadAjax(){
-        $.post('../../ajax/getCentroUnidadAjax',
+        $.post('<?php echo BASE_URL ?>ajax/getCentroUnidadAjax',
                 { centro: $("#slCentros").val(), unidad: $("#slUnidad").val() },
                function(datos){
                     if(datos.length>0){

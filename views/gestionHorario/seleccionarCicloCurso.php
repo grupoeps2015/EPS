@@ -25,7 +25,7 @@
         <div class="col-md-6 col-md-offset-3">
             <form id="frEstudiantes" method="post" action="<?php echo BASE_URL; ?>gestionHorario">
                 <table>
-                    <tr>
+<!--                    <tr>
                         <td style="width: 10%">
                             <h4>Tipo Ciclo: </h4>
                             <br/>
@@ -44,7 +44,7 @@
                             <?php endif; ?>
                             </select>
                         </td>
-                    </tr>
+                    </tr>-->
                     <tr>
                         <td style="width: 10%">
                             <h4>A&ntilde;o: </h4>
@@ -52,8 +52,18 @@
                         </td>
                         <td style="width:40%;">
                             <select id="slAnio" name="slAnio" class="form-control input-lg">
-                                <option value="" disabled>-- A&ntilde;o --</option>
+                                <?php if (isset($this->lstAnios) && count($this->lstAnios)): ?>
+                                    <option value="">-- A&ntilde;o --</option>
+                                    <?php for ($i = 0; $i < count($this->lstAnios); $i++) : ?>
+                                        <option value="<?php echo $this->lstAnios[$i]['anio']; ?>">
+                                            <?php echo $this->lstAnios[$i]['anio']; ?>
+                                        </option>
+                                    <?php endfor; ?>
+                            <?php else : ?>
+                                <option value="">-- No existen a&ntilde;os registrados --</option>
+                            <?php endif; ?>
                             </select>
+                            <br />
                         </td>
                     </tr>
                     <tr>
@@ -65,6 +75,7 @@
                             <select id="slCiclo" name="slCiclo" class="form-control input-lg">
                                 <option value="" disabled>-- Ciclo --</option>
                             </select>
+                            <br />
                         </td>
                     </tr>
                     <tr>
@@ -86,6 +97,7 @@
                                 <option value="">-- No existen secciones registradas --</option>
                             <?php endif; ?>
                             </select>
+                            <br />
                         </td>
                     </tr>
                     <tr>
@@ -98,7 +110,7 @@
                         <td colspan="5"><hr class="hr1"/></td>
                     </tr>
                 </table>
-                <input type="hidden" name='hdCentroUnidad' value="<?php echo $this->id;?>"/>
+                <input type="hidden" name='slTipos' id='slTipos' value="<?php echo $this->idTipoCiclo;?>"/>
             </form>
         </div>
     </div>

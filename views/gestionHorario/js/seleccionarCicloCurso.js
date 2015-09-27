@@ -1,13 +1,4 @@
 $(document).ready( function () {
-    $("#slTipos").change(function(){
-        if(!$("#slTipos").val()){
-            $("#slAnio").html('');
-            $("#slAnio").append('<option value="" disabled>-- A&ntilde;o --</option>')
-        }else{
-            $('#divTabla').css("display","none");
-            getAniosAjax();
-        }
-    });
     
     $("#slAnio").change(function(){
         if(!$("#slAnio").val()){
@@ -35,23 +26,6 @@ $(document).ready( function () {
             $('#btnConsultar').prop("disabled",false);
         }
     });
-    
-    function getAniosAjax(){
-        $.post('../../ajax/getAniosAjax',
-               'tipo=' + $("#slTipos").val(),
-               function(datos){
-                    $("#slAnio").html('');
-                    if(datos.length>0){
-                        $("#slAnio").append('<option value="">-- A&ntilde;o --</option>' );
-                        for(var i =0; i < datos.length; i++){
-                            $("#slAnio").append('<option value="' + datos[i].anio + '">' + datos[i].anio + '</option>' );
-                        }
-                    }else{
-                        $("#slAnio").append('<option value="" disabled>No hay informaci&oacute;n disponible</option>' );
-                    }
-               },
-               'json');
-    }
     
     function getCiclosAjax(){
         $.post('../../ajax/getCiclosAjax',
