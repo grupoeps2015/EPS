@@ -94,8 +94,10 @@ class loginController extends Controller{
 
             if($respuesta[0]['estado'] == ESTADO_ACTIVO){
                 $this->redireccionar($urlCentroUnidad.'login/inicio');
+                exit;
             }else if($respuesta[0]['estado'] == ESTADO_PENDIENTE){
                 $this->redireccionar($urlCentroUnidad.'gestionUsuario/validarUsuario/'.$_SESSION["usuario"]);
+                exit;
             }
             else{
                 $this->redireccionar('login/salir');

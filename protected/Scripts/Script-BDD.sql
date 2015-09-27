@@ -393,6 +393,7 @@ CREATE TABLE ADM_Pensum (
   DuracionAnios INTEGER NOT NULL,
   FinVigencia DATE NULL,
   Descripcion TEXT NULL,
+  Estado INTEGER NOT NULL,
   PRIMARY KEY (Pensum),
   CONSTRAINT fk_ADM_Pensum_CUR_Carrera1
     FOREIGN KEY (Carrera)
@@ -434,6 +435,7 @@ CREATE TABLE CUR_Pensum_Area (
   TipoCiclo INTEGER NOT NULL,
   Creditos INTEGER NULL,
   Prerrequisitos TEXT NULL,
+  Estado INTEGER NOT NULL,
   PRIMARY KEY (CursoPensumArea),
   CONSTRAINT fk_CUR_Pensum_CUR_Curso1
     FOREIGN KEY (Curso)

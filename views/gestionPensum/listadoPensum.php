@@ -32,7 +32,7 @@
         <form id="frPensum" method="post" action="<?php echo BASE_URL; ?>gestionPensum/listadoPensum">
             <div id="divPensum" class="form-group" >
                 <div style="margin-left: 5%; margin-right: 5%">
-                    <table id="tbEdificios" border="2" align="center">
+                    <table id="tbPensum" border="2" align="center">
                         <thead>
                             <tr>
                                 <th style="text-align:center; width: 250px;">Carrera</th>
@@ -65,7 +65,7 @@
                                         </td>
                                         <td style="text-align: center; padding-right: 20px;">
                                             <?php if (strcmp($this->lstPensum[$i]['finvigencia'], null) == 0): ?>
-                                                <a href="<?php echo BASE_URL . 'gestionPensum/crearPensum/' . $this->lstPensum[$i]['id'] ?>">Registrar cursos</a>
+                                                <a href="<?php echo BASE_URL . 'gestionPensum/gestionCursoPensum/' . $this->lstPensum[$i]['id'] ?>">Registrar cursos</a>
                                             <?php else : ?>
 
                                             <?php endif; ?>

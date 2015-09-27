@@ -375,6 +375,64 @@ class gestionPensumController extends Controller {
 //        }
     }
     
+    public function gestionCursoPensum($idPensum = 0){
+        session_start();
+               
+        $iden = $this->getInteger('hdEnvio');
+        $idCentroUnidad = $_SESSION["centrounidad"];
+        
+        $arrayCurPensum = array();
+        
+        $this->_view->idPensum = $idPensum;
+        
+        $this->_view->titulo = 'Gestión de Cursos de Pensum - ' . APP_TITULO;
+        
+        $this->_view->setJs(array('jquery.dataTables.min'), "public");
+        $this->_view->setCSS(array('jquery.dataTables.min'));
+        $this->_view->setJs(array('jquery.validate'), "public");
+        $this->_view->setJs(array('tree.jquery'), "public");
+        $this->_view->setJs(array('gestionCursoPensum'));
+       
+       
+        $info = $this->_post->listadoCursosPorPensum($idPensum);
+        if (is_array($info)) {
+            $this->_view->lstCurPensum = $info;
+        } else {
+            $this->redireccionar("error/sql/" . $info);
+            exit;
+        }
+        
+        /*$rol = $_SESSION["rol"];        
+        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_CREARPARAMETRO);
+         
+        if($rolValido[0]["valido"]!= PERMISO_CREAR){
+           echo "<script>
+                alert('No tiene permisos suficientes para acceder a esta función.');
+                window.location.href='" . BASE_URL . "gestionParametro" . "';
+                </script>";
+        }*/
+        
+        if($iden == 1){
+            /*$arrayPar["nombre"] = $this->getTexto('txtNombreParametro');
+            $arrayPar["valor"] = $this->getTexto('txtValorParametro');
+            $arrayPar["descripcion"] = $this->getTexto('txtDescripcionParametro');
+            $arrayPar["centro_unidadacademica"] = $this->getInteger('slCentroUnidadAcademica');
+            $arrayPar["carrera"] = $this->getInteger('slCarreras');
+            $arrayPar["extension"] = $this->getTexto('txtExtensionParametro');         
+            $arrayPar["tipoparametro"] =  $this->getInteger('slTipoParametro');
+            
+            $info = $this->_view->query = $this->_post->agregarParametro($arrayPar);
+            if(!is_array($info)){
+                $this->redireccionar("error/sql/" . $info);
+                exit;
+            }
+            
+            $this->redireccionar('gestionParametro');*/
+        }
+        
+        $this->_view->renderizar('gestionCursoPensum', 'gestionPensum');
+    }
+    
     public function crearPensum($idPensum = 0){
         session_start();
                
@@ -387,8 +445,10 @@ class gestionPensumController extends Controller {
         
         $this->_view->titulo = 'Crear Pensum - ' . APP_TITULO;
         
-        $this->_view->setJs(array('crearPensum'));
+        $this->_view->setJs(array('jquery.dataTables.min'), "public");
+        $this->_view->setCSS(array('jquery.dataTables.min'));
         $this->_view->setJs(array('jquery.validate'), "public");
+        $this->_view->setJs(array('crearPensum'));
         $this->_view->setJs(array('tree.jquery'), "public");
         $this->_view->setCSS(array('jqtree'));
 

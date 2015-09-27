@@ -223,3 +223,35 @@ ALTER FUNCTION spfinalizarVigenciaPensum(integer)
   OWNER TO postgres;
   
  Select 'Script para Gestion de Pensum Instalado' as "Gestion Pensum";
+ 
+ 
+ -- -----------------------------------------------------
+-- Function: spInformacionCursosPorPensum()
+-- -----------------------------------------------------
+-- DROP FUNCTION spInformacionCursosPorPensum(integer);
+CREATE OR REPLACE FUNCTION spInformacionCursosPorPensum(_pensum integer, OUT nombrecurso text, OUT curso integer, 
+					          OUT area integer, OUT nombrearea text, 
+					          OUT numerociclo integer, OUT tipociclo integer, 
+					          OUT nombretipociclo text, OUT creditos integer, 
+					          OUT estado int, OUT id int) RETURNS setof record as 
+$BODY$
+BEGIN
+  RETURN query
+   SELECT  c.Nombre as nombrecurso, 
+   cpa.Curso, cpa.area, a.Nombre as nombrearea, 
+   cpa.numerociclo, cpa.tipociclo, 
+   tc.Nombre as nombretipociclo, cpa.creditos, cpa.estado, cpa.cursopensumarea as id
+FROM CUR_Pensum_Area cpa
+JOIN CUR_Curso c ON c.Curso = cpa.Curso
+JOIN ADM_Area a ON a.Area = cpa.Area
+JOIN CUR_TipoCiclo tc ON tc.TipoCiclo = cpa.TipoCiclo
+JOIN ADM_Pensum p ON p.Pensum = cpa.Pensum
+WHERE cpa.Pensum = _pensum
+AND cpa.estado = 1
+ORDER BY c.Nombre asc;
+
+END;
+$BODY$
+LANGUAGE 'plpgsql';
+ 
+
