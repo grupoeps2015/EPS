@@ -102,6 +102,7 @@
                         </tbody>
                     </table>-->
                     <br />
+                     <input onclick="displayNodes()" value="recorrer arbol" type="button"/>
                 </div>
             </div>
         </form>
