@@ -43,7 +43,7 @@ class generalController extends Controller{
             
             $this->_view->titulo = 'Seleccionar Centro y Unidad - ' . APP_TITULO;
             $this->_view->url = 'general/seleccionarCentroUnidad/'.$url;
-            $this->_view->setJs(array('seleccionarCentroUnidad'));
+            //$this->_view->setJs(array('seleccionarCentroUnidad'));
             $this->_view->renderizar('seleccionarCentroUnidad');
         }
         else if(!isset($_SESSION["centrounidad"])){
