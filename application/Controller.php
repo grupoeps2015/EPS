@@ -48,6 +48,14 @@ abstract class Controller{
     }
     
     protected function redireccionar($ruta = false){
+        $urlEnvio=BASE_URL;
+        if($ruta){
+            $urlEnvio = $urlEnvio . $ruta;
+        }
+        echo '<script language="javascript">window.location.href="' . $urlEnvio . '"</script>';
+    }
+    
+    protected function redireccionar2($ruta = false){
         if($ruta){
             header('Location:' . BASE_URL . $ruta);
             exit;
