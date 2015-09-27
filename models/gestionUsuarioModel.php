@@ -166,6 +166,15 @@ class gestionUsuarioModel extends Model {
             return $info->fetchall();
         }
     }
+    
+    public function activarUsuario($intIdUsuario, $intEstadoNuevo){
+        $info = $this->_db->query("SELECT * from spActivarDesactivarUsuario({$intIdUsuario},{$intEstadoNuevo});");
+        if($info === false){
+            return "1103/validarUsuario";
+        }else{
+            return $info->fetchall();
+        }
+    }
 
     //Metodos utilizados para actualizar usuarios
     public function getPreguntas() {

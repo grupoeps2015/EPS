@@ -495,7 +495,7 @@ class gestionUsuarioController extends Controller {
                 exit;
             }
         }
-        $activar = $this->_post->eliminarUsuario($idUsuario, 1);
+        $activar = $this->_post->activarUsuario($idUsuario, 1);
         if(!is_array($activar)){
             $this->redireccionar("error/sql/" . $activar);
             exit;
