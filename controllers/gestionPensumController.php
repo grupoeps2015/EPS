@@ -272,7 +272,7 @@ class gestionPensumController extends Controller {
         }
 
         $this->_view->titulo = 'Pensum Registrados - ' . APP_TITULO;
-        $this->_view->setJs(array('admPensum'));
+        $this->_view->setJs(array('listadoPensum'));
         $this->_view->setJs(array('jquery.dataTables.min'), "public");
         $this->_view->setCSS(array('jquery.dataTables.min'));
 
