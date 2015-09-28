@@ -86,7 +86,8 @@ BEGIN
     end as "Estado"
   from 
     CAT_catedratico c join CAT_tipocatedratico t on c.tipodocente = t.tipodocente 
-  join adm_usuario u on u.usuario = c.usuario where u.centro_unidadacademica = _centrounidadacademica;
+  join adm_usuario u on u.usuario = c.usuario 
+  join adm_centro_unidadacademica_usuario ucu on u.usuario = ucu.usuario where ucu.centro_unidadacademica = _centrounidadacademica;
 END;
 $BODY$
   LANGUAGE plpgsql VOLATILE
