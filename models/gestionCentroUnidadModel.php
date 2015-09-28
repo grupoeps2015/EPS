@@ -79,7 +79,7 @@ class gestionCentroUnidadModel extends Model{
         $sp = $_datos[':id'] . ',' . $_datos[':padre'] . ',\'' . $_datos[':nombre'] . '\',' . $_datos[':tipo'];
         $info = $this->_db->query("SELECT * from spAgregarUnidad({$sp});");
         if($info === false){
-            return "1101/setUnidad/" . "SELECT * from spAgregarUnidad({$sp});";
+            return "1101/setUnidad";
         }else{
             return $info->fetchall();
         }
@@ -98,6 +98,15 @@ class gestionCentroUnidadModel extends Model{
         $info = $this->_db->query("SELECT * from spQuitarCentroUnidad({$idCentro},{$idUnidad});");
         if($info === false){
             return "1102/removeCentroUnidad";
+        }else{
+            return $info->fetchall();
+        }
+    }
+    
+    public function estadoNuevo($estado, $centro, $unidad){
+        $info = $this->_db->query("SELECT * from spCambiarEstadoCentroUnidad({$estado},{$centro},{$unidad});");
+        if($info === false){
+            return "1102/estadoNuevo";
         }else{
             return $info->fetchall();
         }

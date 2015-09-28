@@ -97,7 +97,8 @@ LANGUAGE plpgsql;
 -- DROP FUNCTION spInfoUnidades(int);
 CREATE OR REPLACE FUNCTION spInfoUnidades(IN _idCentro int, OUT unidad int, 
 					  OUT nombre text, OUT idPadre int, 
-					  OUT nombrepadre text, OUT tipo text) RETURNS setof record as 
+					  OUT nombrepadre text, OUT tipo text, 
+					  OUT estado text) RETURNS setof record as 
 $BODY$
 BEGIN 
   RETURN query
@@ -106,7 +107,12 @@ BEGIN
 	  ua.nombre,
 	  coalesce(ua.unidadacademicasuperior,0) as idPadre,
 	  coalesce((select ua1.nombre from adm_unidadacademica ua1 where ua1.unidadacademica=ua.unidadacademicasuperior),'No tiene') as nombrePadre,
-	  tp.nombre as tipo
+	  tp.nombre as tipo,
+	  case
+	    when cau.estado = -1 then 'Desactivado'
+	    when cau.estado = 1  then 'Activado'
+	    else 'Desconocido'
+	  End as estado
 	from adm_centro_unidadacademica cau
 	join adm_unidadacademica ua on ua.unidadacademica = cau.unidadacademica
 	join adm_tipounidadacademica tp on ua.tipo = tp.tipounidadacademica
@@ -154,8 +160,8 @@ $BODY$
 Declare id integer;
 BEGIN
   select * from spObtenerSecuencia('centro_unidadacademica','adm_centro_unidadacademica') into id;
-  INSERT INTO adm_centro_unidadacademica(centro_unidadacademica, centro, unidadacademica)
-	 VALUES (id, _centro, _unidad);
+  INSERT INTO adm_centro_unidadacademica(centro_unidadacademica, centro, unidadacademica,estado)
+	 VALUES (id, _centro, _unidad, 1);
 
 END;
 $BODY$
@@ -169,6 +175,18 @@ CREATE OR REPLACE FUNCTION spQuitarCentroUnidad(_centro int, _unidad int) RETURN
 $BODY$
 BEGIN
   DELETE FROM adm_centro_unidadacademica WHERE centro=_centro AND unidadacademica=_unidad;
+END;
+$BODY$
+LANGUAGE 'plpgsql';
+
+-- -----------------------------------------------------
+-- Function: spCambiarEstadoCentroUnidad()
+-- -----------------------------------------------------
+-- DROP FUNCTION spCambiarEstadoCentroUnidad(int,int,int);
+CREATE OR REPLACE FUNCTION spCambiarEstadoCentroUnidad(_estado int, _centro int, _unidad int) RETURNS void as 
+$BODY$
+BEGIN
+  UPDATE adm_centro_unidadacademica SET estado = _estado  WHERE centro = _centro AND unidadacademica = _unidad;
 END;
 $BODY$
 LANGUAGE 'plpgsql';

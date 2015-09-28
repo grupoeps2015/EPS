@@ -230,7 +230,6 @@ class gestionCentroUnidadController extends Controller {
             $this->redireccionar('error/sql/' . $lsPropias);
         }
         
-        
         $this->_view->setJs(array('listadoUnidades'));
         $this->_view->setJs(array('jquery.dataTables.min'), "public");
         $this->_view->setCSS(array('jquery.dataTables.min'));
@@ -324,4 +323,16 @@ class gestionCentroUnidadController extends Controller {
         
         $this->_view->renderizar('agregarUnidad', 'gestionCentroUnidad');
     }
+    
+    public function estadoNuevo($estado, $centro, $unidad){
+        if ($estado == -1 || $estado == 1) {
+            $borrar = $this->_gCenUni->estadoNuevo($estado, $centro, $unidad);
+            if(!is_array($borrar)){
+                $this->redireccionar("error/sql/" . $borrar);
+                exit;
+            }
+        }
+        $this->redireccionar('gestionCentroUnidad/listadoUnidades/' . $centro);
+    }
+    
 }
