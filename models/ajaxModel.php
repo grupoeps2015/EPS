@@ -296,4 +296,14 @@ class ajaxModel extends Model{
             return $info->fetchall();
         }
     }
+    
+    public function getSiguienteCicloAjax($tipo){
+        $info = $this ->_db->query("select * from spsiguienteciclo({$tipo})");
+        $info->setFetchMode(PDO::FETCH_ASSOC);
+        if($info === false){
+            return "1200/getSiguienteCicloAjax";
+        }else{
+            return $info->fetchall();
+        }
+    }
 }
