@@ -330,3 +330,38 @@ ALTER FUNCTION spdisponibilidadcatedratico(integer, integer, integer, text, text
   OWNER TO postgres;  
 
  Select 'Script para Gestion de Horarios Instalado' as "Gestion Horario";
+
+ 
+-- Function: spsiguienteciclo(integer)
+
+-- DROP FUNCTION spsiguienteciclo(integer);
+
+CREATE OR REPLACE FUNCTION spsiguienteciclo(
+    IN _tipo integer,
+    OUT anio integer,
+    OUT ciclo integer)
+  RETURNS SETOF record AS
+$BODY$
+DECLARE _anio INTEGER;
+DECLARE _numciclo INTEGER;
+DECLARE _duracion INTEGER;
+begin
+ Select max(c.anio) from cur_ciclo c where c.tipociclo = _tipo into _anio;
+ Select max(c.numerociclo) from cur_ciclo c where c.tipociclo = _tipo and c.anio = _anio into _numciclo;
+ Select tc.duracionmeses from cur_tipociclo tc where tc.tipociclo = _tipo into _duracion;
+ IF _anio IS NULL THEN
+ 	 Return query Select CAST(extract(year from current_date) AS INTEGER) as anio, 1 as ciclo;
+ ELSE
+	 IF (12 / _duracion) > _numciclo THEN
+		Return query select _anio as anio, _numciclo + 1 as ciclo;
+	 ELSE
+		Return query select _anio + 1 as anio, 1 as ciclo;
+	 END IF;
+  END IF;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION spsiguienteciclo(integer)
+  OWNER TO postgres;

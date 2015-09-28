@@ -105,6 +105,7 @@ class gestionHorarioController extends Controller {
         
         $this->_view->titulo = 'Seleccionar Ciclo y Sección por Curso - ' . APP_TITULO;
         $this->_view->url = "";
+        $this->_view->setJs(array('jquery.validate'), "public");
         $this->_view->setJs(array('seleccionarCicloCurso'));
         $this->_view->renderizar('seleccionarCicloCurso');
     }
@@ -499,6 +500,11 @@ class gestionHorarioController extends Controller {
         }
         //print_r($hor);
         $this->_view->renderizar('actualizarHorario', 'gestionHorario');  
+    }
+    
+    public function agregarCiclo(){
+        $this->redireccionar("gestionHorario/seleccionarCicloCurso");
+        
     }
     
     public function cargarCSV(){
