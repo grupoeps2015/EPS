@@ -114,29 +114,31 @@ END; $BODY$
 ALTER FUNCTION spactualizarcarrera(text, integer)
   OWNER TO postgres;
   
-
+--select * from spagregarpensum(1, 1, '12/12/2014', '5', 'lalalalala', 1);
+--select * from spallpensum();
   
--- Function: spagregarpensum(integer, integer, text, text, text)
+-- Function: spagregarpensum(integer, integer, text, text, text, integer)
 
--- drop function spagregarpensum(integer, integer, text, text, text)
+-- drop function spagregarpensum(integer, integer, text, text, text, integer)
 
 CREATE OR REPLACE FUNCTION spagregarpensum(
     _carrera integer,
     _tipo integer,
     _inicioVigencia text,
     _duracionAnios text,
-    _descripcion text)
+    _descripcion text,
+    _estado integer)
   RETURNS integer AS
 $BODY$
 DECLARE idPensum integer;
 BEGIN
-	INSERT INTO adm_pensum (carrera, tipo, inicioVigencia, duracionAnios, descripcion) 
-	VALUES (_carrera, _tipo, cast(_inicioVigencia as date), cast(_duracionAnios as integer), _descripcion) RETURNING Pensum into idPensum;
+	INSERT INTO adm_pensum (carrera, tipo, inicioVigencia, duracionAnios, descripcion, estado) 
+	VALUES (_carrera, _tipo, cast(_inicioVigencia as date), cast(_duracionAnios as integer), _descripcion, _estado) RETURNING Pensum into idPensum;
 	RETURN idPensum;
 END; $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
-ALTER FUNCTION spagregarpensum(integer, integer, text, text, text)
+ALTER FUNCTION spagregarpensum(integer, integer, text, text, text, integer)
   OWNER TO postgres;
 
   
@@ -151,7 +153,8 @@ CREATE OR REPLACE FUNCTION spallpensum(
 	OUT inicioVigencia text,
 	OUT duracionAnios text,
 	OUT finVigencia text,
-	OUT descripcion text)
+	OUT descripcion text,
+	OUT estado text)
   RETURNS SETOF record AS
 $BODY$
 BEGIN
@@ -161,7 +164,11 @@ BEGIN
 	   when p.tipo=1 then 'Cerrado'
            when p.tipo=2 then 'Abierto'
 	end as "Tipo",
-	cast(p.inicioVigencia as text), cast(p.duracionAnios as text), cast(p.finVigencia as text), p.descripcion FROM adm_pensum p 
+	cast(p.inicioVigencia as text), cast(p.duracionAnios as text), cast(p.finVigencia as text), p.descripcion,
+	case 
+	when p.estado=-1 then 'Inactivo'
+	when p.estado=1 then 'Activo'
+	end as "Estado" FROM adm_pensum p 
 	join cur_carrera c ON p.carrera = c.carrera;
 END;
 $BODY$
@@ -193,7 +200,7 @@ BEGIN
            when p.tipo=2 then 'Abierto'
 	end as "Tipo",
 	cast(p.inicioVigencia as text), cast(p.duracionAnios as text), p.descripcion FROM adm_pensum p 
-	join cur_carrera c ON p.carrera = c.carrera where p.finVigencia is null;
+	join cur_carrera c ON p.carrera = c.carrera where p.finVigencia is null AND p.estado =1;
 END;
 $BODY$
   LANGUAGE plpgsql VOLATILE
@@ -203,26 +210,46 @@ ALTER FUNCTION spallpensumactivos()
   OWNER TO postgres;
 
 
--- Function: spfinalizarVigenciaPensum(integer)
+-- Function: spfinalizarVigenciaPensum(integer, integer)
 
--- DROP FUNCTION spfinalizarVigenciaPensum(integer);
+-- DROP FUNCTION spfinalizarVigenciaPensum(integer, integer);
   
   
   
   CREATE OR REPLACE FUNCTION spfinalizarVigenciaPensum(
-    _idPensum integer)
+    _idPensum integer, _estadoNuevo integer)
   RETURNS void AS
 $BODY$
 BEGIN
-  EXECUTE format('UPDATE adm_pensum SET finVigencia = current_date WHERE pensum = %L',_idPensum);
+  EXECUTE format('UPDATE adm_pensum SET finVigencia = current_date, estado = %L WHERE pensum = %L',_estadoNuevo,_idPensum);
 END;
 $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
-ALTER FUNCTION spfinalizarVigenciaPensum(integer)
+ALTER FUNCTION spfinalizarVigenciaPensum(integer, integer)
   OWNER TO postgres;
   
  Select 'Script para Gestion de Pensum Instalado' as "Gestion Pensum";
+
+
+ -- Function: spactivarpensum(integer)
+
+-- DROP FUNCTION spactivarpensum(integer);
+  
+  
+  
+  CREATE OR REPLACE FUNCTION spactivarpensum(
+    _idPensum integer)
+  RETURNS void AS
+$BODY$
+BEGIN
+  EXECUTE format('UPDATE adm_pensum SET finVigencia = NULL, estado = 1 WHERE pensum = %L',_idPensum);
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION spactivarpensum(integer)
+  OWNER TO postgres;
  
  
  -- -----------------------------------------------------
@@ -255,3 +282,27 @@ $BODY$
 LANGUAGE 'plpgsql';
  
 
+------------------------------------------------------------------------------------------------------------------------------------
+-- Function: spactualizarpensum(integer, integer, integer, text, text, text)
+------------------------------------------------------------------------------------------------------------------------------------
+-- DROP FUNCTION spactualizarpensum(integer, integer, integer,text, text, text);
+CREATE OR REPLACE FUNCTION spactualizarpensum(
+    _idPensum integer,
+    _carrera integer,
+    _tipo integer,
+    _inicioVigencia text,
+    _duracionAnios text,
+    _descripcion text)
+  RETURNS integer AS
+$BODY$
+DECLARE idPensum integer;
+BEGIN
+	UPDATE ADM_pensum SET carrera= _carrera,
+	tipo = _tipo, inicioVigencia = _inicioVigencia, duracionAnios = _duracionAnios, descripcion = _descripcion
+	WHERE pensum = _idPensum RETURNING pensum into idPensum;
+	RETURN idPensum;
+END; $BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION spactualizarpensum(integer, integer,integer,text, text, text)
+  OWNER TO postgres;

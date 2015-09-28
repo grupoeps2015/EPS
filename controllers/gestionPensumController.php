@@ -3,7 +3,7 @@
 /**
  * Description of gestionPensumController
  *
- * @author Arias
+ * @author Arias, amoino
  */
 class gestionPensumController extends Controller {
 
@@ -342,7 +342,7 @@ class gestionPensumController extends Controller {
                 $arrayPensum['inicioVigencia'] = $inicio;
                 $arrayPensum['duracionAnios'] = $duracion;
                 $arrayPensum['descripcion'] = $descripcion;
-
+                $arrayPensum['estado'] = ESTADO_PENDIENTE;
                 $info = $this->_post->agregarPensum($arrayPensum);
 
                 if (!is_array($info)) {
@@ -354,14 +354,35 @@ class gestionPensumController extends Controller {
         $this->_view->renderizar('agregarPensum', 'gestionPensum');
     }
 
-    public function finalizarVigenciaPensum($intIdPensum) {
+    public function finalizarVigenciaPensum($intIdPensum, $estado) {
 //        session_start();
 //        $rol = $_SESSION["rol"];
 //        $rolValido = $this->_ajax->getPermisosRolFuncion($rol, CONS_FUNC_CUR_ELIMINARCARRERA);
 //
 //        if ($rolValido[0]["valido"] == PERMISO_ELIMINAR) {
 
-        $info = $this->_post->spfinalizarVigenciaPensum($intIdPensum);
+        $info = $this->_post->spfinalizarVigenciaPensum($intIdPensum, $estado);
+        if (!is_array($info)) {
+            $this->redireccionar("error/sql/" . $info);
+            exit;
+        }
+        $this->redireccionar('gestionPensum/listadoPensum');
+//        } else {
+//            echo "<script>
+//                alert('No tiene permisos suficientes para acceder a esta función.');
+//                window.location.href='" . BASE_URL . "gestionPensum/listadoCarrera/" . "';
+//                </script>";
+//        }
+    }
+    
+        public function activarPensum($intIdPensum) {
+//        session_start();
+//        $rol = $_SESSION["rol"];
+//        $rolValido = $this->_ajax->getPermisosRolFuncion($rol, CONS_FUNC_CUR_ELIMINARCARRERA);
+//
+//        if ($rolValido[0]["valido"] == PERMISO_ELIMINAR) {
+
+        $info = $this->_post->activarPensum($intIdPensum);
         if (!is_array($info)) {
             $this->redireccionar("error/sql/" . $info);
             exit;
