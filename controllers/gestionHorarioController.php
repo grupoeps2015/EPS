@@ -503,6 +503,19 @@ class gestionHorarioController extends Controller {
     }
     
     public function agregarCiclo(){
+        if ($this->getInteger('hdEnvio')) {
+            $tipociclo = 1;//TODO: Marlen: consultar parámetro en base de datos
+            $anio = $this->getInteger('txtAnio');
+            $numero = $this->getInteger('txtCiclo');
+            $array['tipo'] = $tipociclo;
+            $array['anio'] = $anio;
+            $array['numero'] = $numero;
+            $ciclo =  $this->_post->agregarCiclo($array);
+            if(!is_array($ciclo)){
+                $this->redireccionar("error/sql/" . $ciclo);
+                exit;
+            }
+        }
         $this->redireccionar("gestionHorario/seleccionarCicloCurso");
         
     }

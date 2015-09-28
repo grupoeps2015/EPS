@@ -365,3 +365,30 @@ $BODY$
   ROWS 1000;
 ALTER FUNCTION spsiguienteciclo(integer)
   OWNER TO postgres;
+
+  
+-- Function: spagregarciclo(integer, integer, integer)
+
+-- DROP FUNCTION spagregarciclo(integer, integer, integer);
+
+CREATE OR REPLACE FUNCTION spagregarciclo(
+    _tipo integer,
+    _anio integer,
+    _numero integer)
+  RETURNS integer AS
+$BODY$
+DECLARE idCiclo integer;
+BEGIN
+SELECT ciclo FROM cur_ciclo where numerociclo = _numero and anio = _anio and tipociclo = _tipo into idCiclo;
+IF idCiclo IS NULL THEN
+	INSERT INTO cur_ciclo (numerociclo, anio, tipociclo, estado) 
+	VALUES (_numero, _anio, _tipo, 1) RETURNING ciclo into idCiclo;
+	RETURN idCiclo;
+ELSE 
+	RETURN -1;
+END IF;
+END; $BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION spagregarciclo(integer, integer, integer)
+  OWNER TO postgres;
