@@ -82,7 +82,8 @@ $(document).ready(function(){
     });
     
     function getPeriodosAjax(){
-        $.post('../../ajax/getPeriodosAjax',
+        var base_url = $("#hdBASE_URL").val();
+        $.post(base_url+'ajax/getPeriodosAjax',
                'tipo=' + $("#slTiposPeriodos").val(),
                function(datos){
                     
@@ -109,7 +110,8 @@ $(document).ready(function(){
     });
     
     function getSalonesAjax(){
-        $.post('../../ajax/getSalonesAjax',
+        var base_url = $("#hdBASE_URL").val();
+        $.post(base_url+'ajax/getSalonesAjax',
                'edificio=' + $("#slEdificios").val(),
                function(datos){
                     
@@ -168,6 +170,7 @@ $(document).ready(function(){
     
     function getDisponibilidadSalonAjax(){
         var cadena = false;
+        var base_url = $("#hdBASE_URL").val();
         var ciclo = $('#slCiclo').val();
         var salon = $('#slSalones').val();
         var dia = $('#slDias').val();
@@ -176,7 +179,7 @@ $(document).ready(function(){
         if(ciclo && salon && dia && inicio && fin){
             $.ajax({
               type: "POST",
-              url: '../../ajax/getDisponibilidadSalonAjax',
+              url: base_url+'ajax/getDisponibilidadSalonAjax',
               data: {ciclo:ciclo, salon:salon, dia:dia, inicio:inicio, fin:fin},
               async: false,
               success: function(datos){
@@ -202,6 +205,7 @@ $(document).ready(function(){
      
      function getDisponibilidadCatedraticoAjax(){
         var cadena = false;
+        var base_url = $("#hdBASE_URL").val();
         var ciclo = $('#slCiclo').val();
         var cat = $('#slCatedraticos').val();
         var dia = $('#slDias').val();
@@ -210,7 +214,7 @@ $(document).ready(function(){
         if(ciclo && cat && dia && inicio && fin){
             $.ajax({
               type: "POST",
-              url: '../../ajax/getDisponibilidadCatedraticoAjax',
+              url: base_url+'ajax/getDisponibilidadCatedraticoAjax',
               data: {ciclo:ciclo, cat:cat, dia:dia, inicio:inicio, fin:fin},
               async: false,
               success: function(datos){

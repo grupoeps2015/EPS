@@ -15,7 +15,8 @@ $(document).ready(function(){
         }
     });
     function getCiclosAjax(){
-        $.post('../ajax/getCiclosAjax',
+        var base_url = $("#hdBASE_URL").val();
+        $.post(base_url+'ajax/getCiclosAjax',
                {anio: $("#slAnio").val()},
                function(datos){
                     $("#slCiclo").html('');
@@ -137,9 +138,10 @@ $(document).ready(function(){
         
         function getSeccionesCursoHorarioAjax(curso,ciclo){
         var cadena = "";
+        var base_url = $("#hdBASE_URL").val();
         $.ajax({
           type: "POST",
-          url: '../ajax/getSeccionesCursoHorarioAjax',
+          url: base_url+'ajax/getSeccionesCursoHorarioAjax',
           data: {curso:curso,ciclo:ciclo},
           async: false,
           success: function(datos){
