@@ -28,7 +28,8 @@ $(document).ready( function () {
     });
     
     function getCiclosAjax(){
-        $.post('../../ajax/getCiclosAjax',
+        var base_url = $("#hdBASE_URL").val();
+        $.post(base_url+'ajax/getCiclosAjax',
                { anio: $("#slAnio").val() },
                function(datos){
                     $("#slCiclo").html('');
