@@ -34,8 +34,14 @@ class asignacionController extends Controller{
             $this->redireccionar("error/sql/" . $lsAnios);
             exit;
         }
-        $anio = (isset($lsAnios[count($lsAnios)-1]['anio']) ? $lsAnios[count($lsAnios)-1]['anio'] : -1);
-            
+        
+        if ($this->getInteger('hdEnvio')) {
+            $anio = $this->getInteger('slAnio');            
+        }
+        else{
+            $anio = (isset($lsAnios[count($lsAnios)-1]['anio']) ? $lsAnios[count($lsAnios)-1]['anio'] : -1);
+        }
+        
         $lsCiclos = $this->_ajax->getCiclosAjax($tipociclo, $anio);
         if(is_array($lsCiclos)){
             $this->_view->lstCiclos = $lsCiclos;
@@ -43,12 +49,14 @@ class asignacionController extends Controller{
             $this->redireccionar("error/sql/" . $lsCiclos);
             exit;
         }
-        $ciclo = (isset($lsCiclos[count($lsCiclos)-1]['codigo']) ? $lsCiclos[count($lsCiclos)-1]['codigo'] : -1);
         
         if ($this->getInteger('hdEnvio')) {
-            $anio = $this->getInteger('slAnio');
             $ciclo = $this->getInteger('slCiclo');            
         }
+        else{
+            $ciclo = (isset($lsCiclos[count($lsCiclos)-1]['codigo']) ? $lsCiclos[count($lsCiclos)-1]['codigo'] : -1);
+        }
+        
         
         $this->_view->anio = $anio;
         $this->_view->ciclo = $ciclo;
@@ -78,6 +86,19 @@ class asignacionController extends Controller{
         $this->_view->setJs(array('inicio'));
         $this->_view->renderizar('inicio');
     }
+    
+    public function prueba(){
+        $hola = json_decode('[{"name":"001 - SOCIOLOGIA GENERAL","id":"2","tipo":"1","valor":"-1"},{"name":"Creditos >=5","id":0,"tipo":"2","valor":"5"}]',true);
+        //print_r($hola);
+        for($i=0;$i<count($hola);$i++){
+            echo $i.":"."<br>".
+            $hola[$i]['name']."<br>".
+            $hola[$i]['id']."<br>".
+            $hola[$i]['tipo']."<br>".
+            $hola[$i]['valor']."<br><br>";
+        }
+    }
+    
 }
 
 ?>
