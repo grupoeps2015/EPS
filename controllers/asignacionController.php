@@ -26,7 +26,7 @@ class asignacionController extends Controller{
     }
     
     public function index(){
-        $tipociclo = 1;//TODO: Marlen: consultar parámetro en base de datos
+        $tipociclo = $_SESSION["tipociclo"];
         $lsAnios = $this->_ajax->getAniosAjax($tipociclo);
         if(is_array($lsAnios)){
             $this->_view->lstAnios = $lsAnios;
@@ -88,7 +88,7 @@ class asignacionController extends Controller{
     }
     
     public function prueba(){
-        $hola = json_decode('[{"name":"001 - SOCIOLOGIA GENERAL","id":"2","tipo":"1","valor":"-1"},{"name":"Creditos >=5","id":0,"tipo":"2","valor":"5"}]',true);
+        $hola = json_decode('[{"name":"[002] TEORIA ECONOMICA I","id":"2","tipo":"1","valor":"-1"},{"name":"Creditos >=5","id":0,"tipo":"2","valor":"5"}]',true);
         //print_r($hola);
         for($i=0;$i<count($hola);$i++){
             echo $i.":"."<br>".

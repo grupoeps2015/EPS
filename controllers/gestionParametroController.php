@@ -321,7 +321,7 @@ class gestionParametroController extends Controller{
             exit;
         }
         
-        $tipociclo = 1;//TODO: Marlen: consultar parámetro en base de datos
+        $tipociclo = $_SESSION["tipociclo"];
         $lsAnios = $this->_ajax->getAniosAjax($tipociclo);
         if(is_array($lsAnios)){
             $this->_view->lstAnios = $lsAnios;
@@ -375,7 +375,7 @@ class gestionParametroController extends Controller{
                 exit;
             }
         }
-        $tipociclo = 1;//TODO: Marlen: consultar parámetro en base de datos
+        $tipociclo = $_SESSION["tipociclo"];
         
         $this->_view->setJs(array('jquery.validate'), "public");
         $this->_view->setJs(array('jquery-ui'), "public");
