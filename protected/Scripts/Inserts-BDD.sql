@@ -510,7 +510,7 @@ INSERT INTO cur_ciclo (numerociclo,anio,tipociclo,estado) VALUES (2,2016,1,1);
 -- -----------------------------------------------------
 INSERT INTO adm_tipoparametro(tipoparametro, nombre, estado) VALUES (1, 'De sesion', 1);
 INSERT INTO adm_tipoparametro(tipoparametro, nombre, estado) VALUES (2, 'De centro - unidad academica', 1);
-INSERT INTO adm_tipoparametro(tipoparametro, nombre, estado) VALUES (3, 'Generales', 1);
+INSERT INTO adm_tipoparametro(tipoparametro, nombre, estado) VALUES (3, 'De carrera', 1);
 
 -- -----------------------------------------------------
 -- Insert cur_jornada
@@ -758,3 +758,4 @@ INSERT INTO adm_periodo (periodo,ciclo,fechainicial,fechafinal,tipoperiodo,estad
 -- -----------------------------------------------------
 INSERT INTO CUR_TipoPrerrequisito (tipoprerrequisito,descripcion) values (1,'Curso');
 INSERT INTO CUR_TipoPrerrequisito (tipoprerrequisito,descripcion) values (2,'Créditos');
+

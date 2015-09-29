@@ -806,7 +806,7 @@ CREATE TABLE ADM_Parametro (
   Nombre TEXT NOT NULL,
   Valor TEXT NOT NULL,
   Descripcion TEXT NOT NULL,
-  Centro_UnidadAcademica INTEGER NOT NULL,
+  Centro_UnidadAcademica INTEGER NULL,
   Carrera INTEGER NULL,
   TipoParametro INTEGER NOT NULL,
   Codigo INTEGER NOT NULL,
