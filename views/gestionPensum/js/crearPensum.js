@@ -74,13 +74,16 @@ function agregar() {
         var idNuevo = $("#slCursos").val();
         var nombreNuevo = $("#slCursos option:selected").text().trim();
         var valorEntrada = document.getElementById('txtOtrosPrerrequisitos').value;
+        var level = parent_node.getLevel();
         if (idNuevo !== "" && !chkOtros) {
-            if (idNuevo !== parent_node) {
+            if (idNuevo !== parent_node && level !==2 ) {
                 $('#arbolPensum').tree('appendNode', {label: nombreNuevo, id: idNuevo, tipo: "1", valor: "-1"}, parent_node);
                 $('#arbolPensum').tree('openNode', parent_node);
                 $('#arbolPensum').tree('selectNode', null);
             }
-            else
+            else if(level === 2){
+                        alert("No puedes agregar un prerrequisito a un prerrequisito.");        
+            }else
             {
                 alert("El padre es el mismo que el hijo.");
             }

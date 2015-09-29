@@ -502,8 +502,8 @@ INSERT INTO cur_tipociclo (tipociclo,nombre,descripcion,duracionmeses,estado) VA
 -- -----------------------------------------------------
 -- Insert cur_ciclo
 -- -----------------------------------------------------
-INSERT INTO cur_ciclo (ciclo,numerociclo,anio,tipociclo,estado) VALUES (1,1,2016,1,1);
-INSERT INTO cur_ciclo (ciclo,numerociclo,anio,tipociclo,estado) VALUES (2,2,2016,1,1);
+INSERT INTO cur_ciclo (numerociclo,anio,tipociclo,estado) VALUES (1,2016,1,1);
+INSERT INTO cur_ciclo (numerociclo,anio,tipociclo,estado) VALUES (2,2016,1,1);
 
 -- -----------------------------------------------------
 -- Insert adm_tipoparametro
@@ -531,8 +531,8 @@ INSERT INTO cur_periodo (periodo,duracionminutos,tipoperiodo) VALUES (1,90,1);
 -- -----------------------------------------------------
 -- Insert cur_edificio
 -- -----------------------------------------------------
-INSERT INTO cur_edificio (edificio,nombre,descripcion,estado) VALUES (1,'S1','',1);
-INSERT INTO cur_edificio (edificio,nombre,descripcion,estado) VALUES (2,'S2','',1);
+INSERT INTO cur_edificio (nombre,descripcion,estado) VALUES ('S1','',1);
+INSERT INTO cur_edificio (nombre,descripcion,estado) VALUES ('S2','',1);
 
 -- -----------------------------------------------------
 -- Insert adm_centrounidad_edificio
@@ -542,9 +542,9 @@ INSERT INTO adm_centrounidad_edificio (CentroUnidad_Edificio,Centro_UnidadAcadem
 -- -----------------------------------------------------
 -- Insert cur_salon
 -- -----------------------------------------------------
-INSERT INTO cur_salon (salon,nombre,edificio,nivel,capacidad,estado) VALUES (1,'301',1,3,80,1);
-INSERT INTO cur_salon (salon,nombre,edificio,nivel,capacidad,estado) VALUES (2,'302',1,3,50,1);
-INSERT INTO cur_salon (salon,nombre,edificio,nivel,capacidad,estado) VALUES (3,'303',1,3,100,1);
+INSERT INTO cur_salon (nombre,edificio,nivel,capacidad,estado) VALUES ('301',1,3,80,1);
+INSERT INTO cur_salon (nombre,edificio,nivel,capacidad,estado) VALUES ('302',1,3,50,1);
+INSERT INTO cur_salon (nombre,edificio,nivel,capacidad,estado) VALUES ('303',1,3,100,1);
 
 -- -----------------------------------------------------
 -- Insert cur_dia

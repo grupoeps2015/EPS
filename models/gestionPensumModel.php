@@ -59,7 +59,7 @@ class gestionPensumModel extends Model {
     }
 
     public function agregarPensum($_datos) {
-        $info = $this->_db->prepare("SELECT * from spagregarpensum(:carrera, :tipo, :inicioVigencia, :duracionAnios, :descripcion) as Id;");
+        $info = $this->_db->prepare("SELECT * from spagregarpensum(:carrera, :tipo, :inicioVigencia, :duracionAnios, :descripcion, :estado) as Id;");
         $info->execute($_datos);
         if ($info === false) {
             return "1101/agregarPensum";
@@ -86,10 +86,19 @@ class gestionPensumModel extends Model {
         }
     }
 
-    public function spfinalizarVigenciaPensum($intIdPensum) {
-        $info = $this->_db->query("SELECT * from spfinalizarVigenciaPensum(" . $intIdPensum . ");");
+    public function spfinalizarVigenciaPensum($intIdPensum, $estado) {
+        $info = $this->_db->query("SELECT * from spfinalizarVigenciaPensum(" . $intIdPensum . ", " . $estado . ");");
         if ($info === false) {
-            return "1103/finalizarVigenciaPensum/" . "SELECT * from spfinalizarVigenciaPensum(" . $intIdPensum . ");";
+            return "1103/finalizarVigenciaPensum/" . "SELECT * from spfinalizarVigenciaPensum(" . $intIdPensum . ", " . $estado . ");";
+        } else {
+            return $info->fetchall();
+        }
+    }
+    
+     public function activarPensum($intIdPensum) {
+        $info = $this->_db->query("SELECT * from spactivarpensum(" . $intIdPensum . ");");
+        if ($info === false) {
+            return "1103/finalizarVigenciaPensum/" . "SELECT * from spactivarpensum(" . $intIdPensum . ");";
         } else {
             return $info->fetchall();
         }

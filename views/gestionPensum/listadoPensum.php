@@ -57,14 +57,14 @@
                                         <td style="text-align: center; padding-right: 20px;"><?php echo $this->lstPensum[$i]['finvigencia']; ?></td>
                                         <td style="text-align: center; padding-right: 20px;"><?php echo $this->lstPensum[$i]['duracionanios']; ?></td>
                                         <td style="text-align: center; padding-right: 20px;">
-                                            <?php if (strcmp($this->lstPensum[$i]['finvigencia'], null) == 0): ?>
-                                                <a href="<?php echo BASE_URL . 'gestionPensum/finalizarVigenciaPensum/' . $this->lstPensum[$i]['id'] ?>">Desactivar Pensum</a>
+                                            <?php if ((strcmp($this->lstPensum[$i]['estado'], 'Activo') == 0)): ?>
+                                                <a href="<?php echo BASE_URL . 'gestionPensum/finalizarVigenciaPensum/' . $this->lstPensum[$i]['id'] . '/-1' ?>">Desactivar Pensum</a>
                                             <?php else : ?>
-                                                Pensum desactivo
+                                                <a href="<?php echo BASE_URL . 'gestionPensum/activarPensum/' . $this->lstPensum[$i]['id'] ?>">Activar Pensum</a>
                                             <?php endif; ?>
                                         </td>
                                         <td style="text-align: center; padding-right: 20px;">
-                                            <?php if (strcmp($this->lstPensum[$i]['finvigencia'], null) == 0): ?>
+                                            <?php if(strcmp($this->lstPensum[$i]['estado'], 'Activo') == 0): ?>
                                                 <a href="<?php echo BASE_URL . 'gestionPensum/gestionCursoPensum/' . $this->lstPensum[$i]['id'] ?>">Registrar cursos</a>
                                             <?php else : ?>
 

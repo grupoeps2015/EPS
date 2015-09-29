@@ -134,6 +134,16 @@ class gestionHorarioModel extends Model {
         }
     }
     
+    public function agregarCiclo($_datos) {
+        $info = $this->_db->prepare("SELECT * from spagregarciclo(:tipo,:anio,:numero) as Id;");
+        $info->execute($_datos);
+        if($info === false){
+            return "1101/agregarCiclo";
+        }else{
+            return $info->fetchall();
+        }
+    }
+    
     //Desde gestionCursoModel 
     public function informacionSeccion($centrounidadacademica) {
         $info = $this->_db->query("select * from spInformacionSeccion(" . $centrounidadacademica . ");");

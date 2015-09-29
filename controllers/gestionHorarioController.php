@@ -105,6 +105,7 @@ class gestionHorarioController extends Controller {
         
         $this->_view->titulo = 'Seleccionar Ciclo y Sección por Curso - ' . APP_TITULO;
         $this->_view->url = "";
+        $this->_view->setJs(array('jquery.validate'), "public");
         $this->_view->setJs(array('seleccionarCicloCurso'));
         $this->_view->renderizar('seleccionarCicloCurso');
     }
@@ -499,6 +500,24 @@ class gestionHorarioController extends Controller {
         }
         //print_r($hor);
         $this->_view->renderizar('actualizarHorario', 'gestionHorario');  
+    }
+    
+    public function agregarCiclo(){
+        if ($this->getInteger('hdEnvio')) {
+            $tipociclo = 1;//TODO: Marlen: consultar parámetro en base de datos
+            $anio = $this->getInteger('txtAnio');
+            $numero = $this->getInteger('txtCiclo');
+            $array['tipo'] = $tipociclo;
+            $array['anio'] = $anio;
+            $array['numero'] = $numero;
+            $ciclo =  $this->_post->agregarCiclo($array);
+            if(!is_array($ciclo)){
+                $this->redireccionar("error/sql/" . $ciclo);
+                exit;
+            }
+        }
+        $this->redireccionar("gestionHorario/seleccionarCicloCurso");
+        
     }
     
     public function cargarCSV(){

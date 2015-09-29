@@ -136,6 +136,12 @@ class ajaxController extends Controller{
             echo json_encode($this->_ajax->getDisponibilidadCatedratico($arr));
         }
     }
+    
+    public function getSiguienteCicloAjax(){
+        if($this->getInteger('tipo')){
+            echo json_encode($this->_ajax->getSiguienteCicloAjax($this->getInteger('tipo')));
+        }
+    }
 }
 
 ?>
