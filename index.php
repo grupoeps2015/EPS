@@ -10,6 +10,7 @@
     require_once APP_PATH . 'Database.php';
     require_once APP_PATH . 'Funciones.php';
     require_once APP_PATH . 'Model.php';
+    require_once APP_PATH . 'Parametros.php';
     require_once APP_PATH . 'Registro.php';
     require_once APP_PATH . 'Request.php';
     require_once APP_PATH . 'View.php';

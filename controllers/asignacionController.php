@@ -26,7 +26,7 @@ class asignacionController extends Controller{
     }
     
     public function index(){
-        $tipociclo = 1;//TODO: Marlen: consultar parámetro en base de datos
+        $tipociclo = $_SESSION["tipociclo"];
         $lsAnios = $this->_ajax->getAniosAjax($tipociclo);
         if(is_array($lsAnios)){
             $this->_view->lstAnios = $lsAnios;
