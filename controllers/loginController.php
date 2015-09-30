@@ -76,6 +76,7 @@ class loginController extends Controller{
                 alert('El usuario se encuentra bloqueado. Comuníquese con la administración para resolver el problema.');
                 window.location.href='" . BASE_URL . "login/" . "';
                 </script>";
+                exit;
             }
             if (count($respuesta) > 1){
                 if($respuesta[0]['rol'] <> ROL_ADMINISTRADOR){
@@ -154,7 +155,7 @@ class loginController extends Controller{
 
     public function salir(){
         session_start();
-        if($_SESSION["usuario"]){
+        if(isset($_SESSION["usuario"])){
             //Insertar en bitácora            
             $arrayBitacora = array();
             $arrayBitacora[":usuario"] = $_SESSION["usuario"];

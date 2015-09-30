@@ -20,6 +20,7 @@ class asignacionController extends Controller{
         $this->_session = new session();
         if(!$this->_session->validarSesion()){
             $this->redireccionar('login/salir');
+            exit;
         }
         $this->_asign=$this->loadModel('asignacion');
         $this->_ajax = $this->loadModel("ajax");

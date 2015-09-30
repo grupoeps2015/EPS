@@ -12,6 +12,12 @@ class gestionHorarioController extends Controller {
     
     public function __construct() {
         parent::__construct();
+        $this->getLibrary('session');
+        $this->_session = new session();
+        if(!$this->_session->validarSesion()){
+            $this->redireccionar('login/salir');
+            exit;
+        }
         $this->getLibrary('encripted');
         $this->_encriptar = new encripted();
         $this->_post = $this->loadModel('gestionHorario');
@@ -19,7 +25,6 @@ class gestionHorarioController extends Controller {
     }
 
     public function index($parametros = null) {
-            session_start();
             if(!is_null($parametros)){
                 list($idCiclo, $idSeccion) = split('[$.-]', (string)$parametros);
             }else{
@@ -64,7 +69,6 @@ class gestionHorarioController extends Controller {
     }
     
     public function seleccionarCicloCurso(){
-        session_start();
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_GESTIONHORARIO);
                     
@@ -75,7 +79,6 @@ class gestionHorarioController extends Controller {
                 </script>";        
         }
         
-        //session_start();
         $idCentroUnidad = $_SESSION["centrounidad"];
         $this->_view->id = $idCentroUnidad;
         $tipociclo = $_SESSION["tipociclo"];
@@ -111,9 +114,6 @@ class gestionHorarioController extends Controller {
     }
 
     public function agregarHorario() {
-        session_start();
-        
-        
         $idCentroUnidad = $_SESSION["centrounidad"];
         $idSeccion = $this->getInteger('slSec');
         $idCiclo = $this->getInteger('slCiclo');
@@ -280,7 +280,6 @@ class gestionHorarioController extends Controller {
     }
     
     public function eliminarHorario($intNuevoEstado, $intIdHorario, $parametros) {
-         session_start();
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_ELIMINARHORARIO);
         
@@ -307,7 +306,6 @@ class gestionHorarioController extends Controller {
     }
     
     public function actualizarHorario($intIdHorario, $parametros) {
-        session_start();
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_MODIFICARHORARIO);
          
@@ -503,7 +501,6 @@ class gestionHorarioController extends Controller {
     }
     
     public function agregarCiclo(){
-        session_start();
         if ($this->getInteger('hdEnvio')) {
             $tipociclo = $_SESSION["tipociclo"];
             $anio = $this->getInteger('txtAnio');
