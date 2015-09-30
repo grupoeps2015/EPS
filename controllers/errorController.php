@@ -50,7 +50,7 @@ class errorController extends Controller {
         }
         
         $error['default'] = "Ha ocurrido un error desconocido y la página no puede mostrarse";
-        $error['1000'] = "Acceso Restringido";
+        $error['1000'] = "<b>\"Acceso Restringido\"</b><br/>No tiene permisos para acceder a esta funci&oacute;n";
         $error['1101'] = "Error al insertar datos";
         $error['1102'] = "Error al eliminar datos";
         $error['1103'] = "Error al actualizar datos";
