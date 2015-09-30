@@ -69,6 +69,7 @@ $(document).ready( function () {
     });
     
     function getDocenteSeccion(){
+        var base_url = $("#hdBASE_URL").val();
         $.post(base_url+'ajax/getDocenteSeccion',
                { cat: $("#idCatedratico").val(), ciclo: $("#slCiclo").val() },
                function(datos){

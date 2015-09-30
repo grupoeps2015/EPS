@@ -30,10 +30,11 @@ class loginController extends Controller{
     
     public function inicio(){
         session_start();
-        if(isset($_SESSION["usuario"])){
+        if(isset($_SESSION["rol"]) && $_SESSION["rol"]==0 || $_SESSION["rol"]==3){
             $this->_view->renderizar('inicio','login');
         }else{
-            $this->_view->renderizar('login');
+            $this->redireccionar("error/norol/1000");
+            exit;
         }
     }
     
@@ -42,7 +43,8 @@ class loginController extends Controller{
         if(isset($_SESSION["usuario"])){
             $this->_view->renderizar('bienvenida','login');
         }else{
-            $this->_view->renderizar('login');
+            $this->redireccionar("error/norol/1000");
+            exit;
         }
     }
     

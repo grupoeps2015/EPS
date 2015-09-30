@@ -7,9 +7,15 @@
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
                         <i class="fa fa-2x fa-backward wow bounceIn text-primary" data-wow-delay=".2s">
+                        <?php if($_SESSION['rol']==2): ?>
+                            <a href="<?php echo BASE_URL?>catedratico/inicio">
+                                Regresar
+                            </a>
+                        <?php else: ?>
                             <a href="<?php echo BASE_URL?>gestionNotas/index/<?php echo $this->id?>">
                                 Regresar
                             </a>
+                        <?php endif;?>
                         </i>
                     </div>
                 </div>
