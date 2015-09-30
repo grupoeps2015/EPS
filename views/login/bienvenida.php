@@ -29,7 +29,7 @@
             <div class="col-lg-6 col-md-8 text-center">
                 <div class="service-box">
                     <h3 class="text-success">
-                        Puede ingresar a las distintas opciones desde el mun&uacute; localizado en la barra superior
+                        Puede ingresar a las distintas opciones desde el men&uacute; localizado en la barra superior
                         o dando clic en el link de Inicio.
                     </h3>
                 </div>
