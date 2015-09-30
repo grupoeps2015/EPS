@@ -675,7 +675,7 @@ CREATE TABLE ADM_Periodo (
 -- Table EST_Ciclo_Asignacion
 -- -----------------------------------------------------
 CREATE TABLE EST_Ciclo_Asignacion (
-  Ciclo_Asignacion INTEGER NOT NULL,
+  Ciclo_Asignacion SERIAL NOT NULL,
   Estudiante INTEGER NOT NULL,
   Fecha DATE NOT NULL,
   Hora TIME NOT NULL,
