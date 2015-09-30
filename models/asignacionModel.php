@@ -24,5 +24,22 @@ class asignacionModel extends Model{
             return $cursos->fetchall();
         }
     }
-        
+    public function agregarCicloAsignacion($estudiante,$periodo) {
+        $info = $this->_db->query("SELECT * from spagregarasignacion({$estudiante},{$periodo}) as Id;");
+        $info->setFetchMode(PDO::FETCH_ASSOC);
+        if($info === false){
+            return "1101/agregarCicloAsignacion";
+        }else{
+            return $info->fetchall();
+        }
+    }
+    public function agregarAsignacionCurso($estudiante,$cicloasignacion,$seccion,$adjuntos) {
+        $info = $this->_db->query("SELECT * from spagregarcursoasignacion({$estudiante},{$cicloasignacion},{$seccion},'{$adjuntos}') as Id;");
+        $info->setFetchMode(PDO::FETCH_ASSOC);
+        if($info === false){
+            return "1101/agregarAsignacionCurso";
+        }else{
+            return $info->fetchall();
+        }
+    }
 }

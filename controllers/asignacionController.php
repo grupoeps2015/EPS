@@ -100,6 +100,60 @@ class asignacionController extends Controller{
         }
     }
     
+    public function asignar(){
+        if ($this->getInteger('hdEnvio')) {
+            if ($this->getInteger('hdCiclo')) {
+                $periodo = $this->_asign->getPeriodo($this->getInteger('hdCiclo'), PERIODO_ASIGNACION_CURSOS, ASIGN_OTRAS, $_SESSION["centrounidad"]);
+                if(is_array($periodo)){
+                    if(isset($periodo[0]['periodo'])){
+                        $periodo = $periodo[0]['periodo'];
+                    }
+                    else{
+                        //TODO: Marlen: Redirigir a página de error de asignación
+                        exit;
+                    }
+                }
+                else{
+                    $this->redireccionar("error/sql/" . $periodo);
+                    exit;
+                }
+            }
+            $cursos = $this->getTexto('hdCursos');
+            $cursos = explode(";", $cursos);
+            if(count($cursos)){
+                //TODO: Marlen: Crear ciclo asignación
+                $estudiante = $this->_ajax->getEstudianteUsuario($_SESSION["usuario"]);
+                if(is_array($estudiante)){
+                    $estudiante = (isset($estudiante[0]['id']) ? $estudiante[0]['id'] : -1);
+                }else{
+                    $this->redireccionar("error/sql/" . $estudiante);
+                    exit;
+                }
+                
+                
+                $asignacionEstudiante = $this->_asign->agregarCicloAsignacion($estudiante,$periodo);
+                if(is_array($asignacionEstudiante)){
+                    $asignacionEstudiante = (isset($asignacionEstudiante[0]['id']) ? $asignacionEstudiante[0]['id'] : -1);
+                }else{
+                    $this->redireccionar("error/sql/" . $asignacionEstudiante);
+                    exit;
+                }
+                for($i=0;$i<count($cursos);$i++){
+                    if($cursos[$i] <> ""){
+                        $asignacionCurso = $this->_asign->agregarAsignacionCurso($estudiante,$asignacionEstudiante,$cursos[$i],"");
+                        if(is_array($asignacionCurso)){
+                            $asignacionCurso = (isset($asignacionCurso[0]['id']) ? $asignacionCurso[0]['id'] : -1);
+                        }else{
+                            $this->redireccionar("error/sql/" . $asignacionCurso);
+                            exit;
+                        }
+                    }
+                    //TODO: Marlen: Insertar cada curso en asignación
+                }
+            }
+        }
+    }
+    
 }
 
 ?>

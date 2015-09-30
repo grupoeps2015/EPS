@@ -61,6 +61,7 @@ $(document).ready(function(){
 		
 	//evento que se dispara al hacer clic en el boton para agregar una nueva fila
 	$(document).on('click','.clsAgregarFila',function(){
+                $('#btnAsignar').prop("disabled",false);
 		//almacenamos en una variable todo el contenido de la nueva fila que deseamos
 		//agregar. pueden incluirse id's, nombres y cualquier tag... sigue siendo html
 		var strNueva_Fila='<tr>'+
@@ -100,6 +101,7 @@ $(document).ready(function(){
 				if(!confirm('Esta es el única fila de la lista ¿Desea eliminarla?')){
 					return;
 				}
+                                $('#btnAsignar').prop("disabled",true);
 			}
 					
 		/*obtenemos el padre (tr) del td que contiene a nuestro boton de eliminar
@@ -156,6 +158,32 @@ $(document).ready(function(){
         });
         return cadena;
         }
-        
+     
+        $('#btnAsignar').click(function(){
+            $('#hdCursos').val("");
+            $("#tabla tbody tr").each(function (index) 
+            {
+                var campo1, campo2, campo3;
+                $(this).children("td").each(function (index2) 
+                {
+                    switch (index2) 
+                    {
+                        case 0: campo1 = $(this).text();
+                                break;
+                        case 1: campo2 = $(this).find('select').val();
+                                break;
+                        case 2: campo3 = $(this).text();
+                                break;
+                    }
+                })
+                if(campo2 == -1){
+                    alert("Seleccione una sección");
+                    return;
+                }
+                $('#hdCursos').val($('#hdCursos').val()+campo2+";");
+            })
+            //alert($('#hdCursos').val());
+            $('#frAsignacionCursos').submit();
+        });
 			
 });
