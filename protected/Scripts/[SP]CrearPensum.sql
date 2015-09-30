@@ -229,14 +229,9 @@ $BODY$
 ALTER FUNCTION spfinalizarVigenciaPensum(integer, integer)
   OWNER TO postgres;
   
- Select 'Script para Gestion de Pensum Instalado' as "Gestion Pensum";
-
-
  -- Function: spactivarpensum(integer)
 
 -- DROP FUNCTION spactivarpensum(integer);
-  
-  
   
   CREATE OR REPLACE FUNCTION spactivarpensum(
     _idPensum integer)
@@ -335,3 +330,5 @@ END; $BODY$
   COST 100;
 ALTER FUNCTION spactualizarpensum(integer, integer,integer,text, text, text)
   OWNER TO postgres;
+
+Select 'Script para Gestion de Pensum Instalado' as "Gestion Pensum";
