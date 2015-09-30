@@ -12,31 +12,44 @@
  */
 class session {
     public function __construct() {
-        
+        session_start();
     }
     public function validarSesion(){
-        session_start();
-        if(isset($_SESSION["centrounidad"]) && isset($_SESSION["usuario"]) && isset($_SESSION["rol"]) && isset($_SESSION["nombre"])){
+        $retorno = false;
+        if(isset($_SESSION["centrounidad"]) && isset($_SESSION["usuario"]) && isset($_SESSION["rol"]) && isset($_SESSION["nombre"]) && isset($_SESSION["tiempo"])){
+            $retorno = true;
             if($_SESSION["rol"] == ROL_ESTUDIANTE){
                  if(isset($_SESSION["carrera"])){
-                     return true;
+                     $retorno = true;
                  }
                  else{
-                     return false;
+                     $retorno = false;
                  }
             }
-            return true;
         }
-        else{
-            return false;
+        if($retorno){
+            $retorno = $this->validarTiempoSesion();
         }
+        return $retorno;
     }
-    public function prueba(){
+    public function validarTiempoSesion(){
         $modelo = 'ajaxModel';
         require_once ROOT . 'models' . DS . $modelo . '.php';
         $modelo = new $modelo;
         $lstPais = $modelo->getPais();
-        print_r ($lstPais);
+        $tiempoSesion = $modelo->valorParametro(CONS_PARAM_SESION_MAXTIEMPOSESIONACTIVA, -1, -1);
+        if(!is_array($tiempoSesion)){
+            $urlEnvio=BASE_URL."error/sql/" . $tiempoSesion;
+            echo '<script language="javascript">window.location.href="' . $urlEnvio . '"</script>';
+            exit;
+        }
+        $tiempoSesion = (isset($tiempoSesion[0]['valorparametro']) ? $tiempoSesion[0]['valorparametro'] : 0);
+        if($tiempoSesion*60 < time() - $_SESSION["tiempo"]){
+            return false;
+        }
+        else{
+            return true;
+        }
     }
 }
 
