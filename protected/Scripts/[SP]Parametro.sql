@@ -330,7 +330,7 @@ BEGIN
 	 p.carrera, p.centro_unidadacademica
   FROM ADM_Parametro p
 	JOIN ADM_TipoParametro tp ON tp.tipoparametro = p.tipoparametro
-	WHERE p.codigo = _Codigo AND ((_Carrera = -1 AND p.carrera IS NULL) OR p.carrera = _Carrera) AND ((_CentroUnidad = -1 AND p.centro_unidadacademica IS NULL) OR p.centro_unidadacademica = _CentroUnidad);
+	WHERE p.codigo = _Codigo AND ((_Carrera = -1 AND p.carrera IS NULL) OR p.carrera = _Carrera) AND ((_CentroUnidad = -1 AND p.centro_unidadacademica IS NULL) OR p.centro_unidadacademica = _CentroUnidad) AND p.estado = 1;
 
 END;
 $BODY$

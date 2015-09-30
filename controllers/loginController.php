@@ -90,6 +90,7 @@ class loginController extends Controller{
             $_SESSION["usuario"] = $respuesta[0]['usuario'];
             $_SESSION["rol"] = $respuesta[0]['rol'];
             $_SESSION["nombre"] = $respuesta[0]['nombre'];
+            $_SESSION["tiempo"] = time();
             
             //Insertar en bitácora            
             $arrayBitacora = array();
