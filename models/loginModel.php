@@ -11,7 +11,7 @@ class loginModel extends Model{
         
     }
     
-    public function autenticarUsuario($tipo, $usuario, $pass){
+    public function autenticarUsuario($tipo, $usuario, $pass, $maxintentos){
         $sp = $usuario . ',\''; 
         $sp .= $pass . '\'';
         
@@ -27,6 +27,7 @@ class loginModel extends Model{
             //Empleado
             $sp .= ', \'registropersonal\', \'adm_empleado\'';
         }
+        $sp .= ','.$maxintentos;
         
         $autenticar = $this->_db->query("SELECT * from spAutenticarUsuario(" . $sp . ");");
         if($autenticar === false){
@@ -63,4 +64,14 @@ class loginModel extends Model{
             return false;
         }
     }
+    
+    public function actualizarAutenticacion($usuario){
+        $autenticar = $this->_db->query("SELECT * from spactualizarautenticacion({$usuario});");
+        if($autenticar === false){
+            return "1103/actualizarAutenticacion";
+        }else{
+            return $autenticar->fetchall();
+        }
+    }
+    
 }

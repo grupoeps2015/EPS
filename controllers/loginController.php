@@ -57,7 +57,13 @@ class loginController extends Controller{
         $tipo = $this->getInteger('tipo');
         
         $passEncrypt = $this->_encriptar->encrypt($pass, DB_KEY);
-        $respuesta = $this->_login->autenticarUsuario($tipo, $usuario, $passEncrypt);
+        $maxintentos = $this->_ajax->valorParametro(CONS_PARAM_SESION_MAXREINTENTOS, -1, -1);
+        if(!is_array($maxintentos)){
+            $this->redireccionar("error/sql/" . $maxintentos);
+            exit;
+        }
+        $maxintentos = (isset($maxintentos[0]['valorparametro']) ? $maxintentos[0]['valorparametro'] : -1);
+        $respuesta = $this->_login->autenticarUsuario($tipo, $usuario, $passEncrypt, $maxintentos);
         if(!is_array($respuesta)){
             $this->redireccionar("error/login/" . $respuesta);
             exit;
@@ -65,6 +71,12 @@ class loginController extends Controller{
         
         if (count($respuesta) > 0){
             session_start();
+            if($respuesta[0]['estado'] == ESTADO_INACTIVO){
+                echo "<script>
+                alert('El usuario se encuentra bloqueado. Comuníquese con la administración para resolver el problema.');
+                window.location.href='" . BASE_URL . "login/" . "';
+                </script>";
+            }
             if (count($respuesta) > 1){
                 if($respuesta[0]['rol'] <> ROL_ADMINISTRADOR){
                     $urlCentroUnidad = 'general/seleccionarCentroUnidad/';
@@ -109,6 +121,12 @@ class loginController extends Controller{
                 exit;
             }
 
+            $actualizarAutenticacion = $this->_login->actualizarAutenticacion($_SESSION["usuario"]);
+            if(!is_array($actualizarAutenticacion)){
+                $this->redireccionar("error/sql/" . $actualizarAutenticacion);
+                exit;
+            }
+            
             if($respuesta[0]['estado'] == ESTADO_ACTIVO){
                 if($respuesta[0]['rol']==1){
                     $this->redireccionar($urlCentroUnidad.'estudiante/inicio');
