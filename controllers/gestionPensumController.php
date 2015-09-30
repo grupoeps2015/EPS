@@ -434,21 +434,7 @@ class gestionPensumController extends Controller {
         }*/
         
         if($iden == 1){
-            /*$arrayPar["nombre"] = $this->getTexto('txtNombreParametro');
-            $arrayPar["valor"] = $this->getTexto('txtValorParametro');
-            $arrayPar["descripcion"] = $this->getTexto('txtDescripcionParametro');
-            $arrayPar["centro_unidadacademica"] = $this->getInteger('slCentroUnidadAcademica');
-            $arrayPar["carrera"] = $this->getInteger('slCarreras');
-            $arrayPar["extension"] = $this->getTexto('txtExtensionParametro');         
-            $arrayPar["tipoparametro"] =  $this->getInteger('slTipoParametro');
-            
-            $info = $this->_view->query = $this->_post->agregarParametro($arrayPar);
-            if(!is_array($info)){
-                $this->redireccionar("error/sql/" . $info);
-                exit;
-            }
-            
-            $this->redireccionar('gestionParametro');*/
+           
         }
         
         $this->_view->renderizar('gestionCursoPensum', 'gestionPensum');

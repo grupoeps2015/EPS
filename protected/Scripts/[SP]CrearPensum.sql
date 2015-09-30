@@ -280,6 +280,36 @@ ORDER BY c.Nombre asc;
 END;
 $BODY$
 LANGUAGE 'plpgsql';
+
+
+-- -----------------------------------------------------
+-- Function: spModificarCursoPensum()
+-- -----------------------------------------------------
+-- DROP FUNCTION spmodificarcursopensum(integer, integer, integer, integer, integer, integer, text, integer); 
+CREATE OR REPLACE FUNCTION spModificarCursoPensum(_cursopensum integer, 
+						_curso integer,
+					        _area integer,
+					        _numerociclo integer, 
+					        _tipociclo integer,
+					        _creditos integer,
+						_prerrequisitos text, 
+						_estado integer
+					     )RETURNS BOOLEAN LANGUAGE plpgsql SECURITY DEFINER AS $$
+
+BEGIN
+    UPDATE ADM_Parametro
+       SET nombre = COALESCE(spModificarParametro._nombre, ADM_Parametro.nombre),
+           valor = COALESCE(spModificarParametro._valor, ADM_Parametro.valor),
+           descripcion = COALESCE(spModificarParametro._descripcion, ADM_Parametro.descripcion),
+           centro_unidadacademica = COALESCE(spModificarParametro._centro_unidadacademica, ADM_Parametro.centro_unidadacademica),
+	   carrera = spModificarParametro._carrera,
+	   codigo = COALESCE(spModificarParametro._codigo, ADM_Parametro.codigo),
+	   estado = COALESCE(spModificarParametro._estado, ADM_Parametro.estado),
+	   tipoparametro = COALESCE(spModificarParametro._tipoparametro, ADM_Parametro.tipoparametro)
+     WHERE ADM_Parametro.parametro = spModificarParametro._parametro;       
+    RETURN FOUND;
+END;
+$$;
  
 
 ------------------------------------------------------------------------------------------------------------------------------------
