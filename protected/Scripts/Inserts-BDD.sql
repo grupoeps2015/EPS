@@ -508,8 +508,8 @@ INSERT INTO cur_ciclo (numerociclo,anio,tipociclo,estado) VALUES (2,2016,1,1);
 -- -----------------------------------------------------
 -- Insert adm_tipoparametro
 -- -----------------------------------------------------
-INSERT INTO adm_tipoparametro(tipoparametro, nombre, estado) VALUES (1, 'De sesion', 1);
-INSERT INTO adm_tipoparametro(tipoparametro, nombre, estado) VALUES (2, 'De centro - unidad academica', 1);
+INSERT INTO adm_tipoparametro(tipoparametro, nombre, estado) VALUES (1, 'De sesión', 1);
+INSERT INTO adm_tipoparametro(tipoparametro, nombre, estado) VALUES (2, 'De centro - unidad académica', 1);
 INSERT INTO adm_tipoparametro(tipoparametro, nombre, estado) VALUES (3, 'De carrera', 1);
 
 -- -----------------------------------------------------
