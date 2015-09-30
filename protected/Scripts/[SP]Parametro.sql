@@ -301,9 +301,6 @@ $BODY$
 ALTER FUNCTION spdatosperiodoparametro(integer)
   OWNER TO postgres;
 
-Select 'Script para Gestion de Parametros Instalado' as "Gestion parametros";
-
-
 -- Function: spvalorparametro(integer, integer, integer)
 
 -- DROP FUNCTION spvalorparametro(integer, integer, integer);
@@ -342,3 +339,5 @@ $BODY$
   ROWS 1000;
 ALTER FUNCTION spvalorparametro(integer, integer, integer)
   OWNER TO postgres;
+
+Select 'Script para Gestion de Parametros Instalado' as "Gestion parametros";

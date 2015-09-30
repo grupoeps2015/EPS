@@ -14,8 +14,8 @@
             <div class="col-lg-3 col-md-8 text-center">
                 <i class="fa fa-4x fa-home wow bounceIn text-primary" data-wow-delay=".1s"></i>
                 <h3>
-                    <a href="<?php echo BASE_URL; ?>login">
-                            Volver
+                    <a href="javascript:window.history.go(-1)">
+                        Volver
                     </a>
                 </h3>
                 <p class="text-muted">a la p&aacute;gina de inicio</p>

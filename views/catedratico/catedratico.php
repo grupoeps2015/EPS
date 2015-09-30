@@ -33,11 +33,11 @@
                         <table align="center">
                             <?php if(isset($this->infoGeneral) && count($this->infoGeneral)): ?>
 
-                            <!-- Datos Estudiante -->
+                            <!-- Datos Catedratico -->
                             <tr class="text-primary">
                                 <th style="width: 20%">&nbsp;</th>
                                 <th style="width: 40%; text-align:center">Nombre Completo</th>
-                                <th style="width: 40%; text-align:center">Registro Personal</th>                                    
+                                <th style="width: 40%; text-align:center">Registro Personal</th>
                             </tr>
                             <tr>
                                 <td class="text-primary" style="width: 20%; text-align:right">Estudiante:&nbsp;</td>

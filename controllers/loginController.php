@@ -110,6 +110,9 @@ class loginController extends Controller{
                 if($respuesta[0]['rol']==1){
                     $this->redireccionar($urlCentroUnidad.'estudiante/inicio');
                     exit;
+                }elseif($respuesta[0]['rol']==2){
+                    $this->redireccionar($urlCentroUnidad.'catedratico/inicio');
+                    exit;
                 }else{
                     $this->redireccionar($urlCentroUnidad.'login/inicio');
                     exit;

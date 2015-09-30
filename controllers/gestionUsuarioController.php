@@ -269,10 +269,8 @@ class gestionUsuarioController extends Controller {
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_MODIFICARUSUARIO);
          
         if($rolValido[0]["valido"]!= PERMISO_MODIFICAR){
-           echo "<script>
-                alert('No tiene permisos suficientes para acceder a esta función.');
-                window.location.href='" . BASE_URL . "gestionUsuario" . "';
-                </script>";
+            $this->redireccionar("error/noRol/1000");
+            exit;
         }
         
         $valorPagina = $this->getInteger('hdEnvio');
