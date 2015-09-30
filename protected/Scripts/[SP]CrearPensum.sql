@@ -274,7 +274,7 @@ JOIN ADM_Area a ON a.Area = cpa.Area
 JOIN CUR_TipoCiclo tc ON tc.TipoCiclo = cpa.TipoCiclo
 JOIN ADM_Pensum p ON p.Pensum = cpa.Pensum
 WHERE cpa.Pensum = _pensum
-AND cpa.estado = 1
+--AND cpa.estado = 1
 ORDER BY c.Nombre asc;
 
 END;
@@ -286,7 +286,7 @@ LANGUAGE 'plpgsql';
 -- Function: spModificarCursoPensum()
 -- -----------------------------------------------------
 -- DROP FUNCTION spmodificarcursopensum(integer, integer, integer, integer, integer, integer, text, integer); 
-CREATE OR REPLACE FUNCTION spModificarCursoPensum(_cursopensum integer, 
+CREATE OR REPLACE FUNCTION spModificarCursoPensum(_cursopensumarea integer, 
 						_curso integer,
 					        _area integer,
 					        _numerociclo integer, 
@@ -297,16 +297,15 @@ CREATE OR REPLACE FUNCTION spModificarCursoPensum(_cursopensum integer,
 					     )RETURNS BOOLEAN LANGUAGE plpgsql SECURITY DEFINER AS $$
 
 BEGIN
-    UPDATE ADM_Parametro
-       SET nombre = COALESCE(spModificarParametro._nombre, ADM_Parametro.nombre),
-           valor = COALESCE(spModificarParametro._valor, ADM_Parametro.valor),
-           descripcion = COALESCE(spModificarParametro._descripcion, ADM_Parametro.descripcion),
-           centro_unidadacademica = COALESCE(spModificarParametro._centro_unidadacademica, ADM_Parametro.centro_unidadacademica),
-	   carrera = spModificarParametro._carrera,
-	   codigo = COALESCE(spModificarParametro._codigo, ADM_Parametro.codigo),
-	   estado = COALESCE(spModificarParametro._estado, ADM_Parametro.estado),
-	   tipoparametro = COALESCE(spModificarParametro._tipoparametro, ADM_Parametro.tipoparametro)
-     WHERE ADM_Parametro.parametro = spModificarParametro._parametro;       
+    UPDATE CUR_Pensum_Area
+       SET curso = COALESCE(spModificarCursoPensum._curso, CUR_Pensum_Area.curso),
+           area = COALESCE(spModificarCursoPensum._area, CUR_Pensum_Area.area),
+           numerociclo = COALESCE(spModificarCursoPensum._numerociclo, CUR_Pensum_Area.numerociclo),
+           tipociclo = COALESCE(spModificarCursoPensum._tipociclo, CUR_Pensum_Area.tipociclo),
+	   creditos = COALESCE(spModificarCursoPensum._creditos, CUR_Pensum_Area.creditos),
+	   prerrequisitos = COALESCE(spModificarCursoPensum._prerrequisitos, CUR_Pensum_Area.prerrequisitos),
+	   estado = COALESCE(spModificarCursoPensum._estado, CUR_Pensum_Area.estado)
+     WHERE CUR_Pensum_Area.cursopensumarea = spModificarCursoPensum._cursopensumarea;       
     RETURN FOUND;
 END;
 $$;

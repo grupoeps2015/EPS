@@ -440,6 +440,35 @@ class gestionPensumController extends Controller {
         $this->_view->renderizar('gestionCursoPensum', 'gestionPensum');
     }
     
+    
+    public function eliminarCursoPensum($intNuevoEstado, $intIdCursoPensum, $intIdPensum){
+        session_start();
+        $rol = $_SESSION["rol"];        
+        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_ELIMINARPARAMETRO);
+        
+        if($rolValido[0]["valido"]== PERMISO_ELIMINAR){
+       
+            if($intNuevoEstado == -1 || $intNuevoEstado == 1){
+                $info = $this->_post->eliminarCursoPensum($intIdCursoPensum,$intNuevoEstado);
+                if(!is_array($info)){
+                    $this->redireccionar("error/sql/" . $info);
+                    exit;
+                }
+                $this->redireccionar('gestionPensum/gestionCursoPensum/' . $intIdPensum);
+            }else{
+                $this->_view->cambio = "No reconocio ningun parametro";    
+            }
+        }
+        else
+        {         
+            echo "<script>
+                alert('No tiene permisos suficientes para acceder a esta función.');
+                window.location.href='" . BASE_URL . "gestionParametro" . "';
+                </script>";
+        }
+    }
+    
+    
     public function crearPensum($idPensum = 0){
         session_start();
                
