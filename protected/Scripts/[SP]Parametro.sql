@@ -301,4 +301,43 @@ $BODY$
 ALTER FUNCTION spdatosperiodoparametro(integer)
   OWNER TO postgres;
 
+-- Function: spvalorparametro(integer, integer, integer)
+
+-- DROP FUNCTION spvalorparametro(integer, integer, integer);
+
+CREATE OR REPLACE FUNCTION spvalorparametro(
+    IN _codigo integer,
+    IN _carrera integer,
+    IN _centrounidad integer,
+    OUT nombreparametro text,
+    OUT valorparametro text,
+    OUT descripcionparametro text,
+    OUT codigoparametro integer,
+    OUT nombretipoparametro text,
+    OUT tipoparametro integer,
+    OUT carrera integer,
+    OUT centrounidad integer)
+  RETURNS SETOF record AS
+$BODY$
+BEGIN
+  RETURN query
+  SELECT p.nombre AS NombreParametro, 
+         p.valor AS ValorParametro,
+         p.descripcion AS DescripcionParametro,
+         p.codigo AS CodigoParametro,
+         tp.nombre AS NombreTipoParametro,
+	 p.tipoparametro AS TipoParametro,
+	 p.carrera, p.centro_unidadacademica
+  FROM ADM_Parametro p
+	JOIN ADM_TipoParametro tp ON tp.tipoparametro = p.tipoparametro
+	WHERE p.codigo = _Codigo AND ((_Carrera = -1 AND p.carrera IS NULL) OR p.carrera = _Carrera) AND ((_CentroUnidad = -1 AND p.centro_unidadacademica IS NULL) OR p.centro_unidadacademica = _CentroUnidad) AND p.estado = 1;
+
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION spvalorparametro(integer, integer, integer)
+  OWNER TO postgres;
+
 Select 'Script para Gestion de Parametros Instalado' as "Gestion parametros";

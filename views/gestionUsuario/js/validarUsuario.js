@@ -188,7 +188,8 @@ $(document).ready(function(){
     });
     
     function getMunicipio(){
-        $.post('../../ajax/getMunicipio',
+        var base_url = $("#hdBASE_URL").val();
+        $.post(base_url+'ajax/getMunicipio',
                'Depto=' + $("#slDeptos").val(),
                function(datos){
                    $("#slMunis").html('');

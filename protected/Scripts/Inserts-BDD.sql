@@ -462,7 +462,7 @@ INSERT INTO cat_tipocatedratico(tipodocente, descripcion, estado) VALUES (4, 'Au
 -- Insert adm_usuario
 -- -----------------------------------------------------
 INSERT INTO adm_usuario(usuario, nombre, correo, clave, estado, preguntasecreta, respuestasecreta, fechaultimaautenticacion, intentosautenticacion, foto)
-	VALUES (1, 'admin', 'adm@historia.usac.gt', 'zpadmqM=', 1, 0, 'USAC', current_timestamp, 100, '');
+	VALUES (1, 'admin', 'adm@historia.usac.gt', 'zpadmqM=', 1, 0, 'USAC', current_timestamp, 0, '');
 INSERT INTO adm_centro_unidadacademica_usuario VALUES(1,1,1);
 
 -- -----------------------------------------------------
@@ -508,9 +508,9 @@ INSERT INTO cur_ciclo (numerociclo,anio,tipociclo,estado) VALUES (2,2016,1,1);
 -- -----------------------------------------------------
 -- Insert adm_tipoparametro
 -- -----------------------------------------------------
-INSERT INTO adm_tipoparametro(tipoparametro, nombre, estado) VALUES (1, 'De sesion', 1);
-INSERT INTO adm_tipoparametro(tipoparametro, nombre, estado) VALUES (2, 'De centro - unidad academica', 1);
-INSERT INTO adm_tipoparametro(tipoparametro, nombre, estado) VALUES (3, 'Generales', 1);
+INSERT INTO adm_tipoparametro(tipoparametro, nombre, estado) VALUES (1, 'De sesión', 1);
+INSERT INTO adm_tipoparametro(tipoparametro, nombre, estado) VALUES (2, 'De centro - unidad académica', 1);
+INSERT INTO adm_tipoparametro(tipoparametro, nombre, estado) VALUES (3, 'De carrera', 1);
 
 -- -----------------------------------------------------
 -- Insert cur_jornada
@@ -662,6 +662,8 @@ INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,7);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,8);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,9);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,10);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (1,10);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (2,10);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,11);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,12);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,13);
@@ -758,3 +760,10 @@ INSERT INTO adm_periodo (periodo,ciclo,fechainicial,fechafinal,tipoperiodo,estad
 -- -----------------------------------------------------
 INSERT INTO CUR_TipoPrerrequisito (tipoprerrequisito,descripcion) values (1,'Curso');
 INSERT INTO CUR_TipoPrerrequisito (tipoprerrequisito,descripcion) values (2,'Créditos');
+
+-- -----------------------------------------------------
+-- Insert adm_parametro
+-- -----------------------------------------------------
+INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (1,'Número máximo de reintentos de login','5','',NULL,NULL,1,1);
+INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (2,'Tiempo máximo de sesión activa','60','En minutos',NULL,NULL,1,1);
+INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (100,'Tipo de ciclo','1','En minutos',1,NULL,2,1);

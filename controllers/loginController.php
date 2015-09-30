@@ -10,6 +10,7 @@ class loginController extends Controller{
     private $_login;
     private $_bitacora;
     private $_encriptar;
+    private $_ajax;
     
     public function __construct() {
         parent::__construct();
@@ -17,6 +18,7 @@ class loginController extends Controller{
         $this->_encriptar = new encripted();
         $this->_login = $this->loadModel('login');
         $this->_bitacora = $this->loadModel('bitacora');
+        $this->_ajax = $this->loadModel('ajax');
     }
 
     public function index(){
@@ -67,15 +69,28 @@ class loginController extends Controller{
                 }
                 else{
                     $_SESSION["centrounidad"] = $respuesta[0]['centrounidadacademica'];
+                    $tipociclo = $this->_ajax->valorParametro(CONS_PARAM_CENTROUNIDAD_TIPOCICLO, -1, $_SESSION["centrounidad"]);
+                    if(!is_array($tipociclo)){
+                        $this->redireccionar("error/sql/" . $tipociclo);
+                        exit;
+                    }
+                    $_SESSION["tipociclo"] = (isset($tipociclo[0]['valorparametro']) ? $tipociclo[0]['valorparametro'] : NULL);
                 }
             }
             else{
                 $_SESSION["centrounidad"] = $respuesta[0]['centrounidadacademica'];
+                $tipociclo = $this->_ajax->valorParametro(CONS_PARAM_CENTROUNIDAD_TIPOCICLO, -1, $_SESSION["centrounidad"]);
+                if(!is_array($tipociclo)){
+                    $this->redireccionar("error/sql/" . $tipociclo);
+                    exit;
+                }
+                $_SESSION["tipociclo"] = (isset($tipociclo[0]['valorparametro']) ? $tipociclo[0]['valorparametro'] : NULL);
             }
             
             $_SESSION["usuario"] = $respuesta[0]['usuario'];
             $_SESSION["rol"] = $respuesta[0]['rol'];
             $_SESSION["nombre"] = $respuesta[0]['nombre'];
+            $_SESSION["tiempo"] = time();
             
             //Insertar en bitácora            
             $arrayBitacora = array();
@@ -93,8 +108,16 @@ class loginController extends Controller{
             }
 
             if($respuesta[0]['estado'] == ESTADO_ACTIVO){
-                $this->redireccionar($urlCentroUnidad.'login/inicio');
-                exit;
+                if($respuesta[0]['rol']==1){
+                    $this->redireccionar($urlCentroUnidad.'estudiante/inicio');
+                    exit;
+                }elseif($respuesta[0]['rol']==2){
+                    $this->redireccionar($urlCentroUnidad.'catedratico/inicio');
+                    exit;
+                }else{
+                    $this->redireccionar($urlCentroUnidad.'login/inicio');
+                    exit;
+                }
             }else if($respuesta[0]['estado'] == ESTADO_PENDIENTE){
                 $this->redireccionar($urlCentroUnidad.'gestionUsuario/validarUsuario/'.$_SESSION["usuario"]);
                 exit;

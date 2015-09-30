@@ -24,7 +24,8 @@ $(document).ready( function () {
     });
     
     function getAniosAjax(){
-        $.post('../../../ajax/getAniosAjax',
+        var base_url = $("#hdBASE_URL").val();
+        $.post(base_url+'ajax/getAniosAjax',
                'tipo=' + $("#slTipos").val(),
                function(datos){
                     $("#slAnio").html('');
@@ -41,7 +42,8 @@ $(document).ready( function () {
     }
     
     function getCiclosAjax(){
-        $.post('../../../ajax/getCiclosAjax',
+        var base_url = $("#hdBASE_URL").val();
+        $.post(base_url+'ajax/getCiclosAjax',
                'anio=' + $("#slAnio").val(),
                function(datos){
                     $("#slCiclo").html('');
@@ -67,7 +69,7 @@ $(document).ready( function () {
     });
     
     function getDocenteSeccion(){
-        $.post('../../../ajax/getDocenteSeccion',
+        $.post(base_url+'ajax/getDocenteSeccion',
                { cat: $("#idCatedratico").val(), ciclo: $("#slCiclo").val() },
                function(datos){
                    $("#slSeccion").html('');

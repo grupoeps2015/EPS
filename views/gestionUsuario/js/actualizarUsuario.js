@@ -106,7 +106,8 @@ $(document).ready(function(){
     });
     
     function getCarreras(){
-        $.post('../../ajax/getCarreras',
+        var base_url = $("#hdBASE_URL").val();
+        $.post(base_url+'ajax/getCarreras',
                'carr=' + $("#slUnidadAcademica").val(),
                function(datos){
                    $("#slCarreras").html('');

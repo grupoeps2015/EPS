@@ -30,6 +30,12 @@ class generalController extends Controller{
         if (isset($_SESSION["rol"]) && $_SESSION["rol"] == ROL_ADMINISTRADOR){
             if($this->getInteger('hdCentroUnidad')){
                 $_SESSION["centrounidad"] = $this->getInteger('hdCentroUnidad');
+                $tipociclo = $this->_ajax->valorParametro(CONS_PARAM_CENTROUNIDAD_TIPOCICLO, -1, $_SESSION["centrounidad"]);
+                if(!is_array($tipociclo)){
+                    $this->redireccionar("error/sql/" . $tipociclo);
+                    exit;
+                }
+                $_SESSION["tipociclo"] = (isset($tipociclo[0]['valorparametro']) ? $tipociclo[0]['valorparametro'] : NULL);
                 $this->redireccionar($url);
                 exit;
             }
@@ -43,7 +49,7 @@ class generalController extends Controller{
             
             $this->_view->titulo = 'Seleccionar Centro y Unidad - ' . APP_TITULO;
             $this->_view->url = 'general/seleccionarCentroUnidad/'.$url;
-            //$this->_view->setJs(array('seleccionarCentroUnidad'));
+            $this->_view->setJs(array('seleccionarCentroUnidad'));
             $this->_view->renderizar('seleccionarCentroUnidad');
         }
         else if(!isset($_SESSION["centrounidad"])){
@@ -57,6 +63,12 @@ class generalController extends Controller{
                 }
                 if(in_array($centroUnidad, array_column($lstCentroUnidad, 'centrounidad'))){
                     $_SESSION["centrounidad"] = $centroUnidad;
+                    $tipociclo = $this->_ajax->valorParametro(CONS_PARAM_CENTROUNIDAD_TIPOCICLO, -1, $_SESSION["centrounidad"]);
+                    if(!is_array($tipociclo)){
+                        $this->redireccionar("error/sql/" . $tipociclo);
+                        exit;
+                    }
+                    $_SESSION["tipociclo"] = (isset($tipociclo[0]['valorparametro']) ? $tipociclo[0]['valorparametro'] : NULL);
                     $this->redireccionar($url);
                     exit;
                 }

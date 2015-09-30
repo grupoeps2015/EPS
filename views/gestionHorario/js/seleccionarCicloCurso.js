@@ -68,7 +68,8 @@ $(document).ready( function () {
     });
     
     function getSiguienteCicloAjax(){
-        $.post('../../ajax/getSiguienteCicloAjax',
+        var base_url = $("#hdBASE_URL").val();
+        $.post(base_url+'ajax/getSiguienteCicloAjax',
                { tipo: $("#slTipos").val() },
                function(datos){
                     if(datos.length>0){

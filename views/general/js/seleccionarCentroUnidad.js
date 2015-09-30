@@ -19,7 +19,8 @@ $(document).ready( function () {
     });
     
     function getUnidadesAjax(){
-        $.post('../../ajax/getUnidadesAjax',
+        var base_url = $("#hdBASE_URL").val();
+        $.post(base_url+'ajax/getUnidadesAjax',
                'centro=' + $("#slCentros").val(),
                function(datos){
                     $("#slUnidad").html('');
@@ -36,7 +37,8 @@ $(document).ready( function () {
     }
     
     function getCentroUnidadAjax(){
-        $.post('../../ajax/getCentroUnidadAjax',
+        var base_url = $("#hdBASE_URL").val();
+        $.post(base_url+'ajax/getCentroUnidadAjax',
                 { centro: $("#slCentros").val(), unidad: $("#slUnidad").val() },
                function(datos){
                     if(datos.length>0){

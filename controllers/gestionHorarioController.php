@@ -78,7 +78,7 @@ class gestionHorarioController extends Controller {
         //session_start();
         $idCentroUnidad = $_SESSION["centrounidad"];
         $this->_view->id = $idCentroUnidad;
-        $tipociclo = 1;//TODO: Marlen: consultar parámetro en base de datos
+        $tipociclo = $_SESSION["tipociclo"];
         $this->_view->idTipoCiclo = $tipociclo;
         $lsAnios = $this->_ajax->getAniosAjax($tipociclo);
         if(is_array($lsAnios)){
@@ -503,8 +503,9 @@ class gestionHorarioController extends Controller {
     }
     
     public function agregarCiclo(){
+        session_start();
         if ($this->getInteger('hdEnvio')) {
-            $tipociclo = 1;//TODO: Marlen: consultar parámetro en base de datos
+            $tipociclo = $_SESSION["tipociclo"];
             $anio = $this->getInteger('txtAnio');
             $numero = $this->getInteger('txtCiclo');
             $array['tipo'] = $tipociclo;

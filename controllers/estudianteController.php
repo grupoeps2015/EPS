@@ -85,4 +85,29 @@ class estudianteController extends Controller{
         
         $this->_view->renderizar('estudiante');
     }
+
+    public function inicio(){
+        session_start();
+        if(isset($_SESSION['usuario'])){
+            $idUsuario = $_SESSION['usuario'];
+            $infoGeneral = $this->_est->getInfoGeneral($idUsuario);
+            if(is_array($infoGeneral)){
+                $this->_view->infoGeneral = $infoGeneral;
+            }else{
+                $this->redireccionar("error/sql/" . $infoGeneral);
+                exit;
+            }
+            
+            $this->_view->titulo = APP_TITULO;
+            $this->_view->id = $idUsuario;
+            $this->_view->setJs(array('inicio'));
+            $this->_view->setJs(array('jquery.validate'), "public");
+            $this->_view->renderizar('inicio','estudiante');
+            
+        }else{
+            $this->redireccionar("error/noRol/1000");
+            exit;
+        }
+    }
+    
 }

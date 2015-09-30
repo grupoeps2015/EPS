@@ -306,4 +306,13 @@ class ajaxModel extends Model{
             return $info->fetchall();
         }
     }
+    
+    public function valorParametro($codigoParametro,$carrera,$centroUnidad) {
+        $info = $this->_db->query("select * from spvalorparametro($codigoParametro,$carrera,$centroUnidad);");
+        if($info === false){
+            return "1104/valorParametro";
+        }else{
+            return $info->fetchall();
+        }
+    }
 }
