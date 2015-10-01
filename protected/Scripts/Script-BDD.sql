@@ -1093,7 +1093,7 @@ CREATE TABLE EST_CursoAprobado (
   Asignacion INTEGER NULL,
   AsignacionRetrasada INTEGER NULL,
   TipoAprobacion INTEGER NOT NULL,
-  FechaAprobacion INTEGER NOT NULL,
+  FechaAprobacion DATE NOT NULL,
   PRIMARY KEY (CursoAprobado),
   CONSTRAINT fk_EST_CursoAprobado_EST_CUR_Nota1
     FOREIGN KEY (Asignacion)
