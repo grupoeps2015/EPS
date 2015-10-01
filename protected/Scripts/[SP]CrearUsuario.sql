@@ -316,4 +316,43 @@ END;
 $BODY$
 LANGUAGE plpgsql;
 
+-- -----------------------------------------------------
+-- Function: spVerEstadoUsuario()
+-- -----------------------------------------------------
+-- DROP FUNCTION spVerEstadoUsuario(int);
+CREATE OR REPLACE FUNCTION spVerEstadousuario(IN _id int, OUT usr int, OUT estado int, 
+					      OUT pregunta text, OUT respuesta text) RETURNS setof record as
+$BODY$
+DECLARE idUsuario int;
+BEGIN
+  select 
+    coalesce(
+       (select usuario from est_estudiante where carnet=_id),
+       (select usuario from cat_catedratico where registropersonal=_id),
+       (select usuario from adm_empleado where registropersonal=_id),
+       -1) into idUsuario;
+
+  RETURN query
+    select 
+      idUsuario,
+      u.estado,
+      (select p.descripcion from adm_preguntasecreta p where p.preguntasecreta=u.preguntasecreta), 
+      u.respuestasecreta 
+    from adm_usuario u where usuario = idUsuario;
+END;
+$BODY$
+LANGUAGE plpgsql;
+
+-- -----------------------------------------------------
+-- Function: spClaveNueva()
+-- -----------------------------------------------------
+-- DROP FUNCTION spClaveNueva(int, text)
+CREATE OR REPLACE FUNCTION spClaveNueva(_id int, _clave text) returns void as
+$BODY$
+BEGIN
+  UPDATE adm_usuario set clave = _clave where usuario = _id;
+END;
+$BODY$
+
+
 Select 'Script para Gestion de usuarios Instalado' as "Gestion Usuarios";

@@ -217,4 +217,12 @@ class gestionUsuarioModel extends Model {
         }
     }
     
+    public function setClaveNueva($id, $clave){
+        $info = $this->_db->query("select * from spClaveNueva({$id},'{$clave}');");
+        if($info === false){
+            return "1103/setClaveNueva";
+        }else{
+            return $info->fetchall();
+        }
+    }
 }

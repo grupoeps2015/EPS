@@ -160,7 +160,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <span class="pull-left"><a href="#">¿Olvidaste tu password?</a></span>
+                                    <span class="pull-left"><a href="<?php echo BASE_URL;?>gestionUsuario/claveOlvidada">¿Olvidaste tu password?</a></span>
                                 </td>
                                 <td>
                                     <button class="btn btn-danger btn-lg btn-block">Entrar</button>

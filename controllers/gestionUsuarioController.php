@@ -632,6 +632,39 @@ class gestionUsuarioController extends Controller {
         $this->redireccionar('gestionUsuario/agregarUsuario');
     }
     
+    public function claveOlvidada(){
+        $this->_view->titulo = 'Gestión de usuarios - ' . APP_TITULO;
+        $this->_view->setJs(array('claveOlvidada'));
+        $this->_view->setJs(array('jquery.validate'), "public");
+        
+        if($this->getInteger('hdEnvio')){
+            $id = $this->getInteger('hdEnvio');
+            $clave1 = "";
+            $clave2 = $this->getTexto('txtPasswordNuevo2');
+            $respuesta = $this->getTexto('txtRespuesta');
+            
+            $datos = $this->_ajax->getEstadoUsuario($id);
+            if(is_array($datos)){
+                if(strcmp($respuesta,$datos[0]['respuesta'])==0){
+                    $clave1 = $this->_encriptar->encrypt($clave2, DB_KEY);
+                    $nueva = $this->_post->setClaveNueva($datos[0]['usr'],$clave1);
+                    if(!is_array($nueva)){
+                        $this->redireccionar('error/sql/'.$nueva);
+                        exit;
+                    }
+                    $this->_view->aviso = "La clave fue actualizada con &eacute;xito, vuelve a la p&aacute;gina de inicio para ingresar al sistema";
+                }else{
+                    $this->_view->aviso = 'Respuesta incorrecta, intente nuevamente';
+                }
+            }else{
+                $this->redireccionar('error/sql/'.$datos);
+                exit;
+            }
+        }
+        
+        $this->_view->renderizar('claveOlvidada','gestionUsuario');
+    }
+    
     private function usuarioCorrecto($idUsuario){
         session_start();
         if(isset($_SESSION['usuario'])){
@@ -684,5 +717,3 @@ class gestionUsuarioController extends Controller {
     }
     
 }
-
-?>
