@@ -331,4 +331,34 @@ END; $BODY$
 ALTER FUNCTION spactualizarpensum(integer, integer,integer,text, text, text)
   OWNER TO postgres;
 
+  
+-- Function: spdatoscursopensumarea(integer)
+
+-- DROP FUNCTION spdatoscursopensumarea(integer);
+
+CREATE OR REPLACE FUNCTION spdatoscursopensumarea(
+    IN _id integer,
+    OUT cursopensumarea integer,
+    OUT curso integer,
+    OUT pensum integer,
+    OUT area integer,
+    OUT numerociclo integer,
+    OUT tipociclo integer,
+    OUT creditos integer,
+    OUT prerrequisitos text)
+  RETURNS SETOF record AS
+$BODY$
+begin
+ Return query
+ select curpen.cursopensumarea, curpen.curso, curpen.pensum, curpen.area, curpen.numerociclo, curpen.tipociclo, curpen.creditos, curpen.prerrequisitos
+ from cur_pensum_area curpen
+ where curpen.cursopensumarea = _id;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION spdatoscursopensumarea(integer)
+  OWNER TO postgres;
+
 Select 'Script para Gestion de Pensum Instalado' as "Gestion Pensum";
