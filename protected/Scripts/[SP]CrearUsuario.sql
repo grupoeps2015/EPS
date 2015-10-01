@@ -353,6 +353,6 @@ BEGIN
   UPDATE adm_usuario set clave = _clave where usuario = _id;
 END;
 $BODY$
-
+LANGUAGE plpgsql;
 
 Select 'Script para Gestion de usuarios Instalado' as "Gestion Usuarios";
