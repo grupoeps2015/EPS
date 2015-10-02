@@ -142,6 +142,12 @@ class ajaxController extends Controller{
             echo json_encode($this->_ajax->getSiguienteCicloAjax($this->getInteger('tipo')));
         }
     }
+    
+    public function getEstadoUsuario(){
+        if($this->getInteger('idUsuario')){
+            echo json_encode($this->_ajax->getEstadoUsuario($this->getInteger('idUsuario')));
+        }
+    }
 }
 
 ?>
