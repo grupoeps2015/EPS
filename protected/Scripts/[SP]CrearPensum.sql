@@ -269,7 +269,6 @@ JOIN ADM_Area a ON a.Area = cpa.Area
 JOIN CUR_TipoCiclo tc ON tc.TipoCiclo = cpa.TipoCiclo
 JOIN ADM_Pensum p ON p.Pensum = cpa.Pensum
 WHERE cpa.Pensum = _pensum
---AND cpa.estado = 1
 ORDER BY c.Nombre asc;
 
 END;
