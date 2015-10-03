@@ -126,4 +126,78 @@ ALTER FUNCTION spagregarcursoasignacion(integer, integer, integer, text)
   OWNER TO postgres;
 
   
+-- Function: spdatoscursopensum(integer, integer)
+
+-- DROP FUNCTION spdatoscursopensum(integer, integer);
+
+CREATE OR REPLACE FUNCTION spdatoscursopensum(
+    IN _curso integer,
+    IN _carrera integer,
+    OUT cursopensumarea integer,
+    OUT curso integer,
+    OUT pensum integer,
+    OUT area integer,
+    OUT numerociclo integer,
+    OUT tipociclo integer,
+    OUT creditos integer,
+    OUT prerrequisitos text)
+  RETURNS SETOF record AS
+$BODY$
+begin
+ Return query
+ select distinct curpen.cursopensumarea, curpen.curso, curpen.pensum, curpen.area, curpen.numerociclo, curpen.tipociclo, curpen.creditos, curpen.prerrequisitos
+	      from 
+	        cur_curso cur
+	      join
+	        cur_pensum_area curpen on curpen.curso = cur.curso
+	      join
+	        adm_pensum pen on curpen.pensum = pen.pensum
+	      where curpen.curso = _curso and curpen.estado = 1 and pen.carrera = _carrera and pen.finvigencia is null;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION spdatoscursopensum(integer, integer)
+  OWNER TO postgres;
+
+  
+-- Function: spdatoscursoaprobado(integer, integer)
+
+-- DROP FUNCTION spdatoscursoaprobado(integer, integer);
+
+CREATE OR REPLACE FUNCTION spdatoscursoaprobado(
+    IN _curso integer,
+    IN _estudiante integer,
+    OUT cursoaprobado integer,
+    OUT asignacion integer,
+    OUT asignacionretrasada integer,
+    OUT tipoaprobacion integer,
+    OUT fechaaprobacion date)
+  RETURNS SETOF record AS
+$BODY$
+begin
+ Return query
+ select cur.cursoaprobado, cur.asignacion, cur.asignacionretrasada, cur.tipoaprobacion, cur.fechaaprobacion
+	      from 
+	        est_cursoaprobado cur
+	      join
+	        est_cur_nota nota on nota.asignacion = cur.asignacion
+	      join
+	        est_cur_asignacion asign on asign.asignacion = nota.asignacion
+	      join 
+		cur_seccion sec on sec.seccion = asign.seccion 
+	      join 
+	        est_ciclo_asignacion ca on ca.ciclo_asignacion = asign.ciclo_asignacion
+	      where sec.curso = _curso and ca.estudiante = _estudiante;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION spdatoscursoaprobado(integer, integer)
+  OWNER TO postgres;
+
+
+  
 Select 'Script de Asignaciones Instalado' as "Asignacion";
