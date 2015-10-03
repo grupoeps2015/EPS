@@ -206,7 +206,7 @@ class asignacionController extends Controller{
                 }
                 for($i=0;$i<count($cursos);$i++){
                     if($cursos[$i] <> ""){
-                        $asignacionCurso = $this->_asign->agregarAsignacionCurso($estudiante,$asignacionEstudiante,$cursos[$i],"");
+                        $asignacionCurso = $this->_asign->agregarAsignacionCurso($this->estudiante,$asignacionEstudiante,$cursos[$i],"");
                         if(is_array($asignacionCurso)){
                             $asignacionCurso = (isset($asignacionCurso[0]['id']) ? $asignacionCurso[0]['id'] : -1);
                         }else{
