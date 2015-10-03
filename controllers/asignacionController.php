@@ -13,6 +13,7 @@
 class asignacionController extends Controller{
     private $_asign;
     private $_ajax;
+    private $estudiante;
     
     public function __construct() {
         parent::__construct();
@@ -24,6 +25,13 @@ class asignacionController extends Controller{
         }
         $this->_asign=$this->loadModel('asignacion');
         $this->_ajax = $this->loadModel("ajax");
+        $estudiante = $this->_ajax->getEstudianteUsuario($_SESSION["usuario"]);
+        if(is_array($estudiante)){
+            $this->estudiante = (isset($estudiante[0]['id']) ? $estudiante[0]['id'] : -1);
+        }else{
+            $this->redireccionar("error/sql/" . $estudiante);
+            exit;
+        }
     }
     
     public function index(){
@@ -65,15 +73,75 @@ class asignacionController extends Controller{
         $periodo = $this->_asign->getPeriodo($ciclo, PERIODO_ASIGNACION_CURSOS, ASIGN_OTRAS, $_SESSION["centrounidad"]);
         if(is_array($periodo)){
             if(isset($periodo[0]['periodo'])){
+                $cursosDisponiblesEstudiante = array();
                 $carrera = 1; //TODO: Marlen: $_SESSION["carrera"];
                 $this->_view->asignacion = $periodo[0]['periodo'];
                 $lsCursosDisponibles = $this->_asign->getCursosDisponibles($ciclo, $carrera);
                 if(is_array($lsCursosDisponibles)){
-                    $this->_view->lstCursos = $lsCursosDisponibles;
+                    
                 }else{
                     $this->redireccionar("error/sql/" . $lsCursosDisponibles);
                     exit;
                 }
+                if(count($lsCursosDisponibles)){
+                    for($i=0;$i<count($lsCursosDisponibles);$i++){
+                        $datosCursoPensum = $this->_asign->getDatosCursoPensum($lsCursosDisponibles[$i]['curso'], $carrera);
+                        if(is_array($datosCursoPensum)){
+                            if(!empty($datosCursoPensum[0]['prerrequisitos'])){
+                                $requisitosAprobados = true;
+                                $prerrequisitos = json_decode($datosCursoPensum[0]['prerrequisitos'],true);
+                                for($a=0;$a<count($prerrequisitos);$a++){
+                                    switch ($prerrequisitos[$a]['tipo']) {
+                                        case 1:
+                                            //curso
+                                            $cursoPensumArea = $this->_asign->getDatosCursoPensumArea($prerrequisitos[$a]['id']);
+                                            if(is_array($cursoPensumArea)){
+                                                $idCurso = $cursoPensumArea[0]['curso'];
+                                            }else{
+                                                $this->redireccionar("error/sql/" . $cursoPensumArea);
+                                                exit;
+                                            }
+                                            $cursoAprobado = $this->_asign->getDatosCursoAprobado($this->estudiante,$idCurso);
+                                            if(is_array($cursoAprobado)){
+                                                
+                                            }else{
+                                                $this->redireccionar("error/sql/" . $cursoAprobado);
+                                                exit;
+                                            }
+                                            //$idCurso en est_cursoaprobado
+                                            //TODO: Marlen: consultar curpensumarea, obtener curso y consultarlo en est_cursoaprobado
+                                            if(!count($cursoAprobado)){
+                                                $requisitosAprobados = false;
+                                            }
+                                            break;
+                                        case 2:
+                                            //credito
+                                            //TODO: Marlen: calcular cuantos créditos lleva el estudiante y si son >= al $prerrequisitos[$i]['valor']
+//                                            if($algo){
+//                                                $requisitosAprobados = false;
+//                                            }
+                                            break;
+                                    }
+                                    //$prerrequisitos[$i]['name']
+                                    //$prerrequisitos[$i]['id']
+                                    //$prerrequisitos[$i]['tipo']
+                                    //$prerrequisitos[$i]['valor']
+                                    
+                                }
+                                if($requisitosAprobados){
+                                    array_push($cursosDisponiblesEstudiante,$lsCursosDisponibles[$i]);
+                                }
+                            }
+                            else{
+                                array_push($cursosDisponiblesEstudiante,$lsCursosDisponibles[$i]);
+                            }
+                        }else{
+                            $this->redireccionar("error/sql/" . $datosCursoPensum);
+                            exit;
+                        }
+                    }
+                }
+                $this->_view->lstCursos = $cursosDisponiblesEstudiante;
                 //TODO: Marlen: agregar listado de cursos
             }
             else{
@@ -98,6 +166,10 @@ class asignacionController extends Controller{
             $hola[$i]['tipo']."<br>".
             $hola[$i]['valor']."<br><br>";
         }
+        
+        $arrayobj = new ArrayObject(array(0=>'zero',1=>'one',2=>'two'));
+        $arrayobj->offsetUnset(1);
+        var_dump($arrayobj);
     }
     
     public function asignar(){
@@ -122,16 +194,10 @@ class asignacionController extends Controller{
             $cursos = explode(";", $cursos);
             if(count($cursos)){
                 //TODO: Marlen: Crear ciclo asignación
-                $estudiante = $this->_ajax->getEstudianteUsuario($_SESSION["usuario"]);
-                if(is_array($estudiante)){
-                    $estudiante = (isset($estudiante[0]['id']) ? $estudiante[0]['id'] : -1);
-                }else{
-                    $this->redireccionar("error/sql/" . $estudiante);
-                    exit;
-                }
                 
                 
-                $asignacionEstudiante = $this->_asign->agregarCicloAsignacion($estudiante,$periodo);
+                
+                $asignacionEstudiante = $this->_asign->agregarCicloAsignacion($this->estudiante,$periodo);
                 if(is_array($asignacionEstudiante)){
                     $asignacionEstudiante = (isset($asignacionEstudiante[0]['id']) ? $asignacionEstudiante[0]['id'] : -1);
                 }else{

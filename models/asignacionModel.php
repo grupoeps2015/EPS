@@ -42,4 +42,32 @@ class asignacionModel extends Model{
             return $info->fetchall();
         }
     }
+    public function getDatosCursoPensum($curso, $carrera){
+        $cursos = $this->_db->query("select * from spdatoscursopensum({$curso},{$carrera});");
+        $cursos->setFetchMode(PDO::FETCH_ASSOC);
+        if($cursos === false){
+            return "1200/getDatosCursoPensum";
+        }else{
+            return $cursos->fetchall();
+        }
+    }
+    public function getDatosCursoPensumArea($id){
+        $cursos = $this->_db->query("select * from spdatoscursopensumarea({$id});");
+        $cursos->setFetchMode(PDO::FETCH_ASSOC);
+        if($cursos === false){
+            return "1200/getDatosCursoPensumArea";
+        }else{
+            return $cursos->fetchall();
+        }
+    }
+    public function getDatosCursoAprobado($estudiante,$id){
+        $cursos = $this->_db->query("select * from spdatoscursoaprobado({$id},{$estudiante});");
+        $cursos->setFetchMode(PDO::FETCH_ASSOC);
+        if($cursos === false){
+            return "1200/getDatosCursoAprobado";
+        }else{
+            return $cursos->fetchall();
+        }
+    }
+    
 }
