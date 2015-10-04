@@ -469,6 +469,61 @@ class gestionPensumController extends Controller {
     }
     
     
+    public function agregarCursoPensum($idPensum=0){
+        session_start();
+                
+        $iden = $this->getInteger('hdEnvio');
+        $idCentroUnidad = $_SESSION["centrounidad"];
+        
+        $arrayPar = array();
+        
+        $this->_view->idPensum = $idPensum;
+        
+        $this->_view->titulo = 'Agregar Curso Pensum - ' . APP_TITULO;
+        
+        //$this->_view->setJs(array('agregarCursoPensum'));
+        $this->_view->setJs(array('jquery.validate'), "public");
+        
+        $info = $this->_post->listadoCursos($idCentroUnidad);
+        if (is_array($info)) {
+            $this->_view->lstCursos = $info;
+        } else {
+            $this->redireccionar("error/sql/" . $info);
+            exit;
+        }
+        
+        $rol = $_SESSION["rol"];        
+        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_CREARPARAMETRO);
+         
+        if($rolValido[0]["valido"]!= PERMISO_CREAR){
+           echo "<script>
+                alert('No tiene permisos suficientes para acceder a esta función.');
+                window.location.href='" . BASE_URL . "gestionParametro" . "';
+                </script>";
+        }
+        
+        if($iden == 1){
+            /*$arrayPar["nombre"] = $this->getTexto('txtNombreParametro');
+            $arrayPar["valor"] = $this->getTexto('txtValorParametro');
+            $arrayPar["descripcion"] = $this->getTexto('txtDescripcionParametro');
+            $arrayPar["centro_unidadacademica"] = $this->getInteger('slCentroUnidadAcademica');
+            $arrayPar["carrera"] = $this->getInteger('slCarreras');
+            $arrayPar["codigo"] = $this->getTexto('txtCodigoParametro');         
+            $arrayPar["tipoparametro"] =  $this->getInteger('slTipoParametro');
+            
+            $info = $this->_view->query = $this->_post->agregarParametro($arrayPar);
+            if(!is_array($info)){
+                $this->redireccionar("error/sql/" . $info);
+                exit;
+            }
+            
+            $this->redireccionar('gestionParametro');*/
+        }
+        
+        $this->_view->renderizar('agregarCursoPensum', 'gestionPensum');
+    }
+    
+    
     public function crearPensum($idPensum = 0){
         session_start();
                

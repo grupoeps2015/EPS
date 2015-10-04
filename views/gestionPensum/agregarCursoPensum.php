@@ -2,13 +2,13 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center">
-                <h2 class="section-heading">Agregar Nuevo Curso Pensum</h2>
+                <h2 class="section-heading">Agregar Curso Pensum</h2>
                 <p><?php if (isset($this->query)) echo $this->query; ?></p>
                 <hr class="primary">
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
                         <i class="fa fa-2x fa-backward wow bounceIn text-primary" data-wow-delay=".2s">
-                            <a href="<?php echo BASE_URL ?>gestionPensum/listadoPensum">
+                            <a href="<?php echo BASE_URL ?>gestionPensum/gestionCursoPensum/<?php echo $this->idPensum?>">
                                 Regresar
                             </a>
                         </i>
@@ -24,36 +24,30 @@
 
     <div class="header-content">
         <div class="header-content-inner">
-            <div id="divCentros" class="row">
-                <form id="frPensum" method="post" action="<?php echo BASE_URL; ?>gestionPensum/agregarPensum">
-                    <div id="divCarreras" class="form-group" >
+            <div id="divPensum" class="row">
+                <form id="frCursoPensum" method="post" action="<?php echo BASE_URL; ?>gestionPensum/gestionCursoPensum/<?php echo $this->idPensum?>">
+                    <div id="divCursoPensum" class="form-group" >
                         <div class="col-md-6 col-md-offset-3">
                             <table  width="100%">
                                 <tbody class="text-primary">
                                     <tr style="width: 49%">
-                                        <td><label>Carrera:</label>
-                                            <?php if (isset($this->carreras) && count($this->carreras)): ?>
-                                                <select id="slCarreras" name="slCarreras" class="form-control input-lg">
-                                                    <option value="">(Carreras)
-                                                    </option>
-                                                    <?php for ($i = 0; $i < count($this->carreras); $i++) : ?>
-                                                        <option value="<?php echo $this->carreras[$i]['codigo']; ?>">
-                                                            <?php echo $this->carreras[$i]['nombre']; ?>
-                                                        </option>
-                                                    <?php endfor; ?>
-                                                </select>
-                                            <?php endif; ?>
-                                        </td>
-                                        <td style="width: 2%">&nbsp;</td>
-                                        <td style="width: 49%"><label>Tipo:</label>
-                                            <select id="slTipos" name="slTipos" class="form-control input-lg">
-                                                <option value="">(Tipo)
-                                                </option>
-                                                <option value="1">Cerrado</option>
-                                                <option value="2">Abierto</option>
-                                            </select>
-                                        </td>
-                                    </tr>
+                                        <td><label>Curso:</label>
+                                            <?php if(isset($this->lstCursos) && count($this->lstCursos)): ?>
+                                <select id="slCursos" name="slCursos" class="form-control input-lg">
+                                   <option value="">- Cursos disponibles -</option>
+                                    <?php for($i =0; $i < count($this->lstCursos); $i++) : ?>
+                                    <?php if($this->lstCursos[$i]['estado'] == "Activo"): ?>
+                                     <option value="<?php echo $this->lstCursos[$i]['id'];?>">
+                                         <?php echo $this->lstCursos[$i]['codigo']; echo " - "; echo $this->lstCursos[$i]['nombre'];?>
+                                     </option>                                    
+                                     <?php endif;?>
+                                    <?php endfor;?>
+                                </select>
+                                <?php else : ?>
+                                No hay cursos disponibles.
+                                <?php endif;?>
+                                <br/>
+                                        </td>                                        
                                     <tr> 
                                         <td><br/>
                                             <label>Duracion (ciclos):</label>
