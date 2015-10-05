@@ -26,10 +26,10 @@ class ajaxModel extends Model{
     
     public function getMunicipio($depto){
         $municipios = $this->_db->query("select * from spMunicipioXDepto({$depto})");
-        $municipios->setFetchMode(PDO::FETCH_ASSOC);
         if($municipios === false){
             return "1200/getMunicipio";
         }else{
+            $municipios->setFetchMode(PDO::FETCH_ASSOC);
             return $municipios->fetchall();
         }
     }
@@ -72,80 +72,80 @@ class ajaxModel extends Model{
     
     public function getUnidadesAjax($centro){
         $unidades = $this->_db->query("select * from spUnidadxCentro({$centro})");
-        $unidades->setFetchMode(PDO::FETCH_ASSOC);
         if($unidades === false){
             return "1200/getUnidadesAjax";
         }else{
+            $unidades->setFetchMode(PDO::FETCH_ASSOC);
             return $unidades->fetchall();
         }
     }
     
     public function getAniosAjax($tipo){
         $anios = $this->_db->query("select * from spanioxtipociclo({$tipo}) as anio");
-        $anios->setFetchMode(PDO::FETCH_ASSOC);
         if($anios === false){
             return "1200/getAniosAjax";
         }else{
+            $anios->setFetchMode(PDO::FETCH_ASSOC);
             return $anios->fetchall();
         }
     }
     
     public function getCiclosAjax($tipo,$anio){
         $ciclos = $this->_db->query("select * from spCicloxTipo({$tipo},{$anio})");
-        $ciclos->setFetchMode(PDO::FETCH_ASSOC);
         if($ciclos === false){
             return "1200/getCiclosAjax";
         }else{
+            $ciclos->setFetchMode(PDO::FETCH_ASSOC);
             return $ciclos->fetchall();
         }
     }
     
     public function getPeriodosAjax($tipo){
         $periodos = $this->_db->query("select * from spPeriodoxTipo({$tipo})");
-        $periodos->setFetchMode(PDO::FETCH_ASSOC);
         if($periodos === false){
             return "1200/getPeriodosAjax";
         }else{
+            $periodos->setFetchMode(PDO::FETCH_ASSOC);
             return $periodos->fetchall();
         }
     }
     
     public function getSalonesAjax($edificio){
         $salones = $this->_db->query("select * from spSalonesxEdificio({$edificio})");
-        $salones->setFetchMode(PDO::FETCH_ASSOC);
         if($salones === false){
             return "1200/getSalonesAjax";
         }else{
+            $salones->setFetchMode(PDO::FETCH_ASSOC);
             return $salones->fetchall();
         }
     }
     
     public function getCentroUnidadAjax($centro, $unidad){
         $post = $this->_db->query("select * from spCentroUnidad({$centro},{$unidad}) as id");
-        $post->setFetchMode(PDO::FETCH_ASSOC);
         if($post === false){
             return "1200/getCentroUnidadAjax";
         }else{
+            $post->setFetchMode(PDO::FETCH_ASSOC);
             return $post->fetchall();
         }
     }
     
     public function getCarreras($unidad){
         $carreras = $this->_db->query("select * from spcarreraxunidad({$unidad})");
-        $carreras->setFetchMode(PDO::FETCH_ASSOC);
         if($carreras === false){
             return "1200/getCarreras";
         }else{
+            $carreras->setFetchMode(PDO::FETCH_ASSOC);
             return $carreras->fetchall();
         }
     }
     
     public function getSecuencia($campo, $tabla){
         $secuencia = $this->_db->query("select * from spcarreraxunidad({$campo},{$tabla})");
-        $secuencia->setFetchMode(PDO::FETCH_ASSOC);
         if($secuencia === false){
             return "1200/getSecuencia";
         }else{
+            $secuencia->setFetchMode(PDO::FETCH_ASSOC);
             return $secuencia->fetchall();
         }
     }
@@ -161,30 +161,30 @@ class ajaxModel extends Model{
     
     public function getInfoCarreras($centro_unidadacademica){
         $post = $this->_db->query("select * from spinformacioncarrera({$centro_unidadacademica})");
-        $post->setFetchMode(PDO::FETCH_ASSOC);
         if($post === false){
             return "1200/getInfoCarreras";
         }else{
+            $post->setFetchMode(PDO::FETCH_ASSOC);
             return $post->fetchall();
         }
     }
     
     public function spGetNombreCentroUnidad($id){
         $info = $this ->_db->query("select * from spGetNombreCentroUnidadacademica({$id})");
-        $info->setFetchMode(PDO::FETCH_ASSOC);
         if($info === false){
             return "1200/spGetNombreCentroUnidad";
         }else{
+            $info->setFetchMode(PDO::FETCH_ASSOC);
             return $info->fetchall();
         }
     }
     
     public function getDocenteSeccion($cat,$ciclo){
         $post = $this->_db->query("select * from spDocenteCicloCursos({$cat},{$ciclo})");
-        $post->setFetchMode(PDO::FETCH_ASSOC);
         if($post === false){
             return "1200/getDocenteSeccion";
         }else{
+            $post->setFetchMode(PDO::FETCH_ASSOC);
             return $post->fetchall();
         }
     }
@@ -200,60 +200,60 @@ class ajaxModel extends Model{
     public function getPermisosRolFuncion($rol,$funcion)
     {
         $post = $this->_db->query("SELECT * FROM spValidarRolFuncion({$rol},{$funcion}) AS valido");
-        $post->setFetchMode(PDO::FETCH_ASSOC);
         if($post === false){
             return "1200/getPermisosRolFuncion";
         }else{
+            $post->setFetchMode(PDO::FETCH_ASSOC);
             return $post->fetchall();
         }
     }
     
     public function getEstudianteUsuario($usuario){
         $info = $this ->_db->query("select * from spEstudianteXUsuario({$usuario}) AS id;");
-        $info->setFetchMode(PDO::FETCH_ASSOC);
         if($info === false){
             return "1200/getEstudianteUsuario";
         }else{
+            $info->setFetchMode(PDO::FETCH_ASSOC);
             return $info->fetchall();
         }
     }
     
     public function getCarrerasEstudiante($estudiante,$centrounidad){
         $info = $this ->_db->query("select * from spCarrerasXEstudiante({$estudiante},{$centrounidad})");
-        $info->setFetchMode(PDO::FETCH_ASSOC);
         if($info === false){
             return "1200/getCarrerasEstudiante";
         }else{
+            $info->setFetchMode(PDO::FETCH_ASSOC);
             return $info->fetchall();
         }
     }
     
     public function getCentroUnidadUsuario($usuario){
         $info = $this ->_db->query("select * from spcentrounidadxusuario({$usuario})");
-        $info->setFetchMode(PDO::FETCH_ASSOC);
         if($info === false){
             return "1200/getCentroUnidadUsuario";
         }else{
+            $info->setFetchMode(PDO::FETCH_ASSOC);
             return $info->fetchall();
         }
     }
     
     public function getCentrosUsuario($usuario){
         $info = $this ->_db->query("select * from spcentroxusuario({$usuario})");
-        $info->setFetchMode(PDO::FETCH_ASSOC);
         if($info === false){
             return "1200/getCentrosUsuario";
         }else{
+            $info->setFetchMode(PDO::FETCH_ASSOC);
             return $info->fetchall();
         }
     }
     
     public function getUnidadesCentrosUsuario($usuario,$centro){
         $info = $this ->_db->query("select * from spunidadxcentroxusuario({$usuario},{$centro})");
-        $info->setFetchMode(PDO::FETCH_ASSOC);
         if($info === false){
             return "1200/getUnidadesCentrosUsuario";
         }else{
+            $info->setFetchMode(PDO::FETCH_ASSOC);
             return $info->fetchall();
         }
     }
@@ -269,10 +269,10 @@ class ajaxModel extends Model{
     
     public function getSeccionesCursoHorarioAjax($curso,$ciclo){
         $post = $this->_db->query("select * from spSeccionesCursoHorario({$curso},{$ciclo})");
-        $post->setFetchMode(PDO::FETCH_ASSOC);
         if($post === false){
             return "1200/getSeccionesCursoHorarioAjax";
         }else{
+            $post->setFetchMode(PDO::FETCH_ASSOC);
             return $post->fetchall();
         }
     }
@@ -299,10 +299,29 @@ class ajaxModel extends Model{
     
     public function getSiguienteCicloAjax($tipo){
         $info = $this ->_db->query("select * from spsiguienteciclo({$tipo})");
-        $info->setFetchMode(PDO::FETCH_ASSOC);
         if($info === false){
             return "1200/getSiguienteCicloAjax";
         }else{
+            $info->setFetchMode(PDO::FETCH_ASSOC);
+            return $info->fetchall();
+        }
+    }
+    
+    public function valorParametro($codigoParametro,$carrera,$centroUnidad) {
+        $info = $this->_db->query("select * from spvalorparametro($codigoParametro,$carrera,$centroUnidad);");
+        if($info === false){
+            return "1200/valorParametro";
+        }else{
+            return $info->fetchall();
+        }
+    }
+    
+    public function getEstadoUsuario($idusuario){
+        $info = $this ->_db->query("select * from spVerEstadoUsuario({$idusuario})");
+        if($info === false){
+            return "1200/getEstadoUsuario";
+        }else{
+            $info->setFetchMode(PDO::FETCH_ASSOC);
             return $info->fetchall();
         }
     }

@@ -15,7 +15,7 @@ $(document).ready(function(){
         }
     });
     function getCiclosAjax(){
-        $.post('../../ajax/getCiclosAjax',
+        $.post($("#hdBASE_URL").val()+'ajax/getCiclosAjax',
                {anio: $("#slAnio").val()},
                function(datos){
                     $("#slCiclo").html('');
@@ -61,10 +61,32 @@ $(document).ready(function(){
 		
 	//evento que se dispara al hacer clic en el boton para agregar una nueva fila
 	$(document).on('click','.clsAgregarFila',function(){
+            var repetido = false;
+            $("#tabla tbody tr").each(function (index) 
+            {
+                var campo1;
+                $(this).children("td").each(function (index2) 
+                {
+                    switch (index2) 
+                    {
+                        case 0: campo1 = $(this).find('input').val();
+                                break;
+                    }
+                })
+                if(campo1 == $("#slCursos").val()){
+                    repetido = true;
+                    return;
+                }
+            })
+            if(repetido){
+                alert("Este curso ya existe en el listado de cursos a asignar.");
+                return;
+            }
+                $('#btnAsignar').prop("disabled",false);
 		//almacenamos en una variable todo el contenido de la nueva fila que deseamos
 		//agregar. pueden incluirse id's, nombres y cualquier tag... sigue siendo html
 		var strNueva_Fila='<tr>'+
-			'<td><label type="text" class="clsCurso" value="'+$("#slCursos").val()+'">'+$("#slCursos option[value='"+$("#slCursos").val()+"']").text()+'</label></td>'+
+			'<td><label type="text" class="clsCurso">'+$("#slCursos option[value='"+$("#slCursos").val()+"']").text()+'</label><input type="hidden" value="'+$("#slCursos").val()+'"></td>'+
 			'<td><select class="clsSeccion form-control input-lg">'+getSeccionesCursoHorarioAjax($("#slCursos").val(),$("#slCiclo").val())+'</select></td>'+
 			'<td align="right"><input type="button" value="-" class="clsEliminarFila btn btn-danger btn-lg btn-warning"></td>'+
 		'</tr>';
@@ -100,6 +122,7 @@ $(document).ready(function(){
 				if(!confirm('Esta es el única fila de la lista ¿Desea eliminarla?')){
 					return;
 				}
+                                $('#btnAsignar').prop("disabled",true);
 			}
 					
 		/*obtenemos el padre (tr) del td que contiene a nuestro boton de eliminar
@@ -139,7 +162,7 @@ $(document).ready(function(){
         var cadena = "";
         $.ajax({
           type: "POST",
-          url: '../..ajax/getSeccionesCursoHorarioAjax',
+          url: $("#hdBASE_URL").val()+'ajax/getSeccionesCursoHorarioAjax',
           data: {curso:curso,ciclo:ciclo},
           async: false,
           success: function(datos){
@@ -156,6 +179,28 @@ $(document).ready(function(){
         });
         return cadena;
         }
-        
+     
+        $('#btnAsignar').click(function(){
+            $('#hdCursos').val("");
+            $("#tabla tbody tr").each(function (index) 
+            {
+                var campo2;
+                $(this).children("td").each(function (index2) 
+                {
+                    switch (index2) 
+                    {
+                        case 1: campo2 = $(this).find('select').val();
+                                break;
+                    }
+                })
+                if(campo2 == -1){
+                    alert("Seleccione una sección");
+                    return;
+                }
+                $('#hdCursos').val($('#hdCursos').val()+campo2+";");
+            })
+            //alert($('#hdCursos').val());
+            $('#frAsignacionCursos').submit();
+        });
 			
 });

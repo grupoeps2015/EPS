@@ -55,8 +55,8 @@ class ajaxController extends Controller{
     
     public function getCiclosAjax(){
         if($this->getInteger('anio')){
-            $tipo = 1;
-            //TODO: Marlen: consultar parámetro en base de datos
+            session_start();
+            $tipo = $_SESSION["tipociclo"];
             echo json_encode($this->_ajax->getCiclosAjax($tipo,$this->getInteger('anio')));
         }
     }
@@ -140,6 +140,12 @@ class ajaxController extends Controller{
     public function getSiguienteCicloAjax(){
         if($this->getInteger('tipo')){
             echo json_encode($this->_ajax->getSiguienteCicloAjax($this->getInteger('tipo')));
+        }
+    }
+    
+    public function getEstadoUsuario(){
+        if($this->getInteger('idUsuario')){
+            echo json_encode($this->_ajax->getEstadoUsuario($this->getInteger('idUsuario')));
         }
     }
 }

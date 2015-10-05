@@ -21,41 +21,34 @@ class gestionUsuarioController extends Controller {
 
     public function index(){
         session_start();
-
         if(isset($_SESSION["rol"])){
             $rol = $_SESSION["rol"];
             $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_GESTIONUSUARIO);
+            if($rolValido[0]["valido"]!=PERMISO_GESTIONAR){
+                $this->redireccionar("error/noRol/1000");
+                exit;
+            }else{
+                $idCentroUnidad = $_SESSION["centrounidad"];
+                $this->_view->titulo = 'Gestión de usuarios - ' . APP_TITULO;
+                $this->_view->id = $idCentroUnidad;
+                $this->_view->setJs(array('gestionUsuario'));
+                $this->_view->setJs(array('jquery.dataTables.min'), "public");
+                $this->_view->setCSS(array('jquery.dataTables.min'));
+
+                $lstUsr = $this->_post->informacionUsuario($idCentroUnidad);
+                if(is_array($lstUsr)){
+                    $this->_view->lstUsr = $lstUsr;
+                }else{
+                    $this->redireccionar("error/sql/" . $lstUsr);
+                    exit;
+                }
+
+                $this->_view->renderizar('gestionUsuario');
+            }
         }else{
             $this->redireccionar("error/noRol/1000");
             exit;
         }
-        
-        if($rolValido[0]["valido"]!=PERMISO_GESTIONAR){
-            echo "<script>
-                alert('No tiene permisos para acceder a esta función.');
-                window.location.href='" . BASE_URL . "login/inicio';
-                </script>";
-        }
-        
-            
-        $idCentroUnidad = $_SESSION["centrounidad"];
-
-        $this->_view->titulo = 'Gestión de usuarios - ' . APP_TITULO;
-        $this->_view->id = $idCentroUnidad;
-        $this->_view->setJs(array('gestionUsuario'));
-        $this->_view->setJs(array('jquery.dataTables.min'), "public");
-        $this->_view->setCSS(array('jquery.dataTables.min'));
-
-        $lstUsr = $this->_post->informacionUsuario($idCentroUnidad);
-        if(is_array($lstUsr)){
-            $this->_view->lstUsr = $lstUsr;
-        }else{
-            $this->redireccionar("error/sql/" . $lstUsr);
-            exit;
-        }
-
-        $this->_view->renderizar('gestionUsuario');
-        
     }
     
     public function agregarUsuario() {
@@ -133,7 +126,7 @@ class gestionUsuarioController extends Controller {
             $arrayUsr["claveUsr"] = $this->_encriptar->encrypt($claveAleatoria, DB_KEY);
             $arrayUsr["preguntaUsr"] = 0;
             $arrayUsr["respuestaUsr"] = "USAC";
-            $arrayUsr["intentosUsr"] = 5;
+            $arrayUsr["intentosUsr"] = 0;
             $arrayUsr["centroUnidad"] = $_SESSION["centrounidad"];
             
             $nuevoUsr = $this->_post->agregarUsuario($arrayUsr);
@@ -269,10 +262,8 @@ class gestionUsuarioController extends Controller {
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_MODIFICARUSUARIO);
          
         if($rolValido[0]["valido"]!= PERMISO_MODIFICAR){
-           echo "<script>
-                alert('No tiene permisos suficientes para acceder a esta función.');
-                window.location.href='" . BASE_URL . "gestionUsuario" . "';
-                </script>";
+            $this->redireccionar("error/noRol/1000");
+            exit;
         }
         
         $valorPagina = $this->getInteger('hdEnvio');
@@ -530,7 +521,7 @@ class gestionUsuarioController extends Controller {
                     $arrayUsr["claveUsr"] = $this->_encriptar->encrypt($claveAleatoria, DB_KEY);
                     $arrayUsr["preguntaUsr"] = 0;
                     $arrayUsr["respuestaUsr"] = "USAC";
-                    $arrayUsr["intentosUsr"] = 5;
+                    $arrayUsr["intentosUsr"] = 0; 
                     $arrayUsr["centroUnidad"] = $idCentroUnidad;
                     $nuevoUsr = $this->_post->agregarUsuario($arrayUsr);
                     if(is_array($nuevoUsr)){
@@ -641,6 +632,39 @@ class gestionUsuarioController extends Controller {
         $this->redireccionar('gestionUsuario/agregarUsuario');
     }
     
+    public function claveOlvidada(){
+        $this->_view->titulo = 'Gestión de usuarios - ' . APP_TITULO;
+        $this->_view->setJs(array('claveOlvidada'));
+        $this->_view->setJs(array('jquery.validate'), "public");
+        
+        if($this->getInteger('hdEnvio')){
+            $id = $this->getInteger('hdEnvio');
+            $clave1 = "";
+            $clave2 = $this->getTexto('txtPasswordNuevo2');
+            $respuesta = $this->getTexto('txtRespuesta');
+            
+            $datos = $this->_ajax->getEstadoUsuario($id);
+            if(is_array($datos)){
+                if(strcmp($respuesta,$datos[0]['respuesta'])==0){
+                    $clave1 = $this->_encriptar->encrypt($clave2, DB_KEY);
+                    $nueva = $this->_post->setClaveNueva($datos[0]['usr'],$clave1);
+                    if(!is_array($nueva)){
+                        $this->redireccionar('error/sql/'.$nueva);
+                        exit;
+                    }
+                    $this->_view->aviso = "La clave fue actualizada con &eacute;xito, vuelve a la p&aacute;gina de inicio para ingresar al sistema";
+                }else{
+                    $this->_view->aviso = 'Respuesta incorrecta, intente nuevamente';
+                }
+            }else{
+                $this->redireccionar('error/sql/'.$datos);
+                exit;
+            }
+        }
+        
+        $this->_view->renderizar('claveOlvidada','gestionUsuario');
+    }
+    
     private function usuarioCorrecto($idUsuario){
         session_start();
         if(isset($_SESSION['usuario'])){
@@ -693,5 +717,3 @@ class gestionUsuarioController extends Controller {
     }
     
 }
-
-?>

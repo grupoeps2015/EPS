@@ -330,3 +330,65 @@ ALTER FUNCTION spdisponibilidadcatedratico(integer, integer, integer, text, text
   OWNER TO postgres;  
 
  Select 'Script para Gestion de Horarios Instalado' as "Gestion Horario";
+
+ 
+-- Function: spsiguienteciclo(integer)
+
+-- DROP FUNCTION spsiguienteciclo(integer);
+
+CREATE OR REPLACE FUNCTION spsiguienteciclo(
+    IN _tipo integer,
+    OUT anio integer,
+    OUT ciclo integer)
+  RETURNS SETOF record AS
+$BODY$
+DECLARE _anio INTEGER;
+DECLARE _numciclo INTEGER;
+DECLARE _duracion INTEGER;
+begin
+ Select max(c.anio) from cur_ciclo c where c.tipociclo = _tipo into _anio;
+ Select max(c.numerociclo) from cur_ciclo c where c.tipociclo = _tipo and c.anio = _anio into _numciclo;
+ Select tc.duracionmeses from cur_tipociclo tc where tc.tipociclo = _tipo into _duracion;
+ IF _anio IS NULL THEN
+ 	 Return query Select CAST(extract(year from current_date) AS INTEGER) as anio, 1 as ciclo;
+ ELSE
+	 IF (12 / _duracion) > _numciclo THEN
+		Return query select _anio as anio, _numciclo + 1 as ciclo;
+	 ELSE
+		Return query select _anio + 1 as anio, 1 as ciclo;
+	 END IF;
+  END IF;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION spsiguienteciclo(integer)
+  OWNER TO postgres;
+
+  
+-- Function: spagregarciclo(integer, integer, integer)
+
+-- DROP FUNCTION spagregarciclo(integer, integer, integer);
+
+CREATE OR REPLACE FUNCTION spagregarciclo(
+    _tipo integer,
+    _anio integer,
+    _numero integer)
+  RETURNS integer AS
+$BODY$
+DECLARE idCiclo integer;
+BEGIN
+SELECT ciclo FROM cur_ciclo where numerociclo = _numero and anio = _anio and tipociclo = _tipo into idCiclo;
+IF idCiclo IS NULL THEN
+	INSERT INTO cur_ciclo (numerociclo, anio, tipociclo, estado) 
+	VALUES (_numero, _anio, _tipo, 1) RETURNING ciclo into idCiclo;
+	RETURN idCiclo;
+ELSE 
+	RETURN -1;
+END IF;
+END; $BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION spagregarciclo(integer, integer, integer)
+  OWNER TO postgres;

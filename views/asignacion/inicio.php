@@ -91,6 +91,7 @@
                     </td>
                 </tr>
             </table>
+            <form id="frAsignacionCursos" method="post" action="<?php echo BASE_URL; ?>asignacion/asignar">
             <table id="tabla" name="tabla">
                 <thead>
                     <tr>
@@ -109,11 +110,15 @@
                 <tfoot>
                     <tr>
                         <td colspan="3" align="right">
-                            <input type="submit" id="btnAsignar" value="Asignar" class="btn btn-danger btn-lg btn-warning" disabled>
+                            <input type="button" id="btnAsignar" value="Asignar" class="btn btn-danger btn-lg btn-warning" disabled>
                         </td>
                     </tr>
                 </tfoot>
             </table>
+            <input type="hidden" name="hdCursos" id="hdCursos">
+            <input type="hidden" name="hdCiclo" id="hdCiclo" value="<?php if (isset($this->ciclo)) echo $this->ciclo;?>">
+            <input type="hidden" name="hdEnvio" value="1">
+            </form>
             <?php endif; ?>
         </div>
     </div>

@@ -121,6 +121,15 @@ class gestionPensumModel extends Model {
             return $info->fetchall();
         }
     }
+    
+     public function eliminarCursoPensum($intIdCursoPensum, $intEstadoNuevo){
+        $info = $this->_db->query("SELECT * from spModificarCursoPensum(" . $intIdCursoPensum . ",null,null,null,null,null,null," . $intEstadoNuevo . ");");
+        if($info === false){
+            return "1102/eliminarCursoPensum";
+        }else{
+            return $info->fetchall();
+        }
+    }
 
     public function actualizarPensum($_datos) {
 

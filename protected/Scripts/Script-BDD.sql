@@ -422,6 +422,22 @@ CREATE TABLE CUR_TipoCiclo (
   Estado INTEGER NOT NULL,
   PRIMARY KEY (TipoCiclo));
 
+-- -----------------------------------------------------
+-- Table CUR_Carrera_Area
+-- -----------------------------------------------------
+CREATE TABLE CUR_Carrera_Area (
+  CarreraArea SERIAL NOT NULL,
+  Carrera INTEGER NOT NULL,
+  Area INTEGER NOT NULL,
+  Estado INTEGER NOT NULL,
+  PRIMARY KEY (CarreraArea),
+  CONSTRAINT fk_CUR_Carrera_ADM_Area1
+    FOREIGN KEY (Carrera)
+    REFERENCES CUR_Carrera (Carrera),
+  CONSTRAINT fk_ADM_Area_Cur_Carrera1
+    FOREIGN KEY (Area)
+    REFERENCES ADM_Area (Area));
+
 
 -- -----------------------------------------------------
 -- Table CUR_Pensum_Area
@@ -430,7 +446,7 @@ CREATE TABLE CUR_Pensum_Area (
   CursoPensumArea SERIAL NOT NULL,
   Curso INTEGER NOT NULL,
   Pensum INTEGER NOT NULL,
-  Area INTEGER NOT NULL,
+  CarreraArea INTEGER NOT NULL,
   NumeroCiclo INTEGER NOT NULL,
   TipoCiclo INTEGER NOT NULL,
   Creditos INTEGER NULL,
@@ -443,9 +459,9 @@ CREATE TABLE CUR_Pensum_Area (
   CONSTRAINT fk_CUR_Pensum_ADM_Pensum1
     FOREIGN KEY (Pensum)
     REFERENCES ADM_Pensum (Pensum),
-  CONSTRAINT fk_CUR_Pensum_Area_CUR_Area1
-    FOREIGN KEY (Area)
-    REFERENCES ADM_Area (Area),
+  CONSTRAINT fk_CUR_Pensum_Area_CUR_Carrera_Area1
+    FOREIGN KEY (CarreraArea)
+    REFERENCES CUR_Carrera_Area (CarreraArea),
   CONSTRAINT fk_CUR_Pensum_Area_CUR_TipoCiclo1
     FOREIGN KEY (TipoCiclo)
     REFERENCES CUR_TipoCiclo (TipoCiclo));
@@ -675,7 +691,7 @@ CREATE TABLE ADM_Periodo (
 -- Table EST_Ciclo_Asignacion
 -- -----------------------------------------------------
 CREATE TABLE EST_Ciclo_Asignacion (
-  Ciclo_Asignacion INTEGER NOT NULL,
+  Ciclo_Asignacion SERIAL NOT NULL,
   Estudiante INTEGER NOT NULL,
   Fecha DATE NOT NULL,
   Hora TIME NOT NULL,
@@ -806,7 +822,7 @@ CREATE TABLE ADM_Parametro (
   Nombre TEXT NOT NULL,
   Valor TEXT NOT NULL,
   Descripcion TEXT NOT NULL,
-  Centro_UnidadAcademica INTEGER NOT NULL,
+  Centro_UnidadAcademica INTEGER NULL,
   Carrera INTEGER NULL,
   TipoParametro INTEGER NOT NULL,
   Codigo INTEGER NOT NULL,
@@ -1093,7 +1109,7 @@ CREATE TABLE EST_CursoAprobado (
   Asignacion INTEGER NULL,
   AsignacionRetrasada INTEGER NULL,
   TipoAprobacion INTEGER NOT NULL,
-  FechaAprobacion INTEGER NOT NULL,
+  FechaAprobacion DATE NOT NULL,
   PRIMARY KEY (CursoAprobado),
   CONSTRAINT fk_EST_CursoAprobado_EST_CUR_Nota1
     FOREIGN KEY (Asignacion)

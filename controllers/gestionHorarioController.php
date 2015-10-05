@@ -12,6 +12,12 @@ class gestionHorarioController extends Controller {
     
     public function __construct() {
         parent::__construct();
+        $this->getLibrary('session');
+        $this->_session = new session();
+        if(!$this->_session->validarSesion()){
+            $this->redireccionar('login/salir');
+            exit;
+        }
         $this->getLibrary('encripted');
         $this->_encriptar = new encripted();
         $this->_post = $this->loadModel('gestionHorario');
@@ -19,7 +25,6 @@ class gestionHorarioController extends Controller {
     }
 
     public function index($parametros = null) {
-            session_start();
             if(!is_null($parametros)){
                 list($idCiclo, $idSeccion) = split('[$.-]', (string)$parametros);
             }else{
@@ -64,7 +69,6 @@ class gestionHorarioController extends Controller {
     }
     
     public function seleccionarCicloCurso(){
-        session_start();
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_GESTIONHORARIO);
                     
@@ -75,10 +79,9 @@ class gestionHorarioController extends Controller {
                 </script>";        
         }
         
-        //session_start();
         $idCentroUnidad = $_SESSION["centrounidad"];
         $this->_view->id = $idCentroUnidad;
-        $tipociclo = 1;//TODO: Marlen: consultar parámetro en base de datos
+        $tipociclo = $_SESSION["tipociclo"];
         $this->_view->idTipoCiclo = $tipociclo;
         $lsAnios = $this->_ajax->getAniosAjax($tipociclo);
         if(is_array($lsAnios)){
@@ -105,14 +108,12 @@ class gestionHorarioController extends Controller {
         
         $this->_view->titulo = 'Seleccionar Ciclo y Sección por Curso - ' . APP_TITULO;
         $this->_view->url = "";
+        $this->_view->setJs(array('jquery.validate'), "public");
         $this->_view->setJs(array('seleccionarCicloCurso'));
         $this->_view->renderizar('seleccionarCicloCurso');
     }
 
     public function agregarHorario() {
-        session_start();
-        
-        
         $idCentroUnidad = $_SESSION["centrounidad"];
         $idSeccion = $this->getInteger('slSec');
         $idCiclo = $this->getInteger('slCiclo');
@@ -279,7 +280,6 @@ class gestionHorarioController extends Controller {
     }
     
     public function eliminarHorario($intNuevoEstado, $intIdHorario, $parametros) {
-         session_start();
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_ELIMINARHORARIO);
         
@@ -306,7 +306,6 @@ class gestionHorarioController extends Controller {
     }
     
     public function actualizarHorario($intIdHorario, $parametros) {
-        session_start();
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_MODIFICARHORARIO);
          
@@ -499,6 +498,24 @@ class gestionHorarioController extends Controller {
         }
         //print_r($hor);
         $this->_view->renderizar('actualizarHorario', 'gestionHorario');  
+    }
+    
+    public function agregarCiclo(){
+        if ($this->getInteger('hdEnvio')) {
+            $tipociclo = $_SESSION["tipociclo"];
+            $anio = $this->getInteger('txtAnio');
+            $numero = $this->getInteger('txtCiclo');
+            $array['tipo'] = $tipociclo;
+            $array['anio'] = $anio;
+            $array['numero'] = $numero;
+            $ciclo =  $this->_post->agregarCiclo($array);
+            if(!is_array($ciclo)){
+                $this->redireccionar("error/sql/" . $ciclo);
+                exit;
+            }
+        }
+        $this->redireccionar("gestionHorario/seleccionarCicloCurso");
+        
     }
     
     public function cargarCSV(){

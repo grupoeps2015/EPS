@@ -229,14 +229,9 @@ $BODY$
 ALTER FUNCTION spfinalizarVigenciaPensum(integer, integer)
   OWNER TO postgres;
   
- Select 'Script para Gestion de Pensum Instalado' as "Gestion Pensum";
-
-
  -- Function: spactivarpensum(integer)
 
 -- DROP FUNCTION spactivarpensum(integer);
-  
-  
   
   CREATE OR REPLACE FUNCTION spactivarpensum(
     _idPensum integer)
@@ -274,12 +269,40 @@ JOIN ADM_Area a ON a.Area = cpa.Area
 JOIN CUR_TipoCiclo tc ON tc.TipoCiclo = cpa.TipoCiclo
 JOIN ADM_Pensum p ON p.Pensum = cpa.Pensum
 WHERE cpa.Pensum = _pensum
-AND cpa.estado = 1
 ORDER BY c.Nombre asc;
 
 END;
 $BODY$
 LANGUAGE 'plpgsql';
+
+
+-- -----------------------------------------------------
+-- Function: spModificarCursoPensum()
+-- -----------------------------------------------------
+-- DROP FUNCTION spmodificarcursopensum(integer, integer, integer, integer, integer, integer, text, integer); 
+CREATE OR REPLACE FUNCTION spModificarCursoPensum(_cursopensumarea integer, 
+						_curso integer,
+					        _area integer,
+					        _numerociclo integer, 
+					        _tipociclo integer,
+					        _creditos integer,
+						_prerrequisitos text, 
+						_estado integer
+					     )RETURNS BOOLEAN LANGUAGE plpgsql SECURITY DEFINER AS $$
+
+BEGIN
+    UPDATE CUR_Pensum_Area
+       SET curso = COALESCE(spModificarCursoPensum._curso, CUR_Pensum_Area.curso),
+           area = COALESCE(spModificarCursoPensum._area, CUR_Pensum_Area.area),
+           numerociclo = COALESCE(spModificarCursoPensum._numerociclo, CUR_Pensum_Area.numerociclo),
+           tipociclo = COALESCE(spModificarCursoPensum._tipociclo, CUR_Pensum_Area.tipociclo),
+	   creditos = COALESCE(spModificarCursoPensum._creditos, CUR_Pensum_Area.creditos),
+	   prerrequisitos = COALESCE(spModificarCursoPensum._prerrequisitos, CUR_Pensum_Area.prerrequisitos),
+	   estado = COALESCE(spModificarCursoPensum._estado, CUR_Pensum_Area.estado)
+     WHERE CUR_Pensum_Area.cursopensumarea = spModificarCursoPensum._cursopensumarea;       
+    RETURN FOUND;
+END;
+$$;
  
 select * from adm_pensum;
 
@@ -309,7 +332,7 @@ ALTER FUNCTION spactualizarpensum(integer, integer,integer,text, text, text)
   OWNER TO postgres;
 
 
--- Function: spdatospensum(integer)
+  -- Function: spdatospensum(integer)
 
 -- DROP FUNCTION spdatospensum(integer);
 
@@ -340,5 +363,39 @@ $BODY$
   ROWS 1000;
 ALTER FUNCTION spdatospensum(integer)
   OWNER TO postgres;
+  
+  
+    
+-- Function: spdatoscursopensumarea(integer)
+
+-- DROP FUNCTION spdatoscursopensumarea(integer);
+
+CREATE OR REPLACE FUNCTION spdatoscursopensumarea(
+    IN _id integer,
+    OUT cursopensumarea integer,
+    OUT curso integer,
+    OUT pensum integer,
+    OUT area integer,
+    OUT numerociclo integer,
+    OUT tipociclo integer,
+    OUT creditos integer,
+    OUT prerrequisitos text)
+  RETURNS SETOF record AS
+$BODY$
+begin
+ Return query
+ select curpen.cursopensumarea, curpen.curso, curpen.pensum, curpen.area, curpen.numerociclo, curpen.tipociclo, curpen.creditos, curpen.prerrequisitos
+ from cur_pensum_area curpen
+ where curpen.cursopensumarea = _id;
+end;
 
 
+
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION spdatoscursopensumarea(integer)
+  OWNER TO postgres;
+
+Select 'Script para Gestion de Pensum Instalado' as "Gestion Pensum";

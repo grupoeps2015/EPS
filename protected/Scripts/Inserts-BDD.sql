@@ -462,7 +462,7 @@ INSERT INTO cat_tipocatedratico(tipodocente, descripcion, estado) VALUES (4, 'Au
 -- Insert adm_usuario
 -- -----------------------------------------------------
 INSERT INTO adm_usuario(usuario, nombre, correo, clave, estado, preguntasecreta, respuestasecreta, fechaultimaautenticacion, intentosautenticacion, foto)
-	VALUES (1, 'admin', 'adm@historia.usac.gt', 'zpadmqM=', 1, 0, 'USAC', current_timestamp, 100, '');
+	VALUES (1, 'admin', 'adm@historia.usac.gt', 'zpadmqM=', 1, 0, 'USAC', current_timestamp, 0, '');
 INSERT INTO adm_centro_unidadacademica_usuario VALUES(1,1,1);
 
 -- -----------------------------------------------------
@@ -502,15 +502,15 @@ INSERT INTO cur_tipociclo (tipociclo,nombre,descripcion,duracionmeses,estado) VA
 -- -----------------------------------------------------
 -- Insert cur_ciclo
 -- -----------------------------------------------------
-INSERT INTO cur_ciclo (ciclo,numerociclo,anio,tipociclo,estado) VALUES (1,1,2016,1,1);
-INSERT INTO cur_ciclo (ciclo,numerociclo,anio,tipociclo,estado) VALUES (2,2,2016,1,1);
+INSERT INTO cur_ciclo (numerociclo,anio,tipociclo,estado) VALUES (1,2016,1,1);
+INSERT INTO cur_ciclo (numerociclo,anio,tipociclo,estado) VALUES (2,2016,1,1);
 
 -- -----------------------------------------------------
 -- Insert adm_tipoparametro
 -- -----------------------------------------------------
-INSERT INTO adm_tipoparametro(tipoparametro, nombre, estado) VALUES (1, 'De sesion', 1);
-INSERT INTO adm_tipoparametro(tipoparametro, nombre, estado) VALUES (2, 'De centro - unidad academica', 1);
-INSERT INTO adm_tipoparametro(tipoparametro, nombre, estado) VALUES (3, 'Generales', 1);
+INSERT INTO adm_tipoparametro(tipoparametro, nombre, estado) VALUES (1, 'De sesión', 1);
+INSERT INTO adm_tipoparametro(tipoparametro, nombre, estado) VALUES (2, 'De centro - unidad académica', 1);
+INSERT INTO adm_tipoparametro(tipoparametro, nombre, estado) VALUES (3, 'De carrera', 1);
 
 -- -----------------------------------------------------
 -- Insert cur_jornada
@@ -531,8 +531,8 @@ INSERT INTO cur_periodo (periodo,duracionminutos,tipoperiodo) VALUES (1,90,1);
 -- -----------------------------------------------------
 -- Insert cur_edificio
 -- -----------------------------------------------------
-INSERT INTO cur_edificio (edificio,nombre,descripcion,estado) VALUES (1,'S1','',1);
-INSERT INTO cur_edificio (edificio,nombre,descripcion,estado) VALUES (2,'S2','',1);
+INSERT INTO cur_edificio (nombre,descripcion,estado) VALUES ('S1','',1);
+INSERT INTO cur_edificio (nombre,descripcion,estado) VALUES ('S2','',1);
 
 -- -----------------------------------------------------
 -- Insert adm_centrounidad_edificio
@@ -542,9 +542,9 @@ INSERT INTO adm_centrounidad_edificio (CentroUnidad_Edificio,Centro_UnidadAcadem
 -- -----------------------------------------------------
 -- Insert cur_salon
 -- -----------------------------------------------------
-INSERT INTO cur_salon (salon,nombre,edificio,nivel,capacidad,estado) VALUES (1,'301',1,3,80,1);
-INSERT INTO cur_salon (salon,nombre,edificio,nivel,capacidad,estado) VALUES (2,'302',1,3,50,1);
-INSERT INTO cur_salon (salon,nombre,edificio,nivel,capacidad,estado) VALUES (3,'303',1,3,100,1);
+INSERT INTO cur_salon (nombre,edificio,nivel,capacidad,estado) VALUES ('301',1,3,80,1);
+INSERT INTO cur_salon (nombre,edificio,nivel,capacidad,estado) VALUES ('302',1,3,50,1);
+INSERT INTO cur_salon (nombre,edificio,nivel,capacidad,estado) VALUES ('303',1,3,100,1);
 
 -- -----------------------------------------------------
 -- Insert cur_dia
@@ -662,6 +662,8 @@ INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,7);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,8);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,9);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,10);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (1,10);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (2,10);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,11);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,12);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,13);
@@ -699,10 +701,15 @@ INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,44);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,45);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,46);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,47);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (2,47);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,48);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (2,48);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,49);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (2,49);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,50);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (2,50);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,51);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (2,51);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,52);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,53);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,54);
@@ -758,3 +765,10 @@ INSERT INTO adm_periodo (periodo,ciclo,fechainicial,fechafinal,tipoperiodo,estad
 -- -----------------------------------------------------
 INSERT INTO CUR_TipoPrerrequisito (tipoprerrequisito,descripcion) values (1,'Curso');
 INSERT INTO CUR_TipoPrerrequisito (tipoprerrequisito,descripcion) values (2,'Créditos');
+
+-- -----------------------------------------------------
+-- Insert adm_parametro
+-- -----------------------------------------------------
+INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (1,'Número máximo de reintentos de login','5','',NULL,NULL,1,1);
+INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (2,'Tiempo máximo de sesión activa','60','En minutos',NULL,NULL,1,1);
+INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (100,'Tipo de ciclo','1','En minutos',1,NULL,2,1);

@@ -15,7 +15,13 @@
                 </div>
                 <div class="col-lg-3 col-md-6 text-center"></div>
                 <div class="col-lg-3 col-md-6 text-center"></div>
-                <div class="col-lg-3 col-md-6 text-center"></div>
+                <div class="col-lg-3 col-md-6 text-center">
+                    <div class="service-box">
+                        <i class="fa fa-2x fa-spinner wow bounceIn text-primary" data-wow-delay=".2s">
+                            <a id="linkNuevoCic" href="#" class="h2" data-wow-delay=".1s" data-toggle="modal" data-target="#myModal">Agregar Ciclo</a>
+                        </i>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -59,9 +65,9 @@
                                             <?php echo $this->lstAnios[$i]['anio']; ?>
                                         </option>
                                     <?php endfor; ?>
-                            <?php else : ?>
-                                <option value="">-- No existen a&ntilde;os registrados --</option>
-                            <?php endif; ?>
+                                <?php else : ?>
+                                    <option value="">-- No existen a&ntilde;os registrados --</option>
+                                <?php endif; ?>
                             </select>
                             <br />
                         </td>
@@ -115,3 +121,37 @@
         </div>
     </div>
 </section>
+
+<div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                <h2 class="text-center">Nuevo Ciclo</h2>
+            </div>
+            <div class="modal-body row">
+                <form id="frmGenerales" class="col-md-10 col-md-offset-1 col-xs-12 col-xs-offset-0" method="post" action="<?php echo BASE_URL; ?>gestionHorario/agregarCiclo">
+                    <div class="form-group">
+                        <table align="center">
+                            <tr>
+                                <td style="width: 45%"><br />A&ntilde;o:<br />
+                                <input id="txtAnio" name="txtAnio" type="number" min="0" class="form-control input-lg" value="<?php /*echo $this->infoGeneral[0]['dircorta']*/ ?>">&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td><br />N&uacute;mero Ciclo:&nbsp;<br />
+                                <input id="txtCiclo" name="txtCiclo" type="number" min="0" class="form-control input-lg" value="<?php /*echo $this->infoGeneral[0]['zona']*/ ?>">&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td tyle="width: 45%">&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td><br/>
+                                    <input type="submit" id="btnGenerales" name="btnGenerales" value="Crear Ciclo" class="btn btn-danger btn-lg btn-block">
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <input type="hidden" name="hdEnvio" value="1">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

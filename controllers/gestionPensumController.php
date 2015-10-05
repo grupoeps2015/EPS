@@ -19,7 +19,7 @@ class gestionPensumController extends Controller {
         $this->_ajax = $this->loadModel("ajax");
     }
 
-    public function index() {
+   public function index() {
         session_start();
         $rol = $_SESSION["rol"];
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol, CONS_FUNC_CUR_CREARCARRERA);
@@ -389,6 +389,33 @@ class gestionPensumController extends Controller {
 //                </script>";
 //        }
     }
+    
+    public function eliminarCursoPensum($intNuevoEstado, $intIdCursoPensum, $intIdPensum){
+        session_start();
+        $rol = $_SESSION["rol"];        
+        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_ELIMINARPARAMETRO);
+        
+        if($rolValido[0]["valido"]== PERMISO_ELIMINAR){
+       
+            if($intNuevoEstado == -1 || $intNuevoEstado == 1){
+                $info = $this->_post->eliminarCursoPensum($intIdCursoPensum,$intNuevoEstado);
+                if(!is_array($info)){
+                    $this->redireccionar("error/sql/" . $info);
+                    exit;
+                }
+                $this->redireccionar('gestionPensum/gestionCursoPensum/' . $intIdPensum);
+            }else{
+                $this->_view->cambio = "No reconocio ningun parametro";    
+            }
+        }
+        else
+        {         
+            echo "<script>
+                alert('No tiene permisos suficientes para acceder a esta función.');
+                window.location.href='" . BASE_URL . "gestionParametro" . "';
+                </script>";
+        }
+    }
 
     public function gestionCursoPensum($idPensum = 0) {
         session_start();
@@ -448,6 +475,60 @@ class gestionPensumController extends Controller {
         $this->_view->renderizar('gestionCursoPensum', 'gestionPensum');
     }
 
+  public function agregarCursoPensum($idPensum=0){
+        session_start();
+                
+        $iden = $this->getInteger('hdEnvio');
+        $idCentroUnidad = $_SESSION["centrounidad"];
+        
+        $arrayPar = array();
+        
+        $this->_view->idPensum = $idPensum;
+        
+        $this->_view->titulo = 'Agregar Curso Pensum - ' . APP_TITULO;
+        
+        //$this->_view->setJs(array('agregarCursoPensum'));
+        $this->_view->setJs(array('jquery.validate'), "public");
+        
+        $info = $this->_post->listadoCursos($idCentroUnidad);
+        if (is_array($info)) {
+            $this->_view->lstCursos = $info;
+        } else {
+            $this->redireccionar("error/sql/" . $info);
+            exit;
+        }
+        
+        $rol = $_SESSION["rol"];        
+        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_CREARPARAMETRO);
+         
+        if($rolValido[0]["valido"]!= PERMISO_CREAR){
+           echo "<script>
+                alert('No tiene permisos suficientes para acceder a esta función.');
+                window.location.href='" . BASE_URL . "gestionParametro" . "';
+                </script>";
+        }
+        
+        if($iden == 1){
+            /*$arrayPar["nombre"] = $this->getTexto('txtNombreParametro');
+            $arrayPar["valor"] = $this->getTexto('txtValorParametro');
+            $arrayPar["descripcion"] = $this->getTexto('txtDescripcionParametro');
+            $arrayPar["centro_unidadacademica"] = $this->getInteger('slCentroUnidadAcademica');
+            $arrayPar["carrera"] = $this->getInteger('slCarreras');
+            $arrayPar["codigo"] = $this->getTexto('txtCodigoParametro');         
+            $arrayPar["tipoparametro"] =  $this->getInteger('slTipoParametro');
+            
+            $info = $this->_view->query = $this->_post->agregarParametro($arrayPar);
+            if(!is_array($info)){
+                $this->redireccionar("error/sql/" . $info);
+                exit;
+            }
+            
+            $this->redireccionar('gestionParametro');*/
+        }
+        
+        $this->_view->renderizar('agregarCursoPensum', 'gestionPensum');
+    }
+    
     public function crearPensum($idPensum = 0) {
         session_start();
 

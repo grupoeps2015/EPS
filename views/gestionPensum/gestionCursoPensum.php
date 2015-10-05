@@ -19,7 +19,7 @@
                 </div>
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
-                        <form method='post' name='frmPost' id='frmPost' action='<?php echo BASE_URL?>gestionCursoPensum/agregarCursoPensum'>
+                        <form method='post' name='frmPost' id='frmPost' action='<?php echo BASE_URL?>gestionPensum/agregarCursoPensum/<?php echo $this->idPensum?>'>
                             <i class="fa fa-2x fa-user-plus wow bounceIn text-primary" data-wow-delay=".2s">
                                 <a id="linkNuevoCursoPensum" href="#">Agregar Curso del Pensum</a>
                             </i>
@@ -58,9 +58,9 @@
                                 <td style="text-align: center;"><a href="<?php echo BASE_URL . 'gestionPensum/crearPensum/' . $this->idPensum . '/' . $this->lstCurPensum[$i]['id'];?>">Prerrequisitos</a></td>
                                 <td style="text-align: center">
                                     <?php if(strcmp($this->lstCurPensum[$i]['estado'], '1') == 0): ?>
-                                        <a href="<?php echo BASE_URL . 'gestionCursoPensum/eliminarcursoPensum/-1/' . $this->idPensum;?>">Desactivar</a>
+                                        <a href="<?php echo BASE_URL . 'gestionPensum/eliminarCursoPensum/-1/' . $this->lstCurPensum[$i]['id'] . '/' . $this->idPensum;?>">Desactivar</a>
                                         <?php else : ?>
-                                        <a href="<?php echo BASE_URL . 'gestionCursoPensum/eliminarcursoPensum/1/' . $this->idPensum;?>">Activar</a>
+                                        <a href="<?php echo BASE_URL . 'gestionPensum/eliminarCursoPensum/1/' . $this->lstCurPensum[$i]['id'] . '/' . $this->idPensum;?>">Activar</a>
                                     <?php endif;?>
                                 </td>
                                 <td style="text-align: center;"><a href="<?php echo BASE_URL . 'gestionCursoPensum/actualizarCursoPensum/' . $this->idPensum;?>">Modificar</a></td>
