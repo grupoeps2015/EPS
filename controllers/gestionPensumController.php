@@ -396,7 +396,7 @@ class gestionPensumController extends Controller {
 //        }
     }
     
-    public function gestionCursoPensum($idPensum = 0){
+    public function gestionCursoPensum($idPensum = 0, $idCarrera = 0){
         session_start();
                
         $iden = $this->getInteger('hdEnvio');
@@ -405,6 +405,7 @@ class gestionPensumController extends Controller {
         $arrayCurPensum = array();
         
         $this->_view->idPensum = $idPensum;
+        $this->_view->idCarrera = $idCarrera;
         
         $this->_view->titulo = 'Gestión de Cursos de Pensum - ' . APP_TITULO;
         
@@ -441,7 +442,7 @@ class gestionPensumController extends Controller {
     }
     
     
-    public function eliminarCursoPensum($intNuevoEstado, $intIdCursoPensum, $intIdPensum){
+    public function eliminarCursoPensum($intNuevoEstado, $intIdCursoPensum, $intIdPensum, $intIdCarrera){
         session_start();
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_ELIMINARPARAMETRO);
@@ -454,7 +455,7 @@ class gestionPensumController extends Controller {
                     $this->redireccionar("error/sql/" . $info);
                     exit;
                 }
-                $this->redireccionar('gestionPensum/gestionCursoPensum/' . $intIdPensum);
+                $this->redireccionar('gestionPensum/gestionCursoPensum/' . $intIdPensum .'/' .$intIdCarrera);
             }else{
                 $this->_view->cambio = "No reconocio ningun parametro";    
             }
@@ -469,7 +470,7 @@ class gestionPensumController extends Controller {
     }
     
     
-    public function agregarCursoPensum($idPensum=0){
+    public function agregarCursoPensum($idPensum=0, $idCarrera=0){
         session_start();
                 
         $iden = $this->getInteger('hdEnvio');
@@ -478,6 +479,7 @@ class gestionPensumController extends Controller {
         $arrayPar = array();
         
         $this->_view->idPensum = $idPensum;
+        $this->_view->idCarrera = $idCarrera;
         
         $this->_view->titulo = 'Agregar Curso Pensum - ' . APP_TITULO;
         
@@ -489,6 +491,22 @@ class gestionPensumController extends Controller {
             $this->_view->lstCursos = $info;
         } else {
             $this->redireccionar("error/sql/" . $info);
+            exit;
+        }
+        
+        $info2 = $this->_post->listadoAreas($idCarrera);
+        if (is_array($info2)) {
+            $this->_view->lstAreas = $info2;
+        } else {
+            $this->redireccionar("error/sql/" . $info2);
+            exit;
+        }
+              
+        $info3 = $this->_post->listadoTipoCiclo();
+        if (is_array($info3)) {
+            $this->_view->lstTipoCiclo = $info3;
+        } else {
+            $this->redireccionar("error/sql/" . $info3);
             exit;
         }
         
@@ -524,7 +542,7 @@ class gestionPensumController extends Controller {
     }
     
     
-    public function crearPensum($idPensum = 0){
+    public function crearPensum($idPensum = 0, $idCursoPensum = 0,$idCarrera = 0){
         session_start();
                
         $iden = $this->getInteger('hdEnvio');
@@ -533,6 +551,8 @@ class gestionPensumController extends Controller {
         $arrayPen = array();
         
         $this->_view->idPensum = $idPensum;
+        $this->_view->idCarrera = $idCarrera;
+        $this->_view->idCursoPensum = $idCursoPensum;
         
         $this->_view->titulo = 'Crear Pensum - ' . APP_TITULO;
         

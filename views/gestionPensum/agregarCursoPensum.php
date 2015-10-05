@@ -8,7 +8,7 @@
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
                         <i class="fa fa-2x fa-backward wow bounceIn text-primary" data-wow-delay=".2s">
-                            <a href="<?php echo BASE_URL ?>gestionPensum/gestionCursoPensum/<?php echo $this->idPensum?>">
+                            <a href="<?php echo BASE_URL ?>gestionPensum/gestionCursoPensum/<?php echo $this->idPensum?>/<?php echo $this->idCarrera;?>">
                                 Regresar
                             </a>
                         </i>
@@ -47,28 +47,58 @@
                                 No hay cursos disponibles.
                                 <?php endif;?>
                                 <br/>
-                                        </td>                                        
-                                    <tr> 
-                                        <td><br/>
-                                            <label>Duracion (ciclos):</label>
-                                            <input type="number"  placeholder="(ingresa el número de ciclos)" id="txtTiempo" name="txtTiempo" class="form-control input-lg">
-                                        </td>
-                                        <td>&nbsp;</td>
-                                        <td><br/>
-                                            <label>Fecha inicio vigencia:</label>
-                                            <input type="text" name="inputFecha" id="inputFecha" class="form-control input-lg" value="" placeholder="dd/mm/aaaa" >
-                                        </td>
+                                        </td> 
                                     </tr>
                                     <tr> 
-                                        <td colspan="3"><br/>
-                                            <label>Descripcion:</label>
-                                            <textarea name="txtDescripcion"  placeholder="(ingresa aquí la descripción del pensum)" id="txtDescripcion" rows="5" style="resize: none; width: 100%"></textarea>
+                                        <td><br/>
+                                            <label>&Aacute;rea:</label>
+                                             <?php if(isset($this->lstAreas) && count($this->lstAreas)): ?>
+                                <select id="slAreas" name="slAreas" class="form-control input-lg">
+                                    <option value="">- &Aacute;reas disponibles -</option>
+                                    <?php for($i =0; $i < count($this->lstAreas); $i++) : ?>
+                                     <option value="<?php echo $this->lstAreas[$i]['area'];?>">
+                                         <?php echo $this->lstAreas[$i]['nombre']; ?>
+                                     </option>    
+                                    <?php endfor;?>
+                                </select>
+                                <?php else : ?>
+                                            No hay &aacute;reas disponibles.
+                                <?php endif;?>
+                                <br/>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td align="center"><br />
+                                        <td><br/>
+                                            <label>N&uacute;mero ciclo:</label>
+                                            <input type="number" id="txtNumeroCiclo" name="txtNumeroCiclo" class="form-control input-lg">
+                                        </td>
+                                    </tr>
+                                    <tr> 
+                                        <td>
+                                            <br/>
+                                <label>Tipo ciclo:</label>
+                                            <?php if(isset($this->lstTipoCiclo) && count($this->lstTipoCiclo)): ?>
+                                <select id="slTipoCiclo" name="slAreas" class="form-control input-lg">
+                                    <option value="">- Tipos de ciclo disponibles -</option>
+                                    <?php for($i =0; $i < count($this->lstTipoCiclo); $i++) : ?>
+                                     <option value="<?php echo $this->lstTipoCiclo[$i]['tipociclo'];?>">
+                                         <?php echo $this->lstTipoCiclo[$i]['nombre']; ?>
+                                     </option>    
+                                    <?php endfor;?>
+                                </select>
+                                <?php else : ?>
+                                            No hay tipos de ciclos disponibles.
+                                <?php endif;?>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><br/>
+                                            <label>Cr&eacute;ditos:</label>
+                                            <input type="number" id="txtCreditos" name="txtCreditos" class="form-control input-lg">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                         <td align="center"><br />
                                             <input type="submit" id="btnAgregarPensum" name="btnAgregarPensum" value="Guardar" class="btn btn-danger btn-lg btn-block" style="width:70%">
                                         </td>
                                     </tr>

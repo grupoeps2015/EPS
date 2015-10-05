@@ -113,6 +113,24 @@ class gestionPensumModel extends Model {
         }
     }
     
+    public function listadoAreas($intIdCarrera) {
+        $info = $this->_db->query("SELECT * from splistadoareaporcarrera(" . $intIdCarrera . ");");
+        if ($info === false) {
+            return "1104/listadoAreas";
+        } else {
+            return $info->fetchall();
+        }
+    }
+    
+    public function listadoTipoCiclo() {
+        $info = $this->_db->query("SELECT * from splistadotipociclo();");
+        if ($info === false) {
+            return "1104/listadoTipoCiclo";
+        } else {
+            return $info->fetchall();
+        }
+    }
+    
     public function listadoCursosPorPensum($intIdPensum) {
         $info = $this->_db->query("SELECT * from spinformacioncursosporpensum(" . $intIdPensum . ");");
         if ($info === false) {
