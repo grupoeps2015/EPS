@@ -281,9 +281,10 @@ END;
 $BODY$
 LANGUAGE 'plpgsql';
  
+select * from adm_pensum;
 
 ------------------------------------------------------------------------------------------------------------------------------------
--- Function: spactualizarpensum(integer, integer, integer, text, text, text)
+-- Function: select * from spactualizarpensum(1, 1, 1, '05/04/2015', '5', 'hhff')
 ------------------------------------------------------------------------------------------------------------------------------------
 -- DROP FUNCTION spactualizarpensum(integer, integer, integer,text, text, text);
 CREATE OR REPLACE FUNCTION spactualizarpensum(
@@ -298,7 +299,7 @@ $BODY$
 DECLARE idPensum integer;
 BEGIN
 	UPDATE ADM_pensum SET carrera= _carrera,
-	tipo = _tipo, inicioVigencia = _inicioVigencia, duracionAnios = _duracionAnios, descripcion = _descripcion
+	tipo = _tipo, inicioVigencia = cast(_inicioVigencia as date), duracionAnios = cast(_duracionAnios as integer), descripcion = _descripcion
 	WHERE pensum = _idPensum RETURNING pensum into idPensum;
 	RETURN idPensum;
 END; $BODY$
@@ -306,3 +307,38 @@ END; $BODY$
   COST 100;
 ALTER FUNCTION spactualizarpensum(integer, integer,integer,text, text, text)
   OWNER TO postgres;
+
+
+-- Function: spdatospensum(integer)
+
+-- DROP FUNCTION spdatospensum(integer);
+
+CREATE OR REPLACE FUNCTION spdatospensum(
+    IN id integer,
+    OUT pensum Integer,
+    OUT carrera text,
+    OUT tipo text,
+    OUT iniciovigencia text,
+    OUT duracionanios integer,
+    OUT finvigencia text,
+    OUT descripcion text)
+  RETURNS SETOF record AS
+$BODY$
+BEGIN
+  RETURN query
+  select p.pensum, c.nombre,  
+	case 
+	   when p.tipo=1 then 'Cerrado'
+           when p.tipo=2 then 'Abierto'
+	end as "Tipo", cast(p.iniciovigencia as text), p.duracionanios, cast(p.finvigencia as text), p.descripcion
+from adm_pensum p join cur_carrera c on p.carrera = c.carrera
+where p.estado = 1 and p.pensum = id;
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION spdatospensum(integer)
+  OWNER TO postgres;
+
+

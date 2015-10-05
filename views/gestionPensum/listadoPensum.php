@@ -43,6 +43,7 @@
                                 <th style="text-align:center; width: 100px;">Duración(años)</th>
                                 <th style="text-align:center; width: 200px;"></th>
                                 <th style="text-align:center; width: 150px;"></th>
+                                <th style="text-align:center; width: 150px;"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -64,14 +65,21 @@
                                             <?php endif; ?>
                                         </td>
                                         <td style="text-align: center; padding-right: 20px;">
-                                            <?php if(strcmp($this->lstPensum[$i]['estado'], 'Activo') == 0): ?>
+                                            <?php if (strcmp($this->lstPensum[$i]['estado'], 'Activo') == 0): ?>
                                                 <a href="<?php echo BASE_URL . 'gestionPensum/gestionCursoPensum/' . $this->lstPensum[$i]['id'] ?>">Registrar cursos</a>
                                             <?php else : ?>
 
                                             <?php endif; ?>
 
                                         </td>
+                                        <td style="text-align: center; padding-right: 20px;">
+                                            <?php if (strcmp($this->lstPensum[$i]['estado'], 'Activo') == 0): ?>
+                                                <a href="<?php echo BASE_URL . 'gestionPensum/actualizarPensum/' . $this->lstPensum[$i]['id'] ?>">Actualizar</a>
+                                            <?php else : ?>
 
+                                            <?php endif; ?>
+
+                                        </td>
 
                                     </tr>
                                 <?php endfor; ?>

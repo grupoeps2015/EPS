@@ -94,8 +94,8 @@ class gestionPensumModel extends Model {
             return $info->fetchall();
         }
     }
-    
-     public function activarPensum($intIdPensum) {
+
+    public function activarPensum($intIdPensum) {
         $info = $this->_db->query("SELECT * from spactivarpensum(" . $intIdPensum . ");");
         if ($info === false) {
             return "1103/finalizarVigenciaPensum/" . "SELECT * from spactivarpensum(" . $intIdPensum . ");";
@@ -112,13 +112,39 @@ class gestionPensumModel extends Model {
             return $info->fetchall();
         }
     }
-    
+
     public function listadoCursosPorPensum($intIdPensum) {
         $info = $this->_db->query("SELECT * from spinformacioncursosporpensum(" . $intIdPensum . ");");
         if ($info === false) {
             return "1104/listadoCursosPorPensum";
         } else {
             return $info->fetchall();
+        }
+    }
+
+    public function actualizarPensum($_datos) {
+
+        $sp = $_datos["pensum"] . ',';
+        $sp .= $_datos["carrera"] . ',' . $_datos["tipo"] . ',';
+        $sp .= '\'' . $_datos["inicioVigencia"] . '\',\'' . $_datos["duracionAnios"] . '\',\'' . $_datos["descripcion"] . '\'';
+
+        $info = $this->_db->query("SELECT * from spactualizarpensum(" . $sp . ");");
+
+        if ($info === false) {
+            return $sp . "1103/actualizarpensum";
+        } else {
+            return $info->fetchall();
+      }
+    }
+
+    public function datosPensum($idPensum) {
+
+        $post = $this->_db->query("select * from spdatosPensum(" . $idPensum . ");");
+
+        if ($post === FALSE) {
+            return "1104/consultaPensum";
+        } else {
+            return $post->fetchall();
         }
     }
 
