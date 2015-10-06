@@ -693,6 +693,7 @@ CREATE TABLE ADM_Periodo (
 CREATE TABLE EST_Ciclo_Asignacion (
   Ciclo_Asignacion SERIAL NOT NULL,
   Estudiante INTEGER NOT NULL,
+  Carrera INTEGER NULL,
   Fecha DATE NOT NULL,
   Hora TIME NOT NULL,
   Periodo INTEGER NOT NULL,
@@ -702,7 +703,10 @@ CREATE TABLE EST_Ciclo_Asignacion (
     REFERENCES EST_Estudiante (Estudiante),
   CONSTRAINT Periodo
     FOREIGN KEY (Periodo)
-    REFERENCES ADM_Periodo (Periodo));
+    REFERENCES ADM_Periodo (Periodo),
+  CONSTRAINT Carrera
+    FOREIGN KEY (Carrera)
+    REFERENCES CUR_Carrera (Carrera));
 	
 
 -- -----------------------------------------------------

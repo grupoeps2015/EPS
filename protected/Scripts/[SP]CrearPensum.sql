@@ -397,7 +397,6 @@ CREATE OR REPLACE FUNCTION spdatoscursopensumarea(
     OUT cursopensumarea integer,
     OUT curso integer,
     OUT pensum integer,
-    OUT area integer,
     OUT numerociclo integer,
     OUT tipociclo integer,
     OUT creditos integer,
@@ -406,7 +405,7 @@ CREATE OR REPLACE FUNCTION spdatoscursopensumarea(
 $BODY$
 begin
  Return query
- select curpen.cursopensumarea, curpen.curso, curpen.pensum, curpen.area, curpen.numerociclo, curpen.tipociclo, curpen.creditos, curpen.prerrequisitos
+ select curpen.cursopensumarea, curpen.curso, curpen.pensum, curpen.numerociclo, curpen.tipociclo, curpen.creditos, curpen.prerrequisitos
  from cur_pensum_area curpen
  where curpen.cursopensumarea = _id;
 end;

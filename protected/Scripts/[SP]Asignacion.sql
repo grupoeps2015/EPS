@@ -29,13 +29,14 @@ ALTER FUNCTION spPeriodoActivo(integer,integer,integer,integer)
   OWNER TO postgres;
   
   
--- Function: spcursosdisponiblesasignacion(integer, integer)
+-- Function: spcursosdisponiblesasignacion(integer, integer, integer)
 
--- DROP FUNCTION spcursosdisponiblesasignacion(integer, integer);
+-- DROP FUNCTION spcursosdisponiblesasignacion(integer, integer, integer);
 
 CREATE OR REPLACE FUNCTION spcursosdisponiblesasignacion(
     IN _ciclo integer,
     IN _carrera integer,
+	IN _estudiante integer,
     OUT curso integer,
     OUT codigo text,
     OUT nombre text,
@@ -57,22 +58,25 @@ begin
 	        cur_trama tra on tra.seccion = sec.seccion
 	      join
 	        cur_horario hor on hor.trama = tra.trama
-	      where hor.ciclo = _ciclo and hor.estado = 1 and pen.carrera = _carrera and pen.finvigencia is null;
+		  join
+			est_estudiante_carrera ec on ec.estudiante = _estudiante and ec.carrera = _carrera
+	      where hor.ciclo = _ciclo and hor.estado = 1 and pen.carrera = _carrera and ec.fechaingreso between pen.iniciovigencia and coalesce(pen.finvigencia,current_date);
 end;
 $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100
   ROWS 1000;
-ALTER FUNCTION spcursosdisponiblesasignacion(integer, integer)
+ALTER FUNCTION spcursosdisponiblesasignacion(integer, integer, integer)
   OWNER TO postgres;
 
   
--- Function: spagregarasignacion(integer, integer)
+-- Function: spagregarasignacion(integer, integer, integer)
 
--- DROP FUNCTION spagregarasignacion(integer, integer);
+-- DROP FUNCTION spagregarasignacion(integer, integer, integer);
 
 CREATE OR REPLACE FUNCTION spagregarasignacion(
     _estudiante integer,
+	_carrera integer,
     _periodo integer)
   RETURNS integer AS
 $BODY$
@@ -82,13 +86,13 @@ DECLARE idAs INTEGER;
 begin
  SELECT current_date into fechaactual;
  SELECT current_time into horaactual;
- INSERT INTO EST_Ciclo_Asignacion (Estudiante, Periodo, Fecha, Hora) values (_estudiante, _periodo, fechaactual, horaactual) RETURNING Ciclo_Asignacion INTO idAs;
+ INSERT INTO EST_Ciclo_Asignacion (Estudiante, Carrera, Periodo, Fecha, Hora) values (_estudiante, _carrera, _periodo, fechaactual, horaactual) RETURNING Ciclo_Asignacion INTO idAs;
  RETURN idAs;
 end;
 $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
-ALTER FUNCTION spagregarasignacion(integer, integer)
+ALTER FUNCTION spagregarasignacion(integer, integer, integer)
   OWNER TO postgres;
   
   
@@ -126,17 +130,17 @@ ALTER FUNCTION spagregarcursoasignacion(integer, integer, integer, text)
   OWNER TO postgres;
 
   
--- Function: spdatoscursopensum(integer, integer)
+-- Function: spdatoscursopensum(integer, integer, integer)
 
--- DROP FUNCTION spdatoscursopensum(integer, integer);
+-- DROP FUNCTION spdatoscursopensum(integer, integer, integer);
 
 CREATE OR REPLACE FUNCTION spdatoscursopensum(
     IN _curso integer,
     IN _carrera integer,
+	IN _estudiante integer,
     OUT cursopensumarea integer,
     OUT curso integer,
     OUT pensum integer,
-    OUT area integer,
     OUT numerociclo integer,
     OUT tipociclo integer,
     OUT creditos integer,
@@ -145,30 +149,33 @@ CREATE OR REPLACE FUNCTION spdatoscursopensum(
 $BODY$
 begin
  Return query
- select distinct curpen.cursopensumarea, curpen.curso, curpen.pensum, curpen.area, curpen.numerociclo, curpen.tipociclo, curpen.creditos, curpen.prerrequisitos
+ select distinct curpen.cursopensumarea, curpen.curso, curpen.pensum, curpen.numerociclo, curpen.tipociclo, curpen.creditos, curpen.prerrequisitos
 	      from 
 	        cur_curso cur
 	      join
 	        cur_pensum_area curpen on curpen.curso = cur.curso
 	      join
 	        adm_pensum pen on curpen.pensum = pen.pensum
-	      where curpen.curso = _curso and curpen.estado = 1 and pen.carrera = _carrera and pen.finvigencia is null;
+		  join
+			est_estudiante_carrera ec on ec.estudiante = _estudiante and ec.carrera = _carrera
+	      where curpen.curso = _curso and curpen.estado = 1 and pen.carrera = _carrera and ec.fechaingreso between pen.iniciovigencia and coalesce(pen.finvigencia,current_date);
 end;
 $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100
   ROWS 1000;
-ALTER FUNCTION spdatoscursopensum(integer, integer)
+ALTER FUNCTION spdatoscursopensum(integer, integer, integer)
   OWNER TO postgres;
 
   
--- Function: spdatoscursoaprobado(integer, integer)
+-- Function: spdatoscursoaprobado(integer, integer, integer)
 
--- DROP FUNCTION spdatoscursoaprobado(integer, integer);
+-- DROP FUNCTION spdatoscursoaprobado(integer, integer, integer);
 
 CREATE OR REPLACE FUNCTION spdatoscursoaprobado(
     IN _curso integer,
     IN _estudiante integer,
+	IN _carrera integer,
     OUT cursoaprobado integer,
     OUT asignacion integer,
     OUT asignacionretrasada integer,
@@ -189,13 +196,13 @@ begin
 		cur_seccion sec on sec.seccion = asign.seccion 
 	      join 
 	        est_ciclo_asignacion ca on ca.ciclo_asignacion = asign.ciclo_asignacion
-	      where sec.curso = _curso and ca.estudiante = _estudiante;
+	      where sec.curso = _curso and ca.estudiante = _estudiante and ca.carrera = _carrera;
 end;
 $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100
   ROWS 1000;
-ALTER FUNCTION spdatoscursoaprobado(integer, integer)
+ALTER FUNCTION spdatoscursoaprobado(integer, integer, integer)
   OWNER TO postgres;
 
 

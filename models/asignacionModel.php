@@ -15,8 +15,8 @@ class asignacionModel extends Model{
             return $periodo->fetchall();
         }
     }
-    public function getCursosDisponibles($ciclo, $carrera){
-        $cursos = $this->_db->query("select * from spcursosdisponiblesasignacion({$ciclo},{$carrera});");
+    public function getCursosDisponibles($ciclo, $carrera, $estudiante){
+        $cursos = $this->_db->query("select * from spcursosdisponiblesasignacion({$ciclo},{$carrera},{$estudiante});");
         $cursos->setFetchMode(PDO::FETCH_ASSOC);
         if($cursos === false){
             return "1200/getCursosDisponibles";
@@ -24,8 +24,8 @@ class asignacionModel extends Model{
             return $cursos->fetchall();
         }
     }
-    public function agregarCicloAsignacion($estudiante,$periodo) {
-        $info = $this->_db->query("SELECT * from spagregarasignacion({$estudiante},{$periodo}) as Id;");
+    public function agregarCicloAsignacion($estudiante,$carrera,$periodo) {
+        $info = $this->_db->query("SELECT * from spagregarasignacion({$estudiante},{$carrera},{$periodo}) as Id;");
         $info->setFetchMode(PDO::FETCH_ASSOC);
         if($info === false){
             return "1101/agregarCicloAsignacion";
@@ -42,8 +42,8 @@ class asignacionModel extends Model{
             return $info->fetchall();
         }
     }
-    public function getDatosCursoPensum($curso, $carrera){
-        $cursos = $this->_db->query("select * from spdatoscursopensum({$curso},{$carrera});");
+    public function getDatosCursoPensum($curso, $carrera, $estudiante){
+        $cursos = $this->_db->query("select * from spdatoscursopensum({$curso},{$carrera},{$estudiante});");
         $cursos->setFetchMode(PDO::FETCH_ASSOC);
         if($cursos === false){
             return "1200/getDatosCursoPensum";
@@ -60,8 +60,8 @@ class asignacionModel extends Model{
             return $cursos->fetchall();
         }
     }
-    public function getDatosCursoAprobado($estudiante,$id){
-        $cursos = $this->_db->query("select * from spdatoscursoaprobado({$id},{$estudiante});");
+    public function getDatosCursoAprobado($estudiante,$id,$carrera){
+        $cursos = $this->_db->query("select * from spdatoscursoaprobado({$id},{$estudiante},{$carrera});");
         $cursos->setFetchMode(PDO::FETCH_ASSOC);
         if($cursos === false){
             return "1200/getDatosCursoAprobado";

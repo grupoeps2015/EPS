@@ -111,6 +111,7 @@ class generalController extends Controller{
             }else if(count($carreras) == 1){
                 $_SESSION["carrera"] = $carreras[0]['codigo'];
                 $this->redireccionar("login/inicio");
+                exit;
             }else{
                 $this->redireccionar("login/salir");
                 exit;

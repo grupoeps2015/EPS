@@ -74,9 +74,8 @@ class asignacionController extends Controller{
         if(is_array($periodo)){
             if(isset($periodo[0]['periodo'])){
                 $cursosDisponiblesEstudiante = array();
-                $carrera = 1; //TODO: Marlen: $_SESSION["carrera"];
                 $this->_view->asignacion = $periodo[0]['periodo'];
-                $lsCursosDisponibles = $this->_asign->getCursosDisponibles($ciclo, $carrera);
+                $lsCursosDisponibles = $this->_asign->getCursosDisponibles($ciclo, $_SESSION["carrera"], $this->estudiante);
                 if(is_array($lsCursosDisponibles)){
                     
                 }else{
@@ -85,7 +84,7 @@ class asignacionController extends Controller{
                 }
                 if(count($lsCursosDisponibles)){
                     for($i=0;$i<count($lsCursosDisponibles);$i++){
-                        $datosCursoPensum = $this->_asign->getDatosCursoPensum($lsCursosDisponibles[$i]['curso'], $carrera);
+                        $datosCursoPensum = $this->_asign->getDatosCursoPensum($lsCursosDisponibles[$i]['curso'], $_SESSION["carrera"], $this->estudiante);
                         if(is_array($datosCursoPensum)){
                             if(!empty($datosCursoPensum[0]['prerrequisitos'])){
                                 $requisitosAprobados = true;
@@ -101,7 +100,7 @@ class asignacionController extends Controller{
                                                 $this->redireccionar("error/sql/" . $cursoPensumArea);
                                                 exit;
                                             }
-                                            $cursoAprobado = $this->_asign->getDatosCursoAprobado($this->estudiante,$idCurso);
+                                            $cursoAprobado = $this->_asign->getDatosCursoAprobado($this->estudiante,$idCurso,$_SESSION["carrera"]);
                                             if(is_array($cursoAprobado)){
                                                 
                                             }else{
@@ -197,7 +196,7 @@ class asignacionController extends Controller{
                 
                 
                 
-                $asignacionEstudiante = $this->_asign->agregarCicloAsignacion($this->estudiante,$periodo);
+                $asignacionEstudiante = $this->_asign->agregarCicloAsignacion($this->estudiante,$_SESSION["carrera"],$periodo);
                 if(is_array($asignacionEstudiante)){
                     $asignacionEstudiante = (isset($asignacionEstudiante[0]['id']) ? $asignacionEstudiante[0]['id'] : -1);
                 }else{
