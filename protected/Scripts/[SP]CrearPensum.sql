@@ -306,6 +306,25 @@ BEGIN
     RETURN FOUND;
 END;
 $$;
+
+-- -----------------------------------------------------
+-- Function: spAgregarCursoPensum()
+-- -----------------------------------------------------
+-- DROP FUNCTION spagregarcursopensum(text, text, text, integer, integer, integer, integer); 
+CREATE OR REPLACE FUNCTION spAgregarParametro(_nombre text, _valor text,
+					      _descripcion text, 
+					      _centro_unidadacademica integer, _carrera integer,
+					      _codigo integer, _tipoparametro integer
+					     ) RETURNS void AS 
+$BODY$
+BEGIN
+	INSERT INTO adm_parametro(
+            parametro, nombre,valor,descripcion,centro_unidadacademica,carrera,codigo,tipoparametro,estado)
+	VALUES (DEFAULT,_nombre,_valor,_descripcion,_centro_unidadacademica,_carrera,_codigo,_tipoparametro,0);
+
+END; $BODY$
+LANGUAGE 'plpgsql';
+
  
 select * from adm_pensum;
 

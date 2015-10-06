@@ -483,7 +483,7 @@ class gestionPensumController extends Controller {
         $this->_view->setCSS(array('jquery.dataTables.min'));
         $this->_view->setJs(array('jquery.validate'), "public");
         $this->_view->setJs(array('tree.jquery'), "public");
-        //$this->_view->setJs(array('agregarCursoPensum'));
+        $this->_view->setJs(array('agregarCursoPensum'));
         
         $info = $this->_post->listadoCursos($idCentroUnidad);
         if (is_array($info)) {
@@ -629,7 +629,9 @@ class gestionPensumController extends Controller {
         $this->_view->setJs(array('jquery.validate'), "public");
         $this->_view->setJs(array('actualizarPensum'));
         $this->_view->setCSS(array('jquery.dataTables.min'));
-
+        $this->_view->setJs(array('jquery-ui'), "public");
+        $this->_view->setCss(array('jquery-ui'), "public");
+        
         $arrayPensum = array();
         $this->_view->idPensum = $intIdPensum;
 

@@ -78,7 +78,7 @@
                                             <br/>
                                 <label>Tipo ciclo:</label>
                                             <?php if(isset($this->lstTipoCiclo) && count($this->lstTipoCiclo)): ?>
-                                <select id="slTipoCiclo" name="slAreas" class="form-control input-lg">
+                                <select id="slTipoCiclo" name="slTipoCiclo" class="form-control input-lg">
                                     <option value="">- Tipos de ciclo disponibles -</option>
                                     <?php for($i =0; $i < count($this->lstTipoCiclo); $i++) : ?>
                                      <option value="<?php echo $this->lstTipoCiclo[$i]['tipociclo'];?>">
