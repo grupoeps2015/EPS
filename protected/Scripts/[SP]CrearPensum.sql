@@ -290,14 +290,14 @@ LANGUAGE 'plpgsql';
 -- DROP FUNCTION spagregarcursopensum(integer, integer , integer, integer, integer, text, integer, integer); 
 CREATE OR REPLACE FUNCTION spAgregarCursoPensum(_curso integer, _pensum integer,
 					      _numerociclo integer, _tipociclo integer, 
-					      _creditos integer, _prerrequisitos integer,
+					      _creditos integer, _prerrequisitos text,
 					      _estado integer, _carreraarea integer
 					     ) RETURNS void AS 
 $BODY$
 BEGIN
 	INSERT INTO cur_pensum_area(
             cursopensumarea,curso, pensum,numerociclo,tipociclo,creditos,prerrequisitos,estado,carreraarea)
-	VALUES (DEFAULT,_curso,_pensum,_numerociclo,tipociclo,_creditos,_prerrequisitos,0,_carreraarea);
+	VALUES (DEFAULT,_curso,_pensum,_numerociclo,_tipociclo,_creditos,_prerrequisitos,0,_carreraarea);
 
 END; $BODY$
 LANGUAGE 'plpgsql';
@@ -398,3 +398,29 @@ $BODY$
 ALTER FUNCTION spmodificarcursopensum(integer, integer, integer, integer, integer, integer, text, integer)
   OWNER TO postgres;
 
+
+-- Function: splistadoareaporcarrera(integer)
+
+-- DROP FUNCTION splistadoareaporcarrera(integer);
+
+CREATE OR REPLACE FUNCTION splistadoareaporcarrera(
+    IN _idcarrera integer,
+    OUT carreraarea integer,
+    OUT nombre text)
+  RETURNS SETOF record AS
+$BODY$
+begin
+ Return query
+	SELECT cca.carreraarea, a.nombre 
+	FROM CUR_Carrera_Area cca
+	JOIN ADM_Area a ON cca.area = a.area
+	WHERE cca.carrera = _idCarrera
+	AND a.estado = 1
+	AND cca.estado = 1;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION splistadoareaporcarrera(integer)
+  OWNER TO postgres;

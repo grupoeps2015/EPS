@@ -13,6 +13,9 @@ $(document).ready(function() {
             },
             slTipoCiclo:{
                 required: true
+            },
+            txtCreditos:{
+                required: true
             }
         },
         messages: {
@@ -27,6 +30,9 @@ $(document).ready(function() {
             },
             slTipoCiclo:{
                 required: "Es necesario seleccionar un tipo de ciclo."
+            },
+            txtCreditos:{
+                required: "Si el curso no tiene créditos ingresar 0."
             }
         }
     });

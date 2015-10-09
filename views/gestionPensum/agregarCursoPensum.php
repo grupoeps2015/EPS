@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-lg-12 text-center">
                 <h2 class="section-heading">Agregar Curso Pensum</h2>
-                <p><?php if (isset($this->query)) echo $this->query; ?></p>
+                
                 <hr class="primary">
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
@@ -25,7 +25,7 @@
     <div class="header-content">
         <div class="header-content-inner">
             <div id="divPensum" class="row">
-                <form id="frCursoPensum" method="post" action="<?php echo BASE_URL; ?>gestionPensum/gestionCursoPensum/<?php echo $this->idPensum?>">
+                <form id="frCursoPensum" method="post" action="<?php echo BASE_URL; ?>gestionPensum/agregarCursoPensum/<?php echo $this->idPensum?>/<?php echo $this->idCarrera ?>">
                     <div id="divCursoPensum" class="form-group" >
                         <div class="col-md-6 col-md-offset-3">
                             <table  width="100%">
@@ -56,7 +56,7 @@
                                 <select id="slAreas" name="slAreas" class="form-control input-lg">
                                     <option value="">- &Aacute;reas disponibles -</option>
                                     <?php for($i =0; $i < count($this->lstAreas); $i++) : ?>
-                                     <option value="<?php echo $this->lstAreas[$i]['area'];?>">
+                                     <option value="<?php echo $this->lstAreas[$i]['carreraarea'];?>">
                                          <?php echo $this->lstAreas[$i]['nombre']; ?>
                                      </option>    
                                     <?php endfor;?>
@@ -94,21 +94,21 @@
                                     <tr>
                                         <td><br/>
                                             <label>Cr&eacute;ditos:</label>
-                                            <input type="number" id="txtCreditos" name="txtCreditos" class="form-control input-lg">
+                                            <input type="number" id="txtCreditos" name="txtCreditos" class="form-control input-lg" value = 0>
                                         </td>
                                     </tr>
                                     <tr>
                                          <td align="center"><br />
-                                            <input type="submit" id="btnAgregarPensum" name="btnAgregarPensum" value="Guardar" class="btn btn-danger btn-lg btn-block" style="width:70%">
+                                            <input type="submit" id="btnAgregarCursoPensum" name="btnAgregarCursoPensum" value="Guardar" class="btn btn-danger btn-lg btn-block" style="width:70%">
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
                             <br />
-                        </div>
+                            <input type="hidden" name="hdEnvio" value="1" />
+                            <input type="hidden" name="hdPensum" value="<?php echo $this->idPensum; ?>">
+                        </div>      
                     </div>
-                    <input type="hidden" name="hdEnvio" value="1">
-                    <input type="hidden" name="hdPensum" value="<?php echo $this->idPensum; ?>">
                 </form>
             </div>
         </div>
