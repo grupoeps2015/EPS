@@ -361,4 +361,38 @@ $BODY$
 ALTER FUNCTION spdatospensum(integer)
   OWNER TO postgres;
 
+  
+  -- Function: spmodificarcursopensum(integer, integer, integer, integer, integer, integer, text, integer)
+
+-- DROP FUNCTION spmodificarcursopensum(integer, integer, integer, integer, integer, integer, text, integer);
+
+CREATE OR REPLACE FUNCTION spmodificarcursopensum(
+    _cursopensumarea integer,
+    _curso integer,
+    _carreraarea integer,
+    _numerociclo integer,
+    _tipociclo integer,
+    _creditos integer,
+    _prerrequisitos text,
+    _estado integer)
+  RETURNS boolean AS
+$BODY$
+
+BEGIN
+    UPDATE CUR_Pensum_Area
+       SET curso = COALESCE(spModificarCursoPensum._curso, CUR_Pensum_Area.curso),
+           carreraarea = COALESCE(spModificarCursoPensum._carreraarea, CUR_Pensum_Area.carreraarea),
+           numerociclo = COALESCE(spModificarCursoPensum._numerociclo, CUR_Pensum_Area.numerociclo),
+           tipociclo = COALESCE(spModificarCursoPensum._tipociclo, CUR_Pensum_Area.tipociclo),
+	   creditos = COALESCE(spModificarCursoPensum._creditos, CUR_Pensum_Area.creditos),
+	   prerrequisitos = COALESCE(spModificarCursoPensum._prerrequisitos, CUR_Pensum_Area.prerrequisitos),
+	   estado = COALESCE(spModificarCursoPensum._estado, CUR_Pensum_Area.estado)
+     WHERE CUR_Pensum_Area.cursopensumarea = spModificarCursoPensum._cursopensumarea;       
+    RETURN FOUND;
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE SECURITY DEFINER
+  COST 100;
+ALTER FUNCTION spmodificarcursopensum(integer, integer, integer, integer, integer, integer, text, integer)
+  OWNER TO postgres;
 
