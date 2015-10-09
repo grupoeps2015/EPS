@@ -149,7 +149,6 @@ ALTER FUNCTION spagregarpensum(integer, integer, text, text, text, integer)
 CREATE OR REPLACE FUNCTION spallpensum(
 	OUT id integer,
     OUT carrera text,
-	OUT idcarrera integer,
     OUT tipo text,
 	OUT inicioVigencia text,
 	OUT duracionAnios text,
@@ -160,7 +159,7 @@ CREATE OR REPLACE FUNCTION spallpensum(
 $BODY$
 BEGIN
   RETURN query
-    SELECT p.pensum, c.nombre, c.carrera,
+    SELECT p.pensum, c.nombre, 
 	 case 
 	   when p.tipo=1 then 'Cerrado'
            when p.tipo=2 then 'Abierto'
@@ -187,7 +186,6 @@ ALTER FUNCTION spallpensum()
    CREATE OR REPLACE FUNCTION spallpensumactivos(
 	OUT id integer,
     OUT carrera text,
-	OUT idcarrera integer,
     OUT tipo text,
 	OUT inicioVigencia text,
 	OUT duracionAnios text,
@@ -196,7 +194,7 @@ ALTER FUNCTION spallpensum()
 $BODY$
 BEGIN
   RETURN query
-    SELECT p.pensum, c.nombre, c.carrera,
+    SELECT p.pensum, c.nombre, 
 	 case 
 	   when p.tipo=1 then 'Cerrado'
            when p.tipo=2 then 'Abierto'
@@ -231,9 +229,14 @@ $BODY$
 ALTER FUNCTION spfinalizarVigenciaPensum(integer, integer)
   OWNER TO postgres;
   
+ Select 'Script para Gestion de Pensum Instalado' as "Gestion Pensum";
+
+
  -- Function: spactivarpensum(integer)
 
 -- DROP FUNCTION spactivarpensum(integer);
+  
+  
   
   CREATE OR REPLACE FUNCTION spactivarpensum(
     _idPensum integer)
@@ -254,7 +257,7 @@ ALTER FUNCTION spactivarpensum(integer)
 -- -----------------------------------------------------
 -- DROP FUNCTION spInformacionCursosPorPensum(integer);
 CREATE OR REPLACE FUNCTION spInformacionCursosPorPensum(_pensum integer, OUT nombrecurso text, OUT curso integer, 
-					          OUT carreraarea integer, OUT nombrearea text, 
+					          OUT area integer, OUT nombrearea text, 
 					          OUT numerociclo integer, OUT tipociclo integer, 
 					          OUT nombretipociclo text, OUT creditos integer, 
 					          OUT estado int, OUT id int) RETURNS setof record as 
@@ -262,50 +265,22 @@ $BODY$
 BEGIN
   RETURN query
    SELECT  c.Nombre as nombrecurso, 
-   cpa.Curso, cca.carreraarea, a.Nombre as nombrearea, 
+   cpa.Curso, cpa.area, a.Nombre as nombrearea, 
    cpa.numerociclo, cpa.tipociclo, 
    tc.Nombre as nombretipociclo, cpa.creditos, cpa.estado, cpa.cursopensumarea as id
 FROM CUR_Pensum_Area cpa
 JOIN CUR_Curso c ON c.Curso = cpa.Curso
-JOIN CUR_Carrera_Area cca ON cpa.carreraarea = cca.carreraarea
-JOIN ADM_Area a ON a.Area = cca.area
+JOIN ADM_Area a ON a.Area = cpa.Area
 JOIN CUR_TipoCiclo tc ON tc.TipoCiclo = cpa.TipoCiclo
 JOIN ADM_Pensum p ON p.Pensum = cpa.Pensum
 WHERE cpa.Pensum = _pensum
+AND cpa.estado = 1
 ORDER BY c.Nombre asc;
 
 END;
 $BODY$
 LANGUAGE 'plpgsql';
 
-
--- -----------------------------------------------------
--- Function: spModificarCursoPensum()
--- -----------------------------------------------------
--- DROP FUNCTION spmodificarcursopensum(integer, integer, integer, integer, integer, integer, text, integer); 
-CREATE OR REPLACE FUNCTION spModificarCursoPensum(_cursopensumarea integer, 
-						_curso integer,
-					        _carreraarea integer,
-					        _numerociclo integer, 
-					        _tipociclo integer,
-					        _creditos integer,
-						_prerrequisitos text, 
-						_estado integer
-					     )RETURNS BOOLEAN LANGUAGE plpgsql SECURITY DEFINER AS $$
-
-BEGIN
-    UPDATE CUR_Pensum_Area
-       SET curso = COALESCE(spModificarCursoPensum._curso, CUR_Pensum_Area.curso),
-           carreraarea = COALESCE(spModificarCursoPensum._carreraarea, CUR_Pensum_Area.carreraarea),
-           numerociclo = COALESCE(spModificarCursoPensum._numerociclo, CUR_Pensum_Area.numerociclo),
-           tipociclo = COALESCE(spModificarCursoPensum._tipociclo, CUR_Pensum_Area.tipociclo),
-	   creditos = COALESCE(spModificarCursoPensum._creditos, CUR_Pensum_Area.creditos),
-	   prerrequisitos = COALESCE(spModificarCursoPensum._prerrequisitos, CUR_Pensum_Area.prerrequisitos),
-	   estado = COALESCE(spModificarCursoPensum._estado, CUR_Pensum_Area.estado)
-     WHERE CUR_Pensum_Area.cursopensumarea = spModificarCursoPensum._cursopensumarea;       
-    RETURN FOUND;
-END;
-$$;
 
 -- -----------------------------------------------------
 -- Function: spAgregarCursoPensum()
@@ -354,7 +329,7 @@ ALTER FUNCTION spactualizarpensum(integer, integer,integer,text, text, text)
   OWNER TO postgres;
 
 
-  -- Function: spdatospensum(integer)
+-- Function: spdatospensum(integer)
 
 -- DROP FUNCTION spdatospensum(integer);
 
@@ -385,89 +360,5 @@ $BODY$
   ROWS 1000;
 ALTER FUNCTION spdatospensum(integer)
   OWNER TO postgres;
-  
-  
-    
--- Function: spdatoscursopensumarea(integer)
-
--- DROP FUNCTION spdatoscursopensumarea(integer);
-
-CREATE OR REPLACE FUNCTION spdatoscursopensumarea(
-    IN _id integer,
-    OUT cursopensumarea integer,
-    OUT curso integer,
-    OUT pensum integer,
-    OUT numerociclo integer,
-    OUT tipociclo integer,
-    OUT creditos integer,
-    OUT prerrequisitos text)
-  RETURNS SETOF record AS
-$BODY$
-begin
- Return query
- select curpen.cursopensumarea, curpen.curso, curpen.pensum, curpen.numerociclo, curpen.tipociclo, curpen.creditos, curpen.prerrequisitos
- from cur_pensum_area curpen
- where curpen.cursopensumarea = _id;
-end;
 
 
-
-$BODY$
-  LANGUAGE plpgsql VOLATILE
-  COST 100
-  ROWS 1000;
-ALTER FUNCTION spdatoscursopensumarea(integer)
-  OWNER TO postgres;
-  
-
--- Function: splistadoareaporcarrera(integer)
-
--- DROP FUNCTION splistadoareaporcarrera(integer);
-CREATE OR REPLACE FUNCTION splistadoareaporcarrera(
-    IN _idCarrera integer,
-    OUT area integer,
-    OUT nombre text)
-  RETURNS SETOF record AS
-$BODY$
-begin
- Return query
-	SELECT a.area, a.nombre 
-	FROM CUR_Carrera_Area cca
-	JOIN ADM_Area a ON cca.area = a.area
-	WHERE cca.carrera = _idCarrera
-	AND a.estado = 1
-	AND cca.estado = 1;
-end;
-$BODY$
-  LANGUAGE plpgsql VOLATILE
-  COST 100
-  ROWS 1000;
-ALTER FUNCTION splistadoareaporcarrera(integer)
-  OWNER TO postgres;
-
- 
--- Function: splistadotipociclo()
-
--- DROP FUNCTION splistadotipociclo();
-CREATE OR REPLACE FUNCTION splistadotipociclo(
-    OUT tipociclo integer,
-    OUT nombre text)
-  RETURNS SETOF record AS
-$BODY$
-begin
- Return query
-	SELECT tc.tipociclo,tc.nombre
-	FROM CUR_TipoCiclo tc
-	WHERE Estado = 1;
-end;
-$BODY$
-  LANGUAGE plpgsql VOLATILE
-  COST 100
-  ROWS 1000;
-ALTER FUNCTION splistadotipociclo()
-  OWNER TO postgres;
-
-  
-
-
-Select 'Script para Gestion de Pensum Instalado' as "Gestion Pensum";
