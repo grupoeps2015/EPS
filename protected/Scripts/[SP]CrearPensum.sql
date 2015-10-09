@@ -310,17 +310,17 @@ $$;
 -- -----------------------------------------------------
 -- Function: spAgregarCursoPensum()
 -- -----------------------------------------------------
--- DROP FUNCTION spagregarcursopensum(text, text, text, integer, integer, integer, integer); 
-CREATE OR REPLACE FUNCTION spAgregarParametro(_nombre text, _valor text,
-					      _descripcion text, 
-					      _centro_unidadacademica integer, _carrera integer,
-					      _codigo integer, _tipoparametro integer
+-- DROP FUNCTION spagregarcursopensum(integer, integer , integer, integer, integer, text, integer, integer); 
+CREATE OR REPLACE FUNCTION spAgregarCursoPensum(_curso integer, _pensum integer,
+					      _numerociclo integer, _tipociclo integer, 
+					      _creditos integer, _prerrequisitos integer,
+					      _estado integer, _carreraarea integer
 					     ) RETURNS void AS 
 $BODY$
 BEGIN
-	INSERT INTO adm_parametro(
-            parametro, nombre,valor,descripcion,centro_unidadacademica,carrera,codigo,tipoparametro,estado)
-	VALUES (DEFAULT,_nombre,_valor,_descripcion,_centro_unidadacademica,_carrera,_codigo,_tipoparametro,0);
+	INSERT INTO cur_pensum_area(
+            cursopensumarea,curso, pensum,numerociclo,tipociclo,creditos,prerrequisitos,estado,carreraarea)
+	VALUES (DEFAULT,_curso,_pensum,_numerociclo,tipociclo,_creditos,_prerrequisitos,0,_carreraarea);
 
 END; $BODY$
 LANGUAGE 'plpgsql';
