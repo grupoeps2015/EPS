@@ -122,8 +122,8 @@ class gestionPensumController extends Controller {
                         $arrayAsignacion['area'] = $selected;
                         $arrayAsignacion['estado'] = ESTADO_PENDIENTE;
                         $asignacion = $this->_post->asignarAreaCarrera($arrayAsignacion);
-                        if (is_rray($asignacion)) {
-                             $this->redireccionar('gestionPensum/asignarAreaCarrera/' . $intIdCarrera);
+                        if (is_array($asignacion)) {
+                            $this->redireccionar('gestionPensum/asignarAreaCarrera/' . $intIdCarrera);
                         } else {
                             $this->redireccionar("error/sql/" . $asignacion);
                             exit;
@@ -547,10 +547,10 @@ class gestionPensumController extends Controller {
 
         $iden = $this->getInteger('hdEnvio');
         $idCentroUnidad = $_SESSION["centrounidad"];
-            $file = fopen("log.txt", "a");
-                fwrite($file, "iden" . $iden . PHP_EOL);
-                
-                fclose($file);
+        $file = fopen("log.txt", "a");
+        fwrite($file, "iden" . $iden . PHP_EOL);
+
+        fclose($file);
         $arrayCurPen = array();
 
         $this->_view->idPensum = $idPensum;
@@ -603,23 +603,23 @@ class gestionPensumController extends Controller {
           } */
 
         if ($iden == 1) {
-                
-              $arrayCurPen["curso"] = $this->getInteger('slCursos');
-              $arrayCurPen["pensum"] = $idPensum;
-              $arrayCurPen["numerociclo"] = $this->getTexto('txtNumeroCiclo');
-              $arrayCurPen["tipociclo"] = $this->getInteger('slTipoCiclo');
-              $arrayCurPen["creditos"] = $this->getTexto('txtCreditos');
-              $arrayCurPen["prerrequisitos"] = "null";
-              $arrayCurPen["estado"] =  ESTADO_PENDIENTE;
-              $arrayCurPen["carreraarea"] =  $this->getInteger('slAreas');
 
-              $info = $this->_view->query = $this->_post->agregarCursoPensum($arrayCurPen);
-              if(!is_array($info)){
-              $this->redireccionar("error/sql/" . $info);
-              exit;
-              }
+            $arrayCurPen["curso"] = $this->getInteger('slCursos');
+            $arrayCurPen["pensum"] = $idPensum;
+            $arrayCurPen["numerociclo"] = $this->getTexto('txtNumeroCiclo');
+            $arrayCurPen["tipociclo"] = $this->getInteger('slTipoCiclo');
+            $arrayCurPen["creditos"] = $this->getTexto('txtCreditos');
+            $arrayCurPen["prerrequisitos"] = "null";
+            $arrayCurPen["estado"] = ESTADO_PENDIENTE;
+            $arrayCurPen["carreraarea"] = $this->getInteger('slAreas');
 
-              $this->redireccionar('gestionPensum/gestionCursoPensum/'.$idPensum.'/'.$idCarrera); 
+            $info = $this->_view->query = $this->_post->agregarCursoPensum($arrayCurPen);
+            if (!is_array($info)) {
+                $this->redireccionar("error/sql/" . $info);
+                exit;
+            }
+
+            $this->redireccionar('gestionPensum/gestionCursoPensum/' . $idPensum . '/' . $idCarrera);
         }
 
         $this->_view->renderizar('agregarCursoPensum', 'gestionPensum');

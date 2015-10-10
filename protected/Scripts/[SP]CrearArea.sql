@@ -177,7 +177,7 @@ $BODY$
 DECLARE idCarreraArea integer;
 BEGIN
 	INSERT INTO cur_carrera_area (carrera, area, estado) 
-	VALUES (_nombre, _descripcion, _estado) RETURNING CarreraArea into idCarreraArea;
+	VALUES (_carrera, _area, _estado) RETURNING CarreraArea into idCarreraArea;
 	RETURN idCarreraArea;
 END; $BODY$
   LANGUAGE plpgsql VOLATILE
@@ -203,7 +203,7 @@ BEGIN
   RETURN query
   Select cca.carreraArea, aa.nombre, cc.nombre, cca.estado
     from cur_carrera_area cca, adm_area aa, cur_carrera cc
-    where cca.carrera = cc.carrera and cca.area = aa.area and cca.estado = 1;
+    where cca.carrera = cc.carrera and cca.area = aa.area;
 END;
 $BODY$
   LANGUAGE plpgsql VOLATILE

@@ -24,6 +24,7 @@ class gestionPensumModel extends Model {
     public function asignarAreaCarrera($_datos){
         $info = $this->_db->prepare("SELECT * from spagregarcarreraarea(:carrera,:area,:estado) as Id;");
         $info->execute($_datos);
+
         if ($info === false) {
             return "1101/agregarCarreraArea";
         } else {
