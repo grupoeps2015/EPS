@@ -547,8 +547,11 @@ class gestionPensumController extends Controller {
 
         $iden = $this->getInteger('hdEnvio');
         $idCentroUnidad = $_SESSION["centrounidad"];
-
-        $arrayCurPensum = array();
+            $file = fopen("log.txt", "a");
+                fwrite($file, "iden" . $iden . PHP_EOL);
+                
+                fclose($file);
+        $arrayCurPen = array();
 
         $this->_view->idPensum = $idPensum;
         $this->_view->idCarrera = $idCarrera;
@@ -600,21 +603,23 @@ class gestionPensumController extends Controller {
           } */
 
         if ($iden == 1) {
-            /* $arrayPar["nombre"] = $this->getTexto('txtNombreParametro');
-              $arrayPar["valor"] = $this->getTexto('txtValorParametro');
-              $arrayPar["descripcion"] = $this->getTexto('txtDescripcionParametro');
-              $arrayPar["centro_unidadacademica"] = $this->getInteger('slCentroUnidadAcademica');
-              $arrayPar["carrera"] = $this->getInteger('slCarreras');
-              $arrayPar["extension"] = $this->getTexto('txtExtensionParametro');
-              $arrayPar["tipoparametro"] =  $this->getInteger('slTipoParametro');
+                
+              $arrayCurPen["curso"] = $this->getInteger('slCursos');
+              $arrayCurPen["pensum"] = $idPensum;
+              $arrayCurPen["numerociclo"] = $this->getTexto('txtNumeroCiclo');
+              $arrayCurPen["tipociclo"] = $this->getInteger('slTipoCiclo');
+              $arrayCurPen["creditos"] = $this->getTexto('txtCreditos');
+              $arrayCurPen["prerrequisitos"] = "null";
+              $arrayCurPen["estado"] =  ESTADO_PENDIENTE;
+              $arrayCurPen["carreraarea"] =  $this->getInteger('slAreas');
 
-              $info = $this->_view->query = $this->_post->agregarParametro($arrayPar);
+              $info = $this->_view->query = $this->_post->agregarCursoPensum($arrayCurPen);
               if(!is_array($info)){
               $this->redireccionar("error/sql/" . $info);
               exit;
               }
 
-              $this->redireccionar('gestionParametro'); */
+              $this->redireccionar('gestionPensum/gestionCursoPensum/'.$idPensum.'/'.$idCarrera); 
         }
 
         $this->_view->renderizar('agregarCursoPensum', 'gestionPensum');

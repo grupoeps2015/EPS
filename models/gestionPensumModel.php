@@ -150,6 +150,21 @@ class gestionPensumModel extends Model {
         }
     }
     
+     public function agregarCursoPensum($_datos) {
+        if( $_datos["creditos"]==""){ $_datos["creditos"]=0;}
+        $sp = $_datos["curso"] . ',';
+        $sp .= $_datos["pensum"] . ',' . $_datos["numerociclo"] . ',';
+        $sp .= $_datos["tipociclo"] . ',' . $_datos["creditos"] . ',null,' . $_datos["estado"] . ',' . $_datos["carreraarea"];
+                
+        $info = $this->_db->prepare("SELECT * from spagregarcursopensum(" . $sp .")");
+        $info->execute($_datos);
+        if ($info === false) {
+            return "1101/agregarCursoPensum";
+        } else {
+            return $info->fetchall();
+        }
+    }
+    
      public function eliminarCursoPensum($intIdCursoPensum, $intEstadoNuevo){
         $info = $this->_db->query("SELECT * from spModificarCursoPensum(" . $intIdCursoPensum . ",null,null,null,null,null,null," . $intEstadoNuevo . ");");
         if($info === false){
