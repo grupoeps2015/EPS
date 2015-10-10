@@ -159,6 +159,25 @@ class ajaxModel extends Model{
         }
     }
     
+     public function getAllAreas(){
+        $info = $this->_db->query("select * from spmostrarareasactivas();");
+        if($info === false){
+            return "1105/getAllAreas";
+        }else{
+            return $info->fetchall();
+        }
+    }
+    
+    public function getAllCarreraAreas(){
+        $info = $this->_db->query("select * from spmostrarcarerraareasactivas();");
+        if($info === false){
+            return "1105/getAllCarreraAreas";
+        }else{
+            return $info->fetchall();
+        } 
+    }
+
+
     public function getInfoCarreras($centro_unidadacademica){
         $post = $this->_db->query("select * from spinformacioncarrera({$centro_unidadacademica})");
         if($post === false){

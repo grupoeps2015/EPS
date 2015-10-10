@@ -7,7 +7,7 @@
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
                         <i class="fa fa-2x fa-backward wow bounceIn text-primary" data-wow-delay=".2s">
-                            <a href="<?php echo BASE_URL?>general/seleccionarCentroUnidad/gestionPensum/listadoCarrera">
+                            <a href="<?php echo BASE_URL ?>general/seleccionarCentroUnidad/gestionPensum/listadoCarrera">
                                 Regresar
                             </a>
                         </i>
@@ -16,11 +16,11 @@
                 <div class="col-lg-3 col-md-6 text-center"></div>
                 <div class="col-lg-3 col-md-6 text-center"></div>
                 <div class="col-lg-3 col-md-6 text-center">
-                    <form method='post' name='frmPost' id='frmPost' action='<?php echo BASE_URL?>gestionPensum/agregarCarrera'>
-                            <i class="fa fa-2x fa-user-plus wow bounceIn text-primary" data-wow-delay=".2s">
-                                <a id="linkNuevoCar" href="#">Agregar Carrera</a>
-                            </i>
-                        </form>
+                    <form method='post' name='frmPost' id='frmPost' action='<?php echo BASE_URL ?>gestionPensum/agregarCarrera'>
+                        <i class="fa fa-2x fa-user-plus wow bounceIn text-primary" data-wow-delay=".2s">
+                            <a id="linkNuevoCar" href="#">Agregar Carrera</a>
+                        </i>
+                    </form>
                 </div>
             </div>
         </div>
@@ -37,25 +37,29 @@
                                 <th style="text-align:center">Estado</th>
                                 <th style="text-align:center">&nbsp;</th>
                                 <th style="text-align:center">&nbsp;</th>
+                                <th style="text-align:center">&nbsp;</th>
                             </tr>
                         </thead>
                         <tbody>
-                        <?php if(isset($this->lstCar) && count($this->lstCar)): ?>
-                            <?php for($i =0; $i < count($this->lstCar); $i++) : ?>
-                            <tr>
-                                <td style="text-align: center"><?php echo $this->lstCar[$i]['nombre']; ?></td>
-                                <td style="text-align: center"><?php echo $this->lstCar[$i]['estado']; ?></td>
-                                <td style="text-align: center;"><a href="<?php echo BASE_URL . 'gestionPensum/actualizarCarrera/' . $this->lstCar[$i]['id'] ;?>">Modificar</a></td>
-                                <td style="text-align: center;">
-                                    <?php if(strcmp($this->lstCar[$i]['estado'], 'Activo') == 0): ?>
-                                    <a href="<?php echo BASE_URL . 'gestionPensum/eliminarCarrera/-1/' . $this->lstCar[$i]['id'] ;?>">Desactivar</a>
-                                    <?php else : ?>
-                                    <a href="<?php echo BASE_URL . 'gestionPensum/eliminarCarrera/1/' . $this->lstCar[$i]['id'] ; ?>">Activar</a>
-                                    <?php endif;?>
-                                </td>
-                            </tr>
-                            <?php endfor;?>
-                        <?php endif;?>
+                            <?php if (isset($this->lstCar) && count($this->lstCar)): ?>
+                                <?php for ($i = 0; $i < count($this->lstCar); $i++) : ?>
+                                    <tr>
+                                        <td style="text-align: center"><?php echo $this->lstCar[$i]['nombre']; ?></td>
+                                        <td style="text-align: center"><?php echo $this->lstCar[$i]['estado']; ?></td>
+                                        <td style="text-align: center;"><a href="<?php echo BASE_URL . 'gestionPensum/actualizarCarrera/' . $this->lstCar[$i]['id']; ?>">Modificar</a></td>
+                                        <td style="text-align: center;">
+                                            <?php if (strcmp($this->lstCar[$i]['estado'], 'Activo') == 0): ?>
+                                                <a href="<?php echo BASE_URL . 'gestionPensum/eliminarCarrera/-1/' . $this->lstCar[$i]['id']; ?>">Desactivar</a>
+                                            <?php else : ?>
+                                                <a href="<?php echo BASE_URL . 'gestionPensum/eliminarCarrera/1/' . $this->lstCar[$i]['id']; ?>">Activar</a>
+                                            <?php endif; ?>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <a href="<?php echo BASE_URL . 'gestionPensum/asignarAreaCarrera/' . $this->lstCar[$i]['id']; ?>">Asignar Areas</a>
+                                        </td>
+                                    </tr>
+                                <?php endfor; ?>
+                            <?php endif; ?>
                         </tbody>
                     </table>
                     <br />

@@ -32,6 +32,31 @@ ALTER FUNCTION spmostrarareas()
 
 
 ------------------------------------------------------------------------------------------------------------------------------------
+  -- Function: spmostrarareasactivas()
+------------------------------------------------------------------------------------------------------------------------------------
+-- DROP FUNCTION spmostrarareasactivas();
+------------------------------------------------------------------------------------------------------------------------------------
+CREATE OR REPLACE FUNCTION spmostrarareasactivas(
+    OUT _id integer,
+    OUT _nombre text)
+  RETURNS SETOF record AS
+$BODY$
+BEGIN
+  RETURN query
+  Select 
+    area,
+    nombre
+  from 
+    adm_area where estado = 1 order by area;
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION spmostrarareasactivas()
+  OWNER TO postgres;
+
+------------------------------------------------------------------------------------------------------------------------------------
 -- Function: spagregararea()
 ------------------------------------------------------------------------------------------------------------------------------------
 -- DROP FUNCTION spagregararea(text, text, integer)
@@ -138,5 +163,55 @@ $BODY$
   ROWS 1000;
 ALTER FUNCTION spconsultaarea(integer)
   OWNER TO postgres;
+
+------------------------------------------------------------------------------------------------------------------------------------
+-- Function: spagregarcarreraarea()
+------------------------------------------------------------------------------------------------------------------------------------
+-- DROP FUNCTION spagregarcarreraarea(integer, integer, integer)
+CREATE OR REPLACE FUNCTION spagregarcarreraarea(
+    _carrera integer,
+    _area integer,
+    _estado integer)
+  RETURNS integer AS
+$BODY$
+DECLARE idCarreraArea integer;
+BEGIN
+	INSERT INTO cur_carrera_area (carrera, area, estado) 
+	VALUES (_nombre, _descripcion, _estado) RETURNING CarreraArea into idCarreraArea;
+	RETURN idCarreraArea;
+END; $BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION spagregarcarreraarea(integer, integer, integer)
+  OWNER TO postgres;
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------
+  -- Function: spmostrarcarerraareasactivas()
+------------------------------------------------------------------------------------------------------------------------------------
+-- DROP FUNCTION spmostrarcarerraareasactivas();
+------------------------------------------------------------------------------------------------------------------------------------
+CREATE OR REPLACE FUNCTION spmostrarcarerraareasactivas(
+    OUT _id integer,
+    OUT _nombreCarrera text,
+    OUT _nombreArea text,
+	OUT _estado integer)
+  RETURNS SETOF record AS
+$BODY$
+BEGIN
+  RETURN query
+  Select cca.carreraArea, aa.nombre, cc.nombre, cca.estado
+    from cur_carrera_area cca, adm_area aa, cur_carrera cc
+    where cca.carrera = cc.carrera and cca.area = aa.area and cca.estado = 1;
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION spmostrarcarerraareasactivas()
+  OWNER TO postgres;
+
+
 
  Select 'Script para Gestion de Area Instalado' as "Gestion Area";

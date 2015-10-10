@@ -103,6 +103,18 @@ class ajaxController extends Controller{
         }
     }
     
+    public function getAllAreas(){
+        if($this->getInteger('area')){
+            echo json_encode($this->_ajax->getAllAreas());
+        }
+    }
+    
+    public function getAllCarreraAreas(){
+        if($this->getInteger('CarreraArea')){
+            echo json_encode($this->_ajax->getAllCarreraAreas());
+        }
+    }
+    
     public function getDocenteSeccion(){
         if($this->getInteger('cat') && $this->getInteger('ciclo')){
             echo json_encode($this->_ajax->getDocenteSeccion($this->getInteger('cat'),$this->getInteger('ciclo')));
