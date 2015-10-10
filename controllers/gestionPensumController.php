@@ -92,7 +92,7 @@ class gestionPensumController extends Controller {
             $this->redireccionar("error/sql/" . $lsAreas);
             exit;
         }
-        $lsCarAreas = $this->_view->lstCarAreas = $this->_ajax->getAllCarreraAreas();
+        $lsCarAreas = $this->_view->lstCarAreas = $this->_ajax->getAllCarreraAreas($intIdCarrera);
         if (is_array($lsCarAreas)) {
             $this->_view->lstCarAreas = $lsCarAreas;
         } else {

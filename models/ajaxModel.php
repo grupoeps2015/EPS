@@ -168,8 +168,8 @@ class ajaxModel extends Model{
         }
     }
     
-    public function getAllCarreraAreas(){
-        $info = $this->_db->query("select * from spmostrarcarerraareasactivas();");
+    public function getAllCarreraAreas($idCarrera){
+        $info = $this->_db->query("select * from spmostrarcarerraareasactivas({$idCarrera});");
         if($info === false){
             return "1105/getAllCarreraAreas";
         }else{

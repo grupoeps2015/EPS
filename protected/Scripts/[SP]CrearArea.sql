@@ -188,11 +188,12 @@ ALTER FUNCTION spagregarcarreraarea(integer, integer, integer)
 
 
 ------------------------------------------------------------------------------------------------------------------------------------
-  -- Function: spmostrarcarerraareasactivas()
+  -- Function: spmostrarcarerraareasactivas(integer)
 ------------------------------------------------------------------------------------------------------------------------------------
--- DROP FUNCTION spmostrarcarerraareasactivas();
+-- DROP FUNCTION spmostrarcarerraareasactivas(integer);
 ------------------------------------------------------------------------------------------------------------------------------------
 CREATE OR REPLACE FUNCTION spmostrarcarerraareasactivas(
+IN idCarrera integer,
     OUT _id integer,
     OUT _nombreCarrera text,
     OUT _nombreArea text,
@@ -203,14 +204,15 @@ BEGIN
   RETURN query
   Select cca.carreraArea, aa.nombre, cc.nombre, cca.estado
     from cur_carrera_area cca, adm_area aa, cur_carrera cc
-    where cca.carrera = cc.carrera and cca.area = aa.area;
+    where cca.carrera = cc.carrera and cca.area = aa.area and cca.carrera = idCarrera;
 END;
 $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100
   ROWS 1000;
-ALTER FUNCTION spmostrarcarerraareasactivas()
+ALTER FUNCTION spmostrarcarerraareasactivas(integer)
   OWNER TO postgres;
+
 
 
 
