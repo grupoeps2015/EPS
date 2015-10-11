@@ -329,7 +329,7 @@ $BODY$
 ALTER FUNCTION spdisponibilidadcatedratico(integer, integer, integer, text, text)
   OWNER TO postgres;  
 
- Select 'Script para Gestion de Horarios Instalado' as "Gestion Horario";
+
 
  
 -- Function: spsiguienteciclo(integer)
@@ -392,3 +392,35 @@ END; $BODY$
   COST 100;
 ALTER FUNCTION spagregarciclo(integer, integer, integer)
   OWNER TO postgres;
+
+  
+-- Function: spcopiarhorariodecicloaciclo(integer, integer, integer)
+
+-- DROP FUNCTION spcopiarhorariodecicloaciclo(integer, integer, integer);
+
+CREATE OR REPLACE FUNCTION spcopiarhorariodecicloaciclo(
+    _cicloorigen integer,
+    _ciclodestino integer,
+    _centrounidad integer)
+  RETURNS integer AS
+$BODY$
+DECLARE idTrama INTEGER;
+DECLARE idHorario INTEGER;
+DECLARE rec record;
+begin
+         for rec in SELECT * FROM cur_trama t join cur_horario h on t.trama = h.trama join cur_horario_salon hs on h.horario = hs.horario join cur_seccion sec on sec.seccion = t.seccion join cur_curso cur on cur.curso = sec.curso and cur.centro_unidadacademica = _centrounidad where h.ciclo = _cicloOrigen loop
+		insert into cur_trama (curso_catedratico,dia,periodo,inicio,fin,seccion) values (rec.curso_catedratico,rec.dia,rec.periodo,rec.inicio,rec.fin,rec.seccion) returning trama into idTrama;
+		insert into cur_horario (jornada,trama,ciclo,estado) values (rec.jornada,idTrama,_cicloDestino,rec.estado) returning horario into idHorario;
+		insert into cur_horario_salon (horario, salon) values (idHorario,rec.salon);
+         end loop;
+ RETURN 1;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION spcopiarhorariodecicloaciclo(integer, integer, integer)
+  OWNER TO postgres;
+
+  
+  
+  Select 'Script para Gestion de Horarios Instalado' as "Gestion Horario";
