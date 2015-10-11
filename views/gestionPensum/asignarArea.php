@@ -86,7 +86,7 @@
                                 <thead>
                                     <tr>
                                         <th style="text-align:center">Area Academica</th>
-                                        <th style="text-align:center">Estado</th>
+                                        <th style="text-align:center">Carrera</th>
                                         <th style="text-align:center">&nbsp;</th>
                                     </tr>
                                 </thead>
