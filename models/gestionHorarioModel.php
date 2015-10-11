@@ -144,6 +144,16 @@ class gestionHorarioModel extends Model {
         }
     }
     
+    public function copiarHorario($_datos) {
+        $info = $this->_db->prepare("SELECT * from spcopiarhorariodecicloaciclo(:cicloO,:cicloD,:centroUnidad) as Id;");
+        $info->execute($_datos);
+        if($info === false){
+            return "1101/copiarHorario";
+        }else{
+            return $info->fetchall();
+        }
+    }
+    
     //Desde gestionCursoModel 
     public function informacionSeccion($centrounidadacademica) {
         $info = $this->_db->query("select * from spInformacionSeccion(" . $centrounidadacademica . ");");
