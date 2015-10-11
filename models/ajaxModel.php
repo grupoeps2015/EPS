@@ -168,6 +168,15 @@ class ajaxModel extends Model{
         }
     }
     
+    public function getAllAreasCarreraNoAsignadas($idCarrera){
+        $info = $this->_db->query("select * from spmostrarareasactivascarrera({$idCarrera});");
+        if($info === false){
+            return "1105/getAllAreasCarrera";
+        }else{
+            return $info->fetchall();
+        }
+    }
+    
     public function getAllCarreraAreas($idCarrera){
         $info = $this->_db->query("select * from spmostrarcarerraareasactivas({$idCarrera});");
         if($info === false){
