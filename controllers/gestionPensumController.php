@@ -71,6 +71,8 @@ class gestionPensumController extends Controller {
 
         $this->_view->setJs(array('jquery.validate'), "public");
         $this->_view->setJs(array('asignarArea'));
+        $this->_view->setJs(array('jquery.dataTables.min'), "public");
+        $this->_view->setCSS(array('jquery.dataTables.min'));
 
         $arrayAsignacion = array();
 
@@ -85,7 +87,7 @@ class gestionPensumController extends Controller {
 //                </script>";
 //        }
 
-        $lsAreas = $this->_view->lstAreas = $this->_ajax->getAllAreas();
+        $lsAreas = $this->_view->lstAreas = $this->_ajax->getAllAreasCarreraNoAsignadas($intIdCarrera);
         if (is_array($lsAreas)) {
             $this->_view->lstAreas = $lsAreas;
         } else {
@@ -120,7 +122,7 @@ class gestionPensumController extends Controller {
                     foreach ($_POST['check_list'] as $selected) {
                         $arrayAsignacion['carrera'] = $intIdCarrera;
                         $arrayAsignacion['area'] = $selected;
-                        $arrayAsignacion['estado'] = ESTADO_PENDIENTE;
+                        $arrayAsignacion['estado'] = ESTADO_ACTIVO;
                         $asignacion = $this->_post->asignarAreaCarrera($arrayAsignacion);
                         if (is_array($asignacion)) {
                             $this->redireccionar('gestionPensum/asignarAreaCarrera/' . $intIdCarrera);
@@ -132,19 +134,6 @@ class gestionPensumController extends Controller {
                     }
                 }
             }
-//            $idArea = $this->getInteger('check_list');
-//            echo $idArea;
-            //$nombreCarrera = $this->getTexto('txtNombre');
-//            $arrayAsignacion['id'] = $intIdCarrera;
-//            $arrayAsignacion['nombre'] = $nombreCarrera;
-            //$respuesta = $this->_post->asignarAreaCarrera($arrayCar);
-//            if (is_rray($respuesta)) {
-//                
-//               // $this->redireccionar('gestionPensum/asignarAreaCarrera/' . $intIdCarrera);
-//            } else {
-//                $this->redireccionar("error/sql/" . $respuesta);
-//                exit;
-//            }
         }
     }
 
@@ -216,6 +205,30 @@ class gestionPensumController extends Controller {
             $this->redireccionar('gestionPensum/listadoCarrera');
         }
         $this->_view->renderizar('agregarCarrera', 'gestionPensum');
+    }
+    
+    public function eliminarCarreraArea($intIdCarrera,$intNuevoEstado, $intIdCarreraArea) {
+//        session_start();
+//        $rol = $_SESSION["rol"];
+//        $rolValido = $this->_ajax->getPermisosRolFuncion($rol, CONS_FUNC_CUR_ELIMINARCARRERA);
+
+//        if ($rolValido[0]["valido"] == PERMISO_ELIMINAR) {
+            if ($intNuevoEstado == -1 || $intNuevoEstado == 1) {
+                $info = $this->_post->eliminarCarreraArea($intIdCarreraArea, $intNuevoEstado);
+                if (!is_array($info)) {
+                    $this->redireccionar("error/sql/" . $info);
+                    exit;
+                }
+                $this->redireccionar('gestionPensum/asignarAreaCarrera/'.$intIdCarrera);
+            } else {
+                echo "Error al desactivar carrera";
+            }
+//        } else {
+//            echo "<script>
+//                alert('No tiene permisos suficientes para acceder a esta función.');
+//                window.location.href='" . BASE_URL . "gestionPensum/listadoCarrera/" . "';
+//                </script>";
+//        }
     }
 
     public function eliminarCarrera($intNuevoEstado, $intIdCarrera) {

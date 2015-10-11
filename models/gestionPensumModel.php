@@ -49,6 +49,15 @@ class gestionPensumModel extends Model {
             return $info->fetchall();
         }
     }
+    
+    public function eliminarCarreraArea($intIdCarreraArea, $intEstadoNuevo) {
+        $info = $this->_db->query("SELECT * from spactivardesactivarcarreraarea(" . $intIdCarreraArea . "," . $intEstadoNuevo . ");");
+        if ($info === false) {
+            return "1103/eliminarCarreraArea";
+        } else {
+            return $info->fetchall();
+        }
+    }
 
     public function datosCarrera($idCarrera) {
         $info = $this->_db->query("select * from spDatosCarrera(" . $idCarrera . ");");

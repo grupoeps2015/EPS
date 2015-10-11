@@ -109,6 +109,12 @@ class ajaxController extends Controller{
         }
     }
     
+    public function getAllAreasCarreraNoAsignadas(){
+        if($this->getInteger('carrera')){
+            echo json_encode($this->_ajax->getAllAreasCarreraNoAsignadas());
+        }
+    }
+    
     public function getAllCarreraAreas(){
         if($this->getInteger('CarreraArea')){
             echo json_encode($this->_ajax->getAllCarreraAreas());
