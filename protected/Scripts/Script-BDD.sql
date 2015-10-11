@@ -466,6 +466,9 @@ CREATE TABLE CUR_Pensum_Area (
     FOREIGN KEY (TipoCiclo)
     REFERENCES CUR_TipoCiclo (TipoCiclo));
 
+CREATE UNIQUE INDEX u_Curso_Pensum_CarreraArea ON CUR_Pensum_Area (Curso, Pensum, CarreraArea);
+
+
 
 -- -----------------------------------------------------
 -- Table CUR_TipoSeccion

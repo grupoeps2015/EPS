@@ -547,10 +547,7 @@ class gestionPensumController extends Controller {
 
         $iden = $this->getInteger('hdEnvio');
         $idCentroUnidad = $_SESSION["centrounidad"];
-        $file = fopen("log.txt", "a");
-        fwrite($file, "iden" . $iden . PHP_EOL);
-
-        fclose($file);
+       
         $arrayCurPen = array();
 
         $this->_view->idPensum = $idPensum;
@@ -624,6 +621,86 @@ class gestionPensumController extends Controller {
 
         $this->_view->renderizar('agregarCursoPensum', 'gestionPensum');
     }
+    
+    
+     public function actualizarCursoPensum($idCursoPensum = 0, $idPensum = 0, $idCarrera = 0) {
+        session_start();
+//        $rol = $_SESSION["rol"];        
+//        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_MODIFICARSALON);
+//       
+//        if($rolValido[0]["valido"]!= PERMISO_MODIFICAR){
+//           echo "<script>
+//                alert('No tiene permisos suficientes para acceder a esta función.');
+//                window.location.href='" . BASE_URL . "gestionEdificio/gestionSalon/" . $intIdEdificio . "';
+//                </script>";
+//        }
+       $idCentroUnidad = $_SESSION["centrounidad"];
+       
+       $info = $this->_post->listadoCursos($idCentroUnidad);
+        if (is_array($info)) {
+            $this->_view->lstCursos = $info;
+        } else {
+            $this->redireccionar("error/sql/" . $info);
+            exit;
+        }
+
+        $info2 = $this->_post->listadoAreas($idCarrera);
+        if (is_array($info2)) {
+            $this->_view->lstAreas = $info2;
+        } else {
+            $this->redireccionar("error/sql/" . $info2);
+            exit;
+        }
+
+        $info3 = $this->_post->listadoTipoCiclo();
+        if (is_array($info3)) {
+            $this->_view->lstTipoCiclo = $info3;
+        } else {
+            $this->redireccionar("error/sql/" . $info3);
+            exit;
+        }
+
+        $valorPagina = $this->getInteger('hdEnvio');
+        $this->_view->setJs(array('jquery.validate'), "public");
+        //$this->_view->setJs(array('actualizarPensum'));
+        $this->_view->setCSS(array('jquery.dataTables.min'));
+        $this->_view->setJs(array('jquery-ui'), "public");
+        $this->_view->setCss(array('jquery-ui'), "public");
+
+        $arrayCursoPensum = array();
+        $this->_view->idPensum = $idPensum;
+        $this->_view->idCarrera = $idCarrera;
+        $this->_view->idCursoPensum = $idCursoPensum;
+
+        /*$datosCursoPensum = $this->_post->datosCursoPensum($idCursoPensum);
+        if (is_array($datosCursoPensum)) {
+            $this->_view->datosCursoPensum = $datosCursoPensum;
+        } else {
+            $this->redireccionar("error/sql/" . $datosCursoPensum);
+            exit;
+        }
+*/
+        if ($valorPagina == 1) {/*
+            $arrayPensum["pensum"] = $intIdPensum;
+            $arrayPensum["carrera"] = $this->getInteger('slCarreras');
+            $arrayPensum["tipo"] = $this->getInteger('slTipos');
+            $arrayPensum["inicioVigencia"] = $this->getTexto('inputFecha');
+            $arrayPensum["duracionAnios"] = $this->getInteger('txtTiempo');
+            $arrayPensum["descripcion"] = $this->getTexto('txtDescripcion');
+
+
+            $info = $this->_post->actualizarPensum($arrayPensum);
+            if (!is_array($info)) {
+                $this->redireccionar("error/sql/" . $info);
+                exit;
+            }
+
+            $this->redireccionar('gestionPensum/listadoPensum');*/
+        }
+        
+        $this->_view->renderizar('actualizarCursoPensum', 'gestionPensum');
+    }
+    
 
     public function crearPensum($idPensum = 0, $idCursoPensum = 0, $idCarrera = 0) {
         session_start();
@@ -743,4 +820,6 @@ class gestionPensumController extends Controller {
         $this->_view->renderizar('actualizarPensum', 'gestionPensum');
     }
 
+    
+    
 }
