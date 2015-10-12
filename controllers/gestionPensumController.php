@@ -685,14 +685,14 @@ class gestionPensumController extends Controller {
         $this->_view->idCarrera = $idCarrera;
         $this->_view->idCursoPensum = $idCursoPensum;
 
-        /*$datosCursoPensum = $this->_post->datosCursoPensum($idCursoPensum);
+        $datosCursoPensum = $this->_post->datosCursoPensum($idCursoPensum);
         if (is_array($datosCursoPensum)) {
             $this->_view->datosCursoPensum = $datosCursoPensum;
         } else {
             $this->redireccionar("error/sql/" . $datosCursoPensum);
             exit;
         }
-*/
+
         if ($valorPagina == 1) {/*
             $arrayPensum["pensum"] = $intIdPensum;
             $arrayPensum["carrera"] = $this->getInteger('slCarreras');

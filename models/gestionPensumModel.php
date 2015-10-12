@@ -209,5 +209,16 @@ class gestionPensumModel extends Model {
             return $post->fetchall();
         }
     }
+    
+    public function datosCursoPensum($idCursoPensum) {
+
+        $post = $this->_db->query("select * from spdatoscursopensum(" . $idCursoPensum . ");");
+
+        if ($post === FALSE) {
+            return "1104/consultaCursoPensum";
+        } else {
+            return $post->fetchall();
+        }
+    }
 
 }
