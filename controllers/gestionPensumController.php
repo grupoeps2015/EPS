@@ -675,7 +675,7 @@ class gestionPensumController extends Controller {
 
         $valorPagina = $this->getInteger('hdEnvio');
         $this->_view->setJs(array('jquery.validate'), "public");
-        //$this->_view->setJs(array('actualizarPensum'));
+        $this->_view->setJs(array('actualizarCursoPensum'));
         $this->_view->setCSS(array('jquery.dataTables.min'));
         $this->_view->setJs(array('jquery-ui'), "public");
         $this->_view->setCss(array('jquery-ui'), "public");
@@ -693,22 +693,21 @@ class gestionPensumController extends Controller {
             exit;
         }
 
-        if ($valorPagina == 1) {/*
-            $arrayPensum["pensum"] = $intIdPensum;
-            $arrayPensum["carrera"] = $this->getInteger('slCarreras');
-            $arrayPensum["tipo"] = $this->getInteger('slTipos');
-            $arrayPensum["inicioVigencia"] = $this->getTexto('inputFecha');
-            $arrayPensum["duracionAnios"] = $this->getInteger('txtTiempo');
-            $arrayPensum["descripcion"] = $this->getTexto('txtDescripcion');
-
-
-            $info = $this->_post->actualizarPensum($arrayPensum);
+        if ($valorPagina == 1) {
+            $arrayCursoPensum["cursopensum"] = $idCursoPensum;
+            $arrayCursoPensum["curso"] = $this->getInteger('slCursos');
+            $arrayCursoPensum["carreraarea"] = $this->getInteger('slAreas');
+            $arrayCursoPensum["numerociclo"] = $this->getTexto('txtNumeroCiclo');
+            $arrayCursoPensum["tipociclo"] = $this->getInteger('slTipoCiclo');
+            $arrayCursoPensum["creditos"] = $this->getTexto('txtCreditos');
+            
+            $info = $this->_post->actualizarCursoPensum($arrayCursoPensum);
             if (!is_array($info)) {
                 $this->redireccionar("error/sql/" . $info);
                 exit;
             }
 
-            $this->redireccionar('gestionPensum/listadoPensum');*/
+            $this->redireccionar('gestionPensum/actualizarCursoPensum/'.$idCursoPensum.'/'.$idPensum.'/'.$idCarrera);
         }
         
         $this->_view->renderizar('actualizarCursoPensum', 'gestionPensum');

@@ -220,5 +220,19 @@ class gestionPensumModel extends Model {
             return $post->fetchall();
         }
     }
+    
+    public function actualizarCursoPensum($_datos) {
+        $sp = $_datos["cursopensum"] . ',' . $_datos["curso"] . ',';
+        $sp .= $_datos["carreraarea"] . ',' . $_datos["numerociclo"] . ',';
+        $sp .= $_datos["tipociclo"] . ',' . $_datos["creditos"] . ',null,null';
+               
+        $info = $this->_db->prepare("SELECT * from spmodificarcursopensum(".$sp.");");
+        $info->execute($_datos);
+        if ($info === false) {
+            return "1103/actualizarCursoPensum";
+        } else {
+            return $info->fetchall();
+        }
+    }
 
 }
