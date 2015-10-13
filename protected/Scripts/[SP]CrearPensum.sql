@@ -146,7 +146,7 @@ ALTER FUNCTION spagregarpensum(integer, integer, text, text, text, integer)
 
 -- DROP FUNCTION spallpensum();
 
-CREATE OR REPLACE FUNCTION spallpensum(
+CREATE OR REPLACE FUNCTION spallpensum(IN _centrounidadacademica integer,
 	OUT id integer,
     OUT carrera text,
 	OUT idcarrera integer,
@@ -170,13 +170,14 @@ BEGIN
 	when p.estado=-1 then 'Inactivo'
 	when p.estado=1 then 'Activo'
 	end as "Estado" FROM adm_pensum p 
-	join cur_carrera c ON p.carrera = c.carrera;
+	join cur_carrera c ON p.carrera = c.carrera
+	where c.centro_unidadacademica = _centrounidadacademica;
 END;
 $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100
   ROWS 1000;
-ALTER FUNCTION spallpensum()
+ALTER FUNCTION spallpensum(integer)
   OWNER TO postgres;
   
 

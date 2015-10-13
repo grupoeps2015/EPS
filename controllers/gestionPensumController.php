@@ -332,7 +332,8 @@ class gestionPensumController extends Controller {
     }
 
     public function listadoPensum() {
-//        session_start();
+        session_start();
+        $idCentroUnidad = $_SESSION["centrounidad"];
 //        $rol = $_SESSION["rol"];
 //        $rolValido = $this->_ajax->getPermisosRolFuncion($rol, CONS_FUNC_CUR_GESTIONCARRERA);
 //
@@ -352,7 +353,7 @@ class gestionPensumController extends Controller {
 //        }
         $this->_view->id = $pensum;
         /* informacionPensum */
-        $info = $this->_post->getAllPensum();
+        $info = $this->_post->getAllPensum($idCentroUnidad);
         if (is_array($info)) {
             $this->_view->lstPensum = $info;
         } else {

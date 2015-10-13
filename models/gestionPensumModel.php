@@ -88,8 +88,8 @@ class gestionPensumModel extends Model {
         }
     }
 
-    public function getAllPensum() {
-        $info = $this->_db->query("select * from spallpensum();");
+    public function getAllPensum($intIdCentroUnidad) {
+        $info = $this->_db->query("select * from spallpensum(".$intIdCentroUnidad.");");
         if ($info === false) {
             return "1104/getPensum";
         } else {
