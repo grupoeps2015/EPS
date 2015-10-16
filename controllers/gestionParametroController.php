@@ -19,11 +19,19 @@ class gestionParametroController extends Controller{
     public function index(){
         session_start();
         $rol = $_SESSION["rol"];        
-        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_GESTIONPARAMETRO);
-         
-        if($rolValido[0]["valido"]!= PERMISO_GESTIONAR){
+        $rolValidoGestion = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_GESTIONPARAMETRO);
+        $rolValidoAgregar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_CREARPARAMETRO);
+        $rolValidoModificar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_MODIFICARPARAMETRO);
+        $rolValidoEliminar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_ELIMINARPARAMETRO);
+        $this->_view->permisoGestion = $rolValidoGestion[0]["valido"];
+        $this->_view->permisoAgregar = $rolValidoAgregar[0]["valido"];
+        $this->_view->permisoModificar = $rolValidoModificar[0]["valido"];
+        $this->_view->permisoEliminar = $rolValidoEliminar[0]["valido"];
+        
+        
+        if($this->_view->permisoGestion!= PERMISO_GESTIONAR){
            echo "<script>
-                alert('No tiene permisos para acceder a esta función.');
+                ".MSG_SINPERMISOS."
                 window.location.href='" . BASE_URL . "login/inicio';
                 </script>";
         }
@@ -81,7 +89,7 @@ class gestionParametroController extends Controller{
          
         if($rolValido[0]["valido"]!= PERMISO_CREAR){
            echo "<script>
-                alert('No tiene permisos suficientes para acceder a esta función.');
+                ".MSG_SINPERMISOS."
                 window.location.href='" . BASE_URL . "gestionParametro" . "';
                 </script>";
         }
@@ -128,7 +136,7 @@ class gestionParametroController extends Controller{
         else
         {         
             echo "<script>
-                alert('No tiene permisos suficientes para acceder a esta función.');
+                ".MSG_SINPERMISOS."
                 window.location.href='" . BASE_URL . "gestionParametro" . "';
                 </script>";
         }
@@ -142,7 +150,7 @@ class gestionParametroController extends Controller{
          
         if($rolValido[0]["valido"]!= PERMISO_MODIFICAR){
            echo "<script>
-                alert('No tiene permisos suficientes para acceder a esta función.');
+                ".MSG_SINPERMISOS."
                 window.location.href='" . BASE_URL . "gestionParametro" . "';
                 </script>";
         }
@@ -205,15 +213,21 @@ class gestionParametroController extends Controller{
         session_start();
         $rol = $_SESSION["rol"];  
         
-        //TODO: Marlen: Funciones de períodos
-//        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_GESTIONSECCION);
-//                    
-//        if($rolValido[0]["valido"]!=PERMISO_GESTIONAR){      
-//            echo "<script>
-//                alert('No tiene permisos para acceder a esta función.');
-//                window.location.href='" . BASE_URL . "gestionCurso';
-//                </script>";
-//        }
+        $rolValidoGestion = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_GESTIONPERIODO);
+        $rolValidoAgregar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_CREARPERIODO);
+        $rolValidoModificar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_MODIFICARPERIODO);
+        $rolValidoEliminar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_ELIMINARPERIODO);
+        $this->_view->permisoGestion = $rolValidoGestion[0]["valido"];
+        $this->_view->permisoAgregar = $rolValidoAgregar[0]["valido"];
+        $this->_view->permisoModificar = $rolValidoModificar[0]["valido"];
+        $this->_view->permisoEliminar = $rolValidoEliminar[0]["valido"];
+                    
+        if($this->_view->permisoGestion!=PERMISO_GESTIONAR){      
+            echo "<script>
+                ".MSG_SINPERMISOS."
+                window.location.href='" . BASE_URL . "gestionParametro';
+                </script>";
+        }
         
             
             $idCentroUnidad = $_SESSION["centrounidad"];
@@ -239,11 +253,11 @@ class gestionParametroController extends Controller{
     public function eliminarPeriodo($intNuevoEstado, $intIdPeriodo) {
         session_start();
         $rol = $_SESSION["rol"]; 
-        //TODO: Marlen: Funciones de períodos
-//        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_ELIMINARSECCION);
-//        
-//        if($rolValido[0]["valido"]== PERMISO_ELIMINAR){
        
+        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_ELIMINARPERIODO);
+       
+        if($rolValido[0]["valido"]== PERMISO_ELIMINAR){
+        
             if ($intNuevoEstado == -1 || $intNuevoEstado == 1) {
                 $info = $this->_post->eliminarPeriodoParametro($intIdPeriodo, $intNuevoEstado);
                 if(!is_array($info)){
@@ -254,14 +268,14 @@ class gestionParametroController extends Controller{
             } else {
                 echo "Error al desactivar período";
             }
-//        }
-//        else
-//        {         
-//            echo "<script>
-//                alert('No tiene permisos suficientes para acceder a esta función.');
-//                window.location.href='" . BASE_URL . "gestionCurso/listadoSeccion" . "';
-//                </script>";
-//        }
+        }
+        else
+        {         
+            echo "<script>
+                ".MSG_SINPERMISOS."
+                window.location.href='" . BASE_URL . "gestionParametro/listadoPeriodo';
+                </script>";
+        }
         
     }
     
@@ -270,15 +284,15 @@ class gestionParametroController extends Controller{
         
         session_start();
         $rol = $_SESSION["rol"];
-        //TODO: Marlen: Funciones de períodos
-//        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_CREARSECCION);
-//         
-//        if($rolValido[0]["valido"]!= PERMISO_CREAR){
-//           echo "<script>
-//                alert('No tiene permisos suficientes para acceder a esta función.');
-//                window.location.href='" . BASE_URL . "gestionCurso/listadoSeccion';
-//                </script>";
-//        }
+        
+        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_CREARPERIODO);
+         
+        if($rolValido[0]["valido"]!= PERMISO_CREAR){
+           echo "<script>
+                ".MSG_SINPERMISOS."
+                window.location.href='" . BASE_URL . "gestionParametro/listadoPeriodo';
+                </script>";
+        }
         
         $idCentroUnidad = $_SESSION["centrounidad"];
         
@@ -342,14 +356,15 @@ class gestionParametroController extends Controller{
     public function actualizarPeriodo($idPeriodo = 0) {
         session_start();
         $rol = $_SESSION["rol"];      
-        //TODO: Marlen: Funciones de períodos
-//        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_MODIFICARSECCION);
-//        if($rolValido[0]["valido"]!= PERMISO_MODIFICAR){
-//           echo "<script>
-//                alert('No tiene permisos suficientes para acceder a esta función.');
-//                window.location.href='" . BASE_URL . "gestionCurso/listadoSeccion" . "';
-//                </script>";
-//        }
+        
+        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_MODIFICARPERIODO);
+        if($rolValido[0]["valido"]!= PERMISO_MODIFICAR){
+           echo "<script>
+                ".MSG_SINPERMISOS."
+                window.location.href='" . BASE_URL . "gestionParametro/listadoPeriodo';
+                </script>";
+        }
+        
         $idCentroUnidad = $_SESSION["centrounidad"];
         
         $array = array();
@@ -425,8 +440,7 @@ class gestionParametroController extends Controller{
         }else{
             $this->redireccionar("error/sql/" . $tiposAsign);
             exit;
-        }
-        
+        }        
         
         $this->_view->renderizar('actualizarPeriodo');
     }

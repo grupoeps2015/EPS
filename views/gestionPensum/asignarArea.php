@@ -86,8 +86,7 @@
                                 <thead>
                                     <tr>
                                         <th style="text-align:center">Area Academica</th>
-                                        <th style="text-align:center">Estado</th>
-                                        <th style="text-align:center">&nbsp;</th>
+                                        <th style="text-align:center">Carrera</th>
                                         <th style="text-align:center">&nbsp;</th>
                                     </tr>
                                 </thead>
@@ -98,12 +97,10 @@
                                                 
                                                 <td style="text-align: center"><?php echo $this->lstCarAreas[$i]['_nombrecarrera']; ?></td>
                                                 <td style="text-align: center"><?php echo $this->lstCarAreas[$i]['_nombrearea']; ?></td>
-                                                <td style="text-align: center;"><a href="<?php echo BASE_URL . 'gestionPensum/actualizarArea/' . $this->lstCar[$i]['id']; ?>">Modificar</a></td>
+                                                
                                                 <td style="text-align: center;">
-                                                    <?php if (strcmp($this->lstCarAreas[$i]['_estado'], 'Activo') == 0): ?>
-                                                        <a href="<?php echo BASE_URL . 'gestionPensum/eliminarCarrera/-1/' . $this->lstCar[$i]['id']; ?>">Desactivar</a>
-                                                    <?php else : ?>
-                                                        <a href="<?php echo BASE_URL . 'gestionPensum/eliminarCarrera/1/' . $this->lstCar[$i]['id']; ?>">Activar</a>
+                                                    <?php if (strcmp($this->lstCarAreas[$i]['_estado'], '1') == 0): ?>
+                                                                              <a href="<?php echo BASE_URL . 'gestionPensum/eliminarCarreraArea/'. $this->id .'/-1/' . $this->lstCarAreas[$i]['_id']; ?>">Eliminar</a>
                                                     <?php endif; ?>
                                                 </td>
                                             </tr>

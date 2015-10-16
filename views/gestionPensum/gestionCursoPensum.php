@@ -63,7 +63,7 @@
                                         <a href="<?php echo BASE_URL . 'gestionPensum/eliminarCursoPensum/1/' . $this->lstCurPensum[$i]['id'] . '/' . $this->idPensum . '/' . $this->idCarrera;?>">Activar</a>
                                     <?php endif;?>
                                 </td>
-                                <td style="text-align: center;"><a href="<?php echo BASE_URL . 'gestionCursoPensum/actualizarCursoPensum/' . $this->idPensum;?>">Modificar</a></td>
+                                <td style="text-align: center;"><a href="<?php echo BASE_URL . 'gestionPensum/actualizarCursoPensum/' . $this->lstCurPensum[$i]['id'] . '/' . $this->idPensum . '/' . $this->idCarrera;?>">Modificar</a></td>
                             </tr>
                             <?php endfor;?>
                         <?php endif;?> 

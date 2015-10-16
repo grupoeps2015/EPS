@@ -204,7 +204,7 @@ BEGIN
   RETURN query
   Select cca.carreraArea, aa.nombre, cc.nombre, cca.estado
     from cur_carrera_area cca, adm_area aa, cur_carrera cc
-    where cca.carrera = cc.carrera and cca.area = aa.area and cca.carrera = idCarrera;
+    where cca.carrera = cc.carrera and cca.area = aa.area and cca.carrera = idCarrera and cca.estado != -1;
 END;
 $BODY$
   LANGUAGE plpgsql VOLATILE
@@ -213,7 +213,51 @@ $BODY$
 ALTER FUNCTION spmostrarcarerraareasactivas(integer)
   OWNER TO postgres;
 
+------------------------------------------------------------------------------------------------------------------------------------
+-- Function: spactivardesactivarcarreraarea(integer, integer)
+------------------------------------------------------------------------------------------------------------------------------------
+-- DROP FUNCTION spactivardesactivarcarreraarea(integer, integer);
+CREATE OR REPLACE FUNCTION spactivardesactivarcarreraarea(
+    _idCarreraArea integer,
+    _estadonuevo integer)
+  RETURNS void AS
+$BODY$
+BEGIN
+  EXECUTE format('UPDATE cur_carrera_area SET estado = %L WHERE carreraArea = %L',_estadoNuevo,_idCarreraArea);
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION spactivardesactivarcarreraarea(integer, integer)
+  OWNER TO postgres;
 
+
+  ------------------------------------------------------------------------------------------------------------------------------------
+  -- Function: spmostrarareasactivascarrera(integer)
+------------------------------------------------------------------------------------------------------------------------------------
+-- DROP FUNCTION spmostrarareasactivascarrera(integer);
+------------------------------------------------------------------------------------------------------------------------------------
+CREATE OR REPLACE FUNCTION spmostrarareasactivascarrera(
+    in idCarrera integer,
+    OUT _id integer,
+    OUT _nombre text)
+  RETURNS SETOF record AS
+$BODY$
+BEGIN
+  RETURN query
+  Select 
+    aa.area,
+    aa.nombre
+  from 
+    adm_area aa where not EXISTS(select cca.area from cur_carrera_area cca where cca.carrera = idCarrera and cca.area = aa.area and cca.estado = 1) order by area ;
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION spmostrarareasactivascarrera(integer)
+  OWNER TO postgres;
+  
 
 
  Select 'Script para Gestion de Area Instalado' as "Gestion Area";

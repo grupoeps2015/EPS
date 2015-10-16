@@ -90,13 +90,6 @@ class gestionHorarioController extends Controller {
             $this->redireccionar("error/sql/" . $lsAnios);
             exit;
         }
-//        $lsTipos = $this->_ajax->getTipoCiclo();
-//        if(is_array($lsTipos)){
-//            $this->_view->lstTipos = $lsTipos;
-//        }else{
-//            $this->redireccionar("error/sql/" . $lsTipos);
-//            exit;
-//        }
         
         $lsSec = $this->_post->informacionSeccion($idCentroUnidad);
         if(is_array($lsSec)){
@@ -110,6 +103,8 @@ class gestionHorarioController extends Controller {
         $this->_view->url = "";
         $this->_view->setJs(array('jquery.validate'), "public");
         $this->_view->setJs(array('seleccionarCicloCurso'));
+        $this->_view->setJs(array('jquery-ui'), "public");
+        $this->_view->setCss(array('jquery-ui'), "public");
         $this->_view->renderizar('seleccionarCicloCurso');
     }
 
@@ -511,6 +506,21 @@ class gestionHorarioController extends Controller {
             $ciclo =  $this->_post->agregarCiclo($array);
             if(!is_array($ciclo)){
                 $this->redireccionar("error/sql/" . $ciclo);
+                exit;
+            }
+        }
+        $this->redireccionar("gestionHorario/seleccionarCicloCurso");
+        
+    }
+    
+    public function copiarHorario(){
+        if ($this->getInteger('hdEnvio')) {
+            $array['cicloO'] = $this->getInteger('slCicloO');
+            $array['cicloD'] = $this->getInteger('slCicloD');
+            $array['centroUnidad'] = $_SESSION["centrounidad"];
+            $resp =  $this->_post->copiarHorario($array);
+            if(!is_array($resp)){
+                $this->redireccionar("error/sql/" . $resp);
                 exit;
             }
         }

@@ -649,6 +649,12 @@ INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) V
 INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (60,1,57,'ModificarSalon',1,'Modificar salón');
 INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (61,1,57,'EliminarSalon',1,'Eliminar salón');
 
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (62,1,12,'GestionPeriodo',1,'Gestión de periodos');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (63,1,62,'ConsultarPeriodo',1,'Consultar periodo');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (64,1,62,'CrearPeriodo',1,'Crear periodo');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (65,1,62,'ModificarPeriodo',1,'Modificar periodo');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (66,1,62,'EliminarPeriodo',1,'Eliminar periodo');
+
 -- -----------------------------------------------------
 -- Insert adm_rol_funcion
 -- -----------------------------------------------------
@@ -720,6 +726,11 @@ INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,58);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,59);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,60);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,61);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,62);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,63);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,64);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,65);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,66);
 
 -- -----------------------------------------------------
 -- Insert adm_funcionmenu
@@ -771,7 +782,17 @@ INSERT INTO CUR_TipoPrerrequisito (tipoprerrequisito,descripcion) values (2,'Cr�
 -- -----------------------------------------------------
 INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (1,'Número máximo de reintentos de login','5','',NULL,NULL,1,1);
 INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (2,'Tiempo máximo de sesión activa','60','En minutos',NULL,NULL,1,1);
+
+-- -----------------------------------------------------
+-- Insert adm_parametro
+-- -----------------------------------------------------
+INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (1,'Número máximo de reintentos de login','5','',NULL,NULL,1,1);
+INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (2,'Tiempo máximo de sesión activa','60','En minutos',NULL,NULL,1,1);
 INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (100,'Tipo de ciclo','1','En minutos',1,NULL,2,1);
+INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (200,'Número máximo de cursos traslapados','3','',1,1,3,1);
+INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (201,'Tiempo máximo de traslape entre 2 cursos','60','En minutos',1,1,3,1);
+INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (202,'Criterio de tiempo de traslape entre 2 cursos','S','S: Semanal, D: Diario',1,1,3,1);
+
 
 -- -----------------------------------------------------
 -- Insert est_estadonota

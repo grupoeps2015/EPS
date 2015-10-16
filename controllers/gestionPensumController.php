@@ -71,6 +71,8 @@ class gestionPensumController extends Controller {
 
         $this->_view->setJs(array('jquery.validate'), "public");
         $this->_view->setJs(array('asignarArea'));
+        $this->_view->setJs(array('jquery.dataTables.min'), "public");
+        $this->_view->setCSS(array('jquery.dataTables.min'));
 
         $arrayAsignacion = array();
 
@@ -85,7 +87,7 @@ class gestionPensumController extends Controller {
 //                </script>";
 //        }
 
-        $lsAreas = $this->_view->lstAreas = $this->_ajax->getAllAreas();
+        $lsAreas = $this->_view->lstAreas = $this->_ajax->getAllAreasCarreraNoAsignadas($intIdCarrera);
         if (is_array($lsAreas)) {
             $this->_view->lstAreas = $lsAreas;
         } else {
@@ -120,7 +122,7 @@ class gestionPensumController extends Controller {
                     foreach ($_POST['check_list'] as $selected) {
                         $arrayAsignacion['carrera'] = $intIdCarrera;
                         $arrayAsignacion['area'] = $selected;
-                        $arrayAsignacion['estado'] = ESTADO_PENDIENTE;
+                        $arrayAsignacion['estado'] = ESTADO_ACTIVO;
                         $asignacion = $this->_post->asignarAreaCarrera($arrayAsignacion);
                         if (is_array($asignacion)) {
                             $this->redireccionar('gestionPensum/asignarAreaCarrera/' . $intIdCarrera);
@@ -132,19 +134,6 @@ class gestionPensumController extends Controller {
                     }
                 }
             }
-//            $idArea = $this->getInteger('check_list');
-//            echo $idArea;
-            //$nombreCarrera = $this->getTexto('txtNombre');
-//            $arrayAsignacion['id'] = $intIdCarrera;
-//            $arrayAsignacion['nombre'] = $nombreCarrera;
-            //$respuesta = $this->_post->asignarAreaCarrera($arrayCar);
-//            if (is_rray($respuesta)) {
-//                
-//               // $this->redireccionar('gestionPensum/asignarAreaCarrera/' . $intIdCarrera);
-//            } else {
-//                $this->redireccionar("error/sql/" . $respuesta);
-//                exit;
-//            }
         }
     }
 
@@ -216,6 +205,30 @@ class gestionPensumController extends Controller {
             $this->redireccionar('gestionPensum/listadoCarrera');
         }
         $this->_view->renderizar('agregarCarrera', 'gestionPensum');
+    }
+    
+    public function eliminarCarreraArea($intIdCarrera,$intNuevoEstado, $intIdCarreraArea) {
+//        session_start();
+//        $rol = $_SESSION["rol"];
+//        $rolValido = $this->_ajax->getPermisosRolFuncion($rol, CONS_FUNC_CUR_ELIMINARCARRERA);
+
+//        if ($rolValido[0]["valido"] == PERMISO_ELIMINAR) {
+            if ($intNuevoEstado == -1 || $intNuevoEstado == 1) {
+                $info = $this->_post->eliminarCarreraArea($intIdCarreraArea, $intNuevoEstado);
+                if (!is_array($info)) {
+                    $this->redireccionar("error/sql/" . $info);
+                    exit;
+                }
+                $this->redireccionar('gestionPensum/asignarAreaCarrera/'.$intIdCarrera);
+            } else {
+                echo "Error al desactivar carrera";
+            }
+//        } else {
+//            echo "<script>
+//                alert('No tiene permisos suficientes para acceder a esta función.');
+//                window.location.href='" . BASE_URL . "gestionPensum/listadoCarrera/" . "';
+//                </script>";
+//        }
     }
 
     public function eliminarCarrera($intNuevoEstado, $intIdCarrera) {
@@ -319,7 +332,8 @@ class gestionPensumController extends Controller {
     }
 
     public function listadoPensum() {
-//        session_start();
+        session_start();
+        $idCentroUnidad = $_SESSION["centrounidad"];
 //        $rol = $_SESSION["rol"];
 //        $rolValido = $this->_ajax->getPermisosRolFuncion($rol, CONS_FUNC_CUR_GESTIONCARRERA);
 //
@@ -339,7 +353,7 @@ class gestionPensumController extends Controller {
 //        }
         $this->_view->id = $pensum;
         /* informacionPensum */
-        $info = $this->_post->getAllPensum();
+        $info = $this->_post->getAllPensum($idCentroUnidad);
         if (is_array($info)) {
             $this->_view->lstPensum = $info;
         } else {
@@ -547,10 +561,7 @@ class gestionPensumController extends Controller {
 
         $iden = $this->getInteger('hdEnvio');
         $idCentroUnidad = $_SESSION["centrounidad"];
-        $file = fopen("log.txt", "a");
-        fwrite($file, "iden" . $iden . PHP_EOL);
-
-        fclose($file);
+       
         $arrayCurPen = array();
 
         $this->_view->idPensum = $idPensum;
@@ -624,6 +635,85 @@ class gestionPensumController extends Controller {
 
         $this->_view->renderizar('agregarCursoPensum', 'gestionPensum');
     }
+    
+    
+     public function actualizarCursoPensum($idCursoPensum = 0, $idPensum = 0, $idCarrera = 0) {
+        session_start();
+//        $rol = $_SESSION["rol"];        
+//        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_MODIFICARSALON);
+//       
+//        if($rolValido[0]["valido"]!= PERMISO_MODIFICAR){
+//           echo "<script>
+//                alert('No tiene permisos suficientes para acceder a esta función.');
+//                window.location.href='" . BASE_URL . "gestionEdificio/gestionSalon/" . $intIdEdificio . "';
+//                </script>";
+//        }
+       $idCentroUnidad = $_SESSION["centrounidad"];
+       
+       $info = $this->_post->listadoCursos($idCentroUnidad);
+        if (is_array($info)) {
+            $this->_view->lstCursos = $info;
+        } else {
+            $this->redireccionar("error/sql/" . $info);
+            exit;
+        }
+
+        $info2 = $this->_post->listadoAreas($idCarrera);
+        if (is_array($info2)) {
+            $this->_view->lstAreas = $info2;
+        } else {
+            $this->redireccionar("error/sql/" . $info2);
+            exit;
+        }
+
+        $info3 = $this->_post->listadoTipoCiclo();
+        if (is_array($info3)) {
+            $this->_view->lstTipoCiclo = $info3;
+        } else {
+            $this->redireccionar("error/sql/" . $info3);
+            exit;
+        }
+
+        $valorPagina = $this->getInteger('hdEnvio');
+        $this->_view->setJs(array('jquery.validate'), "public");
+        $this->_view->setJs(array('actualizarCursoPensum'));
+        $this->_view->setCSS(array('jquery.dataTables.min'));
+        $this->_view->setJs(array('jquery-ui'), "public");
+        $this->_view->setCss(array('jquery-ui'), "public");
+
+        $arrayCursoPensum = array();
+        $this->_view->idPensum = $idPensum;
+        $this->_view->idCarrera = $idCarrera;
+        $this->_view->idCursoPensum = $idCursoPensum;
+
+        $datosCursoPensum = $this->_post->datosCursoPensum($idCursoPensum);
+        if (is_array($datosCursoPensum)) {
+            $this->_view->datosCursoPensum = $datosCursoPensum;
+        } else {
+            $this->redireccionar("error/sql/" . $datosCursoPensum);
+            exit;
+        }
+
+        if ($valorPagina == 1) {
+            $arrayCursoPensum["cursopensum"] = $idCursoPensum;
+            $arrayCursoPensum["curso"] = $this->getInteger('slCursos');
+            $arrayCursoPensum["carreraarea"] = $this->getInteger('slAreas');
+            $arrayCursoPensum["numerociclo"] = $this->getTexto('txtNumeroCiclo');
+            $arrayCursoPensum["tipociclo"] = $this->getInteger('slTipoCiclo');
+            $arrayCursoPensum["creditos"] = $this->getTexto('txtCreditos');
+            
+            $info = $this->_post->actualizarCursoPensum($arrayCursoPensum);
+            if (!is_array($info)) {
+                $this->redireccionar("error/sql/" . $info);
+                exit;
+            }
+
+            $this->redireccionar('gestionPensum/actualizarCursoPensum/'.$idCursoPensum.'/'.$idPensum.'/'.$idCarrera);
+        }
+        
+        $this->_view->renderizar('actualizarCursoPensum', 'gestionPensum');
+    }
+    
 
     public function crearPensum($idPensum = 0, $idCursoPensum = 0, $idCarrera = 0) {
         session_start();
@@ -743,4 +833,6 @@ class gestionPensumController extends Controller {
         $this->_view->renderizar('actualizarPensum', 'gestionPensum');
     }
 
+    
+    
 }
