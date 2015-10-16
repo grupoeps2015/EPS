@@ -66,8 +66,8 @@ LANGUAGE 'plpgsql';
 -- -----------------------------------------------------
 -- Function: spIdTrama()
 -- -----------------------------------------------------
--- DROP FUNCTION spIdTrama(int,int);
-CREATE OR REPLACE FUNCTION spIdTrama(IN _idCatedratico integer, IN _idCiclo integer) RETURNS int AS
+-- DROP FUNCTION spIdTrama(int,int,int);
+CREATE OR REPLACE FUNCTION spIdTrama(IN _idCatedratico integer, IN _idCiclo integer, IN _idCurso integer, IN _idSeccion integer) RETURNS int AS
 $BODY$
 DECLARE id integer;
 BEGIN
@@ -82,7 +82,7 @@ BEGIN
     JOIN CUR_Horario h ON h.trama = t.trama
     JOIN CUR_Jornada j ON j.jornada = h.jornada
     JOIN CUR_Ciclo ci ON ci.ciclo = h.ciclo
-    WHERE cat.catedratico = _idCatedratico AND ci.ciclo = _idCiclo into id;
+    WHERE cat.catedratico = _idCatedratico AND ci.ciclo = _idCiclo AND c.curso = _idCurso AND t.seccion = _idSeccion into id;
     RETURN id;
 END
 $BODY$
@@ -143,21 +143,31 @@ CREATE TRIGGER tgAsignacionInicial AFTER INSERT
 -- Function: spListaAsignados()
 -- -----------------------------------------------------
 -- DROP FUNCTION spListaAsignados();
-CREATE OR REPLACE FUNCTION spListaAsignados() RETURNS SETOF record AS
-select 
-  est.carnet,
-  concat(est.primernombre || ' ' || est.segundonombre || ' ' || est.primerapellido || ' ' || est.segundoapellido ) as nombre,
-  uno.zona,
-  uno.final,
-  uno.total
-from 
-  est_cur_nota uno
-  join est_cur_asignacion dos on uno.asignacion = dos.asignacion
-  join est_ciclo_asignacion tres on dos.ciclo_asignacion = tres.ciclo_asignacion
-  join cur_seccion cua on cua.seccion = dos.seccion
-  join est_estudiante est on tres.estudiante = est.estudiante
-  join cur_trama cin on cin.seccion = cua.seccion
-where cin.trama = _idTrama
-
+CREATE OR REPLACE FUNCTION spListaAsignados(IN _idTrama integer,
+					    OUT carnet integer,
+					    OUT nombre text,
+					    OUT zona float,
+					    OUT final float,
+					    OUT total float) RETURNS SETOF record AS
+$BODY$
+BEGIN
+  return query
+  select 
+    est.carnet,
+    concat(est.primernombre || ' ' || est.segundonombre || ' ' || est.primerapellido || ' ' || est.segundoapellido ) as nombre,
+    uno.zona,
+    uno.final,
+    uno.total
+  from 
+    est_cur_nota uno
+    join est_cur_asignacion dos on uno.asignacion = dos.asignacion
+    join est_ciclo_asignacion tres on dos.ciclo_asignacion = tres.ciclo_asignacion
+    join cur_seccion cua on cua.seccion = dos.seccion
+    join est_estudiante est on tres.estudiante = est.estudiante
+    join cur_trama cin on cin.seccion = cua.seccion
+  where cin.trama = _idTrama;
+END;
+$BODY$
+LANGUAGE plpgsql;
 
 Select 'Script para Gestion de Notas Instalado' as "Gestion Notas";

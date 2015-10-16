@@ -127,6 +127,12 @@ class ajaxController extends Controller{
         }
     }
     
+    public function getIdTrama(){
+        if($this->getInteger('cat') && $this->getInteger('ciclo') && $this->getInteger('sec') && $this->getInteger('cur')){
+            echo json_encode($this->_ajax->getIdTrama($this->getInteger('cat'),$this->getInteger('ciclo'),$this->getInteger('sec'),$this->getInteger('cur')));
+        }
+    }
+    
     public function getSeccionesCursoHorarioAjax(){
         if($this->getInteger('curso') && $this->getInteger('ciclo')){
             echo json_encode($this->_ajax->getSeccionesCursoHorarioAjax($this->getInteger('curso'),$this->getInteger('ciclo')));
