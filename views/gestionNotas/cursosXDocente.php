@@ -94,6 +94,20 @@
                             <input type="submit" id="btnActividades" name="btnActividades" value="Ver Actividades" class="btn btn-danger btn-lg btn-block" disabled="disabled">
                         </td>
                     </tr>
+                    <tr style="display:none">
+                        <td>&nbsp;</td>
+                        <td colspan="4">
+                            <select id="slCursoxSeccion" name="slCursoxSeccion" class="form-control input-lg"></select>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <table class="table-hover" id="tbAsignados" name="tbAsignados">
+                    
                 </table>
             </div>
         </div>

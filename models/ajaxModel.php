@@ -216,6 +216,27 @@ class ajaxModel extends Model{
             return $post->fetchall();
         }
     }
+    
+    public function getIdTrama($cat,$ciclo,$sec,$cur){
+        $post = $this->_db->query("select * from spIdTrama({$cat},{$ciclo},{$cur},{$sec})");
+        if($post === false){
+            return "1200/getIdTrama";
+        }else{
+            $post->setFetchMode(PDO::FETCH_ASSOC);
+            return $post->fetchall();
+        }
+    }
+    
+    public function getListaAsignados($id){
+        $post = $this->_db->query("select * from spListaAsignados({$id})");
+        if($post === false){
+            return "1200/getListaAsignados";
+        }else{
+            $post->setFetchMode(PDO::FETCH_ASSOC);
+            return $post->fetchall();
+        }
+    }
+    
     public function getDatosCentroUnidad(){
         $centroUnidad = $this->_db->query("select * from spdatoscentrounidad();");
         if($centroUnidad === false){
