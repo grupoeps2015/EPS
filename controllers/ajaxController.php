@@ -133,6 +133,12 @@ class ajaxController extends Controller{
         }
     }
     
+    public function getListaAsignados(){
+        if($this->getInteger('trama')){
+            echo json_encode($this->_ajax->getListaAsignados($this->getInteger('trama')));
+        }
+    }
+    
     public function getSeccionesCursoHorarioAjax(){
         if($this->getInteger('curso') && $this->getInteger('ciclo')){
             echo json_encode($this->_ajax->getSeccionesCursoHorarioAjax($this->getInteger('curso'),$this->getInteger('ciclo')));

@@ -114,24 +114,16 @@ $(document).ready( function () {
             'json');
     });
     
-    function mostrarListado(){
+    function mostrarListado(id){
         var base_url = $("#hdBASE_URL").val();
-        $.post(base_url+'ajax/getIdTrama',
-            { 
-                cat: $("#idCatedratico").val(), 
-                ciclo: $("#slCiclo").val(), 
-                sec: $("#slSeccion").val(), 
-                cur: $("#slCursoxSeccion").val() 
-            },
+        $.post(base_url+'ajax/getListaAsignados',
+            'trama=' + id,
             function(datos){
+                $("#tbAsignados").html('');
                 if(datos.length>0){
-                    alert(datos[0].spidtrama);
-                    /*for(var i =0; i < datos.length; i++){
-                        $("#slSeccion").append('<option value="' + datos[i].idseccion + '">' + datos[i].infoseccion + '</option>' );
-                        $("#slCursoxSeccion").append('<option value="' + datos[i].idseccion + '">' + datos[i].idcurso + '</option>' );
-                    }*/
-                }else{
-                    alert('no hay info');
+                    for(var i =0; i < datos.length; i++){
+                        $("#tbAsignados").append('<tr><td>' + datos[i].carnet + '</td><td>' + datos[i].nombre + '</td><td>' + datos[i].zona + '</td><td>' + datos[i].final + '</td><td>' + datos[i].total);
+                    }
                 }
             },
             'json');

@@ -103,5 +103,13 @@
                 </table>
             </div>
         </div>
+        
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <table class="table-hover" id="tbAsignados" name="tbAsignados">
+                    
+                </table>
+            </div>
+        </div>
     </div>
 </section>
