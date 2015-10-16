@@ -772,3 +772,11 @@ INSERT INTO CUR_TipoPrerrequisito (tipoprerrequisito,descripcion) values (2,'Cr�
 INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (1,'Número máximo de reintentos de login','5','',NULL,NULL,1,1);
 INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (2,'Tiempo máximo de sesión activa','60','En minutos',NULL,NULL,1,1);
 INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (100,'Tipo de ciclo','1','En minutos',1,NULL,2,1);
+
+-- -----------------------------------------------------
+-- Insert est_estadonota
+-- -----------------------------------------------------
+INSERT INTO cur_estadonota VALUES (1,'Pendiente','',1);
+INSERT INTO cur_estadonota VALUES (2,'Pendiente de aprobacion','',1);
+INSERT INTO cur_estadonota VALUES (3,'Aprobada por control academico','',1);
+INSERT INTO cur_estadonota VALUES (4,'Reprobada por control academico','',1)
