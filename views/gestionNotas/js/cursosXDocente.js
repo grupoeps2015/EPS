@@ -1,4 +1,5 @@
 $(document).ready( function () {
+    
     $("#slTipos").change(function(){
         if(!$("#slTipos").val()){
             $("#slAnio").html('');
@@ -119,14 +120,44 @@ $(document).ready( function () {
         $.post(base_url+'ajax/getListaAsignados',
             'trama=' + id,
             function(datos){
-                $("#tbAsignados").html('');
+                $("#tbAsignados").css('display','block');
+                $("#bodyAsignados").html('');
                 if(datos.length>0){
                     for(var i =0; i < datos.length; i++){
-                        $("#tbAsignados").append('<tr><td>' + datos[i].carnet + '</td><td>' + datos[i].nombre + '</td><td>' + datos[i].zona + '</td><td>' + datos[i].final + '</td><td>' + datos[i].total);
+                        $("#bodyAsignados").append('<tr><td>' + datos[i].carnet + 
+                                                   '</td><td>' + datos[i].nombre + 
+                                                   '</td><td><input id="z' + datos[i].carnet + '" type="text" maxlength="5" value="' + datos[i].zona + '" style="width:60%; text-align:center;"/>' + 
+                                                   '</td><td><input id="f' + datos[i].carnet + '" type="text" maxlength="5" value="' + datos[i].final + '" style="width:60%; text-align:center;"/>' + 
+                                                   '</td><td>' + datos[i].total);
                     }
                 }
+                aplicarCss();
             },
             'json');
+    }
+    
+    function aplicarCss(){
+        $('#slTipos').prop('disabled',true);
+        $('#slAnio').prop('disabled',true);
+        $('#slCiclo').prop('disabled',true);
+        $('#slSeccion').prop('disabled',true);
+        $('#btnActividades').css('display','none');
+        $('#btnNuevaBusqueda').css('display','block');
+        
+        $('#tbAsignados').DataTable({
+        language:{
+            emptyTable: "No hay informaci&oacute;n disponible.",
+            sZeroRecords: "No se encontro informaci&oacute;n compatible con la busqueda",
+            info: "Se muestran del _START_ al _END_ de _TOTAL_ registros",
+            infoEmpty: "No hay registros que mostrar",
+            paginate:{
+                next: "Siguiente",
+                previous: "Anterior"
+            },
+            search: "Buscar:",
+            lengthMenu: "Mostrar _MENU_ registros"
+        }
+    });
     }
     
 });
