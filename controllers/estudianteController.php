@@ -16,8 +16,8 @@ class estudianteController extends Controller{
         $this->getLibrary('session');
         $this->_session = new session();
         if(!$this->_session->validarSesion()){
-            //$this->redireccionar('login/salir');
-            //exit;
+            $this->redireccionar('login/salir');
+            exit;
         }
         $this->getLibrary('encripted');
         $this->_encriptar = new encripted();
