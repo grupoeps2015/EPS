@@ -24,7 +24,7 @@ class gestionCentroUnidadController extends Controller {
 
     public function index() {
         $rol = $_SESSION["rol"];        
-        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_GESTIONCURSO);
+        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_GESTIONCENTROUNIDAD);
         
         if($rolValido[0]["valido"]!=PERMISO_GESTIONAR){        
             echo "<script>
@@ -52,7 +52,7 @@ class gestionCentroUnidadController extends Controller {
 
     public function agregarCentro() {
         $rol = $_SESSION["rol"];        
-        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_CREARCURSO);
+        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_CREARCENTROUNIDAD);
          
         if($rolValido[0]["valido"]!= PERMISO_CREAR){
            echo "<script>
@@ -95,7 +95,7 @@ class gestionCentroUnidadController extends Controller {
     
     public function actualizarCentro($idCentro = -1){
         $rol = $_SESSION["rol"];        
-        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_MODIFICARCURSO);
+        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_MODIFICARCENTROUNIDAD);
          
         if($rolValido[0]["valido"]!= PERMISO_MODIFICAR){
            echo "<script>
@@ -187,7 +187,7 @@ class gestionCentroUnidadController extends Controller {
     
     public function listadoUnidades($idCentro = -1){
         $rol = $_SESSION["rol"];        
-        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_GESTIONCURSO);
+        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_GESTIONUNIDAD);
         
         if($rolValido[0]["valido"]!=PERMISO_GESTIONAR){        
             echo "<script>
@@ -264,7 +264,7 @@ class gestionCentroUnidadController extends Controller {
     
     public function agregarUnidad($idCentro = -1){
         $rol = $_SESSION["rol"];        
-        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_CREARCURSO);
+        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_CREARUNIDAD);
         if($rolValido[0]["valido"]!= PERMISO_CREAR){
            echo "<script>
                 alert('No tiene permisos suficientes para acceder a esta función.');

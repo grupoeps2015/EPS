@@ -1,6 +1,6 @@
 <?php
-//Secuencia actual = 66
-//Iniciar nueva con 67
+//Secuencia actual = 76
+//Iniciar nueva con 77
 
 //Constantes de funciones generales
 define('CONS_FUNC_LOGIN',1);
@@ -48,6 +48,13 @@ define('CONS_FUNC_ADM_CONSULTACENTROUNIDAD',68);
 define('CONS_FUNC_ADM_CREARCENTROUNIDAD',69);
 define('CONS_FUNC_ADM_MODIFICARCENTROUNIDAD',70);
 define('CONS_FUNC_ADM_ELIMINARCENTROUNIDAD',71);
+
+define('CONS_FUNC_ADM_GESTIONUNIDAD',72);
+define('CONS_FUNC_ADM_CONSULTAUNIDAD',73);
+define('CONS_FUNC_ADM_CREARUNIDAD',74);
+define('CONS_FUNC_ADM_MODIFICARUNIDAD',75);
+define('CONS_FUNC_ADM_ELIMINARUNIDAD',76);
+
 
 //Constantes de funciones CUR
 define('CONS_FUNC_CUR_GESTIONCURSO',22);
