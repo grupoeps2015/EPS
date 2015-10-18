@@ -13,6 +13,12 @@ class empleadoController extends Controller{
     
     public function __construct() {
         parent::__construct();
+        $this->getLibrary('session');
+        $this->_session = new session();
+        if(!$this->_session->validarSesion()){
+            $this->redireccionar('login/salir');
+            exit;
+        }
         $this->getLibrary('encripted');
         $this->_encriptar = new encripted();
         $this->_emp = $this->loadModel('empleado');

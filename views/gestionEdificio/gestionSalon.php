@@ -17,11 +17,13 @@
                 <div class="col-lg-2 col-md-4 text-center"></div>
                 <div class="col-lg-4 col-md-8 text-center">
                     <div class="service-box">
+                        <?php if($this->permisoAgregar == PERMISO_CREAR): ?>
                         <i class="fa fa-2x fa-upload wow bounceIn text-primary" data-wow-delay=".2s">
                             <a href="<?php echo BASE_URL ?>gestionEdificio/agregarSalon/<?php echo $this->id;?>">
                                 Agregar Salón
                             </a>
                         </i>
+                        <?php endif; ?>
                     </div>
                 </div>
 
@@ -42,8 +44,12 @@
                                         <th style="text-align:center; padding-right: 20px;">Edificio</th>
                                         <th style="text-align:center; padding-right: 20px; ">Nivel</th>
                                         <th style="text-align:center; padding-right: 20px; ">Capacidad</th>
+                                        <?php if($this->permisoModificar == PERMISO_MODIFICAR): ?>
                                         <th style="text-align:center; padding-right: 20px; ">&nbsp;</th>
+                                        <?php endif;?>
+                                        <?php if($this->permisoEliminar == PERMISO_ELIMINAR): ?>
                                         <th style="text-align:center; padding-right: 20px; ">&nbsp;</th>
+                                        <?php endif;?>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -55,14 +61,24 @@
                                                 <td style="text-align: center; padding-right: 20px;"><?php echo $this->lstSalones[$i]['nombreedificio']; ?></td>
                                                 <td style="text-align: center; padding-right: 20px;"><?php echo $this->lstSalones[$i]['nivel']; ?></td>
                                                 <td style="text-align: center; padding-right: 20px;"><?php echo $this->lstSalones[$i]['capacidad']; ?></td>
+                                                <?php if($this->permisoModificar == PERMISO_MODIFICAR): ?>
                                                 <td style="text-align: center; padding-right: 20px;"><a href="<?php echo BASE_URL . 'gestionEdificio/actualizarSalon/' . $this->lstSalones[$i]['salon'] . '/' . $this->id; ?>">Modificar</a></td>
+                                                <?php endif; ?>
                                                 <td style="text-align: center; padding-right: 20px;">
-                                                    <?php if (strcmp($this->lstSalones[$i]['estado'], '1') == 0): ?>
+                                                    <?php if($this->permisoEliminar == PERMISO_ELIMINAR): ?>
+                                                        <?php if (strcmp($this->lstSalones[$i]['estado'], '1') == 0): ?>
 
-                                                        <a href="<?php echo BASE_URL . 'gestionEdificio/eliminarSalon/-1/' . $this->lstSalones[$i]['salon'] . '/' . $this->id; ?>">Desactivar</a>
+                                                            <a href="<?php echo BASE_URL . 'gestionEdificio/eliminarSalon/-1/' . $this->lstSalones[$i]['salon'] . '/' . $this->id; ?>">Desactivar</a>
+                                                        <?php else : ?>
+
+                                                            <a href="<?php echo BASE_URL . 'gestionEdificio/eliminarSalon/1/' . $this->lstSalones[$i]['salon'] . '/' . $this->id; ?>">Activar</a>
+                                                        <?php endif; ?>
                                                     <?php else : ?>
-
-                                                        <a href="<?php echo BASE_URL . 'gestionEdificio/eliminarSalon/1/' . $this->lstSalones[$i]['salon'] . '/' . $this->id; ?>">Activar</a>
+                                                            <?php if (strcmp($this->lstSalones[$i]['estado'], '1') == 0): ?>
+                                                                Activo
+                                                            <?php else : ?>
+                                                                Inactivo
+                                                            <?php endif; ?>
                                                     <?php endif; ?>
                                                 </td>
                                             </tr>

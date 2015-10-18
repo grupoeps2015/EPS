@@ -39,7 +39,7 @@
                                 <?php if(isset($this->lsExistentes) && count($this->lsExistentes)): ?>
                                     <option value="NULL">(Unidad Acad&eacutemica)</option>
                                     <?php for($i =0; $i < count($this->lsExistentes); $i++) : ?>
-                                    <option value="<?php echo $this->lsExistentes[$i]['codigo'];?>">
+                                    <option value="<?php echo $this->lsExistentes[$i]['unidad'];?>">
                                         <?php echo $this->lsExistentes[$i]['nombre']; ?>
                                     </option>
                                     <?php endfor;?>

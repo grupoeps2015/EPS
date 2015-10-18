@@ -190,6 +190,7 @@ class gestionCursoController extends Controller {
             $respuesta = $this->_post->actualizarCurso($arrayCur);
             if (is_array($respuesta)){
                 $this->redireccionar('gestionCurso');
+                exit;
             }else{
                 $this->redireccionar("error/sql/" . $respuesta);
                 exit;

@@ -15,7 +15,7 @@
                 </div>
                 <div class="col-lg-2 col-md-6 text-cenater"></div>
                 <div class="col-lg-4 col-md-6 text-center">
-                    <?php if($_SESSION["rol"] == ROL_ADMINISTRADOR): ?>
+                    <?php if($_SESSION["rol"] == ROL_ADMINISTRADOR && $this->permisoGestionPeriodo == PERMISO_GESTIONAR): ?>
                     <div class="service-box">
                             <i class="fa fa-2x fa-edit wow bounceIn text-primary" data-wow-delay=".2s">
                                 <a href="<?php echo BASE_URL?>gestionParametro/listadoPeriodo">Gesti&oacute;n de Per&iacute;odos</a>

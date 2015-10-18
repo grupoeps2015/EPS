@@ -246,6 +246,7 @@ class ajaxModel extends Model{
         }
     }
     
+    
     public function getPermisosRolFuncion($rol,$funcion)
     {
         $post = $this->_db->query("SELECT * FROM spValidarRolFuncion({$rol},{$funcion}) AS valido");
