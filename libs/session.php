@@ -18,14 +18,14 @@ class session {
         $retorno = false;
         if(isset($_SESSION["centrounidad"]) && isset($_SESSION["usuario"]) && isset($_SESSION["rol"]) && isset($_SESSION["nombre"]) && isset($_SESSION["tiempo"])){
             $retorno = true;
-            if($_SESSION["rol"] == ROL_ESTUDIANTE){
-                 if(isset($_SESSION["carrera"])){
-                     $retorno = true;
-                 }
-                 else{
-                     $retorno = false;
-                 }
-            }
+//            if($_SESSION["rol"] == ROL_ESTUDIANTE){
+//                 if(isset($_SESSION["carrera"])){
+//                     $retorno = true;
+//                 }
+//                 else{
+//                     $retorno = false;
+//                 }
+//            }
         }
         if($retorno){
             $retorno = $this->validarTiempoSesion();
