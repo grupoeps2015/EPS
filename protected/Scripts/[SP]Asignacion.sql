@@ -205,6 +205,90 @@ $BODY$
 ALTER FUNCTION spdatoscursoaprobado(integer, integer, integer)
   OWNER TO postgres;
 
+  
+-- Function: spobtenercursostraslapados(integer, text)
+
+-- DROP FUNCTION spobtenercursostraslapados(integer, text);
+
+CREATE OR REPLACE FUNCTION spobtenercursostraslapados(
+    _ciclo integer,
+    _secciones text)
+  RETURNS integer AS
+$BODY$
+begin
+RETURN (
+         Select count(distinct v1.seccion) from (select t.trama, t.dia, t.inicio, t.fin, t.seccion from cur_trama t join cur_horario h on t.trama = h.trama and h.ciclo = _ciclo where seccion in (select cast(sec.seccion as integer) from (select * from regexp_split_to_table(_secciones, ';') as seccion where seccion <> '') sec)) v1 
+         join (select t.trama, t.dia, t.inicio, t.fin, t.seccion from cur_trama t join cur_horario h on t.trama = h.trama and h.ciclo = _ciclo where seccion in (select cast(sec.seccion as integer) from (select * from regexp_split_to_table(_secciones, ';') as seccion where seccion <> '') sec)) v2 
+         on v1.trama != v2.trama and v1.dia = v2.dia 
+         where v1.inicio < v2.fin and v1.fin > v2.inicio
+       ) ::integer;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION spobtenercursostraslapados(integer, text)
+  OWNER TO postgres;
+
+  
+-- Function: spobtenertiempotraslapeentrecursosdia(integer, text, integer)
+
+-- DROP FUNCTION spobtenertiempotraslapeentrecursosdia(integer, text, integer);
+
+CREATE OR REPLACE FUNCTION spobtenertiempotraslapeentrecursosdia(
+    IN _ciclo integer,
+    IN _secciones text,
+    IN _maxminutos integer,
+    OUT traslape bigint,
+    OUT dia integer,
+    OUT seccion1 integer,
+    OUT seccion2 integer)
+  RETURNS SETOF record AS
+$BODY$
+begin
+RETURN query
+Select sum(case when v1.fin - v2.inicio > v2.fin - v1.inicio then cast(EXTRACT(EPOCH FROM v2.fin - v1.inicio)/60 as integer) else cast(EXTRACT(EPOCH FROM v1.fin - v2.inicio)/60 as integer) end) as what, v1.dia, v1.seccion, v2.seccion
+	from (select t.trama, t.dia, t.inicio, t.fin, t.seccion from cur_trama t join cur_horario h on t.trama = h.trama and h.ciclo = _ciclo where seccion in (select cast(sec.seccion as integer) from (select * from regexp_split_to_table(_secciones, ';') as seccion where seccion <> '') sec)) v1 
+        join (select t.trama, t.dia, t.inicio, t.fin, t.seccion from cur_trama t join cur_horario h on t.trama = h.trama and h.ciclo = _ciclo where seccion in (select cast(sec.seccion as integer) from (select * from regexp_split_to_table(_secciones, ';') as seccion where seccion <> '') sec)) v2 
+        on v1.trama != v2.trama and v1.dia = v2.dia 
+        where v1.inicio < v2.fin and v1.fin > v2.inicio
+        group by v1.dia, v1.seccion, v2.seccion having sum(case when v1.fin - v2.inicio > v2.fin - v1.inicio then cast(EXTRACT(EPOCH FROM v2.fin - v1.inicio)/60 as integer) else cast(EXTRACT(EPOCH FROM v1.fin - v2.inicio)/60 as integer) end) > _maxminutos;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION spobtenertiempotraslapeentrecursosdia(integer, text, integer)
+  OWNER TO postgres;
+
+  
+-- Function: spobtenertiempotraslapeentrecursossemana(integer, text, integer)
+
+-- DROP FUNCTION spobtenertiempotraslapeentrecursossemana(integer, text, integer);
+
+CREATE OR REPLACE FUNCTION spobtenertiempotraslapeentrecursossemana(
+    IN _ciclo integer,
+    IN _secciones text,
+    IN _maxminutos integer,
+    OUT traslape bigint,
+    OUT seccion1 integer,
+    OUT seccion2 integer)
+  RETURNS SETOF record AS
+$BODY$
+begin
+RETURN query
+Select sum(case when v1.fin - v2.inicio > v2.fin - v1.inicio then cast(EXTRACT(EPOCH FROM v2.fin - v1.inicio)/60 as integer) else cast(EXTRACT(EPOCH FROM v1.fin - v2.inicio)/60 as integer) end) as what, v1.seccion, v2.seccion
+	from (select t.trama, t.dia, t.inicio, t.fin, t.seccion from cur_trama t join cur_horario h on t.trama = h.trama and h.ciclo = _ciclo where seccion in (select cast(sec.seccion as integer) from (select * from regexp_split_to_table(_secciones, ';') as seccion where seccion <> '') sec)) v1 
+        join (select t.trama, t.dia, t.inicio, t.fin, t.seccion from cur_trama t join cur_horario h on t.trama = h.trama and h.ciclo = _ciclo where seccion in (select cast(sec.seccion as integer) from (select * from regexp_split_to_table(_secciones, ';') as seccion where seccion <> '') sec)) v2 
+        on v1.trama != v2.trama and v1.dia = v2.dia 
+        where v1.inicio < v2.fin and v1.fin > v2.inicio
+        group by v1.seccion, v2.seccion having sum(case when v1.fin - v2.inicio > v2.fin - v1.inicio then cast(EXTRACT(EPOCH FROM v2.fin - v1.inicio)/60 as integer) else cast(EXTRACT(EPOCH FROM v1.fin - v2.inicio)/60 as integer) end) > _maxminutos;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION spobtenertiempotraslapeentrecursossemana(integer, text, integer)
+  OWNER TO postgres;
 
   
 Select 'Script de Asignaciones Instalado' as "Asignacion";

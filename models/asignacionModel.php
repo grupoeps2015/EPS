@@ -70,4 +70,23 @@ class asignacionModel extends Model{
         }
     }
     
+    public function getCursosTraslapados($ciclo,$secciones){
+        $cursos = $this->_db->query("select * from spobtenercursostraslapados({$ciclo},'{$secciones}') as Cursos;");
+        $cursos->setFetchMode(PDO::FETCH_ASSOC);
+        if($cursos === false){
+            return "1200/getCursosTraslapados";
+        }else{
+            return $cursos->fetchall();
+        }
+    }
+    
+    public function geTraslapesXCriterio($criterio,$ciclo,$secciones,$max){
+        $cursos = $this->_db->query("select * from spobtenertiempotraslapeentrecursos{$criterio}({$ciclo},'{$secciones}',{$max});");
+        $cursos->setFetchMode(PDO::FETCH_ASSOC);
+        if($cursos === false){
+            return "1200/geTraslapesXCriterio";
+        }else{
+            return $cursos->fetchall();
+        }
+    }
 }
