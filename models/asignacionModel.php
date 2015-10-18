@@ -80,7 +80,7 @@ class asignacionModel extends Model{
         }
     }
     
-    public function geTraslapesXCriterio($criterio,$ciclo,$secciones,$max){
+    public function getTraslapesXCriterio($criterio,$ciclo,$secciones,$max){
         $cursos = $this->_db->query("select * from spobtenertiempotraslapeentrecursos{$criterio}({$ciclo},'{$secciones}',{$max});");
         $cursos->setFetchMode(PDO::FETCH_ASSOC);
         if($cursos === false){
