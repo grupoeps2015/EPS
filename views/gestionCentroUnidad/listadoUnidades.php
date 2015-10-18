@@ -127,7 +127,7 @@
                             <td style="text-align: center;"><?php echo $this->lstUnidades[$i]['nombre']; ?></td>
                             <td style="text-align: center;">
                                 <?php echo $this->lstUnidades[$i]['nombrepadre']; ?>
-                                <input type="hidden" nombre="idPadre<?php echo $this->lstUnidades[$i]['idpadre']; ?>" value="<?php echo $this->lstCentros[$i]['idpadre'];?>"/>
+                                <input type="hidden" nombre="idPadre<?php echo $this->lstUnidades[$i]['idpadre']; ?>" value="<?php echo $this->lstUnidades[$i]['idpadre'];?>"/>
                             </td>
                             <td style="text-align: center;"><?php echo $this->lstUnidades[$i]['tipo']; ?></td>
                             <td style="text-align: center;"><?php echo $this->lstUnidades[$i]['estado']; ?></td>

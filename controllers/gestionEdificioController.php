@@ -60,6 +60,24 @@ class gestionEdificioController extends Controller {
     }
     
     public function index($id=0){
+        session_start();
+        $rol = $_SESSION["rol"];        
+        $rolValidoGestion= $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_GESTIONASIGNACIONEDIFICIO);
+        $rolValidoAgregar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_CREARASIGNACIONEDIFICIO);
+        $rolValidoModificar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_MODIFICARASIGNACIONEDIFICIO);
+        $rolValidoEliminar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_ELIMINARASIGNACIONEDIFICIO);
+        $this->_view->permisoGestion = $rolValidoGestion[0]["valido"];
+        $this->_view->permisoAgregar = $rolValidoAgregar[0]["valido"];
+        $this->_view->permisoModificar = $rolValidoModificar[0]["valido"];
+        $this->_view->permisoEliminar = $rolValidoEliminar[0]["valido"];
+        
+         if($this->_view->permisoGestion != PERMISO_GESTIONAR){        
+            echo "<script>
+                ".MSG_SINPERMISOS."
+                window.location.href='" . BASE_URL . "gestionEdificio/listadoEdificio';
+                </script>";
+        }
+        
         if($this->getInteger('hdEdificio')){
             $idEdificio = $this->getInteger('hdEdificio');
         }else{
@@ -333,9 +351,16 @@ class gestionEdificioController extends Controller {
         public function gestionSalon($intIdEdificio = 0) {
         session_start();
         $rol = $_SESSION["rol"];        
-        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_GESTIONSALON);
-                    
-        if($rolValido[0]["valido"]!=PERMISO_GESTIONAR){        
+        $rolValidoGestion = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_GESTIONSALON);
+        $rolValidoAgregar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_CREARSALON);
+        $rolValidoModificar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_MODIFICARSALON);
+        $rolValidoEliminar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_ELIMINARSALON);
+        $this->_view->permisoGestion = $rolValidoGestion[0]["valido"];
+        $this->_view->permisoAgregar = $rolValidoAgregar[0]["valido"];
+        $this->_view->permisoModificar = $rolValidoModificar[0]["valido"];
+        $this->_view->permisoEliminar = $rolValidoEliminar[0]["valido"];
+        
+        if($rolValidoGestion[0]["valido"]!=PERMISO_GESTIONAR){        
             echo "<script>
                 ".MSG_SINPERMISOS."
                 window.location.href='" . BASE_URL . "gestionEdificio/listadoEdificio';

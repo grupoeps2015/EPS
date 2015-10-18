@@ -53,7 +53,7 @@ class gestionCentroUnidadController extends Controller {
         if($rolValido[0]["valido"]!= PERMISO_CREAR){
            echo "<script>
                 alert('No tiene permisos suficientes para acceder a esta función.');
-                window.location.href='" . BASE_URL . "gestionCurso';
+                window.location.href='" . BASE_URL . "gestionCentroUnidad';
                 </script>";
         }
         
@@ -97,7 +97,7 @@ class gestionCentroUnidadController extends Controller {
         if($rolValido[0]["valido"]!= PERMISO_MODIFICAR){
            echo "<script>
                 alert('No tiene permisos suficientes para acceder a esta función.');
-                window.location.href='" . BASE_URL . "gestionCurso';
+                window.location.href='" . BASE_URL . "gestionCentroUnidad';
                 </script>";
         }
         
@@ -190,7 +190,7 @@ class gestionCentroUnidadController extends Controller {
         if($rolValido[0]["valido"]!=PERMISO_GESTIONAR){        
             echo "<script>
                 alert('No tiene permisos para acceder a esta función.');
-                window.location.href='" . BASE_URL . "login/inicio';
+                window.location.href='" . BASE_URL . "gestionCentroUnidad';
                 </script>";
         }
         
@@ -267,7 +267,7 @@ class gestionCentroUnidadController extends Controller {
         if($rolValido[0]["valido"]!= PERMISO_CREAR){
            echo "<script>
                 alert('No tiene permisos suficientes para acceder a esta función.');
-                window.location.href='" . BASE_URL . "gestionCurso';
+                window.location.href='" . BASE_URL . "gestionCentroUnidad/listadoUnidades/".$idCentro."';
                 </script>";
         }
         
