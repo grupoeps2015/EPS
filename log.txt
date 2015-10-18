@@ -1,9 +1,2 @@
-iden0
-iden0
-iden1
-iden0
-iden1
-iden0
-iden1
-iden0
-iden1
+validacionArray
+validacion

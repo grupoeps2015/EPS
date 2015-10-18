@@ -26,8 +26,8 @@ $(document).ready(function() {
 
     var padre = $('#arbolPensum').tree({
         data: data,
-        autoOpen: true,
-        dragAndDrop: true
+        autoOpen: true
+        //dragAndDrop: true
     });
 
 

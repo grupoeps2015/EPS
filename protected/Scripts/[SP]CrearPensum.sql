@@ -146,7 +146,7 @@ ALTER FUNCTION spagregarpensum(integer, integer, text, text, text, integer)
 
 -- DROP FUNCTION spallpensum();
 
-CREATE OR REPLACE FUNCTION spallpensum(
+CREATE OR REPLACE FUNCTION spallpensum(IN _centrounidadacademica integer,
 	OUT id integer,
     OUT carrera text,
 	OUT idcarrera integer,
@@ -170,13 +170,14 @@ BEGIN
 	when p.estado=-1 then 'Inactivo'
 	when p.estado=1 then 'Activo'
 	end as "Estado" FROM adm_pensum p 
-	join cur_carrera c ON p.carrera = c.carrera;
+	join cur_carrera c ON p.carrera = c.carrera
+	where c.centro_unidadacademica = _centrounidadacademica;
 END;
 $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100
   ROWS 1000;
-ALTER FUNCTION spallpensum()
+ALTER FUNCTION spallpensum(integer)
   OWNER TO postgres;
   
 
@@ -424,3 +425,53 @@ $BODY$
   ROWS 1000;
 ALTER FUNCTION splistadoareaporcarrera(integer)
   OWNER TO postgres;
+  
+  
+-- Function: splistadotipociclo()
+
+-- DROP FUNCTION splistadotipociclo();
+
+CREATE OR REPLACE FUNCTION splistadotipociclo(
+    OUT tipociclo integer,
+    OUT nombre text)
+  RETURNS SETOF record AS
+$BODY$
+begin
+ Return query
+	SELECT tc.tipociclo,tc.nombre
+	FROM CUR_TipoCiclo tc
+	WHERE Estado = 1;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION splistadotipociclo()
+  OWNER TO postgres;
+  
+  
+-- Function: spdatoscursopensum(integer)
+
+-- DROP FUNCTION spdatoscursopensum(integer);
+
+CREATE OR REPLACE FUNCTION spdatoscursopensum(
+    IN id integer,
+    OUT curso integer, OUT pensum integer, OUT numerociclo integer, OUT tipociclo integer,
+    OUT creditos integer, OUT carreraarea integer, OUT area text)
+  RETURNS SETOF record AS
+$BODY$
+BEGIN
+  RETURN query
+  SELECT cp.curso, cp.pensum, cp.numerociclo, cp.tipociclo, cp.creditos, cp.carreraarea, a.nombre
+	FROM CUR_Pensum_Area cp 
+	JOIN CUR_Carrera_Area ca ON ca.carreraarea = cp.carreraarea
+	JOIN ADM_Area a ON a.area = ca.area
+	WHERE cp.cursopensumarea = id;
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION spdatoscarrera(integer)
+  OWNER TO postgres;
+

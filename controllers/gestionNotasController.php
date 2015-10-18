@@ -85,6 +85,8 @@ class gestionNotasController extends Controller{
         
         $this->_view->titulo = 'Gestión de notas - ' . APP_TITULO;
         $this->_view->setJs(array('cursosXDocente'));
+        $this->_view->setJs(array('jquery.dataTables.min'), "public");
+        $this->_view->setCSS(array('jquery.dataTables.min'));
         $this->_view->renderizar('cursosXDocente','gestionNotas');
     }
     

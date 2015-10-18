@@ -17,9 +17,11 @@
                 <div class="col-lg-3 col-md-6 text-center"></div>
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
+                        <?php if($this->permisoAgregar == PERMISO_CREAR): ?>
                             <i class="fa fa-2x fa-toggle-on wow bounceIn text-primary" data-wow-delay=".2s">
                                 <a id="linkSeccionNueva" href="<?php echo BASE_URL?>gestionParametro/agregarPeriodo">Agregar Per&iacute;odo</a>
                             </i>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -40,8 +42,12 @@
                                 <th style="text-align:center">Inicio</th>
                                 <th style="text-align:center">Fin</th>
                                 <th style="text-align:center">Estado</th>
+                                <?php if($this->permisoModificar == PERMISO_MODIFICAR): ?>
                                 <th style="text-align:center">&nbsp;</th>
+                                <?php endif;?>
+                                <?php if($this->permisoEliminar == PERMISO_ELIMINAR): ?>
                                 <th style="text-align:center">&nbsp;</th>
+                                <?php endif;?>
                             </tr>
                         </thead>
                         <tbody>
@@ -55,18 +61,23 @@
                                 <td style="text-align: center"><?php echo $this->lstPer[$i]['inicio']; ?></td>
                                 <td style="text-align: center"><?php echo $this->lstPer[$i]['fin']; ?></td>
                                 <td style="text-align: center"><?php echo $this->lstPer[$i]['estado']; ?></td>
+                                <?php if($this->permisoModificar == PERMISO_MODIFICAR): ?>
                                 <td style="text-align: center;">
+                                    
                                     <a href="<?php echo BASE_URL . 'gestionParametro/actualizarPeriodo/' . $this->lstPer[$i]['id'];?>">
                                         Modificar
-                                    </a>
+                                    </a>                                    
                                 </td>
-                                <td style="text-align: center;">
-                                    <?php if(strcmp($this->lstPer[$i]['estado'], 'Activo') == 0): ?>
-                                    <a href="<?php echo BASE_URL . 'gestionParametro/eliminarPeriodo/-1/' . $this->lstPer[$i]['id'];?>">Desactivar</a>
-                                    <?php else : ?>
-                                    <a href="<?php echo BASE_URL . 'gestionParametro/eliminarPeriodo/1/' . $this->lstPer[$i]['id'];?>">Activar</a>
-                                    <?php endif;?>
+                                <?php endif;?>
+                                <?php if($this->permisoEliminar == PERMISO_ELIMINAR): ?>
+                                <td style="text-align: center;">                                    
+                                        <?php if(strcmp($this->lstPer[$i]['estado'], 'Activo') == 0): ?>
+                                        <a href="<?php echo BASE_URL . 'gestionParametro/eliminarPeriodo/-1/' . $this->lstPer[$i]['id'];?>">Desactivar</a>
+                                        <?php else : ?>
+                                        <a href="<?php echo BASE_URL . 'gestionParametro/eliminarPeriodo/1/' . $this->lstPer[$i]['id'];?>">Activar</a>
+                                        <?php endif;?>                                    
                                 </td>
+                                <?php endif;?>
                             </tr>
                             <?php endfor;?>
                         <?php endif;?>
