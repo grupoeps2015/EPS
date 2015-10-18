@@ -13,6 +13,12 @@ class gestionAreaController extends Controller {
 
     public function __construct() {
         parent::__construct();
+        $this->getLibrary('session');
+        $this->_session = new session();
+        if(!$this->_session->validarSesion()){
+            $this->redireccionar('login/salir');
+            exit;
+        }
         $this->getLibrary('encripted');
         $this->_encriptar = new encripted();
         $this->_post = $this->loadModel('gestionArea');
@@ -119,7 +125,6 @@ class gestionAreaController extends Controller {
     }
 
     public function agregarArea() {
-        session_start();
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_CREAREDIFICIO);
          

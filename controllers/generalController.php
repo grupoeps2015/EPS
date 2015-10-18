@@ -11,6 +11,12 @@ class generalController extends Controller{
     
     public function __construct() {
         parent::__construct();
+        $this->getLibrary('session');
+        $this->_session = new session();
+        if(!$this->_session->validarSesion()){
+            $this->redireccionar('login/salir');
+            exit;
+        }
         $this->_ajax = $this->loadModel("ajax");
     }
 
@@ -26,7 +32,6 @@ class generalController extends Controller{
                 $url .= func_get_arg($i) . "/" ;
             }
         }
-        session_start();
         if (isset($_SESSION["rol"]) && $_SESSION["rol"] == ROL_ADMINISTRADOR){
             if($this->getInteger('hdCentroUnidad')){
                 $_SESSION["centrounidad"] = $this->getInteger('hdCentroUnidad');
@@ -93,7 +98,6 @@ class generalController extends Controller{
     }
     
     public function seleccionarCarreraEstudiante(){
-        session_start();
         $estudiante = $this->_ajax->getEstudianteUsuario($_SESSION["usuario"]);
         if(is_array($estudiante)){
         }else{

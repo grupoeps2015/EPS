@@ -12,12 +12,17 @@ class gestionParametroController extends Controller{
     
     public function __construct() {
         parent::__construct();
+        $this->getLibrary('session');
+        $this->_session = new session();
+        if(!$this->_session->validarSesion()){
+            $this->redireccionar('login/salir');
+            exit;
+        }
         $this->_post = $this->loadModel('gestionParametro');
         $this->_ajax = $this->loadModel("ajax");
     }
 
     public function index(){
-        session_start();
         $rol = $_SESSION["rol"];        
         $rolValidoGestion = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_GESTIONPARAMETRO);
         $rolValidoAgregar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_CREARPARAMETRO);
@@ -55,7 +60,6 @@ class gestionParametroController extends Controller{
     }
     
     public function agregarParametro(){
-        session_start();
                 
         $iden = $this->getInteger('hdEnvio');
         $idCentroUnidad = $_SESSION["centrounidad"];
@@ -116,7 +120,6 @@ class gestionParametroController extends Controller{
     }
     
     public function eliminarParametro($intNuevoEstado, $intIdParametro){
-        session_start();
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_ELIMINARPARAMETRO);
         
@@ -143,7 +146,6 @@ class gestionParametroController extends Controller{
     }
     
     public function actualizarParametro($intIdParametro = 0,$idCentroUnidad = 0) {
-        session_start();
         $rol = $_SESSION["rol"];  
         $idCentroUnidad = $_SESSION["centrounidad"];
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_MODIFICARPARAMETRO);
@@ -210,7 +212,6 @@ class gestionParametroController extends Controller{
     }
     
     public function listadoPeriodo() {
-        session_start();
         $rol = $_SESSION["rol"];  
         
         $rolValidoGestion = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_GESTIONPERIODO);
@@ -251,7 +252,6 @@ class gestionParametroController extends Controller{
     }
     
     public function eliminarPeriodo($intNuevoEstado, $intIdPeriodo) {
-        session_start();
         $rol = $_SESSION["rol"]; 
        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_ELIMINARPERIODO);
@@ -282,7 +282,6 @@ class gestionParametroController extends Controller{
     public function agregarPeriodo() {
         
         
-        session_start();
         $rol = $_SESSION["rol"];
         
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_CREARPERIODO);
@@ -354,7 +353,6 @@ class gestionParametroController extends Controller{
     }
     
     public function actualizarPeriodo($idPeriodo = 0) {
-        session_start();
         $rol = $_SESSION["rol"];      
         
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_MODIFICARPERIODO);

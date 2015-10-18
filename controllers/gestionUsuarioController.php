@@ -13,6 +13,12 @@ class gestionUsuarioController extends Controller {
     
     public function __construct() {
         parent::__construct();
+        $this->getLibrary('session');
+        $this->_session = new session();
+        if(!$this->_session->validarSesion()){
+            $this->redireccionar('login/salir');
+            exit;
+        }
         $this->getLibrary('encripted');
         $this->_encriptar = new encripted();
         $this->_post = $this->loadModel('gestionUsuario');
@@ -20,7 +26,6 @@ class gestionUsuarioController extends Controller {
     }
 
     public function index(){
-        session_start();
         if(isset($_SESSION["rol"])){
             $rol = $_SESSION["rol"];
             $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_GESTIONUSUARIO);
@@ -52,7 +57,6 @@ class gestionUsuarioController extends Controller {
     }
     
     public function agregarUsuario() {
-        session_start();
         
         $iden = $this->getInteger('hdEnvio');
         $idCentroUnidad = $_SESSION["centrounidad"];
@@ -226,7 +230,6 @@ class gestionUsuarioController extends Controller {
     }
 
     public function eliminarUsuario($intNuevoEstado, $intIdUsuario) {
-        session_start();
         $rol = $_SESSION["rol"];
         $idCentroUnidad = $_SESSION["centrounidad"];
         
@@ -256,7 +259,6 @@ class gestionUsuarioController extends Controller {
     }
 
     public function actualizarUsuario($intIdUsuario = 0) {
-        session_start();
         $rol = $_SESSION["rol"];
         $idCentroUnidad = $_SESSION["centrounidad"];
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_MODIFICARUSUARIO);
@@ -496,7 +498,6 @@ class gestionUsuarioController extends Controller {
     
     public function cargarCSV(){
         $iden = $this->getInteger('hdFile');
-        session_start();
         $idCentroUnidad = $_SESSION["centrounidad"];
         $fileName = "";
         $fileExt = "";
@@ -666,7 +667,6 @@ class gestionUsuarioController extends Controller {
     }
     
     private function usuarioCorrecto($idUsuario){
-        session_start();
         if(isset($_SESSION['usuario'])){
             if($_SESSION['usuario'] == $idUsuario){
                 return true;

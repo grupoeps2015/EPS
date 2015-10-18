@@ -12,12 +12,17 @@ class gestionCentroUnidadController extends Controller {
     
     public function __construct() {
         parent::__construct();
+        $this->getLibrary('session');
+        $this->_session = new session();
+        if(!$this->_session->validarSesion()){
+            $this->redireccionar('login/salir');
+            exit;
+        }
         $this->_ajax = $this->loadModel("ajax");
         $this->_gCenUni = $this->loadModel('gestionCentroUnidad');
     }
 
     public function index() {
-        session_start();
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_GESTIONCURSO);
         
@@ -46,7 +51,6 @@ class gestionCentroUnidadController extends Controller {
     }
 
     public function agregarCentro() {
-        session_start();
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_CREARCURSO);
          
@@ -90,7 +94,6 @@ class gestionCentroUnidadController extends Controller {
     }
     
     public function actualizarCentro($idCentro = -1){
-        session_start();
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_MODIFICARCURSO);
          
@@ -183,7 +186,6 @@ class gestionCentroUnidadController extends Controller {
     }
     
     public function listadoUnidades($idCentro = -1){
-        session_start();
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_GESTIONCURSO);
         
@@ -261,7 +263,6 @@ class gestionCentroUnidadController extends Controller {
     }
     
     public function agregarUnidad($idCentro = -1){
-        session_start();
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_CREARCURSO);
         if($rolValido[0]["valido"]!= PERMISO_CREAR){
