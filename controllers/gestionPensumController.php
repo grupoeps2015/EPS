@@ -13,6 +13,12 @@ class gestionPensumController extends Controller {
 
     public function __construct() {
         parent::__construct();
+        $this->getLibrary('session');
+        $this->_session = new session();
+        if(!$this->_session->validarSesion()){
+            $this->redireccionar('login/salir');
+            exit;
+        }
         $this->getLibrary('encripted');
         $this->_encriptar = new encripted();
         $this->_post = $this->loadModel('gestionPensum');
@@ -20,7 +26,6 @@ class gestionPensumController extends Controller {
     }
 
     public function index() {
-        session_start();
         $rol = $_SESSION["rol"];
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol, CONS_FUNC_CUR_CREARCARRERA);
 
@@ -52,7 +57,6 @@ class gestionPensumController extends Controller {
     }
 
     public function inicio() {
-        session_start();
         $rol = $_SESSION["rol"];
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol, CONS_FUNC_CUR_GESTIONPENSUM);
 
@@ -138,7 +142,6 @@ class gestionPensumController extends Controller {
     }
 
     public function listadoCarrera() {
-        session_start();
         $rol = $_SESSION["rol"];
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol, CONS_FUNC_CUR_GESTIONCARRERA);
 
@@ -171,7 +174,6 @@ class gestionPensumController extends Controller {
     }
 
     public function agregarCarrera() {
-        session_start();
 
         $idCentroUnidad = $_SESSION["centrounidad"];
         $rol = $_SESSION["rol"];
@@ -232,7 +234,6 @@ class gestionPensumController extends Controller {
     }
 
     public function eliminarCarrera($intNuevoEstado, $intIdCarrera) {
-        session_start();
         $rol = $_SESSION["rol"];
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol, CONS_FUNC_CUR_ELIMINARCARRERA);
 
@@ -256,7 +257,6 @@ class gestionPensumController extends Controller {
     }
 
     public function actualizarCarrera($intIdCarrera = 0) {
-        session_start();
 
         $this->_view->setJs(array('jquery.validate'), "public");
         $this->_view->setJs(array('actualizarCarrera'));
@@ -332,7 +332,6 @@ class gestionPensumController extends Controller {
     }
 
     public function listadoPensum() {
-        session_start();
         $idCentroUnidad = $_SESSION["centrounidad"];
 //        $rol = $_SESSION["rol"];
 //        $rolValido = $this->_ajax->getPermisosRolFuncion($rol, CONS_FUNC_CUR_GESTIONCARRERA);
@@ -487,7 +486,6 @@ class gestionPensumController extends Controller {
     }
 
     public function gestionCursoPensum($idPensum = 0, $idCarrera = 0) {
-        session_start();
 
         $iden = $this->getInteger('hdEnvio');
         $idCentroUnidad = $_SESSION["centrounidad"];
@@ -532,7 +530,6 @@ class gestionPensumController extends Controller {
     }
 
     public function eliminarCursoPensum($intNuevoEstado, $intIdCursoPensum, $intIdPensum, $intIdCarrera) {
-        session_start();
         $rol = $_SESSION["rol"];
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol, CONS_FUNC_ADM_ELIMINARPARAMETRO);
 
@@ -557,7 +554,6 @@ class gestionPensumController extends Controller {
     }
 
     public function agregarCursoPensum($idPensum = 0, $idCarrera = 0) {
-        session_start();
 
         $iden = $this->getInteger('hdEnvio');
         $idCentroUnidad = $_SESSION["centrounidad"];
@@ -638,7 +634,6 @@ class gestionPensumController extends Controller {
     
     
      public function actualizarCursoPensum($idCursoPensum = 0, $idPensum = 0, $idCarrera = 0) {
-        session_start();
 //        $rol = $_SESSION["rol"];        
 //        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_MODIFICARSALON);
 //       
@@ -716,7 +711,6 @@ class gestionPensumController extends Controller {
     
 
     public function crearPensum($idPensum = 0, $idCursoPensum = 0, $idCarrera = 0) {
-        session_start();
 
         $iden = $this->getInteger('hdEnvio');
         $idCentroUnidad = $_SESSION["centrounidad"];

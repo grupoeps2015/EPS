@@ -13,6 +13,12 @@ class estudianteController extends Controller{
     
     public function __construct() {
         parent::__construct();
+        $this->getLibrary('session');
+        $this->_session = new session();
+        if(!$this->_session->validarSesion()){
+            $this->redireccionar('login/salir');
+            exit;
+        }
         $this->getLibrary('encripted');
         $this->_encriptar = new encripted();
         $this->_est = $this->loadModel('estudiante');
@@ -87,7 +93,6 @@ class estudianteController extends Controller{
     }
 
     public function inicio(){
-        session_start();
         if(isset($_SESSION['usuario'])){
             $idUsuario = $_SESSION['usuario'];
             $infoGeneral = $this->_est->getInfoGeneral($idUsuario);
