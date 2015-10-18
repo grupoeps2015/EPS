@@ -202,7 +202,15 @@ class asignacionController extends Controller{
                 //Consultar cursos traslapados en secciones elegidas a asignar
                 $cursosTraslapados = $this->_asign->getCursosTraslapados($this->getInteger('hdCiclo'),$this->getTexto('hdCursos'));
                 if(is_array($cursosTraslapados)){
-                    $cursosTraslapados = (isset($cursosTraslapados[0]['cursos']) ? $cursosTraslapados[0]['cursos'] : -1);
+                    $cursosTraslapados = count($cursosTraslapados);
+                    for($cu=0;$cu<$cursosTraslapados;$cu++){
+                        //Si el curso traslapado no acepta traslape
+                        if(!$cursosTraslapados[$cu]['traslapecurso']){
+                            //TODO: Marlen: Redirigir a página de error de asignación
+                            echo "Curso no acepta traslape";
+                            exit;
+                        }
+                    }
                 }else{
                     $this->redireccionar("error/sql/" . $cursosTraslapados);
                     exit;
@@ -227,7 +235,7 @@ class asignacionController extends Controller{
                         $this->redireccionar("error/sql/" . $parametroTiempoMaximoTraslapado);
                         exit;
                     }
-                    //Parámetro de número máximo de cursos traslapados 
+                    //Parámetro de criterio de traslape 
                     $parametroCriterioTiempoTraslapado = $this->_ajax->valorParametro(CONS_PARAM_CARRERA_CRITERIOTIEMPOTRASLAPE, $_SESSION["carrera"], $_SESSION["centrounidad"]);
                     if(is_array($parametroCriterioTiempoTraslapado)){
                         $parametroCriterioTiempoTraslapado = (isset($parametroCriterioTiempoTraslapado[0]['valorparametro']) ? $parametroCriterioTiempoTraslapado[0]['valorparametro'] : "");

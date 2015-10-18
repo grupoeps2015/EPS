@@ -212,16 +212,17 @@ ALTER FUNCTION spdatoscursoaprobado(integer, integer, integer)
 
 CREATE OR REPLACE FUNCTION spobtenercursostraslapados(
     _ciclo integer,
-    _secciones text)
-  RETURNS integer AS
+    _secciones text,
+    OUT seccionTraslapada integer,
+    OUT traslapeCurso boolean)
+  RETURNS setof RECORD AS
 $BODY$
 begin
-RETURN (
-         Select count(distinct v1.seccion) from (select t.trama, t.dia, t.inicio, t.fin, t.seccion from cur_trama t join cur_horario h on t.trama = h.trama and h.ciclo = _ciclo where seccion in (select cast(sec.seccion as integer) from (select * from regexp_split_to_table(_secciones, ';') as seccion where seccion <> '') sec)) v1 
-         join (select t.trama, t.dia, t.inicio, t.fin, t.seccion from cur_trama t join cur_horario h on t.trama = h.trama and h.ciclo = _ciclo where seccion in (select cast(sec.seccion as integer) from (select * from regexp_split_to_table(_secciones, ';') as seccion where seccion <> '') sec)) v2 
+RETURN query
+         Select distinct v1.seccion, v1.traslape from (select t.trama, t.dia, t.inicio, t.fin, t.seccion, cu.traslape from cur_trama t join cur_horario h on t.trama = h.trama and h.ciclo = _ciclo join cur_seccion se on se.seccion = t.seccion join cur_curso cu on cu.curso = se.curso where t.seccion in (select cast(sec.regexp_split_to_table as integer) from (select * from regexp_split_to_table(_secciones, ';') where regexp_split_to_table <> '') sec)) v1 
+         join (select t.trama, t.dia, t.inicio, t.fin, t.seccion, cu.traslape from cur_trama t join cur_horario h on t.trama = h.trama and h.ciclo = _ciclo join cur_seccion se on se.seccion = t.seccion join cur_curso cu on cu.curso = se.curso where t.seccion in (select cast(sec.regexp_split_to_table as integer) from (select * from regexp_split_to_table(_secciones, ';') where regexp_split_to_table <> '') sec)) v2 
          on v1.trama != v2.trama and v1.dia = v2.dia 
-         where v1.inicio < v2.fin and v1.fin > v2.inicio
-       ) ::integer;
+         where v1.inicio < v2.fin and v1.fin > v2.inicio;
 end;
 $BODY$
   LANGUAGE plpgsql VOLATILE
