@@ -24,9 +24,18 @@ class gestionCentroUnidadController extends Controller {
 
     public function index() {
         $rol = $_SESSION["rol"];        
-        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_GESTIONCENTROUNIDAD);
+        $rolValidoGestion = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_GESTIONCENTROUNIDAD);
+        $rolValidoAgregar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_CREARCENTROUNIDAD);
+        $rolValidoModificar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_MODIFICARCENTROUNIDAD);
+        $rolValidoEliminar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_ELIMINARCENTROUNIDAD);
+        $rolValidoGestionUnidades = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_GESTIONUNIDAD);
+        $this->_view->permisoGestion = $rolValidoGestion[0]["valido"];
+        $this->_view->permisoAgregar = $rolValidoAgregar[0]["valido"];
+        $this->_view->permisoModificar = $rolValidoModificar[0]["valido"];
+        $this->_view->permisoEliminar = $rolValidoEliminar[0]["valido"];
+        $this->_view->permisoGestionUnidad = $rolValidoGestionUnidades[0]["valido"];
         
-        if($rolValido[0]["valido"]!=PERMISO_GESTIONAR){        
+        if($this->_view->permisoGestion!=PERMISO_GESTIONAR){        
             echo "<script>
                 alert('No tiene permisos para acceder a esta función.');
                 window.location.href='" . BASE_URL . "login/inicio';
@@ -326,14 +335,26 @@ class gestionCentroUnidadController extends Controller {
     }
     
     public function estadoNuevo($estado, $centro, $unidad){
-        if ($estado == -1 || $estado == 1) {
-            $borrar = $this->_gCenUni->estadoNuevo($estado, $centro, $unidad);
-            if(!is_array($borrar)){
-                $this->redireccionar("error/sql/" . $borrar);
-                exit;
+         $rol = $_SESSION["rol"];        
+        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_ELIMINARUNIDAD);
+        
+        if($rolValido[0]["valido"]== PERMISO_ELIMINAR){
+            if ($estado == -1 || $estado == 1) {
+                $borrar = $this->_gCenUni->estadoNuevo($estado, $centro, $unidad);
+                if(!is_array($borrar)){
+                    $this->redireccionar("error/sql/" . $borrar);
+                    exit;
+                }
             }
+            $this->redireccionar('gestionCentroUnidad/listadoUnidades/' . $centro);
+            }
+        else
+        {         
+            echo "<script>
+                ".MSG_SINPERMISOS."
+                window.location.href='" . BASE_URL . "gestionCentroUnidad/listadoUnidades/" . $centro . "';
+                </script>";
         }
-        $this->redireccionar('gestionCentroUnidad/listadoUnidades/' . $centro);
     }
     
 }

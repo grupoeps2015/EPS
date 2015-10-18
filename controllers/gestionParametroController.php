@@ -28,11 +28,12 @@ class gestionParametroController extends Controller{
         $rolValidoAgregar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_CREARPARAMETRO);
         $rolValidoModificar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_MODIFICARPARAMETRO);
         $rolValidoEliminar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_ELIMINARPARAMETRO);
+        $rolValidoGestionPeriodo = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_GESTIONPERIODO);
         $this->_view->permisoGestion = $rolValidoGestion[0]["valido"];
         $this->_view->permisoAgregar = $rolValidoAgregar[0]["valido"];
         $this->_view->permisoModificar = $rolValidoModificar[0]["valido"];
         $this->_view->permisoEliminar = $rolValidoEliminar[0]["valido"];
-        
+        $this->_view->permisoGestionPeriodo = $rolValidoGestionPeriodo[0]["valido"];
         
         if($this->_view->permisoGestion!= PERMISO_GESTIONAR){
            echo "<script>
