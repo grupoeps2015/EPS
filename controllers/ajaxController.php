@@ -184,6 +184,13 @@ class ajaxController extends Controller{
             echo json_encode($this->_ajax->getCupoSeccionAjax($this->getInteger('ciclo'), $this->getInteger('seccion')));
         }
     }
+    
+    public function getMaxCursosAAsignarAjax(){
+        if($this->getInteger('param')){
+            session_start();
+            echo json_encode($this->_ajax->valorParametro(CONS_PARAM_CARRERA_MAXCURSOSAASIGNARPORCICLO, $_SESSION["carrera"], $_SESSION["centrounidad"]));
+        }
+    }
 }
 
 ?>

@@ -69,7 +69,7 @@ $(document).ready(function(){
                 {
                     switch (index2) 
                     {
-                        case 0: campo1 = $(this).find('input').val();
+                        case 0:campo1 = $(this).find('input').val();
                                 break;
                     }
                 })
@@ -181,6 +181,7 @@ $(document).ready(function(){
         }
      
         $('#btnAsignar').click(function(){
+            var cant = 0;
             $('#hdCursos').val("");
             $("#tabla tbody tr").each(function (index) 
             {
@@ -189,7 +190,7 @@ $(document).ready(function(){
                 {
                     switch (index2) 
                     {
-                        case 1: campo2 = $(this).find('select').val();
+                        case 1:campo2 = $(this).find('select').val();
                                 break;
                     }
                 })
@@ -198,9 +199,36 @@ $(document).ready(function(){
                     return;
                 }
                 $('#hdCursos').val($('#hdCursos').val()+campo2+";");
+                cant++;
             })
+            var max = getMaxCursosAAsignarAjax();
+            if (max!=-1) {
+                if (cant>max) {
+                    alert("Sobrepasa la cantidad permitida de cursos a asignar");
+                    return;
+                }
+            }
             //alert($('#hdCursos').val());
             $('#frAsignacionCursos').submit();
         });
+        
+        function getMaxCursosAAsignarAjax(){
+        var cad = -1;
+        $.ajax({
+          type: "POST",
+          url: $("#hdBASE_URL").val()+'ajax/getMaxCursosAAsignarAjax',
+          data: {param:1},
+          async: false,
+          success: function(datos){
+                    if(datos.length>0){
+                        for(var i =0; i < datos.length; i++){
+                            cad = datos[i].valorparametro;
+                        }
+                    }
+               },
+          dataType: 'json'
+        });
+        return cad;
+        }
 			
 });
