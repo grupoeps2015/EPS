@@ -5,7 +5,7 @@ var nodoSeleccionado = false;
 
 $(document).ready(function() {
     var hv = $('#hdPrerrequisitos').attr("value");
-    if (hv.search("NO_P_PRERREQUISITO")>-1) {
+    if (/Undefined index/.test(hv)||hv === "" || hv === null||hv.search("NO_P_PRERREQUISITO")>-1)  {
         //alert(hv);
     }
 
