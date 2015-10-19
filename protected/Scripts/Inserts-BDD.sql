@@ -816,6 +816,7 @@ INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademic
 INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (202,'Criterio de tiempo de traslape entre 2 cursos','S','S: Semanal, D: Diario',1,1,3,1);
 INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (203,'Cantidad máxima de asignaciones por curso','3','',1,1,3,1);
 INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (204,'Cupo máximo por curso','60','',1,1,3,1);
+INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (205,'Cantidad máxima de cursos a asignar por ciclo','8','Por estudiante',1,1,3,1);
 
 
 -- -----------------------------------------------------

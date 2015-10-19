@@ -218,6 +218,22 @@ class asignacionController extends Controller{
             $cursos = $this->getTexto('hdCursos');
             $cursos = explode(";", $cursos);
             if(count($cursos)){
+                //Parámetro de máximo número de cursos a asignarse
+                $parametroMaxCursosAAsignar = $this->_ajax->valorParametro(CONS_PARAM_CARRERA_MAXCURSOSAASIGNARPORCICLO, $_SESSION["carrera"], $_SESSION["centrounidad"]);
+                if(is_array($parametroMaxCursosAAsignar)){
+                    $parametroMaxCursosAAsignar = (isset($parametroMaxCursosAAsignar[0]['valorparametro']) ? $parametroMaxCursosAAsignar[0]['valorparametro'] : -1);
+                }else{
+                    $this->redireccionar("error/sql/" . $parametroMaxCursosAAsignar);
+                    exit;
+                }
+                if($parametroMaxCursosAAsignar > 0){
+                    if (count(array_filter($cursos))> $parametroMaxCursosAAsignar) {
+                        //TODO: Marlen: Redirigir a página de error de asignación
+                        echo "Cursos a asignar superan el límite establecido en parámetro";
+                        exit;
+                    }
+                }
+                
                 //Parámetro de número máximo de cursos traslapados 
                 $parametroMaxCursosTraslapados = $this->_ajax->valorParametro(CONS_PARAM_CARRERA_MAXCURSOSTRASLAPADOS, $_SESSION["carrera"], $_SESSION["centrounidad"]);
                 if(is_array($parametroMaxCursosTraslapados)){
