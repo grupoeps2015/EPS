@@ -88,8 +88,8 @@ class gestionPensumModel extends Model {
         }
     }
 
-    public function getAllPensum() {
-        $info = $this->_db->query("select * from spallpensum();");
+    public function getAllPensum($intIdCentroUnidad) {
+        $info = $this->_db->query("select * from spallpensum(".$intIdCentroUnidad.");");
         if ($info === false) {
             return "1104/getPensum";
         } else {
@@ -216,6 +216,31 @@ class gestionPensumModel extends Model {
             return "1104/consultaPensum";
         } else {
             return $post->fetchall();
+        }
+    }
+    
+    public function datosCursoPensum($idCursoPensum) {
+
+        $post = $this->_db->query("select * from spdatoscursopensum(" . $idCursoPensum . ");");
+
+        if ($post === FALSE) {
+            return "1104/consultaCursoPensum";
+        } else {
+            return $post->fetchall();
+        }
+    }
+    
+    public function actualizarCursoPensum($_datos) {
+        $sp = $_datos["cursopensum"] . ',' . $_datos["curso"] . ',';
+        $sp .= $_datos["carreraarea"] . ',' . $_datos["numerociclo"] . ',';
+        $sp .= $_datos["tipociclo"] . ',' . $_datos["creditos"] . ',null,null';
+               
+        $info = $this->_db->prepare("SELECT * from spmodificarcursopensum(".$sp.");");
+        $info->execute($_datos);
+        if ($info === false) {
+            return "1103/actualizarCursoPensum";
+        } else {
+            return $info->fetchall();
         }
     }
     
