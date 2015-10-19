@@ -132,4 +132,47 @@ END; $BODY$
 ALTER FUNCTION spactualizarcurso(text, text, boolean, integer, integer)
   OWNER TO postgres;
 
+  
+-- Function: spinformacioncurso(integer)
+
+-- DROP FUNCTION spinformacioncurso(integer);
+
+CREATE OR REPLACE FUNCTION spinformacioncurso(
+    IN _centrounidadacademica integer,
+    OUT id integer,
+    OUT codigo text,
+    OUT nombre text,
+    OUT tipocurso text,
+    OUT estado text,
+    OUT traslape text)
+  RETURNS SETOF record AS
+$BODY$
+BEGIN
+  RETURN query
+  Select 
+    c.curso,
+    c.codigo,
+    c.nombre,
+    t.nombre as "tipocurso",
+    case 
+	when c.estado=0 then 'Validación Pendiente'
+	when c.estado=1 then 'Activo'
+	when c.estado=-1 then 'Desactivado'
+    end as "Estado",
+    case 
+	when c.traslape=true then 'Sí'
+	when c.traslape=false then 'No'
+    end as "Traslape"
+  from 
+    CUR_Curso c join CUR_Tipo t on c.tipocurso = t.tipocurso where c.centro_unidadacademica = _centrounidadacademica;
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION spinformacioncurso(integer)
+  OWNER TO postgres;
+  
+  
  Select 'Script para Gestion de Cursos Instalado' as "Gestion Cursos";
+ 
