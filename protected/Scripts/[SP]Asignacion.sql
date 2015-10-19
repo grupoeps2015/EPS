@@ -118,7 +118,7 @@ begin
  FROM EST_CUR_Asignacion a 
  JOIN EST_Ciclo_Asignacion ca on ca.Ciclo_Asignacion = a.Ciclo_Asignacion and ca.Estudiante = _estudiante 
  JOIN CUR_Seccion s on s.seccion = a.seccion
- WHERE s.curso = idCurso;
+ WHERE s.curso = idCurso and a.estado = 1;
   
  INSERT INTO EST_CUR_Asignacion (OportunidadActual, Estado, Seccion, Ciclo_Asignacion, Adjuntos) values (oportunidad + 1, 1, _seccion, _cicloasignacion, _adjuntos) RETURNING Asignacion INTO idAs;
  RETURN idAs;
@@ -205,6 +205,146 @@ $BODY$
 ALTER FUNCTION spdatoscursoaprobado(integer, integer, integer)
   OWNER TO postgres;
 
+  
+-- Function: spobtenercursostraslapados(integer, text)
+
+-- DROP FUNCTION spobtenercursostraslapados(integer, text);
+
+CREATE OR REPLACE FUNCTION spobtenercursostraslapados(
+    _ciclo integer,
+    _secciones text,
+    OUT seccionTraslapada integer,
+    OUT traslapeCurso boolean)
+  RETURNS setof RECORD AS
+$BODY$
+begin
+RETURN query
+         Select distinct v1.seccion, v1.traslape from (select t.trama, t.dia, t.inicio, t.fin, t.seccion, cu.traslape from cur_trama t join cur_horario h on t.trama = h.trama and h.ciclo = _ciclo join cur_seccion se on se.seccion = t.seccion join cur_curso cu on cu.curso = se.curso where t.seccion in (select cast(sec.regexp_split_to_table as integer) from (select * from regexp_split_to_table(_secciones, ';') where regexp_split_to_table <> '') sec)) v1 
+         join (select t.trama, t.dia, t.inicio, t.fin, t.seccion, cu.traslape from cur_trama t join cur_horario h on t.trama = h.trama and h.ciclo = _ciclo join cur_seccion se on se.seccion = t.seccion join cur_curso cu on cu.curso = se.curso where t.seccion in (select cast(sec.regexp_split_to_table as integer) from (select * from regexp_split_to_table(_secciones, ';') where regexp_split_to_table <> '') sec)) v2 
+         on v1.trama != v2.trama and v1.dia = v2.dia 
+         where v1.inicio < v2.fin and v1.fin > v2.inicio;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION spobtenercursostraslapados(integer, text)
+  OWNER TO postgres;
+
+  
+-- Function: spobtenertiempotraslapeentrecursosdia(integer, text, integer)
+
+-- DROP FUNCTION spobtenertiempotraslapeentrecursosdia(integer, text, integer);
+
+CREATE OR REPLACE FUNCTION spobtenertiempotraslapeentrecursosdia(
+    IN _ciclo integer,
+    IN _secciones text,
+    IN _maxminutos integer,
+    OUT traslape bigint,
+    OUT dia integer,
+    OUT seccion1 integer,
+    OUT seccion2 integer)
+  RETURNS SETOF record AS
+$BODY$
+begin
+RETURN query
+Select sum(case when v1.fin - v2.inicio > v2.fin - v1.inicio then cast(EXTRACT(EPOCH FROM v2.fin - v1.inicio)/60 as integer) else cast(EXTRACT(EPOCH FROM v1.fin - v2.inicio)/60 as integer) end) as what, v1.dia, v1.seccion, v2.seccion
+	from (select t.trama, t.dia, t.inicio, t.fin, t.seccion from cur_trama t join cur_horario h on t.trama = h.trama and h.ciclo = _ciclo where seccion in (select cast(sec.seccion as integer) from (select * from regexp_split_to_table(_secciones, ';') as seccion where seccion <> '') sec)) v1 
+        join (select t.trama, t.dia, t.inicio, t.fin, t.seccion from cur_trama t join cur_horario h on t.trama = h.trama and h.ciclo = _ciclo where seccion in (select cast(sec.seccion as integer) from (select * from regexp_split_to_table(_secciones, ';') as seccion where seccion <> '') sec)) v2 
+        on v1.trama != v2.trama and v1.dia = v2.dia 
+        where v1.inicio < v2.fin and v1.fin > v2.inicio
+        group by v1.dia, v1.seccion, v2.seccion having sum(case when v1.fin - v2.inicio > v2.fin - v1.inicio then cast(EXTRACT(EPOCH FROM v2.fin - v1.inicio)/60 as integer) else cast(EXTRACT(EPOCH FROM v1.fin - v2.inicio)/60 as integer) end) > _maxminutos;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION spobtenertiempotraslapeentrecursosdia(integer, text, integer)
+  OWNER TO postgres;
+
+  
+-- Function: spobtenertiempotraslapeentrecursossemana(integer, text, integer)
+
+-- DROP FUNCTION spobtenertiempotraslapeentrecursossemana(integer, text, integer);
+
+CREATE OR REPLACE FUNCTION spobtenertiempotraslapeentrecursossemana(
+    IN _ciclo integer,
+    IN _secciones text,
+    IN _maxminutos integer,
+    OUT traslape bigint,
+    OUT seccion1 integer,
+    OUT seccion2 integer)
+  RETURNS SETOF record AS
+$BODY$
+begin
+RETURN query
+Select sum(case when v1.fin - v2.inicio > v2.fin - v1.inicio then cast(EXTRACT(EPOCH FROM v2.fin - v1.inicio)/60 as integer) else cast(EXTRACT(EPOCH FROM v1.fin - v2.inicio)/60 as integer) end) as what, v1.seccion, v2.seccion
+	from (select t.trama, t.dia, t.inicio, t.fin, t.seccion from cur_trama t join cur_horario h on t.trama = h.trama and h.ciclo = _ciclo where seccion in (select cast(sec.seccion as integer) from (select * from regexp_split_to_table(_secciones, ';') as seccion where seccion <> '') sec)) v1 
+        join (select t.trama, t.dia, t.inicio, t.fin, t.seccion from cur_trama t join cur_horario h on t.trama = h.trama and h.ciclo = _ciclo where seccion in (select cast(sec.seccion as integer) from (select * from regexp_split_to_table(_secciones, ';') as seccion where seccion <> '') sec)) v2 
+        on v1.trama != v2.trama and v1.dia = v2.dia 
+        where v1.inicio < v2.fin and v1.fin > v2.inicio
+        group by v1.seccion, v2.seccion having sum(case when v1.fin - v2.inicio > v2.fin - v1.inicio then cast(EXTRACT(EPOCH FROM v2.fin - v1.inicio)/60 as integer) else cast(EXTRACT(EPOCH FROM v1.fin - v2.inicio)/60 as integer) end) > _maxminutos;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION spobtenertiempotraslapeentrecursossemana(integer, text, integer)
+  OWNER TO postgres;
+
+  
+-- Function: spoportunidadactualcursoestudiante(integer, integer)
+
+-- DROP FUNCTION spoportunidadactualcursoestudiante(integer, integer);
+
+CREATE OR REPLACE FUNCTION spoportunidadactualcursoestudiante(
+    _estudiante integer,
+    _curso integer)
+  RETURNS integer AS
+$BODY$
+DECLARE oportunidad INTEGER;
+begin
+  
+ SELECT COALESCE(MAX(a.OportunidadActual),0) INTO oportunidad
+ FROM EST_CUR_Asignacion a 
+ JOIN EST_Ciclo_Asignacion ca on ca.Ciclo_Asignacion = a.Ciclo_Asignacion and ca.Estudiante = _estudiante 
+ JOIN CUR_Seccion s on s.seccion = a.seccion
+ WHERE s.curso = _curso and a.estado = 1;
+
+ RETURN oportunidad;
+ 
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION spoportunidadactualcursoestudiante(integer, integer)
+  OWNER TO postgres;
+  
+  
+-- Function: spobtenercuposeccion(integer, integer)
+
+-- DROP FUNCTION spobtenercuposeccion(integer, integer);
+
+CREATE OR REPLACE FUNCTION spobtenercuposeccion(
+    _ciclo integer,
+    _seccion integer)
+  RETURNS integer AS
+$BODY$
+DECLARE cupo INTEGER;
+begin
+  
+ SELECT count(a.Asignacion) INTO cupo
+ FROM EST_CUR_Asignacion a 
+ JOIN EST_Ciclo_Asignacion ca on ca.Ciclo_Asignacion = a.Ciclo_Asignacion
+ JOIN CUR_Seccion s on s.seccion = a.seccion and a.seccion = _seccion
+ JOIN ADM_Periodo p on p.periodo = ca.periodo
+ WHERE p.ciclo = _ciclo and a.estado = 1;
+ RETURN cupo;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION spobtenercuposeccion(integer, integer)
+  OWNER TO postgres;
 
   
 Select 'Script de Asignaciones Instalado' as "Asignacion";

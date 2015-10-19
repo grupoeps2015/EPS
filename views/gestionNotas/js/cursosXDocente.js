@@ -1,4 +1,5 @@
 $(document).ready( function () {
+    
     $("#slTipos").change(function(){
         if(!$("#slTipos").val()){
             $("#slAnio").html('');
@@ -74,15 +75,89 @@ $(document).ready( function () {
                { cat: $("#idCatedratico").val(), ciclo: $("#slCiclo").val() },
                function(datos){
                    $("#slSeccion").html('');
+                   $("#slCursoxSeccion").html('');
                     if(datos.length>0){
                         for(var i =0; i < datos.length; i++){
-                            $("#slSeccion").append('<option value="' + datos[i].idcurso + '">' + datos[i].infoseccion + '</option>' );
+                            $("#slSeccion").append('<option value="' + datos[i].idseccion + '">' + datos[i].infoseccion + '</option>' );
+                            $("#slCursoxSeccion").append('<option value="' + datos[i].idseccion + '">' + datos[i].idcurso + '</option>' );
                         }
+                        $("#btnActividades").prop("disabled",false);
                     }else{
                         $("#slSeccion").append('<option value="" disabled>No hay informaci&oacute;n disponible</option>' );
+                        $("#btnActividades").prop("disabled",true);
                     }
                },
                'json');
+    }
+    
+    $("#slSeccion").change(function() {
+        var id = $("#slSeccion").val();
+        $("#slCursoxSeccion").val(id);
+    });
+    
+    $("#btnActividades").click(function() {
+        var base_url = $("#hdBASE_URL").val();
+        $.post(base_url+'ajax/getIdTrama',
+            { 
+                cat: $("#idCatedratico").val(), 
+                ciclo: $("#slCiclo").val(), 
+                sec: $("#slSeccion").val(), 
+                cur: $("#slCursoxSeccion").val() 
+            },
+            function(datos){
+                if(datos.length>0){
+                    var identificador = parseInt(datos[0].spidtrama);
+                    mostrarListado(identificador);
+                }else{
+                    mostrarListado(0);
+                }
+            },
+            'json');
+    });
+    
+    function mostrarListado(id){
+        var base_url = $("#hdBASE_URL").val();
+        $.post(base_url+'ajax/getListaAsignados',
+            'trama=' + id,
+            function(datos){
+                $("#tbAsignados").css('display','block');
+                $("#bodyAsignados").html('');
+                if(datos.length>0){
+                    for(var i =0; i < datos.length; i++){
+                        $("#bodyAsignados").append('<tr><td>' + datos[i].carnet + 
+                                                   '</td><td>' + datos[i].nombre + 
+                                                   '</td><td><input id="z' + datos[i].carnet + '" type="text" maxlength="5" value="' + datos[i].zona + '" style="width:60%; text-align:center;"/>' + 
+                                                   '</td><td><input id="f' + datos[i].carnet + '" type="text" maxlength="5" value="' + datos[i].final + '" style="width:60%; text-align:center;"/>' + 
+                                                   '</td><td>' + datos[i].total);
+                    }
+                }
+                aplicarCss();
+            },
+            'json');
+    }
+    
+    function aplicarCss(){
+        $('#slTipos').prop('disabled',true);
+        $('#slAnio').prop('disabled',true);
+        $('#slCiclo').prop('disabled',true);
+        $('#slSeccion').prop('disabled',true);
+        $('#btnActividades').css('display','none');
+        $('#btnNuevaBusqueda').css('display','block');
+        
+        $('#tbAsignados').DataTable({
+        language:{
+            emptyTable: "No hay informaci&oacute;n disponible.",
+            sZeroRecords: "No se encontro informaci&oacute;n compatible con la busqueda",
+            info: "Se muestran del _START_ al _END_ de _TOTAL_ registros",
+            infoEmpty: "No hay registros que mostrar",
+            paginate:{
+                next: "Siguiente",
+                previous: "Anterior"
+            },
+            search: "Buscar:",
+            lengthMenu: "Mostrar _MENU_ registros"
+        }
+    });
     }
     
 });

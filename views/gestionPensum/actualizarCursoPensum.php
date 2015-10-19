@@ -26,18 +26,26 @@
             <form id="frCursoPensum" method="post" action="<?php echo BASE_URL; ?>gestionPensum/actualizarCursoPensum/<?php echo $this->idCursoPensum;?>/<?php echo $this->idPensum;?>/<?php echo $this->idCarrera;?>">
                 <div id="divCursoPensum" class="form-group" >
                     <div class="col-md-6 col-md-offset-3">
-                        <table style="width:100%">
-                                    <tr style="width: 49%">
+                        <table style="width:120%">
+                                    <tr style="width: 70%">
                                         <td><label>Curso:</label>
                                             <?php if(isset($this->lstCursos) && count($this->lstCursos)): ?>
                                 <select id="slCursos" name="slCursos" class="form-control input-lg">
                                    <option value="">- Cursos disponibles -</option>
                                     <?php for($i =0; $i < count($this->lstCursos); $i++) : ?>
+                                   <?php if($this->lstCursos[$i]['id'] == $this->datosCursoPensum[0]['curso']): ?>
                                     <?php if($this->lstCursos[$i]['estado'] == "Activo"): ?>
+                                     <option value="<?php echo $this->lstCursos[$i]['id'];?>" selected="selected">
+                                         <?php echo $this->lstCursos[$i]['codigo']; echo " - "; echo $this->lstCursos[$i]['nombre'];?>
+                                     </option>                                    
+                                     <?php endif;?>
+                                     <?php else : ?>
+                                        <?php if($this->lstCursos[$i]['estado'] == "Activo"): ?>
                                      <option value="<?php echo $this->lstCursos[$i]['id'];?>">
                                          <?php echo $this->lstCursos[$i]['codigo']; echo " - "; echo $this->lstCursos[$i]['nombre'];?>
                                      </option>                                    
                                      <?php endif;?>
+                                     <?php endif; ?>
                                     <?php endfor;?>
                                 </select>
                                 <?php else : ?>
@@ -53,9 +61,15 @@
                                 <select id="slAreas" name="slAreas" class="form-control input-lg">
                                     <option value="">- &Aacute;reas disponibles -</option>
                                     <?php for($i =0; $i < count($this->lstAreas); $i++) : ?>
+                                    <?php if($this->lstAreas[$i]['carreraarea'] == $this->datosCursoPensum[0]['carreraarea']): ?>
+                                    <option value="<?php echo $this->lstAreas[$i]['carreraarea'];?>" selected="selected">
+                                         <?php echo $this->lstAreas[$i]['nombre']; ?>
+                                     </option>   
+                                     <?php else :?>
                                      <option value="<?php echo $this->lstAreas[$i]['carreraarea'];?>">
                                          <?php echo $this->lstAreas[$i]['nombre']; ?>
-                                     </option>    
+                                     </option>   
+                                     <?php endif;?>
                                     <?php endfor;?>
                                 </select>
                                 <?php else : ?>
@@ -67,7 +81,7 @@
                                     <tr>
                                         <td><br/>
                                             <label>N&uacute;mero ciclo:</label>
-                                            <input type="number" id="txtNumeroCiclo" name="txtNumeroCiclo" class="form-control input-lg">
+                                            <input type="number" id="txtNumeroCiclo" name="txtNumeroCiclo" class="form-control input-lg" value="<?php echo $this->datosCursoPensum[0]['numerociclo']; ?>">
                                         </td>
                                     </tr>
                                     <tr> 
@@ -78,9 +92,15 @@
                                 <select id="slTipoCiclo" name="slTipoCiclo" class="form-control input-lg">
                                     <option value="">- Tipos de ciclo disponibles -</option>
                                     <?php for($i =0; $i < count($this->lstTipoCiclo); $i++) : ?>
-                                     <option value="<?php echo $this->lstTipoCiclo[$i]['tipociclo'];?>">
+                                    <?php if($this->lstTipoCiclo[$i]['tipociclo'] == $this->datosCursoPensum[0]['tipociclo']): ?> 
+                                    <option value="<?php echo $this->lstTipoCiclo[$i]['tipociclo'];?>" selected="selected">
                                          <?php echo $this->lstTipoCiclo[$i]['nombre']; ?>
                                      </option>    
+                                     <?php else : ?>
+                                     <option value="<?php echo $this->lstTipoCiclo[$i]['tipociclo'];?>">
+                                         <?php echo $this->lstTipoCiclo[$i]['nombre']; ?>
+                                     </option>  
+                                     <?php endif;?>
                                     <?php endfor;?>
                                 </select>
                                 <?php else : ?>
@@ -91,7 +111,7 @@
                                     <tr>
                                         <td><br/>
                                             <label>Cr&eacute;ditos:</label>
-                                            <input type="number" id="txtCreditos" name="txtCreditos" class="form-control input-lg" value = 0>
+                                            <input type="number" id="txtCreditos" name="txtCreditos" class="form-control input-lg" value = "<?php echo $this->datosCursoPensum[0]['creditos']; ?>">
                                         </td>
                                     </tr>
                             <tr>

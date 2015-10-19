@@ -28,7 +28,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
-                <table class="table-hover">
+                <table class="table-hover" style="width:100%">
                     <tr>
                         <td class="text-primary" style="width:10%">Nombre:&nbsp;</td>
                         <td style="width: 1%"></td>
@@ -49,7 +49,7 @@
                     </tr>
                     <tr>
                         <td colspan="8"><hr class="hr1"/></td>
-                        </tr>
+                    </tr>
                     <tr>
                         <td>&nbsp;</td>
                         <td>&nbsp;</td>
@@ -91,9 +91,48 @@
                         </td>
                         <td>&nbsp;</td>
                         <td><br/>
-                            <input type="submit" id="btnActividades" name="btnActividades" value="Ver Actividades" class="btn btn-danger btn-lg btn-block" disabled="disabled">
+                            <input type="submit" id="btnActividades" name="btnActividades" value="Mostrar Listado" class="btn btn-danger btn-lg btn-block" disabled="disabled">
+                            <form id="frRecargar" method="post" action="<?php echo BASE_URL; ?>gestionNotas/cursosXDocente/<?php echo $this->idUsuario; ?>/<?php echo $this->id; ?>">
+                                <input type="submit" id="btnNuevaBusqueda" name="btnNuevaBusqueda" value="Nueva Busqueda" class="btn btn-danger btn-lg btn-block" style="display:none;">
+                            </form>
                         </td>
                     </tr>
+                    <tr style="display:none">
+                        <td>&nbsp;</td>
+                        <td colspan="4">
+                            <select id="slCursoxSeccion" name="slCursoxSeccion" class="form-control input-lg"></select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="8"><hr class="hr1"/></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <br/>
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <table class="table-hover" id="tbAsignados" name="tbAsignados" border="2" style="display:none; text-align: center;">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center; width:20%;">Carnet</th>
+                            <th style="text-align: center; width:40%;">Nombre</th>
+                            <th style="text-align: center; width:15%;">Zona</th>
+                            <th style="text-align: center; width:15%;">Final</th>
+                            <th style="text-align: center; width:10%;">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bodyAsignados" name="bodyAsignados">
+                        
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="5" align="center">
+                                <input type="button" id="btnCargar" name="btnCargar" value="Cargar CSV" class="btn btn-warning" style="width:30%"/> &nbsp;
+                                <input type="submit" id="btnGuardar" name="btnGuardar" value="Guardar Cambios" class="btn btn-warning" style="width:30%"/>
+                            </td>
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
         </div>

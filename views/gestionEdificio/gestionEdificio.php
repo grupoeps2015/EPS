@@ -17,11 +17,13 @@
                 <div class="col-lg-2 col-md-4 text-center"></div>
                 <div class="col-lg-4 col-md-8 text-center">
                     <div class="service-box">
+                        <?php if($this->permisoAgregar == PERMISO_CREAR): ?>
                         <i class="fa fa-2x fa-upload wow bounceIn text-primary" data-wow-delay=".2s">
                             <a href="<?php echo BASE_URL ?>gestionEdificio/asignacionEdificio/<?php echo $this->id;?>">
                                 Agregar Asignacion
                             </a>
                         </i>
+                        <?php endif; ?>
                     </div>
                 </div>
 
@@ -42,8 +44,12 @@
                                         <th style="text-align:center; padding-right: 20px;">Nombre Centro</th>
                                         <th style="text-align:center; padding-right: 20px; ">Jornada</th>
                                         <th style="text-align:center; padding-right: 20px; ">Estado</th>
+                                        <?php if($this->permisoModificar == PERMISO_MODIFICAR): ?>
                                         <th style="text-align:center; padding-right: 20px; ">&nbsp;</th>
+                                        <?php endif;?>
+                                        <?php if($this->permisoEliminar == PERMISO_ELIMINAR): ?>
                                         <th style="text-align:center; padding-right: 20px; ">&nbsp;</th>
+                                        <?php endif;?>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -55,7 +61,10 @@
                                                 <td style="text-align: center; padding-right: 20px;"><?php echo $this->lstEdificio[$i]['nombrecentro']; ?></td>
                                                 <td style="text-align: center; padding-right: 20px;"><?php echo $this->lstEdificio[$i]['jornada']; ?></td>
                                                 <td style="text-align: center; padding-right: 20px;"><?php echo $this->lstEdificio[$i]['estado']; ?></td>
+                                                <?php if($this->permisoModificar == PERMISO_MODIFICAR): ?>
                                                 <td style="text-align: center; padding-right: 20px;"><a href="<?php echo BASE_URL . 'gestionEdificio/actualizarAsignacion/' . $this->lstEdificio[$i]['centrounidad_edificio'] . '/' . $this->lstEdificio[$i]['edificio']; ?>">Modificar</a></td>
+                                                <?php endif; ?>
+                                                <?php if($this->permisoEliminar == PERMISO_ELIMINAR): ?>
                                                 <td style="text-align: center; padding-right: 20px;">
                                                     <?php if (strcmp($this->lstEdificio[$i]['estado'], 'Activo') == 0): ?>
 
@@ -65,6 +74,7 @@
                                                         <a href="<?php echo BASE_URL . 'gestionEdificio/eliminarAsignacionEdificio/1/' . $this->lstEdificio[$i]['centrounidad_edificio'] . '/' . $this->lstEdificio[$i]['edificio']; ?>">Activar</a>
                                                     <?php endif; ?>
                                                 </td>
+                                                <?php endif; ?>
                                             </tr>
                                         <?php endfor; ?>
                                     <?php endif; ?>

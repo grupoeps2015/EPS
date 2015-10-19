@@ -13,6 +13,12 @@ class gestionEdificioController extends Controller {
 
     public function __construct() {
         parent::__construct();
+        $this->getLibrary('session');
+        $this->_session = new session();
+        if(!$this->_session->validarSesion()){
+            $this->redireccionar('login/salir');
+            exit;
+        }
         $this->getLibrary('encripted');
         $this->_encriptar = new encripted();
         $this->_post = $this->loadModel('gestionEdificio');
@@ -20,13 +26,23 @@ class gestionEdificioController extends Controller {
     }
     
     public function listadoEdificio() {
-        session_start();
         $rol = $_SESSION["rol"];        
-        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_GESTIONEDIFICIO);
-                    
-        if($rolValido[0]["valido"]!=PERMISO_GESTIONAR){        
+        $rolValidoGestion = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_GESTIONEDIFICIO);
+        $rolValidoAgregar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_CREAREDIFICIO);
+        $rolValidoModificar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_MODIFICAREDIFICIO);
+        $rolValidoEliminar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_ELIMINAREDIFICIO);
+        $this->_view->permisoGestion = $rolValidoGestion[0]["valido"];
+        $this->_view->permisoAgregar = $rolValidoAgregar[0]["valido"];
+        $this->_view->permisoModificar = $rolValidoModificar[0]["valido"];
+        $this->_view->permisoEliminar = $rolValidoEliminar[0]["valido"];
+        $rolValidoGestionSalones = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_GESTIONSALON);
+        $this->_view->permisoGestionSalones = $rolValidoGestionSalones[0]["valido"];
+        $rolValidoGestionAsigacionEdificio= $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_GESTIONASIGNACIONEDIFICIO);
+        $this->_view->permisoGestionAsignacion = $rolValidoGestionAsigacionEdificio[0]["valido"];
+        
+        if($this->_view->permisoGestion!=PERMISO_GESTIONAR){        
             echo "<script>
-                alert('No tiene permisos para acceder a esta función.');
+                ".MSG_SINPERMISOS."
                 window.location.href='" . BASE_URL . "login/inicio';
                 </script>";
         }
@@ -49,6 +65,24 @@ class gestionEdificioController extends Controller {
     }
     
     public function index($id=0){
+        session_start();
+        $rol = $_SESSION["rol"];        
+        $rolValidoGestion= $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_GESTIONASIGNACIONEDIFICIO);
+        $rolValidoAgregar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_CREARASIGNACIONEDIFICIO);
+        $rolValidoModificar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_MODIFICARASIGNACIONEDIFICIO);
+        $rolValidoEliminar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_ELIMINARASIGNACIONEDIFICIO);
+        $this->_view->permisoGestion = $rolValidoGestion[0]["valido"];
+        $this->_view->permisoAgregar = $rolValidoAgregar[0]["valido"];
+        $this->_view->permisoModificar = $rolValidoModificar[0]["valido"];
+        $this->_view->permisoEliminar = $rolValidoEliminar[0]["valido"];
+        
+         if($this->_view->permisoGestion != PERMISO_GESTIONAR){        
+            echo "<script>
+                ".MSG_SINPERMISOS."
+                window.location.href='" . BASE_URL . "gestionEdificio/listadoEdificio';
+                </script>";
+        }
+        
         if($this->getInteger('hdEdificio')){
             $idEdificio = $this->getInteger('hdEdificio');
         }else{
@@ -74,13 +108,12 @@ class gestionEdificioController extends Controller {
     }
 
     public function actualizarAsignacion($intIdAsignacion = 0, $intIdEdificio = 0) {
-        session_start();
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_MODIFICARASIGNACIONEDIFICIO);
        
         if($rolValido[0]["valido"]!= PERMISO_MODIFICAR){
            echo "<script>
-                alert('No tiene permisos suficientes para acceder a esta función.');
+                ".MSG_SINPERMISOS."
                 window.location.href='" . BASE_URL . "gestionEdificio/gestionEdificio/" . $intIdEdificio . "';
                 </script>";
         }
@@ -137,13 +170,13 @@ class gestionEdificioController extends Controller {
     }
     
      public function actualizarEdificio($intIdEdificio = 0) {
-        session_start();
+
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_MODIFICAREDIFICIO);
        
         if($rolValido[0]["valido"]!= PERMISO_MODIFICAR){
            echo "<script>
-                alert('No tiene permisos suficientes para acceder a esta función.');
+                ".MSG_SINPERMISOS."
                 window.location.href='" . BASE_URL . "gestionEdificio/listadoEdificio/" . $intIdEdificio . "';
                 </script>";
         }
@@ -182,13 +215,12 @@ class gestionEdificioController extends Controller {
     }
 
     public function agregarEdificio() {
-        session_start();
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_CREAREDIFICIO);
          
         if($rolValido[0]["valido"]!= PERMISO_CREAR){
            echo "<script>
-                alert('No tiene permisos suficientes para acceder a esta función.');
+                ".MSG_SINPERMISOS."
                 window.location.href='" . BASE_URL . "gestionEdificio/listadoEdificio/" . "';
                 </script>";
         }
@@ -213,7 +245,6 @@ class gestionEdificioController extends Controller {
     }
     
      public function activarDesactivarEdificio($intNuevoEstado, $intIdEdificio) {
-        session_start();
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_ELIMINAREDIFICIO);
         
@@ -233,7 +264,7 @@ class gestionEdificioController extends Controller {
         else
         {
             echo "<script>
-                alert('No tiene permisos suficientes para acceder a esta función.');
+                ".MSG_SINPERMISOS."
                 window.location.href='" . BASE_URL . "gestionEdificio/listadoEdificio" . "';
                 </script>";
         }
@@ -241,7 +272,6 @@ class gestionEdificioController extends Controller {
     }
 
     public function asignacionEdificio($intIdEdificio = 0) {
-        session_start();
         
         $this->_view->id = $intIdEdificio;
         $rol = $_SESSION["rol"];        
@@ -249,7 +279,7 @@ class gestionEdificioController extends Controller {
          
         if($rolValido[0]["valido"]!= PERMISO_CREAR){
            echo "<script>
-                alert('No tiene permisos suficientes para acceder a esta función.');
+                ".MSG_SINPERMISOS."
                 window.location.href='" . BASE_URL . "gestionEdificio/gestionEdificio/" . $intIdEdificio . "';
                 </script>";
         }
@@ -291,7 +321,7 @@ class gestionEdificioController extends Controller {
     }
     
      public function eliminarAsignacionEdificio($intNuevoEstado, $intIdAsignacion, $idEdificio){
-        session_start();
+
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_ELIMINARASIGNACIONEDIFICIO);
         
@@ -311,7 +341,7 @@ class gestionEdificioController extends Controller {
         else
         {
              echo "<script>
-                alert('No tiene permisos suficientes para acceder a esta función.');
+                ".MSG_SINPERMISOS."
                 window.location.href='" . BASE_URL . "gestionEdificio/gestionEdificio/" . $idEdificio . "';
                 </script>";
         }
@@ -320,13 +350,19 @@ class gestionEdificioController extends Controller {
         
         //Región de salones
         public function gestionSalon($intIdEdificio = 0) {
-        session_start();
         $rol = $_SESSION["rol"];        
-        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_GESTIONSALON);
-                    
-        if($rolValido[0]["valido"]!=PERMISO_GESTIONAR){        
+        $rolValidoGestion = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_GESTIONSALON);
+        $rolValidoAgregar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_CREARSALON);
+        $rolValidoModificar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_MODIFICARSALON);
+        $rolValidoEliminar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_ELIMINARSALON);
+        $this->_view->permisoGestion = $rolValidoGestion[0]["valido"];
+        $this->_view->permisoAgregar = $rolValidoAgregar[0]["valido"];
+        $this->_view->permisoModificar = $rolValidoModificar[0]["valido"];
+        $this->_view->permisoEliminar = $rolValidoEliminar[0]["valido"];
+        
+        if($rolValidoGestion[0]["valido"]!=PERMISO_GESTIONAR){        
             echo "<script>
-                alert('No tiene permisos para acceder a esta función.');
+                ".MSG_SINPERMISOS."
                 window.location.href='" . BASE_URL . "gestionEdificio/listadoEdificio';
                 </script>";
         }
@@ -350,8 +386,7 @@ class gestionEdificioController extends Controller {
     }
     
     public function eliminarSalon($intNuevoEstado, $intIdSalon, $intIdEdificio){
-        
-        session_start();
+
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_ELIMINARSALON);
         if($rolValido[0]["valido"]== PERMISO_ELIMINAR){
@@ -370,14 +405,13 @@ class gestionEdificioController extends Controller {
         else
         {         
             echo "<script>
-                alert('No tiene permisos suficientes para acceder a esta función.');
+                ".MSG_SINPERMISOS."
                 window.location.href='" . BASE_URL . "gestionEdificio/gestionSalon/" . $intIdEdificio . "';
                 </script>";
         }
     }
     
     public function agregarSalon($intIdEdificio = 0){
-        session_start();
                 
         
         $arraySal = array();
@@ -394,7 +428,7 @@ class gestionEdificioController extends Controller {
        
         if($rolValido[0]["valido"]!= PERMISO_CREAR){
            echo "<script>
-                alert('No tiene permisos suficientes para acceder a esta función.');
+                ".MSG_SINPERMISOS."
                 window.location.href='" . BASE_URL . "gestionEdificio/gestionSalon/" . $intIdEdificio . "';
                 </script>";
         }
@@ -419,13 +453,13 @@ class gestionEdificioController extends Controller {
     
     
     public function actualizarSalon($intIdSalon = 0,$intIdEdificio = 0) {
-        session_start();
+
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_MODIFICARSALON);
        
         if($rolValido[0]["valido"]!= PERMISO_MODIFICAR){
            echo "<script>
-                alert('No tiene permisos suficientes para acceder a esta función.');
+                ".MSG_SINPERMISOS."
                 window.location.href='" . BASE_URL . "gestionEdificio/gestionSalon/" . $intIdEdificio . "';
                 </script>";
         }

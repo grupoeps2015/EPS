@@ -11,12 +11,17 @@ class gestionNotasController extends Controller{
     
     public function __construct() {
         parent::__construct();
+        $this->getLibrary('session');
+        $this->_session = new session();
+        if(!$this->_session->validarSesion()){
+            $this->redireccionar('login/salir');
+            exit;
+        }
         $this->_ajax = $this->loadModel('ajax');
         $this->_notas = $this->loadModel('gestionNotas');
     }
     
     public function index($id = 0){
-        session_start();
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_GESTIONNOTA);
                     
@@ -85,6 +90,8 @@ class gestionNotasController extends Controller{
         
         $this->_view->titulo = 'Gestión de notas - ' . APP_TITULO;
         $this->_view->setJs(array('cursosXDocente'));
+        $this->_view->setJs(array('jquery.dataTables.min'), "public");
+        $this->_view->setCSS(array('jquery.dataTables.min'));
         $this->_view->renderizar('cursosXDocente','gestionNotas');
     }
     

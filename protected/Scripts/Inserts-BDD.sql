@@ -649,6 +649,24 @@ INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) V
 INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (60,1,57,'ModificarSalon',1,'Modificar salón');
 INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (61,1,57,'EliminarSalon',1,'Eliminar salón');
 
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (62,1,12,'GestionPeriodo',1,'Gestión de periodos');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (63,1,62,'ConsultarPeriodo',1,'Consultar periodo');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (64,1,62,'CrearPeriodo',1,'Crear periodo');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (65,1,62,'ModificarPeriodo',1,'Modificar periodo');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (66,1,62,'EliminarPeriodo',1,'Eliminar periodo');
+
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (67,1,3,'GestionCentroUnidad',1,'Gestión de centros por unidad');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (68,1,67,'ConsultarCentroUnidad',1,'Consultar centro unidad');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (69,1,67,'CrearCentroUnidad',1,'Crear centro unidad');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (70,1,67,'ModificarCentroUnidad',1,'Modificar centro unidad');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (71,1,67,'EliminarCentroUnidad',1,'Eliminar centro unidad');
+
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (72,1,67,'GestionUnidad',1,'Gestión de unidades');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (73,1,72,'ConsultarUnidad',1,'Consultar unidad');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (74,1,72,'CrearUnidad',1,'Crear unidad');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (75,1,72,'ModificarUnidad',1,'Modificar unidad');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (76,1,72,'EliminarUnidad',1,'Eliminar unidad');
+
 -- -----------------------------------------------------
 -- Insert adm_rol_funcion
 -- -----------------------------------------------------
@@ -720,6 +738,21 @@ INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,58);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,59);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,60);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,61);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,62);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,63);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,64);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,65);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,66);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,67);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,68);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,69);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,70);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,71);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,72);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,73);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,74);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,75);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,76);
 
 -- -----------------------------------------------------
 -- Insert adm_funcionmenu
@@ -771,7 +804,24 @@ INSERT INTO CUR_TipoPrerrequisito (tipoprerrequisito,descripcion) values (2,'Cr�
 -- -----------------------------------------------------
 INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (1,'Número máximo de reintentos de login','5','',NULL,NULL,1,1);
 INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (2,'Tiempo máximo de sesión activa','60','En minutos',NULL,NULL,1,1);
+
+-- -----------------------------------------------------
+-- Insert adm_parametro
+-- -----------------------------------------------------
+INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (1,'Número máximo de reintentos de login','5','',NULL,NULL,1,1);
+INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (2,'Tiempo máximo de sesión activa','60','En minutos',NULL,NULL,1,1);
 INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (100,'Tipo de ciclo','1','En minutos',1,NULL,2,1);
 INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (200,'Número máximo de cursos traslapados','3','',1,1,3,1);
 INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (201,'Tiempo máximo de traslape entre 2 cursos','60','En minutos',1,1,3,1);
 INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (202,'Criterio de tiempo de traslape entre 2 cursos','S','S: Semanal, D: Diario',1,1,3,1);
+INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (203,'Cantidad máxima de asignaciones por curso','3','',1,1,3,1);
+INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (204,'Cupo máximo por curso','60','',1,1,3,1);
+
+
+-- -----------------------------------------------------
+-- Insert est_estadonota
+-- -----------------------------------------------------
+INSERT INTO cur_estadonota VALUES (1,'Pendiente','',1);
+INSERT INTO cur_estadonota VALUES (2,'Pendiente de aprobacion','',1);
+INSERT INTO cur_estadonota VALUES (3,'Aprobada por control academico','',1);
+INSERT INTO cur_estadonota VALUES (4,'Reprobada por control academico','',1)

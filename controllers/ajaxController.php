@@ -127,6 +127,18 @@ class ajaxController extends Controller{
         }
     }
     
+    public function getIdTrama(){
+        if($this->getInteger('cat') && $this->getInteger('ciclo') && $this->getInteger('sec') && $this->getInteger('cur')){
+            echo json_encode($this->_ajax->getIdTrama($this->getInteger('cat'),$this->getInteger('ciclo'),$this->getInteger('sec'),$this->getInteger('cur')));
+        }
+    }
+    
+    public function getListaAsignados(){
+        if($this->getInteger('trama')){
+            echo json_encode($this->_ajax->getListaAsignados($this->getInteger('trama')));
+        }
+    }
+    
     public function getSeccionesCursoHorarioAjax(){
         if($this->getInteger('curso') && $this->getInteger('ciclo')){
             echo json_encode($this->_ajax->getSeccionesCursoHorarioAjax($this->getInteger('curso'),$this->getInteger('ciclo')));
@@ -164,6 +176,12 @@ class ajaxController extends Controller{
     public function getEstadoUsuario(){
         if($this->getInteger('idUsuario')){
             echo json_encode($this->_ajax->getEstadoUsuario($this->getInteger('idUsuario')));
+        }
+    }
+    
+    public function getCupoSeccionAjax(){
+        if($this->getInteger('ciclo') && $this->getInteger('seccion')){
+            echo json_encode($this->_ajax->getCupoSeccionAjax($this->getInteger('ciclo'), $this->getInteger('seccion')));
         }
     }
 }

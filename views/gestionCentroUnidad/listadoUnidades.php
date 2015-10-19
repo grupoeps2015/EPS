@@ -127,7 +127,7 @@
                             <td style="text-align: center;"><?php echo $this->lstUnidades[$i]['nombre']; ?></td>
                             <td style="text-align: center;">
                                 <?php echo $this->lstUnidades[$i]['nombrepadre']; ?>
-                                <input type="hidden" nombre="idPadre<?php echo $this->lstUnidades[$i]['idpadre']; ?>" value="<?php echo $this->lstCentros[$i]['idpadre'];?>"/>
+                                <input type="hidden" nombre="idPadre<?php echo $this->lstUnidades[$i]['idpadre']; ?>" value="<?php echo $this->lstUnidades[$i]['idpadre'];?>"/>
                             </td>
                             <td style="text-align: center;"><?php echo $this->lstUnidades[$i]['tipo']; ?></td>
                             <td style="text-align: center;"><?php echo $this->lstUnidades[$i]['estado']; ?></td>
@@ -140,7 +140,7 @@
                             </td>
                             <td style="text-align: center;">
                                 <?php if(strcmp($this->lstUnidades[$i]['estado'], 'Activado') == 0): ?>
-                                <a href="<?php echo BASE_URL . 'gestionCentroUnidad/' . $this->lstUnidades[$i]['unidad'];?>">Ver Carreras</a>
+                                <a href="<?php echo BASE_URL . 'gestionPensum/listadoCarrera/';?>">Ver Carreras</a>
                                 <?php else : ?>
                                 &nbsp;
                                 <?php endif;?>

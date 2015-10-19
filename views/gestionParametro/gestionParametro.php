@@ -15,7 +15,7 @@
                 </div>
                 <div class="col-lg-2 col-md-6 text-cenater"></div>
                 <div class="col-lg-4 col-md-6 text-center">
-                    <?php if($_SESSION["rol"] == ROL_ADMINISTRADOR): ?>
+                    <?php if($_SESSION["rol"] == ROL_ADMINISTRADOR && $this->permisoGestionPeriodo == PERMISO_GESTIONAR): ?>
                     <div class="service-box">
                             <i class="fa fa-2x fa-edit wow bounceIn text-primary" data-wow-delay=".2s">
                                 <a href="<?php echo BASE_URL?>gestionParametro/listadoPeriodo">Gesti&oacute;n de Per&iacute;odos</a>
@@ -25,11 +25,13 @@
                 </div>
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
+                        <?php if($this->permisoAgregar == PERMISO_CREAR): ?>
                         <form method='post' name='frmPost' id='frmPost' action='<?php echo BASE_URL?>gestionParametro/agregarParametro'>
                             <i class="fa fa-2x fa-user-plus wow bounceIn text-primary" data-wow-delay=".2s">
                                 <a id="linkNuevoPar" href="#">Agregar Par&aacute;metro</a>
                             </i>
                         </form>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -52,7 +54,9 @@
                                 <!--<th style="text-align:center">Extensi&oacute;n</th>-->
                                 <th style="text-align:center">Tipo par&aacute;metro</th>
                                 <th style="text-align:center">Estado</th>
-                                <th style="text-align:center">Modificar</th>                               
+                                <?php if($this->permisoModificar == PERMISO_MODIFICAR): ?>
+                                <th style="text-align:center">Modificar</th>  
+                                <?php endif;?>
                             </tr>
                         </thead>
                         <tbody>
@@ -69,13 +73,23 @@
                                 <!--<td style="text-align: center"><?php echo $this->lstPar[$i]['codigoparametro']; ?></td>-->
                                 <td style="text-align: center"><?php echo $this->lstPar[$i]['nombretipoparametro']; ?></td>
                                 <td style="text-align: center">
-                                    <?php if(strcmp($this->lstPar[$i]['estadoparametro'], '1') == 0): ?>
-                                        <a href="<?php echo BASE_URL . 'gestionParametro/eliminarParametro/-1/' . $this->lstPar[$i]['parametro'];?>">Desactivar</a>
-                                        <?php else : ?>
-                                        <a href="<?php echo BASE_URL . 'gestionParametro/eliminarParametro/1/' . $this->lstPar[$i]['parametro'];?>">Activar</a>
+                                    <?php if($this->permisoEliminar == PERMISO_ELIMINAR): ?>
+                                        <?php if(strcmp($this->lstPar[$i]['estadoparametro'], '1') == 0): ?>
+                                            <a href="<?php echo BASE_URL . 'gestionParametro/eliminarParametro/-1/' . $this->lstPar[$i]['parametro'];?>">Desactivar</a>
+                                            <?php else : ?>
+                                            <a href="<?php echo BASE_URL . 'gestionParametro/eliminarParametro/1/' . $this->lstPar[$i]['parametro'];?>">Activar</a>
+                                        <?php endif;?>
+                                    <?php else : ?>
+                                            <?php if(strcmp($this->lstPar[$i]['estadoparametro'], '1') == 0): ?>
+                                                Activo
+                                            <?php else : ?>
+                                                Inactivo
+                                            <?php endif;?>
                                     <?php endif;?>
                                 </td>
+                                <?php if($this->permisoModificar == PERMISO_MODIFICAR): ?>
                                 <td style="text-align: center;"><a href="<?php echo BASE_URL . 'gestionParametro/actualizarParametro/' . $this->lstPar[$i]['parametro'];?>">Modificar</a></td>
+                                <?php endif;?>
                             </tr>
                             <?php endfor;?>
                         <?php endif;?> 
