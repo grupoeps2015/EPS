@@ -711,7 +711,7 @@ class gestionPensumController extends Controller {
     
 
     public function crearPensum($idPensum = 0, $idCursoPensum = 0, $idCarrera = 0) {
-        session_start();
+         session_start();
          $pensum = $this->getInteger('hdPensum');
          $carrera = $this->getInteger('hdCarrera');
          $cursoPensumArea = $this->getInteger('hdCursoPensumArea');
