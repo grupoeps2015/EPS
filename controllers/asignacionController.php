@@ -312,6 +312,38 @@ class asignacionController extends Controller{
                 }
                 echo "Pasó todas las validaciones";
                 exit;
+                //TODO: Marlen: Validar cupo de las secciones a asignar
+                //
+                for($i=0;$i<count($cursos);$i++){
+                    if($cursos[$i] <> ""){
+                        //Parámetro de cupo máximo por sección
+                        $parametroCupoMaximo = $this->_ajax->valorParametro(CONS_PARAM_CARRERA_MAXCUPOPORSECCIONCURSO, $_SESSION["carrera"], $_SESSION["centrounidad"]);
+                        if(is_array($parametroTiempoMaximoTraslapado)){
+                            $parametroCupoMaximo = (isset($parametroCupoMaximo[0]['valorparametro']) ? $parametroCupoMaximo[0]['valorparametro'] : -1);
+                        }else{
+                            $this->redireccionar("error/sql/" . $parametroCupoMaximo);
+                            exit;
+                        }
+                        //Si es > 0 hay límite
+                        if ($parametroCupoMaximo > 0) {
+                            $cupoSeccion = $this->_ajax->getCupoSeccionAjax($this->getInteger('hdCiclo'),$cursos[$i]);
+                            if(is_array($cupoSeccion)){
+                                $cupoSeccion = (isset($cupoSeccion[0]['cupo']) ? $cupoSeccion[0]['cupo'] : -1);
+                            }else{
+                                $this->redireccionar("error/sql/" . $cupoSeccion);
+                                exit;
+                            }
+                            if ($cupoSeccion < $parametroCupoMaximo) {
+                                //Si aún hay cupo continuar
+                            }
+                            else{
+                                //TODO: Marlen: Redirigir a página de error de asignación
+                                echo "No hay cupo disponible en esta sección";
+                                exit;
+                            }
+                        }
+                    }
+                }
                 //Crear ciclo asignación
                 $asignacionEstudiante = $this->_asign->agregarCicloAsignacion($this->estudiante,$_SESSION["carrera"],$periodo);
                 if(is_array($asignacionEstudiante)){
