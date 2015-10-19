@@ -55,7 +55,14 @@
                                 <td style="text-align: center; width: 8%;"><?php echo $this->lstCurPensum[$i]['numerociclo']; ?></td>
                                 <td style="text-align: center"><?php echo $this->lstCurPensum[$i]['nombretipociclo']; ?></td>
                                 <td style="text-align: center"><?php echo $this->lstCurPensum[$i]['creditos']; ?></td>
-                                <td style="text-align: center;"><a href="<?php echo BASE_URL . 'gestionPensum/crearPensum/' . $this->idPensum . '/' . $this->lstCurPensum[$i]['id'] . '/' . $this->idCarrera;?>">Prerrequisitos</a></td>
+                                <td style="text-align: center;">
+                                     <?php if(isset($this->lstCurPensum[$i]['prerrequisitos'])): ?>
+                                        <a href="<?php echo BASE_URL . 'gestionPensum/crearPensum/' . $this->idPensum . '/' . $this->lstCurPensum[$i]['id'] . '/' . $this->idCarrera.'?prerrequisitos='.str_replace("\"","'", $this->lstCurPensum[$i]['prerrequisitos']);?>">Prerrequisitos</a></td>
+                                        <?php else : ?>
+                                        <a href="<?php echo BASE_URL . 'gestionPensum/crearPensum/' . $this->idPensum . '/' . $this->lstCurPensum[$i]['id'] . '/' . $this->idCarrera;?>">Prerrequisitos</a></td>
+                                    <?php endif;?>
+                                    
+                                    
                                 <td style="text-align: center">
                                     <?php if(strcmp($this->lstCurPensum[$i]['estado'], '1') == 0): ?>
                                         <a href="<?php echo BASE_URL . 'gestionPensum/eliminarCursoPensum/-1/' . $this->lstCurPensum[$i]['id'] . '/' . $this->idPensum  . '/' . $this->idCarrera;?>">Desactivar</a>

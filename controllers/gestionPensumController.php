@@ -717,16 +717,21 @@ class gestionPensumController extends Controller {
 
     public function crearPensum($idPensum = 0, $idCursoPensum = 0, $idCarrera = 0) {
         session_start();
+         $pensum = $this->getInteger('hdPensum');
+         $carrera = $this->getInteger('hdCarrera');
+         $cursoPensumArea = $this->getInteger('hdCursoPensumArea');
+         
+         $prerrequisitos = $this->getTexto('hdPrerrequisitos');
+        
+         $iden = $this->getInteger('hdEnvio');
+            $idCentroUnidad = $_SESSION["centrounidad"];
 
-        $iden = $this->getInteger('hdEnvio');
-        $idCentroUnidad = $_SESSION["centrounidad"];
-
-        $arrayPen = array();
+        $arrayPensum = array();
 
         $this->_view->idPensum = $idPensum;
         $this->_view->idCarrera = $idCarrera;
         $this->_view->idCursoPensum = $idCursoPensum;
-
+        
         $this->_view->titulo = 'Crear Pensum - ' . APP_TITULO;
 
         $this->_view->setJs(array('jquery.dataTables.min'), "public");
@@ -753,23 +758,23 @@ class gestionPensumController extends Controller {
           window.location.href='" . BASE_URL . "gestionParametro" . "';
           </script>";
           } */
-
+        
         if ($iden == 1) {
-            /* $arrayPar["nombre"] = $this->getTexto('txtNombreParametro');
-              $arrayPar["valor"] = $this->getTexto('txtValorParametro');
-              $arrayPar["descripcion"] = $this->getTexto('txtDescripcionParametro');
-              $arrayPar["centro_unidadacademica"] = $this->getInteger('slCentroUnidadAcademica');
-              $arrayPar["carrera"] = $this->getInteger('slCarreras');
-              $arrayPar["extension"] = $this->getTexto('txtExtensionParametro');
-              $arrayPar["tipoparametro"] =  $this->getInteger('slTipoParametro');
+            $prerrequisitosRes = str_replace("&#039;","\"", $prerrequisitos);
+             $result = str_replace("&gt;", ">", $prerrequisitosRes);
+            
+            //echo '<script>alert("'.$prerrequisitosRes.'");</script>';
+           // echo '<script>alert("'.$iden3.'");</script>';
+                 
+            $info = $this->_post->actualizarCurPensumArea($cursoPensumArea,$result);
+            //print_r($info.'-'.$cursoPensumArea.'-'.$prerrequisitosRes);
+            if (!is_array($info)) {
+                $this->redireccionar("error/sql/" . $info);
+                exit;
+            }
 
-              $info = $this->_view->query = $this->_post->agregarParametro($arrayPar);
-              if(!is_array($info)){
-              $this->redireccionar("error/sql/" . $info);
-              exit;
-              }
-
-              $this->redireccionar('gestionParametro'); */
+            $this->redireccionar('gestionPensum/gestionCursoPensum/'.$pensum.'/'.$carrera);
+            
         }
 
         $this->_view->renderizar('crearPensum', 'gestionPensum');

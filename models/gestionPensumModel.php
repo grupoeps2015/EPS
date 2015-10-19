@@ -132,6 +132,15 @@ class gestionPensumModel extends Model {
             return $info->fetchall();
         }
     }
+    
+    public function listadoCursosPrerrequisitos($intIdCentroUnidad, $idCursoBase) {
+        $info = $this->_db->query("SELECT * from splistadocursosprerrequisito(" . $intIdCentroUnidad . ",". $idCursoBase . ");");
+        if ($info === false) {
+            return "1104/listadoCursos";
+        } else {
+            return $info->fetchall();
+        }
+    }
 
     public function listadoAreas($intIdCarrera) {
         $info = $this->_db->query("SELECT * from splistadoareaporcarrera(" . $intIdCarrera . ");");
@@ -207,6 +216,15 @@ class gestionPensumModel extends Model {
             return "1104/consultaPensum";
         } else {
             return $post->fetchall();
+        }
+    }
+    
+    public function actualizarCurPensumArea($_idCursoPensum, $prerrequisitos) {
+        $info = $this->_db->query("SELECT * from spupdateprerrequisitos(" . $_idCursoPensum . ",'" . $prerrequisitos . "');");
+        if($info === false){
+            return "1102/actualizarCurPensumArea";
+        }else{
+            return $info->fetchall();
         }
     }
 

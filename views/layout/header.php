@@ -22,6 +22,7 @@
         <script src="<?php echo $_layoutParams['ruta_js']?>jquery.fittext.js" type="text/javascript"></script>
         <script src="<?php echo $_layoutParams['ruta_js']?>wow.min.js" type="text/javascript"></script>
         <script src="<?php echo $_layoutParams['ruta_js']?>creative.js" type="text/javascript"></script>
+        
              
 <?php if(isset($_layoutParams['js']) && count($_layoutParams['js'])):?>
     <?php for($i = 0; $i<count($_layoutParams['js']); $i++): ?>
