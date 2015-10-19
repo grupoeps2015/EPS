@@ -89,4 +89,14 @@ class asignacionModel extends Model{
             return $cursos->fetchall();
         }
     }
+    
+    public function getOportunidadCursoEstudiante($estudiante,$id){
+        $datos = $this->_db->query("select * from spoportunidadactualcursoestudiante({$estudiante},{$id}) as Oportunidad;");
+        $datos->setFetchMode(PDO::FETCH_ASSOC);
+        if($datos === false){
+            return "1200/getOportunidadCursoEstudiante";
+        }else{
+            return $datos->fetchall();
+        }
+    }
 }

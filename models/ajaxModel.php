@@ -375,4 +375,14 @@ class ajaxModel extends Model{
             return $info->fetchall();
         }
     }
+    
+    public function getCupoSeccionAjax($ciclo, $seccion){
+        $info = $this ->_db->query("select * from spobtenercuposeccion({$ciclo},{$seccion}) as cupo");
+        if($info === false){
+            return "1200/getCupoSeccionAjax";
+        }else{
+            $info->setFetchMode(PDO::FETCH_ASSOC);
+            return $info->fetchall();
+        }
+    }
 }

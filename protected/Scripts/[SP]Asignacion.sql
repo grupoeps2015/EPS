@@ -118,7 +118,7 @@ begin
  FROM EST_CUR_Asignacion a 
  JOIN EST_Ciclo_Asignacion ca on ca.Ciclo_Asignacion = a.Ciclo_Asignacion and ca.Estudiante = _estudiante 
  JOIN CUR_Seccion s on s.seccion = a.seccion
- WHERE s.curso = idCurso;
+ WHERE s.curso = idCurso and a.estado = 1;
   
  INSERT INTO EST_CUR_Asignacion (OportunidadActual, Estado, Seccion, Ciclo_Asignacion, Adjuntos) values (oportunidad + 1, 1, _seccion, _cicloasignacion, _adjuntos) RETURNING Asignacion INTO idAs;
  RETURN idAs;
@@ -289,6 +289,61 @@ $BODY$
   COST 100
   ROWS 1000;
 ALTER FUNCTION spobtenertiempotraslapeentrecursossemana(integer, text, integer)
+  OWNER TO postgres;
+
+  
+-- Function: spoportunidadactualcursoestudiante(integer, integer)
+
+-- DROP FUNCTION spoportunidadactualcursoestudiante(integer, integer);
+
+CREATE OR REPLACE FUNCTION spoportunidadactualcursoestudiante(
+    _estudiante integer,
+    _curso integer)
+  RETURNS integer AS
+$BODY$
+DECLARE oportunidad INTEGER;
+begin
+  
+ SELECT COALESCE(MAX(a.OportunidadActual),0) INTO oportunidad
+ FROM EST_CUR_Asignacion a 
+ JOIN EST_Ciclo_Asignacion ca on ca.Ciclo_Asignacion = a.Ciclo_Asignacion and ca.Estudiante = _estudiante 
+ JOIN CUR_Seccion s on s.seccion = a.seccion
+ WHERE s.curso = _curso and a.estado = 1;
+
+ RETURN oportunidad;
+ 
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION spoportunidadactualcursoestudiante(integer, integer)
+  OWNER TO postgres;
+  
+  
+-- Function: spobtenercuposeccion(integer, integer)
+
+-- DROP FUNCTION spobtenercuposeccion(integer, integer);
+
+CREATE OR REPLACE FUNCTION spobtenercuposeccion(
+    _ciclo integer,
+    _seccion integer)
+  RETURNS integer AS
+$BODY$
+DECLARE cupo INTEGER;
+begin
+  
+ SELECT count(a.Asignacion) INTO cupo
+ FROM EST_CUR_Asignacion a 
+ JOIN EST_Ciclo_Asignacion ca on ca.Ciclo_Asignacion = a.Ciclo_Asignacion
+ JOIN CUR_Seccion s on s.seccion = a.seccion and a.seccion = _seccion
+ JOIN ADM_Periodo p on p.periodo = ca.periodo
+ WHERE p.ciclo = _ciclo and a.estado = 1;
+ RETURN cupo;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION spobtenercuposeccion(integer, integer)
   OWNER TO postgres;
 
   

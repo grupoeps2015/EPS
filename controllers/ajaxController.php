@@ -178,6 +178,12 @@ class ajaxController extends Controller{
             echo json_encode($this->_ajax->getEstadoUsuario($this->getInteger('idUsuario')));
         }
     }
+    
+    public function getCupoSeccionAjax(){
+        if($this->getInteger('ciclo') && $this->getInteger('seccion')){
+            echo json_encode($this->_ajax->getCupoSeccionAjax($this->getInteger('ciclo'), $this->getInteger('seccion')));
+        }
+    }
 }
 
 ?>
