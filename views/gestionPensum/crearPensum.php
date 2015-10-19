@@ -118,7 +118,7 @@
             <input type="hidden" name="hdPensum" value="<?php echo $this->idPensum;?>">
             <input type="hidden" name="hdCarrera" value="<?php echo $this->idCarrera;?>">
             <input type="hidden" name="hdCursoPensumArea" value="<?php echo $this->idCursoPensum;?>">
-            <input type="hidden" id="hdPrerrequisitos" name="hdPrerrequisitos" value="<?php echo $_GET['prerrequisitos'];?>">
+            <input type="hidden" id="hdPrerrequisitos" name="hdPrerrequisitos" value="<?php if(isset($_GET['prerrequisitos'])){echo $_GET['prerrequisitos'];}else{ echo "NO_P_PRERREQUISITO";}?>">
 
         </form>
     </div>   
