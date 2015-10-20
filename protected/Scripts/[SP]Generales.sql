@@ -5,7 +5,7 @@
 CREATE OR REPLACE FUNCTION spconsultageneral(IN _campos text,IN _tabla text,OUT codigo int,OUT nombre text) RETURNS setof record AS
 $BODY$
 begin
- Return query EXECUTE format('SELECT %s FROM %s',_campos, _tabla);
+ Return query EXECUTE format('SELECT %s FROM %s',_campos, _tabla) order by codigo asc;
 end;
 $BODY$
 LANGUAGE 'plpgsql';
