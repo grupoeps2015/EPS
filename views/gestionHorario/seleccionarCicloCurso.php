@@ -16,16 +16,20 @@
                 <div class="col-lg-2 col-md-6 text-center"></div>
                 <div class="col-lg-4 col-md-6 text-center">
                     <div class="service-box">
+                        <?php if($this->permisoAgregarHorario == PERMISO_CREAR): ?>
                         <i class="fa fa-2x fa-copy wow bounceIn text-primary" data-wow-delay=".2s">
                             <a id="linkCopiaHor" href="#" class="h2" data-wow-delay=".1s" data-toggle="modal" data-target="#myModal2">Copiar Horario</a>
                         </i>
+                        <?php endif; ?>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
+                        <?php if($this->permisoAgregar == PERMISO_CREAR): ?>
                         <i class="fa fa-2x fa-spinner wow bounceIn text-primary" data-wow-delay=".2s">
                             <a id="linkNuevoCic" href="#" class="h2" data-wow-delay=".1s" data-toggle="modal" data-target="#myModal">Agregar Ciclo</a>
                         </i>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>

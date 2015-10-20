@@ -2,7 +2,7 @@
     <div class="header">
         <div class="row">
             <div class="col-lg-12 text-center">
-                <h2 class="section-heading">Gesi&oacute;n de notas</h2>
+                <h2 class="section-heading">Gesti&oacute;n de notas</h2>
                 <hr class="primary">
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">

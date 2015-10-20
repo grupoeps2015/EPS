@@ -673,6 +673,13 @@ INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) V
 INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (80,1,77,'ModificarCursoPensum',1,'Modificar cursos por pensum');
 INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (81,1,77,'EliminarCursoPensum',1,'Eliminar cursos por pensum');
 
+
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (82,1,42,'GestionCiclo',1,'Gestión de ciclo');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (83,1,82,'ConsultarCiclo',1,'Consultar ciclos');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (84,1,82,'CrearCiclo',1,'Crear ciclos');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (85,1,82,'ModificarCiclo',1,'Modificar ciclos');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (86,1,82,'EliminarCiclo',1,'Eliminar ciclos');
+
 -- -----------------------------------------------------
 -- Insert adm_rol_funcion
 -- -----------------------------------------------------
@@ -764,6 +771,11 @@ INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,78);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,79);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,80);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,81);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,82);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,83);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,84);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,85);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,86);
 
 -- -----------------------------------------------------
 -- Insert adm_funcionmenu

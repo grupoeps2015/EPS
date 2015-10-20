@@ -25,6 +25,23 @@ class gestionHorarioController extends Controller {
     }
 
     public function index($parametros = null) {
+             $rol = $_SESSION["rol"];        
+             $rolValidoGestion = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_GESTIONHORARIO);
+             $rolValidoAgregar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_CREARHORARIO);
+             $rolValidoModificar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_MODIFICARHORARIO);
+             $rolValidoEliminar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_ELIMINARHORARIO);
+             $this->_view->permisoGestion = $rolValidoGestion[0]["valido"];
+             $this->_view->permisoAgregar = $rolValidoAgregar[0]["valido"];
+             $this->_view->permisoModificar = $rolValidoModificar[0]["valido"];
+             $this->_view->permisoEliminar = $rolValidoEliminar[0]["valido"];
+            
+             if($this->_view->permisoGestion!= PERMISO_GESTIONAR){
+             echo "<script>
+                ".MSG_SINPERMISOS."
+                window.location.href='" . BASE_URL . "gestionHorario/seleccionarCicloCurso';
+                </script>";
+        }
+        
             if(!is_null($parametros)){
                 list($idCiclo, $idSeccion) = split('[$.-]', (string)$parametros);
             }else{
@@ -70,11 +87,17 @@ class gestionHorarioController extends Controller {
     
     public function seleccionarCicloCurso(){
         $rol = $_SESSION["rol"];        
-        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_GESTIONHORARIO);
+        $rolValidoGestion = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_GESTIONCICLO);
+        $rolValidoAgregar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_CREARCICLO);
+        $rolValidoAgregarHorarios = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_CREARHORARIO);
+        $this->_view->permisoGestion = $rolValidoGestion[0]["valido"];
+        $this->_view->permisoAgregar = $rolValidoAgregar[0]["valido"];
+        $this->_view->permisoAgregarHorario = $rolValidoAgregarHorarios[0]["valido"];
+        
                     
-        if($rolValido[0]["valido"]!=PERMISO_GESTIONAR){      
+        if($this->_view->permisoGestion!=PERMISO_GESTIONAR){      
             echo "<script>
-                alert('No tiene permisos para acceder a esta función.');
+                ".MSG_SINPERMISOS."
                 window.location.href='" . BASE_URL . "login/inicio';
                 </script>";        
         }
@@ -120,7 +143,7 @@ class gestionHorarioController extends Controller {
          
         if($rolValido[0]["valido"]!= PERMISO_CREAR){
            echo "<script>
-                alert('No tiene permisos suficientes para acceder a esta función.');
+                ".MSG_SINPERMISOS."
                 window.location.href='" . BASE_URL . "gestionHorario/index/" . $lstParametros . "';
                 </script>";
         }
@@ -294,7 +317,7 @@ class gestionHorarioController extends Controller {
         else
         {         
             echo "<script>
-                alert('No tiene permisos suficientes para acceder a esta función.');
+                ".MSG_SINPERMISOS."
                 window.location.href='" . BASE_URL . "gestionHorario/index/" . $parametros . "';
                 </script>";
         }
@@ -306,7 +329,7 @@ class gestionHorarioController extends Controller {
          
         if($rolValido[0]["valido"]!= PERMISO_MODIFICAR){
            echo "<script>
-                alert('No tiene permisos suficientes para acceder a esta función.');
+                ".MSG_SINPERMISOS."
                 window.location.href='" . BASE_URL . "gestionHorario/index/" . $parametros . "';
                 </script>";
         }
@@ -496,6 +519,16 @@ class gestionHorarioController extends Controller {
     }
     
     public function agregarCiclo(){
+        $rol = $_SESSION["rol"];        
+        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_CREARCICLO);
+        
+        if($rolValido[0]["valido"]!= PERMISO_CREAR){
+           echo "<script>
+                ".MSG_SINPERMISOS."
+                window.location.href='" . BASE_URL . "gestionHorario/seleccionarCicloCurso/" . "';
+                </script>";
+        }
+        
         if ($this->getInteger('hdEnvio')) {
             $tipociclo = $_SESSION["tipociclo"];
             $anio = $this->getInteger('txtAnio');
@@ -514,6 +547,16 @@ class gestionHorarioController extends Controller {
     }
     
     public function copiarHorario(){
+        $rol = $_SESSION["rol"];  
+        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_CREARHORARIO);
+        
+        if($rolValido[0]["valido"]!= PERMISO_CREAR){
+           echo "<script>
+                ".MSG_SINPERMISOS."
+                window.location.href='" . BASE_URL . "gestionHorario/seleccionarCicloCurso/" . "';
+                </script>";
+        }
+        
         if ($this->getInteger('hdEnvio')) {
             $array['cicloO'] = $this->getInteger('slCicloO');
             $array['cicloD'] = $this->getInteger('slCicloD');
