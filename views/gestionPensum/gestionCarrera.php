@@ -6,11 +6,19 @@
                 <hr class="primary">
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
+                        <?php if(isset($this->vieneDeUnidad)): ?>
+                        <i class="fa fa-2x fa-home wow bounceIn text-primary" data-wow-delay=".2s">
+                            <a href="<?php echo BASE_URL ?>/login/inicio">
+                                Inicio
+                            </a>
+                        </i>
+                        <?php else: ?>
                         <i class="fa fa-2x fa-backward wow bounceIn text-primary" data-wow-delay=".2s">
                             <a href="<?php echo BASE_URL ?>general/seleccionarCentroUnidad/gestionPensum/listadoCarrera">
                                 Regresar
                             </a>
                         </i>
+                        <?php endif; ?>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 text-center"></div>

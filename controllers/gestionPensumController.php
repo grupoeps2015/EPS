@@ -141,7 +141,7 @@ class gestionPensumController extends Controller {
         }
     }
 
-    public function listadoCarrera() {
+    public function listadoCarrera($centroUnidad = -1) {
         $rol = $_SESSION["rol"];
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol, CONS_FUNC_CUR_GESTIONCARRERA);
 
@@ -152,8 +152,12 @@ class gestionPensumController extends Controller {
                 </script>";
         }
 
-
-        $idCentroUnidad = $_SESSION["centrounidad"];
+        if($centroUnidad <= 0){
+            $idCentroUnidad = $_SESSION["centrounidad"];
+        }else{
+            $idCentroUnidad = $centroUnidad;
+            $this->_view->vieneDeUnidad = true;
+        }
 
         $this->_view->id = $idCentroUnidad;
 
@@ -632,8 +636,7 @@ class gestionPensumController extends Controller {
         $this->_view->renderizar('agregarCursoPensum', 'gestionPensum');
     }
     
-    
-     public function actualizarCursoPensum($idCursoPensum = 0, $idPensum = 0, $idCarrera = 0) {
+    public function actualizarCursoPensum($idCursoPensum = 0, $idPensum = 0, $idCarrera = 0) {
 //        $rol = $_SESSION["rol"];        
 //        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_MODIFICARSALON);
 //       
@@ -709,7 +712,6 @@ class gestionPensumController extends Controller {
         $this->_view->renderizar('actualizarCursoPensum', 'gestionPensum');
     }
     
-
     public function crearPensum($idPensum = 0, $idCursoPensum = 0, $idCarrera = 0) {
        // session_start();
          $pensum = $this->getInteger('hdPensum');
