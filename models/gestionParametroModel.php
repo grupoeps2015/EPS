@@ -46,16 +46,9 @@ class gestionParametroModel extends Model{
         }
     }
     
-    public function actualizarParametro($_datos) {
-        
-        if($_datos["carrera"] == 0){$_datos["carrera"] = 'null';}
-        $sp = $_datos["parametro"] . ',';
-        $sp .= '\'' . $_datos["nombre"] . '\',\'' . $_datos["valor"] . '\',';
-        $sp .= '\'' . trim($_datos["descripcion"]) . '\',' . $_datos["centro_unidadacademica"] . ',';
-        $sp .= $_datos["carrera"] . ',';
-        $sp .= $_datos["codigo"] . ',null,' . $_datos["tipoparametro"];
+    public function actualizarParametro($param,$valor) {
        
-        $info = $this->_db->query("SELECT * from spModificarParametro(" . $sp. ");");
+        $info = $this->_db->query("SELECT * from spModificarParametro({$param},'{$valor}');");
         if($info === false){
             return "1103/actualizarParametro";
         }else{
