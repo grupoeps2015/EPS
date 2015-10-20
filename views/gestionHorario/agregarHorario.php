@@ -31,9 +31,9 @@
                             <table class="text-primary table-hover">
                                 <tr>
                                     <td colspan="7">
-                                        *Catedrático:     
+                                        *Catedrático:  
+                                        <select id="slCatedraticos" name="slCatedraticos" class="form-control input-lg">   
                                         <?php if(isset($this->catedraticos) && count($this->catedraticos)): ?>
-                                        <select id="slCatedraticos" name="slCatedraticos" class="form-control input-lg">
                                             <?php for($i =0; $i < count($this->catedraticos); $i++) : ?>
                                             <option value="<?php echo $this->catedraticos[$i]['id'];?>">
                                                 <?php echo $this->catedraticos[$i]['registro']." - "; ?>
@@ -44,10 +44,10 @@
                                                 <?php echo "- ".$this->catedraticos[$i]['tipodocente']; ?>
                                             </option>
                                             <?php endfor;?>
-                                        </select><br/>
                                         <?php else : ?>
-                                        &nbsp;
+                                        <option value="" disabled>No hay informaci&oacute;n disponible</option>
                                         <?php endif;?>
+                                        </select><br/>
                                     </td>
                                     <td>&nbsp;</td>
                                     <!--
