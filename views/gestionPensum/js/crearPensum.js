@@ -20,7 +20,7 @@ $(document).ready(function() {
     }
 
     else {
-        
+
         var childrens = hv.replace(/,'is_open':true/g, "").replace(/'/g, '"');
         var getContact = JSON.parse(childrens);
         //alert(getContact[0].name);
@@ -95,29 +95,27 @@ $(document).ready(function() {
 
 function agregar() {
 
-    
+
 
     //if (nodoSeleccionado && nodeid !== "") {
     var parent_node = $('#arbolPensum').tree('getNodeById', -1);
     var idNuevo = $("#slCursos").val();
-    
     var idCurso = $("#hdIdCurso").val();
-    if(idCurso === idNuevo ){
-        
+    if (idCurso === idNuevo) {
+
         alert("No puedes asignar de prerrequisito el mismo curso");
         return;
     }
-    
+
     for (var i = 0; i < parent_node.children.length; i++) {
         var child = parent_node.children[i];
         var idChild = child.id;
-         
-        if(idNuevo === idChild){
-            alert("El prerrequisito fue agregado previamente.");            
+        if (idNuevo === idChild) {
+            alert("El prerrequisito fue agregado previamente.");
             return;
         }
     }
-    
+
     var nombreNuevo = $("#slCursos option:selected").text().trim();
     var valorEntrada = document.getElementById('txtOtrosPrerrequisitos').value;
     var level = parent_node.getLevel();
@@ -136,6 +134,13 @@ function agregar() {
     }
     else if (valorEntrada !== "" && chkOtros) {
         //id = 0 ->No posee id
+        for (var i = 0; i < parent_node.children.length; i++) {
+            var tipoChild = child.tipo;
+            if (tipoChild == 2 ) {
+                alert("Ya fue agregado un prerrequisito de creditos, para modificarlo elimina el existente e ingresalo de nuevo.");
+                return;
+            }
+        }
         if (idNuevo !== parent_node && level !== 2) {
             var creditosValorEntrada = "Creditos >= " + valorEntrada;
             $('#arbolPensum').tree('appendNode', {label: creditosValorEntrada, id: "0", tipo: "2", valor: valorEntrada}, parent_node);
