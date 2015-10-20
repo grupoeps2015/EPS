@@ -18,11 +18,13 @@
                 <div class="col-lg-3 col-md-6 text-center"></div>
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
+                        <?php if($this->permisoAgregar == PERMISO_CREAR): ?>
                         <i class="fa fa-2x fa-book wow bounceIn text-primary" data-wow-delay=".2s">
                             <a href="<?php echo BASE_URL?>gestionCentroUnidad/agregarUnidad/<?php echo $this->id;?>">
                                 Crear Nueva Unidad
                             </a>
                         </i>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -115,8 +117,12 @@
                             <th style="text-align:center;">Unidad Superior</th>
                             <th style="text-align:center;">Tipo Unidad</th>
                             <th style="text-align:center;">Estado</th>
+                            <?php if($this->permisoEliminar == PERMISO_ELIMINAR): ?>
                             <th style="text-align:center;">&nbsp;</th>
+                            <?php endif;?>
+                            <?php if($this->permisoGestionCarreras == PERMISO_GESTIONAR): ?>
                             <th style="text-align:center;">&nbsp;</th>
+                            <?php endif;?>
                         </tr>
                     </thead>
                     <tbody>
@@ -131,6 +137,7 @@
                             </td>
                             <td style="text-align: center;"><?php echo $this->lstUnidades[$i]['tipo']; ?></td>
                             <td style="text-align: center;"><?php echo $this->lstUnidades[$i]['estado']; ?></td>
+                            <?php if($this->permisoEliminar == PERMISO_ELIMINAR): ?>
                             <td style="text-align: center;">
                                 <?php if(strcmp($this->lstUnidades[$i]['estado'], 'Activado') == 0): ?>
                                 <a href="<?php echo BASE_URL . 'gestionCentroUnidad/estadoNuevo/-1/' . $this->id . '/' . $this->lstUnidades[$i]['unidad'];?>">Desactivar</a>
@@ -138,6 +145,8 @@
                                 <a href="<?php echo BASE_URL . 'gestionCentroUnidad/estadoNuevo/1/' . $this->id . '/' . $this->lstUnidades[$i]['unidad'];?>">Activar</a>
                                 <?php endif;?>
                             </td>
+                            <?php endif;?>
+                            <?php if($this->permisoGestionCarreras == PERMISO_GESTIONAR): ?>
                             <td style="text-align: center;">
                                 <?php if(strcmp($this->lstUnidades[$i]['estado'], 'Activado') == 0): ?>
                                 <a href="<?php echo BASE_URL . 'gestionPensum/listadoCarrera/';?>">Ver Carreras</a>
@@ -145,6 +154,7 @@
                                 &nbsp;
                                 <?php endif;?>
                             </td>
+                            <?php endif;?>
                         </tr>
                         <?php endfor;?>
                     <?php endif;?>

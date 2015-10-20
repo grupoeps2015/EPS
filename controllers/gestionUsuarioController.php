@@ -28,11 +28,24 @@ class gestionUsuarioController extends Controller {
     public function index(){
         if(isset($_SESSION["rol"])){
             $rol = $_SESSION["rol"];
-            $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_GESTIONUSUARIO);
-            if($rolValido[0]["valido"]!=PERMISO_GESTIONAR){
+            $rolValidoGestion = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_GESTIONUSUARIO);
+            $rolValidoAgregar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_CREARUSUARIO);
+            $rolValidoModificar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_MODIFICARUSUARIO);
+            $rolValidoEliminar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_ELIMINARUSUARIO);
+            $this->_view->permisoGestion = $rolValidoGestion[0]["valido"];
+            $this->_view->permisoAgregar = $rolValidoAgregar[0]["valido"];
+            $this->_view->permisoModificar = $rolValidoModificar[0]["valido"];
+            $this->_view->permisoEliminar = $rolValidoEliminar[0]["valido"];
+            
+            /*if($rolValido[0]["valido"]!=PERMISO_GESTIONAR){
                 $this->redireccionar("error/noRol/1000");
-                exit;
-            }else{
+                exit;*/
+            if($this->_view->permisoGestion!= PERMISO_GESTIONAR){
+            echo "<script>
+                ".MSG_SINPERMISOS."
+                window.location.href='" . BASE_URL . "login/inicio';
+                </script>";
+            }
                 $idCentroUnidad = $_SESSION["centrounidad"];
                 $this->_view->titulo = 'Gestión de usuarios - ' . APP_TITULO;
                 $this->_view->id = $idCentroUnidad;
@@ -49,7 +62,7 @@ class gestionUsuarioController extends Controller {
                 }
 
                 $this->_view->renderizar('gestionUsuario');
-            }
+            
         }else{
             $this->redireccionar("error/noRol/1000");
             exit;
@@ -97,7 +110,7 @@ class gestionUsuarioController extends Controller {
          
         if($rolValido[0]["valido"]!= PERMISO_CREAR){
            echo "<script>
-                alert('No tiene permisos suficientes para acceder a esta función.');
+                ".MSG_SINPERMISOS."
                 window.location.href='" . BASE_URL . "gestionUsuario" . "';
                 </script>";
         }
@@ -252,7 +265,7 @@ class gestionUsuarioController extends Controller {
         else
         {         
             echo "<script>
-                alert('No tiene permisos suficientes para acceder a esta función.');
+                ".MSG_SINPERMISOS."
                 window.location.href='" . BASE_URL . "gestionUsuario" . "';
                 </script>";
         }
@@ -263,9 +276,15 @@ class gestionUsuarioController extends Controller {
         $idCentroUnidad = $_SESSION["centrounidad"];
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_MODIFICARUSUARIO);
          
-        if($rolValido[0]["valido"]!= PERMISO_MODIFICAR){
+        /*if($rolValido[0]["valido"]!= PERMISO_MODIFICAR){
             $this->redireccionar("error/noRol/1000");
             exit;
+        }*/
+        if($rolValido[0]["valido"]!= PERMISO_MODIFICAR){
+           echo "<script>
+                ".MSG_SINPERMISOS."
+                window.location.href='" . BASE_URL . "gestionUsuario" . "';
+                </script>";
         }
         
         $valorPagina = $this->getInteger('hdEnvio');

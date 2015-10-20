@@ -27,11 +27,11 @@ class gestionPensumController extends Controller {
 
     public function index() {
         $rol = $_SESSION["rol"];
-        $rolValido = $this->_ajax->getPermisosRolFuncion($rol, CONS_FUNC_CUR_CREARCARRERA);
+        $rolValido = $this->_ajax->getPermisosRolFuncion($rol, CONS_FUNC_CUR_GESTIONCARRERA);
 
         if ($rolValido[0]["valido"] != PERMISO_GESTIONAR) {
             echo "<script>
-                alert('No tiene permisos para acceder a esta función.');
+                ".MSG_SINPERMISOS."
                 window.location.href='" . BASE_URL . "login/inicio';
                 </script>";
         }
@@ -62,7 +62,7 @@ class gestionPensumController extends Controller {
 
         if ($rolValido[0]["valido"] != PERMISO_GESTIONAR) {
             echo "<script>
-                alert('No tiene permisos para acceder a esta función.');
+                ".MSG_SINPERMISOS."
                 window.location.href='" . BASE_URL . "login/inicio';
                 </script>";
         }
@@ -145,9 +145,9 @@ class gestionPensumController extends Controller {
         $rol = $_SESSION["rol"];
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol, CONS_FUNC_CUR_GESTIONCARRERA);
 
-        if ($rolValido[0]["valido"] != PERMISO_GESTIONAR) {
+        if ($rolValido[0]["valido"] == PERMISO_GESTIONAR) {
             echo "<script>
-                alert('No tiene permisos para acceder a esta función.');
+                ".MSG_SINPERMISOS."
                 window.location.href='" . BASE_URL . "gestionPensum/inicio';
                 </script>";
         }

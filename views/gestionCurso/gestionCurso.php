@@ -15,23 +15,27 @@
                 </div>
                 <div class="col-lg-2 col-md-6 text-cenater"></div>
                 <div class="col-lg-4 col-md-6 text-center">
-                    <?php if(isset($this->lstCur) && count($this->lstCur)): ?>
-                    <div class="service-box">
-                        <form method='post' name='frmPost1' id='frmPost1' action='<?php echo BASE_URL?>gestionCurso/listadoSeccion'>
-                            <i class="fa fa-2x fa-edit wow bounceIn text-primary" data-wow-delay=".2s">
-                                <a id="linkSeccion" href="#">Gesti&oacute;n de Secciones</a>
-                            </i>
-                        </form>
-                    </div>
+                    <?php if($this->permisoGestionSecciones == PERMISO_GESTIONAR): ?>
+                        <?php if(isset($this->lstCur) && count($this->lstCur)): ?>
+                        <div class="service-box">
+                            <form method='post' name='frmPost1' id='frmPost1' action='<?php echo BASE_URL?>gestionCurso/listadoSeccion'>
+                                <i class="fa fa-2x fa-edit wow bounceIn text-primary" data-wow-delay=".2s">
+                                    <a id="linkSeccion" href="#">Gesti&oacute;n de Secciones</a>
+                                </i>
+                            </form>
+                        </div>
+                        <?php endif; ?>
                     <?php endif; ?>
                 </div>
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
+                        <?php if($this->permisoAgregar == PERMISO_CREAR): ?>
                         <form method='post' name='frmPost2' id='frmPost2' action='<?php echo BASE_URL?>gestionCurso/agregarCurso'>
                             <i class="fa fa-2x fa-tags wow bounceIn text-primary" data-wow-delay=".2s">
                                 <a id="linkNuevoUsr" href="#">Agregar Curso</a>
                             </i>
                         </form>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -50,8 +54,12 @@
                                 <th style="text-align:center">Tipo</th>
                                 <th style="text-align:center">Traslape</th>
                                 <th style="text-align:center">Estado</th>
+                                <?php if($this->permisoModificar == PERMISO_MODIFICAR): ?>
                                 <th style="text-align:center">&nbsp;</th>
+                                <?php endif;?>
+                                <?php if($this->permisoEliminar == PERMISO_ELIMINAR): ?>
                                 <th style="text-align:center">&nbsp;</th>
+                                <?php endif;?>
                             </tr>
                         </thead>
                         <tbody>
@@ -63,7 +71,10 @@
                                 <td style="text-align: center"><?php echo $this->lstCur[$i]['tipocurso']; ?></td>
                                 <td style="text-align: center"><?php echo $this->lstCur[$i]['traslape']; ?></td>
                                 <td style="text-align: center"><?php echo $this->lstCur[$i]['estado']; ?></td>
+                                <?php if($this->permisoModificar == PERMISO_MODIFICAR): ?>
                                 <td style="text-align: center;"><a href="<?php echo BASE_URL . 'gestionCurso/actualizarCurso/' . $this->lstCur[$i]['id'];?>">Modificar</a></td>
+                                <?php endif;?>
+                                <?php if($this->permisoEliminar == PERMISO_ELIMINAR): ?>
                                 <td style="text-align: center;">
                                     <?php if(strcmp($this->lstCur[$i]['estado'], 'Activo') == 0): ?>
                                     <a href="<?php echo BASE_URL . 'gestionCurso/eliminarCurso/-1/' . $this->lstCur[$i]['id'];?>">Desactivar</a>
@@ -71,6 +82,7 @@
                                     <a href="<?php echo BASE_URL . 'gestionCurso/eliminarCurso/1/' . $this->lstCur[$i]['id'];?>">Activar</a>
                                     <?php endif;?>
                                 </td>
+                                <?php endif;?>
                             </tr>
                             <?php endfor;?>
                         <?php endif;?>
