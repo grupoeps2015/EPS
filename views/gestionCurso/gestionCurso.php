@@ -45,7 +45,7 @@
                     <table id="tbCursos" border="2">
                         <thead>
                             <tr>
-                                <th style="text-align:center">Codigo</th>
+                                <th style="text-align:center">Código</th>
                                 <th style="text-align:center">Nombre</th>
                                 <th style="text-align:center">Tipo</th>
                                 <th style="text-align:center">Traslape</th>
