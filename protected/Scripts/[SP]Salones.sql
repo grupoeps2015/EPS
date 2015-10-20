@@ -1,7 +1,6 @@
-﻿
--- -----------------------------------------------------
+﻿----------------------------------------------------------------------------------------
 -- Function: spInformacionSalon()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spInformacionSalon(integer);
 CREATE OR REPLACE FUNCTION spInformacionSalon(idEdificio integer, estadoActivo integer, OUT salon int, 
 					          OUT Nombre text, OUT NombreEdificio text, 
@@ -21,10 +20,9 @@ END;
 $BODY$
 LANGUAGE 'plpgsql';
 
-
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spAgregarSalon()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spagregarsalon(text, integer, integer, integer); 
 CREATE OR REPLACE FUNCTION spAgregarSalon(_nombre text, 
 						  _edificio integer,
@@ -40,12 +38,10 @@ BEGIN
 END; $BODY$
 LANGUAGE 'plpgsql';
 
-
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spdatossalon()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spdatossalon(int);
-
 CREATE OR REPLACE FUNCTION spDatosSalon(Salon int, 
 					    OUT Nombre text, OUT Nivel int, 
 					    OUT Capacidad int) RETURNS setof record as 
@@ -60,10 +56,9 @@ END;
 $BODY$
 LANGUAGE 'plpgsql';
 
-
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spModificarSalon()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spmodificarsalon(integer, text, integer, integer, integer); 
 CREATE OR REPLACE FUNCTION spModificarSalon(_salon integer, 
 						_nombre text, 

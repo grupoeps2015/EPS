@@ -1,6 +1,6 @@
-﻿-- -----------------------------------------------------
+﻿----------------------------------------------------------------------------------------
 -- Function: spInfoGeneralEstudiante()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spInfoGeneralEstudiante(integer);
 CREATE OR REPLACE FUNCTION spInfoGeneralEstudiante(IN _idUsuario integer, OUT carnet int, 
 						   OUT nombre text, OUT dircorta text,
@@ -46,9 +46,9 @@ end;
 $BODY$
 LANGUAGE 'plpgsql';
 
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spUpdateInfoGeneralEstudiante()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spUpdateInfoGeneralEstudiante(int, text, int, int, text, int);
 CREATE OR REPLACE FUNCTION spUpdateInfoGeneralEstudiante( _idUsuario int, 
 							  _direccion text, 
@@ -68,9 +68,9 @@ END;
 $BODY$
 LANGUAGE 'plpgsql';
 
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spUpdateInfoEmergenciaEstudiante()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spUpdateInfoEmergenciaEstudiante(int, text, text, boolean, text, text);
 CREATE OR REPLACE FUNCTION spUpdateInfoEmergenciaEstudiante( _idUsuario int, 
 							     _telefono text, 

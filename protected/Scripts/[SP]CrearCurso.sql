@@ -1,7 +1,7 @@
-﻿-- Function: spagregarcurso(text, text, boolean, integer, integer, integer)
-
+﻿----------------------------------------------------------------------------------------
+-- Function: spagregarcurso(text, text, boolean, integer, integer, integer)
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spagregarcurso(text, text, boolean, integer, integer, integer);
-
 CREATE OR REPLACE FUNCTION spagregarcurso(
     _codigo text,
     _nombre text,
@@ -22,11 +22,10 @@ END; $BODY$
 ALTER FUNCTION spagregarcurso(text, text, boolean, integer, integer, integer)
   OWNER TO postgres;
 
-
+----------------------------------------------------------------------------------------
 -- Function: spinformacioncurso(integer)
-
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spinformacioncurso(integer);
-
 CREATE OR REPLACE FUNCTION spinformacioncurso(
     IN _centrounidadacademica integer,
     OUT id integer,
@@ -63,11 +62,10 @@ $BODY$
 ALTER FUNCTION spinformacioncurso(integer)
   OWNER TO postgres;
 
----------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spactivardesactivarcurso(integer, integer)
----------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spactivardesactivarcurso(integer, integer);
-
 CREATE OR REPLACE FUNCTION spactivardesactivarcurso(
     _idcurso integer,
     _estadonuevo integer)
@@ -82,11 +80,10 @@ $BODY$
 ALTER FUNCTION spactivardesactivarcurso(integer, integer)
   OWNER TO postgres;
   
----------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spdatoscurso(integer)
----------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spdatoscurso(integer);
-
 CREATE OR REPLACE FUNCTION spdatoscurso(
     IN id integer,
     OUT codigo text,
@@ -108,9 +105,9 @@ $BODY$
 ALTER FUNCTION spdatoscurso(integer)
   OWNER TO postgres;
 
----------------------------------------------------------------------------  
+----------------------------------------------------------------------------------------
 -- Function: spactualizarcurso(text, text, boolean, integer, integer)
----------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spactualizarcurso(text, text, boolean, integer, integer);
 
 CREATE OR REPLACE FUNCTION spactualizarcurso(
@@ -132,11 +129,10 @@ END; $BODY$
 ALTER FUNCTION spactualizarcurso(text, text, boolean, integer, integer)
   OWNER TO postgres;
 
-  
+----------------------------------------------------------------------------------------
 -- Function: spinformacioncurso(integer)
-
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spinformacioncurso(integer);
-
 CREATE OR REPLACE FUNCTION spinformacioncurso(
     IN _centrounidadacademica integer,
     OUT id integer,
@@ -173,6 +169,4 @@ $BODY$
 ALTER FUNCTION spinformacioncurso(integer)
   OWNER TO postgres;
   
-  
- Select 'Script para Gestion de Cursos Instalado' as "Gestion Cursos";
- 
+Select 'Script para Gestion de Cursos Instalado' as "Gestion Cursos";

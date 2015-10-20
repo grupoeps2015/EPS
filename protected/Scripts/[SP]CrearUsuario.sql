@@ -1,6 +1,6 @@
-﻿-- -----------------------------------------------------
+﻿----------------------------------------------------------------------------------------
 -- Function: spInformacionUsuario()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spInformacionUsuario(int);
 CREATE OR REPLACE FUNCTION spInformacionUsuario(IN _cenuni int, 
 						OUT Id int, OUT registro int, OUT nombre text, 
@@ -38,9 +38,9 @@ END;
 $BODY$
 LANGUAGE 'plpgsql';
 
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spAgregarUsuarios()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spagregarusuarios(text, text, text, int, text, int, text, int);
 
 CREATE OR REPLACE FUNCTION spAgregarUsuarios(_nombre text, _correo text,
@@ -62,9 +62,9 @@ BEGIN
 END; $BODY$
 LANGUAGE 'plpgsql';
 
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spAgregarEstudiante()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spagregarestudiante(integer, text, integer, integer, text, text, text, text, boolean, text, integer, text, text, text, text, int);
 
 CREATE OR REPLACE FUNCTION spAgregarEstudiante(_carnet integer, 
@@ -101,9 +101,9 @@ BEGIN
 END; $BODY$
 LANGUAGE 'plpgsql';
 
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spAgregarEmpleado()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spagregarempleado(integer, text, integer, integer, text, integer, text, text, text, text, int); 
 CREATE OR REPLACE FUNCTION spAgregarEmpleado(_registro integer, 
 					     _direccion text,
@@ -132,9 +132,9 @@ BEGIN
 END; $BODY$
 LANGUAGE 'plpgsql';
 
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spAgregarCatedratico()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spagregarcatedratico(integer, text, integer, integer, text, integer, integer, text, text, text, text, int);
 CREATE OR REPLACE FUNCTION spAgregarCatedratico(_registro integer, 
 						_direccion text,
@@ -165,9 +165,9 @@ END; $BODY$
 LANGUAGE 'plpgsql';
 
 
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spAsignarRolUsuario()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spAsignarRolUsuario(integer);
 
 CREATE OR REPLACE FUNCTION spAsignarRolUsuario(_rol integer, _usuario integer) RETURNS void AS $BODY$
@@ -177,9 +177,9 @@ BEGIN
 END; $BODY$
 LANGUAGE 'plpgsql';
 
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spActivarDesactivarUsuario()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spActivarDesactivarUsuario(int,int);
 CREATE OR REPLACE FUNCTION spActivarDesactivarUsuario(_idUsuario int,_estadoNuevo int) RETURNS void AS 
 $BODY$
@@ -189,9 +189,9 @@ END;
 $BODY$
 LANGUAGE 'plpgsql';
 
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spEstadoCentroUnidadUsuario()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spEstadoCentroUnidadUsuario(int,int,int);
 CREATE OR REPLACE FUNCTION spEstadoCentroUnidadUsuario(_idUsuario int, _idCentroUnidad int, _estadoNuevo int) RETURNS void AS 
 $BODY$
@@ -201,11 +201,10 @@ END;
 $BODY$
 LANGUAGE 'plpgsql';
 
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spdatosusuario()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spdatosusuario(int);
-
 CREATE OR REPLACE FUNCTION spdatosusuario(Id int, UnidadCentro int,
 					  OUT nombre text, OUT correo text, 
 					  OUT unidadacademica text, OUT clave text, OUT idPregunta int,
@@ -230,11 +229,10 @@ END;
 $BODY$
 LANGUAGE 'plpgsql';
 
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spactualizarusuario()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spactualizarusuario(integer, text, text, integer, text);
-
 CREATE OR REPLACE FUNCTION spactualizarusuario(
     _idusuario integer,
     _correonuevo text,
@@ -258,9 +256,9 @@ $BODY$
 ALTER FUNCTION spactualizarusuario(integer, text, text, integer, text)
   OWNER TO postgres;
 
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spBuscarEstudiante()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spBuscarEstudiante(int);
 CREATE OR REPLACE FUNCTION spBuscarEstudiante(_carnet integer)
   RETURNS integer AS
@@ -273,9 +271,9 @@ END;
 $BODY$
 LANGUAGE plpgsql;
 
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spBuscarEmpleado()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spBuscarEmpleado(int);
 CREATE OR REPLACE FUNCTION spBuscarEmpleado(_registro integer)
   RETURNS integer AS
@@ -288,9 +286,9 @@ END;
 $BODY$
 LANGUAGE plpgsql;
 
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spBuscarCatedratico()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spBuscarCatedratico(int);
 CREATE OR REPLACE FUNCTION spBuscarCatedratico(_registro integer)
   RETURNS integer AS
@@ -303,9 +301,9 @@ END;
 $BODY$
 LANGUAGE plpgsql;
 
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spAgregarCentroUnidadUsuario()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spAgregarCentroUnidadUsuario(int,int);
 CREATE OR REPLACE FUNCTION spAgregarCentroUnidadUsuario(_idUsuario int, _centroUnidad int)
   RETURNS void AS
@@ -316,9 +314,9 @@ END;
 $BODY$
 LANGUAGE plpgsql;
 
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spVerEstadoUsuario()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spVerEstadoUsuario(int);
 CREATE OR REPLACE FUNCTION spVerEstadousuario(IN _id int, OUT usr int, OUT estado int, 
 					      OUT pregunta text, OUT respuesta text) RETURNS setof record as
@@ -343,9 +341,9 @@ END;
 $BODY$
 LANGUAGE plpgsql;
 
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spClaveNueva()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spClaveNueva(int, text)
 CREATE OR REPLACE FUNCTION spClaveNueva(_id int, _clave text) returns void as
 $BODY$

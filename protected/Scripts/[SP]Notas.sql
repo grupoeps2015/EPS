@@ -1,6 +1,6 @@
-﻿-- -----------------------------------------------------
+﻿----------------------------------------------------------------------------------------
 -- Function: spConsultaCentroUnidadacademica()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spGetNombreCentroUnidadacademica(int);
 CREATE OR REPLACE FUNCTION spGetNombreCentroUnidadacademica(IN id int, OUT NombreUnidad text, OUT NombreCentro text) RETURNS setof record as 
 $BODY$
@@ -15,9 +15,9 @@ END;
 $BODY$
 LANGUAGE 'plpgsql';
 
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spListaDocentesActivos()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spListaDocentesActivos(int);
 CREATE OR REPLACE FUNCTION spListaDocentesActivos(IN _centrounidadacademica integer,
 						  OUT usuario integer, OUT registro integer,
@@ -41,9 +41,9 @@ END;
 $BODY$
 LANGUAGE 'plpgsql';
 
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spDocentesEspecifico()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spDocentesEspecifico(int);
 CREATE OR REPLACE FUNCTION spDocentesEspecifico(IN _idUsuario integer,
 						OUT idCatedratico int,
@@ -63,9 +63,9 @@ END;
 $BODY$
 LANGUAGE 'plpgsql';
 
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spIdTrama()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spIdTrama(int,int,int);
 CREATE OR REPLACE FUNCTION spIdTrama(IN _idCatedratico integer, IN _idCiclo integer, IN _idCurso integer, IN _idSeccion integer) RETURNS int AS
 $BODY$
@@ -88,9 +88,9 @@ END
 $BODY$
 LANGUAGE 'plpgsql';
 
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spDocenteCicloCursos()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spDocenteCicloCursos(int,int);
 CREATE OR REPLACE FUNCTION spDocenteCicloCursos(IN _idCatedratico integer,
 						IN _idCiclo integer,
@@ -118,9 +118,9 @@ END;
 $BODY$
 LANGUAGE 'plpgsql';
 
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spAsignacionInicial()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spAsignacionInicial();
 CREATE OR REPLACE FUNCTION spAsignacionInicial() RETURNS TRIGGER AS 
 $BODY$
@@ -131,17 +131,17 @@ BEGIN
 $BODY$ 
 LANGUAGE plpgsql;
 
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Trigger: tgAsignacionInicial
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP TRIGGER tgAsignacionInicial ON est_cur_asignacion
 CREATE TRIGGER tgAsignacionInicial AFTER INSERT 
     ON est_cur_asignacion FOR EACH ROW 
     EXECUTE PROCEDURE spAsignacionInicial();
 
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spListaAsignados()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spListaAsignados();
 CREATE OR REPLACE FUNCTION spListaAsignados(IN _idTrama integer,
 					    OUT carnet integer,

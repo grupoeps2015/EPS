@@ -1,7 +1,7 @@
-﻿-- Function: spPeriodoActivo(integer,integer,integer,integer)
-
+﻿----------------------------------------------------------------------------------------
+-- Function: spPeriodoActivo(integer,integer,integer,integer)
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spPeriodoActivo(integer,integer,integer,integer);
-
 CREATE OR REPLACE FUNCTION spPeriodoActivo(
     _ciclo integer,
 	_tipoperiodo integer,
@@ -28,11 +28,10 @@ $BODY$
 ALTER FUNCTION spPeriodoActivo(integer,integer,integer,integer)
   OWNER TO postgres;
   
-  
+----------------------------------------------------------------------------------------  
 -- Function: spcursosdisponiblesasignacion(integer, integer, integer)
-
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spcursosdisponiblesasignacion(integer, integer, integer);
-
 CREATE OR REPLACE FUNCTION spcursosdisponiblesasignacion(
     IN _ciclo integer,
     IN _carrera integer,
@@ -69,11 +68,10 @@ $BODY$
 ALTER FUNCTION spcursosdisponiblesasignacion(integer, integer, integer)
   OWNER TO postgres;
 
-  
+----------------------------------------------------------------------------------------
 -- Function: spagregarasignacion(integer, integer, integer)
-
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spagregarasignacion(integer, integer, integer);
-
 CREATE OR REPLACE FUNCTION spagregarasignacion(
     _estudiante integer,
 	_carrera integer,
@@ -95,12 +93,10 @@ $BODY$
 ALTER FUNCTION spagregarasignacion(integer, integer, integer)
   OWNER TO postgres;
   
-  
-  
+----------------------------------------------------------------------------------------
 -- Function: spagregarcursoasignacion(integer, integer, integer, text)
-
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spagregarcursoasignacion(integer, integer, integer, text);
-
 CREATE OR REPLACE FUNCTION spagregarcursoasignacion(
     _estudiante integer,
     _cicloasignacion integer,
@@ -129,11 +125,10 @@ $BODY$
 ALTER FUNCTION spagregarcursoasignacion(integer, integer, integer, text)
   OWNER TO postgres;
 
-  
+----------------------------------------------------------------------------------------
 -- Function: spdatoscursopensum(integer, integer, integer)
-
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spdatoscursopensum(integer, integer, integer);
-
 CREATE OR REPLACE FUNCTION spdatoscursopensum(
     IN _curso integer,
     IN _carrera integer,
@@ -167,11 +162,10 @@ $BODY$
 ALTER FUNCTION spdatoscursopensum(integer, integer, integer)
   OWNER TO postgres;
 
-  
+----------------------------------------------------------------------------------------
 -- Function: spdatoscursoaprobado(integer, integer, integer)
-
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spdatoscursoaprobado(integer, integer, integer);
-
 CREATE OR REPLACE FUNCTION spdatoscursoaprobado(
     IN _curso integer,
     IN _estudiante integer,
@@ -205,11 +199,10 @@ $BODY$
 ALTER FUNCTION spdatoscursoaprobado(integer, integer, integer)
   OWNER TO postgres;
 
-  
+---------------------------------------------------------------------------------------- 
 -- Function: spobtenercursostraslapados(integer, text)
-
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spobtenercursostraslapados(integer, text);
-
 CREATE OR REPLACE FUNCTION spobtenercursostraslapados(
     _ciclo integer,
     _secciones text,
@@ -230,11 +223,10 @@ $BODY$
 ALTER FUNCTION spobtenercursostraslapados(integer, text)
   OWNER TO postgres;
 
-  
+----------------------------------------------------------------------------------------
 -- Function: spobtenertiempotraslapeentrecursosdia(integer, text, integer)
-
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spobtenertiempotraslapeentrecursosdia(integer, text, integer);
-
 CREATE OR REPLACE FUNCTION spobtenertiempotraslapeentrecursosdia(
     IN _ciclo integer,
     IN _secciones text,
@@ -261,11 +253,10 @@ $BODY$
 ALTER FUNCTION spobtenertiempotraslapeentrecursosdia(integer, text, integer)
   OWNER TO postgres;
 
-  
+----------------------------------------------------------------------------------------  
 -- Function: spobtenertiempotraslapeentrecursossemana(integer, text, integer)
-
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spobtenertiempotraslapeentrecursossemana(integer, text, integer);
-
 CREATE OR REPLACE FUNCTION spobtenertiempotraslapeentrecursossemana(
     IN _ciclo integer,
     IN _secciones text,
@@ -291,11 +282,10 @@ $BODY$
 ALTER FUNCTION spobtenertiempotraslapeentrecursossemana(integer, text, integer)
   OWNER TO postgres;
 
-  
+----------------------------------------------------------------------------------------
 -- Function: spoportunidadactualcursoestudiante(integer, integer)
-
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spoportunidadactualcursoestudiante(integer, integer);
-
 CREATE OR REPLACE FUNCTION spoportunidadactualcursoestudiante(
     _estudiante integer,
     _curso integer)
@@ -319,11 +309,10 @@ $BODY$
 ALTER FUNCTION spoportunidadactualcursoestudiante(integer, integer)
   OWNER TO postgres;
   
-  
+----------------------------------------------------------------------------------------
 -- Function: spobtenercuposeccion(integer, integer)
-
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spobtenercuposeccion(integer, integer);
-
 CREATE OR REPLACE FUNCTION spobtenercuposeccion(
     _ciclo integer,
     _seccion integer)
@@ -346,5 +335,5 @@ $BODY$
 ALTER FUNCTION spobtenercuposeccion(integer, integer)
   OWNER TO postgres;
 
-  
+
 Select 'Script de Asignaciones Instalado' as "Asignacion";

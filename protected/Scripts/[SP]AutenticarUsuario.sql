@@ -2,7 +2,6 @@
 -- Function: spautenticarusuario(integer, text, text, text, integer)
 -- -----------------------------------------------------
 -- DROP FUNCTION spautenticarusuario(integer, text, text, text, integer);
-
 CREATE OR REPLACE FUNCTION spautenticarusuario(
     IN _id integer,
     IN _clave text,
@@ -46,11 +45,10 @@ end;
 ALTER FUNCTION spautenticarusuario(integer, text, text, text, integer)
   OWNER TO postgres;
 
-  
+----------------------------------------------------------------------------------------
 -- Function: spvalidarpermisousuario(integer, integer)
-
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spvalidarpermisousuario(integer, integer);
-
 CREATE OR REPLACE FUNCTION spvalidarpermisousuario(
     _funcion integer,
     _rol integer)
@@ -66,11 +64,10 @@ END; $BODY$
 ALTER FUNCTION spvalidarpermisousuario(integer, integer)
   OWNER TO postgres;
 
-  
+----------------------------------------------------------------------------------------
 -- Function: spactualizarautenticacion(integer)
-
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spactualizarautenticacion(integer);
-
 CREATE OR REPLACE FUNCTION spactualizarautenticacion(_usuario integer)
   RETURNS integer AS
 $BODY$
@@ -85,7 +82,5 @@ END; $BODY$
   COST 100;
 ALTER FUNCTION spactualizarautenticacion(integer)
   OWNER TO postgres;
-  
 
-  
 Select 'Scripts de Login Instalados' as "Login";

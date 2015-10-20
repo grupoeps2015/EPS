@@ -1,6 +1,6 @@
-﻿-- -----------------------------------------------------
+﻿----------------------------------------------------------------------------------------
 -- Function: spInfoGeneralCatedratico()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spInfoGeneralCatedratico(integer);
 CREATE OR REPLACE FUNCTION spInfoGeneralCatedratico(IN _idUsuario integer, OUT registro int, 
 						    OUT nombre text, OUT dircorta text,
@@ -38,9 +38,9 @@ end;
 $BODY$
 LANGUAGE 'plpgsql';
 
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spUpdateInfoGeneralCatedratico()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spUpdateInfoGeneralCatedratico(int, text, int, int, text, int);
 CREATE OR REPLACE FUNCTION spUpdateInfoGeneralCatedratico( _idUsuario int, 
 							   _direccion text, 
@@ -60,11 +60,10 @@ END;
 $BODY$
 LANGUAGE 'plpgsql';
 
-
+----------------------------------------------------------------------------------------
 -- Function: spinformacioncatedratico(integer)
-
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spinformacioncatedratico(integer);
-
 CREATE OR REPLACE FUNCTION spinformacioncatedratico(IN _centrounidadacademica integer,
 					            OUT id integer, OUT registro integer, OUT primernombre text,
 					            OUT segundonombre text, OUT primerapellido text, OUT segundoapellido text,

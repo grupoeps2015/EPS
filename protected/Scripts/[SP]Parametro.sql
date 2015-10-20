@@ -1,6 +1,6 @@
-﻿-- -----------------------------------------------------
+﻿----------------------------------------------------------------------------------------
 -- Function: spAgregarParametro()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spagregarparametro(text, text, text, integer, integer, integer, integer); 
 CREATE OR REPLACE FUNCTION spAgregarParametro(_nombre text, _valor text,
 					      _descripcion text, 
@@ -16,9 +16,9 @@ BEGIN
 END; $BODY$
 LANGUAGE 'plpgsql';
 
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spInformacionParametro()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spInformacionParametro(integer);
 CREATE OR REPLACE FUNCTION spInformacionParametro(idCentroUnidadAcademica integer, OUT Parametro int, OUT NombreParametro text, 
 					          OUT ValorParametro text, OUT DescripcionParametro text, 
@@ -51,11 +51,10 @@ END;
 $BODY$
 LANGUAGE 'plpgsql';
 
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spdatosparametro()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spdatosparametro(int);
-
 CREATE OR REPLACE FUNCTION spDatosParametro(Parametro int, 
 					    OUT NombreParametro text, OUT ValorParametro text, 
 					    OUT DescripcionParametro text, OUT NombreCentro text, 
@@ -87,10 +86,9 @@ END;
 $BODY$
 LANGUAGE 'plpgsql';
 
-
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spModificarParametro()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spmodificarparametro(integer, text, text, text, integer, integer, integer, integer, integer); 
 CREATE OR REPLACE FUNCTION spModificarParametro(_parametro integer, 
 						_nombre text, 
@@ -118,9 +116,9 @@ BEGIN
 END;
 $$;
 
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spConsultaCentroUnidadacademica()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spConsultaCentroUnidadacademica(integer);
 CREATE OR REPLACE FUNCTION spConsultaCentroUnidadacademica(CentroUnidad integer, OUT NombreCentro text, OUT NombreUnidadAcademica text, OUT Centro_UnidadAcademica int) RETURNS setof record as 
 $BODY$
@@ -144,10 +142,9 @@ END;
 $BODY$
 LANGUAGE 'plpgsql';
 
-
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spConsultaTipoParametro()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spConsultaTipoParametro();
 CREATE OR REPLACE FUNCTION spConsultaTipoParametro(OUT TipoParametro int, OUT NombreTipoParametro text) RETURNS setof record as 
 $BODY$
@@ -160,11 +157,10 @@ END;
 $BODY$
 LANGUAGE 'plpgsql';
 
-
+----------------------------------------------------------------------------------------
 -- Function: spinformacionperiodoparametro(integer)
-
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spinformacionperiodoparametro(integer);
-
 CREATE OR REPLACE FUNCTION spinformacionperiodoparametro(
     IN _centrounidad integer,
 	OUT id integer,
@@ -207,11 +203,10 @@ $BODY$
 ALTER FUNCTION spinformacionperiodoparametro(integer)
   OWNER TO postgres;
 
-  
+----------------------------------------------------------------------------------------
 -- Function: spactivardesactivarperiodoparametro(integer, integer)
-
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spactivardesactivarperiodoparametro(integer, integer);
-
 CREATE OR REPLACE FUNCTION spactivardesactivarperiodoparametro(
     _idperiodo integer,
     _estadonuevo integer)
@@ -226,11 +221,10 @@ $BODY$
 ALTER FUNCTION spactivardesactivarperiodoparametro(integer, integer)
   OWNER TO postgres;
   
-  
--- Function: spagregarperiodoparametro(integer, integer, integer, text, text, integer)
-
+----------------------------------------------------------------------------------------
+-- Function: spagregarperiodoparametro()
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spagregarperiodoparametro(integer, integer, integer, text, text, integer);
-
 CREATE OR REPLACE FUNCTION spagregarperiodoparametro(
     _ciclo integer,
     _tipoperiodo integer,
@@ -249,11 +243,10 @@ END; $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
 
-  
+----------------------------------------------------------------------------------------
 -- Function: spactualizarperiodoparametro(integer, integer, integer, integer, text, text)
-
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spactualizarperiodoparametro(integer, integer, integer, integer, text, text);
-
 CREATE OR REPLACE FUNCTION spactualizarperiodoparametro(
     _id integer,
     _ciclo integer,
@@ -274,11 +267,10 @@ END; $BODY$
 ALTER FUNCTION spactualizarperiodoparametro(integer, integer, integer, integer, text, text)
   OWNER TO postgres;
 
-  
+----------------------------------------------------------------------------------------
 -- Function: spdatosperiodoparametro(integer)
-
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spdatosperiodoparametro(integer);
-
 CREATE OR REPLACE FUNCTION spdatosperiodoparametro(
     IN id integer,
     OUT ciclo integer,
@@ -301,10 +293,10 @@ $BODY$
 ALTER FUNCTION spdatosperiodoparametro(integer)
   OWNER TO postgres;
 
+----------------------------------------------------------------------------------------
 -- Function: spvalorparametro(integer, integer, integer)
-
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spvalorparametro(integer, integer, integer);
-
 CREATE OR REPLACE FUNCTION spvalorparametro(
     IN _codigo integer,
     IN _carrera integer,

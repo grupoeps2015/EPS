@@ -1,7 +1,7 @@
-﻿﻿-- Function: spagregarcarrera(text, integer, integer)
-
+﻿----------------------------------------------------------------------------------------
+-- Function: spagregarcarrera()
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spagregarcarrera(text, integer, integer);
-
 CREATE OR REPLACE FUNCTION spagregarcarrera(
     _nombre text,
     _estado integer,
@@ -19,11 +19,10 @@ END; $BODY$
 ALTER FUNCTION spagregarcarrera(text, integer, integer)
   OWNER TO postgres;
 
-
--- Function: spinformacioncarrera(integer)
-
+----------------------------------------------------------------------------------------
+-- Function: spinformacioncarrera()
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spinformacioncarrera(integer);
-
 CREATE OR REPLACE FUNCTION spinformacioncarrera(
     IN _centrounidadacademica integer,
     OUT id integer,
@@ -51,11 +50,10 @@ $BODY$
 ALTER FUNCTION spinformacioncarrera(integer)
   OWNER TO postgres;
 
-  
--- Function: spactivardesactivarcarrera(integer, integer)
-
+----------------------------------------------------------------------------------------
+-- Function: spactivardesactivarcarrera()
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spactivardesactivarcarrera(integer, integer);
-
 CREATE OR REPLACE FUNCTION spactivardesactivarcarrera(
     _idcarrera integer,
     _estadonuevo integer)
@@ -70,12 +68,10 @@ $BODY$
 ALTER FUNCTION spactivardesactivarcarrera(integer, integer)
   OWNER TO postgres;
 
-
-  
--- Function: spdatoscarrera(integer)
-
+----------------------------------------------------------------------------------------
+-- Function: spdatoscarrera()
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spdatoscarrera(integer);
-
 CREATE OR REPLACE FUNCTION spdatoscarrera(
     IN id integer,
     OUT nombre text,
@@ -93,11 +89,10 @@ $BODY$
 ALTER FUNCTION spdatoscarrera(integer)
   OWNER TO postgres;
 
-
--- Function: spactualizarcarrera(text, integer)
-
+----------------------------------------------------------------------------------------
+-- Function: spactualizarcarrera()
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spactualizarcarrera(text, integer);
-
 CREATE OR REPLACE FUNCTION spactualizarcarrera(
     _nombre text,
     _id integer)
@@ -114,13 +109,10 @@ END; $BODY$
 ALTER FUNCTION spactualizarcarrera(text, integer)
   OWNER TO postgres;
   
---select * from spagregarpensum(1, 1, '12/12/2014', '5', 'lalalalala', 1);
---select * from spallpensum();
-  
--- Function: spagregarpensum(integer, integer, text, text, text, integer)
-
+----------------------------------------------------------------------------------------
+-- Function: spagregarpensum()
+----------------------------------------------------------------------------------------
 -- drop function spagregarpensum(integer, integer, text, text, text, integer)
-
 CREATE OR REPLACE FUNCTION spagregarpensum(
     _carrera integer,
     _tipo integer,
@@ -141,11 +133,10 @@ END; $BODY$
 ALTER FUNCTION spagregarpensum(integer, integer, text, text, text, integer)
   OWNER TO postgres;
 
-  
+----------------------------------------------------------------------------------------
 -- Function: spallpensum()
-
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spallpensum();
-
 CREATE OR REPLACE FUNCTION spallpensum(
 	OUT id integer,
     OUT carrera text,
@@ -179,12 +170,11 @@ $BODY$
 ALTER FUNCTION spallpensum()
   OWNER TO postgres;
   
-
+----------------------------------------------------------------------------------------
 -- Function: spallpensumactivos()
-
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spallpensumactivos();
-  
-   CREATE OR REPLACE FUNCTION spallpensumactivos(
+CREATE OR REPLACE FUNCTION spallpensumactivos(
 	OUT id integer,
     OUT carrera text,
 	OUT idcarrera integer,
@@ -211,14 +201,11 @@ $BODY$
 ALTER FUNCTION spallpensumactivos()
   OWNER TO postgres;
 
-
--- Function: spfinalizarVigenciaPensum(integer, integer)
-
+----------------------------------------------------------------------------------------
+-- Function: spfinalizarVigenciaPensum()
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spfinalizarVigenciaPensum(integer, integer);
-  
-  
-  
-  CREATE OR REPLACE FUNCTION spfinalizarVigenciaPensum(
+CREATE OR REPLACE FUNCTION spfinalizarVigenciaPensum(
     _idPensum integer, _estadoNuevo integer)
   RETURNS void AS
 $BODY$
@@ -230,17 +217,12 @@ $BODY$
   COST 100;
 ALTER FUNCTION spfinalizarVigenciaPensum(integer, integer)
   OWNER TO postgres;
-  
- Select 'Script para Gestion de Pensum Instalado' as "Gestion Pensum";
 
-
- -- Function: spactivarpensum(integer)
-
--- DROP FUNCTION spactivarpensum(integer);
-  
-  
-  
-  CREATE OR REPLACE FUNCTION spactivarpensum(
+----------------------------------------------------------------------------------------
+-- Function: spactivarpensum()
+----------------------------------------------------------------------------------------
+-- DROP FUNCTION spactivarpensum(integer);  
+CREATE OR REPLACE FUNCTION spactivarpensum(
     _idPensum integer)
   RETURNS void AS
 $BODY$
@@ -252,11 +234,10 @@ $BODY$
   COST 100;
 ALTER FUNCTION spactivarpensum(integer)
   OWNER TO postgres;
- 
- 
--- -----------------------------------------------------
+  
+----------------------------------------------------------------------------------------
 -- Function: spInformacionCursosPorPensum()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spInformacionCursosPorPensum(integer);
 CREATE OR REPLACE FUNCTION spInformacionCursosPorPensum(_pensum integer, OUT nombrecurso text, OUT curso integer, 
 					          OUT carreraarea integer, OUT nombrearea text, 
@@ -283,10 +264,9 @@ END;
 $BODY$
 LANGUAGE 'plpgsql';
 
-
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spAgregarCursoPensum()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spagregarcursopensum(integer, integer , integer, integer, integer, text, integer, integer); 
 CREATE OR REPLACE FUNCTION spAgregarCursoPensum(_curso integer, _pensum integer,
 					      _numerociclo integer, _tipociclo integer, 
@@ -302,12 +282,9 @@ BEGIN
 END; $BODY$
 LANGUAGE 'plpgsql';
 
- 
-select * from adm_pensum;
-
-------------------------------------------------------------------------------------------------------------------------------------
--- Function: select * from spactualizarpensum(1, 1, 1, '05/04/2015', '5', 'hhff')
-------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+-- Function: spactualizarpensum()
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spactualizarpensum(integer, integer, integer,text, text, text);
 CREATE OR REPLACE FUNCTION spactualizarpensum(
     _idPensum integer,
@@ -330,11 +307,10 @@ END; $BODY$
 ALTER FUNCTION spactualizarpensum(integer, integer,integer,text, text, text)
   OWNER TO postgres;
 
-
--- Function: spdatospensum(integer)
-
+----------------------------------------------------------------------------------------
+-- Function: spdatospensum()
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spdatospensum(integer);
-
 CREATE OR REPLACE FUNCTION spdatospensum(
     IN id integer,
     OUT pensum Integer,
@@ -363,11 +339,10 @@ $BODY$
 ALTER FUNCTION spdatospensum(integer)
   OWNER TO postgres;
 
-  
-  -- Function: spmodificarcursopensum(integer, integer, integer, integer, integer, integer, text, integer)
-
+----------------------------------------------------------------------------------------
+-- Function: spmodificarcursopensum()
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spmodificarcursopensum(integer, integer, integer, integer, integer, integer, text, integer);
-
 CREATE OR REPLACE FUNCTION spmodificarcursopensum(
     _cursopensumarea integer,
     _curso integer,
@@ -398,11 +373,10 @@ $BODY$
 ALTER FUNCTION spmodificarcursopensum(integer, integer, integer, integer, integer, integer, text, integer)
   OWNER TO postgres;
 
-
--- Function: splistadoareaporcarrera(integer)
-
+----------------------------------------------------------------------------------------
+-- Function: splistadoareaporcarrera()
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION splistadoareaporcarrera(integer);
-
 CREATE OR REPLACE FUNCTION splistadoareaporcarrera(
     IN _idcarrera integer,
     OUT carreraarea integer,
@@ -425,12 +399,10 @@ $BODY$
 ALTER FUNCTION splistadoareaporcarrera(integer)
   OWNER TO postgres;
   
-  
-  
--- Function: spupdateprerrequisitos(integer, text)
-
+----------------------------------------------------------------------------------------
+-- Function: spupdateprerrequisitos()
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spupdateprerrequisitos(integer, text);
-
 CREATE OR REPLACE FUNCTION spupdateprerrequisitos(
     _cursopensumarea integer,
     _prerrequisitos text)
@@ -445,9 +417,9 @@ $BODY$
 ALTER FUNCTION spupdateprerrequisitos(integer, text)
   OWNER TO postgres;
 
--- -----------------------------------------------------
--- Function: spgetcursocursopensumarea(integer);
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
+-- Function: spgetcursocursopensumarea();
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spgetcursocursopensumarea(integer);
 CREATE OR REPLACE FUNCTION spgetcursocursopensumarea(_cursopensumarea integer, OUT curso integer, OUT nombrecurso text, OUT codigo text) RETURNS setof record as 
 $BODY$
@@ -457,3 +429,5 @@ BEGIN
 END;
 $BODY$
 LANGUAGE 'plpgsql';
+
+Select 'Script para Gestion de Pensum Instalado' as "Gestion Pensum";

@@ -1,7 +1,7 @@
-﻿-- Function: spagregarcursocatedratico(integer, integer)
-
+﻿----------------------------------------------------------------------------------------
+-- Function: spagregarcursocatedratico(integer, integer)
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spagregarcursocatedratico(integer, integer);
-
 CREATE OR REPLACE FUNCTION spagregarcursocatedratico(
     _catedratico integer,
     _curso integer)
@@ -25,9 +25,9 @@ END; $BODY$
 ALTER FUNCTION spagregarcursocatedratico(integer, integer)
   OWNER TO postgres;
 
-  
+----------------------------------------------------------------------------------------
 -- Function: spagregartrama(integer, integer, integer, text, text, integer)
-
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spagregartrama(integer, integer, integer, text, text, integer);
 
 CREATE OR REPLACE FUNCTION spagregartrama(
@@ -50,11 +50,10 @@ END; $BODY$
 ALTER FUNCTION spagregartrama(integer, integer, integer, text, text, integer)
   OWNER TO postgres;
   
-  
+----------------------------------------------------------------------------------------  
 -- Function: spagregarhorario(integer, integer, integer, integer)
-
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spagregarhorario(integer, integer, integer, integer);
-
 CREATE OR REPLACE FUNCTION spagregarhorario(
     _jornada integer,
     _trama integer,
@@ -73,11 +72,10 @@ END; $BODY$
 ALTER FUNCTION spagregarhorario(integer, integer, integer, integer)
   OWNER TO postgres;
   
-
+----------------------------------------------------------------------------------------
 -- Function: spagregarhorariosalon(integer, integer)
-
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spagregarhorariosalon(integer, integer);
-
 CREATE OR REPLACE FUNCTION spagregarhorariosalon(
     _horario integer,
     _salon integer)
@@ -105,11 +103,10 @@ END; $BODY$
 ALTER FUNCTION spagregarhorariosalon(integer, integer)
   OWNER TO postgres;
   
-  
+----------------------------------------------------------------------------------------
 -- Function: spinformacionhorario(integer, integer)
-
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spinformacionhorario(integer, integer);
-
 CREATE OR REPLACE FUNCTION spinformacionhorario(
     IN _ciclo integer,
     IN _seccion integer,
@@ -168,11 +165,10 @@ $BODY$
 ALTER FUNCTION spinformacionhorario(integer, integer)
   OWNER TO postgres;
   
-  
+----------------------------------------------------------------------------------------
 -- Function: spactivardesactivarhorario(integer, integer)
-
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spactivardesactivarhorario(integer, integer);
-
 CREATE OR REPLACE FUNCTION spactivardesactivarhorario(
     _idhorario integer,
     _estadonuevo integer)
@@ -187,11 +183,10 @@ $BODY$
 ALTER FUNCTION spactivardesactivarhorario(integer, integer)
   OWNER TO postgres;
   
-
+----------------------------------------------------------------------------------------
 -- Function: spdatoshorario(integer)
-
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spdatoshorario(integer);
-
 CREATE OR REPLACE FUNCTION spdatoshorario(
     IN id integer,
     OUT jornada integer,
@@ -220,11 +215,10 @@ $BODY$
 ALTER FUNCTION spdatoshorario(integer)
   OWNER TO postgres;
 
-  
+----------------------------------------------------------------------------------------
 -- Function: spactualizarhorario(integer, integer)
-
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spactualizarhorario(integer, integer);
-
 CREATE OR REPLACE FUNCTION spactualizarhorario(
     _jornada integer,
     _idhorario integer)
@@ -241,11 +235,10 @@ END; $BODY$
 ALTER FUNCTION spactualizarhorario(integer, integer)
   OWNER TO postgres;
   
-
+----------------------------------------------------------------------------------------
 -- Function: spactualizartrama(integer, integer, integer, text, text, integer)
-
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spactualizartrama(integer, integer, integer, text, text, integer);
-
 CREATE OR REPLACE FUNCTION spactualizartrama(
     _cursocatedratico integer,
     _dia integer,
@@ -266,11 +259,10 @@ END; $BODY$
 ALTER FUNCTION spactualizartrama(integer, integer, integer, text, text, integer)
   OWNER TO postgres;
 
-  
+----------------------------------------------------------------------------------------
 -- Function: spdisponibilidadsalon(integer, integer, integer, text, text)
-
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spdisponibilidadsalon(integer, integer, integer, text, text);
-
 CREATE OR REPLACE FUNCTION spdisponibilidadsalon(
     _ciclo integer,
     _salon integer,
@@ -297,11 +289,10 @@ $BODY$
 ALTER FUNCTION spdisponibilidadsalon(integer, integer, integer, text, text)
   OWNER TO postgres;
   
-
+----------------------------------------------------------------------------------------
 -- Function: spdisponibilidadcatedratico(integer, integer, integer, text, text)
-
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spdisponibilidadcatedratico(integer, integer, integer, text, text);
-
 CREATE OR REPLACE FUNCTION spdisponibilidadcatedratico(
     _ciclo integer,
     _catedratico integer,
@@ -329,13 +320,10 @@ $BODY$
 ALTER FUNCTION spdisponibilidadcatedratico(integer, integer, integer, text, text)
   OWNER TO postgres;  
 
-
-
- 
+----------------------------------------------------------------------------------------
 -- Function: spsiguienteciclo(integer)
-
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spsiguienteciclo(integer);
-
 CREATE OR REPLACE FUNCTION spsiguienteciclo(
     IN _tipo integer,
     OUT anio integer,
@@ -366,11 +354,10 @@ $BODY$
 ALTER FUNCTION spsiguienteciclo(integer)
   OWNER TO postgres;
 
-  
+----------------------------------------------------------------------------------------
 -- Function: spagregarciclo(integer, integer, integer)
-
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spagregarciclo(integer, integer, integer);
-
 CREATE OR REPLACE FUNCTION spagregarciclo(
     _tipo integer,
     _anio integer,
@@ -393,11 +380,10 @@ END; $BODY$
 ALTER FUNCTION spagregarciclo(integer, integer, integer)
   OWNER TO postgres;
 
-  
+----------------------------------------------------------------------------------------
 -- Function: spcopiarhorariodecicloaciclo(integer, integer, integer)
-
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spcopiarhorariodecicloaciclo(integer, integer, integer);
-
 CREATE OR REPLACE FUNCTION spcopiarhorariodecicloaciclo(
     _cicloorigen integer,
     _ciclodestino integer,
@@ -421,6 +407,4 @@ $BODY$
 ALTER FUNCTION spcopiarhorariodecicloaciclo(integer, integer, integer)
   OWNER TO postgres;
 
-  
-  
-  Select 'Script para Gestion de Horarios Instalado' as "Gestion Horario";
+Select 'Script para Gestion de Horarios Instalado' as "Gestion Horario";

@@ -1,8 +1,7 @@
-﻿-- -----------------------------------------------------
+﻿----------------------------------------------------------------------------------------
 -- Function: spconsultageneral()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spconsultageneral(text,text);
-
 CREATE OR REPLACE FUNCTION spconsultageneral(IN _campos text,IN _tabla text,OUT codigo int,OUT nombre text) RETURNS setof record AS
 $BODY$
 begin
@@ -11,9 +10,9 @@ end;
 $BODY$
 LANGUAGE 'plpgsql';
 
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spObtenerSecuencia()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spObtenerSecuencia(text,text);
 CREATE OR REPLACE FUNCTION spObtenerSecuencia(_campo text, _tabla text) RETURNS int as $BODY$
 DECLARE secuencia int;
@@ -23,11 +22,12 @@ BEGIN
 END; $BODY$
 LANGUAGE 'plpgsql';
 
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spconsultageneral2()
--- -----------------------------------------------------
+-- Se llama a la función de la siguiente manera:
+-- select parametro from spconsultageneral2('adm_parametro') as par(parametro integer,nombre text, valor text,descripcion text, centro integer,unidadacademica integer, carrera integer,extension integer, estado integer,tipoparametro integer);
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spconsultageneral2(text);
-
 CREATE OR REPLACE FUNCTION spconsultageneral2(text)returns setof record as
 '
 declare
@@ -40,9 +40,6 @@ return;
 end
 '
 language 'plpgsql';
---Se llama a la función de la siguiente manera:
---select parametro from spconsultageneral2('adm_parametro') as par(parametro integer,nombre text, valor text,descripcion text, centro integer,unidadacademica integer, carrera integer,extension integer, estado integer,tipoparametro integer);
-
 
 -- -----------------------------------------------------
 -- Function: spfuncionmenupadre()
@@ -64,9 +61,9 @@ END;
 $BODY$
 LANGUAGE 'plpgsql';
 
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spfuncionmenuhijo()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spfuncionmenuhijo(int,int);
 CREATE OR REPLACE FUNCTION spFuncionMenuHijo(FuncionPadre int, Rol int, OUT FuncionMenu int, 
 					          OUT Url text, OUT Nombre text) RETURNS setof record as 
@@ -84,9 +81,9 @@ END;
 $BODY$
 LANGUAGE 'plpgsql';
 
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spValidarRolFuncion()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spValidarRolFuncion(integer,integer);
 CREATE OR REPLACE FUNCTION spValidarRolFuncion(Rol integer, Funcion integer)
   RETURNS integer AS
@@ -99,10 +96,9 @@ END;
 $BODY$
 LANGUAGE 'plpgsql';
   
-  
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spValidarPrimerIngresoUsuario()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spValidarPrimerIngresoUsuario(integer);
 CREATE OR REPLACE FUNCTION spValidarPrimerIngresoUsuario(Usuario integer)
   RETURNS integer AS
@@ -115,12 +111,10 @@ END;
 $BODY$
 LANGUAGE 'plpgsql';
 
-
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spMunicipioXDepto()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spMunicipioXDepto(integer);
-
 CREATE OR REPLACE FUNCTION spMunicipioXDepto(IN _depto int, OUT codigo int, OUT nombre text) RETURNS setof record AS
 $BODY$
 begin
@@ -129,11 +123,10 @@ end;
 $BODY$
 LANGUAGE 'plpgsql';
 
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spcarreraxunidad()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spcarreraxunidad(integer);
-
 CREATE OR REPLACE FUNCTION spcarreraxunidad(IN _unidad int, OUT codigo int, OUT nombre text) RETURNS setof record AS
 $BODY$
 begin
@@ -142,11 +135,10 @@ end;
 $BODY$
 LANGUAGE 'plpgsql';
 
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spRolxUsuario()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spRolxUsuario(integer);
-
 CREATE OR REPLACE FUNCTION spRolxUsuario(IN _idUsuario int) RETURNS integer AS
 $BODY$
 DECLARE idRol integer;
@@ -157,9 +149,9 @@ end;
 $BODY$
 LANGUAGE 'plpgsql';
 
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spUnidadxCentro()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spUnidadxCentro(integer);
 
 CREATE OR REPLACE FUNCTION spUnidadxCentro(IN _centro int, OUT codigo int, OUT nombre text) RETURNS setof record AS
@@ -176,11 +168,10 @@ end;
 $BODY$
 LANGUAGE 'plpgsql';
 
-
+----------------------------------------------------------------------------------------
 -- Function: spcentrounidad(integer, integer)
-
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spcentrounidad(integer, integer);
-
 CREATE OR REPLACE FUNCTION spcentrounidad(
     _centro integer,
     _unidad integer)
@@ -201,11 +192,10 @@ $BODY$
 ALTER FUNCTION spcentrounidad(integer, integer)
   OWNER TO postgres;
   
-  
+----------------------------------------------------------------------------------------
 -- Function: spanioxtipociclo(integer)
-
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spanioxtipociclo(integer);
-
 CREATE OR REPLACE FUNCTION spanioxtipociclo(
     IN _tipo integer)
   RETURNS setof INTEGER AS
@@ -223,12 +213,10 @@ $BODY$
 ALTER FUNCTION spanioxtipociclo(integer)
   OWNER TO postgres;
   
-  
-  
+----------------------------------------------------------------------------------------
 -- Function: spcicloxtipo(integer, integer)
-
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spcicloxtipo(integer, integer);
-
 CREATE OR REPLACE FUNCTION spcicloxtipo(
     IN _tipo integer,
 	IN _anio integer,
@@ -253,11 +241,10 @@ $BODY$
 ALTER FUNCTION spcicloxtipo(integer, integer)
   OWNER TO postgres;
 
-  
+----------------------------------------------------------------------------------------
 -- Function: spperiodoxtipo(integer)
-
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spperiodoxtipo(integer);
-
 CREATE OR REPLACE FUNCTION spperiodoxtipo(
     IN _tipo integer,
     OUT codigo integer,
@@ -278,13 +265,12 @@ $BODY$
   ROWS 1000;
 ALTER FUNCTION spperiodoxtipo(integer)
 
-  OWNER TO postgres;
+OWNER TO postgres;
   
-  
+----------------------------------------------------------------------------------------  
 -- Function: spsalonesxedificio(integer)
-
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spsalonesxedificio(integer);
-
 CREATE OR REPLACE FUNCTION spsalonesxedificio(
     IN _edificio integer,
     OUT codigo integer,
@@ -305,14 +291,11 @@ $BODY$
   ROWS 1000;
 ALTER FUNCTION spsalonesxedificio(integer)
   OWNER TO postgres;
-
   
-
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spestudiantexusuario(integer)
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spestudiantexusuario(integer);
-
 CREATE OR REPLACE FUNCTION spestudiantexusuario(IN _usuario int) RETURNS INTEGER AS
 $BODY$
 DECLARE ESTUDIANTE INTEGER;
@@ -323,12 +306,10 @@ end;
 $BODY$
 LANGUAGE 'plpgsql';
 
-
-
+----------------------------------------------------------------------------------------
 -- Function: spcarrerasxestudiante(integer, integer)
-
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spcarrerasxestudiante(integer, integer);
-
 CREATE OR REPLACE FUNCTION spcarrerasxestudiante(
     IN _estudiante integer,
     IN _centrounidad integer,
@@ -346,11 +327,10 @@ $BODY$
 ALTER FUNCTION spcarrerasxestudiante(integer, integer)
   OWNER TO postgres;
 
-  
+----------------------------------------------------------------------------------------
 -- Function: spcentrounidadxusuario(integer)
-
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spcentrounidadxusuario(integer);
-
 CREATE OR REPLACE FUNCTION spcentrounidadxusuario(
     IN _usuario integer,
     OUT centrounidad integer)
@@ -366,11 +346,10 @@ $BODY$
 ALTER FUNCTION spcentrounidadxusuario(integer)
   OWNER TO postgres;
 
-  
+----------------------------------------------------------------------------------------
 -- Function: spcentroxusuario(integer)
-
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spcentroxusuario(integer);
-
 CREATE OR REPLACE FUNCTION spcentroxusuario(
     IN _usuario integer,
     OUT codigo integer,
@@ -392,11 +371,10 @@ $BODY$
 ALTER FUNCTION spcentroxusuario(integer)
   OWNER TO postgres;
 
-  
+----------------------------------------------------------------------------------------
 -- Function: spunidadxcentroxusuario(integer, integer)
-
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spunidadxcentroxusuario(integer, integer);
-
 CREATE OR REPLACE FUNCTION spunidadxcentroxusuario(
     IN _usuario integer,
     IN _centro integer,
@@ -419,11 +397,10 @@ $BODY$
 ALTER FUNCTION spunidadxcentroxusuario(integer, integer)
   OWNER TO postgres;
   
-  
+----------------------------------------------------------------------------------------
 -- Function: spseccionescursohorario(integer, integer)
-
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spseccionescursohorario(integer, integer);
-
 CREATE OR REPLACE FUNCTION spseccionescursohorario(
     IN _curso integer,
     IN _ciclo integer,

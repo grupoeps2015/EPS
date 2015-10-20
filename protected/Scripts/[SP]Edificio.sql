@@ -1,8 +1,7 @@
-﻿------------------------------------------------------------------------------------------------------------------------------------
+﻿----------------------------------------------------------------------------------------
 -- Function: spinformacionedificio(integer)
-------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spinformacionedificio(integer);
-------------------------------------------------------------------------------------------------------------------------------------
 CREATE OR REPLACE FUNCTION spinformacionedificio(
     IN _centrounidadacademica integer,
     OUT id integer,
@@ -34,11 +33,10 @@ $BODY$
 ALTER FUNCTION spinformacionedificio(integer)
   OWNER TO postgres;
 
- ------------------------------------------------------------------------------------------------------------------------------------
-  -- Function: spmostraredificios()
-------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+-- Function: spmostraredificios()
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spmostraredificios();
-------------------------------------------------------------------------------------------------------------------------------------
 CREATE OR REPLACE FUNCTION spmostraredificios(
     OUT _id integer,
     OUT _nombre text,
@@ -67,9 +65,9 @@ $BODY$
 ALTER FUNCTION spmostraredificios()
   OWNER TO postgres;
 
-------------------------------------------------------------------------------------------------------------------------------------
--- Function: spactualizarAsignacion(integer, integer, integer, integer)
-------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+-- Function: spactualizarAsignacion()
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spactualizarAsignacion(integer, integer, integer, integer);
 CREATE OR REPLACE FUNCTION spactualizarAsignacion(
     _centroUnidad integer,
@@ -90,10 +88,9 @@ END; $BODY$
 ALTER FUNCTION spactualizarAsignacion(integer, integer,integer, integer)
   OWNER TO postgres;
   
-
-------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spdatoscentrounidad()
-------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spdatoscentrounidad();
 CREATE OR REPLACE FUNCTION spdatoscentrounidad(
     OUT _id integer,
@@ -119,10 +116,9 @@ $BODY$
 ALTER FUNCTION spdatoscentrounidad()
   OWNER TO postgres;
   
-
-------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spinformacionasignacionedificio()
-------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spinformacionasignacionedificio(integer);
 CREATE OR REPLACE FUNCTION spinformacionasignacionedificio(_centrounidad_edificio integer,
     OUT centro_unidadacademica integer,
@@ -148,10 +144,9 @@ $BODY$
 ALTER FUNCTION spdatoscentrounidad()
   OWNER TO postgres;
   
-
-------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spagregaredificio()
-------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spagregaredificio(text, text, integer)
 CREATE OR REPLACE FUNCTION spagregaredificio(
     _nombre text,
@@ -170,9 +165,9 @@ END; $BODY$
 ALTER FUNCTION spagregaredificio(text, text, integer)
   OWNER TO postgres;
 
-------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spasignaredificioacentrounidadacademica()
-------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spasignaredificioacentrounidadacademica(integer, integer, integer, integer);
 CREATE OR REPLACE FUNCTION spasignaredificioacentrounidadacademica(
     _centroUnidadAcademica integer,
@@ -192,9 +187,9 @@ END; $BODY$
 ALTER FUNCTION spasignaredificioacentrounidadacademica(integer, integer, integer, integer)
   OWNER TO postgres;
 
-------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: speliminarAsignacionEdificio()
-------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION speliminarAsignacionEdificio(integer, integer);
 CREATE OR REPLACE FUNCTION speliminarAsignacionEdificio(
     _idAsignacion integer,
@@ -210,10 +205,9 @@ $BODY$
 ALTER FUNCTION speliminarAsignacionEdificio(integer, integer)
   OWNER TO postgres;
 
-
-------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spDatosEdificio()
-------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spDatosEdificio(integer)
 CREATE OR REPLACE FUNCTION spDatosEdificio(
     IN idEdificio integer,
@@ -242,9 +236,9 @@ $BODY$
 ALTER FUNCTION spDatosEdificio(integer)
   OWNER TO postgres;
 
-------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spactivardesactivaredificio()
-------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spactivardesactivaredificio(integer, integer);
 CREATE OR REPLACE FUNCTION spactivardesactivaredificio(
     _idEdificio integer,
@@ -261,9 +255,9 @@ ALTER FUNCTION spactivardesactivaredificio(integer, integer)
   OWNER TO postgres;
   
 
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spModificarEdificio()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spmodificaredificio(integer, text, text); 
 CREATE OR REPLACE FUNCTION spModificarEdificio(_edificio integer, 
 						_nombre text, 
@@ -279,10 +273,9 @@ BEGIN
 END;
 $$;
 
-
-------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spConsultaEdificio()
-------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spConsultaEdificio(integer)
 CREATE OR REPLACE FUNCTION spConsultaEdificio(
     IN idEdificio integer,

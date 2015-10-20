@@ -1,6 +1,6 @@
-﻿-- -----------------------------------------------------
+﻿----------------------------------------------------------------------------------------
 -- Function: spInfoGeneralEmpleado()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spInfoGeneralEmpleado(integer);
 CREATE OR REPLACE FUNCTION spInfoGeneralEmpleado(IN _idUsuario integer, OUT registro int, 
 						 OUT nombre text, OUT dircorta text,
@@ -38,9 +38,9 @@ end;
 $BODY$
 LANGUAGE 'plpgsql';
 
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spUpdateInfoGeneralEmpleado()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spUpdateInfoGeneralEmpleado(int, text, int, int, text, int);
 CREATE OR REPLACE FUNCTION spUpdateInfoGeneralEmpleado( _idUsuario int, 
 							_direccion text, 

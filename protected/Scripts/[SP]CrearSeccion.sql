@@ -1,7 +1,7 @@
-﻿-- Function: spagregarseccion(text, text, integer, integer, integer)
-
+﻿----------------------------------------------------------------------------------------
+-- Function: spagregarseccion()
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spagregarseccion(text, text, integer, integer, integer);
-
 CREATE OR REPLACE FUNCTION spagregarseccion(
     _nombre text,
     _descripcion text,
@@ -21,10 +21,10 @@ END; $BODY$
 ALTER FUNCTION spagregarseccion(text, text, integer, integer, integer)
   OWNER TO postgres;
 
--- Function: spinformacionseccion(integer)
-
+----------------------------------------------------------------------------------------
+-- Function: spinformacionseccion()
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spinformacionseccion(integer);
-
 CREATE OR REPLACE FUNCTION spinformacionseccion(
     IN _centrounidadacademica integer,
 	OUT id integer,
@@ -57,11 +57,10 @@ $BODY$
 ALTER FUNCTION spinformacionseccion(integer)
   OWNER TO postgres;
 
-
--- Function: spactivardesactivarseccion(integer, integer)
-
+----------------------------------------------------------------------------------------
+-- Function: spactivardesactivarseccion()
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spactivardesactivarseccion(integer, integer);
-
 CREATE OR REPLACE FUNCTION spactivardesactivarseccion(
     _idseccion integer,
     _estadonuevo integer)
@@ -76,11 +75,10 @@ $BODY$
 ALTER FUNCTION spactivardesactivarseccion(integer, integer)
   OWNER TO postgres;
 
-  
--- Function: spdatosseccion(integer)
-
+----------------------------------------------------------------------------------------
+-- Function: spdatosseccion()
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spdatosseccion(integer);
-
 CREATE OR REPLACE FUNCTION spdatosseccion(
     IN id integer,
     OUT nombre text,
@@ -105,11 +103,10 @@ $BODY$
 ALTER FUNCTION spdatosseccion(integer)
   OWNER TO postgres;
 
-
--- Function: spactualizarseccion(text, text, integer, integer, integer)
-
+----------------------------------------------------------------------------------------
+-- Function: spactualizarseccion()
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spactualizarseccion(text, text, integer, integer, integer);
-
 CREATE OR REPLACE FUNCTION spactualizarseccion(
     _nombre text,
     _descripcion text,

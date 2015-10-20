@@ -1,6 +1,6 @@
-﻿-- -----------------------------------------------------
+﻿----------------------------------------------------------------------------------------
 -- Function: spInfoCentros()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spInfoCentros();
 CREATE OR REPLACE FUNCTION spInfoCentros(OUT centro int, OUT nombre text, OUT direccion text) RETURNS setof record as 
 $BODY$
@@ -17,9 +17,9 @@ END;
 $BODY$
 LANGUAGE 'plpgsql';
 
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spNombreCentro()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spNombreCentro(int);
 CREATE OR REPLACE FUNCTION spNombreCentro(IN _centro int) RETURNS text as
 $BODY$
@@ -31,9 +31,9 @@ END;
 $BODY$
 LANGUAGE 'plpgsql';
 
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spAgregarCentros()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spAgregarCentros(int,text,text,int,int);
 CREATE OR REPLACE FUNCTION spAgregarCentros(_codigo int, _nombre text, _direccion text, _municipio int, _zona int) RETURNS void as 
 $BODY$
@@ -44,9 +44,9 @@ END;
 $BODY$
 LANGUAGE 'plpgsql';
 
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spDatosCentro()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spDatosCentro(int);
 CREATE OR REPLACE FUNCTION spDatosCentro(IN _idCentro int, OUT nombre text, 
 					 OUT direccion text, OUT municipio int, 
@@ -68,9 +68,9 @@ END;
 $BODY$
 LANGUAGE 'plpgsql';
 
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spActualizarCentro()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spActualizarCentro(integer, text, text, integer, integer);
 CREATE OR REPLACE FUNCTION spActualizarCentro(
     _idCentro integer,
@@ -91,9 +91,9 @@ END;
 $BODY$
 LANGUAGE plpgsql;
 
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spInfoUnidades()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spInfoUnidades(int);
 CREATE OR REPLACE FUNCTION spInfoUnidades(IN _idCentro int, OUT unidad int, 
 					  OUT nombre text, OUT idPadre int, 
@@ -121,9 +121,9 @@ END;
 $BODY$
 LANGUAGE 'plpgsql';
 
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spUnidadesPropias()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spUnidadesPropias(int);
 CREATE OR REPLACE FUNCTION spUnidadesPropias(IN _idCentro int, OUT unidad int, OUT nombre text) RETURNS setof record as 
 $BODY$
@@ -139,9 +139,9 @@ END;
 $BODY$
 LANGUAGE 'plpgsql';
 
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spAgregarUnidad()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spAgregarUnidad(text,text,int,int);
 CREATE OR REPLACE FUNCTION spAgregarUnidad(_codigo int, _idPadre int, _nombre text, _idTipo int) RETURNS void as 
 $BODY$
@@ -151,9 +151,9 @@ END;
 $BODY$
 LANGUAGE 'plpgsql';
 
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spAgregarCentroUnidad()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spAgregarCentroUnidad(int,int);
 CREATE OR REPLACE FUNCTION spAgregarCentroUnidad(_centro int, _unidad int) RETURNS void as 
 $BODY$
@@ -167,9 +167,9 @@ END;
 $BODY$
 LANGUAGE 'plpgsql';
 
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spQuitarCentroUnidad()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spQuitarCentroUnidad(int,int);
 CREATE OR REPLACE FUNCTION spQuitarCentroUnidad(_centro int, _unidad int) RETURNS void as 
 $BODY$
@@ -179,9 +179,9 @@ END;
 $BODY$
 LANGUAGE 'plpgsql';
 
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- Function: spCambiarEstadoCentroUnidad()
--- -----------------------------------------------------
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spCambiarEstadoCentroUnidad(int,int,int);
 CREATE OR REPLACE FUNCTION spCambiarEstadoCentroUnidad(_estado int, _centro int, _unidad int) RETURNS void as 
 $BODY$

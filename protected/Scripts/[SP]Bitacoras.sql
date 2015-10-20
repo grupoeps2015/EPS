@@ -1,7 +1,7 @@
-﻿-- Function: spinsertarbitacorausuario(text, integer, text, integer, text, integer, text, text)
-
+﻿----------------------------------------------------------------------------------------
+-- Function: spinsertarbitacorausuario(text, integer, text, integer, text, integer, text, text)
+----------------------------------------------------------------------------------------
 -- DROP FUNCTION spinsertarbitacorausuario(text, integer, text, integer, text, integer, text, text);
-
 CREATE OR REPLACE FUNCTION spinsertarbitacorausuario(
     _tabla text,
     _usuario integer,
