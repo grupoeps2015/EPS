@@ -717,7 +717,7 @@ class gestionPensumController extends Controller {
          $cursoPensumArea = $this->getInteger('hdCursoPensumArea');
          
          $prerrequisitos = $this->getTexto('hdPrerrequisitos');
-        
+         
          $iden = $this->getInteger('hdEnvio');
             $idCentroUnidad = $_SESSION["centrounidad"];
 
@@ -741,6 +741,14 @@ class gestionPensumController extends Controller {
             $this->_view->lstCursos = $info;
         } else {
             $this->redireccionar("error/sql/" . $info);
+            exit;
+        }
+        
+        $datosCurso = $this->_post->getCursoCursoPensumArea($idCursoPensum);
+        if (is_array($datosCurso)) {
+            $this->_view->dCurso = $datosCurso;
+        } else {
+            $this->redireccionar("error/sql/" . $datosCurso);
             exit;
         }
 

@@ -230,6 +230,17 @@ class gestionPensumModel extends Model {
         }
     }
     
+    public function getCursoCursoPensumArea($idCursoPensumArea) {
+
+        $post = $this->_db->query("select * from spgetcursocursopensumarea(" . $idCursoPensumArea . ");");
+
+        if ($post === FALSE) {
+            return "1104/cursoCursoPensumArea";
+        } else {
+            return $post->fetchall();
+        }
+    }
+    
     public function actualizarCursoPensum($_datos) {
         $sp = $_datos["cursopensum"] . ',' . $_datos["curso"] . ',';
         $sp .= $_datos["carreraarea"] . ',' . $_datos["numerociclo"] . ',';

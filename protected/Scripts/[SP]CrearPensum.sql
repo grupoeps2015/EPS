@@ -445,3 +445,15 @@ $BODY$
 ALTER FUNCTION spupdateprerrequisitos(integer, text)
   OWNER TO postgres;
 
+-- -----------------------------------------------------
+-- Function: spgetcursocursopensumarea(integer);
+-- -----------------------------------------------------
+-- DROP FUNCTION spgetcursocursopensumarea(integer);
+CREATE OR REPLACE FUNCTION spgetcursocursopensumarea(_cursopensumarea integer, OUT curso integer, OUT nombrecurso text, OUT codigo text) RETURNS setof record as 
+$BODY$
+BEGIN
+  RETURN query
+   select c.curso, c.nombre, c.codigo from cur_pensum_area cpa join cur_curso c on c.curso = cpa.curso WHERE cpa.estado = 1 and c.estado = 1 AND cpa.cursopensumarea = _cursopensumarea;
+END;
+$BODY$
+LANGUAGE 'plpgsql';
