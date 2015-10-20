@@ -19,11 +19,13 @@
                 </div>
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
+                        <?php if($this->permisoAgregar == PERMISO_CREAR): ?>
                         <form method='post' name='frmPost' id='frmPost' action='<?php echo BASE_URL?>gestionPensum/agregarCursoPensum/<?php echo $this->idPensum?>/<?php echo $this->idCarrera;?>'>
                             <i class="fa fa-2x fa-user-plus wow bounceIn text-primary" data-wow-delay=".2s">
                                 <a id="linkNuevoCursoPensum" href="#">Agregar Curso del Pensum</a>
                             </i>
                         </form>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -41,9 +43,13 @@
                                 <th style="text-align:center">N&uacute;mero ciclo</th>
                                 <th style="text-align:center">Tipo ciclo</th>
                                 <th style="text-align:center">Creditos</th>
+                                <?php if($this->permisoModificar == PERMISO_MODIFICAR): ?>
                                 <th style="text-align:center">Prerrequisitos</th>
+                                <?php endif;?>
                                 <th style="text-align:center">Estado</th>
-                                <th style="text-align:center">Modificar</th>                               
+                                <?php if($this->permisoModificar == PERMISO_MODIFICAR): ?>
+                                <th style="text-align:center">Modificar</th>  
+                                <?php endif;?>
                             </tr>
                         </thead>
                         <tbody>
@@ -55,22 +61,33 @@
                                 <td style="text-align: center; width: 8%;"><?php echo $this->lstCurPensum[$i]['numerociclo']; ?></td>
                                 <td style="text-align: center"><?php echo $this->lstCurPensum[$i]['nombretipociclo']; ?></td>
                                 <td style="text-align: center"><?php echo $this->lstCurPensum[$i]['creditos']; ?></td>
+                                <?php if($this->permisoModificar == PERMISO_MODIFICAR): ?>
                                 <td style="text-align: center;">
                                      <?php if(isset($this->lstCurPensum[$i]['prerrequisitos'])): ?>
                                         <a href="<?php echo BASE_URL . 'gestionPensum/crearPensum/' . $this->idPensum . '/' . $this->lstCurPensum[$i]['id'] . '/' . $this->idCarrera.'?prerrequisitos='.str_replace("\"","'", $this->lstCurPensum[$i]['prerrequisitos']);?>">Prerrequisitos</a></td>
                                         <?php else : ?>
                                         <a href="<?php echo BASE_URL . 'gestionPensum/crearPensum/' . $this->idPensum . '/' . $this->lstCurPensum[$i]['id'] . '/' . $this->idCarrera;?>">Prerrequisitos</a></td>
                                     <?php endif;?>
-                                    
+                                <?php endif;?>    
                                     
                                 <td style="text-align: center">
-                                    <?php if(strcmp($this->lstCurPensum[$i]['estado'], '1') == 0): ?>
-                                        <a href="<?php echo BASE_URL . 'gestionPensum/eliminarCursoPensum/-1/' . $this->lstCurPensum[$i]['id'] . '/' . $this->idPensum  . '/' . $this->idCarrera;?>">Desactivar</a>
+                                    <?php if($this->permisoEliminar == PERMISO_ELIMINAR): ?>
+                                        <?php if(strcmp($this->lstCurPensum[$i]['estado'], '1') == 0): ?>
+                                            <a href="<?php echo BASE_URL . 'gestionPensum/eliminarCursoPensum/-1/' . $this->lstCurPensum[$i]['id'] . '/' . $this->idPensum  . '/' . $this->idCarrera;?>">Desactivar</a>
+                                            <?php else : ?>
+                                            <a href="<?php echo BASE_URL . 'gestionPensum/eliminarCursoPensum/1/' . $this->lstCurPensum[$i]['id'] . '/' . $this->idPensum . '/' . $this->idCarrera;?>">Activar</a>
+                                        <?php endif;?>                                        
+                                    <?php else : ?>
+                                        <?php if(strcmp($this->lstCurPensum[$i]['estado'], '1') == 0): ?>
+                                            Activo
                                         <?php else : ?>
-                                        <a href="<?php echo BASE_URL . 'gestionPensum/eliminarCursoPensum/1/' . $this->lstCurPensum[$i]['id'] . '/' . $this->idPensum . '/' . $this->idCarrera;?>">Activar</a>
-                                    <?php endif;?>
+                                            Inactivo
+                                        <?php endif;?>                                        
+                                    <?php endif;?>                                        
                                 </td>
+                                <?php if($this->permisoModificar == PERMISO_MODIFICAR): ?>
                                 <td style="text-align: center;"><a href="<?php echo BASE_URL . 'gestionPensum/actualizarCursoPensum/' . $this->lstCurPensum[$i]['id'] . '/' . $this->idPensum . '/' . $this->idCarrera;?>">Modificar</a></td>
+                                <?php endif;?>
                             </tr>
                             <?php endfor;?>
                         <?php endif;?> 
