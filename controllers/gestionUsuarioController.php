@@ -10,15 +10,12 @@ class gestionUsuarioController extends Controller {
     private $_post;
     private $_encriptar;
     private $_ajax;
+    private $_session;
     
     public function __construct() {
         parent::__construct();
         $this->getLibrary('session');
         $this->_session = new session();
-        if(!$this->_session->validarSesion()){
-            $this->redireccionar('login/salir');
-            exit;
-        }
         $this->getLibrary('encripted');
         $this->_encriptar = new encripted();
         $this->_post = $this->loadModel('gestionUsuario');
@@ -26,6 +23,10 @@ class gestionUsuarioController extends Controller {
     }
 
     public function index(){
+        if(!$this->_session->validarSesion()){
+            $this->redireccionar('login/salir');
+            exit;
+        }
         if(isset($_SESSION["rol"])){
             $rol = $_SESSION["rol"];
             $rolValidoGestion = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_GESTIONUSUARIO);
@@ -70,7 +71,10 @@ class gestionUsuarioController extends Controller {
     }
     
     public function agregarUsuario() {
-        
+        if(!$this->_session->validarSesion()){
+            $this->redireccionar('login/salir');
+            exit;
+        }
         $iden = $this->getInteger('hdEnvio');
         $idCentroUnidad = $_SESSION["centrounidad"];
         $idUsr = 0;
@@ -243,6 +247,10 @@ class gestionUsuarioController extends Controller {
     }
 
     public function eliminarUsuario($intNuevoEstado, $intIdUsuario) {
+        if(!$this->_session->validarSesion()){
+            $this->redireccionar('login/salir');
+            exit;
+        }
         $rol = $_SESSION["rol"];
         $idCentroUnidad = $_SESSION["centrounidad"];
         
@@ -272,6 +280,10 @@ class gestionUsuarioController extends Controller {
     }
 
     public function actualizarUsuario($intIdUsuario = 0) {
+        if(!$this->_session->validarSesion()){
+            $this->redireccionar('login/salir');
+            exit;
+        }
         $rol = $_SESSION["rol"];
         $idCentroUnidad = $_SESSION["centrounidad"];
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_MODIFICARUSUARIO);
@@ -403,6 +415,10 @@ class gestionUsuarioController extends Controller {
     }
 
     public function validarUsuario($intIdUsuario){
+        if(!$this->_session->validarSesion()){
+            $this->redireccionar('login/salir');
+            exit;
+        }
         if(!$this->usuarioCorrecto($intIdUsuario)){
             $this->redireccionar("error/index/1000");
             exit;
@@ -449,6 +465,10 @@ class gestionUsuarioController extends Controller {
     }
     
     public function activarUsuario(){
+        if(!$this->_session->validarSesion()){
+            $this->redireccionar('login/salir');
+            exit;
+        }
         $arrayUsr = array();
         $arrayGen = array();
         $idUsuario = $this->getInteger('hdWho');
@@ -516,6 +536,10 @@ class gestionUsuarioController extends Controller {
     }
     
     public function cargarCSV(){
+        if(!$this->_session->validarSesion()){
+            $this->redireccionar('login/salir');
+            exit;
+        }
         $iden = $this->getInteger('hdFile');
         $idCentroUnidad = $_SESSION["centrounidad"];
         $fileName = "";
@@ -698,6 +722,10 @@ class gestionUsuarioController extends Controller {
     }
     
     private function validarExistencia($id, $cen, $tipo){
+        if(!$this->_session->validarSesion()){
+            $this->redireccionar('login/salir');
+            exit;
+        }
         $existe;
         if($tipo == 1){
             $existe = $this->_post->buscarEstudiante($id);
@@ -725,6 +753,10 @@ class gestionUsuarioController extends Controller {
     }
     
     protected function notificacionEMAIL() {
+        if(!$this->_session->validarSesion()){
+            $this->redireccionar('login/salir');
+            exit;
+        }
         // El mensaje
         $mensaje = "Este es un mensaje de prueba";
         
