@@ -13,7 +13,7 @@
                         </i>
                     </div>
                 </div>
-                <div class="col-lg-1 col-md-6 text-cenater"></div>
+                <div class="col-lg-2 col-md-6 text-cenater"></div>
                 <div class="col-lg-4 col-md-6 text-center">
                     <?php if($_SESSION["rol"] == ROL_ADMINISTRADOR && $this->permisoGestionPeriodo == PERMISO_GESTIONAR): ?>
                     <div class="service-box">
@@ -23,12 +23,12 @@
                     </div>
                     <?php endif; ?>
                 </div>
-                <div class="col-lg-4 col-md-6 text-center">
+                <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
-                        <?php if($_SESSION["rol"] == ROL_ADMINISTRADOR && $this->permisoAgregar == PERMISO_CREAR): ?>
-                        <form method='post' name='frmPost' id='frmPost' action='<?php echo BASE_URL?>gestionParametro/parametroGeneral'>
-                            <i class="fa fa-2x fa-cogs wow bounceIn text-primary" data-wow-delay=".2s">
-                                <a id="linkNuevoPar" href="#">Par&aacute;metros generales</a>
+                        <?php if($this->permisoAgregar == PERMISO_CREAR): ?>
+                        <form method='post' name='frmPost' id='frmPost' action='<?php echo BASE_URL?>gestionParametro/agregarParametro'>
+                            <i class="fa fa-2x fa-user-plus wow bounceIn text-primary" data-wow-delay=".2s">
+                                <a id="linkNuevoPar" href="#">Agregar Par&aacute;metro</a>
                             </i>
                         </form>
                         <?php endif; ?>
@@ -63,8 +63,8 @@
                         <?php if(isset($this->lstPar) && count($this->lstPar)): ?>
                             <?php for($i =0; $i < count($this->lstPar); $i++) : ?>
                             <tr>
-                                <td style="text-align: center; width: 5%;"><?php echo $this->lstPar[$i]['codigoparametro']; ?></td>
-                                <td style="text-align: center; width: 13%;"><?php echo $this->lstPar[$i]['nombreparametro']; ?></td>
+                                <td style="text-align: center; width: 5%;"><?php echo $this->lstPar[$i]['parametro']; ?></td>
+                                <td style="text-align: center; width: 8%;"><?php echo $this->lstPar[$i]['nombreparametro']; ?></td>
                                 <td style="text-align: center; width: 8%;"><?php echo $this->lstPar[$i]['valorparametro']; ?></td>
                                 <!--<td style="text-align: center"><?php echo $this->lstPar[$i]['descripcionparametro']; ?></td>-->
                                 <td style="text-align: center"><?php echo $this->lstPar[$i]['nombrecentro']; ?></td>

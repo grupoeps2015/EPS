@@ -191,14 +191,6 @@ class gestionParametroController extends Controller{
             exit;
         }
         
-        $lsTipoCiclo = $this->_ajax->getTipoCiclo();
-        if(is_array($lsTipoCiclo)){
-            $this->_view->lsTipoCiclo = $lsTipoCiclo;
-        }else{
-            $this->redireccionar('error/sql/' . $lsTipoCiclo);
-            exit;
-        }
-        
         if ($valorPagina == 1) {
             $arrayPar["parametro"] = $intIdParametro;
             $arrayPar["nombre"] = $this->getTexto('txtNombreParametro');
@@ -209,14 +201,13 @@ class gestionParametroController extends Controller{
             $arrayPar["codigo"] = $this->getTexto('txtCodigoParametro');         
             $arrayPar["tipoparametro"] =  $this->getInteger('slTipoParametro');
             
-            $info = $this->_post->actualizarParametro($intIdParametro,$this->getTexto('txtValorParametro'));
+            $info = $this->_post->actualizarParametro($arrayPar);
             if(!is_array($info)){
                 $this->redireccionar("error/sql/" . $info);
                 exit;
             }
             
             $this->redireccionar('gestionParametro/actualizarParametro/' . $intIdParametro );
-            exit;
         }
         $this->_view->renderizar('actualizarParametro', 'gestionParametro');
     }
@@ -451,43 +442,5 @@ class gestionParametroController extends Controller{
         }        
         
         $this->_view->renderizar('actualizarPeriodo');
-    }
-    
-    public function parametroGeneral(){
-        $rol = $_SESSION["rol"];        
-        $rolValidoGestion = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_GESTIONPARAMETRO);
-        $rolValidoAgregar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_CREARPARAMETRO);
-        $rolValidoModificar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_MODIFICARPARAMETRO);
-        $rolValidoEliminar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_ELIMINARPARAMETRO);
-        $rolValidoGestionPeriodo = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_GESTIONPERIODO);
-        $this->_view->permisoGestion = $rolValidoGestion[0]["valido"];
-        $this->_view->permisoAgregar = $rolValidoAgregar[0]["valido"];
-        $this->_view->permisoModificar = $rolValidoModificar[0]["valido"];
-        $this->_view->permisoEliminar = $rolValidoEliminar[0]["valido"];
-        $this->_view->permisoGestionPeriodo = $rolValidoGestionPeriodo[0]["valido"];
-        
-        if($this->_view->permisoGestion!= PERMISO_GESTIONAR){
-           echo "<script>
-                ".MSG_SINPERMISOS."
-                window.location.href='" . BASE_URL . "login/inicio';
-                </script>";
-        }
-        
-            
-            $idCentroUnidad = $_SESSION["centrounidad"];
-
-            $this->_view->titulo = 'Gestión de parámetros generales- ' . APP_TITULO;
-            $this->_view->id = $idCentroUnidad;
-            
-            //Se agregan los archivos JS, CSS, locales y publicos
-            $this->_view->setJs(array('gestionParametroGeneral'));
-            $this->_view->setJs(array('jquery.dataTables.min'), "public");
-            $this->_view->setCSS(array('jquery.dataTables.min'));
-            $this->_view->lstPar = $this->_post->informacionParametro(-1);
-            
-            //se renderiza la vista a mostrar
-            $this->_view->renderizar('gestionParametroGeneral');
-       
-        
     }
 }
