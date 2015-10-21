@@ -14,6 +14,7 @@ class asignacionController extends Controller{
     private $_asign;
     private $_ajax;
     private $estudiante;
+    private $_encriptarFacil;
     
     public function __construct() {
         parent::__construct();
@@ -23,6 +24,8 @@ class asignacionController extends Controller{
             $this->redireccionar('login/salir');
             exit;
         }
+        $this->getLibrary('encriptedEasy');
+        $this->_encriptarFacil = new encriptedEasy();
         $this->_asign=$this->loadModel('asignacion');
         $this->_ajax = $this->loadModel("ajax");
         $estudiante = $this->_ajax->getEstudianteUsuario($_SESSION["usuario"]);
@@ -425,7 +428,7 @@ class asignacionController extends Controller{
         $periodo = $this->_asign->getBoleta($ciclo, $this->estudiante, $_SESSION["carrera"]);
         if(is_array($periodo)){
             if(isset($periodo[0]['codigocurso'])){
-                $this->_view->asignacion = $periodo[0]['asignacion'];
+                $this->_view->asignacion = $this->_encriptarFacil->encode($periodo[0]['asignacion']);
                 $this->_view->fecha = $periodo[0]['fecha'];
                 $this->_view->hora = $periodo[0]['hora'];
                 $this->_view->lstPar = $periodo;
