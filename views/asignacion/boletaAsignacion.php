@@ -105,7 +105,7 @@
                 </center>
             <?php else : ?>
                 <center>
-            <label style="text-align: center">No hay registro de asignación para el ciclo seleccionado.</label>
+            <h4>No hay registro de asignación para el ciclo seleccionado.</h4>
             </center>
             <?php endif; ?>
         </div>
