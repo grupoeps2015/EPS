@@ -61,7 +61,7 @@
                                 <td style="text-align: center; width: 8%;"><?php echo $this->lstCurPensum[$i]['numerociclo']; ?></td>
                                 <td style="text-align: center"><?php echo $this->lstCurPensum[$i]['nombretipociclo']; ?></td>
                                 <td style="text-align: center"><?php echo $this->lstCurPensum[$i]['creditos']; ?></td>
-                                <?php if($this->permisoModificar == PERMISO_MODIFICAR): ?>
+                                <?php if($this->permisoModificar == PERMISO_MODIFICAR || $this->lstCurPensum[$i]['estado'] == 1): ?>
                                 <td style="text-align: center;">
                                      <?php if(isset($this->lstCurPensum[$i]['prerrequisitos'])): ?>
                                         <a href="<?php echo BASE_URL . 'gestionPensum/crearPensum/' . $this->idPensum . '/' . $this->lstCurPensum[$i]['id'] . '/' . $this->idCarrera.'?prerrequisitos='.str_replace("\"","'", $this->lstCurPensum[$i]['prerrequisitos']);?>">Prerrequisitos</a></td>
