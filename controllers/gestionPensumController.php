@@ -190,7 +190,7 @@ class gestionPensumController extends Controller {
         $rol = $_SESSION["rol"];
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol, CONS_FUNC_CUR_CREARCARRERA);
 
-        if ($rolValido[0]["valido"] == PERMISO_CREAR) {
+        if ($rolValido[0]["valido"] != PERMISO_CREAR) {
             echo "<script>
                 ".MSG_SINPERMISOS."
                 window.location.href='" . BASE_URL . "gestionPensum/listadoCarrera/" . "';
