@@ -824,11 +824,6 @@ INSERT INTO adm_periodo (periodo,ciclo,fechainicial,fechafinal,tipoperiodo,estad
 INSERT INTO CUR_TipoPrerrequisito (tipoprerrequisito,descripcion) values (1,'Curso');
 INSERT INTO CUR_TipoPrerrequisito (tipoprerrequisito,descripcion) values (2,'Créditos');
 
--- -----------------------------------------------------
--- Insert adm_parametro
--- -----------------------------------------------------
-INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (1,'Número máximo de reintentos de login','5','',NULL,NULL,1,1);
-INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (2,'Tiempo máximo de sesión activa','60','En minutos',NULL,NULL,1,1);
 
 -- -----------------------------------------------------
 -- Insert adm_parametro
