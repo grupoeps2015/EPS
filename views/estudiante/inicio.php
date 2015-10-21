@@ -2,7 +2,7 @@
     <div class="header">
         <div class="row">
             <div class="col-lg-12 text-center">
-                <h2 class="section-heading">Bienvenido@ <?php echo " " . $_SESSION["nombre"]; ?></h2>
+                <h2 class="section-heading">Bienvenid@ <?php echo " " . $_SESSION["nombre"]; ?></h2>
                 <hr class="primary">
                 <div class="col-lg-3 col-md-6 text-center"></div>
                 <div class="col-lg-3 col-md-6 text-center"></div>
