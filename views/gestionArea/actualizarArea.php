@@ -35,6 +35,7 @@
                                 </tr>
                                 <tr>
                                     <td>Descripción:
+                                        <br/>
                                         <textarea name="txtDescripcion" id="txtDescripcion" name="txtDescripcion" style="width: 700px; resize: none;" rows="3"><?php if(isset($this->datosEdif)) {echo $this->datosEdif[0]['_descripcion'];}?></textarea>
                                         
                                         <br/>

@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center">
-                <h2 class="section-heading">Agregar Area</h2>
+                <h2 class="section-heading">Agregar Nueva Area</h2>
                 <p><?php if(isset($this->query)) echo $this->query; ?></p>
                 <hr class="primary">
                 <div class="col-lg-3 col-md-6 text-center">
@@ -38,6 +38,7 @@
                                 <tr>
                                     <td colspan="3">
                                         *Descripción:
+                                        <br/>
                                         <textarea name="txtDescripcion" id="txtDescripcion" style="width: 700px; resize: none;" rows="3"></textarea>
                                         
                                         <br/>

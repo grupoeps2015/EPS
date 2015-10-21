@@ -40,9 +40,9 @@
             </div>
             <div class="col-lg-4 col-md-8 text-center">
                 <div class="service-box">
-                    <i class="fa fa-4x fa-pencil wow bounceIn text-primary" data-wow-delay=".2s"></i>
-                    <h3>Gesti&oacute;n de requisitos</h3>
-                    <p class="text-muted">Requisitos por Curso seg&uacute;n P&eacute;nsum</p>
+                    <i class="fa fa-4x fa-edit wow bounceIn text-primary" data-wow-delay=".2s"></i>
+                    <h3><a href="<?php echo BASE_URL; ?>gestionArea/listadoArea">Gesti&oacute;n de Areas</a></h3>
+                    <p class="text-muted">Areas Académicas por P&eacute;nsum</p>
                 </div>
             </div>
         </div>
