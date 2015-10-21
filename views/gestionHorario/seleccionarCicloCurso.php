@@ -42,7 +42,7 @@
             <form id="frEstudiantes" method="post" action="<?php echo BASE_URL; ?>gestionHorario">
                 <table>
                     <tr>
-                        <td style="width: 10%">
+                        <td style="width: 15%">
                             <h4>A&ntilde;o: </h4>
                             <br/>
                         </td>
@@ -61,7 +61,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 10%">
+                        <td style="width: 15%">
                             <h4>Ciclo: </h4>
                             <br/>
                         </td>
@@ -73,8 +73,8 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 10%">
-                            <h4>Sección: </h4>
+                        <td style="width: 15%">
+                            <h4>Sección - Curso: </h4>
                             <br/>
                         </td>
                         <td style="width: 38%">
