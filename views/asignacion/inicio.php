@@ -24,9 +24,9 @@
     <div class="container" >
         <div class="col-md-6 col-md-offset-3">
             <form id="frEstudiantes" method="post" action="<?php echo BASE_URL; ?>asignacion">
-                <table>
+                <table style="width:100%">
                     <tr>
-                        <td>
+                        <td style="width:50%">
                             A&ntilde;o:
                             <select id="slAnio" name="slAnio" class="form-control input-lg">
                                 <?php if (isset($this->lstAnios) && count($this->lstAnios)): ?>
@@ -42,7 +42,7 @@
                             </select><br/>
                         </td>
                         <td>&nbsp;</td>
-                        <td>
+                        <td style="width:50%">
                             Ciclo:
                             <select id="slCiclo" name="slCiclo" class="form-control input-lg">
                                 <?php if (isset($this->lstCiclos) && count($this->lstCiclos)): ?>
@@ -69,30 +69,34 @@
                 </table>
             </form>
             <?php if(isset($this->asignacion)) :?>
-            <table>
-                <tr>
-                    <td style="width: 10%">
-                        <h4>Listado de cursos: </h4>
-                        <br/>
-                    </td>
-                    <td style="width:40%;">
-                        <select id="slCursos" name="slCursos" class="form-control input-lg">
-                            <?php if (isset($this->lstAnios) && count($this->lstCursos)): ?>
-                                <option value="">-- Curso --</option>
-                                <?php for ($i = 0; $i < count($this->lstCursos); $i++) : ?>
-                                    <option value="<?php echo $this->lstCursos[$i]['curso']; ?>">
-                                        <?php echo "[".$this->lstCursos[$i]['codigo']."] ".$this->lstCursos[$i]['nombre']; ?>
-                                    </option>
-                                <?php endfor; ?>
-                            <?php else : ?>
-                                <option value="">-- No existen cursos disponibles --</option>
-                            <?php endif; ?>
-                        </select>
-                    </td>
-                </tr>
-            </table>
+            <form id="frm" method="post" action="">
+                <table style="width:100%">
+                    <tr>
+                        <td style="width:30%">
+                            <h4>Listado de cursos: </h4>
+                            <br/>
+                        </td>
+                        <td>&nbsp;</td>
+                        <td style="width:70%;">
+                            <select id="slCursos" name="slCursos" class="form-control input-lg">
+                                <?php if (isset($this->lstAnios) && count($this->lstCursos)): ?>
+                                    <option value="">-- Curso --</option>
+                                    <?php for ($i = 0; $i < count($this->lstCursos); $i++) : ?>
+                                        <option value="<?php echo $this->lstCursos[$i]['curso']; ?>">
+                                            <?php echo "[".$this->lstCursos[$i]['codigo']."] ".$this->lstCursos[$i]['nombre']; ?>
+                                        </option>
+                                    <?php endfor; ?>
+                                <?php else : ?>
+                                    <option value="">-- No existen cursos disponibles --</option>
+                                <?php endif; ?>
+                            </select>
+                        </td>
+                        <td>&nbsp;</td>
+                    </tr>
+                </table>
+            </form>
             <form id="frAsignacionCursos" method="post" action="<?php echo BASE_URL; ?>asignacion/asignar">
-            <table id="tabla" name="tabla">
+            <table id="tabla" name="tabla" style="width:100%;">
                 <thead>
                     <tr>
                         <td colspan="3" align="right">
@@ -100,8 +104,8 @@
                         </td>
                     </tr>
                     <tr>
-                        <th><h4>Curso</h4></th>
-                        <th><h4>Secci&oacute;n</h4></th>
+                        <th><h4><label id="lblCur"></label></h4></th>
+                        <th><h4><label id="lblSec"></label></h4></th>
                         <th width="22">&nbsp;</th>
                     </tr>
                 </thead>
@@ -109,8 +113,11 @@
                 </tbody>
                 <tfoot>
                     <tr>
+                        <td colspan="3" align="right">&nbsp;</td>
+                    </tr>
+                    <tr>
                         <td colspan="3" align="right">
-                            <input type="button" id="btnAsignar" value="Asignar" class="btn btn-danger btn-lg btn-warning" disabled>
+                            <input type="button" id="btnAsignar" value="Asignar" class="btn btn-danger btn-lg btn-warning" style="display: none;" disabled>
                         </td>
                     </tr>
                 </tfoot>
@@ -119,6 +126,8 @@
             <input type="hidden" name="hdCiclo" id="hdCiclo" value="<?php if (isset($this->ciclo)) echo $this->ciclo;?>">
             <input type="hidden" name="hdEnvio" value="1">
             </form>
+            <?php else : ?>
+            <span style="text-align: center">No hay período de asignación habilitado para el ciclo seleccionado</span>
             <?php endif; ?>
         </div>
     </div>

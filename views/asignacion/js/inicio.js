@@ -103,7 +103,9 @@ $(document).ready(function(){
 				
 		//agregamos la nueva fila a la tabla
 		$(objTabla).find('tbody').append(strNueva_Fila);
-				
+		$("#lblCur").text("Curso");
+                $("#lblSec").text("Sección");
+                $("#btnAsignar").show();
 		//si el cuerpo la tabla esta oculto (al agregar una nueva fila) lo mostramos
 		if(!$(objTabla).find('tbody').is(':visible')){
 			//le hacemos clic al titulo de la tabla, para mostrar el contenido
@@ -123,6 +125,10 @@ $(document).ready(function(){
 					return;
 				}
                                 $('#btnAsignar').prop("disabled",true);
+                                $("#lblCur").text("");
+                                $("#lblSec").text("");
+                                $("#btnAsignar").hide();
+                                
 			}
 					
 		/*obtenemos el padre (tr) del td que contiene a nuestro boton de eliminar
@@ -182,6 +188,7 @@ $(document).ready(function(){
      
         $('#btnAsignar').click(function(){
             var cant = 0;
+            var val = true;
             $('#hdCursos').val("");
             $("#tabla tbody tr").each(function (index) 
             {
@@ -196,6 +203,7 @@ $(document).ready(function(){
                 })
                 if(campo2 == -1){
                     alert("Seleccione una sección");
+                    val = false;
                     return;
                 }
                 $('#hdCursos').val($('#hdCursos').val()+campo2+";");
@@ -208,8 +216,10 @@ $(document).ready(function(){
                     return;
                 }
             }
-            //alert($('#hdCursos').val());
-            $('#frAsignacionCursos').submit();
+            if (val) {
+                $('#frAsignacionCursos').submit();
+            }
+            
         });
         
         function getMaxCursosAAsignarAjax(){
