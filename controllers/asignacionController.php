@@ -425,7 +425,9 @@ class asignacionController extends Controller{
         $periodo = $this->_asign->getBoleta($ciclo, $this->estudiante, $_SESSION["carrera"]);
         if(is_array($periodo)){
             if(isset($periodo[0]['codigocurso'])){
-                $this->_view->asignacion = $periodo[0]['codigocurso'];
+                $this->_view->asignacion = $periodo[0]['asignacion'];
+                $this->_view->fecha = $periodo[0]['fecha'];
+                $this->_view->hora = $periodo[0]['hora'];
                 $this->_view->lstPar = $periodo;
         }
         }else{

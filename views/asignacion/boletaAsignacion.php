@@ -96,6 +96,10 @@
                     </tbody>
                 </table>
                 <br />
+                <center>
+                <h4>Boleta de asignación: <span><?php echo $this->asignacion?></span></h4>
+                <h4>Fecha y hora: <span><?php echo $this->fecha . " " . $this->hora?></span></h4>
+                </center>
             <?php else : ?>
                 <center>
             <label style="text-align: center">No hay registro de asignación para el ciclo seleccionado.</label>
