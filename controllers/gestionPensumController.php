@@ -216,7 +216,6 @@ class gestionPensumController extends Controller {
                 exit;
             }
             $this->redireccionar('gestionPensum/listadoCarrera');
-            exit;
         }
         $this->_view->renderizar('agregarCarrera', 'gestionPensum');
     }
@@ -234,7 +233,6 @@ class gestionPensumController extends Controller {
                     exit;
                 }
                 $this->redireccionar('gestionPensum/asignarAreaCarrera/'.$intIdCarrera);
-                exit;
             } else {
                 echo "Error al desactivar carrera";
             }
@@ -258,7 +256,6 @@ class gestionPensumController extends Controller {
                     exit;
                 }
                 $this->redireccionar('gestionPensum/listadoCarrera');
-                exit;
             } else {
                 echo "Error al desactivar carrera";
             }
@@ -307,7 +304,6 @@ class gestionPensumController extends Controller {
             $respuesta = $this->_post->actualizarCarrera($arrayCar);
             if (is_array($respuesta)) {
                 $this->redireccionar('gestionPensum/actualizarCarrera/' . $intIdCarrera);
-                exit;
             } else {
                 $this->redireccionar("error/sql/" . $respuesta);
                 exit;
@@ -463,7 +459,6 @@ class gestionPensumController extends Controller {
                 exit;
             }
             $this->redireccionar('gestionPensum/listadoPensum');
-            exit;
         }
         $this->_view->renderizar('agregarPensum', 'gestionPensum');
     }
@@ -502,7 +497,6 @@ class gestionPensumController extends Controller {
             exit;
         }
         $this->redireccionar('gestionPensum/listadoPensum');
-        exit;
         } else {
             echo "<script>
                 ".MSG_SINPERMISOS."
@@ -575,7 +569,6 @@ class gestionPensumController extends Controller {
                     exit;
                 }
                 $this->redireccionar('gestionPensum/gestionCursoPensum/' . $intIdPensum . '/' . $intIdCarrera);
-                exit;
             } else {
                 $this->_view->cambio = "No reconocio ningun parametro";
             }
@@ -658,7 +651,6 @@ class gestionPensumController extends Controller {
             }
 
             $this->redireccionar('gestionPensum/gestionCursoPensum/' . $idPensum . '/' . $idCarrera);
-            exit;
         }
 
         $this->_view->renderizar('agregarCursoPensum', 'gestionPensum');
@@ -735,7 +727,6 @@ class gestionPensumController extends Controller {
             }
 
             $this->redireccionar('gestionPensum/actualizarCursoPensum/'.$idCursoPensum.'/'.$idPensum.'/'.$idCarrera);
-            exit;
         }
         
         $this->_view->renderizar('actualizarCursoPensum', 'gestionPensum');
@@ -808,7 +799,7 @@ class gestionPensumController extends Controller {
             }
 
             $this->redireccionar('gestionPensum/gestionCursoPensum/'.$pensum.'/'.$carrera);
-            exit;
+            
         }
 
         $this->_view->renderizar('crearPensum', 'gestionPensum');
@@ -868,7 +859,6 @@ class gestionPensumController extends Controller {
             }
 
             $this->redireccionar('gestionPensum/listadoPensum');
-            exit;
         }
         $this->_view->renderizar('actualizarPensum', 'gestionPensum');
     }
