@@ -65,7 +65,6 @@ class gestionEdificioController extends Controller {
     }
     
     public function index($id=0){
-        session_start();
         $rol = $_SESSION["rol"];        
         $rolValidoGestion= $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_GESTIONASIGNACIONEDIFICIO);
         $rolValidoAgregar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_CREARASIGNACIONEDIFICIO);
@@ -169,7 +168,7 @@ class gestionEdificioController extends Controller {
         $this->_view->renderizar('actualizarAsignacion', 'gestionEdificio');
     }
     
-     public function actualizarEdificio($intIdEdificio = 0) {
+    public function actualizarEdificio($intIdEdificio = 0) {
 
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_MODIFICAREDIFICIO);
@@ -244,7 +243,7 @@ class gestionEdificioController extends Controller {
         $this->_view->renderizar('agregarEdificio', 'gestionEdificio');
     }
     
-     public function activarDesactivarEdificio($intNuevoEstado, $intIdEdificio) {
+    public function activarDesactivarEdificio($intNuevoEstado, $intIdEdificio) {
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_ELIMINAREDIFICIO);
         
@@ -320,7 +319,7 @@ class gestionEdificioController extends Controller {
         $this->_view->renderizar('asignacionEdificio', 'gestionEdificio');
     }
     
-     public function eliminarAsignacionEdificio($intNuevoEstado, $intIdAsignacion, $idEdificio){
+    public function eliminarAsignacionEdificio($intNuevoEstado, $intIdAsignacion, $idEdificio){
 
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_ELIMINARASIGNACIONEDIFICIO);
@@ -347,9 +346,8 @@ class gestionEdificioController extends Controller {
         }
         }
         
-        
-        //Región de salones
-        public function gestionSalon($intIdEdificio = 0) {
+    //Región de salones
+    public function gestionSalon($intIdEdificio = 0) {
         $rol = $_SESSION["rol"];        
         $rolValidoGestion = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_GESTIONSALON);
         $rolValidoAgregar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_CREARSALON);
@@ -450,8 +448,7 @@ class gestionEdificioController extends Controller {
         
         $this->_view->renderizar('agregarSalon', 'gestionSalon');
     }
-    
-    
+      
     public function actualizarSalon($intIdSalon = 0,$intIdEdificio = 0) {
 
         $rol = $_SESSION["rol"];        

@@ -7,7 +7,7 @@ class ajaxModel extends Model{
     }
     
     public function getPais(){
-        $info = $this->_db->query("select * from spconsultageneral('pais,nombre','adm_pais');");
+        $info = $this->_db->query("select * from spconsultageneral('pais,nombre','adm_pais') order by codigo;");
         if($info === false){
             return "1105/getPais";
         }else{
@@ -16,7 +16,7 @@ class ajaxModel extends Model{
     }
     
     public function getDeptos(){
-        $deptos = $this->_db->query("select * from spconsultageneral('departamento,nombre','adm_departamento');");
+        $deptos = $this->_db->query("select * from spconsultageneral('departamento,nombre','adm_departamento') order by codigo;");
         if($deptos === false){
             return "1200/getDeptos";
         }else{
@@ -35,7 +35,7 @@ class ajaxModel extends Model{
     }
     
     public function getJornada(){
-        $jornada = $this->_db->query("select * from spconsultageneral('jornada,nombre','cur_jornada');");
+        $jornada = $this->_db->query("select * from spconsultageneral('jornada,nombre','cur_jornada') order by codigo;");
         if($jornada === false){
             return "1200/getJornada";
         }else{
@@ -44,7 +44,7 @@ class ajaxModel extends Model{
     }
     
     public function getCentro(){
-        $centros = $this->_db->query("select * from spconsultageneral('centro,nombre','adm_centro');");
+        $centros = $this->_db->query("select * from spconsultageneral('centro,nombre','adm_centro') order by codigo;");
         if($centros === false){
             return "1200/getCentro";
         }else{
@@ -53,7 +53,7 @@ class ajaxModel extends Model{
     }
     
     public function getUnidades(){
-        $unidades = $this->_db->query("select * from spconsultageneral('unidadAcademica,nombre','adm_unidadAcademica');");
+        $unidades = $this->_db->query("select * from spconsultageneral('unidadAcademica,nombre','adm_unidadAcademica') order by codigo;");
         if($unidades === false){
             return "1200/getUnidades";
         }else{
@@ -62,7 +62,7 @@ class ajaxModel extends Model{
     }
     
     public function getTipoCiclo(){
-        $ciclos = $this->_db->query("select * from spconsultageneral('tipociclo,nombre','cur_tipociclo');");
+        $ciclos = $this->_db->query("select * from spconsultageneral('tipociclo,nombre','cur_tipociclo') order by codigo;");
         if($ciclos === false){
             return "1200/getTipoCiclo";
         }else{
@@ -151,7 +151,7 @@ class ajaxModel extends Model{
     }
     
     public function getAllCarreras(){
-        $info = $this->_db->query("select * from spconsultageneral('carrera,nombre','cur_carrera');");
+        $info = $this->_db->query("select * from spconsultageneral('carrera,nombre','cur_carrera') order by codigo;");
         if($info === false){
             return "1105/getAllCarrera";
         }else{
@@ -309,7 +309,7 @@ class ajaxModel extends Model{
     }
     
     public function getTipoUnidadAcademica(){
-        $info = $this->_db->query("select * from spconsultageneral('tipounidadacademica,nombre','adm_tipounidadacademica');");
+        $info = $this->_db->query("select * from spconsultageneral('tipounidadacademica,nombre','adm_tipounidadacademica') order by codigo;");
         if($info === false){
             return "1200/getTipoUnidadAcademica";
         }else{

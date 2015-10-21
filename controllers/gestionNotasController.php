@@ -23,11 +23,14 @@ class gestionNotasController extends Controller{
     
     public function index($id = 0){
         $rol = $_SESSION["rol"];        
-        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_GESTIONNOTA);
-                    
-        if($rolValido[0]["valido"]!=PERMISO_GESTIONAR){
+        $rolValidoGestion = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_GESTIONNOTA);
+        $rolValidoModificar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_MODIFICARNOTA);
+        $this->_view->permisoGestion = $rolValidoGestion[0]["valido"];
+        $this->_view->permisoModificar = $rolValidoModificar[0]["valido"];
+        
+        if($this->_view->permisoGestion!= PERMISO_GESTIONAR){
             echo "<script>
-                alert('No tiene permisos para acceder a esta función.');
+                ".MSG_SINPERMISOS."
                 window.location.href='" . BASE_URL . "login/inicio';
                 </script>";
         }

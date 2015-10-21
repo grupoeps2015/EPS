@@ -175,7 +175,7 @@ class gestionHorarioModel extends Model {
     
     //Desde catedraticoModel
     public function getCatedraticos($centrounidad){
-        $info = $this->_db->query("SELECT * from spinformacioncatedratico(" . $centrounidad . ");");
+        $info = $this->_db->query("SELECT * from spinformacioncatedratico(" . $centrounidad . ") order by id;");
         if($info === false){
             return "1104/getCatedraticos";
         }else{

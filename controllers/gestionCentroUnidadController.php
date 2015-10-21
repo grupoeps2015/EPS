@@ -37,7 +37,7 @@ class gestionCentroUnidadController extends Controller {
         
         if($this->_view->permisoGestion!=PERMISO_GESTIONAR){        
             echo "<script>
-                alert('No tiene permisos para acceder a esta función.');
+                ".MSG_SINPERMISOS."
                 window.location.href='" . BASE_URL . "login/inicio';
                 </script>";
         }
@@ -196,11 +196,20 @@ class gestionCentroUnidadController extends Controller {
     
     public function listadoUnidades($idCentro = -1){
         $rol = $_SESSION["rol"];        
-        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_GESTIONUNIDAD);
+        $rolValidoGestion = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_GESTIONUNIDAD);
+        $rolValidoAgregar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_CREARUNIDAD);
+        $rolValidoModificar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_MODIFICARUNIDAD);
+        $rolValidoEliminar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_ELIMINARUNIDAD);
+        $rolValidoGestionCarrera = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_GESTIONCARRERA);
+        $this->_view->permisoGestion = $rolValidoGestion[0]["valido"];
+        $this->_view->permisoAgregar = $rolValidoAgregar[0]["valido"];
+        $this->_view->permisoModificar = $rolValidoModificar[0]["valido"];
+        $this->_view->permisoEliminar = $rolValidoEliminar[0]["valido"];
+        $this->_view->permisoGestionCarreras = $rolValidoGestionCarrera[0]["valido"];
         
-        if($rolValido[0]["valido"]!=PERMISO_GESTIONAR){        
+        if($this->_view->permisoGestion!=PERMISO_GESTIONAR){        
             echo "<script>
-                alert('No tiene permisos para acceder a esta función.');
+                ".MSG_SINPERMISOS."
                 window.location.href='" . BASE_URL . "gestionCentroUnidad';
                 </script>";
         }
@@ -276,7 +285,7 @@ class gestionCentroUnidadController extends Controller {
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_CREARUNIDAD);
         if($rolValido[0]["valido"]!= PERMISO_CREAR){
            echo "<script>
-                alert('No tiene permisos suficientes para acceder a esta función.');
+                ".MSG_SINPERMISOS."
                 window.location.href='" . BASE_URL . "gestionCentroUnidad/listadoUnidades/".$idCentro."';
                 </script>";
         }

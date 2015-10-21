@@ -27,6 +27,23 @@ CREATE OR REPLACE FUNCTION spInformacionParametro(idCentroUnidadAcademica intege
 					          OUT NombreTipoParametro text, OUT EstadoParametro int) RETURNS setof record as 
 $BODY$
 BEGIN
+IF idCentroUnidadAcademica = -1 THEN
+  RETURN query
+  SELECT p.parametro AS Parametro,
+	 p.nombre AS NombreParametro,
+	 p.valor AS ValorParametro,
+	 p.descripcion AS DescripcionParametro,
+	 cast('' as text) AS NombreCentro,
+	 cast('' as text) AS NombreUnidadAcademica,
+	 cast('' as text) AS NombreCarrera,
+	 p.codigo AS CodigoParametro,
+	 tp.nombre AS NombreTipoParametro,
+	 p.estado AS EstadoParametro
+  FROM ADM_Parametro p
+	JOIN ADM_TipoParametro tp ON tp.tipoparametro = p.tipoparametro
+	WHERE p.centro_unidadacademica IS NULL
+	ORDER BY p.nombre;
+ELSE
   RETURN query
   SELECT p.parametro AS Parametro,
 	 p.nombre AS NombreParametro,
@@ -46,7 +63,7 @@ BEGIN
 	JOIN ADM_TipoParametro tp ON tp.tipoparametro = p.tipoparametro
 	WHERE cu.centro_unidadacademica = $1
 	ORDER BY p.nombre;
-
+END IF;
 END;
 $BODY$
 LANGUAGE 'plpgsql';
@@ -62,7 +79,10 @@ CREATE OR REPLACE FUNCTION spDatosParametro(Parametro int,
 					    OUT NombreUnidadAcademica text, OUT CentroUnidadAcademica int, OUT NombreCarrera text,  OUT Carrera int,
 					    OUT CodigoParametro int, OUT NombreTipoParametro text, OUT TipoParametro int) RETURNS setof record as 
 $BODY$
+DECLARE centun INTEGER;
 BEGIN
+SELECT centro_unidadacademica into centun from adm_parametro p where p.parametro = $1;
+IF centun IS NOT NULL THEN
   RETURN query
   SELECT p.nombre AS NombreParametro, 
          p.valor AS ValorParametro,
@@ -82,6 +102,23 @@ BEGIN
 	LEFT JOIN CUR_Carrera car ON car.carrera = p.carrera
 	JOIN ADM_TipoParametro tp ON tp.tipoparametro = p.tipoparametro
 	WHERE p.parametro = $1;
+ELSE
+  RETURN query
+  SELECT p.nombre AS NombreParametro, 
+         p.valor AS ValorParametro,
+         p.descripcion AS DescripcionParametro,
+         cast('' as text) AS NombreCentro,
+         cast('' as text) AS NombreUnidadAcademica,
+		 p.centro_unidadacademica AS CentroUnidadAcademica,
+         cast('' as text) AS NombreCarrera,
+		 p.carrera AS Carrera,
+         p.codigo AS CodigoParametro,
+         tp.nombre AS NombreTipoParametro,
+		 p.tipoparametro AS TipoParametro
+  FROM ADM_Parametro p
+	JOIN ADM_TipoParametro tp ON tp.tipoparametro = p.tipoparametro
+	WHERE p.parametro = $1;
+END IF;
 
 END;
 $BODY$
@@ -91,28 +128,14 @@ LANGUAGE 'plpgsql';
 -- -----------------------------------------------------
 -- Function: spModificarParametro()
 -- -----------------------------------------------------
--- DROP FUNCTION spmodificarparametro(integer, text, text, text, integer, integer, integer, integer, integer); 
-CREATE OR REPLACE FUNCTION spModificarParametro(_parametro integer, 
-						_nombre text, 
-					        _valor text,
-					        _descripcion text, 
-					        _centro_unidadacademica integer,
-					        _carrera integer,
-						_codigo integer, 
-						_estado integer,
-						_tipoparametro integer
+-- DROP FUNCTION spmodificarparametro(integer, text); 
+CREATE OR REPLACE FUNCTION spModificarParametro(_parametro integer,
+					        _valor text
 					     )RETURNS BOOLEAN LANGUAGE plpgsql SECURITY DEFINER AS $$
 
 BEGIN
     UPDATE ADM_Parametro
-       SET nombre = COALESCE(spModificarParametro._nombre, ADM_Parametro.nombre),
-           valor = COALESCE(spModificarParametro._valor, ADM_Parametro.valor),
-           descripcion = COALESCE(spModificarParametro._descripcion, ADM_Parametro.descripcion),
-           centro_unidadacademica = COALESCE(spModificarParametro._centro_unidadacademica, ADM_Parametro.centro_unidadacademica),
-	   carrera = spModificarParametro._carrera,
-	   codigo = COALESCE(spModificarParametro._codigo, ADM_Parametro.codigo),
-	   estado = COALESCE(spModificarParametro._estado, ADM_Parametro.estado),
-	   tipoparametro = COALESCE(spModificarParametro._tipoparametro, ADM_Parametro.tipoparametro)
+       SET valor = COALESCE(spModificarParametro._valor, ADM_Parametro.valor)
      WHERE ADM_Parametro.parametro = spModificarParametro._parametro;       
     RETURN FOUND;
 END;

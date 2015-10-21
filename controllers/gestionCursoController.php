@@ -28,11 +28,20 @@ class gestionCursoController extends Controller {
 
     public function index() {
         $rol = $_SESSION["rol"];        
-        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_GESTIONCURSO);
+        $rolValidoGestion = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_GESTIONCURSO);
+        $rolValidoAgregar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_CREARCURSO);
+        $rolValidoModificar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_MODIFICARCURSO);
+        $rolValidoEliminar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_ELIMINARCURSO);
+        $rolValidoGestionSeccion = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_GESTIONSECCION);
+        $this->_view->permisoGestion = $rolValidoGestion[0]["valido"];
+        $this->_view->permisoAgregar = $rolValidoAgregar[0]["valido"];
+        $this->_view->permisoModificar = $rolValidoModificar[0]["valido"];
+        $this->_view->permisoEliminar = $rolValidoEliminar[0]["valido"];
+        $this->_view->permisoGestionSecciones = $rolValidoGestionSeccion[0]["valido"];
         
-        if($rolValido[0]["valido"]!=PERMISO_GESTIONAR){        
+        if($this->_view->permisoGestion!=PERMISO_GESTIONAR){        
             echo "<script>
-                alert('No tiene permisos para acceder a esta función.');
+                ".MSG_SINPERMISOS."
                 window.location.href='" . BASE_URL . "login/inicio';
                 </script>";
         }
@@ -65,7 +74,7 @@ class gestionCursoController extends Controller {
          
         if($rolValido[0]["valido"]!= PERMISO_CREAR){
            echo "<script>
-                alert('No tiene permisos suficientes para acceder a esta función.');
+                ".MSG_SINPERMISOS."
                 window.location.href='" . BASE_URL . "gestionCurso';
                 </script>";
         }
@@ -133,7 +142,7 @@ class gestionCursoController extends Controller {
         else
         {         
             echo "<script>
-                alert('No tiene permisos suficientes para acceder a esta función.');
+                ".MSG_SINPERMISOS."
                 window.location.href='" . BASE_URL . "gestionCurso';
                 </script>";
         }
@@ -145,7 +154,7 @@ class gestionCursoController extends Controller {
          
         if($rolValido[0]["valido"]!= PERMISO_MODIFICAR){
            echo "<script>
-                alert('No tiene permisos suficientes para acceder a esta función.');
+                ".MSG_SINPERMISOS."
                 window.location.href='" . BASE_URL . "gestionCurso';
                 </script>";
         }
@@ -239,11 +248,18 @@ class gestionCursoController extends Controller {
     
     public function listadoSeccion() {
         $rol = $_SESSION["rol"];        
-        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_GESTIONSECCION);
+        $rolValidoGestion = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_GESTIONSECCION);
+        $rolValidoAgregar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_CREARSECCION);
+        $rolValidoModificar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_MODIFICARSECCION);
+        $rolValidoEliminar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_ELIMINARSECCION);
+        $this->_view->permisoGestion = $rolValidoGestion[0]["valido"];
+        $this->_view->permisoAgregar = $rolValidoAgregar[0]["valido"];
+        $this->_view->permisoModificar = $rolValidoModificar[0]["valido"];
+        $this->_view->permisoEliminar = $rolValidoEliminar[0]["valido"];
                     
-        if($rolValido[0]["valido"]!=PERMISO_GESTIONAR){      
+        if($this->_view->permisoGestion!=PERMISO_GESTIONAR){      
             echo "<script>
-                alert('No tiene permisos para acceder a esta función.');
+                ".MSG_SINPERMISOS."
                 window.location.href='" . BASE_URL . "gestionCurso';
                 </script>";
         }
@@ -275,7 +291,7 @@ class gestionCursoController extends Controller {
          
         if($rolValido[0]["valido"]!= PERMISO_CREAR){
            echo "<script>
-                alert('No tiene permisos suficientes para acceder a esta función.');
+                ".MSG_SINPERMISOS."
                 window.location.href='" . BASE_URL . "gestionCurso/listadoSeccion';
                 </script>";
         }
@@ -348,7 +364,7 @@ class gestionCursoController extends Controller {
         else
         {         
             echo "<script>
-                alert('No tiene permisos suficientes para acceder a esta función.');
+                ".MSG_SINPERMISOS."
                 window.location.href='" . BASE_URL . "gestionCurso/listadoSeccion" . "';
                 </script>";
         }
@@ -360,7 +376,7 @@ class gestionCursoController extends Controller {
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_MODIFICARSECCION);
         if($rolValido[0]["valido"]!= PERMISO_MODIFICAR){
            echo "<script>
-                alert('No tiene permisos suficientes para acceder a esta función.');
+                ".MSG_SINPERMISOS."
                 window.location.href='" . BASE_URL . "gestionCurso/listadoSeccion" . "';
                 </script>";
         }

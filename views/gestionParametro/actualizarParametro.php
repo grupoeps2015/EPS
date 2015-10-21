@@ -30,7 +30,7 @@
                              <tr>
                                 <td colspan="3">
                                     <?php if(isset($this->centro_unidadacademica) && count($this->centro_unidadacademica)): ?>
-                                    <select id="slCentroUnidadAcademica" name="slCentroUnidadAcademica" class="form-control input-lg">
+                                    <select id="slCentroUnidadAcademica" name="slCentroUnidadAcademica" class="form-control input-lg" disabled>
                                        <option value="">- Centro - Unidad acad&eacute;mica -</option>
                                         <?php for($i =0; $i < count($this->centro_unidadacademica); $i++) : ?>   
                                             <?php if($this->centro_unidadacademica[$i]['centro_unidadacademica'] == $this->datosPar[0]['centrounidadacademica']): ?>
@@ -52,7 +52,7 @@
                             </tr>
                             <tr>
                                 <td colspan="3"> 
-                                    <select id="slCarreras" name="slCarreras" class="form-control input-lg">
+                                    <select id="slCarreras" name="slCarreras" class="form-control input-lg" disabled>
                                         <option value="">- Carrera -</option>
                                     </select>
                                     <br/>
@@ -61,14 +61,29 @@
                             <tr>
                                 <td>Nombre:&nbsp;</td>
                                 <td colspan="2">
-                                    <input type="text" id="txtNombreParametro" name="txtNombreParametro" class="form-control input-lg" value="<?php if(isset($this->datosPar) && count($this->datosPar)) echo $this->datosPar[0]['nombreparametro']; ?>">
+                                    <input type="text" id="txtNombreParametro" name="txtNombreParametro" class="form-control input-lg" value="<?php if(isset($this->datosPar) && count($this->datosPar)) echo $this->datosPar[0]['nombreparametro']; ?>" disabled>
                                     <br/>
                                 </td>
                             </tr>
                             <tr>
                                 <td>Valor:&nbsp;</td>
                                 <td colspan="2">
-                                    <input type="text" id="txtValorParametro" name="txtValorParametro" class="form-control input-lg" value="<?php if(isset($this->datosPar) && count($this->datosPar)) echo $this->datosPar[0]['valorparametro']; ?>">
+                                    <?php if(isset($this->datosPar) && count($this->datosPar) && $this->datosPar[0]['codigoparametro'] == CONS_PARAM_CENTROUNIDAD_TIPOCICLO) : ?>
+                                        <select id="txtValorParametro" name="txtValorParametro" class="form-control input-lg">
+                                        <?php if (isset($this->lsTipoCiclo) && count($this->lsTipoCiclo)): ?>
+                                                <option value="">-- Tipo Ciclo --</option>
+                                                <?php for ($i = 0; $i < count($this->lsTipoCiclo); $i++) : ?>
+                                                    <option value="<?php echo $this->lsTipoCiclo[$i]['codigo']; ?>" <?php if($this->lsTipoCiclo[$i]['codigo'] == $this->datosPar[0]['valorparametro']) echo "selected"; ?>>
+                                                        <?php echo $this->lsTipoCiclo[$i]['nombre']; ?>
+                                                    </option>
+                                                <?php endfor; ?>
+                                        <?php else : ?>
+                                            <option value="">-- No existen tipos registrados --</option>
+                                        <?php endif; ?>
+                                        </select>
+                                    <?php else : ?>
+                                        <input type="text" id="txtValorParametro" name="txtValorParametro" class="form-control input-lg" value="<?php if(isset($this->datosPar) && count($this->datosPar)) echo $this->datosPar[0]['valorparametro']; ?>">
+                                    <?php endif; ?>
                                     <br/>
                                 </td>
                             </tr>
@@ -76,7 +91,7 @@
                                 <td>Tipo:&nbsp;</td> 
                                 <td colspan="2">
                                     <?php if(isset($this->tipoparametro) && count($this->tipoparametro)): ?>
-                                    <select id="slTipoParametro" name="slTipoParametro" class="form-control input-lg">
+                                    <select id="slTipoParametro" name="slTipoParametro" class="form-control input-lg" disabled>
                                         <option value="">- Tipo par&aacute;metro -</option>
                                         <?php for($i =0; $i < count($this->tipoparametro); $i++) : ?>
                                         <?php if($this->tipoparametro[$i]['tipoparametro'] == $this->datosPar[0]['tipoparametro']): ?>
@@ -99,16 +114,14 @@
                             <tr>
                                 <td>C&oacute;digo:&nbsp;</td>
                                 <td colspan="2">
-                                    <input type="text" id="txtCodigoParametro" name="txtCodigoParametro" class="form-control input-lg" value="<?php if(isset($this->datosPar) && count($this->datosPar)) echo $this->datosPar[0]['codigoparametro']; ?>">
+                                    <input type="text" id="txtCodigoParametro" name="txtCodigoParametro" class="form-control input-lg" value="<?php if(isset($this->datosPar) && count($this->datosPar)) echo $this->datosPar[0]['codigoparametro']; ?>" disabled>
                                     <br/>
                                 </td>
                             </tr>
                             <tr>
                                 <td>Descripci&oacute;n:&nbsp;</td>
                                 <td colspan="2">
-                                    <textarea id="txtDescripcionParametro" name="txtDescripcionParametro" class="form-control input-lg" rows="3" style="resize: none;">
-                                        <?php if(isset($this->datosPar) && count($this->datosPar)) echo $this->datosPar[0]['descripcionparametro']; ?>
-                                    </textarea>
+                                    <textarea id="txtDescripcionParametro" name="txtDescripcionParametro" class="form-control input-lg" rows="3" style="resize: none;" disabled><?php if(isset($this->datosPar) && count($this->datosPar)) echo $this->datosPar[0]['descripcionparametro']; ?></textarea>
                                     <br/>
                                 </td>
                             </tr>

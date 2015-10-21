@@ -17,11 +17,13 @@
                 <div class="col-lg-3 col-md-6 text-center"></div>
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
+                        <?php if($this->permisoAgregar == PERMISO_CREAR): ?>
                         <i class="fa fa-2x fa-building-o wow bounceIn text-primary" data-wow-delay=".2s">
                             <a href="<?php echo BASE_URL ?>gestionPensum/agregarPensum">
                                 Agregar Pensum
                             </a>
                         </i>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -41,9 +43,15 @@
                                 <th style="text-align:center; width: 100px;">Fecha Inicial</th>
                                 <th style="text-align:center; width: 100px;">Fecha Final</th>
                                 <th style="text-align:center; width: 100px;">Duración(años)</th>
+                                <?php if($this->permisoEliminar == PERMISO_ELIMINAR): ?>
                                 <th style="text-align:center; width: 200px;"></th>
+                                <?php endif;?>
+                                <?php if($this->permisoGestionCursosPensum == PERMISO_GESTIONAR): ?>
                                 <th style="text-align:center; width: 150px;"></th>
+                                <?php endif;?>
+                                <?php if($this->permisoModificar == PERMISO_MODIFICAR): ?>
                                 <th style="text-align:center; width: 150px;"></th>
+                                <?php endif;?>
                             </tr>
                         </thead>
                         <tbody>
@@ -57,13 +65,16 @@
                                         <td style="text-align: center; padding-right: 20px;"><?php echo $this->lstPensum[$i]['iniciovigencia']; ?></td>
                                         <td style="text-align: center; padding-right: 20px;"><?php echo $this->lstPensum[$i]['finvigencia']; ?></td>
                                         <td style="text-align: center; padding-right: 20px;"><?php echo $this->lstPensum[$i]['duracionanios']; ?></td>
+                                        <?php if($this->permisoEliminar == PERMISO_ELIMINAR): ?>
                                         <td style="text-align: center; padding-right: 20px;">
                                             <?php if ((strcmp($this->lstPensum[$i]['estado'], 'Activo') == 0)): ?>
                                                 <a href="<?php echo BASE_URL . 'gestionPensum/finalizarVigenciaPensum/' . $this->lstPensum[$i]['id'] . '/-1' ?>">Desactivar Pensum</a>
                                             <?php else : ?>
                                                 <a href="<?php echo BASE_URL . 'gestionPensum/activarPensum/' . $this->lstPensum[$i]['id'] ?>">Activar Pensum</a>
                                             <?php endif; ?>
+                                        <?php endif; ?>
                                         </td>
+                                        <?php if($this->permisoGestionCursosPensum == PERMISO_GESTIONAR): ?>
                                         <td style="text-align: center; padding-right: 20px;">
                                             <?php if (strcmp($this->lstPensum[$i]['estado'], 'Activo') == 0): ?>
                                                 <a href="<?php echo BASE_URL . 'gestionPensum/gestionCursoPensum/' . $this->lstPensum[$i]['id'] . '/' . $this->lstPensum[$i]['idcarrera']  ?>">Registrar cursos</a>
@@ -72,15 +83,17 @@
                                             <?php endif; ?>
 
                                         </td>
+                                        <?php endif; ?>
+                                        <?php if($this->permisoModificar == PERMISO_MODIFICAR): ?>
                                         <td style="text-align: center; padding-right: 20px;">
                                             <?php if (strcmp($this->lstPensum[$i]['estado'], 'Activo') == 0): ?>
                                                 <a href="<?php echo BASE_URL . 'gestionPensum/actualizarPensum/' . $this->lstPensum[$i]['id'] ?>">Actualizar</a>
                                             <?php else : ?>
 
                                             <?php endif; ?>
-
+                                        
                                         </td>
-
+                                        <?php endif; ?>
                                     </tr>
                                 <?php endfor; ?>
                             <?php else : ?>

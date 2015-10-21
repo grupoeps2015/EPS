@@ -17,11 +17,13 @@
                 <div class="col-lg-3 col-md-6 text-center"></div>
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
+                        <?php if($this->permisoAgregar == PERMISO_CREAR): ?>
                         <form method='post' name='frmPost' id='frmPost' action='<?php echo BASE_URL?>gestionCurso/agregarSeccion'>
                             <i class="fa fa-2x fa-bell-o wow bounceIn text-primary" data-wow-delay=".2s">
                                 <a id="linkSeccionNueva" href="#">Agregar Secci&oacute;n</a>
                             </i>
                         </form>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -39,8 +41,12 @@
                                 <th style="text-align:center">Curso</th>
                                 <th style="text-align:center">Tipo</th>
                                 <th style="text-align:center">Estado</th>
+                                <?php if($this->permisoModificar == PERMISO_MODIFICAR): ?>
                                 <th style="text-align:center">&nbsp;</th>
+                                <?php endif;?>
+                                <?php if($this->permisoEliminar == PERMISO_ELIMINAR): ?>
                                 <th style="text-align:center">&nbsp;</th>
+                                <?php endif;?>
                             </tr>
                         </thead>
                         <tbody>
@@ -51,11 +57,14 @@
                                 <td style="text-align: center"><?php echo $this->lstSec[$i]['curso']; ?></td>
                                 <td style="text-align: center"><?php echo $this->lstSec[$i]['tiposeccion']; ?></td>
                                 <td style="text-align: center"><?php echo $this->lstSec[$i]['estado']; ?></td>
+                                <?php if($this->permisoModificar == PERMISO_MODIFICAR): ?>
                                 <td style="text-align: center;">
                                     <a href="<?php echo BASE_URL . 'gestionCurso/actualizarSeccion/' . $this->lstSec[$i]['id'];?>">
                                         Modificar
                                     </a>
                                 </td>
+                                <?php endif;?>
+                                <?php if($this->permisoEliminar == PERMISO_ELIMINAR): ?>
                                 <td style="text-align: center;">
                                     <?php if(strcmp($this->lstSec[$i]['estado'], 'Activo') == 0): ?>
                                     <a href="<?php echo BASE_URL . 'gestionCurso/eliminarSeccion/-1/' . $this->lstSec[$i]['id'];?>">Desactivar</a>
@@ -63,6 +72,7 @@
                                     <a href="<?php echo BASE_URL . 'gestionCurso/eliminarSeccion/1/' . $this->lstSec[$i]['id'];?>">Activar</a>
                                     <?php endif;?>
                                 </td>
+                                <?php endif;?>
                             </tr>
                             <?php endfor;?>
                         <?php endif;?>

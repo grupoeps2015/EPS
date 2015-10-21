@@ -16,16 +16,20 @@
                 <div class="col-lg-2 col-md-6 text-center"></div>
                 <div class="col-lg-4 col-md-6 text-center">
                     <div class="service-box">
+                        <?php if($this->permisoAgregarHorario == PERMISO_CREAR): ?>
                         <i class="fa fa-2x fa-copy wow bounceIn text-primary" data-wow-delay=".2s">
                             <a id="linkCopiaHor" href="#" class="h2" data-wow-delay=".1s" data-toggle="modal" data-target="#myModal2">Copiar Horario</a>
                         </i>
+                        <?php endif; ?>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
+                        <?php if($this->permisoAgregar == PERMISO_CREAR): ?>
                         <i class="fa fa-2x fa-spinner wow bounceIn text-primary" data-wow-delay=".2s">
                             <a id="linkNuevoCic" href="#" class="h2" data-wow-delay=".1s" data-toggle="modal" data-target="#myModal">Agregar Ciclo</a>
                         </i>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -38,7 +42,7 @@
             <form id="frEstudiantes" method="post" action="<?php echo BASE_URL; ?>gestionHorario">
                 <table>
                     <tr>
-                        <td style="width: 10%">
+                        <td style="width: 15%">
                             <h4>A&ntilde;o: </h4>
                             <br/>
                         </td>
@@ -57,7 +61,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 10%">
+                        <td style="width: 15%">
                             <h4>Ciclo: </h4>
                             <br/>
                         </td>
@@ -69,8 +73,8 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 10%">
-                            <h4>Sección: </h4>
+                        <td style="width: 15%">
+                            <h4>Sección - Curso: </h4>
                             <br/>
                         </td>
                         <td style="width: 38%">

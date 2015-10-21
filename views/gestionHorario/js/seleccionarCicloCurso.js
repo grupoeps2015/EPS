@@ -15,7 +15,7 @@ $(document).ready( function () {
         var selected = this.element.children( ":selected" ),
           value = selected.val() ? selected.text() : "";
  
-        this.input = $( '<input type="text" value="text"/>' )
+        this.input = $( '<input type="text" value="text" placeholder="Ingrese el código del curso a buscar"/>' )
           .appendTo( this.wrapper )
           .val( value )
           .attr( "title", "" )

@@ -18,6 +18,7 @@
                 <div class="col-lg-3 col-md-6 text-center"></div>
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
+                        <?php if($this->permisoAgregar == PERMISO_CREAR): ?>
                         <form method='post' name='frmPost' id='frmPost' action='<?php echo BASE_URL?>gestionHorario/agregarHorario'>
                             <i class="fa fa-2x fa-clock-o wow bounceIn text-primary" data-wow-delay=".2s">
                                 <a id="linkNuevoHor" href="#">Agregar Horario</a>
@@ -25,6 +26,7 @@
                             <input type="hidden" name='slSec' value="<?php if(isset($this->idcurso)) echo $this->idcurso;?>"/>
                             <input type="hidden" name='slCiclo' value="<?php if(isset($this->idciclo)) echo $this->idciclo;?>"/>
                         </form>
+                        <?php endif;?>
                     </div>
                 </div>
             </div>
@@ -44,8 +46,10 @@
                             <th style="text-align:center">Edificio</th>
                             <th style="text-align:center">Sal&oacute;n</th>
                             <th style="text-align:center">Catedr&aacute;tico</th>
+                            <?php if($this->permisoModificar == PERMISO_MODIFICAR): ?>
                             <th style="text-align:center">&nbsp;</th>
-                            <th style="text-align:center">&nbsp;</th>
+                            <?php endif;?>
+                            <th style="text-align:center">&nbsp;</th>                            
                         </tr>
                     </thead>
                     <tbody>
@@ -64,12 +68,22 @@
                             <?php if($this->lstHor[$i]['primerapellido'] != ""){echo $this->lstHor[$i]['primerapellido']." ";} ?>
                             <?php if($this->lstHor[$i]['segundoapellido'] != ""){echo $this->lstHor[$i]['segundoapellido'];} ?>
                             </td>
+                            <?php if($this->permisoModificar == PERMISO_MODIFICAR): ?>
                             <td style="text-align: center;"><a href="<?php echo BASE_URL . 'gestionHorario/actualizarHorario/' . $this->lstHor[$i]['idhorario'] .'/'. $this->parametros ;?>">Modificar</a></td>
+                            <?php endif;?>
                             <td style="text-align: center;">
-                                <?php if(strcmp($this->lstHor[$i]['estado'], 'Activo') == 0): ?>
-                                <a href="<?php echo BASE_URL . 'gestionHorario/eliminarHorario/-1/' . $this->lstHor[$i]['idhorario'] .'/'. $this->parametros ;?>">Desactivar</a>
+                                <?php if($this->permisoEliminar == PERMISO_ELIMINAR): ?>
+                                    <?php if(strcmp($this->lstHor[$i]['estado'], 'Activo') == 0): ?>
+                                    <a href="<?php echo BASE_URL . 'gestionHorario/eliminarHorario/-1/' . $this->lstHor[$i]['idhorario'] .'/'. $this->parametros ;?>">Desactivar</a>
+                                    <?php else : ?>
+                                    <a href="<?php echo BASE_URL . 'gestionHorario/eliminarHorario/1/' . $this->lstHor[$i]['idhorario'] .'/'. $this->parametros ;?>">Activar</a>
+                                    <?php endif;?>
                                 <?php else : ?>
-                                <a href="<?php echo BASE_URL . 'gestionHorario/eliminarHorario/1/' . $this->lstHor[$i]['idhorario'] .'/'. $this->parametros ;?>">Activar</a>
+                                    <?php if(strcmp($this->lstHor[$i]['estado'], 'Activo') == 0): ?>
+                                     Activo
+                                    <?php else : ?>
+                                     Inactivo
+                                    <?php endif;?>
                                 <?php endif;?>
                             </td>
                         </tr>
