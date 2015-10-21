@@ -317,7 +317,6 @@ class gestionCursoController extends Controller {
             }
             
             $this->redireccionar('gestionCurso/listadoSeccion');
-            exit;
         }
         
         $secciones = $this->_post->getTiposSeccion();
@@ -358,7 +357,6 @@ class gestionCursoController extends Controller {
                     exit;
                 }
                 $this->redireccionar('gestionCurso/listadoSeccion');
-                exit;
             } else {
                 echo "Error al desactivar sección";
             }
@@ -399,7 +397,6 @@ class gestionCursoController extends Controller {
             $respuesta = $this->_post->actualizarSeccion($arraySec);
             if (is_array($respuesta)){
                 $this->redireccionar('gestionCurso/listadoSeccion');
-                exit;
             }else{
                 $this->redireccionar("error/sql/" . $respuesta);
                 exit;
