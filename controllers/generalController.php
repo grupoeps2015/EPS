@@ -114,7 +114,7 @@ class generalController extends Controller{
                 $this->_view->lstCarreras = $carreras;
             }else if(count($carreras) == 1){
                 $_SESSION["carrera"] = $carreras[0]['codigo'];
-                $this->redireccionar("login/inicio");
+                $this->redireccionar("estudiante/inicio");
                 exit;
             }else{
                 $this->redireccionar("login/salir");
