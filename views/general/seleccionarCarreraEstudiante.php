@@ -15,7 +15,7 @@
     
     <div class="container" >
         <div class="col-md-6 col-md-offset-3">
-            <form id="frEstudiantes" method="post" action="<?php echo BASE_URL; ?>general/seleccionarCarreraEstudiante">
+            <form id="frEstudiantes" method="post" action="<?php echo BASE_URL; ?><?php if (isset($this->url)) echo $this->url; ?>">
                 <table>
                     <tr>
                         <td style="width: 10%">

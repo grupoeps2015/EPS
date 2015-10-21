@@ -98,6 +98,13 @@ class generalController extends Controller{
     }
     
     public function seleccionarCarreraEstudiante(){
+        $url = "";
+        $numargs = func_num_args();
+        if($numargs > 0){
+            for($i =0; $i < $numargs; $i++){
+                $url .= func_get_arg($i) . "/" ;
+            }
+        }
         $estudiante = $this->_ajax->getEstudianteUsuario($_SESSION["usuario"]);
         if(is_array($estudiante)){
         }else{
@@ -112,9 +119,10 @@ class generalController extends Controller{
         if(is_array($carreras)){
             if(count($carreras) > 1){
                 $this->_view->lstCarreras = $carreras;
+                $this->_view->url = 'general/seleccionarCarreraEstudiante/'.$url;
             }else if(count($carreras) == 1){
                 $_SESSION["carrera"] = $carreras[0]['codigo'];
-                $this->redireccionar("estudiante/inicio");
+                $this->redireccionar($url);
                 exit;
             }else{
                 $this->redireccionar("login/salir");
@@ -129,7 +137,7 @@ class generalController extends Controller{
             $carreraEstudiante = $this->getInteger('slCarreras');
             if(in_array($carreraEstudiante, array_column($carreras, 'codigo'))){
                 $_SESSION["carrera"] = $this->getInteger('slCarreras');
-                $this->redireccionar("login/inicio");
+                $this->redireccionar($url);
                 exit;
             }
         }

@@ -109,7 +109,7 @@
             </div>
             <div class="service-box">
                 <i class="fa fa-2x fa-book wow bounceIn text-primary">
-                    <a href="#moduloAsignacion">Asignaci&oacute;n de cursos</a>
+                    <a href="<?php echo BASE_URL . 'general/seleccionarCarreraEstudiante/asignacion' ?>">Asignaci&oacute;n de cursos</a>
                 </i>
             </div>
             <div class="service-box">
