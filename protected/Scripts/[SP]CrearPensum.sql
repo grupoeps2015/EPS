@@ -466,4 +466,29 @@ END;
 $BODY$
 LANGUAGE 'plpgsql';
 
+
+
+-- -----------------------------------------------------
+-- Function: splistadotipociclo();
+-- -----------------------------------------------------
+-- DROP FUNCTION splistadotipociclo();
+CREATE OR REPLACE FUNCTION splistadotipociclo(
+    OUT tipociclo integer,
+    OUT nombre text)
+  RETURNS SETOF record AS
+$BODY$
+begin
+ Return query
+	SELECT tc.tipociclo,tc.nombre
+	FROM CUR_TipoCiclo tc
+	WHERE Estado = 1;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION splistadotipociclo()
+  OWNER TO postgres;
+
+  
 Select 'Script para Gestion de Pensum Instalado' as "Gestion Pensum";
