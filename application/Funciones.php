@@ -1,6 +1,6 @@
 <?php
-//Secuencia actual = 81
-//Iniciar nueva con 82
+//Secuencia actual = 86
+//Iniciar nueva con 87
 
 //Constantes de funciones generales
 define('CONS_FUNC_LOGIN',1);
