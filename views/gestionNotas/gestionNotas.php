@@ -42,7 +42,9 @@
                         <th style="text-align:center">Registro</th>
                         <th style="text-align:center">Nombre</th>
                         <th style="text-align:center">Tipo</th>
+                        <?php if($this->permisoModificar == PERMISO_MODIFICAR): ?>
                         <th style="text-align:center">&nbsp;</th>
+                        <?php endif;?>
                     </tr>
                 </thead>
                 <tbody id="infoTabla">
@@ -52,11 +54,13 @@
                         <td style="text-align: center"><?php echo $this->lstCat[$i]['registro']; ?></td>
                         <td style="text-align: center"><?php echo $this->lstCat[$i]['nombrecompleto']; ?></td>
                         <td style="text-align: center"><?php echo $this->lstCat[$i]['tipodocente']; ?></td>
+                        <?php if($this->permisoModificar == PERMISO_MODIFICAR): ?>
                         <td style="text-align: center">
                             <a href="<?php echo BASE_URL?>gestionNotas/cursosXDocente/<?php echo $this->lstCat[$i]['usuario']?>/<?php echo $this->id;?>">
                                 Ver Cursos
                             </a>
                         </td>
+                        <?php endif;?>
                     </tr>
                     <?php endfor;?>
                 <?php endif;?>
