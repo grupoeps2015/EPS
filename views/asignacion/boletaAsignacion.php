@@ -68,7 +68,10 @@
                     <input type="hidden" name="hdEnvio" value="1">
                 </table>
             </form>
+            </div>
+            <div class="col-md-8 col-md-offset-2">
             <?php if(isset($this->asignacion)) :?>
+                <br />
                 <table id="tbBoleta" border="2">
                     <thead>
                         <tr>
