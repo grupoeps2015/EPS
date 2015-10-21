@@ -40,7 +40,7 @@ class gestionHorarioModel extends Model {
     }
 
     public function informacionEdificio($centrounidadacademica) {
-        $info = $this->_db->query("select * from spInformacionEdificio(" . $centrounidadacademica . ");");
+        $info = $this->_db->query("select * from spInformacionEdificio(" . $centrounidadacademica . ") order by id;");
         if($info === false){
             return "1104/informacionEdificio";
         }else{

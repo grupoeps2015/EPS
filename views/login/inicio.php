@@ -13,13 +13,13 @@
             <!-- Menu Opcion 1 -->
             <div class="col-lg-3 col-md-6 text-center">
                 <div class="service-box">
-                    <i class="fa fa-4x fa-building wow bounceIn text-primary"></i>
+                    <i class="fa fa-4x fa-group wow bounceIn text-primary" data-wow-delay=".1s"></i>
                     <h3>
-                        <a href="<?php echo BASE_URL; ?>gestionEdificio/listadoEdificio">
-                            Gesti&oacute;n de Edificios
-                        </a>                        
+                        <a href="<?php echo BASE_URL; ?>general/seleccionarCentroUnidad/gestionUsuario">
+                                Gesti&oacute;n de Usuarios
+                        </a>
                     </h3>
-                    <p class="text-muted">Capacidad de salones y gesti&oacute;n de uso</p>
+                    <p class="text-muted">Directores, Control Acad&eacute;mico, Catedr&aacute;ticos y Estudiantes</p>
                 </div>
             </div>
             
@@ -37,15 +37,15 @@
             </div>
             
             <!-- Menu Opcion 3 -->
-            <div class="col-lg-3 col-md-6 text-center">
+                        <div class="col-lg-3 col-md-6 text-center">
                 <div class="service-box">
-                    <i class="fa fa-4x fa-group wow bounceIn text-primary" data-wow-delay=".1s"></i>
+                    <i class="fa fa-4x fa-building wow bounceIn text-primary"></i>
                     <h3>
-                        <a href="<?php echo BASE_URL; ?>general/seleccionarCentroUnidad/gestionUsuario">
-                                Gesti&oacute;n de Usuarios
-                        </a>
+                        <a href="<?php echo BASE_URL; ?>gestionEdificio/listadoEdificio">
+                            Gesti&oacute;n de Edificios
+                        </a>                        
                     </h3>
-                    <p class="text-muted">Directores, Control Acad&eacute;mico, Catedr&aacute;ticos y Estudiantes</p>
+                    <p class="text-muted">Capacidad de salones y gesti&oacute;n de uso</p>
                 </div>
             </div>
             
@@ -60,7 +60,16 @@
         </div>
         
         <div class="row">
-            <!-- Menu Opcion 5 -->
+            <!-- Menu Opcion 8 -->
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="service-box">
+                    <i class="fa fa-4x fa-shekel wow bounceIn text-primary"></i>
+                    <h3><a href="<?php echo BASE_URL; ?>gestionPensum/inicio">Gesti&oacute;n de P&eacute;nsum de estudios</a></h3>
+                    <p class="text-muted">Creaci&oacute;n y actualizaci&oacute;n de p&eacute;nsums seg&uacute;n carreras</p>
+                </div>
+            </div>
+            
+            <!-- Menu Opcion 6 -->
             <div class="col-lg-3 col-md-6 text-center">
                 <div class="service-box">
                     <i class="fa fa-4x fa-navicon wow bounceIn text-primary"></i>
@@ -69,7 +78,7 @@
                 </div>
             </div>
             
-            <!-- Menu Opcion 6 -->
+            <!-- Menu Opcion 7 -->
             <div class="col-lg-3 col-md-6 text-center">
                 <div class="service-box">
                     <i class="fa fa-4x fa-calendar wow bounceIn text-primary"></i>
@@ -78,7 +87,7 @@
                 </div>
             </div>
             
-            <!-- Menu Opcion 7 -->
+            <!-- Menu Opcion 8 -->
             <div class="col-lg-3 col-md-6 text-center">
                 <div class="service-box">
                     <i class="fa fa-4x fa-wrench wow bounceIn text-primary"></i>
@@ -86,15 +95,6 @@
                         <a href="<?php echo BASE_URL; ?>general/seleccionarCentroUnidad/gestionNotas">Gesti&oacute;n de Notas</a>
                     </h3>
                     <p class="text-muted">Ingreso y consulta de notas por curso</p>
-                </div>
-            </div>
-            
-            <!-- Menu Opcion 8 -->
-            <div class="col-lg-3 col-md-6 text-center">
-                <div class="service-box">
-                    <i class="fa fa-4x fa-shekel wow bounceIn text-primary"></i>
-                    <h3><a href="<?php echo BASE_URL; ?>gestionPensum/inicio">Gesti&oacute;n de P&eacute;nsum de estudios</a></h3>
-                    <p class="text-muted">Creaci&oacute;n y actualizaci&oacute;n de p&eacute;nsums seg&uacute;n carreras</p>
                 </div>
             </div>
         </div>

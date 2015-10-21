@@ -67,7 +67,7 @@ class ajaxController extends Controller{
         }
     }
     
-     public function getDatosCentroUnidadAjax(){
+    public function getDatosCentroUnidadAjax(){
         if($this->getInteger('centroUnidad')){
             echo json_encode($this->_ajax->getDatosCentroUnidad());
         }

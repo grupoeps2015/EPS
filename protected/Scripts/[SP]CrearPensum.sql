@@ -1,4 +1,4 @@
-﻿﻿-- Function: spagregarcarrera(text, integer, integer)
+﻿-- Function: spagregarcarrera()
 
 -- DROP FUNCTION spagregarcarrera(text, integer, integer);
 
@@ -232,7 +232,7 @@ $BODY$
 ALTER FUNCTION spfinalizarVigenciaPensum(integer, integer)
   OWNER TO postgres;
   
- Select 'Script para Gestion de Pensum Instalado' as "Gestion Pensum";
+ 
 
 
  -- Function: spactivarpensum(integer)
@@ -304,7 +304,6 @@ END; $BODY$
 LANGUAGE 'plpgsql';
 
  
-select * from adm_pensum;
 
 ------------------------------------------------------------------------------------------------------------------------------------
 -- Function: select * from spactualizarpensum(1, 1, 1, '05/04/2015', '5', 'hhff')
@@ -458,3 +457,5 @@ BEGIN
 END;
 $BODY$
 LANGUAGE 'plpgsql';
+
+Select 'Script para Gestion de Pensum Instalado' as "Gestion Pensum";
