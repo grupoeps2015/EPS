@@ -162,7 +162,9 @@ BEGIN
   select * from spObtenerSecuencia('centro_unidadacademica','adm_centro_unidadacademica') into id;
   INSERT INTO adm_centro_unidadacademica(centro_unidadacademica, centro, unidadacademica,estado)
 	 VALUES (id, _centro, _unidad, 1);
-
+	--parámetros de tipo centro - unidad académica
+	INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (100,'Tipo de ciclo','1','En minutos',id,NULL,2,1);
+	--parámetros de tipo centro - unidad académica
 END;
 $BODY$
 LANGUAGE 'plpgsql';

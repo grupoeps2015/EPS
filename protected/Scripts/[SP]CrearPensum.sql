@@ -1,4 +1,4 @@
-﻿﻿-- Function: spagregarcarrera(text, integer, integer)
+﻿-- Function: spagregarcarrera()
 
 -- DROP FUNCTION spagregarcarrera(text, integer, integer);
 
@@ -12,6 +12,14 @@ DECLARE idCarrera integer;
 BEGIN
 	INSERT INTO cur_carrera (nombre, estado, centro_unidadacademica) 
 	VALUES (_nombre, _estado, _centrounidadacademica) RETURNING Carrera into idCarrera;
+	--parámetros de tipo carrera
+	INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (200,'Número máximo de cursos traslapados','3','',_centrounidadacademica,idCarrera,3,1);
+	INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (201,'Tiempo máximo de traslape entre 2 cursos','60','En minutos',_centrounidadacademica,idCarrera,3,1);
+	INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (202,'Criterio de tiempo de traslape entre 2 cursos','S','S: Semanal, D: Diario',_centrounidadacademica,idCarrera,3,1);
+	INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (203,'Cantidad máxima de asignaciones por curso','3','',_centrounidadacademica,idCarrera,3,1);
+	INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (204,'Cupo máximo por curso','60','Estudiantes asignados',_centrounidadacademica,idCarrera,3,1);
+	INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (205,'Cantidad máxima de cursos a asignar por ciclo','8','Por estudiante',_centrounidadacademica,idCarrera,3,1);
+	--parámetros de tipo carrera
 	RETURN idCarrera;
 END; $BODY$
   LANGUAGE plpgsql VOLATILE
@@ -232,7 +240,7 @@ $BODY$
 ALTER FUNCTION spfinalizarVigenciaPensum(integer, integer)
   OWNER TO postgres;
   
- Select 'Script para Gestion de Pensum Instalado' as "Gestion Pensum";
+ 
 
 
  -- Function: spactivarpensum(integer)
@@ -304,7 +312,6 @@ END; $BODY$
 LANGUAGE 'plpgsql';
 
  
-select * from adm_pensum;
 
 ------------------------------------------------------------------------------------------------------------------------------------
 -- Function: select * from spactualizarpensum(1, 1, 1, '05/04/2015', '5', 'hhff')
@@ -458,3 +465,30 @@ BEGIN
 END;
 $BODY$
 LANGUAGE 'plpgsql';
+
+
+
+-- -----------------------------------------------------
+-- Function: splistadotipociclo();
+-- -----------------------------------------------------
+-- DROP FUNCTION splistadotipociclo();
+CREATE OR REPLACE FUNCTION splistadotipociclo(
+    OUT tipociclo integer,
+    OUT nombre text)
+  RETURNS SETOF record AS
+$BODY$
+begin
+ Return query
+	SELECT tc.tipociclo,tc.nombre
+	FROM CUR_TipoCiclo tc
+	WHERE Estado = 1;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION splistadotipociclo()
+  OWNER TO postgres;
+
+  
+Select 'Script para Gestion de Pensum Instalado' as "Gestion Pensum";

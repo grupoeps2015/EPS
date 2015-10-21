@@ -111,7 +111,7 @@ class ajaxModel extends Model{
     }
     
     public function getSalonesAjax($edificio){
-        $salones = $this->_db->query("select * from spSalonesxEdificio({$edificio})");
+        $salones = $this->_db->query("select * from spSalonesxEdificio({$edificio}) order by codigo");
         if($salones === false){
             return "1200/getSalonesAjax";
         }else{
