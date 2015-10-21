@@ -498,6 +498,9 @@ INSERT INTO cur_tipoactividad (tipoactividad,nombre,descripcion,estado) VALUES (
 -- -----------------------------------------------------
 INSERT INTO cur_tipociclo (tipociclo,nombre,descripcion,duracionmeses,estado) VALUES (1,'Semestre','',6,1);
 INSERT INTO cur_tipociclo (tipociclo,nombre,descripcion,duracionmeses,estado) VALUES (2,'Bimestre','',2,1);
+INSERT INTO cur_tipociclo (tipociclo,nombre,descripcion,duracionmeses,estado) VALUES (3,'Trimestre','',3,1);
+INSERT INTO cur_tipociclo (tipociclo,nombre,descripcion,duracionmeses,estado) VALUES (4,'Cuatrimestre','',4,1);
+INSERT INTO cur_tipociclo (tipociclo,nombre,descripcion,duracionmeses,estado) VALUES (5,'Año','',12,1);
 
 -- -----------------------------------------------------
 -- Insert cur_ciclo
