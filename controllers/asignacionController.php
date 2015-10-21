@@ -381,10 +381,62 @@ class asignacionController extends Controller{
                     }
                     
                 }
+                $this->redireccionar("asignacion/boletaAsignacion");
+                exit;
             }
         }
     }
-    
+    public function boletaAsignacion(){
+        $tipociclo = $_SESSION["tipociclo"];
+        $lsAnios = $this->_ajax->getAniosAjax($tipociclo);
+        if(is_array($lsAnios)){
+            $this->_view->lstAnios = $lsAnios;
+        }else{
+            $this->redireccionar("error/sql/" . $lsAnios);
+            exit;
+        }
+        
+        if ($this->getInteger('hdEnvio')) {
+            $anio = $this->getInteger('slAnio');            
+        }
+        else{
+            $anio = (isset($lsAnios[count($lsAnios)-1]['anio']) ? $lsAnios[count($lsAnios)-1]['anio'] : -1);
+        }
+        
+        $lsCiclos = $this->_ajax->getCiclosAjax($tipociclo, $anio);
+        if(is_array($lsCiclos)){
+            $this->_view->lstCiclos = $lsCiclos;
+        }else{
+            $this->redireccionar("error/sql/" . $lsCiclos);
+            exit;
+        }
+        
+        if ($this->getInteger('hdEnvio')) {
+            $ciclo = $this->getInteger('slCiclo');            
+        }
+        else{
+            $ciclo = (isset($lsCiclos[count($lsCiclos)-1]['codigo']) ? $lsCiclos[count($lsCiclos)-1]['codigo'] : -1);
+        }
+        
+        
+        $this->_view->anio = $anio;
+        $this->_view->ciclo = $ciclo;
+        
+        $periodo = $this->_asign->getBoleta($ciclo, $this->estudiante, $_SESSION["carrera"]);
+        if(is_array($periodo)){
+            if(isset($periodo[0]['codigocurso'])){
+                $this->_view->asignacion = $periodo[0]['codigocurso'];
+                $this->_view->lstPar = $periodo;
+        }
+        }else{
+            $this->redireccionar("error/sql/" . $periodo);
+            exit;
+        }
+        $this->_view->setJs(array('jquery.dataTables.min'), "public");
+        $this->_view->setCSS(array('jquery.dataTables.min'));
+        $this->_view->setJs(array('boletaAsignacion'));
+        $this->_view->renderizar('boletaAsignacion');
+    }
 }
 
 ?>

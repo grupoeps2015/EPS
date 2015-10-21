@@ -347,4 +347,39 @@ ALTER FUNCTION spobtenercuposeccion(integer, integer)
   OWNER TO postgres;
 
   
+-- Function: spobtenerboletaasignacion(integer, integer, integer)
+
+-- DROP FUNCTION spobtenerboletaasignacion(integer, integer, integer);
+
+CREATE OR REPLACE FUNCTION spobtenerboletaasignacion(
+    _ciclo integer,
+    _estudiante integer,
+    _carrera integer,
+    out CodigoCurso text,
+    out NombreCurso text,
+    out NombreSeccion text,
+    out NombreDia text,
+    out Inicio text,
+    out Fin text)
+  RETURNS setof record AS
+$BODY$
+begin
+  Return query
+  SELECT cu.codigo, cu.nombre, sec.nombre, dia.nombre, to_char(tra.inicio, 'HH24:MI'), to_char(tra.fin, 'HH24:MI')
+  FROM EST_CICLO_ASIGNACION ca
+  JOIN ADM_PERIODO p ON ca.periodo = p.periodo AND p.ciclo = _ciclo
+  JOIN EST_CUR_ASIGNACION cura on cura.Ciclo_Asignacion = ca.Ciclo_Asignacion and cura.estado = 1
+  JOIN CUR_SECCION sec on cura.seccion = sec.seccion
+  JOIN CUR_CURSO cu on cu.curso = sec.curso
+  JOIN CUR_TRAMA tra on tra.seccion = cura.seccion
+  JOIN CUR_HORARIO hor on hor.trama = tra.trama and hor.ciclo = _ciclo
+  JOIN CUR_DIA dia on dia.codigo = tra.dia
+  WHERE ca.estudiante = _estudiante AND ca.carrera = _carrera order by cu.codigo, dia.codigo, tra.inicio;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION spobtenerboletaasignacion(integer, integer, integer)
+  OWNER TO postgres;
+  
 Select 'Script de Asignaciones Instalado' as "Asignacion";

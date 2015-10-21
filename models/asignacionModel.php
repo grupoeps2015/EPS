@@ -99,4 +99,14 @@ class asignacionModel extends Model{
             return $datos->fetchall();
         }
     }
+    
+    public function getBoleta($ciclo, $estudiante, $carrera){
+        $periodo = $this->_db->query("select * from spobtenerboletaasignacion({$ciclo},{$estudiante},{$carrera});");
+        $periodo->setFetchMode(PDO::FETCH_ASSOC);
+        if($periodo === false){
+            return "1200/getBoleta";
+        }else{
+            return $periodo->fetchall();
+        }
+    }
 }

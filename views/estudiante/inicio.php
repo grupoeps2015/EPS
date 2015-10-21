@@ -114,7 +114,7 @@
             </div>
             <div class="service-box">
                 <i class="fa fa-2x fa-search wow bounceIn text-primary">
-                    <a href="#moduloAsignacion">Ver cursos asignados</a>
+                    <a href="<?php echo BASE_URL . 'general/seleccionarCarreraEstudiante/asignacion/boletaAsignacion' ?>">Ver cursos asignados</a>
                 </i>
             </div>
             <div class="service-box">
