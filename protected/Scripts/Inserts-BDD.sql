@@ -411,12 +411,12 @@ INSERT INTO adm_centro_unidadacademica (centro_unidadacademica, centro, unidadac
 -- -----------------------------------------------------
 -- Insert cur_carrera / escuela de historia
 -- -----------------------------------------------------
-INSERT INTO cur_carrera(carrera, nombre, estado, centro_unidadacademica) VALUES (default, 'Licenciatura en Historia', 1, 1);
---INSERT INTO cur_carrera(carrera, nombre, estado, centro_unidadacademica) VALUES (default, 'Licenciatura en Arqueologia', 1, 1);
---INSERT INTO cur_carrera(carrera, nombre, estado, centro_unidadacademica) VALUES (default, 'Licenciatura en Antropologia', 1, 1);
---INSERT INTO cur_carrera(carrera, nombre, estado, centro_unidadacademica) VALUES (default, 'Licenciatura para la Enseñanza de la Historia', 1, 1);
---INSERT INTO cur_carrera(carrera, nombre, estado, centro_unidadacademica) VALUES (default, 'Profesorado en Enseñanza Media', 1, 1);
---INSERT INTO cur_carrera(carrera, nombre, estado, centro_unidadacademica) VALUES (default, 'Tecnico Universitario en Archivos', 1, 1);
+INSERT INTO cur_carrera(carrera, nombre, estado, centro_unidadacademica) VALUES (1, 'Licenciatura en Historia', 1, 1);
+--INSERT INTO cur_carrera(carrera, nombre, estado, centro_unidadacademica) VALUES (2, 'Licenciatura en Arqueologia', 1, 1);
+--INSERT INTO cur_carrera(carrera, nombre, estado, centro_unidadacademica) VALUES (3, 'Licenciatura en Antropologia', 1, 1);
+--INSERT INTO cur_carrera(carrera, nombre, estado, centro_unidadacademica) VALUES (4, 'Licenciatura para la Enseñanza de la Historia', 1, 1);
+--INSERT INTO cur_carrera(carrera, nombre, estado, centro_unidadacademica) VALUES (5, 'Profesorado en Enseñanza Media', 1, 1);
+--INSERT INTO cur_carrera(carrera, nombre, estado, centro_unidadacademica) VALUES (6, 'Tecnico Universitario en Archivos', 1, 1);
 
 -- -----------------------------------------------------
 -- Insert catalogo adm_preguntasecreta / 6 registros
@@ -503,8 +503,8 @@ INSERT INTO cur_tipociclo (tipociclo,nombre,descripcion,duracionmeses,estado) VA
 -- -----------------------------------------------------
 -- Insert cur_ciclo
 -- -----------------------------------------------------
-INSERT INTO cur_ciclo (numerociclo,anio,tipociclo,estado) VALUES (1,2016,1,1);
-INSERT INTO cur_ciclo (numerociclo,anio,tipociclo,estado) VALUES (2,2016,1,1);
+INSERT INTO cur_ciclo (ciclo,numerociclo,anio,tipociclo,estado) VALUES (1,1,2016,1,1);
+INSERT INTO cur_ciclo (ciclo,numerociclo,anio,tipociclo,estado) VALUES (2,2,2016,1,1);
 
 -- -----------------------------------------------------
 -- Insert adm_tipoparametro
@@ -532,8 +532,8 @@ INSERT INTO cur_periodo (periodo,duracionminutos,tipoperiodo) VALUES (1,90,1);
 -- -----------------------------------------------------
 -- Insert cur_edificio
 -- -----------------------------------------------------
-INSERT INTO cur_edificio (nombre,descripcion,estado) VALUES ('S1','',1);
-INSERT INTO cur_edificio (nombre,descripcion,estado) VALUES ('S2','',1);
+INSERT INTO cur_edificio (edificio,nombre,descripcion,estado) VALUES (1,'S1','',1);
+INSERT INTO cur_edificio (edificio,nombre,descripcion,estado) VALUES (2,'S2','',1);
 
 -- -----------------------------------------------------
 -- Insert adm_centrounidad_edificio
