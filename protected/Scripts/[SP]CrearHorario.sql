@@ -378,12 +378,18 @@ CREATE OR REPLACE FUNCTION spagregarciclo(
   RETURNS integer AS
 $BODY$
 DECLARE idCiclo integer;
+DECLARE _duracion INTEGER;
 BEGIN
 SELECT ciclo FROM cur_ciclo where numerociclo = _numero and anio = _anio and tipociclo = _tipo into idCiclo;
 IF idCiclo IS NULL THEN
-	INSERT INTO cur_ciclo (numerociclo, anio, tipociclo, estado) 
-	VALUES (_numero, _anio, _tipo, 1) RETURNING ciclo into idCiclo;
-	RETURN idCiclo;
+	Select tc.duracionmeses from cur_tipociclo tc where tc.tipociclo = _tipo into _duracion;
+	IF (12 / _duracion) >= _numero THEN
+		INSERT INTO cur_ciclo (numerociclo, anio, tipociclo, estado) 
+		VALUES (_numero, _anio, _tipo, 1) RETURNING ciclo into idCiclo;
+		RETURN idCiclo;
+	ELSE
+		RETURN -1;
+	END IF;
 ELSE 
 	RETURN -1;
 END IF;
