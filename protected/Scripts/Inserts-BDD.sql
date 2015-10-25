@@ -509,7 +509,7 @@ INSERT INTO cur_ciclo (ciclo,numerociclo,anio,tipociclo,estado) VALUES (2,2,2016
 -- -----------------------------------------------------
 -- Insert adm_tipoparametro
 -- -----------------------------------------------------
-INSERT INTO adm_tipoparametro(tipoparametro, nombre, estado) VALUES (1, 'De sesión', 1);
+INSERT INTO adm_tipoparametro(tipoparametro, nombre, estado) VALUES (1, 'De aplicación', 1);
 INSERT INTO adm_tipoparametro(tipoparametro, nombre, estado) VALUES (2, 'De centro - unidad académica', 1);
 INSERT INTO adm_tipoparametro(tipoparametro, nombre, estado) VALUES (3, 'De carrera', 1);
 
@@ -828,6 +828,7 @@ INSERT INTO CUR_TipoPrerrequisito (tipoprerrequisito,descripcion) values (2,'Cr�
 -- -----------------------------------------------------
 INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (1,'Número máximo de reintentos de login','5','',NULL,NULL,1,1);
 INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (2,'Tiempo máximo de sesión activa','60','En minutos',NULL,NULL,1,1);
+INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (3,'Cantidad máxima de intentos de asignación','5','',NULL,NULL,1,1);
 INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (100,'Tipo de ciclo','1','En minutos',1,NULL,2,1);
 INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (200,'Número máximo de cursos traslapados','3','',1,1,3,1);
 INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (201,'Tiempo máximo de traslape entre 2 cursos','60','En minutos',1,1,3,1);
