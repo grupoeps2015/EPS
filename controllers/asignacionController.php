@@ -76,6 +76,29 @@ class asignacionController extends Controller{
         $periodo = $this->_asign->getPeriodo($ciclo, PERIODO_ASIGNACION_CURSOS, ASIGN_OTRAS, $_SESSION["centrounidad"]);
         if(is_array($periodo)){
             if(isset($periodo[0]['periodo'])){
+                //Si hay período activo, validar intentos de asignación
+                $intentoAsign = $this->_asign->getIntentoAsignacion($ciclo, $this->estudiante, $_SESSION["carrera"]);
+                if(is_array($intentoAsign)){
+                    $intentoAsign = (isset($intentoAsign[0]['intento']) ? $intentoAsign[0]['intento'] : 0);
+                }else{
+                    $this->redireccionar("error/sql/" . $intentoAsign);
+                    exit;
+                }
+                //Parámetro de máximo intento de asignaciones por ciclo
+                $parametroMaxIntentosAsign = $this->_ajax->valorParametro(CONS_PARAM_APP_MAXINTENTOSASIGN, -1, -1);
+                if(is_array($parametroMaxIntentosAsign)){
+                    $parametroMaxIntentosAsign = (isset($parametroMaxIntentosAsign[0]['valorparametro']) ? $parametroMaxIntentosAsign[0]['valorparametro'] : 1);
+                }else{
+                    $this->redireccionar("error/sql/" . $parametroMaxIntentosAsign);
+                    exit;
+                }
+                //Si ha alcanzado o superado el máximo de intentos redirigir a boleta
+                if ($intentoAsign >= $parametroMaxIntentosAsign) {
+                    $this->redireccionar("asignacion/boletaAsignacion/".$anio."/".$ciclo);
+                    exit;
+                }
+                //Sino continuar
+                //Mostrar cursos disponibles para asignación
                 $cursosDisponiblesEstudiante = array();
                 $this->_view->asignacion = $periodo[0]['periodo'];
                 $lsCursosDisponibles = $this->_asign->getCursosDisponibles($ciclo, $_SESSION["carrera"], $this->estudiante);
@@ -223,6 +246,29 @@ class asignacionController extends Controller{
             $cursos = $this->getTexto('hdCursos');
             $cursos = explode(";", $cursos);
             if(count($cursos)){
+                //Si hay período activo, validar intentos de asignación
+                $intentoAsign = $this->_asign->getIntentoAsignacion($this->getInteger('hdCiclo'), $this->estudiante, $_SESSION["carrera"]);
+                if(is_array($intentoAsign)){
+                    $intentoAsign = (isset($intentoAsign[0]['intento']) ? $intentoAsign[0]['intento'] : 0);
+                }else{
+                    $this->redireccionar("error/sql/" . $intentoAsign);
+                    exit;
+                }
+                //Parámetro de máximo intento de asignaciones por ciclo
+                $parametroMaxIntentosAsign = $this->_ajax->valorParametro(CONS_PARAM_APP_MAXINTENTOSASIGN, -1, -1);
+                if(is_array($parametroMaxIntentosAsign)){
+                    $parametroMaxIntentosAsign = (isset($parametroMaxIntentosAsign[0]['valorparametro']) ? $parametroMaxIntentosAsign[0]['valorparametro'] : 1);
+                }else{
+                    $this->redireccionar("error/sql/" . $parametroMaxIntentosAsign);
+                    exit;
+                }
+                //Si ha alcanzado o superado el máximo de intentos redirigir a boleta
+                if ($intentoAsign >= $parametroMaxIntentosAsign) {
+                    //TODO: Marlen: Redirigir a página de error de asignación
+                    echo "Cantidad de intentos de asignación por ciclo excede el límite establecido en parámetro";
+                    exit;
+                }
+                //Sino continuar
                 //Parámetro de máximo número de cursos a asignarse
                 $parametroMaxCursosAAsignar = $this->_ajax->valorParametro(CONS_PARAM_CARRERA_MAXCURSOSAASIGNARPORCICLO, $_SESSION["carrera"], $_SESSION["centrounidad"]);
                 if(is_array($parametroMaxCursosAAsignar)){

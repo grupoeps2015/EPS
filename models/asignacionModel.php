@@ -101,12 +101,22 @@ class asignacionModel extends Model{
     }
     
     public function getBoleta($ciclo, $estudiante, $carrera){
-        $periodo = $this->_db->query("select * from spobtenerboletaasignacion({$ciclo},{$estudiante},{$carrera});");
-        $periodo->setFetchMode(PDO::FETCH_ASSOC);
-        if($periodo === false){
+        $datos = $this->_db->query("select * from spobtenerboletaasignacion({$ciclo},{$estudiante},{$carrera});");
+        $datos->setFetchMode(PDO::FETCH_ASSOC);
+        if($datos === false){
             return "1200/getBoleta";
         }else{
-            return $periodo->fetchall();
+            return $datos->fetchall();
+        }
+    }
+    
+    public function getIntentoAsignacion($ciclo, $estudiante, $carrera){
+        $datos = $this->_db->query("select * from spobtenerintentoasignacion({$ciclo},{$estudiante},{$carrera}) as intento;");
+        $datos->setFetchMode(PDO::FETCH_ASSOC);
+        if($datos === false){
+            return "1200/getIntentoAsignacion";
+        }else{
+            return $datos->fetchall();
         }
     }
 }

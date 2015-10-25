@@ -57,7 +57,7 @@ class loginController extends Controller{
         $tipo = $this->getInteger('tipo');
         
         $passEncrypt = $this->_encriptar->encrypt($pass, DB_KEY);
-        $maxintentos = $this->_ajax->valorParametro(CONS_PARAM_SESION_MAXREINTENTOS, -1, -1);
+        $maxintentos = $this->_ajax->valorParametro(CONS_PARAM_APP_MAXREINTENTOS, -1, -1);
         if(!is_array($maxintentos)){
             $this->redireccionar("error/sql/" . $maxintentos);
             exit;
