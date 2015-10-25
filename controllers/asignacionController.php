@@ -235,7 +235,8 @@ class asignacionController extends Controller{
                 }
                 else{
                     //TODO: Marlen: Redirigir a página de error de asignación
-                    echo "No existe período de asignación activo para este ciclo";
+                    //echo "No existe período de asignación activo para este ciclo";
+                    $this->redireccionar("error/asign/1300/10");
                     exit;
                 }
             }
@@ -265,7 +266,8 @@ class asignacionController extends Controller{
                 //Si ha alcanzado o superado el máximo de intentos redirigir a boleta
                 if ($intentoAsign >= $parametroMaxIntentosAsign) {
                     //TODO: Marlen: Redirigir a página de error de asignación
-                    echo "Cantidad de intentos de asignación por ciclo excede el límite establecido en parámetro";
+                    //echo "Cantidad de intentos de asignación por ciclo excede el límite establecido en parámetro";
+                    $this->redireccionar("error/asign/1300/11");
                     exit;
                 }
                 //Sino continuar
@@ -280,7 +282,8 @@ class asignacionController extends Controller{
                 if($parametroMaxCursosAAsignar > 0){
                     if (count(array_filter($cursos))> $parametroMaxCursosAAsignar) {
                         //TODO: Marlen: Redirigir a página de error de asignación
-                        echo "Cursos a asignar superan el límite establecido en parámetro";
+                        //echo "Cursos a asignar superan el límite establecido en parámetro";
+                        $this->redireccionar("error/asign/1300/12");
                         exit;
                     }
                 }
@@ -302,7 +305,8 @@ class asignacionController extends Controller{
                         //Si el curso traslapado no acepta traslape
                         if(!$cursosTraslapados[$cu]['traslapecurso']){
                             //TODO: Marlen: Redirigir a página de error de asignación
-                            echo "Curso no acepta traslape";
+                            //echo "Curso no acepta traslape";
+                            $this->redireccionar("error/asign/1300/13");
                             exit;
                         }
                     }
@@ -314,7 +318,8 @@ class asignacionController extends Controller{
                 //Si $cursosTraslapados > $parametroMaxCursosTraslapados redirigir a error
                 if($cursosTraslapadosCantidad > $parametroMaxCursosTraslapados){
                     //TODO: Marlen: Redirigir a página de error de asignación
-                    echo "Cursos traslapados sobrepasan el máximo establecido por parámetro";
+                    //echo "Cursos traslapados sobrepasan el máximo establecido por parámetro";
+                    $this->redireccionar("error/asign/1300/14");
                     exit;
                 }
                 //Si no se acepta traslape y no hay cursos traslapados continuar
@@ -346,7 +351,8 @@ class asignacionController extends Controller{
                             //Si no está vacío redirigir a página de error
                             if(count($traslapes)){
                                 //TODO: Marlen: Redirigir a página de error de asignación
-                                echo "Tiempo de traslape entre cursos sobrepasa el máximo establecido por parámetro";
+                                //echo "Tiempo de traslape entre cursos sobrepasa el máximo establecido por parámetro";
+                                $this->redireccionar("error/asign/1300/15");
                                 exit;
                             }
                             //Si está vacío continuar
@@ -362,7 +368,8 @@ class asignacionController extends Controller{
                             //Si no está vacío redirigir a página de error
                             if(count($traslapes)){
                                 //TODO: Marlen: Redirigir a página de error de asignación
-                                echo "Tiempo de traslape entre cursos sobrepasa el máximo establecido por parámetro";
+                                //echo "Tiempo de traslape entre cursos sobrepasa el máximo establecido por parámetro";
+                                $this->redireccionar("error/asign/1300/16");
                                 exit;
                             }
                             //Si está vacío continuar
@@ -373,7 +380,8 @@ class asignacionController extends Controller{
                     }
                     else{
                         //TODO: Marlen: Redirigir a página de error de asignación
-                        echo "No existe criterio de tiempo de traslape entre cursos";
+                        //echo "No existe criterio de tiempo de traslape entre cursos";
+                        $this->redireccionar("error/asign/1300/17");
                         exit;
                     }
                 }
@@ -405,7 +413,8 @@ class asignacionController extends Controller{
                             }
                             else{
                                 //TODO: Marlen: Redirigir a página de error de asignación
-                                echo "No hay cupo disponible en esta sección";
+                                //echo "No hay cupo disponible en esta sección";
+                                $this->redireccionar("error/asign/1300/18");
                                 exit;
                             }
                         }
