@@ -389,4 +389,30 @@ $BODY$
 ALTER FUNCTION spobtenerboletaasignacion(integer, integer, integer)
   OWNER TO postgres;
   
+  
+-- Function: spobtenerintentoasignacion(integer, integer, integer)
+
+-- DROP FUNCTION spobtenerintentoasignacion(integer, integer, integer);
+
+CREATE OR REPLACE FUNCTION spobtenerintentoasignacion(
+    _ciclo integer,
+    _estudiante integer,
+    _carrera integer)
+  RETURNS INTEGER AS
+$BODY$
+begin
+  Return (
+  SELECT count(distinct(ca.Ciclo_asignacion))
+  FROM EST_CICLO_ASIGNACION ca
+  JOIN ADM_PERIODO p ON ca.periodo = p.periodo AND p.ciclo = _ciclo
+  JOIN EST_CUR_ASIGNACION cura on cura.Ciclo_Asignacion = ca.Ciclo_Asignacion
+  WHERE ca.estudiante = _estudiante AND ca.carrera = _carrera
+  ) ::INTEGER;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION spobtenerintentoasignacion(integer, integer, integer)
+  OWNER TO postgres;  
+  
 Select 'Script de Asignaciones Instalado' as "Asignacion";
