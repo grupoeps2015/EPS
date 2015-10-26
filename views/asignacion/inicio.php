@@ -127,6 +127,7 @@
             </table>
             <input type="hidden" name="hdCursos" id="hdCursos">
             <input type="hidden" name="hdCiclo" id="hdCiclo" value="<?php if (isset($this->ciclo)) echo $this->ciclo;?>">
+            <input type="hidden" name="hdAnio" id="hdAnio" value="<?php if (isset($this->anio)) echo $this->anio;?>">
             <input type="hidden" name="hdEnvio" value="1">
             </form>
             </div>

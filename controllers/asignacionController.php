@@ -198,8 +198,8 @@ class asignacionController extends Controller{
             }
             else{
                 //TODO: Marlen: mostrar boleta de asignación de cursos
-                $this->redireccionar("asignacion/boletaAsignacion/".$anio."/".$ciclo);
-                exit;
+                //$this->redireccionar("asignacion/boletaAsignacion/".$anio."/".$ciclo);
+                //exit;
             }
         }else{
             $this->redireccionar("error/sql/" . $periodo);
@@ -441,7 +441,7 @@ class asignacionController extends Controller{
                     }
                     
                 }
-                $this->redireccionar("asignacion/boletaAsignacion");
+                $this->redireccionar("asignacion/boletaAsignacion/".$this->getInteger('hdCiclo')."/".$this->getInteger('hdAnio'));
                 exit;
             }
         }
@@ -456,11 +456,11 @@ class asignacionController extends Controller{
             exit;
         }
         
-        if ($this->getInteger('hdEnvio')) {
-            $anio = $this->getInteger('slAnio');            
-        }
-        else if ($anioA != -1){
+        if ($anioA != -1){
             $anio = $anioA;
+        }
+        else if ($this->getInteger('hdEnvio')) {
+            $anio = $this->getInteger('slAnio');            
         }
         else{
             $anio = (isset($lsAnios[count($lsAnios)-1]['anio']) ? $lsAnios[count($lsAnios)-1]['anio'] : -1);
@@ -474,11 +474,11 @@ class asignacionController extends Controller{
             exit;
         }
         
-        if ($this->getInteger('hdEnvio')) {
-            $ciclo = $this->getInteger('slCiclo');            
-        }
-        else if ($cicloA != -1){
+        if ($cicloA != -1){
             $ciclo = $cicloA;
+        }
+        else if ($this->getInteger('hdEnvio')) {
+            $ciclo = $this->getInteger('slCiclo');            
         }
         else{
             $ciclo = (isset($lsCiclos[count($lsCiclos)-1]['codigo']) ? $lsCiclos[count($lsCiclos)-1]['codigo'] : -1);

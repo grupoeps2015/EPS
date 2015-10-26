@@ -415,4 +415,39 @@ $BODY$
 ALTER FUNCTION spobtenerintentoasignacion(integer, integer, integer)
   OWNER TO postgres;  
   
+  
+-- Function: spcreditoscursosaprobados(integer, integer, integer)
+
+-- DROP FUNCTION spcreditoscursosaprobados(integer, integer, integer);
+
+CREATE OR REPLACE FUNCTION spcreditoscursosaprobados(
+    IN _estudiante integer,
+	IN _carrera integer)
+  RETURNS INTEGER AS
+$BODY$
+begin
+ Return (
+ select coalesce(sum(coalesce(curpen.creditos, 0)),0)
+	      from 
+	        est_cursoaprobado cur
+	      join
+	        est_cur_nota nota on nota.asignacion = cur.asignacion
+	      join
+	        est_cur_asignacion asign on asign.asignacion = nota.asignacion
+	      join 
+		cur_seccion sec on sec.seccion = asign.seccion 
+	      join 
+	        est_ciclo_asignacion ca on ca.ciclo_asignacion = asign.ciclo_asignacion
+	      join
+		cur_pensum_area curpen on curpen.curso = sec.curso
+	      where ca.estudiante = _estudiante and ca.carrera = _carrera
+
+	 ) ::INTEGER;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION spcreditoscursosaprobados(integer, integer)
+  OWNER TO postgres;
+  
 Select 'Script de Asignaciones Instalado' as "Asignacion";
