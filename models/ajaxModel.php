@@ -385,4 +385,14 @@ class ajaxModel extends Model{
             return $info->fetchall();
         }
     }
+    
+    public function getCreditosEstudianteCarrera($estudiante, $carrera){
+        $info = $this ->_db->query("select * from spcreditoscursosaprobados({$estudiante},{$carrera}) as creditos");
+        if($info === false){
+            return "1200/getCreditosEstudianteCarrera";
+        }else{
+            $info->setFetchMode(PDO::FETCH_ASSOC);
+            return $info->fetchall();
+        }
+    }
 }

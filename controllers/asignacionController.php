@@ -99,101 +99,10 @@ class asignacionController extends Controller{
                 }
                 //Sino continuar
                 //Mostrar cursos disponibles para asignación
-                $cursosDisponiblesEstudiante = array();
-                $this->_view->asignacion = $periodo[0]['periodo'];
-                $lsCursosDisponibles = $this->_asign->getCursosDisponibles($ciclo, $_SESSION["carrera"], $this->estudiante);
-                if(is_array($lsCursosDisponibles)){
-                    
-                }else{
-                    $this->redireccionar("error/sql/" . $lsCursosDisponibles);
-                    exit;
-                }
-                if(count($lsCursosDisponibles)){
-                    for($i=0;$i<count($lsCursosDisponibles);$i++){
-                        //Parámetro de máximas asignaciones por curso
-                        $parametroMaxAsignCurso = $this->_ajax->valorParametro(CONS_PARAM_CARRERA_MAXASIGNPORCURSO, $_SESSION["carrera"], $_SESSION["centrounidad"]);
-                        if(is_array($parametroMaxAsignCurso)){
-                            $parametroMaxAsignCurso = (isset($parametroMaxAsignCurso[0]['valorparametro']) ? $parametroMaxAsignCurso[0]['valorparametro'] : -1);
-                        }else{
-                            $this->redireccionar("error/sql/" . $parametroMaxAsignCurso);
-                            exit;
-                        }
-                        //Oportunidad actual del curso para el estudiante
-                        $oportunidadActual = $this->_asign->getOportunidadCursoEstudiante($this->estudiante,$lsCursosDisponibles[$i]['curso']);
-                        if(is_array($oportunidadActual)){
-                            $oportunidadActual = (isset($oportunidadActual[0]['oportunidad']) ? $oportunidadActual[0]['oportunidad'] : -1);
-                        }else{
-                            $this->redireccionar("error/sql/" . $oportunidadActual);
-                            exit;
-                        }
-                        //Si ya tiene el máximo de asignaciones por curso, no mostrar el curso como disponible y pasar al siguiente
-                        if ($oportunidadActual < $parametroMaxAsignCurso) {
-                            $oportunidadValida = true;
-                        }
-                        else{
-                            $oportunidadValida = false;
-                        }
-                        
-                        if ($oportunidadValida){
-                            $datosCursoPensum = $this->_asign->getDatosCursoPensum($lsCursosDisponibles[$i]['curso'], $_SESSION["carrera"], $this->estudiante);
-                            if(is_array($datosCursoPensum)){
-                                if(!empty($datosCursoPensum[0]['prerrequisitos'])){
-                                    $requisitosAprobados = true;
-                                    $prerrequisitos = json_decode($datosCursoPensum[0]['prerrequisitos'],true);
-                                    for($a=0;$a<count($prerrequisitos);$a++){
-                                        switch ($prerrequisitos[$a]['tipo']) {
-                                            case 1:
-                                                //curso
-                                                $cursoPensumArea = $this->_asign->getDatosCursoPensumArea($prerrequisitos[$a]['id']);
-                                                if(is_array($cursoPensumArea)){
-                                                    $idCurso = $cursoPensumArea[0]['curso'];
-                                                }else{
-                                                    $this->redireccionar("error/sql/" . $cursoPensumArea);
-                                                    exit;
-                                                }
-                                                $cursoAprobado = $this->_asign->getDatosCursoAprobado($this->estudiante,$idCurso,$_SESSION["carrera"]);
-                                                if(is_array($cursoAprobado)){
-
-                                                }else{
-                                                    $this->redireccionar("error/sql/" . $cursoAprobado);
-                                                    exit;
-                                                }
-                                                //$idCurso en est_cursoaprobado
-                                                //TODO: Marlen: consultar curpensumarea, obtener curso y consultarlo en est_cursoaprobado
-                                                if(!count($cursoAprobado)){
-                                                    $requisitosAprobados = false;
-                                                }
-                                                break;
-                                            case 2:
-                                                //credito
-                                                //TODO: Marlen: calcular cuantos créditos lleva el estudiante y si son >= al $prerrequisitos[$i]['valor']
-    //                                            if($algo){
-    //                                                $requisitosAprobados = false;
-    //                                            }
-                                                break;
-                                        }
-                                        //$prerrequisitos[$i]['name']
-                                        //$prerrequisitos[$i]['id']
-                                        //$prerrequisitos[$i]['tipo']
-                                        //$prerrequisitos[$i]['valor']
-
-                                    }
-                                    if($requisitosAprobados){
-                                        array_push($cursosDisponiblesEstudiante,$lsCursosDisponibles[$i]);
-                                    }
-                                }
-                                else{
-                                    array_push($cursosDisponiblesEstudiante,$lsCursosDisponibles[$i]);
-                                }
-                            }else{
-                                $this->redireccionar("error/sql/" . $datosCursoPensum);
-                                exit;
-                            }
-                        }
-                    }
-                }
+                
                 //TODO: Marlen: agregar listado de cursos
-                $this->_view->lstCursos = $cursosDisponiblesEstudiante;
+                $this->_view->asignacion = $periodo[0]['periodo'];
+                $this->_view->lstCursos = $this->cursosDisponibles($ciclo);
                 
             }
             else{
@@ -225,6 +134,7 @@ class asignacionController extends Controller{
         $arrayobj->offsetUnset(1);
         var_dump($arrayobj);
     }
+    
     
     public function asignar(){
         if ($this->getInteger('hdEnvio') && $this->getInteger('hdCiclo')) {
@@ -420,6 +330,26 @@ class asignacionController extends Controller{
                         }
                     }
                 }
+                //Previo a crear asignación, verificar que los cursos a asignar están dentro de los disponibles
+                for($i=0;$i<count($cursos);$i++){
+                    if($cursos[$i] <> ""){
+                        //Consultar el id del curso de la sección a asignar
+                        $cursoSeccion = $this->_asign->datosSeccion($cursos[$i]);
+                        if(is_array($cursoSeccion)){
+                            $cursoSeccion = (isset($cursoSeccion[0]['curso']) ? $cursoSeccion[0]['curso'] : -1);
+                        }else{
+                            $this->redireccionar("error/sql/" . $cursoSeccion);
+                            exit;
+                        }
+                        //Verificar que está en el listado
+                        if(!in_array($cursoSeccion, array_column($this->cursosDisponibles($this->getInteger('hdCiclo')), 'curso'))){
+                            //TODO: Marlen: Redirigir a página de error de asignación
+                            //echo "Este curso no está disponible para asignación";
+                            $this->redireccionar("error/asign/1300/19");
+                            exit;
+                        }
+                    }
+                }
                 //Crear ciclo asignación
                 $asignacionEstudiante = $this->_asign->agregarCicloAsignacion($this->estudiante,$_SESSION["carrera"],$periodo);
                 if(is_array($asignacionEstudiante)){
@@ -441,11 +371,13 @@ class asignacionController extends Controller{
                     }
                     
                 }
-                $this->redireccionar("asignacion/boletaAsignacion/".$this->getInteger('hdCiclo')."/".$this->getInteger('hdAnio'));
+                $this->redireccionar("asignacion/boletaAsignacion/".$this->getInteger('hdAnio')."/".$this->getInteger('hdCiclo') );
                 exit;
             }
         }
     }
+    
+    
     public function boletaAsignacion($anioA = -1, $cicloA = -1){
         $tipociclo = $_SESSION["tipociclo"];
         $lsAnios = $this->_ajax->getAniosAjax($tipociclo);
@@ -504,6 +436,111 @@ class asignacionController extends Controller{
         $this->_view->setCSS(array('jquery.dataTables.min'));
         $this->_view->setJs(array('boletaAsignacion'));
         $this->_view->renderizar('boletaAsignacion');
+    }
+    
+    
+    public function cursosDisponibles($ciclo){
+        $cursosDisponiblesEstudiante = array();
+        $lsCursosDisponibles = $this->_asign->getCursosDisponibles($ciclo, $_SESSION["carrera"], $this->estudiante);
+        if(is_array($lsCursosDisponibles)){
+
+        }else{
+            $this->redireccionar("error/sql/" . $lsCursosDisponibles);
+            exit;
+        }
+        if(count($lsCursosDisponibles)){
+            for($i=0;$i<count($lsCursosDisponibles);$i++){
+                //Parámetro de máximas asignaciones por curso
+                $parametroMaxAsignCurso = $this->_ajax->valorParametro(CONS_PARAM_CARRERA_MAXASIGNPORCURSO, $_SESSION["carrera"], $_SESSION["centrounidad"]);
+                if(is_array($parametroMaxAsignCurso)){
+                    $parametroMaxAsignCurso = (isset($parametroMaxAsignCurso[0]['valorparametro']) ? $parametroMaxAsignCurso[0]['valorparametro'] : -1);
+                }else{
+                    $this->redireccionar("error/sql/" . $parametroMaxAsignCurso);
+                    exit;
+                }
+                //Oportunidad actual del curso para el estudiante
+                $oportunidadActual = $this->_asign->getOportunidadCursoEstudiante($this->estudiante,$lsCursosDisponibles[$i]['curso']);
+                if(is_array($oportunidadActual)){
+                    $oportunidadActual = (isset($oportunidadActual[0]['oportunidad']) ? $oportunidadActual[0]['oportunidad'] : -1);
+                }else{
+                    $this->redireccionar("error/sql/" . $oportunidadActual);
+                    exit;
+                }
+                //Si ya tiene el máximo de asignaciones por curso, no mostrar el curso como disponible y pasar al siguiente
+                if ($oportunidadActual < $parametroMaxAsignCurso) {
+                    $oportunidadValida = true;
+                }
+                else{
+                    $oportunidadValida = false;
+                }
+
+                if ($oportunidadValida){
+                    $datosCursoPensum = $this->_asign->getDatosCursoPensum($lsCursosDisponibles[$i]['curso'], $_SESSION["carrera"], $this->estudiante);
+                    if(is_array($datosCursoPensum)){
+                        if(!empty($datosCursoPensum[0]['prerrequisitos'])){
+                            $requisitosAprobados = true;
+                            $prerrequisitos = json_decode($datosCursoPensum[0]['prerrequisitos'],true);
+                            for($a=0;$a<count($prerrequisitos);$a++){
+                                switch ($prerrequisitos[$a]['tipo']) {
+                                    case 1:
+                                        //curso
+                                        $cursoPensumArea = $this->_asign->getDatosCursoPensumArea($prerrequisitos[$a]['id']);
+                                        if(is_array($cursoPensumArea)){
+                                            $idCurso = $cursoPensumArea[0]['curso'];
+                                        }else{
+                                            $this->redireccionar("error/sql/" . $cursoPensumArea);
+                                            exit;
+                                        }
+                                        $cursoAprobado = $this->_asign->getDatosCursoAprobado($this->estudiante,$idCurso,$_SESSION["carrera"]);
+                                        if(is_array($cursoAprobado)){
+
+                                        }else{
+                                            $this->redireccionar("error/sql/" . $cursoAprobado);
+                                            exit;
+                                        }
+                                        //$idCurso en est_cursoaprobado
+                                        //TODO: Marlen: consultar curpensumarea, obtener curso y consultarlo en est_cursoaprobado
+                                        if(!count($cursoAprobado)){
+                                            $requisitosAprobados = false;
+                                        }
+                                        break;
+                                    case 2:
+                                        //credito
+                                        //Obtener total de créditos por estudiante por carrera
+                                        $creditos = $this->_ajax->getCreditosEstudianteCarrera($this->estudiante,$_SESSION["carrera"]);
+                                        if(is_array($creditos)){
+                                            $creditos = $creditos[0]['creditos'];
+                                        }else{
+                                            $this->redireccionar("error/sql/" . $creditos);
+                                            exit;
+                                        }
+                                        //Si el total de créditos es menor al prerrequisito, no mostrar curso como disponible
+                                        if($creditos < $prerrequisitos[$a]['valor']){
+                                            $requisitosAprobados = false;
+                                        }
+                                        break;
+                                }
+                                //$prerrequisitos[$i]['name']
+                                //$prerrequisitos[$i]['id']
+                                //$prerrequisitos[$i]['tipo']
+                                //$prerrequisitos[$i]['valor']
+
+                            }
+                            if($requisitosAprobados){
+                                array_push($cursosDisponiblesEstudiante,$lsCursosDisponibles[$i]);
+                            }
+                        }
+                        else{
+                            array_push($cursosDisponiblesEstudiante,$lsCursosDisponibles[$i]);
+                        }
+                    }else{
+                        $this->redireccionar("error/sql/" . $datosCursoPensum);
+                        exit;
+                    }
+                }
+            }
+        }
+        return $cursosDisponiblesEstudiante;
     }
 }
 

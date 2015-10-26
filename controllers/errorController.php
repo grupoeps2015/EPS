@@ -91,6 +91,7 @@ class errorController extends Controller {
         $error['16'] = "Tiempo de traslape entre cursos sobrepasa el máximo establecido por parámetro";
         $error['17'] = "No existe criterio de tiempo de traslape entre cursos";
         $error['18'] = "No hay cupo disponible en esta sección";
+        $error['19'] = "Este curso no está disponible para asignación";
         
         if(array_key_exists($codigo, $error)){
             return $error[$codigo];

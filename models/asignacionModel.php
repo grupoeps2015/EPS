@@ -119,4 +119,13 @@ class asignacionModel extends Model{
             return $datos->fetchall();
         }
     }
+    
+    public function datosSeccion($idSeccion) {
+        $info = $this->_db->query("select * from spDatosSeccion(" . $idSeccion . ");");
+        if($info === false){
+            return "1104/datosSeccion";
+        }else{
+            return $info->fetchall();
+        }
+    }
 }
