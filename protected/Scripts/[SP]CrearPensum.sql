@@ -461,7 +461,8 @@ CREATE OR REPLACE FUNCTION spgetcursocursopensumarea(_cursopensumarea integer, O
 $BODY$
 BEGIN
   RETURN query
-   select c.curso, c.nombre, c.codigo from cur_pensum_area cpa join cur_curso c on c.curso = cpa.curso WHERE cpa.estado = 1 and c.estado = 1 AND cpa.cursopensumarea = _cursopensumarea;
+   --select c.curso, c.nombre, c.codigo from cur_pensum_area cpa join cur_curso c on c.curso = cpa.curso WHERE cpa.estado = 1 and c.estado = 1 AND cpa.cursopensumarea = _cursopensumarea;
+   select c.curso, c.nombre, c.codigo from cur_pensum_area cpa join cur_curso c on c.curso = cpa.curso WHERE c.estado = 1 AND cpa.cursopensumarea = _cursopensumarea;
 END;
 $BODY$
 LANGUAGE 'plpgsql';
