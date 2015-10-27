@@ -97,6 +97,18 @@ $(document).ready( function () {
     
     $("#btnActividades").click(function() {
         var base_url = $("#hdBASE_URL").val();
+        
+        $.post(base_url+'ajax/getEstadoCicloNotas',
+            { cicloaver: $("#slCiclo").val() },
+            function(datos){
+                if(datos.length>0){
+                    $('#hdEstadoCiclo').val(datos[0].estadociclo.toString());
+                }else{
+                    $('#hdEstadoCiclo').val("0");
+                }
+            },
+            'json');
+        
         $.post(base_url+'ajax/getIdTrama',
             { 
                 cat: $("#idCatedratico").val(), 
@@ -116,7 +128,9 @@ $(document).ready( function () {
     });
     
     function mostrarListado(id){
+        var estado = parseInt($('#hdEstadoCiclo').val());
         var base_url = $("#hdBASE_URL").val();
+        var notas = "";
         $.post(base_url+'ajax/getListaAsignados',
             'trama=' + id,
             function(datos){
@@ -124,12 +138,23 @@ $(document).ready( function () {
                 $("#bodyAsignados").html('');
                 if(datos.length>0){
                     for(var i =0; i < datos.length; i++){
+                        if(estado === 1){
+                            notas = '</td><td><input id="z' + datos[i].carnet + '" type="text" maxlength="5" value="' + datos[i].zona + '" style="width:60%; text-align:center;"/>' + 
+                                    '</td><td><input id="f' + datos[i].carnet + '" type="text" maxlength="5" value="' + datos[i].final + '" style="width:60%; text-align:center;"/>';
+                        }else{
+                            notas = '</td><td>' + datos[i].zona + 
+                                    '</td><td>' + datos[i].final;
+                        }
                         $("#bodyAsignados").append('<tr><td>' + datos[i].carnet + 
                                                    '</td><td>' + datos[i].nombre + 
-                                                   '</td><td><input id="z' + datos[i].carnet + '" type="text" maxlength="5" value="' + datos[i].zona + '" style="width:60%; text-align:center;"/>' + 
-                                                   '</td><td><input id="f' + datos[i].carnet + '" type="text" maxlength="5" value="' + datos[i].final + '" style="width:60%; text-align:center;"/>' + 
+                                                   notas + 
                                                    '</td><td>' + datos[i].total);
                     }
+                }
+                if(estado === 1){
+                    $('#tdBotones').css('display','block');
+                }else{
+                    $('#tdBotones').css('display','none');
                 }
                 aplicarCss();
             },

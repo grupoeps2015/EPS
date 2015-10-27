@@ -191,6 +191,12 @@ class ajaxController extends Controller{
             echo json_encode($this->_ajax->valorParametro(CONS_PARAM_CARRERA_MAXCURSOSAASIGNARPORCICLO, $_SESSION["carrera"], $_SESSION["centrounidad"]));
         }
     }
+    
+    public function getEstadoCicloNotas(){
+        if($this->getInteger('cicloaver')){
+            echo json_encode($this->_ajax->getEstadoCicloNotas($this->getInteger('cicloaver')));
+        }
+    }
 }
 
 ?>
