@@ -42,4 +42,6 @@ define('DB_PASS','pruebas123');
 define('DB_NAME','EPS');
 define('DB_CHAR','utf8');
 
+define('CHAR_SET', 'UTF-8');
+
 ?>

@@ -79,6 +79,7 @@
                                 <option value="" disabled>-- Ciclo --</option>
                             </select>
                             <input type="hidden" id="idCatedratico" name="idCatedratico" value="<?php echo $this->datosCat[0][0];?>" >
+                            <input type="hidden" id="hdEstadoCiclo" name="hdEstadoCiclo" value="0" >
                         </td>
                     </tr>
                     <tr>
@@ -127,7 +128,7 @@
                     </tbody>
                     <tfoot>
                         <tr>
-                            <td colspan="5" align="center">
+                            <td colspan="5" align="center" id="tdBotones" name="tdBotones">
                                 <input type="button" id="btnCargar" name="btnCargar" value="Cargar CSV" class="btn btn-warning" style="width:30%"/> &nbsp;
                                 <input type="submit" id="btnGuardar" name="btnGuardar" value="Guardar Cambios" class="btn btn-warning" style="width:30%"/>
                             </td>
