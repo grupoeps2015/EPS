@@ -142,7 +142,7 @@ CREATE TRIGGER tgAsignacionInicial AFTER INSERT
 -- -----------------------------------------------------
 -- Function: spListaAsignados()
 -- -----------------------------------------------------
--- DROP FUNCTION spListaAsignados();
+-- DROP FUNCTION spListaAsignados(int);
 CREATE OR REPLACE FUNCTION spListaAsignados(IN _idTrama integer,
 					    OUT carnet integer,
 					    OUT nombre text,
@@ -169,5 +169,22 @@ BEGIN
 END;
 $BODY$
 LANGUAGE plpgsql;
+
+-- -----------------------------------------------------
+-- Function: spobtenerestadociclonotas()
+-- -----------------------------------------------------
+-- DROP FUNCTION spobtenerestadociclonotas(int);
+CREATE OR REPLACE FUNCTION spobtenerestadociclonotas(IN _idCiclo integer) RETURNS Integer AS
+$BODY$
+DECLARE estadociclo int;
+BEGIN
+  select
+    estado
+  from adm_periodo where ciclo=_idCiclo and tipoasignacion = 2 and tipoperiodo = 2 into estadociclo;
+  return estadociclo;
+END;
+$BODY$
+LANGUAGE plpgsql;
+
 
 Select 'Script para Gestion de Notas Instalado' as "Gestion Notas";
