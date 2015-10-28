@@ -71,9 +71,11 @@ class gestionNotasController extends Controller{
        
     }
     
-    public function cursosXDocente($idUsuario, $UnidadCentro){
+    public function cursosXDocente($idUsuario, $UnidadCentro, $Tipo = 0){
         $this->_view->id = $UnidadCentro;
         $this->_view->idUsuario = $idUsuario;
+    $this->_view->tipo = $Tipo;
+        
         
         $datosCat = $this->_notas->getDocenteEspecifico($idUsuario);
         if(is_array($datosCat)){

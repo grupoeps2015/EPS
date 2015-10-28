@@ -2,7 +2,7 @@
     <div class="header">
         <div class="row">
             <div class="col-lg-12 text-center">
-                <h2 class="section-heading">Gesi&oacute;n de notas</h2>
+                <h2 class="section-heading">Gesti&oacute;n de notas</h2>
                 <hr class="primary">
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
@@ -113,6 +113,27 @@
         <br/>
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
+                <?php if($this->tipo==1): ?>
+                <table class="table-hover" id="tbAsignados" name="tbAsignados" border="2" style="display:none; text-align: center;">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center; width:20%;">Carnet</th>
+                            <th style="text-align: center; width:40%;">Nombre</th>
+                            <th style="text-align: center; width:15%;">Zona</th>
+                            <th style="text-align: center; width:15%;">Final</th>
+                            <th style="text-align: center; width:10%;">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bodyAsignados" name="bodyAsignados">
+                        
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                        </tr>
+                    </tfoot>
+                </table>
+                <?php else: ?>
+                
                 <table class="table-hover" id="tbAsignados" name="tbAsignados" border="2" style="display:none; text-align: center;">
                     <thead>
                         <tr>
@@ -135,6 +156,7 @@
                         </tr>
                     </tfoot>
                 </table>
+                <?php endif;?>
             </div>
         </div>
     </div>
