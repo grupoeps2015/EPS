@@ -137,10 +137,11 @@ $(document).ready( function () {
                 $("#tbAsignados").css('display','block');
                 $("#bodyAsignados").html('');
                 if(datos.length>0){
+                    $('#hdTotalAsignados').val(datos.length.toString());
                     for(var i =0; i < datos.length; i++){
                         if(estado === 1){
-                            notas = '</td><td><input id="z' + datos[i].carnet + '" type="text" maxlength="5" value="' + datos[i].zona + '" style="width:60%; text-align:center;"/>' + 
-                                    '</td><td><input id="f' + datos[i].carnet + '" type="text" maxlength="5" value="' + datos[i].final + '" style="width:60%; text-align:center;"/>';
+                            notas = '</td><td><input id="z' + datos[i].idasignacion + '" type="text" maxlength="5" value="' + datos[i].zona + '" style="width:60%; text-align:center;"/>' + 
+                                    '</td><td><input id="f' + datos[i].idasignacion + '" type="text" maxlength="5" value="' + datos[i].final + '" style="width:60%; text-align:center;"/>';
                         }else{
                             notas = '</td><td>' + datos[i].zona + 
                                     '</td><td>' + datos[i].final;

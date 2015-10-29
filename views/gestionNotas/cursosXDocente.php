@@ -80,6 +80,7 @@
                             </select>
                             <input type="hidden" id="idCatedratico" name="idCatedratico" value="<?php echo $this->datosCat[0][0];?>" >
                             <input type="hidden" id="hdEstadoCiclo" name="hdEstadoCiclo" value="0" >
+                            <input type="hidden" id="hdTotalAsignados" name="hdTotalAsignados" value="0" >
                         </td>
                     </tr>
                     <tr>
