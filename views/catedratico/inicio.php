@@ -84,7 +84,9 @@
             </div>
             <div class="service-box">
                 <i class="fa fa-2x fa-users wow bounceIn text-primary">
-                    <a href="#moduloAsignacion">Consulta de estudiantes</a>
+                    <a href="<?php echo BASE_URL . 'gestionNotas/cursosXDocente/' . $_SESSION['usuario'] . '/1/1'?>">
+                        Consulta de estudiantes
+                    </a>
                 </i>
             </div>
         </div>

@@ -36,4 +36,5 @@ class catedraticoModel extends Model {
             return $info->fetchall();
         }
     }
+    
 }

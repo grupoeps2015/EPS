@@ -237,6 +237,16 @@ class ajaxModel extends Model{
         }
     }
     
+    public function getListaAlumnosAsignados($id){
+        $post = $this->_db->query("select * from spListaAlumnosAsignados({$id})");
+        if($post === false){
+            return "1200/getListaAlumnosAsignados";
+        }else{
+            $post->setFetchMode(PDO::FETCH_ASSOC);
+            return $post->fetchall();
+        }
+    }
+    
     public function getDatosCentroUnidad(){
         $centroUnidad = $this->_db->query("select * from spdatoscentrounidad();");
         if($centroUnidad === false){
