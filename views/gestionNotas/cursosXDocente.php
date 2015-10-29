@@ -80,6 +80,7 @@
                             </select>
                             <input type="hidden" id="idCatedratico" name="idCatedratico" value="<?php echo $this->datosCat[0][0];?>" >
                             <input type="hidden" id="hdEstadoCiclo" name="hdEstadoCiclo" value="0" >
+                            <input type="hidden" id="hdTipo" name="hdTipo" value="<?php echo $this->tipo; ?>" >
                         </td>
                     </tr>
                     <tr>
@@ -93,7 +94,11 @@
                         <td>&nbsp;</td>
                         <td><br/>
                             <input type="submit" id="btnActividades" name="btnActividades" value="Mostrar Listado" class="btn btn-danger btn-lg btn-block" disabled="disabled">
+                            <?php if($this->tipo == 1): ?>
+                            <form id="frRecargar" method="post" action="<?php echo BASE_URL; ?>gestionNotas/cursosXDocente/<?php echo $this->idUsuario; ?>/<?php echo $this->id; ?>/<?php echo $this->tipo; ?>">
+                            <?php else : ?>
                             <form id="frRecargar" method="post" action="<?php echo BASE_URL; ?>gestionNotas/cursosXDocente/<?php echo $this->idUsuario; ?>/<?php echo $this->id; ?>">
+                               <?php endif; ?>
                                 <input type="submit" id="btnNuevaBusqueda" name="btnNuevaBusqueda" value="Nueva Busqueda" class="btn btn-danger btn-lg btn-block" style="display:none;">
                             </form>
                         </td>
@@ -113,35 +118,24 @@
         <br/>
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
-                <?php if($this->tipo==1): ?>
+                               
                 <table class="table-hover" id="tbAsignados" name="tbAsignados" border="2" style="display:none; text-align: center;">
                     <thead>
                         <tr>
+                            <?php if($this->tipo == 1): ?>
+                            <th style="text-align: center; width:20%;">Carnet</th>
+                            <th style="text-align: center; width:40%;">Nombre</th>
+                            <th style="text-align: center; width:15%;">Secci&oacute;n</th>
+                            <th style="text-align: center; width:15%;">Repitencia</th>
+                            <th style="text-align: center; width:15%;">Tel&eacute;fono de emergencia</th>
+                            <?php else : ?>
+                            
                             <th style="text-align: center; width:20%;">Carnet</th>
                             <th style="text-align: center; width:40%;">Nombre</th>
                             <th style="text-align: center; width:15%;">Zona</th>
                             <th style="text-align: center; width:15%;">Final</th>
                             <th style="text-align: center; width:10%;">Total</th>
-                        </tr>
-                    </thead>
-                    <tbody id="bodyAsignados" name="bodyAsignados">
-                        
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                        </tr>
-                    </tfoot>
-                </table>
-                <?php else: ?>
-                
-                <table class="table-hover" id="tbAsignados" name="tbAsignados" border="2" style="display:none; text-align: center;">
-                    <thead>
-                        <tr>
-                            <th style="text-align: center; width:20%;">Carnet</th>
-                            <th style="text-align: center; width:40%;">Nombre</th>
-                            <th style="text-align: center; width:15%;">Zona</th>
-                            <th style="text-align: center; width:15%;">Final</th>
-                            <th style="text-align: center; width:10%;">Total</th>
+                            <?php endif; ?>
                         </tr>
                     </thead>
                     <tbody id="bodyAsignados" name="bodyAsignados">
@@ -156,7 +150,6 @@
                         </tr>
                     </tfoot>
                 </table>
-                <?php endif;?>
             </div>
         </div>
     </div>

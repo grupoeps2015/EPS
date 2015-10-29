@@ -140,6 +140,38 @@ $BODY$
 LANGUAGE 'plpgsql';
 
 
+-- -----------------------------------------------------
+-- Function: spListaAlumnosAsignados()
+-- -----------------------------------------------------
+-- DROP FUNCTION spListaAlumnosAsignados(int);
+CREATE OR REPLACE FUNCTION spListaAlumnosAsignados(IN _idTrama integer,
+					    OUT Asignacion integer,
+					    OUT Seccion integer,
+					    OUT NombreSeccion text,
+					    OUT Carnet integer,
+					    OUT Nombre text, OUT OportunidadActual integer, OUT TelefonoEmergencia text) RETURNS SETOF record AS
+$BODY$
+BEGIN
+  return query
+  SELECT distinct a.Asignacion, s.Seccion, s.Nombre as NombreSeccion, e.Carnet, concat(e.primernombre || ' ' || e.segundonombre || ' ' || e.primerapellido || ' ' || e.segundoapellido ) as nombre, a.OportunidadActual, e.TelefonoEmergencia
+	FROM EST_CUR_Asignacion a
+		JOIN CUR_Seccion s ON s.Seccion = a.Seccion
+		JOIN EST_Ciclo_Asignacion ca ON ca.Ciclo_Asignacion = a.Ciclo_Asignacion
+		JOIN EST_Estudiante e ON e.Estudiante = ca.Estudiante
+		JOIN ADM_Periodo p ON ca.Periodo = p.Periodo
+		JOIN ADM_TipoPeriodo tp ON tp.TipoPeriodo = p.TipoPeriodo
+		JOIN CUR_Ciclo c ON c.Ciclo = p.Ciclo
+		JOIN CUR_TipoCiclo tc ON tc.TipoCiclo = c.TipoCiclo
+		JOIN CUR_Trama t ON t.Seccion = a.Seccion
+		JOIN CUR_Curso_Catedratico cc ON cc.Curso_Catedratico = t.Curso_Catedratico
+		JOIN CAT_Catedratico cat ON cat.Catedratico = cc.Catedratico
+		WHERE t.trama = _idTrama
+		AND a.Estado = 1;
+
+END;
+$BODY$
+LANGUAGE plpgsql;
+
 
 
 Select 'Script de Catedraticos Instalado' as "Catedraticos";

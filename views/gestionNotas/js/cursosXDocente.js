@@ -117,15 +117,51 @@ $(document).ready( function () {
                 cur: $("#slCursoxSeccion").val() 
             },
             function(datos){
+                var tipo = $("#hdTipo").val();
+                
                 if(datos.length>0){
-                    var identificador = parseInt(datos[0].spidtrama);
-                    mostrarListado(identificador);
+                    if(tipo === "1") 
+                    { 
+                        var identificador = parseInt(datos[0].spidtrama);
+                        mostrarListadoAsignados(identificador);
+                    }
+                    else
+                    {
+                        var identificador = parseInt(datos[0].spidtrama);
+                        mostrarListado(identificador);
+                    }
                 }else{
                     mostrarListado(0);
                 }
             },
             'json');
     });
+    
+    function mostrarListadoAsignados(id){
+        var base_url = $("#hdBASE_URL").val();
+        var notas = "";
+        $.post(base_url+'ajax/getListaAlumnosAsignados',
+            'trama=' + id,
+            function(datos){
+                $("#tbAsignados").css('display','block');
+                $("#bodyAsignados").html('');
+                if(datos.length>0){
+                    for(var i =0; i < datos.length; i++){
+                            notas = '</td><td>' + datos[i].nombreseccion + 
+                                    '</td><td>' + datos[i].oportunidadactual;
+                        
+                        $("#bodyAsignados").append('<tr><td>' + datos[i].carnet + 
+                                                   '</td><td>' + datos[i].nombre + 
+                                                   notas + '</td><td>' + datos[i].telefonoemergencia);
+                    }
+                }
+                
+                    $('#tdBotones').css('display','none');
+                
+                aplicarCss();
+            },
+            'json');
+    }
     
     function mostrarListado(id){
         var estado = parseInt($('#hdEstadoCiclo').val());
