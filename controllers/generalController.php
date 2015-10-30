@@ -105,40 +105,48 @@ class generalController extends Controller{
                 $url .= func_get_arg($i) . "/" ;
             }
         }
-        $estudiante = $this->_ajax->getEstudianteUsuario($_SESSION["usuario"]);
-        if(is_array($estudiante)){
-        }else{
-            $this->redireccionar("error/sql/" . $estudiante);
-            exit;
+        if ($_SESSION["rol"] == ROL_ADMINISTRADOR || $_SESSION["rol"] == ROL_EMPLEADO) {
+            
         }
-        if(!isset($estudiante[0]['id'])){
-            $this->redireccionar("login/salir");
-            exit;
-        }
-        $carreras = $this->_ajax->getCarrerasEstudiante($estudiante[0]['id'],$_SESSION["centrounidad"]);
-        if(is_array($carreras)){
-            if(count($carreras) > 1){
-                $this->_view->lstCarreras = $carreras;
-                $this->_view->url = 'general/seleccionarCarreraEstudiante/'.$url;
-            }else if(count($carreras) == 1){
-                $_SESSION["carrera"] = $carreras[0]['codigo'];
-                $this->redireccionar($url);
-                exit;
+        else if ($_SESSION["rol"] == ROL_ESTUDIANTE) {
+            $estudiante = $this->_ajax->getEstudianteUsuario($_SESSION["usuario"]);
+            if(is_array($estudiante)){
+                if(!isset($estudiante[0]['id'])){
+                    $this->redireccionar("login/salir");
+                    exit;
+                }
+                else{
+                    $estudiante = $estudiante[0]['id'];
+                }
             }else{
-                $this->redireccionar("login/salir");
+                $this->redireccionar("error/sql/" . $estudiante);
                 exit;
             }
+            $carreras = $this->_ajax->getCarrerasEstudiante($estudiante,$_SESSION["centrounidad"]);
+            if(is_array($carreras)){
+                if(count($carreras) > 1){
+                    $this->_view->lstCarreras = $carreras;
+                    $this->_view->url = 'general/seleccionarCarreraEstudiante/'.$url;
+                }else if(count($carreras) == 1){
+                    $_SESSION["carrera"] = $carreras[0]['codigo'];
+                    $this->redireccionar($url);
+                    exit;
+                }else{
+                    $this->redireccionar("login/salir");
+                    exit;
+                }
 
-        }else{
-            $this->redireccionar("error/sql/" . $carreras);
-            exit;
-        }
-        if($this->getInteger('slCarreras')){
-            $carreraEstudiante = $this->getInteger('slCarreras');
-            if(in_array($carreraEstudiante, array_column($carreras, 'codigo'))){
-                $_SESSION["carrera"] = $this->getInteger('slCarreras');
-                $this->redireccionar($url);
+            }else{
+                $this->redireccionar("error/sql/" . $carreras);
                 exit;
+            }
+            if($this->getInteger('slCarreras')){
+                $carreraEstudiante = $this->getInteger('slCarreras');
+                if(in_array($carreraEstudiante, array_column($carreras, 'codigo'))){
+                    $_SESSION["carrera"] = $this->getInteger('slCarreras');
+                    $this->redireccionar($url);
+                    exit;
+                }
             }
         }
         
