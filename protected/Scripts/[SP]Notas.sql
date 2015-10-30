@@ -113,7 +113,7 @@ BEGIN
   JOIN CUR_Horario h ON h.trama = t.trama
   JOIN CUR_Jornada j ON j.jornada = h.jornada
   JOIN CUR_Ciclo ci ON ci.ciclo = h.ciclo
-  WHERE cat.catedratico = _idCatedratico AND ci.ciclo = _idCiclo;
+  WHERE cat.catedratico = _idCatedratico AND ci.ciclo = _idCiclo AND h.Estado != -1;
 END;
 $BODY$
 LANGUAGE 'plpgsql';
