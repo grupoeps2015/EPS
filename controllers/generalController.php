@@ -106,7 +106,29 @@ class generalController extends Controller{
             }
         }
         if ($_SESSION["rol"] == ROL_ADMINISTRADOR || $_SESSION["rol"] == ROL_EMPLEADO) {
-            
+            $this->_view->url = 'general/seleccionarCarreraEstudiante/'.$url;
+//            $estudiantes = $this->_ajax->getEstudiantesInscritosAnio($_SESSION["centrounidad"],$_SESSION["centrounidad"]);
+//            if(is_array($estudiantes)){
+//                if(count($estudiantes)){
+//                    $this->_view->lstEstudiantes = $estudiantes;
+//                    $this->_view->url = $url;
+//                }else{
+//                    $this->redireccionar("login/salir");
+//                    exit;
+//                }
+//
+//            }else{
+//                $this->redireccionar("error/sql/" . $estudiantes);
+//                exit;
+//            }
+            if($this->getInteger('slCarreras')){
+                $carreraEstudiante = $this->getInteger('slCarreras');
+                if(in_array($carreraEstudiante, array_column($carreras, 'codigo'))){
+                    $_SESSION["carrera"] = $this->getInteger('slCarreras');
+                    $this->redireccionar($url);
+                    exit;
+                }
+            }
         }
         else if ($_SESSION["rol"] == ROL_ESTUDIANTE) {
             $estudiante = $this->_ajax->getEstudianteUsuario($_SESSION["usuario"]);

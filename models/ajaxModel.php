@@ -415,4 +415,15 @@ class ajaxModel extends Model{
             return $info->fetchall();
         }
     }
+    
+    public function getEstudiantesInscritosAnio($centrounidad, $anio){
+        $info = $this ->_db->query("select * from spEstudiantesInscritosxCentroUnidad({$centrounidad},{$anio});");
+        if($info === false){
+            return "1200/getEstudiantesInscritosAnio";
+        }else{
+            $info->setFetchMode(PDO::FETCH_ASSOC);
+            return $info->fetchall();
+        }
+    }
+    
 }

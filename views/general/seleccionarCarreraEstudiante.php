@@ -2,7 +2,7 @@
     <div class="header-content">
         <div class="row">
             <div class="col-lg-12 text-center">
-                <h2 class="section-heading">Selecci&oacute;n de Carrera por Estudiante</h2>
+                <h2 class="section-heading"><?php if($_SESSION["rol"] == ROL_ESTUDIANTE){ echo "Selecci&oacute;n de Carrera"; }  elseif ($_SESSION["rol"] == ROL_ADMINISTRADOR || $_SESSION["rol"] == ROL_EMPLEADO) {echo "Selecci&oacute;n de A&ntilde;o, Estudiante y Carrera";}?></h2>
                 <hr class="primary">
                 <div class="col-lg-3 col-md-6 text-center"></div>
                 <div class="col-lg-3 col-md-6 text-center"></div>
@@ -56,6 +56,25 @@
         <div class="col-md-6 col-md-offset-3">
             <form id="frEstudiantes" method="post" action="<?php echo BASE_URL; ?><?php if (isset($this->url)) echo $this->url; ?>">
                 <table>
+                    <tr>
+                        <td style="width: 10%">
+                            <h4>A&ntilde;o: </h4><br />
+                        </td>
+                        <td style="width: 38%">
+                            <select id="slAnio" name="slAnio" class="form-control input-lg">
+                            <?php if (isset($this->lstAnios) && count($this->lstAnios)): ?>
+                                    <option value="">-- A&ntilde;o --</option>
+                                    <?php for ($i = 0; $i < count($this->lstAnios); $i++) : ?>
+                                        <option value="<?php echo $this->lstAnios[$i]['codigo']; ?>">
+                                            <?php echo $this->lstAnios[$i]['nombre']; ?>
+                                        </option>
+                                    <?php endfor; ?>
+                            <?php else : ?>
+                                <option value="">-- A&ntilde;o --</option>
+                            <?php endif; ?>
+                            </select><br />
+                        </td>
+                    </tr>
                     <tr>
                         <td style="width: 10%">
                             <h4>Estudiante: </h4><br />
