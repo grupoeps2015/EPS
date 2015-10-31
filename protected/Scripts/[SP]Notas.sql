@@ -144,6 +144,7 @@ CREATE TRIGGER tgAsignacionInicial AFTER INSERT
 -- -----------------------------------------------------
 -- DROP FUNCTION spListaAsignados(int);
 CREATE OR REPLACE FUNCTION spListaAsignados(IN _idTrama integer,
+					    OUT idasignacion integer,
 					    OUT carnet integer,
 					    OUT nombre text,
 					    OUT zona float,
@@ -153,6 +154,7 @@ $BODY$
 BEGIN
   return query
   select 
+    uno.asignacion,
     est.carnet,
     concat(est.primernombre || ' ' || est.segundonombre || ' ' || est.primerapellido || ' ' || est.segundoapellido ) as nombre,
     uno.zona,
@@ -186,5 +188,18 @@ END;
 $BODY$
 LANGUAGE plpgsql;
 
+-- -----------------------------------------------------
+-- Function: spActualizarNota()
+-- -----------------------------------------------------
+-- DROP FUNCTION spActualizarNota(float,float,float);
+CREATE OR REPLACE FUNCTION spActualizarNota(IN _zona float, IN _final float, IN _idAsignacion float) RETURNS Void AS
+$BODY$
+DECLARE total float;
+BEGIN
+  total = round(_zona) + round(_final);
+  EXECUTE format(('UPDATE est_cur_nota SET total = %s, final = %s, zona = %s where asignacion = %s'), total, round(_final), round(_zona), _idAsignacion);
+END;
+$BODY$
+LANGUAGE plpgsql;
 
 Select 'Script para Gestion de Notas Instalado' as "Gestion Notas";

@@ -119,38 +119,40 @@
         <br/>
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
-                               
-                <table class="table-hover" id="tbAsignados" name="tbAsignados" border="2" style="display:none; text-align: center;">
-                    <thead>
-                        <tr>
-                            <?php if($this->tipo == 1): ?>
-                            <th style="text-align: center; width:20%;">Carnet</th>
-                            <th style="text-align: center; width:40%;">Nombre</th>
-                            <th style="text-align: center; width:15%;">Secci&oacute;n</th>
-                            <th style="text-align: center; width:15%;">Repitencia</th>
-                            <th style="text-align: center; width:15%;">Tel&eacute;fono de emergencia</th>
-                            <?php else : ?>
-                            
-                            <th style="text-align: center; width:20%;">Carnet</th>
-                            <th style="text-align: center; width:40%;">Nombre</th>
-                            <th style="text-align: center; width:15%;">Zona</th>
-                            <th style="text-align: center; width:15%;">Final</th>
-                            <th style="text-align: center; width:10%;">Total</th>
-                            <?php endif; ?>
-                        </tr>
-                    </thead>
-                    <tbody id="bodyAsignados" name="bodyAsignados">
-                        
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td colspan="5" align="center" id="tdBotones" name="tdBotones">
-                                <input type="button" id="btnCargar" name="btnCargar" value="Cargar CSV" class="btn btn-warning" style="width:30%"/> &nbsp;
-                                <input type="submit" id="btnGuardar" name="btnGuardar" value="Guardar Cambios" class="btn btn-warning" style="width:30%"/>
-                            </td>
-                        </tr>
-                    </tfoot>
-                </table>
+                <form id="frNotas" method="post" action="">
+                    <h3 align="center"><span id="spanMsg" name="spanMsg" class="text-warning"></span></h3>
+                    <table class="table-hover" id="tbAsignados" name="tbAsignados" border="2" style="display:none; text-align: center;">
+                        <thead>
+                            <tr>
+                                <?php if($this->tipo == 1): ?>
+                                <th style="text-align: center; width:20%;">Carnet</th>
+                                <th style="text-align: center; width:40%;">Nombre</th>
+                                <th style="text-align: center; width:15%;">Secci&oacute;n</th>
+                                <th style="text-align: center; width:15%;">Repitencia</th>
+                                <th style="text-align: center; width:15%;">Tel&eacute;fono de emergencia</th>
+                                <?php else : ?>
+
+                                <th style="text-align: center; width:20%;">Carnet</th>
+                                <th style="text-align: center; width:40%;">Nombre</th>
+                                <th style="text-align: center; width:15%;">Zona</th>
+                                <th style="text-align: center; width:15%;">Final</th>
+                                <th style="text-align: center; width:10%;">Total</th>
+                                <?php endif; ?>
+                            </tr>
+                        </thead>
+                        <tbody id="bodyAsignados" name="bodyAsignados">
+
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="5" align="center" id="tdBotones" name="tdBotones">
+                                    <input type="button" id="btnCargar" name="btnCargar" value="Cargar CSV" class="btn btn-warning" style="width:30%"/> &nbsp;
+                                    <input type="button" id="btnGuardar" name="btnGuardar" value="Guardar Cambios" class="btn btn-warning" style="width:30%"/>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </form>
             </div>
         </div>
     </div>

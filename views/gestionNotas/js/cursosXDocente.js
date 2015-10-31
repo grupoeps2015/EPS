@@ -207,19 +207,40 @@ $(document).ready( function () {
         $('#btnNuevaBusqueda').css('display','block');
         
         $('#tbAsignados').DataTable({
-        language:{
-            emptyTable: "No hay informaci&oacute;n disponible.",
-            sZeroRecords: "No se encontro informaci&oacute;n compatible con la busqueda",
-            info: "Se muestran del _START_ al _END_ de _TOTAL_ registros",
-            infoEmpty: "No hay registros que mostrar",
-            paginate:{
-                next: "Siguiente",
-                previous: "Anterior"
-            },
-            search: "Buscar:",
-            lengthMenu: "Mostrar _MENU_ registros"
-        }
-    });
+            language:{
+                emptyTable: "No hay informaci&oacute;n disponible.",
+                sZeroRecords: "No se encontro informaci&oacute;n compatible con la busqueda",
+                info: "Se muestran del _START_ al _END_ de _TOTAL_ registros",
+                infoEmpty: "No hay registros que mostrar",
+                paginate:{
+                    next: "Siguiente",
+                    previous: "Anterior"
+                },
+                search: "Buscar:",
+                lengthMenu: "Mostrar _MENU_ registros"
+            }
+        });
+    }
+   
+   $("#btnGuardar").click(function(){
+       guardarNota();
+   });
+    
+    function guardarNota(){
+        //var base_url = $("#hdBASE_URL").val();
+        $("#spanMsg").html('');
+        var data = $("#frNotas :input").serializeArray();
+        $.each(data, function(i, field){
+            $("#spanMsg").append(field.name + " : " + field.value + " ");
+        });
+        
+        //$("#spanMsg").html(data[0]);
+        //$.post(base_url+'gestionNotas/guardarNota',
+        //    { zonaN: 22, finalN: 44, idAs: 3},
+        //    function(info){
+        //        $("#spanMsg").html(info);
+        //    });
+        
     }
     
 });

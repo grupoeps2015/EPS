@@ -33,4 +33,13 @@ class gestionNotasModel extends Model {
         }
     }
     
+    public function guardarNota($zona,$final,$asignacion){
+        $info = $this->_db->query("select * from spActualizarNota({$zona},{$final},{$asignacion});");
+        if($info === false){
+            return "1103/guardarNota";
+        }else{
+            return $info->fetchall();
+        }
+    }
+    
 }

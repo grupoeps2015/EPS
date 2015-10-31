@@ -106,4 +106,9 @@ class gestionNotasController extends Controller{
         $this->_view->renderizar('actividades');
     }
     
+    public function guardarNota(){
+        $this->_notas->guardarNota(33,21,3);
+        echo "Procesado";
+    }
+    
 }
