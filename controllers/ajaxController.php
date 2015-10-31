@@ -203,6 +203,24 @@ class ajaxController extends Controller{
             echo json_encode($this->_ajax->getEstadoCicloNotas($this->getInteger('cicloaver')));
         }
     }
+    
+    public function getEstudiantesAnioInscripcionAjax(){
+        if($this->getInteger('anio')){
+            session_start();
+            if ($_SESSION["rol"] == ROL_ADMINISTRADOR || $_SESSION["rol"] == ROL_EMPLEADO) {
+                echo json_encode($this->_ajax->getEstudiantesInscritosAnio($_SESSION["centrounidad"],$this->getInteger('anio')));
+            }
+        }
+    }
+    
+    public function getCarrerasEstudianteAjax(){
+        if($this->getInteger('est')){
+            session_start();
+            if ($_SESSION["rol"] == ROL_ADMINISTRADOR || $_SESSION["rol"] == ROL_EMPLEADO) {
+                echo json_encode($this->_ajax->getCarrerasEstudiante($this->getInteger('est'),$_SESSION["centrounidad"]));
+            }
+        }
+    }
 }
 
 ?>

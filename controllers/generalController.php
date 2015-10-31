@@ -110,6 +110,7 @@ class generalController extends Controller{
             $anios = $this->_ajax->getAniosInscripcion();
             if(is_array($anios)){
                 if(count($anios)){
+                    
                     $this->_view->lstAnios = $anios;
                     $this->_view->url = $url;
                 }else{
@@ -173,6 +174,8 @@ class generalController extends Controller{
         }
         
         $this->_view->titulo = 'Seleccionar Carrera - ' . APP_TITULO;
+        $this->_view->setJs(array('jquery-ui'), "public");
+        $this->_view->setCss(array('jquery-ui'), "public");
         $this->_view->setJs(array('seleccionarCarreraEstudiante'));
         $this->_view->renderizar('seleccionarCarreraEstudiante');
     }
