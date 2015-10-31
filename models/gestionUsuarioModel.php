@@ -225,4 +225,22 @@ class gestionUsuarioModel extends Model {
             return $info->fetchall();
         }
     }
+    
+    public function informacionCarrera($centrounidadacademica) {
+        $info = $this->_db->query("select * from spInformacionCarrera(" . $centrounidadacademica . ");");
+        if ($info === false) {
+            return "1104/informacionCarrera";
+        } else {
+            return $info->fetchall();
+        }
+    }
+    
+    public function getIdCentroUnidad($idUsuario){
+        $info = $this->_db->query("select * from spGetCentroUnidadUsuario({$idUsuario}) as idCentroUnidad");
+        if ($info === false) {
+            return "1104/getIdCentroUnidad";
+        } else {
+            return $info->fetchall();
+        }
+    }
 }
