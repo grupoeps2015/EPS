@@ -119,7 +119,7 @@
         <br/>
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
-                <form id="frNotas" method="post" action="">
+                <form id="frNotas" name="frNotas" method="post" action="">
                     <h3 align="center"><span id="spanMsg" name="spanMsg" class="text-warning"></span></h3>
                     <table class="table-hover" id="tbAsignados" name="tbAsignados" border="2" style="display:none; text-align: center;">
                         <thead>

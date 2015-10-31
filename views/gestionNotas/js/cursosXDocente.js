@@ -176,16 +176,17 @@ $(document).ready( function () {
                     $('#hdTotalAsignados').val(datos.length.toString());
                     for(var i =0; i < datos.length; i++){
                         if(estado === 1){
-                            notas = '</td><td><input id="z' + datos[i].idasignacion + '" type="text" maxlength="5" value="' + datos[i].zona + '" style="width:60%; text-align:center;"/>' + 
-                                    '</td><td><input id="f' + datos[i].idasignacion + '" type="text" maxlength="5" value="' + datos[i].final + '" style="width:60%; text-align:center;"/>';
+                            notas = '</td><td><input id="z' + datos[i].idasignacion + '" name="z' + datos[i].idasignacion + '" type="text" maxlength="5" value="' + datos[i].zona + '" style="width:60%; text-align:center;"/>' + 
+                                    '</td><td><input id="f' + datos[i].idasignacion + '" name="f' + datos[i].idasignacion + '" type="text" maxlength="5" value="' + datos[i].final + '" style="width:60%; text-align:center;"/>' + 
+                                    '</td><td><input id="t' + datos[i].idasignacion + '" name="t' + datos[i].idasignacion + '" type="text" maxlength="5" value="' + datos[i].total + '" style="width:60%; text-align:center;" readonly/>';
                         }else{
                             notas = '</td><td>' + datos[i].zona + 
-                                    '</td><td>' + datos[i].final;
+                                    '</td><td>' + datos[i].final + 
+                                    '</td><td>' + datos[i].total;
                         }
                         $("#bodyAsignados").append('<tr><td>' + datos[i].carnet + 
                                                    '</td><td>' + datos[i].nombre + 
-                                                   notas + 
-                                                   '</td><td>' + datos[i].total);
+                                                   notas + '</td>');
                     }
                 }
                 if(estado === 1){
@@ -227,20 +228,40 @@ $(document).ready( function () {
    });
     
     function guardarNota(){
-        //var base_url = $("#hdBASE_URL").val();
         $("#spanMsg").html('');
-        var data = $("#frNotas :input").serializeArray();
-        $.each(data, function(i, field){
-            $("#spanMsg").append(field.name + " : " + field.value + " ");
+        var tipo = "";
+        var idAsignado = 0;
+        var zonaAsignada = 0;
+        var finalAsignado = 0;
+        var base_url = $("#hdBASE_URL").val();
+        var inputs = $("#tbAsignados :input");
+        $.each(inputs, function(i, field){
+            if(field.type === "text"){
+                tipo = field.name.substring(0,1);
+                if(tipo === "z"){
+                    idAsignado = field.name.substring(1);
+                    zonaAsignada = field.value;
+                }
+                
+                if(tipo === "f"){
+                    finalAsignado = field.value;
+                    $.post(
+                        base_url+'gestionNotas/guardarNota',
+                        { 
+                            zonaN: zonaAsignada,
+                            finalN: finalAsignado, 
+                            idAs: idAsignado
+                        },
+                        function(info){
+                            var totalAsignado = parseFloat(zonaAsignada) + parseFloat(finalAsignado)
+                            $("#t"+idAsignado).val(totalAsignado);
+                            $("#spanMsg").html(info);
+                        }
+                    );
+                }
+                
+            }    
         });
-        
-        //$("#spanMsg").html(data[0]);
-        //$.post(base_url+'gestionNotas/guardarNota',
-        //    { zonaN: 22, finalN: 44, idAs: 3},
-        //    function(info){
-        //        $("#spanMsg").html(info);
-        //    });
-        
     }
     
 });

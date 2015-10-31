@@ -107,8 +107,15 @@ class gestionNotasController extends Controller{
     }
     
     public function guardarNota(){
-        $this->_notas->guardarNota(33,21,3);
-        echo "Procesado";
+        $zona = floatval($this->getTexto('zonaN'));
+        $final = floatval($this->getTexto('finalN'));
+        if($this->getInteger('idAs')){
+            $this->_notas->guardarNota($zona,$final,$this->getInteger('idAs'));
+            echo "Procesado";
+        }else{
+            echo "Ocurrio un error al ingresar una nota";
+        }
+        
     }
     
 }
