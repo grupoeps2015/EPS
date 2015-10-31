@@ -8,7 +8,7 @@
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
                         <i class="fa fa-2x fa-backward wow bounceIn text-primary" data-wow-delay=".2s">
-                            <a href="<?php echo BASE_URL?>estudiante/inicio">
+                            <a href="<?php echo BASE_URL; ?><?php if(isset($_SESSION["rol"])){if($_SESSION["rol"] == ROL_ESTUDIANTE){echo "estudiante";} else if($_SESSION["rol"] == ROL_DOCENTE){echo "catedratico";}else{echo "login";}} ;?>/inicio">
                                 Regresar
                             </a>
                         </i>
