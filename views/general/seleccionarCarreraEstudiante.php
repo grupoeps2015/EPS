@@ -65,8 +65,8 @@
                             <?php if (isset($this->lstAnios) && count($this->lstAnios)): ?>
                                     <option value="">-- A&ntilde;o --</option>
                                     <?php for ($i = 0; $i < count($this->lstAnios); $i++) : ?>
-                                        <option value="<?php echo $this->lstAnios[$i]['codigo']; ?>">
-                                            <?php echo $this->lstAnios[$i]['nombre']; ?>
+                                        <option value="<?php echo $this->lstAnios[$i]['anio']; ?>">
+                                            <?php echo $this->lstAnios[$i]['anio']; ?>
                                         </option>
                                     <?php endfor; ?>
                             <?php else : ?>

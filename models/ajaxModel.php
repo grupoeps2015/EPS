@@ -426,4 +426,14 @@ class ajaxModel extends Model{
         }
     }
     
+    public function getAniosInscripcion(){
+        $info = $this ->_db->query("select * from spAniosXInscripcion();");
+        if($info === false){
+            return "1200/getAniosInscripcion";
+        }else{
+            $info->setFetchMode(PDO::FETCH_ASSOC);
+            return $info->fetchall();
+        }
+    }
+    
 }
