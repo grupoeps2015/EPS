@@ -450,4 +450,16 @@ $BODY$
 ALTER FUNCTION spcreditoscursosaprobados(integer, integer)
   OWNER TO postgres;
   
+  /*
+  select ca.cursoaprobado, coalesce(asig.asignacion, asigretra.asignacion), curso.curso as numero, curso.codigo as codigo, curso.nombre as asignatura, tipo.tipoaprobacion, tipo.nombre, coalesce(nota.total, -1) as calificacionnumeros, ca.fechaaprobacion 
+from est_cursoaprobado ca
+left join est_cur_asignacion asig on asig.asignacion = ca.asignacion
+left join est_asignacionretrasada asigretra on asigretra.asignacionretrasada = ca.asignacionretrasada and asig.asignacion = asigretra.asignacion
+join est_cur_nota nota on nota.asignacion = asig.asignacion
+join cur_seccion sec on sec.seccion = asig.seccion
+join cur_pensum_area curpen on curpen.curso = sec.curso
+join cur_curso curso on curso.curso = curpen.curso
+join cur_tipoaprobacion tipo on tipo.tipoaprobacion = ca.tipoaprobacion
+where asig.estado != -1
+  */
 Select 'Script de Asignaciones Instalado' as "Asignacion";
