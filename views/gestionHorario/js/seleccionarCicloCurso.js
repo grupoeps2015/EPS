@@ -32,6 +32,7 @@ $(document).ready( function () {
         this._on( this.input, {
           autocompleteselect: function( event, ui ) {
             ui.item.option.selected = true;
+            $('#btnConsultar').prop("disabled",false);
             this._trigger( "select", event, function(){
               item: ui.item.option;
             });
@@ -112,6 +113,7 @@ $(document).ready( function () {
         }
  
         // Remove invalid value
+        $('#btnConsultar').prop("disabled",true);
         this.input
           .val( "" )
           .attr( "title", value + " no encontrado" )
@@ -169,7 +171,6 @@ $(document).ready( function () {
         if(!$("#slCiclo").val()){
             $('#btnConsultar').prop("disabled",true);
         }else{
-            $('#btnConsultar').prop("disabled",false);
         }
     });
     
