@@ -40,4 +40,12 @@ class estudianteModel extends Model {
         }
     }
     
+    public function setEstudianteCarrera($idUsuario,$idCarrera){
+        $info = $this->_db->query("select * from spEstudianteCarrera({$idUsuario},{$idCarrera})");
+        if ($info === false) {
+            return "1101/setEstudianteCarrera";
+        } else {
+            return $info->fetchall();
+        }
+    }
 }

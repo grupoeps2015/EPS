@@ -440,11 +440,27 @@ class gestionUsuarioController extends Controller {
             exit;
         }
         
-        $dtUsr = $this->_post->datosUsuario($intIdUsuario,1);
+        $idCentroUnidad = $this->_post->getIdCentroUnidad($intIdUsuario);
+        if(is_array($idCentroUnidad)){
+            $idCentroUnidad = $idCentroUnidad[0]['idcentrounidad'];
+        }else{
+            $this->redireccionar("error/sql/" . $idCentroUnidad);
+            exit;
+        }
+        
+        $dtUsr = $this->_post->datosUsuario($intIdUsuario,$idCentroUnidad);
         if(is_array($dtUsr)){
             $this->_view->datosUsr = $dtUsr;
         }else{
             $this->redireccionar("error/sql/" . $dtUsr);
+            exit;
+        }
+        
+        $info = $this->_post->informacionCarrera($idCentroUnidad);
+        if (is_array($info)) {
+            $this->_view->lstCar = $info;
+        } else {
+            $this->redireccionar("error/sql/" . $info);
             exit;
         }
         
@@ -508,10 +524,18 @@ class gestionUsuarioController extends Controller {
             $arrayEmg["centro"] = $this->getTexto('txtHospital');
             $arrayEmg["seguro"] = $this->getInteger('rbSeguro');
             $infoEm = $est->setInfoEmergencia($arrayEmg);
-            if(!is_array($info)){
+            if(!is_array($infoEm)){
                 $this->redireccionar("error/sql/" . $infoEm);
                 exit;
             }
+            
+            $idCarrera = $this->getInteger('slCarrera');
+            $insertEstCarrera = $est->setEstudianteCarrera($idUsuario,$idCarrera);
+            if(!is_array($insertEstCarrera)){
+                $this->redireccionar("error/sql/" . $insertEstCarrera);
+                exit;
+            }
+            
         }else if($rol == 2){
             $cat = $this->loadModel("catedratico");
             $info = $cat->setInfo($arrayGen);
