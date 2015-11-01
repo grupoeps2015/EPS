@@ -258,12 +258,25 @@ $(document).ready( function () {
                             $("#spanMsg").html(info);
                         }
                     );
+                    bitacora(idAsignado);
                 }
                 
             }    
         });
     }
     
+    function bitacora(idRegistro){
+        var base_url = $("#hdBASE_URL").val();
+        $.post(
+            base_url+'bitacora/insertarBitacoraNota',
+            { 
+                registro: idRegistro
+            },
+            function(info){
+                alert(info);
+            }
+        );
+    }
 });
 
 
