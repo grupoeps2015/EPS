@@ -90,7 +90,13 @@ class asignacionController extends Controller{
         $this->_view->anio = $anio;
         $this->_view->ciclo = $ciclo;
         
-        $periodo = $this->_asign->getPeriodo($ciclo, PERIODO_ASIGNACION_CURSOS, ASIGN_OTRAS, $_SESSION["centrounidad"]);
+        if ($_SESSION["rol"] == ROL_ADMINISTRADOR || $_SESSION["rol"] == ROL_EMPLEADO) {
+            $tipoAs = ASIGN_JUNTADIRECTIVA;
+        }
+        else if ($_SESSION["rol"] == ROL_ESTUDIANTE) {
+            $tipoAs = ASIGN_OTRAS;
+        }
+        $periodo = $this->_asign->getPeriodo($ciclo, PERIODO_ASIGNACION_CURSOS, $tipoAs, $_SESSION["centrounidad"]);
         if(is_array($periodo)){
             if(isset($periodo[0]['periodo'])){
                 //Si hay período activo, validar intentos de asignación
@@ -155,7 +161,13 @@ class asignacionController extends Controller{
     
     public function asignar(){
         if ($this->getInteger('hdEnvio') && $this->getInteger('hdCiclo')) {
-            $periodo = $this->_asign->getPeriodo($this->getInteger('hdCiclo'), PERIODO_ASIGNACION_CURSOS, ASIGN_OTRAS, $_SESSION["centrounidad"]);
+            if ($_SESSION["rol"] == ROL_ADMINISTRADOR || $_SESSION["rol"] == ROL_EMPLEADO) {
+                $tipoAs = ASIGN_JUNTADIRECTIVA;
+            }
+            else if ($_SESSION["rol"] == ROL_ESTUDIANTE) {
+                $tipoAs = ASIGN_OTRAS;
+            }
+            $periodo = $this->_asign->getPeriodo($this->getInteger('hdCiclo'), PERIODO_ASIGNACION_CURSOS, $tipoAs, $_SESSION["centrounidad"]);
             if(is_array($periodo)){
                 if(isset($periodo[0]['periodo'])){
                     $periodo = $periodo[0]['periodo'];
