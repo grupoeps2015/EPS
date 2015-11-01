@@ -8,7 +8,7 @@
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
                         <i class="fa fa-2x fa-backward wow bounceIn text-primary" data-wow-delay=".2s">
-                            <a href="<?php echo BASE_URL; ?><?php if(isset($_SESSION["rol"])){if($_SESSION["rol"] == ROL_ESTUDIANTE){echo "estudiante";} else if($_SESSION["rol"] == ROL_DOCENTE){echo "catedratico";}else{echo "login";}} ;?>/inicio">
+                            <a href="<?php echo BASE_URL; ?><?php if(isset($_SESSION["rol"])){if($_SESSION["rol"] == ROL_ESTUDIANTE){echo "estudiante";} else{echo "login";}} ;?>/inicio">
                                 Regresar
                             </a>
                         </i>
@@ -66,6 +66,10 @@
                         <td>&nbsp;</td>
                     </tr>
                     <input type="hidden" name="hdEnvio" value="1">
+                    <?php if($_SESSION["rol"] == ROL_ADMINISTRADOR || $_SESSION["rol"] == ROL_EMPLEADO): ?>
+                    <input type="hidden" name="slEstudiantes" value="<?php if (isset($this->estudiante)) echo $this->estudiante ?>">
+                    <input type="hidden" name="slCarreras" value="<?php if (isset($this->carrera)) echo $this->carrera ?>">
+                    <?php endif; ?>
                 </table>
             </form>
             </div>
@@ -129,6 +133,10 @@
             <input type="hidden" name="hdCiclo" id="hdCiclo" value="<?php if (isset($this->ciclo)) echo $this->ciclo;?>">
             <input type="hidden" name="hdAnio" id="hdAnio" value="<?php if (isset($this->anio)) echo $this->anio;?>">
             <input type="hidden" name="hdEnvio" value="1">
+            <?php if($_SESSION["rol"] == ROL_ADMINISTRADOR || $_SESSION["rol"] == ROL_EMPLEADO): ?>
+            <input type="hidden" name="slEstudiantes" value="<?php if (isset($this->estudiante)) echo $this->estudiante ?>">
+            <input type="hidden" name="slCarreras" value="<?php if (isset($this->carrera)) echo $this->carrera ?>">
+            <?php endif; ?>
             </form>
             </div>
             

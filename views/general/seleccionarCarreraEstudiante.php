@@ -4,7 +4,13 @@
             <div class="col-lg-12 text-center">
                 <h2 class="section-heading"><?php if($_SESSION["rol"] == ROL_ESTUDIANTE){ echo "Selecci&oacute;n de Carrera"; }  elseif ($_SESSION["rol"] == ROL_ADMINISTRADOR || $_SESSION["rol"] == ROL_EMPLEADO) {echo "Selecci&oacute;n de A&ntilde;o, Estudiante y Carrera";}?></h2>
                 <hr class="primary">
-                <div class="col-lg-3 col-md-6 text-center"></div>
+                <div class="col-lg-3 col-md-6 text-center">
+                    <div class="service-box">
+                        <i class="fa fa-2x fa-backward wow bounceIn text-primary" data-wow-delay=".2s">
+                            <a href="javascript:window.history.go(-1)">Volver</a>
+                        </i>
+                    </div>
+                </div>
                 <div class="col-lg-3 col-md-6 text-center"></div>
                 <div class="col-lg-3 col-md-6 text-center"></div>
                 <div class="col-lg-3 col-md-6 text-center"></div>

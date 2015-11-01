@@ -14,6 +14,7 @@ class asignacionController extends Controller{
     private $_asign;
     private $_ajax;
     private $estudiante;
+    private $carrera;
     private $_encriptarFacil;
     
     public function __construct() {
@@ -28,16 +29,32 @@ class asignacionController extends Controller{
         $this->_encriptarFacil = new encriptedEasy();
         $this->_asign=$this->loadModel('asignacion');
         $this->_ajax = $this->loadModel("ajax");
-        $estudiante = $this->_ajax->getEstudianteUsuario($_SESSION["usuario"]);
-        if(is_array($estudiante)){
-            $this->estudiante = (isset($estudiante[0]['id']) ? $estudiante[0]['id'] : -1);
-        }else{
-            $this->redireccionar("error/sql/" . $estudiante);
-            exit;
+        if ($this->getInteger('slEstudiantes')) {
+            $this->estudiante = $this->getInteger('slEstudiantes');
         }
+        else{
+            $estudiante = $this->_ajax->getEstudianteUsuario($_SESSION["usuario"]);
+            if(is_array($estudiante)){
+                $this->estudiante = (isset($estudiante[0]['id']) ? $estudiante[0]['id'] : -1);
+            }else{
+                $this->redireccionar("error/sql/" . $estudiante);
+                exit;
+            }
+        }
+        if ($this->getInteger('slEstudiantes') && $this->getInteger('slCarreras')) {
+            $this->carrera = $this->getInteger('slCarreras');
+        }
+        else {
+            $this->carrera = $_SESSION["carrera"];
+        }
+        
     }
     
     public function index(){
+        if ($_SESSION["rol"] == ROL_ADMINISTRADOR || $_SESSION["rol"] == ROL_EMPLEADO) {
+            $this->_view->estudiante = $this->estudiante;
+            $this->_view->carrera = $this->carrera;
+        }
         $tipociclo = $_SESSION["tipociclo"];
         $lsAnios = $this->_ajax->getAniosAjax($tipociclo);
         if(is_array($lsAnios)){
@@ -77,7 +94,7 @@ class asignacionController extends Controller{
         if(is_array($periodo)){
             if(isset($periodo[0]['periodo'])){
                 //Si hay período activo, validar intentos de asignación
-                $intentoAsign = $this->_asign->getIntentoAsignacion($ciclo, $this->estudiante, $_SESSION["carrera"]);
+                $intentoAsign = $this->_asign->getIntentoAsignacion($ciclo, $this->estudiante, $this->carrera);
                 if(is_array($intentoAsign)){
                     $intentoAsign = (isset($intentoAsign[0]['intento']) ? $intentoAsign[0]['intento'] : 0);
                 }else{
@@ -158,7 +175,7 @@ class asignacionController extends Controller{
             $cursos = explode(";", $cursos);
             if(count($cursos)){
                 //Si hay período activo, validar intentos de asignación
-                $intentoAsign = $this->_asign->getIntentoAsignacion($this->getInteger('hdCiclo'), $this->estudiante, $_SESSION["carrera"]);
+                $intentoAsign = $this->_asign->getIntentoAsignacion($this->getInteger('hdCiclo'), $this->estudiante, $this->carrera);
                 if(is_array($intentoAsign)){
                     $intentoAsign = (isset($intentoAsign[0]['intento']) ? $intentoAsign[0]['intento'] : 0);
                 }else{
@@ -182,7 +199,7 @@ class asignacionController extends Controller{
                 }
                 //Sino continuar
                 //Parámetro de máximo número de cursos a asignarse
-                $parametroMaxCursosAAsignar = $this->_ajax->valorParametro(CONS_PARAM_CARRERA_MAXCURSOSAASIGNARPORCICLO, $_SESSION["carrera"], $_SESSION["centrounidad"]);
+                $parametroMaxCursosAAsignar = $this->_ajax->valorParametro(CONS_PARAM_CARRERA_MAXCURSOSAASIGNARPORCICLO, $this->carrera, $_SESSION["centrounidad"]);
                 if(is_array($parametroMaxCursosAAsignar)){
                     $parametroMaxCursosAAsignar = (isset($parametroMaxCursosAAsignar[0]['valorparametro']) ? $parametroMaxCursosAAsignar[0]['valorparametro'] : -1);
                 }else{
@@ -199,7 +216,7 @@ class asignacionController extends Controller{
                 }
                 
                 //Parámetro de número máximo de cursos traslapados 
-                $parametroMaxCursosTraslapados = $this->_ajax->valorParametro(CONS_PARAM_CARRERA_MAXCURSOSTRASLAPADOS, $_SESSION["carrera"], $_SESSION["centrounidad"]);
+                $parametroMaxCursosTraslapados = $this->_ajax->valorParametro(CONS_PARAM_CARRERA_MAXCURSOSTRASLAPADOS, $this->carrera, $_SESSION["centrounidad"]);
                 if(is_array($parametroMaxCursosTraslapados)){
                     $parametroMaxCursosTraslapados = (isset($parametroMaxCursosTraslapados[0]['valorparametro']) ? $parametroMaxCursosTraslapados[0]['valorparametro'] : -1);
                 }else{
@@ -239,7 +256,7 @@ class asignacionController extends Controller{
                 //Si $parametroMaxCursosTraslapados >= $cursosTraslapados consultar parametroTiempoMaximoTraslapado y parametroCriterioTiempoTraslapado
                 else{
                     //Parámetro de tiempo máximo de traslape entre dos cursos 
-                    $parametroTiempoMaximoTraslapado = $this->_ajax->valorParametro(CONS_PARAM_CARRERA_MAXTIEMPOTRASLAPE, $_SESSION["carrera"], $_SESSION["centrounidad"]);
+                    $parametroTiempoMaximoTraslapado = $this->_ajax->valorParametro(CONS_PARAM_CARRERA_MAXTIEMPOTRASLAPE, $this->carrera, $_SESSION["centrounidad"]);
                     if(is_array($parametroTiempoMaximoTraslapado)){
                         $parametroTiempoMaximoTraslapado = (isset($parametroTiempoMaximoTraslapado[0]['valorparametro']) ? $parametroTiempoMaximoTraslapado[0]['valorparametro'] : -1);
                     }else{
@@ -247,7 +264,7 @@ class asignacionController extends Controller{
                         exit;
                     }
                     //Parámetro de criterio de traslape 
-                    $parametroCriterioTiempoTraslapado = $this->_ajax->valorParametro(CONS_PARAM_CARRERA_CRITERIOTIEMPOTRASLAPE, $_SESSION["carrera"], $_SESSION["centrounidad"]);
+                    $parametroCriterioTiempoTraslapado = $this->_ajax->valorParametro(CONS_PARAM_CARRERA_CRITERIOTIEMPOTRASLAPE, $this->carrera, $_SESSION["centrounidad"]);
                     if(is_array($parametroCriterioTiempoTraslapado)){
                         $parametroCriterioTiempoTraslapado = (isset($parametroCriterioTiempoTraslapado[0]['valorparametro']) ? $parametroCriterioTiempoTraslapado[0]['valorparametro'] : "");
                     }else{
@@ -302,7 +319,7 @@ class asignacionController extends Controller{
                 for($i=0;$i<count($cursos);$i++){
                     if($cursos[$i] <> ""){
                         //Parámetro de cupo máximo por sección
-                        $parametroCupoMaximo = $this->_ajax->valorParametro(CONS_PARAM_CARRERA_MAXCUPOPORSECCIONCURSO, $_SESSION["carrera"], $_SESSION["centrounidad"]);
+                        $parametroCupoMaximo = $this->_ajax->valorParametro(CONS_PARAM_CARRERA_MAXCUPOPORSECCIONCURSO, $this->carrera, $_SESSION["centrounidad"]);
                         if(is_array($parametroCupoMaximo)){
                             $parametroCupoMaximo = (isset($parametroCupoMaximo[0]['valorparametro']) ? $parametroCupoMaximo[0]['valorparametro'] : -1);
                         }else{
@@ -351,7 +368,7 @@ class asignacionController extends Controller{
                     }
                 }
                 //Crear ciclo asignación
-                $asignacionEstudiante = $this->_asign->agregarCicloAsignacion($this->estudiante,$_SESSION["carrera"],$periodo);
+                $asignacionEstudiante = $this->_asign->agregarCicloAsignacion($this->estudiante,$this->carrera,$periodo);
                 if(is_array($asignacionEstudiante)){
                     $asignacionEstudiante = (isset($asignacionEstudiante[0]['id']) ? $asignacionEstudiante[0]['id'] : -1);
                 }else{
@@ -371,7 +388,7 @@ class asignacionController extends Controller{
                     }
                     
                 }
-                $this->redireccionar("asignacion/boletaAsignacion/".$this->getInteger('hdAnio')."/".$this->getInteger('hdCiclo') );
+                $this->boletaAsignacion($this->getInteger('hdAnio'),$this->getInteger('hdCiclo') );
                 exit;
             }
         }
@@ -379,6 +396,10 @@ class asignacionController extends Controller{
     
     
     public function boletaAsignacion($anioA = -1, $cicloA = -1){
+        if ($_SESSION["rol"] == ROL_ADMINISTRADOR || $_SESSION["rol"] == ROL_EMPLEADO) {
+            $this->_view->estudiante = $this->estudiante;
+            $this->_view->carrera = $this->carrera;
+        }
         $tipociclo = $_SESSION["tipociclo"];
         $lsAnios = $this->_ajax->getAniosAjax($tipociclo);
         if(is_array($lsAnios)){
@@ -420,7 +441,7 @@ class asignacionController extends Controller{
         $this->_view->anio = $anio;
         $this->_view->ciclo = $ciclo;
         
-        $periodo = $this->_asign->getBoleta($ciclo, $this->estudiante, $_SESSION["carrera"]);
+        $periodo = $this->_asign->getBoleta($ciclo, $this->estudiante, $this->carrera);
         if(is_array($periodo)){
             if(isset($periodo[0]['codigocurso'])){
                 $this->_view->asignacion = $this->_encriptarFacil->encode($periodo[0]['asignacion']);
@@ -441,7 +462,7 @@ class asignacionController extends Controller{
     
     public function cursosDisponibles($ciclo){
         $cursosDisponiblesEstudiante = array();
-        $lsCursosDisponibles = $this->_asign->getCursosDisponibles($ciclo, $_SESSION["carrera"], $this->estudiante);
+        $lsCursosDisponibles = $this->_asign->getCursosDisponibles($ciclo, $this->carrera, $this->estudiante);
         if(is_array($lsCursosDisponibles)){
 
         }else{
@@ -451,7 +472,7 @@ class asignacionController extends Controller{
         if(count($lsCursosDisponibles)){
             for($i=0;$i<count($lsCursosDisponibles);$i++){
                 //Parámetro de máximas asignaciones por curso
-                $parametroMaxAsignCurso = $this->_ajax->valorParametro(CONS_PARAM_CARRERA_MAXASIGNPORCURSO, $_SESSION["carrera"], $_SESSION["centrounidad"]);
+                $parametroMaxAsignCurso = $this->_ajax->valorParametro(CONS_PARAM_CARRERA_MAXASIGNPORCURSO, $this->carrera, $_SESSION["centrounidad"]);
                 if(is_array($parametroMaxAsignCurso)){
                     $parametroMaxAsignCurso = (isset($parametroMaxAsignCurso[0]['valorparametro']) ? $parametroMaxAsignCurso[0]['valorparametro'] : -1);
                 }else{
@@ -475,7 +496,7 @@ class asignacionController extends Controller{
                 }
 
                 if ($oportunidadValida){
-                    $datosCursoPensum = $this->_asign->getDatosCursoPensum($lsCursosDisponibles[$i]['curso'], $_SESSION["carrera"], $this->estudiante);
+                    $datosCursoPensum = $this->_asign->getDatosCursoPensum($lsCursosDisponibles[$i]['curso'], $this->carrera, $this->estudiante);
                     if(is_array($datosCursoPensum)){
                         if(!empty($datosCursoPensum[0]['prerrequisitos'])){
                             $requisitosAprobados = true;
@@ -491,7 +512,7 @@ class asignacionController extends Controller{
                                             $this->redireccionar("error/sql/" . $cursoPensumArea);
                                             exit;
                                         }
-                                        $cursoAprobado = $this->_asign->getDatosCursoAprobado($this->estudiante,$idCurso,$_SESSION["carrera"]);
+                                        $cursoAprobado = $this->_asign->getDatosCursoAprobado($this->estudiante,$idCurso,$this->carrera);
                                         if(is_array($cursoAprobado)){
 
                                         }else{
@@ -507,7 +528,7 @@ class asignacionController extends Controller{
                                     case 2:
                                         //credito
                                         //Obtener total de créditos por estudiante por carrera
-                                        $creditos = $this->_ajax->getCreditosEstudianteCarrera($this->estudiante,$_SESSION["carrera"]);
+                                        $creditos = $this->_ajax->getCreditosEstudianteCarrera($this->estudiante,$this->carrera);
                                         if(is_array($creditos)){
                                             $creditos = $creditos[0]['creditos'];
                                         }else{

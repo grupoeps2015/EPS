@@ -115,6 +115,7 @@ $(document).ready( function () {
         // Remove invalid value
         $("#slCarreras").html('');
         $("#slCarreras").append('<option value="">-- Carrera --</option>' );
+        $('#btnConsultar').prop("disabled",true);
         this.input
           .val( "" )
           .attr( "title", value + " no encontrado" )
@@ -134,7 +135,7 @@ $(document).ready( function () {
   })( jQuery );
   
     $("#slCarreras").change(function(){
-        if(!$("#slAnio").val() || !$("#slCarreras").val() || !$("#slEstudiantes").val()){
+        if(!$("#slCarreras").val()){
             $('#btnConsultar').prop("disabled",true);
         }else{
             $('#btnConsultar').prop("disabled",false);
