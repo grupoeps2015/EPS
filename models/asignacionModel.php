@@ -7,7 +7,7 @@ class asignacionModel extends Model{
     }
     
     public function getPeriodo($ciclo, $tipoPeriodo, $tipoAsignacion, $centrounidad){
-        $periodo = $this->_db->query("select * from spPeriodoActivo({$ciclo},{$tipoPeriodo},{$tipoAsignacion},{$centrounidad}) as periodo;");
+        $periodo = $this->_db->query("select * from spPeriodoActivo({$ciclo},{$tipoPeriodo},{$tipoAsignacion},{$centrounidad});");
         $periodo->setFetchMode(PDO::FETCH_ASSOC);
         if($periodo === false){
             return "1200/getPeriodo";
@@ -110,8 +110,8 @@ class asignacionModel extends Model{
         }
     }
     
-    public function getIntentoAsignacion($ciclo, $estudiante, $carrera){
-        $datos = $this->_db->query("select * from spobtenerintentoasignacion({$ciclo},{$estudiante},{$carrera}) as intento;");
+    public function getIntentoAsignacion($ciclo, $estudiante, $carrera, $tipoper, $tipoasing){
+        $datos = $this->_db->query("select * from spobtenerintentoasignacion({$ciclo},{$estudiante},{$carrera},{$tipoper},{$tipoasing}) as intento;");
         $datos->setFetchMode(PDO::FETCH_ASSOC);
         if($datos === false){
             return "1200/getIntentoAsignacion";

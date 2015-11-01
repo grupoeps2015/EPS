@@ -99,26 +99,29 @@ class asignacionController extends Controller{
         $periodo = $this->_asign->getPeriodo($ciclo, PERIODO_ASIGNACION_CURSOS, $tipoAs, $_SESSION["centrounidad"]);
         if(is_array($periodo)){
             if(isset($periodo[0]['periodo'])){
-                //Si hay período activo, validar intentos de asignación
-                $intentoAsign = $this->_asign->getIntentoAsignacion($ciclo, $this->estudiante, $this->carrera);
-                if(is_array($intentoAsign)){
-                    $intentoAsign = (isset($intentoAsign[0]['intento']) ? $intentoAsign[0]['intento'] : 0);
-                }else{
-                    $this->redireccionar("error/sql/" . $intentoAsign);
-                    exit;
-                }
-                //Parámetro de máximo intento de asignaciones por ciclo
-                $parametroMaxIntentosAsign = $this->_ajax->valorParametro(CONS_PARAM_APP_MAXINTENTOSASIGN, -1, -1);
-                if(is_array($parametroMaxIntentosAsign)){
-                    $parametroMaxIntentosAsign = (isset($parametroMaxIntentosAsign[0]['valorparametro']) ? $parametroMaxIntentosAsign[0]['valorparametro'] : 1);
-                }else{
-                    $this->redireccionar("error/sql/" . $parametroMaxIntentosAsign);
-                    exit;
-                }
-                //Si ha alcanzado o superado el máximo de intentos redirigir a boleta
-                if ($intentoAsign >= $parametroMaxIntentosAsign) {
-                    $this->redireccionar("asignacion/boletaAsignacion/".$anio."/".$ciclo);
-                    exit;
+                //Hacer estas validaciones en rol estudiante
+                if ($_SESSION["rol"] == ROL_ESTUDIANTE) {
+                    //Si hay período activo, validar intentos de asignación
+                    $intentoAsign = $this->_asign->getIntentoAsignacion($ciclo, $this->estudiante, $this->carrera, PERIODO_ASIGNACION_CURSOS, $periodo[0]['tipoasign']);
+                    if(is_array($intentoAsign)){
+                        $intentoAsign = (isset($intentoAsign[0]['intento']) ? $intentoAsign[0]['intento'] : 0);
+                    }else{
+                        $this->redireccionar("error/sql/" . $intentoAsign);
+                        exit;
+                    }
+                    //Parámetro de máximo intento de asignaciones por ciclo
+                    $parametroMaxIntentosAsign = $this->_ajax->valorParametro(CONS_PARAM_APP_MAXINTENTOSASIGN, -1, -1);
+                    if(is_array($parametroMaxIntentosAsign)){
+                        $parametroMaxIntentosAsign = (isset($parametroMaxIntentosAsign[0]['valorparametro']) ? $parametroMaxIntentosAsign[0]['valorparametro'] : 1);
+                    }else{
+                        $this->redireccionar("error/sql/" . $parametroMaxIntentosAsign);
+                        exit;
+                    }
+                    //Si ha alcanzado o superado el máximo de intentos redirigir a boleta
+                    if ($intentoAsign >= $parametroMaxIntentosAsign) {
+                        $this->redireccionar("asignacion/boletaAsignacion/".$anio."/".$ciclo);
+                        exit;
+                    }
                 }
                 //Sino continuar
                 //Mostrar cursos disponibles para asignación
@@ -170,6 +173,7 @@ class asignacionController extends Controller{
             $periodo = $this->_asign->getPeriodo($this->getInteger('hdCiclo'), PERIODO_ASIGNACION_CURSOS, $tipoAs, $_SESSION["centrounidad"]);
             if(is_array($periodo)){
                 if(isset($periodo[0]['periodo'])){
+                    $tipoAsign = $periodo[0]['tipoasign'];
                     $periodo = $periodo[0]['periodo'];
                 }
                 else{
@@ -186,198 +190,201 @@ class asignacionController extends Controller{
             $cursos = $this->getTexto('hdCursos');
             $cursos = explode(";", $cursos);
             if(count($cursos)){
-                //Si hay período activo, validar intentos de asignación
-                $intentoAsign = $this->_asign->getIntentoAsignacion($this->getInteger('hdCiclo'), $this->estudiante, $this->carrera);
-                if(is_array($intentoAsign)){
-                    $intentoAsign = (isset($intentoAsign[0]['intento']) ? $intentoAsign[0]['intento'] : 0);
-                }else{
-                    $this->redireccionar("error/sql/" . $intentoAsign);
-                    exit;
-                }
-                //Parámetro de máximo intento de asignaciones por ciclo
-                $parametroMaxIntentosAsign = $this->_ajax->valorParametro(CONS_PARAM_APP_MAXINTENTOSASIGN, -1, -1);
-                if(is_array($parametroMaxIntentosAsign)){
-                    $parametroMaxIntentosAsign = (isset($parametroMaxIntentosAsign[0]['valorparametro']) ? $parametroMaxIntentosAsign[0]['valorparametro'] : 1);
-                }else{
-                    $this->redireccionar("error/sql/" . $parametroMaxIntentosAsign);
-                    exit;
-                }
-                //Si ha alcanzado o superado el máximo de intentos redirigir a boleta
-                if ($intentoAsign >= $parametroMaxIntentosAsign) {
-                    //TODO: Marlen: Redirigir a página de error de asignación
-                    //echo "Cantidad de intentos de asignación por ciclo excede el límite establecido en parámetro";
-                    $this->redireccionar("error/asign/1300/11");
-                    exit;
-                }
-                //Sino continuar
-                //Parámetro de máximo número de cursos a asignarse
-                $parametroMaxCursosAAsignar = $this->_ajax->valorParametro(CONS_PARAM_CARRERA_MAXCURSOSAASIGNARPORCICLO, $this->carrera, $_SESSION["centrounidad"]);
-                if(is_array($parametroMaxCursosAAsignar)){
-                    $parametroMaxCursosAAsignar = (isset($parametroMaxCursosAAsignar[0]['valorparametro']) ? $parametroMaxCursosAAsignar[0]['valorparametro'] : -1);
-                }else{
-                    $this->redireccionar("error/sql/" . $parametroMaxCursosAAsignar);
-                    exit;
-                }
-                if($parametroMaxCursosAAsignar > 0){
-                    if (count(array_filter($cursos))> $parametroMaxCursosAAsignar) {
-                        //TODO: Marlen: Redirigir a página de error de asignación
-                        //echo "Cursos a asignar superan el límite establecido en parámetro";
-                        $this->redireccionar("error/asign/1300/12");
+                if ($_SESSION["rol"] == ROL_ESTUDIANTE) {
+                    //Si hay período activo, validar intentos de asignación
+                    $intentoAsign = $this->_asign->getIntentoAsignacion($this->getInteger('hdCiclo'), $this->estudiante, $this->carrera, PERIODO_ASIGNACION_CURSOS, $tipoAsign);
+                    if(is_array($intentoAsign)){
+                        $intentoAsign = (isset($intentoAsign[0]['intento']) ? $intentoAsign[0]['intento'] : 0);
+                    }else{
+                        $this->redireccionar("error/sql/" . $intentoAsign);
                         exit;
                     }
-                }
-                
-                //Parámetro de número máximo de cursos traslapados 
-                $parametroMaxCursosTraslapados = $this->_ajax->valorParametro(CONS_PARAM_CARRERA_MAXCURSOSTRASLAPADOS, $this->carrera, $_SESSION["centrounidad"]);
-                if(is_array($parametroMaxCursosTraslapados)){
-                    $parametroMaxCursosTraslapados = (isset($parametroMaxCursosTraslapados[0]['valorparametro']) ? $parametroMaxCursosTraslapados[0]['valorparametro'] : -1);
-                }else{
-                    $this->redireccionar("error/sql/" . $parametroMaxCursosTraslapados);
-                    exit;
-                }
-                
-                //Consultar cursos traslapados en secciones elegidas a asignar
-                $cursosTraslapados = $this->_asign->getCursosTraslapados($this->getInteger('hdCiclo'),$this->getTexto('hdCursos'));
-                if(is_array($cursosTraslapados)){
-                    $cursosTraslapadosCantidad = count($cursosTraslapados);
-                    for($cu=0;$cu<$cursosTraslapadosCantidad;$cu++){
-                        //Si el curso traslapado no acepta traslape
-                        if(!$cursosTraslapados[$cu]['traslapecurso']){
+                    //Parámetro de máximo intento de asignaciones por ciclo
+                    $parametroMaxIntentosAsign = $this->_ajax->valorParametro(CONS_PARAM_APP_MAXINTENTOSASIGN, -1, -1);
+                    if(is_array($parametroMaxIntentosAsign)){
+                        $parametroMaxIntentosAsign = (isset($parametroMaxIntentosAsign[0]['valorparametro']) ? $parametroMaxIntentosAsign[0]['valorparametro'] : 1);
+                    }else{
+                        $this->redireccionar("error/sql/" . $parametroMaxIntentosAsign);
+                        exit;
+                    }
+                    //Si ha alcanzado o superado el máximo de intentos redirigir a boleta
+                    if ($intentoAsign >= $parametroMaxIntentosAsign) {
+                        //TODO: Marlen: Redirigir a página de error de asignación
+                        //echo "Cantidad de intentos de asignación por ciclo excede el límite establecido en parámetro";
+                        $this->redireccionar("error/asign/1300/11");
+                        exit;
+                    }
+                    //Sino continuar
+                    //Parámetro de máximo número de cursos a asignarse
+                    $parametroMaxCursosAAsignar = $this->_ajax->valorParametro(CONS_PARAM_CARRERA_MAXCURSOSAASIGNARPORCICLO, $this->carrera, $_SESSION["centrounidad"]);
+                    if(is_array($parametroMaxCursosAAsignar)){
+                        $parametroMaxCursosAAsignar = (isset($parametroMaxCursosAAsignar[0]['valorparametro']) ? $parametroMaxCursosAAsignar[0]['valorparametro'] : -1);
+                    }else{
+                        $this->redireccionar("error/sql/" . $parametroMaxCursosAAsignar);
+                        exit;
+                    }
+                    if($parametroMaxCursosAAsignar > 0){
+                        if (count(array_filter($cursos))> $parametroMaxCursosAAsignar) {
                             //TODO: Marlen: Redirigir a página de error de asignación
-                            //echo "Curso no acepta traslape";
-                            $this->redireccionar("error/asign/1300/13");
+                            //echo "Cursos a asignar superan el límite establecido en parámetro";
+                            $this->redireccionar("error/asign/1300/12");
                             exit;
                         }
                     }
-                }else{
-                    $this->redireccionar("error/sql/" . $cursosTraslapados);
-                    exit;
-                }
-                
-                //Si $cursosTraslapados > $parametroMaxCursosTraslapados redirigir a error
-                if($cursosTraslapadosCantidad > $parametroMaxCursosTraslapados){
-                    //TODO: Marlen: Redirigir a página de error de asignación
-                    //echo "Cursos traslapados sobrepasan el máximo establecido por parámetro";
-                    $this->redireccionar("error/asign/1300/14");
-                    exit;
-                }
-                //Si no se acepta traslape y no hay cursos traslapados continuar
-                else if($cursosTraslapadosCantidad == $parametroMaxCursosTraslapados && $parametroMaxCursosTraslapados == 0){
-                    
-                }
-                //Si $parametroMaxCursosTraslapados >= $cursosTraslapados consultar parametroTiempoMaximoTraslapado y parametroCriterioTiempoTraslapado
-                else{
-                    //Parámetro de tiempo máximo de traslape entre dos cursos 
-                    $parametroTiempoMaximoTraslapado = $this->_ajax->valorParametro(CONS_PARAM_CARRERA_MAXTIEMPOTRASLAPE, $this->carrera, $_SESSION["centrounidad"]);
-                    if(is_array($parametroTiempoMaximoTraslapado)){
-                        $parametroTiempoMaximoTraslapado = (isset($parametroTiempoMaximoTraslapado[0]['valorparametro']) ? $parametroTiempoMaximoTraslapado[0]['valorparametro'] : -1);
+
+                    //Parámetro de número máximo de cursos traslapados 
+                    $parametroMaxCursosTraslapados = $this->_ajax->valorParametro(CONS_PARAM_CARRERA_MAXCURSOSTRASLAPADOS, $this->carrera, $_SESSION["centrounidad"]);
+                    if(is_array($parametroMaxCursosTraslapados)){
+                        $parametroMaxCursosTraslapados = (isset($parametroMaxCursosTraslapados[0]['valorparametro']) ? $parametroMaxCursosTraslapados[0]['valorparametro'] : -1);
                     }else{
-                        $this->redireccionar("error/sql/" . $parametroTiempoMaximoTraslapado);
+                        $this->redireccionar("error/sql/" . $parametroMaxCursosTraslapados);
                         exit;
                     }
-                    //Parámetro de criterio de traslape 
-                    $parametroCriterioTiempoTraslapado = $this->_ajax->valorParametro(CONS_PARAM_CARRERA_CRITERIOTIEMPOTRASLAPE, $this->carrera, $_SESSION["centrounidad"]);
-                    if(is_array($parametroCriterioTiempoTraslapado)){
-                        $parametroCriterioTiempoTraslapado = (isset($parametroCriterioTiempoTraslapado[0]['valorparametro']) ? $parametroCriterioTiempoTraslapado[0]['valorparametro'] : "");
+
+                    //Consultar cursos traslapados en secciones elegidas a asignar
+                    $cursosTraslapados = $this->_asign->getCursosTraslapados($this->getInteger('hdCiclo'),$this->getTexto('hdCursos'));
+                    if(is_array($cursosTraslapados)){
+                        $cursosTraslapadosCantidad = count($cursosTraslapados);
+                        for($cu=0;$cu<$cursosTraslapadosCantidad;$cu++){
+                            //Si el curso traslapado no acepta traslape
+                            if(!$cursosTraslapados[$cu]['traslapecurso']){
+                                //TODO: Marlen: Redirigir a página de error de asignación
+                                //echo "Curso no acepta traslape";
+                                $this->redireccionar("error/asign/1300/13");
+                                exit;
+                            }
+                        }
                     }else{
-                        $this->redireccionar("error/sql/" . $parametroCriterioTiempoTraslapado);
+                        $this->redireccionar("error/sql/" . $cursosTraslapados);
                         exit;
                     }
-                    //Según $parametroCriterioTiempoTraslapado ejecutar spObtenerTiempoTraslapeEntreCursos[Criterio]
-                    if($parametroCriterioTiempoTraslapado == "D"){
-                        $traslapes = $this->_asign->getTraslapesXCriterio('dia',$this->getInteger('hdCiclo'),$this->getTexto('hdCursos'),$parametroTiempoMaximoTraslapado);
-                        if(is_array($traslapes)){
-                            //Si no está vacío redirigir a página de error
-                            if(count($traslapes)){
-                                //TODO: Marlen: Redirigir a página de error de asignación
-                                //echo "Tiempo de traslape entre cursos sobrepasa el máximo establecido por parámetro";
-                                $this->redireccionar("error/asign/1300/15");
-                                exit;
-                            }
-                            //Si está vacío continuar
-                        }else{
-                            $this->redireccionar("error/sql/" . $traslapes);
-                            exit;
-                        }
-                        
-                    }
-                    else if($parametroCriterioTiempoTraslapado == "S"){
-                        $traslapes = $this->_asign->getTraslapesXCriterio('semana',$this->getInteger('hdCiclo'),$this->getTexto('hdCursos'),$parametroTiempoMaximoTraslapado);
-                        if(is_array($traslapes)){
-                            //Si no está vacío redirigir a página de error
-                            if(count($traslapes)){
-                                //TODO: Marlen: Redirigir a página de error de asignación
-                                //echo "Tiempo de traslape entre cursos sobrepasa el máximo establecido por parámetro";
-                                $this->redireccionar("error/asign/1300/16");
-                                exit;
-                            }
-                            //Si está vacío continuar
-                        }else{
-                            $this->redireccionar("error/sql/" . $traslapes);
-                            exit;
-                        }
-                    }
-                    else{
+
+                    //Si $cursosTraslapados > $parametroMaxCursosTraslapados redirigir a error
+                    if($cursosTraslapadosCantidad > $parametroMaxCursosTraslapados){
                         //TODO: Marlen: Redirigir a página de error de asignación
-                        //echo "No existe criterio de tiempo de traslape entre cursos";
-                        $this->redireccionar("error/asign/1300/17");
+                        //echo "Cursos traslapados sobrepasan el máximo establecido por parámetro";
+                        $this->redireccionar("error/asign/1300/14");
                         exit;
                     }
-                }
+                    //Si no se acepta traslape y no hay cursos traslapados continuar
+                    else if($cursosTraslapadosCantidad == $parametroMaxCursosTraslapados && $parametroMaxCursosTraslapados == 0){
+
+                    }
+                    //Si $parametroMaxCursosTraslapados >= $cursosTraslapados consultar parametroTiempoMaximoTraslapado y parametroCriterioTiempoTraslapado
+                    else{
+                        //Parámetro de tiempo máximo de traslape entre dos cursos 
+                        $parametroTiempoMaximoTraslapado = $this->_ajax->valorParametro(CONS_PARAM_CARRERA_MAXTIEMPOTRASLAPE, $this->carrera, $_SESSION["centrounidad"]);
+                        if(is_array($parametroTiempoMaximoTraslapado)){
+                            $parametroTiempoMaximoTraslapado = (isset($parametroTiempoMaximoTraslapado[0]['valorparametro']) ? $parametroTiempoMaximoTraslapado[0]['valorparametro'] : -1);
+                        }else{
+                            $this->redireccionar("error/sql/" . $parametroTiempoMaximoTraslapado);
+                            exit;
+                        }
+                        //Parámetro de criterio de traslape 
+                        $parametroCriterioTiempoTraslapado = $this->_ajax->valorParametro(CONS_PARAM_CARRERA_CRITERIOTIEMPOTRASLAPE, $this->carrera, $_SESSION["centrounidad"]);
+                        if(is_array($parametroCriterioTiempoTraslapado)){
+                            $parametroCriterioTiempoTraslapado = (isset($parametroCriterioTiempoTraslapado[0]['valorparametro']) ? $parametroCriterioTiempoTraslapado[0]['valorparametro'] : "");
+                        }else{
+                            $this->redireccionar("error/sql/" . $parametroCriterioTiempoTraslapado);
+                            exit;
+                        }
+                        //Según $parametroCriterioTiempoTraslapado ejecutar spObtenerTiempoTraslapeEntreCursos[Criterio]
+                        if($parametroCriterioTiempoTraslapado == "D"){
+                            $traslapes = $this->_asign->getTraslapesXCriterio('dia',$this->getInteger('hdCiclo'),$this->getTexto('hdCursos'),$parametroTiempoMaximoTraslapado);
+                            if(is_array($traslapes)){
+                                //Si no está vacío redirigir a página de error
+                                if(count($traslapes)){
+                                    //TODO: Marlen: Redirigir a página de error de asignación
+                                    //echo "Tiempo de traslape entre cursos sobrepasa el máximo establecido por parámetro";
+                                    $this->redireccionar("error/asign/1300/15");
+                                    exit;
+                                }
+                                //Si está vacío continuar
+                            }else{
+                                $this->redireccionar("error/sql/" . $traslapes);
+                                exit;
+                            }
+
+                        }
+                        else if($parametroCriterioTiempoTraslapado == "S"){
+                            $traslapes = $this->_asign->getTraslapesXCriterio('semana',$this->getInteger('hdCiclo'),$this->getTexto('hdCursos'),$parametroTiempoMaximoTraslapado);
+                            if(is_array($traslapes)){
+                                //Si no está vacío redirigir a página de error
+                                if(count($traslapes)){
+                                    //TODO: Marlen: Redirigir a página de error de asignación
+                                    //echo "Tiempo de traslape entre cursos sobrepasa el máximo establecido por parámetro";
+                                    $this->redireccionar("error/asign/1300/16");
+                                    exit;
+                                }
+                                //Si está vacío continuar
+                            }else{
+                                $this->redireccionar("error/sql/" . $traslapes);
+                                exit;
+                            }
+                        }
+                        else{
+                            //TODO: Marlen: Redirigir a página de error de asignación
+                            //echo "No existe criterio de tiempo de traslape entre cursos";
+                            $this->redireccionar("error/asign/1300/17");
+                            exit;
+                        }
+                    }
 //                echo "Pasó todas las validaciones";
 //                exit;
                 //TODO: Marlen: Validar cupo de las secciones a asignar
                 //
-                for($i=0;$i<count($cursos);$i++){
-                    if($cursos[$i] <> ""){
-                        //Parámetro de cupo máximo por sección
-                        $parametroCupoMaximo = $this->_ajax->valorParametro(CONS_PARAM_CARRERA_MAXCUPOPORSECCIONCURSO, $this->carrera, $_SESSION["centrounidad"]);
-                        if(is_array($parametroCupoMaximo)){
-                            $parametroCupoMaximo = (isset($parametroCupoMaximo[0]['valorparametro']) ? $parametroCupoMaximo[0]['valorparametro'] : -1);
-                        }else{
-                            $this->redireccionar("error/sql/" . $parametroCupoMaximo);
-                            exit;
-                        }
-                        //Si es > 0 hay límite
-                        if ($parametroCupoMaximo > 0) {
-                            $cupoSeccion = $this->_ajax->getCupoSeccionAjax($this->getInteger('hdCiclo'),$cursos[$i]);
-                            if(is_array($cupoSeccion)){
-                                $cupoSeccion = (isset($cupoSeccion[0]['cupo']) ? $cupoSeccion[0]['cupo'] : -1);
+                    for($i=0;$i<count($cursos);$i++){
+                        if($cursos[$i] <> ""){
+                            //Parámetro de cupo máximo por sección
+                            $parametroCupoMaximo = $this->_ajax->valorParametro(CONS_PARAM_CARRERA_MAXCUPOPORSECCIONCURSO, $this->carrera, $_SESSION["centrounidad"]);
+                            if(is_array($parametroCupoMaximo)){
+                                $parametroCupoMaximo = (isset($parametroCupoMaximo[0]['valorparametro']) ? $parametroCupoMaximo[0]['valorparametro'] : -1);
                             }else{
-                                $this->redireccionar("error/sql/" . $cupoSeccion);
+                                $this->redireccionar("error/sql/" . $parametroCupoMaximo);
                                 exit;
                             }
-                            if ($cupoSeccion < $parametroCupoMaximo) {
-                                //Si aún hay cupo continuar
+                            //Si es > 0 hay límite
+                            if ($parametroCupoMaximo > 0) {
+                                $cupoSeccion = $this->_ajax->getCupoSeccionAjax($this->getInteger('hdCiclo'),$cursos[$i]);
+                                if(is_array($cupoSeccion)){
+                                    $cupoSeccion = (isset($cupoSeccion[0]['cupo']) ? $cupoSeccion[0]['cupo'] : -1);
+                                }else{
+                                    $this->redireccionar("error/sql/" . $cupoSeccion);
+                                    exit;
+                                }
+                                if ($cupoSeccion < $parametroCupoMaximo) {
+                                    //Si aún hay cupo continuar
+                                }
+                                else{
+                                    //TODO: Marlen: Redirigir a página de error de asignación
+                                    //echo "No hay cupo disponible en esta sección";
+                                    $this->redireccionar("error/asign/1300/18");
+                                    exit;
+                                }
                             }
-                            else{
+                        }
+                    }
+                
+                    //Previo a crear asignación, verificar que los cursos a asignar están dentro de los disponibles
+                    for($i=0;$i<count($cursos);$i++){
+                        if($cursos[$i] <> ""){
+                            //Consultar el id del curso de la sección a asignar
+                            $cursoSeccion = $this->_asign->datosSeccion($cursos[$i]);
+                            if(is_array($cursoSeccion)){
+                                $cursoSeccion = (isset($cursoSeccion[0]['curso']) ? $cursoSeccion[0]['curso'] : -1);
+                            }else{
+                                $this->redireccionar("error/sql/" . $cursoSeccion);
+                                exit;
+                            }
+                            //Verificar que está en el listado
+                            if(!in_array($cursoSeccion, array_column($this->cursosDisponibles($this->getInteger('hdCiclo')), 'curso'))){
                                 //TODO: Marlen: Redirigir a página de error de asignación
-                                //echo "No hay cupo disponible en esta sección";
-                                $this->redireccionar("error/asign/1300/18");
+                                //echo "Este curso no está disponible para asignación";
+                                $this->redireccionar("error/asign/1300/19");
                                 exit;
                             }
                         }
-                    }
-                }
-                //Previo a crear asignación, verificar que los cursos a asignar están dentro de los disponibles
-                for($i=0;$i<count($cursos);$i++){
-                    if($cursos[$i] <> ""){
-                        //Consultar el id del curso de la sección a asignar
-                        $cursoSeccion = $this->_asign->datosSeccion($cursos[$i]);
-                        if(is_array($cursoSeccion)){
-                            $cursoSeccion = (isset($cursoSeccion[0]['curso']) ? $cursoSeccion[0]['curso'] : -1);
-                        }else{
-                            $this->redireccionar("error/sql/" . $cursoSeccion);
-                            exit;
-                        }
-                        //Verificar que está en el listado
-                        if(!in_array($cursoSeccion, array_column($this->cursosDisponibles($this->getInteger('hdCiclo')), 'curso'))){
-                            //TODO: Marlen: Redirigir a página de error de asignación
-                            //echo "Este curso no está disponible para asignación";
-                            $this->redireccionar("error/asign/1300/19");
-                            exit;
-                        }
-                    }
+                    }   
                 }
                 //Crear ciclo asignación
                 $asignacionEstudiante = $this->_asign->agregarCicloAsignacion($this->estudiante,$this->carrera,$periodo);

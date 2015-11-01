@@ -6,20 +6,22 @@ CREATE OR REPLACE FUNCTION spPeriodoActivo(
     _ciclo integer,
 	_tipoperiodo integer,
 	_tipoasignacion integer,
-	_centrounidad integer)
-  RETURNS INTEGER AS
+	_centrounidad integer,
+	out periodo integer,
+	out tipoasign integer)
+  RETURNS SETOF record AS
 $BODY$
 begin
 IF _tipoasignacion <> 1 THEN
- Return (select per.periodo
+ Return query select per.periodo, per.tipoasignacion
 	      from 
 	        adm_periodo per
-	      where per.ciclo = _ciclo and per.tipoperiodo = _tipoperiodo and per.centro_unidadacademica = _centrounidad and current_date between per.fechainicial and per.fechafinal and per.estado = 1) ::INTEGER;
+	      where per.ciclo = _ciclo and per.tipoperiodo = _tipoperiodo and per.centro_unidadacademica = _centrounidad and current_date between per.fechainicial and per.fechafinal and per.estado = 1;
 ELSE
- Return (select per.periodo
+ Return query select per.periodo, per.tipoasignacion
 	      from 
 	        adm_periodo per
-	      where per.ciclo = _ciclo and per.tipoperiodo = _tipoperiodo and per.tipoasignacion = _tipoasignacion and per.centro_unidadacademica = _centrounidad and per.estado = 1) ::INTEGER;
+	      where per.ciclo = _ciclo and per.tipoperiodo = _tipoperiodo and per.tipoasignacion = _tipoasignacion and per.centro_unidadacademica = _centrounidad and per.estado = 1;
 END IF;
 end;
 $BODY$
@@ -347,9 +349,6 @@ ALTER FUNCTION spobtenercuposeccion(integer, integer)
   OWNER TO postgres;
 
   
--- Function: spobtenerboletaasignacion(integer, integer, integer)
-
--- DROP FUNCTION spobtenerboletaasignacion(integer, integer, integer);
 
 -- Function: spobtenerboletaasignacion(integer, integer, integer)
 
@@ -390,14 +389,16 @@ ALTER FUNCTION spobtenerboletaasignacion(integer, integer, integer)
   OWNER TO postgres;
   
   
--- Function: spobtenerintentoasignacion(integer, integer, integer)
+-- Function: spobtenerintentoasignacion(integer, integer, integer, integer, integer)
 
--- DROP FUNCTION spobtenerintentoasignacion(integer, integer, integer);
+-- DROP FUNCTION spobtenerintentoasignacion(integer, integer, integer, integer, integer);
 
 CREATE OR REPLACE FUNCTION spobtenerintentoasignacion(
     _ciclo integer,
     _estudiante integer,
-    _carrera integer)
+    _carrera integer,
+    _tipoperiodo integer,
+	_tipoasignacion integer)
   RETURNS INTEGER AS
 $BODY$
 begin
@@ -406,14 +407,14 @@ begin
   FROM EST_CICLO_ASIGNACION ca
   JOIN ADM_PERIODO p ON ca.periodo = p.periodo AND p.ciclo = _ciclo
   JOIN EST_CUR_ASIGNACION cura on cura.Ciclo_Asignacion = ca.Ciclo_Asignacion
-  WHERE ca.estudiante = _estudiante AND ca.carrera = _carrera
+  WHERE ca.estudiante = _estudiante AND ca.carrera = _carrera AND p.tipoasignacion = _tipoasignacion AND p.tipoperiodo = _tipoperiodo
   ) ::INTEGER;
 end;
 $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
-ALTER FUNCTION spobtenerintentoasignacion(integer, integer, integer)
-  OWNER TO postgres;  
+ALTER FUNCTION spobtenerintentoasignacion(integer, integer, integer, integer, integer)
+  OWNER TO postgres; 
   
   
 -- Function: spcreditoscursosaprobados(integer, integer, integer)
