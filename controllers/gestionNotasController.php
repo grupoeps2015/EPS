@@ -115,7 +115,6 @@ class gestionNotasController extends Controller{
         }else{
             echo "Ocurrio un error al ingresar una nota";
         }
-        
     }
     
 }
