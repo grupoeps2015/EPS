@@ -42,6 +42,15 @@ class asignacionModel extends Model{
             return $info->fetchall();
         }
     }
+    public function desactivarAsignacionAnterior($nueva,$estudiante,$carrera,$periodo) {
+        $info = $this->_db->query("SELECT * from spdesactivarasignacionanterior({$nueva},{$estudiante},{$carrera},{$periodo}) as Id;");
+        $info->setFetchMode(PDO::FETCH_ASSOC);
+        if($info === false){
+            return "1103/desactivarAsignacionAnterior";
+        }else{
+            return $info->fetchall();
+        }
+    }
     public function getDatosCursoPensum($curso, $carrera, $estudiante){
         $cursos = $this->_db->query("select * from spdatoscursopensum({$curso},{$carrera},{$estudiante});");
         $cursos->setFetchMode(PDO::FETCH_ASSOC);

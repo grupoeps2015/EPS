@@ -366,12 +366,13 @@ CREATE OR REPLACE FUNCTION spobtenerboletaasignacion(
     out NombreSeccion text,
     out NombreDia text,
     out Inicio text,
-    out Fin text)
+    out Fin text,
+    out tipoasign text)
   RETURNS setof record AS
 $BODY$
 begin
   Return query
-  SELECT ca.Ciclo_Asignacion, to_char(ca.fecha, 'DD/MM/YYYY'), to_char(ca.hora, 'HH24:MI'), cu.codigo, cu.nombre, sec.nombre, dia.nombre, to_char(tra.inicio, 'HH24:MI'), to_char(tra.fin, 'HH24:MI')
+  SELECT ca.Ciclo_Asignacion, to_char(ca.fecha, 'DD/MM/YYYY'), to_char(ca.hora, 'HH24:MI'), cu.codigo, cu.nombre, sec.nombre, dia.nombre, to_char(tra.inicio, 'HH24:MI'), to_char(tra.fin, 'HH24:MI'), tasi.nombre
   FROM EST_CICLO_ASIGNACION ca
   JOIN ADM_PERIODO p ON ca.periodo = p.periodo AND p.ciclo = _ciclo
   JOIN EST_CUR_ASIGNACION cura on cura.Ciclo_Asignacion = ca.Ciclo_Asignacion and cura.estado = 1
@@ -380,7 +381,8 @@ begin
   JOIN CUR_TRAMA tra on tra.seccion = cura.seccion
   JOIN CUR_HORARIO hor on hor.trama = tra.trama and hor.ciclo = _ciclo
   JOIN CUR_DIA dia on dia.codigo = tra.dia
-  WHERE ca.estudiante = _estudiante AND ca.carrera = _carrera order by cu.codigo, dia.codigo, tra.inicio;
+  JOIN ADM_TIPOASIGNACION tasi on tasi.tipoasignacion = p.tipoasignacion 
+  WHERE ca.estudiante = _estudiante AND ca.carrera = _carrera order by ca.Ciclo_Asignacion, cu.codigo, dia.codigo, tra.inicio;
 end;
 $BODY$
   LANGUAGE plpgsql VOLATILE
@@ -452,6 +454,30 @@ ALTER FUNCTION spcreditoscursosaprobados(integer, integer)
   OWNER TO postgres;
  
   
+
+-- Function: spdesactivarasignacionanterior(integer, integer, integer, integer)
+
+-- DROP FUNCTION spdesactivarasignacionanterior(integer, integer, integer, integer);
+
+CREATE OR REPLACE FUNCTION spdesactivarasignacionanterior(
+    _nuevaAsign integer,
+    _estudiante integer,
+    _carrera integer,
+    _periodo integer)
+  RETURNS integer AS
+$BODY$
+begin
+ UPDATE EST_CUR_Asignacion set Estado = -1 WHERE asignacion in(
+	select cura.asignacion from EST_CUR_Asignacion cura 
+	join EST_Ciclo_Asignacion cicla on cura.Ciclo_Asignacion = cicla.Ciclo_Asignacion 
+		and cicla.Estudiante = _estudiante and cicla.carrera = _carrera and cicla.periodo = _periodo and cicla.Ciclo_Asignacion <> _nuevaAsign);
+ RETURN 1;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION spdesactivarasignacionanterior(integer, integer, integer, integer)
+  OWNER TO postgres;
 -- Function: splistadocursosaprobados(integer, integer)
 
 -- DROP FUNCTION splistadocursosaprobados(integer, integer);
