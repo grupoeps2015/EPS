@@ -73,10 +73,11 @@
                 </table>
             </form>
             </div>
-            <div class="col-md-8 col-md-offset-2">
-            <?php if(isset($this->asignacion)) :?>
+            <div class="col-lg-12">
+            <?php if(isset($this->asignacion) && count($this->asignacion)) :?>
+            <?php for($a =0; $a < count($this->asignacion); $a++) : ?>
                 <br />
-                <table id="tbBoleta" border="2">
+                <table id="tbBoleta" class="tbBoleta" border="2">
                     <thead>
                         <tr>
                             <th style="text-align:center">Código</th>
@@ -85,11 +86,13 @@
                             <th style="text-align:center">Día</th>
                             <th style="text-align:center">Inicio</th>
                             <th style="text-align:center">Fin</th>
+                            <th style="text-align:center">Asignación</th>
                         </tr>
                     </thead>
                     <tbody>
                     <?php if(isset($this->lstPar) && count($this->lstPar)): ?>
                         <?php for($i =0; $i < count($this->lstPar); $i++) : ?>
+                        <?php if($this->lstPar[$i]['asignacion'] == $this->asignacion[$a]): ?>
                         <tr>
                             <td style="text-align: center;"><?php echo $this->lstPar[$i]['codigocurso']; ?></td>
                             <td style="text-align: center;"><?php echo $this->lstPar[$i]['nombrecurso']; ?></td>
@@ -97,16 +100,22 @@
                             <td style="text-align: center"><?php echo $this->lstPar[$i]['nombredia']; ?></td>
                             <td style="text-align: center;"><?php echo $this->lstPar[$i]['inicio']; ?></td>
                             <td style="text-align: center"><?php echo $this->lstPar[$i]['fin']; ?></td>
+                            <td style="text-align: center"><?php echo $this->lstPar[$i]['tipoasign']; ?></td>
                         </tr>
+                        <?php $indice = $i;?>
+                        
+                        <?php endif;?> 
                         <?php endfor;?>
                     <?php endif;?> 
                     </tbody>
                 </table>
-                <br />
                 <center>
-                <h4 style="color: red">ID de boleta de asignación: <span style="color: black">[<?php echo $this->asignacion?>]</span></h4>
-                <h4 style="color: blue">Fecha y hora: <span style="color: black"><?php echo $this->fecha . " " . $this->hora?></span></h4>
+                <h4 style="color: red">ID de boleta de asignación: <span style="color: black">[<?php echo $this->_encriptarFacil->encode($this->asignacion[$a])?>]</span></h4>
+                <h4 style="color: blue">Fecha y hora: <span style="color: black"><?php echo $this->lstPar[$indice]['fecha'] . " " . $this->lstPar[$indice]['hora']?></span></h4>
                 </center>
+                <br />
+                <br />
+            <?php endfor;?>
             <?php else : ?>
                 <center>
             <h4>No hay registro de asignación para el ciclo seleccionado.</h4>

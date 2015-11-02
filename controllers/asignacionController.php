@@ -472,10 +472,11 @@ class asignacionController extends Controller{
         $periodo = $this->_asign->getBoleta($ciclo, $this->estudiante, $this->carrera);
         if(is_array($periodo)){
             if(isset($periodo[0]['codigocurso'])){
-                $this->_view->asignacion = $this->_encriptarFacil->encode($periodo[0]['asignacion']);
-                $this->_view->fecha = $periodo[0]['fecha'];
-                $this->_view->hora = $periodo[0]['hora'];
+                $this->_view->asignacion = array_unique (array_column($periodo,'asignacion'));//$this->_encriptarFacil->encode($periodo[0]['asignacion']);
+                //$this->_view->fecha = $periodo[0]['fecha'];
+                //$this->_view->hora = $periodo[0]['hora'];
                 $this->_view->lstPar = $periodo;
+                $this->_view->_encriptarFacil = $this->_encriptarFacil;
         }
         }else{
             $this->redireccionar("error/sql/" . $periodo);
