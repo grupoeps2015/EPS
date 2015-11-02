@@ -450,17 +450,74 @@ $BODY$
   COST 100;
 ALTER FUNCTION spcreditoscursosaprobados(integer, integer)
   OWNER TO postgres;
+ 
   
-  /*
-  select ca.cursoaprobado, coalesce(asig.asignacion, asigretra.asignacion), curso.curso as numero, curso.codigo as codigo, curso.nombre as asignatura, tipo.tipoaprobacion, tipo.nombre, coalesce(nota.total, -1) as calificacionnumeros, ca.fechaaprobacion 
-from est_cursoaprobado ca
-left join est_cur_asignacion asig on asig.asignacion = ca.asignacion
-left join est_asignacionretrasada asigretra on asigretra.asignacionretrasada = ca.asignacionretrasada and asig.asignacion = asigretra.asignacion
-join est_cur_nota nota on nota.asignacion = asig.asignacion
-join cur_seccion sec on sec.seccion = asig.seccion
-join cur_pensum_area curpen on curpen.curso = sec.curso
-join cur_curso curso on curso.curso = curpen.curso
-join cur_tipoaprobacion tipo on tipo.tipoaprobacion = ca.tipoaprobacion
-where asig.estado != -1
-  */
+-- Function: splistadocursosaprobados(integer, integer)
+
+-- DROP FUNCTION splistadocursosaprobados(integer, integer);
+
+CREATE OR REPLACE FUNCTION splistadocursosaprobados(
+    _estudiante integer,
+    _carrera integer,
+    out cursoaprobado integer,
+    out estudiante integer, 
+	out nombreestudiante text, 
+	out carnet integer,
+	out carrera integer,
+	out nombrecarrera text,
+	out asignacion integer,
+	out numero integer,
+	out codigo text, 
+	out asignatura text,
+	out tipoaprobacion integer,
+	out nombretipoaprobacion text,
+	out calificacionnumeros float,
+	out fechaaprobacion date)
+  RETURNS setof record AS
+$BODY$
+begin
+  Return query
+  SELECT notas.cursoaprobado, notas.estudiante, notas.nombreestudiante, notas.carnet, notas.carrera, notas.nombrecarrera, notas.asignacion, notas.numero, notas.codigo, notas.asignatura, notas.tipoaprobacion, notas.nombretipoaprobacion, notas.calificacionnumeros, notas.fechaaprobacion
+FROM (
+	select ca.cursoaprobado, ciclo.estudiante, concat(est.primernombre || ' ' || est.segundonombre || ' ' || est.primerapellido || ' ' || est.segundoapellido) as nombreestudiante, est.carnet, estcar.carrera, car.nombre as nombrecarrera, asig.asignacion, curso.curso as numero, curso.codigo as codigo, curso.nombre as asignatura, tipo.tipoaprobacion, tipo.nombre as nombretipoaprobacion, coalesce(nota.total, -1) as calificacionnumeros, ca.fechaaprobacion 
+	from est_cursoaprobado ca
+	join est_cur_asignacion asig on asig.asignacion = ca.asignacion
+	join est_ciclo_asignacion ciclo on ciclo.ciclo_asignacion = asig.ciclo_asignacion
+	join est_estudiante_carrera estcar on estcar.estudiante = ciclo.estudiante
+	join est_estudiante est on est.estudiante = ciclo.estudiante
+	join cur_carrera car on car.carrera = estcar.carrera
+	join est_cur_nota nota on nota.asignacion = asig.asignacion
+	join cur_seccion sec on sec.seccion = asig.seccion
+	join cur_pensum_area curpen on curpen.cursopensumarea = sec.curso
+	join cur_curso curso on curso.curso = curpen.curso
+	join cur_tipoaprobacion tipo on tipo.tipoaprobacion = ca.tipoaprobacion
+	where asig.estado = 1
+
+	UNION
+
+	select ca.cursoaprobado, ciclo.estudiante, concat(est.primernombre || ' ' || est.segundonombre || ' ' || est.primerapellido || ' ' || est.segundoapellido) as nombreestudiante, est.carnet, estcar.carrera, car.nombre as nombrecarrera, asigretra.asignacionretrasada, curso.curso as numero, curso.codigo as codigo, curso.nombre as asignatura, tipo.tipoaprobacion as nombretipoaprobacion, tipo.nombre, coalesce(asigretra.notaretrasada,-1) as calificacionnumeros, ca.fechaaprobacion 
+	from est_cursoaprobado ca
+	join est_asignacionretrasada asigretra on asigretra.asignacionretrasada = ca.asignacionretrasada
+	join est_cur_asignacion asig on asigretra.asignacion = asig.asignacion
+	join est_ciclo_asignacion ciclo on ciclo.ciclo_asignacion = asig.ciclo_asignacion
+	join est_estudiante_carrera estcar on estcar.estudiante = ciclo.estudiante
+	join est_estudiante est on est.estudiante = ciclo.estudiante
+	join cur_carrera car on car.carrera = estcar.carrera
+	join cur_seccion sec on sec.seccion = asig.seccion
+	join cur_pensum_area curpen on curpen.cursopensumarea = sec.curso
+	join cur_curso curso on curso.curso = curpen.curso
+	join cur_tipoaprobacion tipo on tipo.tipoaprobacion = ca.tipoaprobacion
+	where asig.estado = 1
+) as notas
+WHERE notas.estudiante = _estudiante
+AND notas.carrera = _carrera
+ORDER BY notas.codigo, notas.fechaaprobacion;
+
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION splistadocursosaprobados(integer, integer)
+  OWNER TO postgres;
+  
 Select 'Script de Asignaciones Instalado' as "Asignacion";
