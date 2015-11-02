@@ -451,6 +451,31 @@ $BODY$
 ALTER FUNCTION spcreditoscursosaprobados(integer, integer)
   OWNER TO postgres;
   
+-- Function: spdesactivarasignacionanterior(integer, integer, integer, integer)
+
+-- DROP FUNCTION spdesactivarasignacionanterior(integer, integer, integer, integer);
+
+CREATE OR REPLACE FUNCTION spdesactivarasignacionanterior(
+    _nuevaAsign integer,
+    _estudiante integer,
+    _carrera integer,
+    _periodo integer)
+  RETURNS integer AS
+$BODY$
+begin
+ UPDATE EST_CUR_Asignacion set Estado = -1 WHERE asignacion in(
+	select cura.asignacion from EST_CUR_Asignacion cura 
+	join EST_Ciclo_Asignacion cicla on cura.Ciclo_Asignacion = cicla.Ciclo_Asignacion 
+		and cicla.Estudiante = _estudiante and cicla.carrera = _carrera and cicla.periodo = _periodo and cicla.Ciclo_Asignacion <> _nuevaAsign);
+ RETURN 1;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION spdesactivarasignacionanterior(integer, integer, integer, integer)
+  OWNER TO postgres;
+  
+  
   /*
   select ca.cursoaprobado, coalesce(asig.asignacion, asigretra.asignacion), curso.curso as numero, curso.codigo as codigo, curso.nombre as asignatura, tipo.tipoaprobacion, tipo.nombre, coalesce(nota.total, -1) as calificacionnumeros, ca.fechaaprobacion 
 from est_cursoaprobado ca
