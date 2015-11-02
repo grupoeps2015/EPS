@@ -407,6 +407,15 @@ class asignacionController extends Controller{
                     }
                     
                 }
+                //Desactivar asignación anterior
+                if ($_SESSION["rol"] == ROL_ESTUDIANTE) {
+                    $desactivarAsignacion = $this->_asign->desactivarAsignacionAnterior($asignacionEstudiante,$this->estudiante,$this->carrera,$periodo);
+                    if(is_array($desactivarAsignacion)){
+                    }else{
+                        $this->redireccionar("error/sql/" . $desactivarAsignacion);
+                        exit;
+                    }
+                }
                 $this->boletaAsignacion($this->getInteger('hdAnio'),$this->getInteger('hdCiclo') );
                 exit;
             }
