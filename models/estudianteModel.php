@@ -48,4 +48,15 @@ class estudianteModel extends Model {
             return $info->fetchall();
         }
     }
+    
+    public function listadoCursosAprobados($idEstudiante,$idCarrera){
+        $info = $this->_db->query("select * from spListadoCursosAprobados({$idEstudiante},{$idCarrera})");
+        if ($info === false) {
+            return "1104/listadoCursosAprobados";
+        } else {
+            return $info->fetchall();
+        }
+    }
+    
+    
 }

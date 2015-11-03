@@ -132,6 +132,11 @@
                     <a href="#moduloAsignacion">Repitencia</a>
                 </i>
             </div>
+            <div class="service-box">
+                <i class="fa fa-2x fa-search wow bounceIn text-primary">
+                    <a href="<?php echo BASE_URL . 'general/seleccionarCarreraEstudiante/estudiante/cursosAprobados' ?>">Listado de cursos aprobados</a>
+                </i>
+            </div>            
         </div>
     </div>
 </section>
