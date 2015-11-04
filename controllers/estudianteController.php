@@ -136,10 +136,11 @@ class estudianteController extends Controller{
             
             $this->_view->titulo = APP_TITULO;
             $this->_view->id = $idUsuario;
-            $this->_view->setJs(array('cursosAprobados'));            
+            $this->_view->setJs(array('cursosAprobados'));       
             $this->_view->setJs(array('jquery.dataTables.min'), "public");
             $this->_view->setCSS(array('jquery.dataTables.min'));
-            $this->_view->setJs(array('jquery.validate'), "public");
+            $this->_view->setJs(array('jquery.validate'), "public");                 
+            $this->_view->setJs(array('jspdf.debug'), "public");
             $this->_view->lstCur = $this->_est->listadoCursosAprobados($this->estudiante,$_SESSION["carrera"]);
             $this->_view->renderizar('cursosAprobados','estudiante');
             
