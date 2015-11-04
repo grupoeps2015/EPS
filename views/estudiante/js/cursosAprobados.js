@@ -1,5 +1,7 @@
+$.fn.dataTable.Buttons.swfPath = '//cdn.datatables.net/buttons/1.0.0/swf/flashExport.swf';
+
 $(document).ready(function(){
-    var tabla= $('#tbCursosAprobados').DataTable({
+    $('#tbCursosAprobados').DataTable({
         language:{
             emptyTable: "No hay informaci&oacute;n disponible.",
             sZeroRecords: "No se encontro informaci&oacute;n compatible con la busqueda",
@@ -11,18 +13,16 @@ $(document).ready(function(){
             },
             search: "Buscar:",
             lengthMenu: "Mostrar _MENU_ registros"
-        }
+        },
+        dom: 'Bfrtip',
+        buttons: [
+            'copyFlash',
+            'csvFlash',
+            'excelFlash',
+            'pdfFlash'
+        ]
+   
     });  
-    var oTableTools = new TableTools( tabla, {
-        "sSwfPath" : "{!URLFOR($Resource.TableToolsZip, 'swf/ZeroClipboard.swf')}",
-        "buttons": [
-                    "copy",
-                    "csv",
-                    "xls",
-                    "pdf"
-                   ]
-      });
-            $('#tbCursosAprobados').before( oTableTools.dom.container );
-    
+   
     
 } );
