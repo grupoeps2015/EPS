@@ -461,7 +461,8 @@ CREATE OR REPLACE FUNCTION spgetcursocursopensumarea(_cursopensumarea integer, O
 $BODY$
 BEGIN
   RETURN query
-   select c.curso, c.nombre, c.codigo from cur_pensum_area cpa join cur_curso c on c.curso = cpa.curso WHERE cpa.estado = 1 and c.estado = 1 AND cpa.cursopensumarea = _cursopensumarea;
+   --select c.curso, c.nombre, c.codigo from cur_pensum_area cpa join cur_curso c on c.curso = cpa.curso WHERE cpa.estado = 1 and c.estado = 1 AND cpa.cursopensumarea = _cursopensumarea;
+   select c.curso, c.nombre, c.codigo from cur_pensum_area cpa join cur_curso c on c.curso = cpa.curso WHERE c.estado = 1 AND cpa.cursopensumarea = _cursopensumarea;
 END;
 $BODY$
 LANGUAGE 'plpgsql';
@@ -489,6 +490,35 @@ $BODY$
   ROWS 1000;
 ALTER FUNCTION splistadotipociclo()
   OWNER TO postgres;
+
+  -- -----------------------------------------------------
+-- Function: spDatosCursoPorPensum()
+-- -----------------------------------------------------
+-- DROP FUNCTION spDatosCursoPorPensum(integer);
+CREATE OR REPLACE FUNCTION spDatosCursoPorPensum(_cursopensum integer, OUT nombrecurso text, OUT curso integer, 
+					          OUT carreraarea integer, OUT nombrearea text, 
+					          OUT numerociclo integer, OUT tipociclo integer, 
+					          OUT nombretipociclo text, OUT creditos integer, OUT prerrequisitos text, 
+					          OUT estado int, OUT id int) RETURNS setof record as 
+$BODY$
+BEGIN
+  RETURN query
+   SELECT  c.Nombre as nombrecurso, 
+   cpa.Curso, cca.carreraarea, a.Nombre as nombrearea, 
+   cpa.numerociclo, cpa.tipociclo, 
+   tc.Nombre as nombretipociclo, cpa.creditos, cpa.prerrequisitos, cpa.estado, cpa.cursopensumarea as id
+FROM CUR_Pensum_Area cpa
+JOIN CUR_Curso c ON c.Curso = cpa.Curso
+JOIN CUR_Carrera_Area cca ON cpa.carreraarea = cca.carreraarea
+JOIN ADM_Area a ON a.Area = cca.area
+JOIN CUR_TipoCiclo tc ON tc.TipoCiclo = cpa.TipoCiclo
+JOIN ADM_Pensum p ON p.Pensum = cpa.Pensum
+WHERE cpa.CursoPensumArea = _cursopensum;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
 
   
 Select 'Script para Gestion de Pensum Instalado' as "Gestion Pensum";

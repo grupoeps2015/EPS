@@ -95,5 +95,83 @@ $BODY$
   ROWS 1000;
 ALTER FUNCTION spinformacioncatedratico(integer)
   OWNER TO postgres;
+  
+
+-- -----------------------------------------------------
+-- Function: spConsultaEstudiantesAsignadosPorCatedratico()
+-- -----------------------------------------------------
+-- DROP FUNCTION spConsultaEstudiantesAsignadosPorCatedratico(integer,integer,integer,integer,integer);
+CREATE OR REPLACE FUNCTION spConsultaEstudiantesAsignadosPorCatedratico(_Catedratico integer, _TipoPeriodo integer, _Ciclo integer, _TipoCiclo integer, _NumeroCiclo integer, OUT Asignacion integer, OUT Seccion integer, OUT NombreSeccion text, OUT Carnet integer, OUT PrimerNombre text, OUT SegundoNombre text, OUT PrimerApellido text, OUT SegundoApellido text, OUT TipoPeriodo integer, OUT NombreTipoPeriodo text, OUT Ciclo integer, OUT Anio integer, OUT TipoCiclo integer, OUT NumeroCiclo integer, OUT NombreTipoCiclo text) RETURNS setof record as 
+$BODY$
+
+  DECLARE
+  sql text := 'SELECT distinct a.Asignacion, s.Seccion, s.Nombre as NombreSeccion, e.Carnet, e.PrimerNombre, e.SegundoNombre, e.PrimerApellido, e.SegundoApellido, tp.TipoPeriodo, tp.Nombre as NombreTipoPeriodo, c.Ciclo, c.Anio, tc.TipoCiclo, c.NumeroCiclo, tc.Nombre AS NombreTipoCiclo
+		FROM EST_CUR_Asignacion a
+		JOIN CUR_Seccion s ON s.Seccion = a.Seccion
+		JOIN EST_Ciclo_Asignacion ca ON ca.Ciclo_Asignacion = a.Ciclo_Asignacion
+		JOIN EST_Estudiante e ON e.Estudiante = ca.Estudiante
+		JOIN ADM_Periodo p ON ca.Periodo = p.Periodo
+		JOIN ADM_TipoPeriodo tp ON tp.TipoPeriodo = p.TipoPeriodo
+		JOIN CUR_Ciclo c ON c.Ciclo = p.Ciclo
+		JOIN CUR_TipoCiclo tc ON tc.TipoCiclo = c.TipoCiclo
+		JOIN CUR_Trama t ON t.Seccion = a.Seccion
+		JOIN CUR_Curso_Catedratico cc ON cc.Curso_Catedratico = t.Curso_Catedratico
+		JOIN CAT_Catedratico cat ON cat.Catedratico = cc.Catedratico';
+BEGIN
+   sql := sql || ' WHERE cat.Catedratico = ' || $1;	  
+   IF $2 != 0 THEN
+      sql := sql || ' AND tp.TipoPeriodo = ' || $2;	  
+   END IF;
+   IF $3 != 0 THEN
+      sql := sql || ' AND c.Ciclo = ' || $3;	  
+   END IF;
+   IF $4 != 0 THEN
+      sql := sql || ' AND tc.TipoCiclo = ' || $4;	  
+   END IF;
+   IF $5 != 0 THEN
+      sql := sql || ' AND c.NumeroCiclo = ' || $5;	  
+   END IF;
+   sql := sql || ' AND a.Estado = 1 ORDER BY e.Carnet;';	  
+   
+   RETURN QUERY EXECUTE sql;
+   
+END;
+$BODY$
+LANGUAGE 'plpgsql';
+
+
+-- -----------------------------------------------------
+-- Function: spListaAlumnosAsignados()
+-- -----------------------------------------------------
+-- DROP FUNCTION spListaAlumnosAsignados(int);
+CREATE OR REPLACE FUNCTION spListaAlumnosAsignados(IN _idTrama integer,
+					    OUT Asignacion integer,
+					    OUT Seccion integer,
+					    OUT NombreSeccion text,
+					    OUT Carnet integer,
+					    OUT Nombre text, OUT OportunidadActual integer, OUT TelefonoEmergencia text) RETURNS SETOF record AS
+$BODY$
+BEGIN
+  return query
+  SELECT distinct a.Asignacion, s.Seccion, s.Nombre as NombreSeccion, e.Carnet, concat(e.primernombre || ' ' || e.segundonombre || ' ' || e.primerapellido || ' ' || e.segundoapellido ) as nombre, a.OportunidadActual, e.TelefonoEmergencia
+	FROM EST_CUR_Asignacion a
+		JOIN CUR_Seccion s ON s.Seccion = a.Seccion
+		JOIN EST_Ciclo_Asignacion ca ON ca.Ciclo_Asignacion = a.Ciclo_Asignacion
+		JOIN EST_Estudiante e ON e.Estudiante = ca.Estudiante
+		JOIN ADM_Periodo p ON ca.Periodo = p.Periodo
+		JOIN ADM_TipoPeriodo tp ON tp.TipoPeriodo = p.TipoPeriodo
+		JOIN CUR_Ciclo c ON c.Ciclo = p.Ciclo
+		JOIN CUR_TipoCiclo tc ON tc.TipoCiclo = c.TipoCiclo
+		JOIN CUR_Trama t ON t.Seccion = a.Seccion
+		JOIN CUR_Curso_Catedratico cc ON cc.Curso_Catedratico = t.Curso_Catedratico
+		JOIN CAT_Catedratico cat ON cat.Catedratico = cc.Catedratico
+		WHERE t.trama = _idTrama
+		AND a.Estado = 1;
+
+END;
+$BODY$
+LANGUAGE plpgsql;
+
+
 
 Select 'Script de Catedraticos Instalado' as "Catedraticos";

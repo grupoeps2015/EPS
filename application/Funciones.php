@@ -1,16 +1,18 @@
 <?php
-//Secuencia actual = 86
-//Iniciar nueva con 87
+//Secuencia actual = 91
+//Iniciar nueva con 92
 
 //Constantes de funciones generales
 define('CONS_FUNC_LOGIN',1);
 define('CONS_FUNC_LOGOUT',2);
+
 
 //Constantes de funciones principales
 define('CONS_FUNC_ADMINISTRACION',3);
 define('CONS_FUNC_CURSOS',4);
 define('CONS_FUNC_CATEDRATICOS',5);
 define('CONS_FUNC_ESTUDIANTES',6);
+
 
 //Constantes de funciones ADM
 define('CONS_FUNC_ADM_GESTIONUSUARIO',7);
@@ -54,6 +56,12 @@ define('CONS_FUNC_ADM_CONSULTAUNIDAD',73);
 define('CONS_FUNC_ADM_CREARUNIDAD',74);
 define('CONS_FUNC_ADM_MODIFICARUNIDAD',75);
 define('CONS_FUNC_ADM_ELIMINARUNIDAD',76);
+
+define('CONS_FUNC_ADM_GESTIONAREA',87);
+define('CONS_FUNC_ADM_CONSULTAAREA',88);
+define('CONS_FUNC_ADM_CREARAREA',89);
+define('CONS_FUNC_ADM_MODIFICARAREA',90);
+define('CONS_FUNC_ADM_ELIMINARAREA',91);
 
 
 //Constantes de funciones CUR

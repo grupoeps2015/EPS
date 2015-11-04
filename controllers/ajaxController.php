@@ -139,6 +139,12 @@ class ajaxController extends Controller{
         }
     }
     
+    public function getListaAlumnosAsignados(){
+        if($this->getInteger('trama')){
+            echo json_encode($this->_ajax->getListaAlumnosAsignados($this->getInteger('trama')));
+        }
+    }
+    
     public function getSeccionesCursoHorarioAjax(){
         if($this->getInteger('curso') && $this->getInteger('ciclo')){
             echo json_encode($this->_ajax->getSeccionesCursoHorarioAjax($this->getInteger('curso'),$this->getInteger('ciclo')));
@@ -189,6 +195,30 @@ class ajaxController extends Controller{
         if($this->getInteger('param')){
             session_start();
             echo json_encode($this->_ajax->valorParametro(CONS_PARAM_CARRERA_MAXCURSOSAASIGNARPORCICLO, $_SESSION["carrera"], $_SESSION["centrounidad"]));
+        }
+    }
+    
+    public function getEstadoCicloNotas(){
+        if($this->getInteger('cicloaver')){
+            echo json_encode($this->_ajax->getEstadoCicloNotas($this->getInteger('cicloaver')));
+        }
+    }
+    
+    public function getEstudiantesAnioInscripcionAjax(){
+        if($this->getInteger('anio')){
+            session_start();
+            if ($_SESSION["rol"] == ROL_ADMINISTRADOR || $_SESSION["rol"] == ROL_EMPLEADO) {
+                echo json_encode($this->_ajax->getEstudiantesInscritosAnio($_SESSION["centrounidad"],$this->getInteger('anio')));
+            }
+        }
+    }
+    
+    public function getCarrerasEstudianteAjax(){
+        if($this->getInteger('est')){
+            session_start();
+            if ($_SESSION["rol"] == ROL_ADMINISTRADOR || $_SESSION["rol"] == ROL_EMPLEADO) {
+                echo json_encode($this->_ajax->getCarrerasEstudiante($this->getInteger('est'),$_SESSION["centrounidad"]));
+            }
         }
     }
 }

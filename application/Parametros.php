@@ -10,9 +10,10 @@
  *
  * @author ARIAS
  */
-//Constantes de parámetros de tipo sesión
-define('CONS_PARAM_SESION_MAXREINTENTOS',1);
-define('CONS_PARAM_SESION_MAXTIEMPOSESIONACTIVA',2);
+//Constantes de parámetros de tipo aplicación
+define('CONS_PARAM_APP_MAXREINTENTOS',1);
+define('CONS_PARAM_APP_MAXTIEMPOSESIONACTIVA',2);
+define('CONS_PARAM_APP_MAXINTENTOSASIGN',3);
 
 //Constantes de parámetros de tipo centro - unidad académica
 define('CONS_PARAM_CENTROUNIDAD_TIPOCICLO',100);

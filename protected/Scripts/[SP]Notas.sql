@@ -113,7 +113,7 @@ BEGIN
   JOIN CUR_Horario h ON h.trama = t.trama
   JOIN CUR_Jornada j ON j.jornada = h.jornada
   JOIN CUR_Ciclo ci ON ci.ciclo = h.ciclo
-  WHERE cat.catedratico = _idCatedratico AND ci.ciclo = _idCiclo;
+  WHERE cat.catedratico = _idCatedratico AND ci.ciclo = _idCiclo AND h.Estado != -1;
 END;
 $BODY$
 LANGUAGE 'plpgsql';
@@ -142,8 +142,9 @@ CREATE TRIGGER tgAsignacionInicial AFTER INSERT
 -- -----------------------------------------------------
 -- Function: spListaAsignados()
 -- -----------------------------------------------------
--- DROP FUNCTION spListaAsignados();
+-- DROP FUNCTION spListaAsignados(int);
 CREATE OR REPLACE FUNCTION spListaAsignados(IN _idTrama integer,
+					    OUT idasignacion integer,
 					    OUT carnet integer,
 					    OUT nombre text,
 					    OUT zona float,
@@ -153,6 +154,7 @@ $BODY$
 BEGIN
   return query
   select 
+    uno.asignacion,
     est.carnet,
     concat(est.primernombre || ' ' || est.segundonombre || ' ' || est.primerapellido || ' ' || est.segundoapellido ) as nombre,
     uno.zona,
@@ -166,6 +168,36 @@ BEGIN
     join est_estudiante est on tres.estudiante = est.estudiante
     join cur_trama cin on cin.seccion = cua.seccion
   where cin.trama = _idTrama;
+END;
+$BODY$
+LANGUAGE plpgsql;
+
+-- -----------------------------------------------------
+-- Function: spobtenerestadociclonotas()
+-- -----------------------------------------------------
+-- DROP FUNCTION spobtenerestadociclonotas(int);
+CREATE OR REPLACE FUNCTION spobtenerestadociclonotas(IN _idCiclo integer) RETURNS Integer AS
+$BODY$
+DECLARE estadociclo int;
+BEGIN
+  select
+    estado
+  from adm_periodo where ciclo=_idCiclo and tipoasignacion = 2 and tipoperiodo = 2 into estadociclo;
+  return estadociclo;
+END;
+$BODY$
+LANGUAGE plpgsql;
+
+-- -----------------------------------------------------
+-- Function: spActualizarNota()
+-- -----------------------------------------------------
+-- DROP FUNCTION spActualizarNota(float,float,float);
+CREATE OR REPLACE FUNCTION spActualizarNota(IN _zona float, IN _final float, IN _idAsignacion float) RETURNS Void AS
+$BODY$
+DECLARE total float;
+BEGIN
+  total = round(_zona) + round(_final);
+  EXECUTE format(('UPDATE est_cur_nota SET total = %s, final = %s, zona = %s where asignacion = %s'), total, round(_final), round(_zona), _idAsignacion);
 END;
 $BODY$
 LANGUAGE plpgsql;

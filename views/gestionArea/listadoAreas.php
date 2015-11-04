@@ -17,11 +17,13 @@
                 <div class="col-lg-3 col-md-6 text-center"></div>
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
+                        <?php if($this->permisoAgregar == PERMISO_CREAR): ?>
                         <i class="fa fa-2x fa-building-o wow bounceIn text-primary" data-wow-delay=".2s">
                             <a href="<?php echo BASE_URL?>gestionArea/agregarArea">
                                 Agregar Area
                             </a>
                         </i>
+                        <?php endif;?>
                     </div>
                 </div>
             </div>
@@ -38,8 +40,12 @@
                                 <th style="text-align:center; width: 250px;">Nombre</th>
                                 <th style="text-align:center; width: 250px;">Descripción</th>
                                 <th style="text-align:center; width: 100px;">Estado</th>
+                                <?php if($this->permisoModificar == PERMISO_MODIFICAR): ?>
                                 <th style="text-align:center; width: 100px;">&nbsp;</th>
+                                <?php endif;?>
+                                <?php if($this->permisoEliminar == PERMISO_ELIMINAR): ?>
                                 <th style="text-align:center; width: 200px;">&nbsp;</th>
+                                <?php endif;?>
                             </tr>
                         </thead>
                         <tbody>
@@ -50,7 +56,10 @@
                                 <td style="text-align: center;"><?php echo $this->lstArea[$i]['_nombre']; ?></td>
                                 <td style="text-align: center;"><?php echo $this->lstArea[$i]['_descripcion']; ?></td>
                                 <td style="text-align: center;"><?php echo $this->lstArea[$i]['_estado']; ?></td>
+                                <?php if($this->permisoModificar == PERMISO_MODIFICAR): ?>
                                 <td style="text-align: center; padding-right: 20px;"><a href="<?php echo BASE_URL . 'gestionArea/actualizarArea/' . $this->lstArea[$i]['_id']; ?>">Modificar</a></td>
+                                <?php endif;?>
+                                <?php if($this->permisoEliminar == PERMISO_ELIMINAR): ?>
                                 <td style="text-align: center;">
                                      <?php if(strcmp($this->lstArea[$i]['_estado'], 'Activo') == 0): ?>
                                       
@@ -60,7 +69,7 @@
                                     <a href="<?php echo BASE_URL . 'gestionArea/activarDesactivarArea/1/' . $this->lstArea[$i]['_id'] ?>">Activar</a>
                                     <?php endif;?>
                                 </td>
-                                
+                                <?php endif;?>
                             </tr>
                             <?php endfor;?>
                         <?php endif;?>

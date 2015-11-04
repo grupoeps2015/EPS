@@ -451,4 +451,41 @@ $BODY$
 ALTER FUNCTION spseccionescursohorario(integer, integer)
   OWNER TO postgres;
 
+-- -----------------------------------------------------
+-- Function: spEstudiantesInscritosxCentroUnidad()
+-- -----------------------------------------------------
+-- DROP FUNCTION spEstudiantesInscritosxCentroUnidad(integer, integer);
+
+CREATE OR REPLACE FUNCTION spEstudiantesInscritosxCentroUnidad(IN _centrounidad int, IN _anio int, OUT codigo int, OUT carnet int, OUT nombre text) RETURNS setof record AS
+$BODY$
+begin
+ Return query 
+        select 
+	  ins.estudiante as codigo,
+	  est.carnet as carnet,
+	  (est.primerapellido || ' ' || est.segundoapellido || ', ' || est.primernombre || ' ' || est.segundonombre) as nombre
+	from est_inscripcion ins
+	join est_estudiante est on ins.estudiante = est.estudiante
+	join cur_carrera car on ins.carrera = car.carrera and car.centro_unidadacademica = _centrounidad
+	where ins.anio = _anio;
+end;
+$BODY$
+LANGUAGE 'plpgsql';
+  
+-- -----------------------------------------------------
+-- Function: spAniosXInscripcion()
+-- -----------------------------------------------------
+-- DROP FUNCTION spAniosXInscripcion();
+
+CREATE OR REPLACE FUNCTION spAniosXInscripcion(OUT anio int) RETURNS setof INTEGER AS
+$BODY$
+begin
+ Return query 
+        select distinct ins.anio as anio
+	from est_inscripcion ins;
+end;
+$BODY$
+LANGUAGE 'plpgsql';  
+  
+  
  Select 'Script para funciones generales Instalado' as "Generales";

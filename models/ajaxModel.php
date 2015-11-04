@@ -228,9 +228,19 @@ class ajaxModel extends Model{
     }
     
     public function getListaAsignados($id){
-        $post = $this->_db->query("select * from spListaAsignados({$id})");
+        $post = $this->_db->query("select * from spListaAsignados({$id}) order by carnet");
         if($post === false){
             return "1200/getListaAsignados";
+        }else{
+            $post->setFetchMode(PDO::FETCH_ASSOC);
+            return $post->fetchall();
+        }
+    }
+    
+    public function getListaAlumnosAsignados($id){
+        $post = $this->_db->query("select * from spListaAlumnosAsignados({$id} order by carnet)");
+        if($post === false){
+            return "1200/getListaAlumnosAsignados";
         }else{
             $post->setFetchMode(PDO::FETCH_ASSOC);
             return $post->fetchall();
@@ -385,4 +395,45 @@ class ajaxModel extends Model{
             return $info->fetchall();
         }
     }
+    
+    public function getCreditosEstudianteCarrera($estudiante, $carrera){
+        $info = $this ->_db->query("select * from spcreditoscursosaprobados({$estudiante},{$carrera}) as creditos");
+        if($info === false){
+            return "1200/getCreditosEstudianteCarrera";
+        }else{
+            $info->setFetchMode(PDO::FETCH_ASSOC);
+            return $info->fetchall();
+        }
+    }
+    
+    public function getEstadoCicloNotas($idCiclo){
+        $info = $this ->_db->query("select * from spobtenerestadociclonotas({$idCiclo}) as estadociclo");
+        if($info === false){
+            return "1200/getEstadoCicloNotas";
+        }else{
+            $info->setFetchMode(PDO::FETCH_ASSOC);
+            return $info->fetchall();
+        }
+    }
+    
+    public function getEstudiantesInscritosAnio($centrounidad, $anio){
+        $info = $this ->_db->query("select * from spEstudiantesInscritosxCentroUnidad({$centrounidad},{$anio});");
+        if($info === false){
+            return "1200/getEstudiantesInscritosAnio";
+        }else{
+            $info->setFetchMode(PDO::FETCH_ASSOC);
+            return $info->fetchall();
+        }
+    }
+    
+    public function getAniosInscripcion(){
+        $info = $this ->_db->query("select * from spAniosXInscripcion();");
+        if($info === false){
+            return "1200/getAniosInscripcion";
+        }else{
+            $info->setFetchMode(PDO::FETCH_ASSOC);
+            return $info->fetchall();
+        }
+    }
+    
 }

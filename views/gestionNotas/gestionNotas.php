@@ -14,20 +14,27 @@
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 text-center"></div>
-                <div class="col-lg-3 col-md-6 text-center"></div>
                 <div class="col-lg-3 col-md-6 text-center">
-                    <div class="service-box" style="display:none;">
-                        <i class="fa fa-2x fa-forward wow bounceIn text-primary" data-wow-delay=".2s">
-                            <a href="<?php echo BASE_URL?>gestionNotas/actividades">
-                                Crear Actividades
-                            </a>
-                        </i>
+                    <?php if($_SESSION["rol"] == ROL_ADMINISTRADOR): ?>
+                    <div class="service-box">
+                            <i class="fa fa-2x fa-pinterest wow bounceIn text-primary" data-wow-delay=".2s">
+                                <a href="#">Ingresar Equivalencia</a>
+                            </i>
+                    </div>
+                    <?php endif; ?>
+                </div>
+                <div class="col-lg-3 col-md-6 text-center">
+                    <div class="service-box">
+                        <?php if($_SESSION["rol"] == ROL_ADMINISTRADOR): ?>
+                        <form method='post' name='frmPost' id='frmPost' action='<?php echo BASE_URL?>gestionParametro/parametroGeneral'>
+                            <i class="fa fa-2x fa-paperclip wow bounceIn text-primary" data-wow-delay=".2s">
+                                <a id="linkNuevoPar" href="#">Ingresar Suficiencia</a>
+                            </i>
+                        </form>
+                        <?php endif; ?>
                     </div>
                 </div>
                 
-                <div class="col-lg-3 col-md-6 text-center"></div>
-                <div class="col-lg-3 col-md-6 text-center"></div>
-                <div class="col-lg-3 col-md-6 text-center"></div>
             </div>
         </div>
     </div>

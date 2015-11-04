@@ -26,16 +26,23 @@ class gestionAreaController extends Controller {
     }
     
     public function listadoArea() {
-//        session_start();
-//        $rol = $_SESSION["rol"];        
-//        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_GESTIONEDIFICIO);
-//                    
-//        if($rolValido[0]["valido"]!=PERMISO_GESTIONAR){        
-//            echo "<script>
-//                alert('No tiene permisos para acceder a esta función.');
-//                window.location.href='" . BASE_URL . "login/inicio';
-//                </script>";
-//        }
+        //session_start();
+        $rol = $_SESSION["rol"];        
+        $rolValidoGestion = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_GESTIONAREA);
+        $rolValidoAgregar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_CREARAREA);
+        $rolValidoModificar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_MODIFICARAREA);
+        $rolValidoEliminar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_ELIMINARAREA);
+        $this->_view->permisoGestion = $rolValidoGestion[0]["valido"];
+        $this->_view->permisoAgregar = $rolValidoAgregar[0]["valido"];
+        $this->_view->permisoModificar = $rolValidoModificar[0]["valido"];
+        $this->_view->permisoEliminar = $rolValidoEliminar[0]["valido"];
+                    
+        if($this->_view->permisoGestion!=PERMISO_GESTIONAR){        
+            echo "<script>
+                ".MSG_SINPERMISOS."
+                window.location.href='" . BASE_URL . "gestionPensum/inicio';
+                </script>";
+        }
         
         $info = $this->_post->allAreas();
         if(is_array($info)){
@@ -81,15 +88,15 @@ class gestionAreaController extends Controller {
     
      public function actualizarArea($intIdArea = 0) {
 //        session_start();
-//        $rol = $_SESSION["rol"];        
-//        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_MODIFICAREDIFICIO);
-//       
-//        if($rolValido[0]["valido"]!= PERMISO_MODIFICAR){
-//           echo "<script>
-//                alert('No tiene permisos suficientes para acceder a esta función.');
-//                window.location.href='" . BASE_URL . "gestionArea/listadoArea/" . $intIdArea . "';
-//                </script>";
-//        }
+        $rol = $_SESSION["rol"];        
+        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_MODIFICARAREA);
+       
+        if($rolValido[0]["valido"]!= PERMISO_MODIFICAR){
+           echo "<script>
+                ".MSG_SINPERMISOS."
+                window.location.href='" . BASE_URL . "gestionArea/listadoArea/" . "';
+                </script>";
+        }
         
         $valorPagina = $this->getInteger('hdEnvio');
         $this->_view->setJs(array('jquery.validate'), "public");
@@ -126,11 +133,11 @@ class gestionAreaController extends Controller {
 
     public function agregarArea() {
         $rol = $_SESSION["rol"];        
-        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_CREAREDIFICIO);
+        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_CREARAREA);
          
         if($rolValido[0]["valido"]!= PERMISO_CREAR){
            echo "<script>
-                alert('No tiene permisos suficientes para acceder a esta función.');
+                ".MSG_SINPERMISOS."
                 window.location.href='" . BASE_URL . "gestionArea/listadoArea/" . "';
                 </script>";
         }
@@ -156,10 +163,10 @@ class gestionAreaController extends Controller {
     
      public function activarDesactivarArea($intNuevoEstado, $intIdArea) {
 //        session_start();
-//        $rol = $_SESSION["rol"];        
-//        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_ELIMINAREDIFICIO);
-//        
-//        if($rolValido[0]["valido"]== PERMISO_ELIMINAR){
+        $rol = $_SESSION["rol"];        
+        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_ELIMINARAREA);
+        
+        if($rolValido[0]["valido"]== PERMISO_ELIMINAR){
             if ($intNuevoEstado == ESTADO_INACTIVO || $intNuevoEstado == ESTADO_ACTIVO) {
                 $info = $this->_post->activarDesactivarArea($intIdArea, $intNuevoEstado);
 
@@ -171,14 +178,14 @@ class gestionAreaController extends Controller {
             } else {
                 echo "Error al desactivar el area";
             }
-//        }
-//        else
-//        {
-//            echo "<script>
-//                alert('No tiene permisos suficientes para acceder a esta función.');
-//                window.location.href='" . BASE_URL . "gestionArea/listadoArea" . "';
-//                </script>";
-//        }
+        }
+        else
+        {
+            echo "<script>
+                ".MSG_SINPERMISOS."
+                window.location.href='" . BASE_URL . "gestionArea/listadoArea" . "';
+                </script>";
+        }
         
     }       
 }

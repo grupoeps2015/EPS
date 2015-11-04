@@ -97,6 +97,18 @@ $(document).ready( function () {
     
     $("#btnActividades").click(function() {
         var base_url = $("#hdBASE_URL").val();
+        
+        $.post(base_url+'ajax/getEstadoCicloNotas',
+            { cicloaver: $("#slCiclo").val() },
+            function(datos){
+                if(datos.length>0){
+                    $('#hdEstadoCiclo').val(datos[0].estadociclo.toString());
+                }else{
+                    $('#hdEstadoCiclo').val("0");
+                }
+            },
+            'json');
+        
         $.post(base_url+'ajax/getIdTrama',
             { 
                 cat: $("#idCatedratico").val(), 
@@ -105,9 +117,19 @@ $(document).ready( function () {
                 cur: $("#slCursoxSeccion").val() 
             },
             function(datos){
+                var tipo = $("#hdTipo").val();
+                
                 if(datos.length>0){
-                    var identificador = parseInt(datos[0].spidtrama);
-                    mostrarListado(identificador);
+                    if(tipo === "1") 
+                    { 
+                        var identificador = parseInt(datos[0].spidtrama);
+                        mostrarListadoAsignados(identificador);
+                    }
+                    else
+                    {
+                        var identificador = parseInt(datos[0].spidtrama);
+                        mostrarListado(identificador);
+                    }
                 }else{
                     mostrarListado(0);
                 }
@@ -115,21 +137,62 @@ $(document).ready( function () {
             'json');
     });
     
-    function mostrarListado(id){
+    function mostrarListadoAsignados(id){
         var base_url = $("#hdBASE_URL").val();
-        $.post(base_url+'ajax/getListaAsignados',
+        var notas = "";
+        $.post(base_url+'ajax/getListaAlumnosAsignados',
             'trama=' + id,
             function(datos){
                 $("#tbAsignados").css('display','block');
                 $("#bodyAsignados").html('');
                 if(datos.length>0){
                     for(var i =0; i < datos.length; i++){
+                            notas = '</td><td>' + datos[i].nombreseccion + 
+                                    '</td><td>' + datos[i].oportunidadactual;
+                        
                         $("#bodyAsignados").append('<tr><td>' + datos[i].carnet + 
                                                    '</td><td>' + datos[i].nombre + 
-                                                   '</td><td><input id="z' + datos[i].carnet + '" type="text" maxlength="5" value="' + datos[i].zona + '" style="width:60%; text-align:center;"/>' + 
-                                                   '</td><td><input id="f' + datos[i].carnet + '" type="text" maxlength="5" value="' + datos[i].final + '" style="width:60%; text-align:center;"/>' + 
-                                                   '</td><td>' + datos[i].total);
+                                                   notas + '</td><td>' + datos[i].telefonoemergencia);
                     }
+                }
+                
+                    $('#tdBotones').css('display','none');
+                
+                aplicarCss();
+            },
+            'json');
+    }
+    
+    function mostrarListado(id){
+        var estado = parseInt($('#hdEstadoCiclo').val());
+        var base_url = $("#hdBASE_URL").val();
+        var notas = "";
+        $.post(base_url+'ajax/getListaAsignados',
+            'trama=' + id,
+            function(datos){
+                $("#tbAsignados").css('display','block');
+                $("#bodyAsignados").html('');
+                if(datos.length>0){
+                    $('#hdTotalAsignados').val(datos.length.toString());
+                    for(var i =0; i < datos.length; i++){
+                        if(estado === 1){
+                            notas = '</td><td><input id="z' + datos[i].idasignacion + '" name="z' + datos[i].idasignacion + '" type="text" maxlength="5" value="' + datos[i].zona + '" style="width:60%; text-align:center;"/>' + 
+                                    '</td><td><input id="f' + datos[i].idasignacion + '" name="f' + datos[i].idasignacion + '" type="text" maxlength="5" value="' + datos[i].final + '" style="width:60%; text-align:center;"/>' + 
+                                    '</td><td><input id="t' + datos[i].idasignacion + '" name="t' + datos[i].idasignacion + '" type="text" maxlength="5" value="' + datos[i].total + '" style="width:60%; text-align:center;" readonly/>';
+                        }else{
+                            notas = '</td><td>' + datos[i].zona + 
+                                    '</td><td>' + datos[i].final + 
+                                    '</td><td>' + datos[i].total;
+                        }
+                        $("#bodyAsignados").append('<tr><td>' + datos[i].carnet + 
+                                                   '</td><td>' + datos[i].nombre + 
+                                                   notas + '</td>');
+                    }
+                }
+                if(estado === 1){
+                    $('#tdBotones').css('display','block');
+                }else{
+                    $('#tdBotones').css('display','none');
                 }
                 aplicarCss();
             },
@@ -145,21 +208,75 @@ $(document).ready( function () {
         $('#btnNuevaBusqueda').css('display','block');
         
         $('#tbAsignados').DataTable({
-        language:{
-            emptyTable: "No hay informaci&oacute;n disponible.",
-            sZeroRecords: "No se encontro informaci&oacute;n compatible con la busqueda",
-            info: "Se muestran del _START_ al _END_ de _TOTAL_ registros",
-            infoEmpty: "No hay registros que mostrar",
-            paginate:{
-                next: "Siguiente",
-                previous: "Anterior"
-            },
-            search: "Buscar:",
-            lengthMenu: "Mostrar _MENU_ registros"
-        }
-    });
+            language:{
+                emptyTable: "No hay informaci&oacute;n disponible.",
+                sZeroRecords: "No se encontro informaci&oacute;n compatible con la busqueda",
+                info: "Se muestran del _START_ al _END_ de _TOTAL_ registros",
+                infoEmpty: "No hay registros que mostrar",
+                paginate:{
+                    next: "Siguiente",
+                    previous: "Anterior"
+                },
+                search: "Buscar:",
+                lengthMenu: "Mostrar _MENU_ registros"
+            }
+        });
+    }
+   
+   $("#btnGuardar").click(function(){
+       guardarNota();
+   });
+    
+    function guardarNota(){
+        $("#spanMsg").html('');
+        var tipo = "";
+        var idAsignado = 0;
+        var zonaAsignada = 0;
+        var finalAsignado = 0;
+        var base_url = $("#hdBASE_URL").val();
+        var inputs = $("#tbAsignados :input");
+        $.each(inputs, function(i, field){
+            if(field.type === "text"){
+                tipo = field.name.substring(0,1);
+                if(tipo === "z"){
+                    idAsignado = field.name.substring(1);
+                    zonaAsignada = field.value;
+                }
+                
+                if(tipo === "f"){
+                    finalAsignado = field.value;
+                    $.post(
+                        base_url+'gestionNotas/guardarNota',
+                        { 
+                            zonaN: zonaAsignada,
+                            finalN: finalAsignado, 
+                            idAs: idAsignado
+                        },
+                        function(info){
+                            var totalAsignado = parseFloat(zonaAsignada) + parseFloat(finalAsignado)
+                            $("#t"+idAsignado).val(totalAsignado);
+                            $("#spanMsg").html(info);
+                        }
+                    );
+                    bitacora(idAsignado);
+                }
+                
+            }    
+        });
     }
     
+    function bitacora(idRegistro){
+        var base_url = $("#hdBASE_URL").val();
+        $.post(
+            base_url+'bitacora/insertarBitacoraNota',
+            { 
+                registro: idRegistro
+            },
+            function(info){
+                alert(info);
+            }
+        );
+    }
 });
 
 

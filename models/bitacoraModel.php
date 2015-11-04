@@ -44,7 +44,13 @@ class bitacoraModel extends Model {
     }
     
     public function insertarBitacoraNota($_datos) {
-        
+        $info = $this->_db->prepare("SELECT * FROM spInsertarBitacoraNotas(:usuario,:nombreusuario,:funcion,:ip,:registro);");
+        $info->execute($_datos);
+        if($info === false){
+            return "1101/insertarBitacoraNota";
+        }else{
+            return $info->fetchall();
+        }
     }
     
 }

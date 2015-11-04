@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center">
-                <h2 class="section-heading">Asignaci&oacute;n de cursos</h2>
+                <h2 class="section-heading">Cursos asignados</h2>
                 <p><?php if(isset($this->query)) echo $this->query; ?></p>
                 <hr class="primary">
                 <div class="col-lg-3 col-md-6 text-center">
@@ -23,7 +23,7 @@
     <br/>
     <div class="container" >
         <div class="col-md-6 col-md-offset-3">
-            <form id="frEstudiantes" method="post" action="<?php echo BASE_URL; ?>asignacion">
+            <form id="frEstudiantes" method="post" action="<?php echo BASE_URL; ?>asignacion/boletaAsignacion">
                 <table style="width:100%">
                     <tr>
                         <td style="width:50%">
@@ -73,80 +73,55 @@
                 </table>
             </form>
             </div>
-            
-            <?php if(isset($this->asignacion)) :?>
-        <div class="col-md-6 col-md-offset-3">
-            <form id="frm" method="post" action="">
-                <table style="width:100%">
-                    <tr>
-                        <td style="width:30%">
-                            <h4>Listado de cursos: </h4>
-                            <br/>
-                        </td>
-                        <td>&nbsp;</td>
-                        <td style="width:70%;">
-                            <select id="slCursos" name="slCursos" class="form-control input-lg">
-                                <?php if (isset($this->lstAnios) && count($this->lstCursos)): ?>
-                                    <option value="">-- Curso --</option>
-                                    <?php for ($i = 0; $i < count($this->lstCursos); $i++) : ?>
-                                        <option value="<?php echo $this->lstCursos[$i]['curso']; ?>">
-                                            <?php echo "[".$this->lstCursos[$i]['codigo']."] ".$this->lstCursos[$i]['nombre']; ?>
-                                        </option>
-                                    <?php endfor; ?>
-                                <?php else : ?>
-                                    <option value="">-- No existen cursos disponibles --</option>
-                                <?php endif; ?>
-                            </select>
-                        </td>
-                        <td>&nbsp;</td>
-                    </tr>
+            <div class="col-lg-12">
+            <?php if(isset($this->asignacion) && count($this->asignacion)) :?>
+            <?php for($a =0; $a < count($this->asignacion); $a++) : ?>
+                <br />
+                <table id="tbBoleta" class="tbBoleta" border="2">
+                    <thead>
+                        <tr>
+                            <th style="text-align:center">Código</th>
+                            <th style="text-align:center">Nombre</th>
+                            <th style="text-align:center">Sección</th>
+                            <th style="text-align:center">Día</th>
+                            <th style="text-align:center">Inicio</th>
+                            <th style="text-align:center">Fin</th>
+                            <th style="text-align:center">Asignación</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php if(isset($this->lstPar) && count($this->lstPar)): ?>
+                        <?php for($i =0; $i < count($this->lstPar); $i++) : ?>
+                        <?php if($this->lstPar[$i]['asignacion'] == $this->asignacion[$a]): ?>
+                        <tr>
+                            <td style="text-align: center;"><?php echo $this->lstPar[$i]['codigocurso']; ?></td>
+                            <td style="text-align: center;"><?php echo $this->lstPar[$i]['nombrecurso']; ?></td>
+                            <td style="text-align: center;"><?php echo $this->lstPar[$i]['nombreseccion']; ?></td>
+                            <td style="text-align: center"><?php echo $this->lstPar[$i]['nombredia']; ?></td>
+                            <td style="text-align: center;"><?php echo $this->lstPar[$i]['inicio']; ?></td>
+                            <td style="text-align: center"><?php echo $this->lstPar[$i]['fin']; ?></td>
+                            <td style="text-align: center"><?php echo $this->lstPar[$i]['tipoasign']; ?></td>
+                        </tr>
+                        <?php $indice = $i;?>
+                        
+                        <?php endif;?> 
+                        <?php endfor;?>
+                    <?php endif;?> 
+                    </tbody>
                 </table>
-            </form>
-            <form id="frAsignacionCursos" method="post" action="<?php echo BASE_URL; ?>asignacion/asignar">
-            <table id="tabla" name="tabla" style="width:100%;">
-                <thead>
-                    <tr>
-                        <td colspan="3" align="right">
-                            <input type="button" value="Agregar curso" class="clsAgregarFila btn btn-danger btn-lg btn-warning" disabled>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th><h4><label id="lblCur"></label></h4></th>
-                        <th><h4><label id="lblSec"></label></h4></th>
-                        <th width="22">&nbsp;</th>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td colspan="3" align="right">&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td colspan="3" align="right">
-                            <input type="button" id="btnAsignar" value="Asignar" class="btn btn-danger btn-lg btn-warning" style="display: none;" disabled>
-                        </td>
-                    </tr>
-                </tfoot>
-            </table>
-            <input type="hidden" name="hdCursos" id="hdCursos">
-            <input type="hidden" name="hdCiclo" id="hdCiclo" value="<?php if (isset($this->ciclo)) echo $this->ciclo;?>">
-            <input type="hidden" name="hdAnio" id="hdAnio" value="<?php if (isset($this->anio)) echo $this->anio;?>">
-            <input type="hidden" name="hdEnvio" value="1">
-            <?php if($_SESSION["rol"] == ROL_ADMINISTRADOR || $_SESSION["rol"] == ROL_EMPLEADO): ?>
-            <input type="hidden" name="slEstudiantes" value="<?php if (isset($this->estudiante)) echo $this->estudiante ?>">
-            <input type="hidden" name="slCarreras" value="<?php if (isset($this->carrera)) echo $this->carrera ?>">
-            <?php endif; ?>
-            </form>
-            </div>
-            
+                <center>
+                <h4 style="color: red">ID de boleta de asignación: <span style="color: black">[<?php echo $this->_encriptarFacil->encode($this->asignacion[$a])?>]</span></h4>
+                <h4 style="color: blue">Fecha y hora: <span style="color: black"><?php echo $this->lstPar[$indice]['fecha'] . " " . $this->lstPar[$indice]['hora']?></span></h4>
+                </center>
+                <br />
+                <br />
+            <?php endfor;?>
             <?php else : ?>
-        <div class="col-md-8 col-md-offset-2">
-            <center>
-            <h4>No hay período de asignación habilitado para el ciclo seleccionado.</h4>
+                <center>
+            <h4>No hay registro de asignación para el ciclo seleccionado.</h4>
             </center>
+            <?php endif; ?>
         </div>
-    <?php endif; ?>
     </div>
     <br/>
 </section>

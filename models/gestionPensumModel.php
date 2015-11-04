@@ -221,7 +221,7 @@ class gestionPensumModel extends Model {
     
     public function datosCursoPensum($idCursoPensum) {
 
-        $post = $this->_db->query("select * from spdatoscursopensum(" . $idCursoPensum . ");");
+        $post = $this->_db->query("select * from spDatosCursoPorPensum(" . $idCursoPensum . ");");
 
         if ($post === FALSE) {
             return "1104/consultaCursoPensum";

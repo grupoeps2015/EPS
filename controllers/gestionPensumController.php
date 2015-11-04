@@ -433,7 +433,8 @@ class gestionPensumController extends Controller {
             for ($p = 0; $p < count($lsPensumActivos); $p++) :
                 //print_r($lsPensumActivos[$p]['carrera'] . '-' . $lsCarreras[$carrera-1]['nombre']);
                 if ($lsPensumActivos[$p]['carrera'] == $lsCarreras[$carrera - 1]['nombre']) {
-                    $this->redireccionar("error/sql/yaExiste");
+                    //$this->redireccionar("error/sql/yaExiste");
+                    $this->redireccionar('gestionPensum/listadoPensum');
                     exit;
                 }
 

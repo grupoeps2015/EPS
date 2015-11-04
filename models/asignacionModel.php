@@ -7,7 +7,7 @@ class asignacionModel extends Model{
     }
     
     public function getPeriodo($ciclo, $tipoPeriodo, $tipoAsignacion, $centrounidad){
-        $periodo = $this->_db->query("select * from spPeriodoActivo({$ciclo},{$tipoPeriodo},{$tipoAsignacion},{$centrounidad}) as periodo;");
+        $periodo = $this->_db->query("select * from spPeriodoActivo({$ciclo},{$tipoPeriodo},{$tipoAsignacion},{$centrounidad});");
         $periodo->setFetchMode(PDO::FETCH_ASSOC);
         if($periodo === false){
             return "1200/getPeriodo";
@@ -38,6 +38,15 @@ class asignacionModel extends Model{
         $info->setFetchMode(PDO::FETCH_ASSOC);
         if($info === false){
             return "1101/agregarAsignacionCurso";
+        }else{
+            return $info->fetchall();
+        }
+    }
+    public function desactivarAsignacionAnterior($nueva,$estudiante,$carrera,$periodo) {
+        $info = $this->_db->query("SELECT * from spdesactivarasignacionanterior({$nueva},{$estudiante},{$carrera},{$periodo}) as Id;");
+        $info->setFetchMode(PDO::FETCH_ASSOC);
+        if($info === false){
+            return "1103/desactivarAsignacionAnterior";
         }else{
             return $info->fetchall();
         }
@@ -97,6 +106,35 @@ class asignacionModel extends Model{
             return "1200/getOportunidadCursoEstudiante";
         }else{
             return $datos->fetchall();
+        }
+    }
+    
+    public function getBoleta($ciclo, $estudiante, $carrera){
+        $datos = $this->_db->query("select * from spobtenerboletaasignacion({$ciclo},{$estudiante},{$carrera});");
+        $datos->setFetchMode(PDO::FETCH_ASSOC);
+        if($datos === false){
+            return "1200/getBoleta";
+        }else{
+            return $datos->fetchall();
+        }
+    }
+    
+    public function getIntentoAsignacion($ciclo, $estudiante, $carrera, $tipoper, $tipoasing){
+        $datos = $this->_db->query("select * from spobtenerintentoasignacion({$ciclo},{$estudiante},{$carrera},{$tipoper},{$tipoasing}) as intento;");
+        $datos->setFetchMode(PDO::FETCH_ASSOC);
+        if($datos === false){
+            return "1200/getIntentoAsignacion";
+        }else{
+            return $datos->fetchall();
+        }
+    }
+    
+    public function datosSeccion($idSeccion) {
+        $info = $this->_db->query("select * from spDatosSeccion(" . $idSeccion . ");");
+        if($info === false){
+            return "1104/datosSeccion";
+        }else{
+            return $info->fetchall();
         }
     }
 }

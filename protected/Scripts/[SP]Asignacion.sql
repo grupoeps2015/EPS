@@ -6,20 +6,22 @@ CREATE OR REPLACE FUNCTION spPeriodoActivo(
     _ciclo integer,
 	_tipoperiodo integer,
 	_tipoasignacion integer,
-	_centrounidad integer)
-  RETURNS INTEGER AS
+	_centrounidad integer,
+	out periodo integer,
+	out tipoasign integer)
+  RETURNS SETOF record AS
 $BODY$
 begin
 IF _tipoasignacion <> 1 THEN
- Return (select per.periodo
+ Return query select per.periodo, per.tipoasignacion
 	      from 
 	        adm_periodo per
-	      where per.ciclo = _ciclo and per.tipoperiodo = _tipoperiodo and per.centro_unidadacademica = _centrounidad and current_date between per.fechainicial and per.fechafinal and per.estado = 1) ::INTEGER;
+	      where per.ciclo = _ciclo and per.tipoperiodo = _tipoperiodo and per.centro_unidadacademica = _centrounidad and current_date between per.fechainicial and per.fechafinal and per.estado = 1;
 ELSE
- Return (select per.periodo
+ Return query select per.periodo, per.tipoasignacion
 	      from 
 	        adm_periodo per
-	      where per.ciclo = _ciclo and per.tipoperiodo = _tipoperiodo and per.tipoasignacion = _tipoasignacion and per.centro_unidadacademica = _centrounidad and per.estado = 1) ::INTEGER;
+	      where per.ciclo = _ciclo and per.tipoperiodo = _tipoperiodo and per.tipoasignacion = _tipoasignacion and per.centro_unidadacademica = _centrounidad and per.estado = 1;
 END IF;
 end;
 $BODY$
@@ -346,5 +348,202 @@ $BODY$
 ALTER FUNCTION spobtenercuposeccion(integer, integer)
   OWNER TO postgres;
 
+  
+
+-- Function: spobtenerboletaasignacion(integer, integer, integer)
+
+-- DROP FUNCTION spobtenerboletaasignacion(integer, integer, integer);
+
+CREATE OR REPLACE FUNCTION spobtenerboletaasignacion(
+    _ciclo integer,
+    _estudiante integer,
+    _carrera integer,
+    out Asignacion integer,
+    out Fecha text,
+    out Hora text,
+    out CodigoCurso text,
+    out NombreCurso text,
+    out NombreSeccion text,
+    out NombreDia text,
+    out Inicio text,
+    out Fin text,
+    out tipoasign text)
+  RETURNS setof record AS
+$BODY$
+begin
+  Return query
+  SELECT ca.Ciclo_Asignacion, to_char(ca.fecha, 'DD/MM/YYYY'), to_char(ca.hora, 'HH24:MI'), cu.codigo, cu.nombre, sec.nombre, dia.nombre, to_char(tra.inicio, 'HH24:MI'), to_char(tra.fin, 'HH24:MI'), tasi.nombre
+  FROM EST_CICLO_ASIGNACION ca
+  JOIN ADM_PERIODO p ON ca.periodo = p.periodo AND p.ciclo = _ciclo
+  JOIN EST_CUR_ASIGNACION cura on cura.Ciclo_Asignacion = ca.Ciclo_Asignacion and cura.estado = 1
+  JOIN CUR_SECCION sec on cura.seccion = sec.seccion
+  JOIN CUR_CURSO cu on cu.curso = sec.curso
+  JOIN CUR_TRAMA tra on tra.seccion = cura.seccion
+  JOIN CUR_HORARIO hor on hor.trama = tra.trama and hor.ciclo = _ciclo
+  JOIN CUR_DIA dia on dia.codigo = tra.dia
+  JOIN ADM_TIPOASIGNACION tasi on tasi.tipoasignacion = p.tipoasignacion 
+  WHERE ca.estudiante = _estudiante AND ca.carrera = _carrera order by ca.Ciclo_Asignacion, cu.codigo, dia.codigo, tra.inicio;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION spobtenerboletaasignacion(integer, integer, integer)
+  OWNER TO postgres;
+  
+  
+-- Function: spobtenerintentoasignacion(integer, integer, integer, integer, integer)
+
+-- DROP FUNCTION spobtenerintentoasignacion(integer, integer, integer, integer, integer);
+
+CREATE OR REPLACE FUNCTION spobtenerintentoasignacion(
+    _ciclo integer,
+    _estudiante integer,
+    _carrera integer,
+    _tipoperiodo integer,
+	_tipoasignacion integer)
+  RETURNS INTEGER AS
+$BODY$
+begin
+  Return (
+  SELECT count(distinct(ca.Ciclo_asignacion))
+  FROM EST_CICLO_ASIGNACION ca
+  JOIN ADM_PERIODO p ON ca.periodo = p.periodo AND p.ciclo = _ciclo
+  JOIN EST_CUR_ASIGNACION cura on cura.Ciclo_Asignacion = ca.Ciclo_Asignacion
+  WHERE ca.estudiante = _estudiante AND ca.carrera = _carrera AND p.tipoasignacion = _tipoasignacion AND p.tipoperiodo = _tipoperiodo
+  ) ::INTEGER;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION spobtenerintentoasignacion(integer, integer, integer, integer, integer)
+  OWNER TO postgres; 
+  
+  
+-- Function: spcreditoscursosaprobados(integer, integer, integer)
+
+-- DROP FUNCTION spcreditoscursosaprobados(integer, integer, integer);
+
+CREATE OR REPLACE FUNCTION spcreditoscursosaprobados(
+    IN _estudiante integer,
+	IN _carrera integer)
+  RETURNS INTEGER AS
+$BODY$
+begin
+ Return (
+ select coalesce(sum(coalesce(curpen.creditos, 0)),0)
+	      from 
+	        est_cursoaprobado cur
+	      join
+	        est_cur_nota nota on nota.asignacion = cur.asignacion
+	      join
+	        est_cur_asignacion asign on asign.asignacion = nota.asignacion
+	      join 
+		cur_seccion sec on sec.seccion = asign.seccion 
+	      join 
+	        est_ciclo_asignacion ca on ca.ciclo_asignacion = asign.ciclo_asignacion
+	      join
+		cur_pensum_area curpen on curpen.curso = sec.curso
+	      where ca.estudiante = _estudiante and ca.carrera = _carrera
+
+	 ) ::INTEGER;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION spcreditoscursosaprobados(integer, integer)
+  OWNER TO postgres;
+ 
+  
+
+-- Function: spdesactivarasignacionanterior(integer, integer, integer, integer)
+
+-- DROP FUNCTION spdesactivarasignacionanterior(integer, integer, integer, integer);
+
+CREATE OR REPLACE FUNCTION spdesactivarasignacionanterior(
+    _nuevaAsign integer,
+    _estudiante integer,
+    _carrera integer,
+    _periodo integer)
+  RETURNS integer AS
+$BODY$
+begin
+ UPDATE EST_CUR_Asignacion set Estado = -1 WHERE asignacion in(
+	select cura.asignacion from EST_CUR_Asignacion cura 
+	join EST_Ciclo_Asignacion cicla on cura.Ciclo_Asignacion = cicla.Ciclo_Asignacion 
+		and cicla.Estudiante = _estudiante and cicla.carrera = _carrera and cicla.periodo = _periodo and cicla.Ciclo_Asignacion <> _nuevaAsign);
+ RETURN 1;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION spdesactivarasignacionanterior(integer, integer, integer, integer)
+  OWNER TO postgres;
+-- Function: splistadocursosaprobados(integer, integer)
+
+-- DROP FUNCTION splistadocursosaprobados(integer, integer);
+
+CREATE OR REPLACE FUNCTION splistadocursosaprobados(
+    _estudiante integer,
+    _carrera integer,
+    out cursoaprobado integer,
+    out estudiante integer, 
+	out nombreestudiante text, 
+	out carnet integer,
+	out carrera integer,
+	out nombrecarrera text,
+	out asignacion integer,
+	out numero integer,
+	out codigo text, 
+	out asignatura text,
+	out tipoaprobacion integer,
+	out nombretipoaprobacion text,
+	out calificacionnumeros float,
+	out fechaaprobacion date)
+  RETURNS setof record AS
+$BODY$
+begin
+  Return query
+  SELECT notas.cursoaprobado, notas.estudiante, notas.nombreestudiante, notas.carnet, notas.carrera, notas.nombrecarrera, notas.asignacion, notas.numero, notas.codigo, notas.asignatura, notas.tipoaprobacion, notas.nombretipoaprobacion, notas.calificacionnumeros, notas.fechaaprobacion
+FROM (
+	select ca.cursoaprobado, ciclo.estudiante, concat(est.primernombre || ' ' || est.segundonombre || ' ' || est.primerapellido || ' ' || est.segundoapellido) as nombreestudiante, est.carnet, estcar.carrera, car.nombre as nombrecarrera, asig.asignacion, curso.curso as numero, curso.codigo as codigo, curso.nombre as asignatura, tipo.tipoaprobacion, tipo.nombre as nombretipoaprobacion, coalesce(nota.total, -1) as calificacionnumeros, ca.fechaaprobacion 
+	from est_cursoaprobado ca
+	join est_cur_asignacion asig on asig.asignacion = ca.asignacion
+	join est_ciclo_asignacion ciclo on ciclo.ciclo_asignacion = asig.ciclo_asignacion
+	join est_estudiante_carrera estcar on estcar.estudiante = ciclo.estudiante
+	join est_estudiante est on est.estudiante = ciclo.estudiante
+	join cur_carrera car on car.carrera = estcar.carrera
+	join est_cur_nota nota on nota.asignacion = asig.asignacion
+	join cur_seccion sec on sec.seccion = asig.seccion
+	join cur_pensum_area curpen on curpen.cursopensumarea = sec.curso
+	join cur_curso curso on curso.curso = curpen.curso
+	join cur_tipoaprobacion tipo on tipo.tipoaprobacion = ca.tipoaprobacion
+	where asig.estado = 1
+
+	UNION
+
+	select ca.cursoaprobado, ciclo.estudiante, concat(est.primernombre || ' ' || est.segundonombre || ' ' || est.primerapellido || ' ' || est.segundoapellido) as nombreestudiante, est.carnet, estcar.carrera, car.nombre as nombrecarrera, asigretra.asignacionretrasada, curso.curso as numero, curso.codigo as codigo, curso.nombre as asignatura, tipo.tipoaprobacion as nombretipoaprobacion, tipo.nombre, coalesce(asigretra.notaretrasada,-1) as calificacionnumeros, ca.fechaaprobacion 
+	from est_cursoaprobado ca
+	join est_asignacionretrasada asigretra on asigretra.asignacionretrasada = ca.asignacionretrasada
+	join est_cur_asignacion asig on asigretra.asignacion = asig.asignacion
+	join est_ciclo_asignacion ciclo on ciclo.ciclo_asignacion = asig.ciclo_asignacion
+	join est_estudiante_carrera estcar on estcar.estudiante = ciclo.estudiante
+	join est_estudiante est on est.estudiante = ciclo.estudiante
+	join cur_carrera car on car.carrera = estcar.carrera
+	join cur_seccion sec on sec.seccion = asig.seccion
+	join cur_pensum_area curpen on curpen.cursopensumarea = sec.curso
+	join cur_curso curso on curso.curso = curpen.curso
+	join cur_tipoaprobacion tipo on tipo.tipoaprobacion = ca.tipoaprobacion
+	where asig.estado = 1
+) as notas
+WHERE notas.estudiante = _estudiante
+AND notas.carrera = _carrera
+ORDER BY notas.codigo, notas.fechaaprobacion;
+
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION splistadocursosaprobados(integer, integer)
+  OWNER TO postgres;
   
 Select 'Script de Asignaciones Instalado' as "Asignacion";

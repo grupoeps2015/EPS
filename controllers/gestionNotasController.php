@@ -71,9 +71,11 @@ class gestionNotasController extends Controller{
        
     }
     
-    public function cursosXDocente($idUsuario, $UnidadCentro){
+    public function cursosXDocente($idUsuario, $UnidadCentro, $Tipo = 0){
         $this->_view->id = $UnidadCentro;
         $this->_view->idUsuario = $idUsuario;
+        $this->_view->tipo = $Tipo;
+        
         
         $datosCat = $this->_notas->getDocenteEspecifico($idUsuario);
         if(is_array($datosCat)){
@@ -102,6 +104,17 @@ class gestionNotasController extends Controller{
         $this->_view->titulo = 'Gestión de notas - ' . APP_TITULO;
         $this->_view->setJs(array('actividades'));
         $this->_view->renderizar('actividades');
+    }
+    
+    public function guardarNota(){
+        $zona = floatval($this->getTexto('zonaN'));
+        $final = floatval($this->getTexto('finalN'));
+        if($this->getInteger('idAs')){
+            $this->_notas->guardarNota($zona,$final,$this->getInteger('idAs'));
+            echo "Procesado";
+        }else{
+            echo "Ocurrio un error al ingresar una nota";
+        }
     }
     
 }

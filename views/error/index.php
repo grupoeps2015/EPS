@@ -36,7 +36,7 @@
             <div class="col-lg-3 col-md-8 text-center">
                 <i class="fa fa-4x fa-home wow bounceIn text-primary" data-wow-delay=".1s"></i>
                     <h3>
-                        <a href="<?php echo BASE_URL; ?>login/inicio">
+                        <a href="<?php echo BASE_URL; ?><?php if(isset($_SESSION["rol"])){if($_SESSION["rol"] == ROL_ESTUDIANTE){echo "estudiante";} else if($_SESSION["rol"] == ROL_DOCENTE){echo "catedratico";}else{echo "login";}} ;?>/inicio">
                                 Volver
                         </a>
                     </h3>

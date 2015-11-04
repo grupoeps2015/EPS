@@ -41,6 +41,25 @@
                             <span id="spErrorCorreo" class="text-danger"></span>
                         </td>
                     </tr>
+                    <?php if($_SESSION['rol'] == "1" && isset($this->lstCar) && count($this->lstCar)):?>
+                    <tr>
+                        <td>
+                            <label class="text-primary" style="font-weight: normal;"><b>Seleccione la Carrera a la que pertenece:</b></label>
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>
+                            <select id="slCarrera" name="slCarrera" class="form-control input-lg">
+                            <?php for($i =0; $i < count($this->lstCar); $i++) : ?>
+                                <?php if(strcmp($this->lstCar[$i]['estado'],'Activo')==0): ?>
+                                <option value="<?php echo $this->lstCar[$i]['id'];?>">
+                                    <?php echo $this->lstCar[$i]['nombre']; ?>
+                                </option>
+                                <?php endif ?>
+                            <?php endfor;?>
+                            </select>
+                        </td>
+                    </tr>
+                    <?php endif;?>
                     <tr>
                         <td colspan="3"><hr class="hr1"/></td>
                     </tr>

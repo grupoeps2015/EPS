@@ -115,4 +115,39 @@ class estudianteController extends Controller{
         }
     }
     
+    public function cursosAprobados(){
+        if(isset($_SESSION['usuario'])){
+            $idUsuario = $_SESSION['usuario'];
+            $infoGeneral = $this->_est->getInfoGeneral($idUsuario);
+            if(is_array($infoGeneral)){
+                $this->_view->infoGeneral = $infoGeneral;
+            }else{
+                $this->redireccionar("error/sql/" . $infoGeneral);
+                exit;
+            }
+            
+            $estudiante = $this->_ajax->getEstudianteUsuario($_SESSION["usuario"]);
+            if(is_array($estudiante)){
+                $this->estudiante = (isset($estudiante[0]['id']) ? $estudiante[0]['id'] : -1);
+            }else{
+                $this->redireccionar("error/sql/" . $estudiante);
+                exit;
+            }
+            
+            $this->_view->titulo = APP_TITULO;
+            $this->_view->id = $idUsuario;
+            $this->_view->setJs(array('cursosAprobados'));       
+            $this->_view->setJs(array('jquery.dataTables.min'), "public");
+            $this->_view->setCSS(array('jquery.dataTables.min'));
+            $this->_view->setJs(array('jquery.validate'), "public");                 
+            $this->_view->setJs(array('jspdf.debug'), "public");
+            $this->_view->lstCur = $this->_est->listadoCursosAprobados($this->estudiante,$_SESSION["carrera"]);
+            $this->_view->renderizar('cursosAprobados','estudiante');
+            
+        }else{
+            $this->redireccionar("error/noRol/1000");
+            exit;
+        }
+    }
+    
 }

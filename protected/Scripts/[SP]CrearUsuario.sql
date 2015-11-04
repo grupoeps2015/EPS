@@ -355,4 +355,34 @@ END;
 $BODY$
 LANGUAGE plpgsql;
 
+-- -----------------------------------------------------
+-- Function: spEstudianteCarrera()
+-- -----------------------------------------------------
+-- DROP FUNCTION spEstudianteCarrera(int, int)
+CREATE OR REPLACE FUNCTION spEstudianteCarrera(_idUsuario int, _idCarrera int) returns void as
+$BODY$
+Declare _idEstudiante integer;
+BEGIN
+  SELECT estudiante from est_estudiante where usuario = _idUsuario into _idEstudiante;
+  EXECUTE format('INSERT INTO est_estudiante_carrera VALUES(%s,%s,current_timestamp,1)',_idEstudiante,_idCarrera);
+END;
+$BODY$
+LANGUAGE plpgsql;
+
+
+-- -----------------------------------------------------
+-- Function: spGetCentroUnidadUsuario()
+-- -----------------------------------------------------
+-- DROP FUNCTION spGetCentroUnidadUsuario(int)
+CREATE OR REPLACE FUNCTION spGetCentroUnidadUsuario(_idUsuario int) returns int as
+$BODY$
+DECLARE idCentroUnidad integer;
+BEGIN
+  select centro_unidadacademica from adm_centro_unidadacademica_usuario where usuario = _idUsuario into idCentroUnidad;
+  return idCentroUnidad;
+END;
+$BODY$
+LANGUAGE plpgsql;
+
+
 Select 'Script para Gestion de usuarios Instalado' as "Gestion Usuarios";

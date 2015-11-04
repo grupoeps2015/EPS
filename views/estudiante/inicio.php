@@ -2,7 +2,7 @@
     <div class="header">
         <div class="row">
             <div class="col-lg-12 text-center">
-                <h2 class="section-heading">Bienvenido@ <?php echo " " . $_SESSION["nombre"]; ?></h2>
+                <h2 class="section-heading">Bienvenid@ <?php echo " " . $_SESSION["nombre"]; ?></h2>
                 <hr class="primary">
                 <div class="col-lg-3 col-md-6 text-center"></div>
                 <div class="col-lg-3 col-md-6 text-center"></div>
@@ -109,12 +109,12 @@
             </div>
             <div class="service-box">
                 <i class="fa fa-2x fa-book wow bounceIn text-primary">
-                    <a href="#moduloAsignacion">Asignaci&oacute;n de cursos</a>
+                    <a href="<?php echo BASE_URL . 'general/seleccionarCarreraEstudiante/asignacion' ?>">Asignaci&oacute;n de cursos</a>
                 </i>
             </div>
             <div class="service-box">
                 <i class="fa fa-2x fa-search wow bounceIn text-primary">
-                    <a href="#moduloAsignacion">Ver cursos asignados</a>
+                    <a href="<?php echo BASE_URL . 'general/seleccionarCarreraEstudiante/asignacion/boletaAsignacion' ?>">Ver cursos asignados</a>
                 </i>
             </div>
             <div class="service-box">
@@ -132,6 +132,11 @@
                     <a href="#moduloAsignacion">Repitencia</a>
                 </i>
             </div>
+            <div class="service-box">
+                <i class="fa fa-2x fa-search wow bounceIn text-primary">
+                    <a href="<?php echo BASE_URL . 'general/seleccionarCarreraEstudiante/estudiante/cursosAprobados' ?>">Listado de cursos aprobados</a>
+                </i>
+            </div>            
         </div>
     </div>
 </section>

@@ -14,6 +14,7 @@ define('ALL_FOLDER','all');
 define('APP_TITULO','Sistema de control academico - USAC');
 define('DB_KEY','2015.RmGm');
 define('PARAM_KEY','MrMg.2015');
+define('BOLETA_KEY',2610);
 define('ROL_ADMINISTRADOR','0');
 define('ROL_ESTUDIANTE','1');
 define('ROL_DOCENTE','2');
@@ -40,5 +41,7 @@ define('DB_PASS','pruebas123');
 //define('DB_PASS','moino');
 define('DB_NAME','EPS');
 define('DB_CHAR','utf8');
+
+define('CHAR_SET', 'UTF-8');
 
 ?>

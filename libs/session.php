@@ -37,7 +37,7 @@ class session {
         require_once ROOT . 'models' . DS . $modelo . '.php';
         $modelo = new $modelo;
         $lstPais = $modelo->getPais();
-        $tiempoSesion = $modelo->valorParametro(CONS_PARAM_SESION_MAXTIEMPOSESIONACTIVA, -1, -1);
+        $tiempoSesion = $modelo->valorParametro(CONS_PARAM_APP_MAXTIEMPOSESIONACTIVA, -1, -1);
         if(!is_array($tiempoSesion)){
             $urlEnvio=BASE_URL."error/sql/" . $tiempoSesion;
             echo '<script language="javascript">window.location.href="' . $urlEnvio . '"</script>';

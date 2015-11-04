@@ -11,7 +11,7 @@
     <div class="container">
         <div class="row">
             <!-- Menu Opcion 1 -->
-            <div class="col-lg-3 col-md-6 text-center">
+            <div class="col-lg-4 col-md-8 text-center">
                 <div class="service-box">
                     <i class="fa fa-4x fa-group wow bounceIn text-primary" data-wow-delay=".1s"></i>
                     <h3>
@@ -24,7 +24,7 @@
             </div>
             
             <!-- Menu Opcion 2 -->
-            <div class="col-lg-3 col-md-6 text-center">
+            <div class="col-lg-4 col-md-8 text-center">
                 <div class="service-box">
                     <i class="fa fa-4x fa-mortar-board wow bounceIn text-primary"></i>
                     <h3>
@@ -37,7 +37,7 @@
             </div>
             
             <!-- Menu Opcion 3 -->
-                        <div class="col-lg-3 col-md-6 text-center">
+            <div class="col-lg-4 col-md-8 text-center">
                 <div class="service-box">
                     <i class="fa fa-4x fa-building wow bounceIn text-primary"></i>
                     <h3>
@@ -48,20 +48,20 @@
                     <p class="text-muted">Capacidad de salones y gesti&oacute;n de uso</p>
                 </div>
             </div>
-            
+        </div>
+        
+        <div class="row">
             <!-- Menu Opcion 4 -->
-            <div class="col-lg-3 col-md-6 text-center">
+            <div class="col-lg-4 col-md-8 text-center">
                 <div class="service-box">
-                    <i class="fa fa-4x fa-pencil wow bounceIn text-primary" data-wow-delay=".2s"></i>
+                    <i class="fa fa-4x fa-navicon wow bounceIn text-primary" data-wow-delay=".2s"></i>
                     <h3><a href="<?php echo BASE_URL; ?>general/seleccionarCentroUnidad/gestionParametro">Parametrizaci&oacute;n</a></h3>
                     <p class="text-muted">M&oacute;dulo de parametrizaci&oacute;n diseñado para administradores</p>
                 </div>
             </div>
-        </div>
-        
-        <div class="row">
-            <!-- Menu Opcion 8 -->
-            <div class="col-lg-3 col-md-6 text-center">
+            
+            <!-- Menu Opcion 5 -->
+            <div class="col-lg-4 col-md-8 text-center">
                 <div class="service-box">
                     <i class="fa fa-4x fa-shekel wow bounceIn text-primary"></i>
                     <h3><a href="<?php echo BASE_URL; ?>gestionPensum/inicio">Gesti&oacute;n de P&eacute;nsum de estudios</a></h3>
@@ -70,31 +70,42 @@
             </div>
             
             <!-- Menu Opcion 6 -->
-            <div class="col-lg-3 col-md-6 text-center">
+            <div class="col-lg-4 col-md-8 text-center">
                 <div class="service-box">
-                    <i class="fa fa-4x fa-navicon wow bounceIn text-primary"></i>
+                    <i class="fa fa-4x fa-pencil wow bounceIn text-primary"></i>
                     <h3><a href="<?php echo BASE_URL; ?>general/seleccionarCentroUnidad/gestionCurso">Gesti&oacute;n de Cursos</a></h3>
                     <p class="text-muted">Creaci&oacute;n y actualizaci&oacute;n de cursos</p>
                 </div>
             </div>
-            
+        </div>
+        
+        <div class="row">
             <!-- Menu Opcion 7 -->
-            <div class="col-lg-3 col-md-6 text-center">
+            <div class="col-lg-4 col-md-8 text-center">
                 <div class="service-box">
                     <i class="fa fa-4x fa-calendar wow bounceIn text-primary"></i>
                     <h3><a href="<?php echo BASE_URL; ?>general/seleccionarCentroUnidad/gestionHorario/seleccionarCicloCurso">Gesti&oacute;n de Horarios</a></h3>
                     <p class="text-muted">Asignaci&oacute;n de salones, catedr&aacute;ticos y horarios de clase</p>
                 </div>
             </div>
-            
             <!-- Menu Opcion 8 -->
-            <div class="col-lg-3 col-md-6 text-center">
+            <div class="col-lg-4 col-md-8 text-center">
                 <div class="service-box">
                     <i class="fa fa-4x fa-wrench wow bounceIn text-primary"></i>
                     <h3>
                         <a href="<?php echo BASE_URL; ?>general/seleccionarCentroUnidad/gestionNotas">Gesti&oacute;n de Notas</a>
                     </h3>
                     <p class="text-muted">Ingreso y consulta de notas por curso</p>
+                </div>
+            </div>
+            <!-- Menu Opcion 9 -->
+            <div class="col-lg-4 col-md-8 text-center">
+                <div class="service-box">
+                    <i class="fa fa-4x fa-file-text-o wow bounceIn text-primary"></i>
+                    <h3>
+                        <a href="<?php echo BASE_URL; ?>general/seleccionarCentroUnidad/general/seleccionarCarreraEstudiante/asignacion">Asignaci&oacute;n de Cursos</a>
+                    </h3>
+                    <p class="text-muted">Asignaciones por Resolución de Junta Directiva</p>
                 </div>
             </div>
         </div>
