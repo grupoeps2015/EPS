@@ -104,7 +104,7 @@ ALTER FUNCTION spactivardesactivarasignacion(integer, integer)
 8
 CREATE OR REPLACE FUNCTION spagregardesasignacion(
     _asignacion integer,
-	_descripcion text
+    _descripcion text)
   RETURNS integer AS
 $BODY$
 DECLARE fechaactual DATE;
@@ -114,7 +114,7 @@ begin
  SELECT current_date into fechaactual;
  SELECT current_time into horaactual;
  INSERT INTO cur_desasignacion (asignacion, Fecha, Hora, descripcion, adjuntos) 
- values (_asignacion, current_date, current_time, _descripcion, (select adjuntos from est_cur_asignacion where asignacion = _asignacion));) 
+ values (_asignacion, current_date, current_time, _descripcion, (select adjuntos from est_cur_asignacion where asignacion = _asignacion)) 
  RETURNING desasignacion INTO idAs;
  RETURN idAs;
 end;
