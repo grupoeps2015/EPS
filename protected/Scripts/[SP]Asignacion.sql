@@ -391,6 +391,49 @@ ALTER FUNCTION spobtenerboletaasignacion(integer, integer, integer)
   OWNER TO postgres;
   
   
+-- Function: spobtenernotaasignacion(integer, integer, integer)
+
+-- DROP FUNCTION spobtenernotaasignacion(integer, integer, integer);
+
+CREATE OR REPLACE FUNCTION spobtenernotaasignacion(
+    _ciclo integer,
+    _estudiante integer,
+    _carrera integer,
+    out Asignacion integer,
+    out Fecha text,
+    out Hora text,
+    out CodigoCurso text,
+    out NombreCurso text,
+    out NombreSeccion text,
+    out Zona float,
+    out Final float,
+    out Total text,
+    out EstadoNota text,
+    out tipoasign text)
+  RETURNS setof record AS
+$BODY$
+begin
+  Return query
+  SELECT ca.Ciclo_Asignacion, to_char(ca.fecha, 'DD/MM/YYYY'), to_char(ca.hora, 'HH24:MI'), cu.codigo, cu.nombre, sec.nombre, nota.zona, nota.final, 
+  CASE WHEN nota.total = 0 and nota.aprobacion = 1 THEN 'APROBADO' WHEN nota.total = 0 and nota.aprobacion = -1 THEN 'REPROBADO' ELSE cast(nota.total as text) END as total, 
+  estnota.nombre, tasi.nombre
+  FROM EST_CICLO_ASIGNACION ca
+  JOIN ADM_PERIODO p ON ca.periodo = p.periodo AND p.ciclo = _ciclo
+  JOIN EST_CUR_ASIGNACION cura on cura.Ciclo_Asignacion = ca.Ciclo_Asignacion and cura.estado = 1
+  JOIN CUR_SECCION sec on cura.seccion = sec.seccion
+  JOIN CUR_CURSO cu on cu.curso = sec.curso
+  JOIN EST_CUR_NOTA nota on cura.asignacion = nota.asignacion
+  JOIN CUR_ESTADONOTA estnota on nota.estadonota = estnota.estadonota
+  JOIN ADM_TIPOASIGNACION tasi on tasi.tipoasignacion = p.tipoasignacion 
+  WHERE ca.estudiante = _estudiante AND ca.carrera = _carrera order by ca.Ciclo_Asignacion, cu.codigo;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION spobtenernotaasignacion(integer, integer, integer)
+  OWNER TO postgres;
+  
+  
 -- Function: spobtenerintentoasignacion(integer, integer, integer, integer, integer)
 
 -- DROP FUNCTION spobtenerintentoasignacion(integer, integer, integer, integer, integer);

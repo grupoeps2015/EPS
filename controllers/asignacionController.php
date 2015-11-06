@@ -488,6 +488,70 @@ class asignacionController extends Controller{
         $this->_view->renderizar('boletaAsignacion');
     }
     
+    public function notaAsignacion($anioA = -1, $cicloA = -1){
+        if ($_SESSION["rol"] == ROL_ADMINISTRADOR || $_SESSION["rol"] == ROL_EMPLEADO) {
+            $this->_view->estudiante = $this->estudiante;
+            $this->_view->carrera = $this->carrera;
+        }
+        $tipociclo = $_SESSION["tipociclo"];
+        $lsAnios = $this->_ajax->getAniosAjax($tipociclo);
+        if(is_array($lsAnios)){
+            $this->_view->lstAnios = $lsAnios;
+        }else{
+            $this->redireccionar("error/sql/" . $lsAnios);
+            exit;
+        }
+        
+        if ($anioA != -1){
+            $anio = $anioA;
+        }
+        else if ($this->getInteger('hdEnvio')) {
+            $anio = $this->getInteger('slAnio');            
+        }
+        else{
+            $anio = (isset($lsAnios[count($lsAnios)-1]['anio']) ? $lsAnios[count($lsAnios)-1]['anio'] : -1);
+        }
+        
+        $lsCiclos = $this->_ajax->getCiclosAjax($tipociclo, $anio);
+        if(is_array($lsCiclos)){
+            $this->_view->lstCiclos = $lsCiclos;
+        }else{
+            $this->redireccionar("error/sql/" . $lsCiclos);
+            exit;
+        }
+        
+        if ($cicloA != -1){
+            $ciclo = $cicloA;
+        }
+        else if ($this->getInteger('hdEnvio')) {
+            $ciclo = $this->getInteger('slCiclo');            
+        }
+        else{
+            $ciclo = (isset($lsCiclos[count($lsCiclos)-1]['codigo']) ? $lsCiclos[count($lsCiclos)-1]['codigo'] : -1);
+        }
+        
+        
+        $this->_view->anio = $anio;
+        $this->_view->ciclo = $ciclo;
+        
+        $periodo = $this->_asign->getNota($ciclo, $this->estudiante, $this->carrera);
+        if(is_array($periodo)){
+            if(isset($periodo[0]['codigocurso'])){
+                $this->_view->asignacion = array_unique (array_column($periodo,'asignacion'));//$this->_encriptarFacil->encode($periodo[0]['asignacion']);
+                //$this->_view->fecha = $periodo[0]['fecha'];
+                //$this->_view->hora = $periodo[0]['hora'];
+                $this->_view->lstPar = $periodo;
+                $this->_view->_encriptarFacil = $this->_encriptarFacil;
+        }
+        }else{
+            $this->redireccionar("error/sql/" . $periodo);
+            exit;
+        }
+        $this->_view->setJs(array('jquery.dataTables.min'), "public");
+        $this->_view->setCSS(array('jquery.dataTables.min'));
+        $this->_view->setJs(array('notaAsignacion'));
+        $this->_view->renderizar('notaAsignacion');
+    }
     
     public function cursosDisponibles($ciclo){
         $cursosDisponiblesEstudiante = array();
