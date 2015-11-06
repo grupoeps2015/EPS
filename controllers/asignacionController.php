@@ -44,10 +44,24 @@ class asignacionController extends Controller{
         if ($this->getInteger('slEstudiantes') && $this->getInteger('slCarreras')) {
             $this->carrera = $this->getInteger('slCarreras');
         }
-        else {
+        else if (isset($_SESSION["carrera"])) {
             $this->carrera = $_SESSION["carrera"];
         }
         
+    }
+    
+    public function inicio() {
+        $rol = $_SESSION["rol"];
+//        $rolValido = $this->_ajax->getPermisosRolFuncion($rol, CONS_FUNC_CUR_GESTIONPENSUM);
+//
+//        if ($rolValido[0]["valido"] != PERMISO_GESTIONAR) {
+//            echo "<script>
+//                ".MSG_SINPERMISOS."
+//                window.location.href='" . BASE_URL . "login/inicio';
+//                </script>";
+//        }
+
+        $this->_view->renderizar('inicio');
     }
     
     public function index(){
@@ -141,8 +155,8 @@ class asignacionController extends Controller{
             exit;
         }
         
-        $this->_view->setJs(array('inicio'));
-        $this->_view->renderizar('inicio');
+        $this->_view->setJs(array('asignar'));
+        $this->_view->renderizar('asignar');
     }
     
     public function prueba(){
