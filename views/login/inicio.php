@@ -101,9 +101,9 @@
             <!-- Menu Opcion 9 -->
             <div class="col-lg-4 col-md-8 text-center">
                 <div class="service-box">
-                    <i class="fa fa-4x fa-file-text-o wow bounceIn text-primary"></i>
+                    <i class="fa fa-4x fa-file-o wow bounceIn text-primary"></i>
                     <h3>
-                        <a href="<?php echo BASE_URL; ?>general/seleccionarCentroUnidad/general/seleccionarCarreraEstudiante/asignacion">Asignaciones</a>
+                        <a href="<?php echo BASE_URL; ?>asignacion/inicio">Asignaciones</a>
                     </h3>
                     <p class="text-muted">Consultas, asignaci&oacute;n y desasignaci&oacute;n de cursos por estudiante</p>
                 </div>
