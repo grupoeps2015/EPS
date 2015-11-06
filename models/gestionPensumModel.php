@@ -12,7 +12,7 @@ class gestionPensumModel extends Model {
     }
 
     public function agregarCarrera($_datos) {
-        $info = $this->_db->prepare("SELECT * from spAgregarCarrera(:nombre,:estado,:centrounidadacademica) as Id;");
+        $info = $this->_db->prepare("SELECT * from spAgregarCarrera(:codigo,:nombre,:estado,:centrounidadacademica) as Id;");
         $info->execute($_datos);
         if ($info === false) {
             return "1101/agregarCarrera";
@@ -119,6 +119,15 @@ class gestionPensumModel extends Model {
         $info = $this->_db->query("SELECT * from spactivarpensum(" . $intIdPensum . ");");
         if ($info === false) {
             return "1103/finalizarVigenciaPensum/" . "SELECT * from spactivarpensum(" . $intIdPensum . ");";
+        } else {
+            return $info->fetchall();
+        }
+    }
+    
+    public function listadoCursosPensum($intIdPensum) {
+        $info = $this->_db->query("SELECT * from splistadocurpensumarea(" . $intIdPensum . ");");
+        if ($info === false) {
+            return "1104/listadoCursos";
         } else {
             return $info->fetchall();
         }

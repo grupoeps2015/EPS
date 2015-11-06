@@ -3,7 +3,9 @@
         <div class="row">
             <div class="col-lg-12 text-center">
                 <h2 class="section-heading">Asignación de Prerrequisitos</h2>
-                <h2><?php echo $this->dCurso[0]['codigo'].'-' . $this->dCurso[0]['nombrecurso'];?></h2>
+                <?php if (isset($this->dCurso) && count($this->dCurso)): ?>
+                    <h2><?php echo $this->dCurso[0]['codigo'] . '-' . $this->dCurso[0]['nombrecurso']; ?></h2>
+                <?php endif; ?>
                 <hr class="primary">
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
@@ -33,7 +35,7 @@
         <form id="frPensum" method="post" action="<?php echo BASE_URL; ?>gestionPensum/crearPensum/">
             <div id="divPensum" class="form-group" >
                 <div style="margin-left: 5%; margin-right: 5%">
-                    
+
                     <table align ="center">
                         <tr>
                             <td>
@@ -75,7 +77,7 @@
                                         <td style=" padding-top: 25px;"><input onclick="agregar()" value="Agregar" type="button"  class="btn btn-success btn-default" style="width:350px;"/></td>
                                         <td style="padding-top: 25px;"><input onclick="remover()" value="Eliminar" type="button"  class="btn btn-success btn-default" style="width:350px;"/></td>
                                     </tr>
-                                    
+
                                 </table>
                             </td>
                             <td style="padding: 10px;">
@@ -83,7 +85,7 @@
                                     <th style="padding: 10px;"><center><font style="font-size: 19px;"> PRERREQUISITOS AGREGADOS </font> <br/><font style="font-weight: normal;"> (seleccione "Prerrequisitos" para agregar uno nuevo)</font></center></th>
                                     <tr>
                                         <td style="border: 1px solid black;"><div id="arbolPensum" style="margin-right: 25px; padding: 10px;"/></td>
-                                        
+
                                     </tr>
                                     <!--<tr>
                                         <td style="border: 1px solid beige;">
@@ -92,16 +94,16 @@
                                     </tr>-->
                                 </table>
                             </td>
-                            
+
 
                         </tr>
-                        
+
                         <tr>
-                            
+
                             <td align="center"><br />
                                 <input type="submit" name ="submit" id="submit" value="Guardar" class="btn btn-danger btn-lg btn-block" style="width:70%; margin-top: 25px;"/>
                             </td>
-                            
+
                         </tr>
                     </table>
 
@@ -116,11 +118,15 @@
                 </div>
             </div>
             <input type="hidden" name="hdEnvio" value="1">
-            <input type="hidden" name="hdPensum" value="<?php echo $this->idPensum;?>">
-            <input type="hidden" name="hdCarrera" value="<?php echo $this->idCarrera;?>">
-            <input type="hidden" name="hdCursoPensumArea" value="<?php echo $this->idCursoPensum;?>">
-            <input type="hidden" name="hdIdCurso" id="hdIdCurso" value="<?php echo $this->dCurso[0]['curso'];?>">
-            <input type="hidden" id="hdPrerrequisitos" name="hdPrerrequisitos" value="<?php if(isset($_GET['prerrequisitos'])){echo $_GET['prerrequisitos'];}else{ echo "NO_P_PRERREQUISITO";}?>">
+            <input type="hidden" name="hdPensum" value="<?php echo $this->idPensum; ?>">
+            <input type="hidden" name="hdCarrera" value="<?php echo $this->idCarrera; ?>">
+            <input type="hidden" name="hdCursoPensumArea" value="<?php echo $this->idCursoPensum; ?>">
+            <input type="hidden" name="hdIdCurso" id="hdIdCurso" value="<?php echo $this->dCurso[0]['curso']; ?>">
+            <input type="hidden" id="hdPrerrequisitos" name="hdPrerrequisitos" value="<?php if (isset($_GET['prerrequisitos'])) {
+                                                echo $_GET['prerrequisitos'];
+                                            } else {
+                                                echo "NO_P_PRERREQUISITO";
+                                            } ?>">
 
         </form>
     </div>   

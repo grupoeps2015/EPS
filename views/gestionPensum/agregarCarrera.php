@@ -29,6 +29,13 @@
                         <div class="col-md-6 col-md-offset-3">
                             <table>
                                 <tr>
+                                    <td colspan="3" width="50px;">
+                                        *Código:
+                                        <input type="text" id="txtCodigo" name="txtCodigo" class="form-control input-lg" value="<?php if(isset($this->datos['txtCodigo'])) echo $this->datos['txtCodigo']?>">
+                                        <br/>
+                                    </td>
+                                </tr>
+                                <tr>
                                     <td colspan="3" width="100%">
                                         *Nombre:
                                         <input type="text" id="txtNombre" name="txtNombre" class="form-control input-lg" value="<?php if(isset($this->datos['txtNombre'])) echo $this->datos['txtNombre']?>">

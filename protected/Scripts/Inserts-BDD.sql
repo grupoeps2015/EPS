@@ -411,12 +411,12 @@ INSERT INTO adm_centro_unidadacademica (centro_unidadacademica, centro, unidadac
 -- -----------------------------------------------------
 -- Insert cur_carrera / escuela de historia
 -- -----------------------------------------------------
-INSERT INTO cur_carrera(carrera, nombre, estado, centro_unidadacademica) VALUES (1, 'Licenciatura en Historia', 1, 1);
---INSERT INTO cur_carrera(carrera, nombre, estado, centro_unidadacademica) VALUES (2, 'Licenciatura en Arqueologia', 1, 1);
---INSERT INTO cur_carrera(carrera, nombre, estado, centro_unidadacademica) VALUES (3, 'Licenciatura en Antropologia', 1, 1);
---INSERT INTO cur_carrera(carrera, nombre, estado, centro_unidadacademica) VALUES (4, 'Licenciatura para la Enseñanza de la Historia', 1, 1);
---INSERT INTO cur_carrera(carrera, nombre, estado, centro_unidadacademica) VALUES (5, 'Profesorado en Enseñanza Media', 1, 1);
---INSERT INTO cur_carrera(carrera, nombre, estado, centro_unidadacademica) VALUES (6, 'Tecnico Universitario en Archivos', 1, 1);
+INSERT INTO cur_carrera(codigo, carrera, nombre, estado, centro_unidadacademica) VALUES (1,1, 'Licenciatura en Historia', 1, 1);
+--INSERT INTO cur_carrera(carrera, nombre, estado, centro_unidadacademica) VALUES (2,2, 'Licenciatura en Arqueologia', 1, 1);
+--INSERT INTO cur_carrera(carrera, nombre, estado, centro_unidadacademica) VALUES (3,3, 'Licenciatura en Antropologia', 1, 1);
+--INSERT INTO cur_carrera(carrera, nombre, estado, centro_unidadacademica) VALUES (4,4, 'Licenciatura para la Enseñanza de la Historia', 1, 1);
+--INSERT INTO cur_carrera(carrera, nombre, estado, centro_unidadacademica) VALUES (5,5, 'Profesorado en Enseñanza Media', 1, 1);
+--INSERT INTO cur_carrera(carrera, nombre, estado, centro_unidadacademica) VALUES (6,6, 'Tecnico Universitario en Archivos', 1, 1);
 
 -- -----------------------------------------------------
 -- Insert catalogo adm_preguntasecreta / 6 registros
