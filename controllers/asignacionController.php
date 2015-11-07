@@ -44,10 +44,24 @@ class asignacionController extends Controller{
         if ($this->getInteger('slEstudiantes') && $this->getInteger('slCarreras')) {
             $this->carrera = $this->getInteger('slCarreras');
         }
-        else {
+        else if (isset($_SESSION["carrera"])) {
             $this->carrera = $_SESSION["carrera"];
         }
         
+    }
+    
+    public function inicio() {
+        $rol = $_SESSION["rol"];
+//        $rolValido = $this->_ajax->getPermisosRolFuncion($rol, CONS_FUNC_CUR_GESTIONPENSUM);
+//
+//        if ($rolValido[0]["valido"] != PERMISO_GESTIONAR) {
+//            echo "<script>
+//                ".MSG_SINPERMISOS."
+//                window.location.href='" . BASE_URL . "login/inicio';
+//                </script>";
+//        }
+
+        $this->_view->renderizar('inicio');
     }
     
     public function index(){
@@ -141,8 +155,8 @@ class asignacionController extends Controller{
             exit;
         }
         
-        $this->_view->setJs(array('inicio'));
-        $this->_view->renderizar('inicio');
+        $this->_view->setJs(array('asignar'));
+        $this->_view->renderizar('asignar');
     }
     
     public function prueba(){
@@ -488,6 +502,70 @@ class asignacionController extends Controller{
         $this->_view->renderizar('boletaAsignacion');
     }
     
+    public function notaAsignacion($anioA = -1, $cicloA = -1){
+        if ($_SESSION["rol"] == ROL_ADMINISTRADOR || $_SESSION["rol"] == ROL_EMPLEADO) {
+            $this->_view->estudiante = $this->estudiante;
+            $this->_view->carrera = $this->carrera;
+        }
+        $tipociclo = $_SESSION["tipociclo"];
+        $lsAnios = $this->_ajax->getAniosAjax($tipociclo);
+        if(is_array($lsAnios)){
+            $this->_view->lstAnios = $lsAnios;
+        }else{
+            $this->redireccionar("error/sql/" . $lsAnios);
+            exit;
+        }
+        
+        if ($anioA != -1){
+            $anio = $anioA;
+        }
+        else if ($this->getInteger('hdEnvio')) {
+            $anio = $this->getInteger('slAnio');            
+        }
+        else{
+            $anio = (isset($lsAnios[count($lsAnios)-1]['anio']) ? $lsAnios[count($lsAnios)-1]['anio'] : -1);
+        }
+        
+        $lsCiclos = $this->_ajax->getCiclosAjax($tipociclo, $anio);
+        if(is_array($lsCiclos)){
+            $this->_view->lstCiclos = $lsCiclos;
+        }else{
+            $this->redireccionar("error/sql/" . $lsCiclos);
+            exit;
+        }
+        
+        if ($cicloA != -1){
+            $ciclo = $cicloA;
+        }
+        else if ($this->getInteger('hdEnvio')) {
+            $ciclo = $this->getInteger('slCiclo');            
+        }
+        else{
+            $ciclo = (isset($lsCiclos[count($lsCiclos)-1]['codigo']) ? $lsCiclos[count($lsCiclos)-1]['codigo'] : -1);
+        }
+        
+        
+        $this->_view->anio = $anio;
+        $this->_view->ciclo = $ciclo;
+        
+        $periodo = $this->_asign->getNota($ciclo, $this->estudiante, $this->carrera);
+        if(is_array($periodo)){
+            if(isset($periodo[0]['codigocurso'])){
+                $this->_view->asignacion = array_unique (array_column($periodo,'asignacion'));//$this->_encriptarFacil->encode($periodo[0]['asignacion']);
+                //$this->_view->fecha = $periodo[0]['fecha'];
+                //$this->_view->hora = $periodo[0]['hora'];
+                $this->_view->lstPar = $periodo;
+                $this->_view->_encriptarFacil = $this->_encriptarFacil;
+        }
+        }else{
+            $this->redireccionar("error/sql/" . $periodo);
+            exit;
+        }
+        $this->_view->setJs(array('jquery.dataTables.min'), "public");
+        $this->_view->setCSS(array('jquery.dataTables.min'));
+        $this->_view->setJs(array('notaAsignacion'));
+        $this->_view->renderizar('notaAsignacion');
+    }
     
     public function cursosDisponibles($ciclo){
         $cursosDisponiblesEstudiante = array();

@@ -373,6 +373,7 @@ CREATE TABLE CUR_Periodo (
 -- -----------------------------------------------------
 CREATE TABLE CUR_Carrera (
   Carrera SERIAL NOT NULL,
+  Codigo INTEGER NOT NULL,
   Nombre TEXT NOT NULL,
   Estado INTEGER NOT NULL,
   Centro_UnidadAcademica INTEGER NOT NULL,

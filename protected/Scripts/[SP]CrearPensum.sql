@@ -1,8 +1,9 @@
 ﻿-- Function: spagregarcarrera()
 
--- DROP FUNCTION spagregarcarrera(text, integer, integer);
+-- DROP FUNCTION spagregarcarrera(integer, text, integer, integer);
 
 CREATE OR REPLACE FUNCTION spagregarcarrera(
+	_codigo integer,
     _nombre text,
     _estado integer,
     _centrounidadacademica integer)
@@ -10,8 +11,8 @@ CREATE OR REPLACE FUNCTION spagregarcarrera(
 $BODY$
 DECLARE idCarrera integer;
 BEGIN
-	INSERT INTO cur_carrera (nombre, estado, centro_unidadacademica) 
-	VALUES (_nombre, _estado, _centrounidadacademica) RETURNING Carrera into idCarrera;
+	INSERT INTO cur_carrera (codigo, nombre, estado, centro_unidadacademica) 
+	VALUES (_codigo, _nombre, _estado, _centrounidadacademica) RETURNING Carrera into idCarrera;
 	--parámetros de tipo carrera
 	INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (200,'Número máximo de cursos traslapados','3','',_centrounidadacademica,idCarrera,3,1);
 	INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (201,'Tiempo máximo de traslape entre 2 cursos','60','En minutos',_centrounidadacademica,idCarrera,3,1);
@@ -24,7 +25,7 @@ BEGIN
 END; $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
-ALTER FUNCTION spagregarcarrera(text, integer, integer)
+ALTER FUNCTION spagregarcarrera(integer,text, integer, integer)
   OWNER TO postgres;
 
 
@@ -461,7 +462,6 @@ CREATE OR REPLACE FUNCTION spgetcursocursopensumarea(_cursopensumarea integer, O
 $BODY$
 BEGIN
   RETURN query
-   --select c.curso, c.nombre, c.codigo from cur_pensum_area cpa join cur_curso c on c.curso = cpa.curso WHERE cpa.estado = 1 and c.estado = 1 AND cpa.cursopensumarea = _cursopensumarea;
    select c.curso, c.nombre, c.codigo from cur_pensum_area cpa join cur_curso c on c.curso = cpa.curso WHERE c.estado = 1 AND cpa.cursopensumarea = _cursopensumarea;
 END;
 $BODY$
@@ -520,5 +520,51 @@ $BODY$
   COST 100
   ROWS 1000;
 
+  
+  
+-- Function: splistadoCurPensumArea(integer)
+
+-- DROP FUNCTION splistadoCurPensumArea(integer);
+
+  CREATE OR REPLACE FUNCTION splistadoCurPensumArea(
+    IN _pensum integer,
+    OUT id integer,
+    OUT codigo text,
+    OUT nombre text,
+    OUT carreraArea Integer,
+    OUT tipocurso text,
+    OUT estado text,
+    OUT traslape text)
+  RETURNS SETOF record AS
+$BODY$
+BEGIN
+  RETURN query
+Select 
+    c.curso,
+    c.codigo,
+    c.nombre,
+    cpa.carreraArea,
+    t.nombre as "tipocurso",
+    case 
+	when c.estado=0 then 'Validación Pendiente'
+	when c.estado=1 then 'Activo'
+	when c.estado=-1 then 'Desactivado'
+    end as "Estado",
+    case 
+	when c.traslape=true then 'Sí'
+	when c.traslape=false then 'No'
+    end as "Traslape"
+  from 
+    CUR_Curso c join CUR_Tipo t on c.tipocurso = t.tipocurso and c.estado = 1 
+	JOIN Cur_Pensum_Area cpa ON cpa.curso = c.curso and cpa.estado = 1
+	where cpa.pensum = _pensum;
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION splistadoCurPensumArea(integer)
+  OWNER TO postgres; 
+  
   
 Select 'Script para Gestion de Pensum Instalado' as "Gestion Pensum";

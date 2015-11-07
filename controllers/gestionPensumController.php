@@ -205,7 +205,9 @@ class gestionPensumController extends Controller {
         $arrayCar = array();
 
         if ($this->getInteger('hdEnvio')) {
+            $codigoCarrera = $this->getTexto('txtCodigo');
             $nombreCarrera = $this->getTexto('txtNombre');
+            $arrayCar['codigo'] = $codigoCarrera;
             $arrayCar['nombre'] = $nombreCarrera;
             $arrayCar['estado'] = ESTADO_PENDIENTE;
             $arrayCar['centrounidadacademica'] = $idCentroUnidad;
@@ -759,7 +761,8 @@ class gestionPensumController extends Controller {
         $this->_view->setJs(array('tree.jquery'), "public");
         $this->_view->setCSS(array('jqtree'));
 
-        $info = $this->_post->listadoCursos($idCentroUnidad);
+        
+        $info = $this->_post->listadoCursosPensum($idPensum);
         if (is_array($info)) {
             $this->_view->lstCursos = $info;
         } else {

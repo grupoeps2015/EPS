@@ -119,7 +119,7 @@
             </div>
             <div class="service-box">
                 <i class="fa fa-2x fa-clipboard wow bounceIn text-primary">
-                    <a href="#moduloAsignacion">Consultar Notas</a>
+                    <a href="<?php echo BASE_URL . 'general/seleccionarCarreraEstudiante/asignacion/notaAsignacion' ?>">Consultar Notas</a>
                 </i>
             </div>
             <div class="service-box">

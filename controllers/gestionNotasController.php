@@ -96,6 +96,7 @@ class gestionNotasController extends Controller{
         $this->_view->titulo = 'Gestión de notas - ' . APP_TITULO;
         $this->_view->setJs(array('cursosXDocente'));
         $this->_view->setJs(array('jquery.dataTables.min'), "public");
+        $this->_view->setJs(array('jquery.csv'), "public");
         $this->_view->setCSS(array('jquery.dataTables.min'));
         $this->_view->renderizar('cursosXDocente','gestionNotas');
     }
@@ -114,6 +115,30 @@ class gestionNotasController extends Controller{
             echo "Procesado";
         }else{
             echo "Ocurrio un error al ingresar una nota";
+        }
+    }
+    
+    public function notasCSV(){
+        $contenido = "";
+        $fileName = "";
+        $fileExt = "";
+        //print_r($_FILES);
+        if($this->getInteger('hdFile')){
+            $fileName=$_FILES['csvFile']['name'];
+            $fileExt = explode(".",$fileName);
+            if(strtolower(end($fileExt)) == "csv"){
+                $fileName=$_FILES['csvFile']['tmp_name'];
+                $handle = fopen($fileName, "r");
+                while(($data = fgetcsv($handle, 1000, ",")) !== FALSE){
+                    $contenido .= $data[0] . "<br/>";
+                }
+                fclose($handle);
+                echo $contenido;
+            }else{
+                echo "<br/>El archivo cargado no cumple con el formato csv";
+            }
+        }else{
+            echo "<br/>Error en la lectura";
         }
     }
     

@@ -119,6 +119,16 @@ class asignacionModel extends Model{
         }
     }
     
+    public function getNota($ciclo, $estudiante, $carrera){
+        $datos = $this->_db->query("select * from spobtenernotaasignacion({$ciclo},{$estudiante},{$carrera});");
+        $datos->setFetchMode(PDO::FETCH_ASSOC);
+        if($datos === false){
+            return "1200/getNota";
+        }else{
+            return $datos->fetchall();
+        }
+    }
+    
     public function getIntentoAsignacion($ciclo, $estudiante, $carrera, $tipoper, $tipoasing){
         $datos = $this->_db->query("select * from spobtenerintentoasignacion({$ciclo},{$estudiante},{$carrera},{$tipoper},{$tipoasing}) as intento;");
         $datos->setFetchMode(PDO::FETCH_ASSOC);
