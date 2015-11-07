@@ -78,10 +78,6 @@
                             <select id="slCiclo" name="slCiclo" class="form-control input-lg">
                                 <option value="" disabled>-- Ciclo --</option>
                             </select>
-                            <input type="hidden" id="idCatedratico" name="idCatedratico" value="<?php echo $this->datosCat[0][0];?>" >
-                            <input type="hidden" id="hdEstadoCiclo" name="hdEstadoCiclo" value="0" >
-                            <input type="hidden" id="hdTipo" name="hdTipo" value="<?php echo $this->tipo; ?>" >
-                            <input type="hidden" id="hdTotalAsignados" name="hdTotalAsignados" value="0" >
                         </td>
                     </tr>
                     <tr>
@@ -119,40 +115,49 @@
         <br/>
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
-                <form id="frNotas" name="frNotas" method="post" action="">
-                    <h3 align="center"><span id="spanMsg" name="spanMsg" class="text-warning"></span></h3>
-                    <table class="table-hover" id="tbAsignados" name="tbAsignados" border="2" style="display:none; text-align: center;">
-                        <thead>
-                            <tr>
-                                <?php if($this->tipo == 1): ?>
-                                <th style="text-align: center; width:20%;">Carnet</th>
-                                <th style="text-align: center; width:40%;">Nombre</th>
-                                <th style="text-align: center; width:15%;">Secci&oacute;n</th>
-                                <th style="text-align: center; width:15%;">Repitencia</th>
-                                <th style="text-align: center; width:15%;">Tel&eacute;fono de emergencia</th>
-                                <?php else : ?>
+                <h3 align="center"><span id="spanMsg" name="spanMsg" class="text-warning"></span></h3>
+                <table class="table-hover" id="tbAsignados" name="tbAsignados" border="2" style="display:none; text-align: center;">
+                    <thead>
+                        <tr>
+                            <?php if($this->tipo == 1): ?>
+                            <th style="text-align: center; width:20%;">Carnet</th>
+                            <th style="text-align: center; width:40%;">Nombre</th>
+                            <th style="text-align: center; width:15%;">Secci&oacute;n</th>
+                            <th style="text-align: center; width:15%;">Repitencia</th>
+                            <th style="text-align: center; width:15%;">Tel&eacute;fono de emergencia</th>
+                            <?php else : ?>
 
-                                <th style="text-align: center; width:20%;">Carnet</th>
-                                <th style="text-align: center; width:40%;">Nombre</th>
-                                <th style="text-align: center; width:15%;">Zona</th>
-                                <th style="text-align: center; width:15%;">Final</th>
-                                <th style="text-align: center; width:10%;">Total</th>
-                                <?php endif; ?>
-                            </tr>
-                        </thead>
-                        <tbody id="bodyAsignados" name="bodyAsignados">
+                            <th style="text-align: center; width:20%;">Carnet</th>
+                            <th style="text-align: center; width:40%;">Nombre</th>
+                            <th style="text-align: center; width:15%;">Zona</th>
+                            <th style="text-align: center; width:15%;">Final</th>
+                            <th style="text-align: center; width:10%;">Total</th>
+                            <?php endif; ?>
+                        </tr>
+                    </thead>
+                    <tbody id="bodyAsignados" name="bodyAsignados">
 
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <td colspan="5" align="center" id="tdBotones" name="tdBotones">
-                                    <input type="button" id="btnCargar" name="btnCargar" value="Cargar CSV" class="btn btn-warning" style="width:30%"/> &nbsp;
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="5" align="center" id="tdBotones" name="tdBotones">
+                                <form id="frFile" name="frFile" method='post' enctype="multipart/form-data" action='<?php echo BASE_URL; ?>gestionNotas/notasCSV'>
+                                    <div id="divcsvFile" class="fileUpload btn btn-warning" style="width:30%">
+                                        <span id="spanCat">Cargar CSV</span>
+                                        <input class="upload" type="file" id="csvFile" name="csvFile"/>
+                                    </div> &nbsp;
                                     <input type="button" id="btnGuardar" name="btnGuardar" value="Guardar Cambios" class="btn btn-warning" style="width:30%"/>
-                                </td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </form>
+                                    <input type="hidden" id="idCatedratico" name="idCatedratico" value="<?php echo $this->datosCat[0][0];?>" >
+                                    <input type="hidden" id="hdEstadoCiclo" name="hdEstadoCiclo" value="0" >
+                                    <input type="hidden" id="hdTipo" name="hdTipo" value="<?php echo $this->tipo; ?>" >
+                                    <input type="hidden" id="hdTotalAsignados" name="hdTotalAsignados" value="0" >
+                                    <input type="hidden" name="hdFile" value="1"/>
+                                    <input type="submit" value="e"/>
+                                </form>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
             </div>
         </div>
     </div>

@@ -1,4 +1,5 @@
 $(document).ready( function () {
+    var base_url = $("#hdBASE_URL").val();
     
     $("#slTipos").change(function(){
         if(!$("#slTipos").val()){
@@ -25,7 +26,6 @@ $(document).ready( function () {
     });
     
     function getAniosAjax(){
-        var base_url = $("#hdBASE_URL").val();
         $.post(base_url+'ajax/getAniosAjax',
                'tipo=' + $("#slTipos").val(),
                function(datos){
@@ -43,7 +43,6 @@ $(document).ready( function () {
     }
     
     function getCiclosAjax(){
-        var base_url = $("#hdBASE_URL").val();
         $.post(base_url+'ajax/getCiclosAjax',
                'anio=' + $("#slAnio").val(),
                function(datos){
@@ -70,7 +69,6 @@ $(document).ready( function () {
     });
     
     function getDocenteSeccion(){
-        var base_url = $("#hdBASE_URL").val();
         $.post(base_url+'ajax/getDocenteSeccion',
                { cat: $("#idCatedratico").val(), ciclo: $("#slCiclo").val() },
                function(datos){
@@ -96,8 +94,6 @@ $(document).ready( function () {
     });
     
     $("#btnActividades").click(function() {
-        var base_url = $("#hdBASE_URL").val();
-        
         $.post(base_url+'ajax/getEstadoCicloNotas',
             { cicloaver: $("#slCiclo").val() },
             function(datos){
@@ -138,7 +134,6 @@ $(document).ready( function () {
     });
     
     function mostrarListadoAsignados(id){
-        var base_url = $("#hdBASE_URL").val();
         var notas = "";
         $.post(base_url+'ajax/getListaAlumnosAsignados',
             'trama=' + id,
@@ -165,7 +160,6 @@ $(document).ready( function () {
     
     function mostrarListado(id){
         var estado = parseInt($('#hdEstadoCiclo').val());
-        var base_url = $("#hdBASE_URL").val();
         var notas = "";
         $.post(base_url+'ajax/getListaAsignados',
             'trama=' + id,
@@ -223,9 +217,9 @@ $(document).ready( function () {
         });
     }
    
-   $("#btnGuardar").click(function(){
-       guardarNota();
-   });
+    $("#btnGuardar").click(function(){
+        guardarNota();
+    });
     
     function guardarNota(){
         $("#spanMsg").html('');
@@ -233,7 +227,6 @@ $(document).ready( function () {
         var idAsignado = 0;
         var zonaAsignada = 0;
         var finalAsignado = 0;
-        var base_url = $("#hdBASE_URL").val();
         var inputs = $("#tbAsignados :input");
         $.each(inputs, function(i, field){
             if(field.type === "text"){
@@ -266,7 +259,6 @@ $(document).ready( function () {
     }
     
     function bitacora(idRegistro){
-        var base_url = $("#hdBASE_URL").val();
         $.post(
             base_url+'bitacora/insertarBitacoraNota',
             { 
@@ -277,6 +269,19 @@ $(document).ready( function () {
             }
         );
     }
+
+    $("#csvFile").change(function(){
+        $("#frFile").submit();
+//        $.post(
+//            base_url+'gestionNotas/notasCSV',
+//            {
+//                csvFile: 'C:/xampp/htdocs/protected/CSV de pruebas/Notas.csv'//$('#btnCargar').val().toString()
+//            },
+//            function(datos){
+//                 $("#spanMsg").html(datos);
+//            }
+//        );
+    });
 });
 
 
