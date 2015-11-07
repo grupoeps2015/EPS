@@ -57,11 +57,11 @@ function generarPDF()
     </div>
     <br/>
     <div>
-        <?php if(isset($this->lstCur[0]['codigo'])):?>
+        <!--<?//php if(isset($this->lstCur[0]['codigo'])):?>
         <br/>        
         <button id="generarPDF" onclick="generarPDF()" class="btn btn-danger btn-lg btn-block" style="width:25%">Generar PDF</button>
         <br/>
-        <?php endif;?>
+        <?//php endif;?>-->
             <div id="divCursosAprobados" class="form-group" >
                 <div style="margin-left: 5%; margin-right: 5%">
                     <table id="tbCursosAprobados" border="2">

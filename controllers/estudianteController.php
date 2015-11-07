@@ -152,6 +152,8 @@ class estudianteController extends Controller{
     
     public function listadoCursosAprobados(){
         if(isset($_SESSION['usuario'])){
+            $idCarrera = $this->getInteger('slCarreras'); 
+            $idEstudiante = $this->getInteger('slEstudiantes');
             $idUsuario = $_SESSION['usuario'];
             $infoGeneral = $this->_est->getInfoGeneral($idUsuario);
             if(is_array($infoGeneral)){
@@ -169,7 +171,7 @@ class estudianteController extends Controller{
             $this->_view->setCSS(array('jquery.dataTables.min'));
             $this->_view->setJs(array('jquery.validate'), "public");                 
             $this->_view->setJs(array('jspdf.debug'), "public");
-            $this->_view->lstCur = $this->_est->listadoCursosAprobados(1,1);
+            $this->_view->lstCur = $this->_est->listadoCursosAprobados($idEstudiante,$idCarrera);
             $this->_view->renderizar('listadoCursosAprobados','estudiante');
             
         }else{
