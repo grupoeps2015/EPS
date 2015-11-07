@@ -106,6 +106,7 @@ class generalController extends Controller{
             }
         }
         if ($_SESSION["rol"] == ROL_ADMINISTRADOR || $_SESSION["rol"] == ROL_EMPLEADO) {
+            
             $this->_view->url = 'general/seleccionarCarreraEstudiante/'.$url;
             $anios = $this->_ajax->getAniosInscripcion();
             if(is_array($anios)){
@@ -122,10 +123,14 @@ class generalController extends Controller{
                 $this->redireccionar("error/sql/" . $anios);
                 exit;
             }
+            
             if($this->getInteger('slCarreras')){
+               
                 $carreraEstudiante = $this->getInteger('slCarreras');
+                
                 if(in_array($carreraEstudiante, array_column($carreras, 'codigo'))){
                     $_SESSION["carrera"] = $this->getInteger('slCarreras');
+                     
                     $this->redireccionar($url);
                     exit;
                 }

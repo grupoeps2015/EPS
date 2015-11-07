@@ -113,9 +113,9 @@
                 <div class="service-box">
                     <i class="fa fa-4x fa-file-text-o wow bounceIn text-primary"></i>
                     <h3>
-                        <a href="<?php echo BASE_URL; ?>general/seleccionarCentroUnidad/general/seleccionarCarreraEstudiante/estudiante/cursosAprobados">Reportes</a>
+                        <a href="<?php echo BASE_URL; ?>general/seleccionarCentroUnidad/general/seleccionarCarreraEstudiante/estudiante/listadoCursosAprobados">Reportes</a>
                     </h3>
-                    <p class="text-muted">Reportes</p>
+                    <p class="text-muted">Reporte de listado de cursos aprobados</p>
                 </div>
             </div>
         </div>

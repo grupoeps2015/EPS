@@ -1,2 +1,12 @@
 validacionArray
 validacion
+Estudiante: -1
+Carrera: 
+Estudiante: 
+Carrera: 
+Carrera: 
+prueba: 
+prueba1: 
+prueba1: 0
+prueba1: 0
+prueba1: 0
