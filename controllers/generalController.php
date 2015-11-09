@@ -106,7 +106,9 @@ class generalController extends Controller{
             }
         }
         if ($_SESSION["rol"] == ROL_ADMINISTRADOR || $_SESSION["rol"] == ROL_EMPLEADO) {
-            
+            if (strpos($url,"asignacion/boletaAsignacion") !== false ) {
+                $this->_view->busquedaID = 1;
+            }
             $this->_view->url = 'general/seleccionarCarreraEstudiante/'.$url;
             $anios = $this->_ajax->getAniosInscripcion();
             if(is_array($anios)){
