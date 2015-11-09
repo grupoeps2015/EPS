@@ -460,9 +460,18 @@ class asignacionController extends Controller{
                     //$this->_view->hora = $periodo[0]['hora'];
                     $this->_view->lstPar = $periodo;
                     $this->_view->_encriptarFacil = $this->_encriptarFacil;
+                    $this->_view->estudiante = $periodo[0]['estudiante'];
+                    $this->_view->carrera = $periodo[0]['carrera'];
                     $anio = $periodo[0]['anio'];
                     $ciclo = $periodo[0]['ciclo'];
-            }
+                    $lsCiclos = $this->_ajax->getCiclosAjax($tipociclo, $anio);
+                    if(is_array($lsCiclos)){
+                        $this->_view->lstCiclos = $lsCiclos;
+                    }else{
+                        $this->redireccionar("error/sql/" . $lsCiclos);
+                        exit;
+                    }
+                }
             }else{
                 $this->redireccionar("error/sql/" . $periodo);
                 exit;
