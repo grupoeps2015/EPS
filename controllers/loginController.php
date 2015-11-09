@@ -11,10 +11,12 @@ class loginController extends Controller{
     private $_bitacora;
     private $_encriptar;
     private $_ajax;
+    private $_verifica_usuario;
     
     public function __construct() {
         parent::__construct();
         $this->getLibrary('encripted');
+        $this->getLibrary('verifica_usuario');
         $this->_encriptar = new encripted();
         $this->_login = $this->loadModel('login');
         $this->_bitacora = $this->loadModel('bitacora');
@@ -208,4 +210,8 @@ class loginController extends Controller{
         return $_SERVER['REMOTE_ADDR'];
     }
 
+    public function existe(){
+        $this->_verifica_usuario = new verifica_usuario();
+        echo $this->_verifica_usuario->consultar_estudiante(200516231,5391);
+    }
 }
