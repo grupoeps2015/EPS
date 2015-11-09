@@ -150,6 +150,14 @@
                                 <h4>&nbsp;<?php echo $this->lstPar[$indice]['fecha'] . " " . $this->lstPar[$indice]['hora']?></h4>
                             </td>
                         </tr>
+                        <tr>
+                            <td style="text-align: right">
+                                <h4>Estado:&nbsp;</h4>
+                            </td>
+                            <td>
+                                <h4>&nbsp;<?php echo $this->lstPar[$indice]['estado']?></h4>
+                            </td>
+                        </tr>
                     </table>
                 </center>
                 <br />

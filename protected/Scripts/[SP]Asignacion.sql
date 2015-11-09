@@ -449,14 +449,25 @@ CREATE OR REPLACE FUNCTION spobtenernotaasignacion(
     out Final float,
     out Total text,
     out EstadoNota text,
-    out tipoasign text)
+    out tipoasign text,
+	out estado text,
+    out anio integer,
+    out ciclo integer,
+    out estudiante integer,
+    out carnetNombre text,
+    out carrera integer,
+    out NombreCarrera text)
   RETURNS setof record AS
 $BODY$
 begin
   Return query
   SELECT ca.Ciclo_Asignacion, to_char(ca.fecha, 'DD/MM/YYYY'), to_char(ca.hora, 'HH24:MI'), cu.codigo, cu.nombre, sec.nombre, nota.zona, nota.final, 
-  CASE WHEN nota.total = 0 and nota.aprobacion = 1 THEN 'APROBADO' WHEN nota.total = 0 and nota.aprobacion = -1 THEN 'REPROBADO' ELSE cast(nota.total as text) END as total, 
-  estnota.nombre, tasi.nombre
+  CASE WHEN nota.total = 0 and nota.aprobacion = 2 THEN 'APROBADO' WHEN nota.total = 0 and nota.aprobacion = -2 THEN 'REPROBADO' ELSE cast(nota.total as text) END as total, 
+  estnota.nombre, tasi.nombre,
+  case when cura.estado = 1 then 'Activo' else 'Inactivo' end,
+  cic.anio, cic.ciclo, estu.estudiante,
+  '[' || estu.carnet || '] ' || estu.primerapellido || ' ' || estu.segundoapellido || ', ' || estu.primernombre || ' ' || estu.segundonombre,
+  car.carrera, car.nombre
   FROM EST_CICLO_ASIGNACION ca
   JOIN ADM_PERIODO p ON ca.periodo = p.periodo AND p.ciclo = _ciclo
   JOIN EST_CUR_ASIGNACION cura on cura.Ciclo_Asignacion = ca.Ciclo_Asignacion and cura.estado = 1
@@ -464,7 +475,10 @@ begin
   JOIN CUR_CURSO cu on cu.curso = sec.curso
   JOIN EST_CUR_NOTA nota on cura.asignacion = nota.asignacion
   JOIN CUR_ESTADONOTA estnota on nota.estadonota = estnota.estadonota
-  JOIN ADM_TIPOASIGNACION tasi on tasi.tipoasignacion = p.tipoasignacion 
+  JOIN ADM_TIPOASIGNACION tasi on tasi.tipoasignacion = p.tipoasignacion
+  JOIN CUR_CICLO cic on p.ciclo = cic.ciclo
+  JOIN EST_ESTUDIANTE estu on ca.estudiante = estu.estudiante
+  JOIN CUR_CARRERA car on car.carrera = ca.carrera
   WHERE ca.estudiante = _estudiante AND ca.carrera = _carrera order by ca.Ciclo_Asignacion, cu.codigo;
 end;
 $BODY$
