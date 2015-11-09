@@ -40,7 +40,7 @@
             </div>
             <div class="col-lg-3 col-md-6 text-center">
                 <div class="service-box">
-                    <i class="fa fa-4x fa-search-plus wow bounceIn text-primary" data-wow-delay=".2s"></i>
+                    <i class="fa fa-4x fa-search wow bounceIn text-primary" data-wow-delay=".2s"></i>
                     <h3><a href="<?php echo BASE_URL; ?>general/seleccionarCentroUnidad/general/seleccionarCarreraEstudiante/asignacion/boletaAsignacion">Boletas de asignaci&oacute;n</a></h3>
                     <p class="text-muted">Consulta de boletas de asignaci&oacute;n por estudiante</p>
                 </div>
