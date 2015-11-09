@@ -105,6 +105,9 @@
                         <td colspan="4">
                             <select id="slCursoxSeccion" name="slCursoxSeccion" class="form-control input-lg"></select>
                         </td>
+                        <td colspan="4">
+                            <select id="slCarnetxAsignacion" name="slCarnetxAsignacion" class="form-control input-lg"></select>
+                        </td>
                     </tr>
                     <tr>
                         <td colspan="8"><hr class="hr1"/></td>
@@ -141,7 +144,7 @@
                     <tfoot>
                         <tr>
                             <td colspan="5" align="center" id="tdBotones" name="tdBotones">
-                                <form id="frFile" name="frFile" method='post' enctype="multipart/form-data" action='<?php echo BASE_URL; ?>gestionNotas/notasCSV'>
+                                <form id="frFile" name="frFile" method='post' enctype="multipart/form-data">
                                     <div id="divcsvFile" class="fileUpload btn btn-warning" style="width:30%">
                                         <span id="spanCat">Cargar CSV</span>
                                         <input class="upload" type="file" id="csvFile" name="csvFile"/>
@@ -152,7 +155,6 @@
                                     <input type="hidden" id="hdTipo" name="hdTipo" value="<?php echo $this->tipo; ?>" >
                                     <input type="hidden" id="hdTotalAsignados" name="hdTotalAsignados" value="0" >
                                     <input type="hidden" name="hdFile" value="1"/>
-                                    <input type="submit" value="e"/>
                                 </form>
                             </td>
                         </tr>

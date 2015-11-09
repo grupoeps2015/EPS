@@ -108,38 +108,45 @@ class gestionNotasController extends Controller{
     }
     
     public function guardarNota(){
+        $respuesta = new stdClass();
+        $respuesta->mensaje = "";
         $zona = floatval($this->getTexto('zonaN'));
         $final = floatval($this->getTexto('finalN'));
         if($this->getInteger('idAs')){
             $this->_notas->guardarNota($zona,$final,$this->getInteger('idAs'));
-            echo "Procesado";
+            $respuesta->total = $zona + $final;
+            $respuesta->mensaje = "Procesado: Las notas seran guardadas con valores enteros";
         }else{
-            echo "Ocurrio un error al ingresar una nota";
+            $respuesta->mensaje = "Ocurrio un error al ingresar una nota";
         }
+        echo json_encode($respuesta);
     }
     
     public function notasCSV(){
-        $contenido = "";
-        $fileName = "";
-        $fileExt = "";
-        //print_r($_FILES);
-        if($this->getInteger('hdFile')){
-            $fileName=$_FILES['csvFile']['name'];
-            $fileExt = explode(".",$fileName);
-            if(strtolower(end($fileExt)) == "csv"){
-                $fileName=$_FILES['csvFile']['tmp_name'];
-                $handle = fopen($fileName, "r");
-                while(($data = fgetcsv($handle, 1000, ",")) !== FALSE){
-                    $contenido .= $data[0] . "<br/>";
-                }
-                fclose($handle);
-                echo $contenido;
-            }else{
-                echo "<br/>El archivo cargado no cumple con el formato csv";
+        $respuesta = new stdClass();
+        $respuesta->mensaje = "";
+        $respuesta->info = array();
+        $fileName=$_FILES['csvFile']['name'];
+        $fileExt = explode(".",$fileName);
+        if(strtolower(end($fileExt)) == "csv"){
+            $fileName=$_FILES['csvFile']['tmp_name'];
+            $handle = fopen($fileName, "r");
+            $i = 0;
+            while(($data = fgetcsv($handle, 1000, ",")) !== FALSE){
+                $carnet = trim($data[0]);
+                $zona = trim($data[1]);
+                $final = trim($data[2]);
+                $respuesta->info[$i]['carnet'] = $carnet;
+                $respuesta->info[$i]['zona'] =  $zona;
+                $respuesta->info[$i]['final'] = $final;
+                $i=$i+1;
             }
+            fclose($handle);
+            $respuesta->mensaje = "Todos los registros han sido cargados, verifique que la informacion sea la correcta y guarde los cambios";
         }else{
-            echo "<br/>Error en la lectura";
+            $respuesta->mensaje = "La información no se pudo leer debido a que solo se admiten archivos .csv";
         }
+        echo json_encode($respuesta);
     }
     
 }
