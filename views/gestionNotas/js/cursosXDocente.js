@@ -25,6 +25,94 @@ $(document).ready( function () {
         }
     });
     
+    $("#slCiclo").change(function(){
+        if(!$("#slCiclo").val()){
+            $("#slSeccion").html('');
+            $("#slSeccion").append('<option value="" disabled>-- Secci&oacute;n Asignada --</option>')
+        }else{
+            getDocenteSeccion();
+        }
+    });
+    
+    $("#slSeccion").change(function() {
+        var id = $("#slSeccion").val();
+        $("#slCursoxSeccion").val(id);
+    });
+    
+    $("#btnActividades").click(function() {
+        $.post(base_url+'ajax/getEstadoCicloNotas',
+            { cicloaver: $("#slCiclo").val() },
+            function(datos){
+                if(datos.length>0){
+                    $('#hdEstadoCiclo').val(datos[0].estadociclo.toString());
+                }else{
+                    $('#hdEstadoCiclo').val("0");
+                }
+            },
+            'json');
+        
+        $.post(base_url+'ajax/getIdTrama',
+            { 
+                cat: $("#idCatedratico").val(),
+                ciclo: $("#slCiclo").val(),
+                sec: $("#slSeccion").val(), 
+                cur: $("#slCursoxSeccion option:selected").text()
+            },
+            function(datos){
+                var tipo = $("#hdTipo").val();
+                if(datos.length>0){
+                    if(tipo === "1") { 
+                        var identificador = parseInt(datos[0].spidtrama);
+                        mostrarListadoAsignados(identificador);
+                    }
+                    else{
+                        var identificador = parseInt(datos[0].spidtrama);
+                        mostrarListado(identificador);
+                    }
+                }else{
+                    mostrarListado(0);
+                }
+            },
+            'json');
+    });
+    
+    $("#btnGuardar").click(function(){
+        guardarNota();
+    });
+    
+    $("#csvFile").change(function(){
+        $("#frFile").submit();
+    });
+    
+    $("#frFile").submit(function(){
+        var datos = new FormData();
+        datos.append('csvFile',$("#csvFile")[0].files[0]);
+        $.ajax({
+            type:"post",
+            dataType:"json",
+            url:"http://localhost/EPS/gestionNotas/notasCSV",
+            contentType:false,
+            data:datos,
+            processData:false
+        }).done(function(respuesta){
+            //alert(respuesta.mensaje);
+            for(var i =0; i < respuesta.info.length; i++){
+                var indice = respuesta.info[i]['carnet'];
+                $("#slCarnetxAsignacion").val(indice);
+                var idAsigna = $("#slCarnetxAsignacion option:selected").text()
+                var totalAsignado = parseFloat(respuesta.info[i]['zona']) + parseFloat(respuesta.info[i]['final']);
+                $("#z"+idAsigna).val(respuesta.info[i]['zona']);
+                $("#f"+idAsigna).val(respuesta.info[i]['final']);
+                $("#t"+idAsigna).val(totalAsignado);
+            }
+            $("#spanMsg").append(respuesta.mensaje);
+        })
+        .error(function(respuesta){
+            alert('Error inesperado: ' + respuesta.mensaje);
+        });
+        return false;
+    });
+    
     function getAniosAjax(){
         $.post(base_url+'ajax/getAniosAjax',
                'tipo=' + $("#slTipos").val(),
@@ -59,15 +147,6 @@ $(document).ready( function () {
                'json');
     }
     
-    $("#slCiclo").change(function(){
-        if(!$("#slCiclo").val()){
-            $("#slSeccion").html('');
-            $("#slSeccion").append('<option value="" disabled>-- Secci&oacute;n Asignada --</option>')
-        }else{
-            getDocenteSeccion();
-        }
-    });
-    
     function getDocenteSeccion(){
         $.post(base_url+'ajax/getDocenteSeccion',
                { cat: $("#idCatedratico").val(), ciclo: $("#slCiclo").val() },
@@ -77,7 +156,7 @@ $(document).ready( function () {
                     if(datos.length>0){
                         for(var i =0; i < datos.length; i++){
                             $("#slSeccion").append('<option value="' + datos[i].idseccion + '">' + datos[i].infoseccion + '</option>' );
-                            $("#slCursoxSeccion").append('<option value="' + datos[i].idseccion + '">' + datos[i].idcurso + '</option>' );
+                            $("#slCursoxSeccion").append('<option value="' + datos[i].idseccion + '" name="' + datos[i].idcurso + '" >' + datos[i].idcurso + '</option>' );
                         }
                         $("#btnActividades").prop("disabled",false);
                     }else{
@@ -87,51 +166,6 @@ $(document).ready( function () {
                },
                'json');
     }
-    
-    $("#slSeccion").change(function() {
-        var id = $("#slSeccion").val();
-        $("#slCursoxSeccion").val(id);
-    });
-    
-    $("#btnActividades").click(function() {
-        $.post(base_url+'ajax/getEstadoCicloNotas',
-            { cicloaver: $("#slCiclo").val() },
-            function(datos){
-                if(datos.length>0){
-                    $('#hdEstadoCiclo').val(datos[0].estadociclo.toString());
-                }else{
-                    $('#hdEstadoCiclo').val("0");
-                }
-            },
-            'json');
-        
-        $.post(base_url+'ajax/getIdTrama',
-            { 
-                cat: $("#idCatedratico").val(), 
-                ciclo: $("#slCiclo").val(), 
-                sec: $("#slSeccion").val(), 
-                cur: $("#slCursoxSeccion").val() 
-            },
-            function(datos){
-                var tipo = $("#hdTipo").val();
-                
-                if(datos.length>0){
-                    if(tipo === "1") 
-                    { 
-                        var identificador = parseInt(datos[0].spidtrama);
-                        mostrarListadoAsignados(identificador);
-                    }
-                    else
-                    {
-                        var identificador = parseInt(datos[0].spidtrama);
-                        mostrarListado(identificador);
-                    }
-                }else{
-                    mostrarListado(0);
-                }
-            },
-            'json');
-    });
     
     function mostrarListadoAsignados(id){
         var notas = "";
@@ -161,6 +195,7 @@ $(document).ready( function () {
     function mostrarListado(id){
         var estado = parseInt($('#hdEstadoCiclo').val());
         var notas = "";
+        $("#slCarnetxAsignacion").html('');
         $.post(base_url+'ajax/getListaAsignados',
             'trama=' + id,
             function(datos){
@@ -170,6 +205,8 @@ $(document).ready( function () {
                     $('#hdTotalAsignados').val(datos.length.toString());
                     for(var i =0; i < datos.length; i++){
                         if(estado === 1){
+                            $("#slCarnetxAsignacion").append('<option value="' + datos[i].carnet + '" name="' + datos[i].carnet + '" >' + datos[i].idasignacion + '</option>' );
+                            
                             notas = '</td><td><input id="z' + datos[i].idasignacion + '" name="z' + datos[i].idasignacion + '" type="text" maxlength="5" value="' + datos[i].zona + '" style="width:60%; text-align:center;"/>' + 
                                     '</td><td><input id="f' + datos[i].idasignacion + '" name="f' + datos[i].idasignacion + '" type="text" maxlength="5" value="' + datos[i].final + '" style="width:60%; text-align:center;"/>' + 
                                     '</td><td><input id="t' + datos[i].idasignacion + '" name="t' + datos[i].idasignacion + '" type="text" maxlength="5" value="' + datos[i].total + '" style="width:60%; text-align:center;" readonly/>';
@@ -216,10 +253,6 @@ $(document).ready( function () {
             }
         });
     }
-   
-    $("#btnGuardar").click(function(){
-        guardarNota();
-    });
     
     function guardarNota(){
         $("#spanMsg").html('');
@@ -239,18 +272,18 @@ $(document).ready( function () {
                 if(tipo === "f"){
                     finalAsignado = field.value;
                     $.post(
-                        base_url+'gestionNotas/guardarNota',
-                        { 
+                        base_url+'gestionNotas/guardarNota',{ 
                             zonaN: zonaAsignada,
                             finalN: finalAsignado, 
                             idAs: idAsignado
                         },
-                        function(info){
-                            var totalAsignado = parseFloat(zonaAsignada) + parseFloat(finalAsignado)
-                            $("#t"+idAsignado).val(totalAsignado);
-                            $("#spanMsg").html(info);
-                        }
+                        function(respuesta){
+                            $("#t"+field.name.substring(1)).val(respuesta.total);
+                            $("#spanMsg").html(respuesta.mensaje);
+                        },
+                        'json'
                     );
+                    
                     bitacora(idAsignado);
                 }
                 
@@ -265,23 +298,10 @@ $(document).ready( function () {
                 registro: idRegistro
             },
             function(info){
-                alert(info);
+                //alert(info);
             }
         );
     }
-
-    $("#csvFile").change(function(){
-        $("#frFile").submit();
-//        $.post(
-//            base_url+'gestionNotas/notasCSV',
-//            {
-//                csvFile: 'C:/xampp/htdocs/protected/CSV de pruebas/Notas.csv'//$('#btnCargar').val().toString()
-//            },
-//            function(datos){
-//                 $("#spanMsg").html(datos);
-//            }
-//        );
-    });
 });
 
 

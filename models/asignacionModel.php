@@ -16,7 +16,7 @@ class asignacionModel extends Model{
         }
     }
     public function getCursosDisponibles($ciclo, $carrera, $estudiante){
-        $cursos = $this->_db->query("select * from spcursosdisponiblesasignacion({$ciclo},{$carrera},{$estudiante});");
+        $cursos = $this->_db->query("select * from spcursosdisponiblesasignacion({$ciclo},{$carrera},{$estudiante}) order by codigo;");
         $cursos->setFetchMode(PDO::FETCH_ASSOC);
         if($cursos === false){
             return "1200/getCursosDisponibles";

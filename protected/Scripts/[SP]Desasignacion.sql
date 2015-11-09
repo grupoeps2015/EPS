@@ -101,7 +101,7 @@ ALTER FUNCTION spactivardesactivarasignacion(integer, integer)
 -- Function: spagregardesasignacion(integer, text)
 
 -- DROP FUNCTION spagregardesasignacion(integer, text);
-8
+
 CREATE OR REPLACE FUNCTION spagregardesasignacion(
     _asignacion integer,
     _descripcion text)
