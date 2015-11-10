@@ -32,7 +32,7 @@ class gestionCursoModel extends Model {
     }
     
     public function informacionCurso($idCentroUnidad) {
-        $info = $this->_db->query("select * from spInformacionCurso(" . $idCentroUnidad . ");");
+        $info = $this->_db->query("select * from spInformacionCurso(" . $idCentroUnidad . ")  order by codigo;");
         if($info === false){
             return "1104/informacionCurso";
         }else{

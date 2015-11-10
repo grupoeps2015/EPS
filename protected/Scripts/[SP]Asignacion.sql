@@ -350,14 +350,15 @@ ALTER FUNCTION spobtenercuposeccion(integer, integer)
 
   
 
--- Function: spobtenerboletaasignacion(integer, integer, integer)
+-- Function: spobtenerboletaasignacion(integer, integer, integer, integer)
 
--- DROP FUNCTION spobtenerboletaasignacion(integer, integer, integer);
+-- DROP FUNCTION spobtenerboletaasignacion(integer, integer, integer, integer);
 
 CREATE OR REPLACE FUNCTION spobtenerboletaasignacion(
     _ciclo integer,
     _estudiante integer,
     _carrera integer,
+    _id integer,
     out Asignacion integer,
     out Fecha text,
     out Hora text,
@@ -367,12 +368,47 @@ CREATE OR REPLACE FUNCTION spobtenerboletaasignacion(
     out NombreDia text,
     out Inicio text,
     out Fin text,
-    out tipoasign text)
+    out tipoasign text,
+    out estado text,
+    out anio integer,
+    out ciclo integer,
+    out estudiante integer,
+    out carnetNombre text,
+    out carrera integer,
+    out NombreCarrera text)
   RETURNS setof record AS
 $BODY$
 begin
+if _id <> -1 then
+--si es búsqueda por ID
   Return query
-  SELECT ca.Ciclo_Asignacion, to_char(ca.fecha, 'DD/MM/YYYY'), to_char(ca.hora, 'HH24:MI'), cu.codigo, cu.nombre, sec.nombre, dia.nombre, to_char(tra.inicio, 'HH24:MI'), to_char(tra.fin, 'HH24:MI'), tasi.nombre
+  SELECT ca.Ciclo_Asignacion, to_char(ca.fecha, 'DD/MM/YYYY'), to_char(ca.hora, 'HH24:MI'), cu.codigo, cu.nombre, sec.nombre, dia.nombre, to_char(tra.inicio, 'HH24:MI'), to_char(tra.fin, 'HH24:MI'), tasi.nombre,
+  case when cura.estado = 1 then 'Activo' else 'Inactivo' end,
+  cic.anio, cic.ciclo, estu.estudiante,
+  '[' || estu.carnet || '] ' || estu.primerapellido || ' ' || estu.segundoapellido || ', ' || estu.primernombre || ' ' || estu.segundonombre,
+  car.carrera, car.nombre
+  FROM EST_CICLO_ASIGNACION ca
+  JOIN ADM_PERIODO p ON ca.periodo = p.periodo
+  JOIN EST_CUR_ASIGNACION cura on cura.Ciclo_Asignacion = ca.Ciclo_Asignacion and cura.Ciclo_Asignacion = _id
+  JOIN CUR_SECCION sec on cura.seccion = sec.seccion
+  JOIN CUR_CURSO cu on cu.curso = sec.curso
+  JOIN CUR_TRAMA tra on tra.seccion = cura.seccion
+  JOIN CUR_HORARIO hor on hor.trama = tra.trama
+  JOIN CUR_DIA dia on dia.codigo = tra.dia
+  JOIN ADM_TIPOASIGNACION tasi on tasi.tipoasignacion = p.tipoasignacion 
+  JOIN CUR_CICLO cic on p.ciclo = cic.ciclo
+  JOIN EST_ESTUDIANTE estu on ca.estudiante = estu.estudiante
+  JOIN CUR_CARRERA car on car.carrera = ca.carrera
+  order by ca.Ciclo_Asignacion, cu.codigo, dia.codigo, tra.inicio;
+
+else
+--si es por ciclo, estudiante y carrera
+  Return query
+  SELECT ca.Ciclo_Asignacion, to_char(ca.fecha, 'DD/MM/YYYY'), to_char(ca.hora, 'HH24:MI'), cu.codigo, cu.nombre, sec.nombre, dia.nombre, to_char(tra.inicio, 'HH24:MI'), to_char(tra.fin, 'HH24:MI'), tasi.nombre,
+  case when cura.estado = 1 then 'Activo' else 'Inactivo' end,
+  cic.anio, cic.ciclo, estu.estudiante,
+  '[' || estu.carnet || '] ' || estu.primerapellido || ' ' || estu.segundoapellido || ', ' || estu.primernombre || ' ' || estu.segundonombre,
+  car.carrera, car.nombre
   FROM EST_CICLO_ASIGNACION ca
   JOIN ADM_PERIODO p ON ca.periodo = p.periodo AND p.ciclo = _ciclo
   JOIN EST_CUR_ASIGNACION cura on cura.Ciclo_Asignacion = ca.Ciclo_Asignacion and cura.estado = 1
@@ -381,13 +417,17 @@ begin
   JOIN CUR_TRAMA tra on tra.seccion = cura.seccion
   JOIN CUR_HORARIO hor on hor.trama = tra.trama and hor.ciclo = _ciclo
   JOIN CUR_DIA dia on dia.codigo = tra.dia
-  JOIN ADM_TIPOASIGNACION tasi on tasi.tipoasignacion = p.tipoasignacion 
+  JOIN ADM_TIPOASIGNACION tasi on tasi.tipoasignacion = p.tipoasignacion
+  JOIN CUR_CICLO cic on p.ciclo = cic.ciclo
+  JOIN EST_ESTUDIANTE estu on ca.estudiante = estu.estudiante
+  JOIN CUR_CARRERA car on car.carrera = ca.carrera
   WHERE ca.estudiante = _estudiante AND ca.carrera = _carrera order by ca.Ciclo_Asignacion, cu.codigo, dia.codigo, tra.inicio;
+end if;
 end;
 $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
-ALTER FUNCTION spobtenerboletaasignacion(integer, integer, integer)
+ALTER FUNCTION spobtenerboletaasignacion(integer, integer, integer, integer)
   OWNER TO postgres;
   
   
@@ -409,14 +449,25 @@ CREATE OR REPLACE FUNCTION spobtenernotaasignacion(
     out Final float,
     out Total text,
     out EstadoNota text,
-    out tipoasign text)
+    out tipoasign text,
+	out estado text,
+    out anio integer,
+    out ciclo integer,
+    out estudiante integer,
+    out carnetNombre text,
+    out carrera integer,
+    out NombreCarrera text)
   RETURNS setof record AS
 $BODY$
 begin
   Return query
   SELECT ca.Ciclo_Asignacion, to_char(ca.fecha, 'DD/MM/YYYY'), to_char(ca.hora, 'HH24:MI'), cu.codigo, cu.nombre, sec.nombre, nota.zona, nota.final, 
-  CASE WHEN nota.total = 0 and nota.aprobacion = 1 THEN 'APROBADO' WHEN nota.total = 0 and nota.aprobacion = -1 THEN 'REPROBADO' ELSE cast(nota.total as text) END as total, 
-  estnota.nombre, tasi.nombre
+  CASE WHEN nota.total = 0 and nota.aprobacion = 2 THEN 'APROBADO' WHEN nota.total = 0 and nota.aprobacion = -2 THEN 'REPROBADO' ELSE cast(nota.total as text) END as total, 
+  estnota.nombre, tasi.nombre,
+  case when cura.estado = 1 then 'Activo' else 'Inactivo' end,
+  cic.anio, cic.ciclo, estu.estudiante,
+  '[' || estu.carnet || '] ' || estu.primerapellido || ' ' || estu.segundoapellido || ', ' || estu.primernombre || ' ' || estu.segundonombre,
+  car.carrera, car.nombre
   FROM EST_CICLO_ASIGNACION ca
   JOIN ADM_PERIODO p ON ca.periodo = p.periodo AND p.ciclo = _ciclo
   JOIN EST_CUR_ASIGNACION cura on cura.Ciclo_Asignacion = ca.Ciclo_Asignacion and cura.estado = 1
@@ -424,7 +475,10 @@ begin
   JOIN CUR_CURSO cu on cu.curso = sec.curso
   JOIN EST_CUR_NOTA nota on cura.asignacion = nota.asignacion
   JOIN CUR_ESTADONOTA estnota on nota.estadonota = estnota.estadonota
-  JOIN ADM_TIPOASIGNACION tasi on tasi.tipoasignacion = p.tipoasignacion 
+  JOIN ADM_TIPOASIGNACION tasi on tasi.tipoasignacion = p.tipoasignacion
+  JOIN CUR_CICLO cic on p.ciclo = cic.ciclo
+  JOIN EST_ESTUDIANTE estu on ca.estudiante = estu.estudiante
+  JOIN CUR_CARRERA car on car.carrera = ca.carrera
   WHERE ca.estudiante = _estudiante AND ca.carrera = _carrera order by ca.Ciclo_Asignacion, cu.codigo;
 end;
 $BODY$

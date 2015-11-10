@@ -75,6 +75,29 @@
             </div>
             <div class="col-lg-12">
             <?php if(isset($this->asignacion) && count($this->asignacion)) :?>
+                <?php if(isset($this->lstPar) && count($this->lstPar)): ?>
+                <center>
+                    <table>
+                        <tr>
+                            <td style="text-align: right">
+                                <h4>Estudiante:&nbsp;</h4>
+                            </td>
+                            <td>
+                                <h4>&nbsp;<?php echo $this->lstPar[0]['carnetnombre']; ?></h4>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right">
+                                <h4>Carrera:&nbsp;</h4>
+                            </td>
+                            <td>
+                                <h4>&nbsp;<?php echo $this->lstPar[0]['nombrecarrera']; ?></h4>
+                            </td>
+                        </tr>
+                    </table>
+                </center>
+                <?php endif;?> 
+                <br />
             <?php for($a =0; $a < count($this->asignacion); $a++) : ?>
                 <br />
                 <table id="tbBoleta" class="tbBoleta" border="2">
@@ -112,8 +135,32 @@
                     </tbody>
                 </table>
                 <center>
-                <h4 style="color: red">ID de boleta de asignación: <span style="color: black">[<?php echo $this->_encriptarFacil->encode($this->asignacion[$a])?>]</span></h4>
-                <h4 style="color: blue">Fecha y hora: <span style="color: black"><?php echo $this->lstPar[$indice]['fecha'] . " " . $this->lstPar[$indice]['hora']?></span></h4>
+                    <table>
+                        <tr>
+                            <td style="text-align: right">
+                                <h4 style="color: red">ID de boleta de asignación:&nbsp;</h4>
+                            </td>
+                            <td>
+                                <h4>&nbsp;[<?php echo $this->_encriptarFacil->encode($this->asignacion[$a])?>]</h4>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right">
+                                <h4 style="color: blue">Fecha y hora:&nbsp;</h4>
+                            </td>
+                            <td>
+                                <h4>&nbsp;<?php echo $this->lstPar[$indice]['fecha'] . " " . $this->lstPar[$indice]['hora']?></h4>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right">
+                                <h4>Estado:&nbsp;</h4>
+                            </td>
+                            <td>
+                                <h4>&nbsp;<?php echo $this->lstPar[$indice]['estado']?></h4>
+                            </td>
+                        </tr>
+                    </table>
                 </center>
                 <br />
                 <br />

@@ -142,7 +142,7 @@ CREATE TRIGGER tgAsignacionInicial AFTER INSERT
 -- -----------------------------------------------------
 -- Function: spListaAsignados()
 -- -----------------------------------------------------
--- DROP FUNCTION spListaAsignados(int);
+-- DROP FUNCTION spListaAsignados(int,int);
 CREATE OR REPLACE FUNCTION spListaAsignados(IN _idTrama integer,
 					    OUT idasignacion integer,
 					    OUT carnet integer,
