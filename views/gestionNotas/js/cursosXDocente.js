@@ -104,7 +104,6 @@ $(document).ready( function () {
                 }
             },
             'json');
-        
         $.post(base_url+'ajax/getIdTrama',
             { 
                 cat: $("#idCatedratico").val(), 
@@ -117,8 +116,9 @@ $(document).ready( function () {
                 
                 if(datos.length>0){
                     if(tipo === "1") 
-                    { 
+                    {                         
                         var identificador = parseInt(datos[0].spidtrama);
+                        //alert(identificador);
                         mostrarListadoAsignados(identificador);
                     }
                     else

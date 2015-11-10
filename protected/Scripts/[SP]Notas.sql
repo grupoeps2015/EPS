@@ -180,9 +180,11 @@ CREATE OR REPLACE FUNCTION spobtenerestadociclonotas(IN _idCiclo integer) RETURN
 $BODY$
 DECLARE estadociclo int;
 BEGIN
-  select
-    estado
-  from adm_periodo where ciclo=_idCiclo and tipoasignacion = 2 and tipoperiodo = 2 into estadociclo;
+ SELECT
+	COALESCE((select estado from adm_periodo where ciclo = _idCiclo and tipoasignacion = 2 and tipoperiodo = 2), 0)
+	FROM adm_periodo
+	LIMIT 1
+ into estadociclo;
   return estadociclo;
 END;
 $BODY$

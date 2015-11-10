@@ -72,7 +72,7 @@ function generarPDF()
                                 <th style="text-align:center">Asignatura</th>
                                 <th style="text-align:center">Tipo Aprobaci&oacute;n</th>
                                 <th style="text-align:center">Calificaci&oacute;n</th>
-                                <th style="text-align:center">Cantidad en letras</th>
+                                <th style="text-align:center">Calificaci&oacute;n en letras</th>
                                 <th style="text-align:center">Fecha Aprobaci&oacute;n</th>                                  
                             </tr>
                         </thead>
