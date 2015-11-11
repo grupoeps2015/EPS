@@ -214,6 +214,6 @@ class loginController extends Controller{
         $this->_verifica_usuario = new verifica_usuario();
         echo $this->_verifica_usuario->consultar_estudiante(200516231,5391) . '<br/><br/>';
         echo $this->_verifica_usuario->consultar_estudiante(200611199,'ffb89b9c') . '<br/><br/>';
-        echo $this->_verifica_usuario->consultar_estudiante(200912345,'nolose') . '<br/><br/>';
+        echo $this->_verifica_usuario->consultar_estudiante(200410339,'UA2890061');
     }
 }
