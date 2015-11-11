@@ -64,7 +64,7 @@ $(document).ready( function () {
                 if(datos.length>0){
                     if(tipo === "1") { 
                         var identificador = parseInt(datos[0].spidtrama);
-                        mostrarListadoAsignados(identificador);
+                        mostrarListadoAsignados(identificador, $("#slCiclo").val());
                     }
                     else{
                         var identificador = parseInt(datos[0].spidtrama);
@@ -168,10 +168,10 @@ $(document).ready( function () {
                'json');
     }
     
-    function mostrarListadoAsignados(id){
+    function mostrarListadoAsignados(id, ciclo){
         var notas = "";
         $.post(base_url+'ajax/getListaAlumnosAsignados',
-            'trama=' + id,
+        { trama: id, ciclo: ciclo },            
             function(datos){
                 $("#tbAsignados").css('display','block');
                 $("#bodyAsignados").html('');
