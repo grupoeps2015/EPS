@@ -59,7 +59,7 @@ $(document).ready( function () {
                 cur: $("#slCursoxSeccion option:selected").text()
             },
             function(datos){
-                alert($("#idCatedratico").val() + ' ' + $("#slCiclo").val() + ' ' + $("#slSeccion").val() + ' ' + $("#slCursoxSeccion option:selected").text());
+                //alert($("#idCatedratico").val() + ' ' + $("#slCiclo").val() + ' ' + $("#slSeccion").val() + ' ' + $("#slCursoxSeccion option:selected").text());
                 var tipo = $("#hdTipo").val();
                 if(datos.length>0){
                     if(tipo === "1") { 
