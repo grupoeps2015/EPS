@@ -144,13 +144,17 @@ class verifica_usuario{
                     $ext=$this->parsear_resultado($v_xml_retorno1,$busca1);
             $busca1="codigo_carrera";
                     $car=$this->parsear_resultado($v_xml_retorno1,$busca1);
-            $esta=$esta.'<br/>'.$nombre.'<br/>'.$carnet.'<br/>'.$codua.'<br/>'.$ua.'<br/>'.$ext.'<br/>'.$car;
+            $esta = 'Estado: ' . $esta . '<br/>';
+            $esta .= 'Nombre: ' . $nombre . '<br/>';
+            $esta .= 'Carnet: ' . $carnet . '<br/>';
+            $esta .= 'Codigo Unidad Academica: ' . $codua . '<br/>';
+            $esta .= 'Nombre Unidad Academica: ' . $ua . '<br/>';
+            $esta .= 'Codigo Extencion: ' . $ext . '<br/>';
+            $esta .= 'Codigo Carrera: ' . $car;
         } else {
                 $esta=$esta.'|Usuario o contrase&ntilde;a no habilitado';
         }
-        echo $esta;
         return $esta;
-        //return;
     }
     
     function parsear_resultado($xml,$busca){
