@@ -144,7 +144,7 @@ LANGUAGE 'plpgsql';
 -- Function: spListaAlumnosAsignados()
 -- -----------------------------------------------------
 -- DROP FUNCTION spListaAlumnosAsignados(int);
-CREATE OR REPLACE FUNCTION spListaAlumnosAsignados(IN _idTrama integer,
+CREATE OR REPLACE FUNCTION spListaAlumnosAsignados(IN _idTrama integer, IN _idCiclo integer,
 					    OUT Asignacion integer,
 					    OUT Seccion integer,
 					    OUT NombreSeccion text,
@@ -165,7 +165,9 @@ BEGIN
 		JOIN CUR_Trama t ON t.Seccion = a.Seccion
 		JOIN CUR_Curso_Catedratico cc ON cc.Curso_Catedratico = t.Curso_Catedratico
 		JOIN CAT_Catedratico cat ON cat.Catedratico = cc.Catedratico
+		JOIN CUR_Horario h ON h.Trama = t.Trama
 		WHERE t.trama = _idTrama
+		AND h.Ciclo = _idCiclo
 		AND a.Estado = 1;
 
 END;

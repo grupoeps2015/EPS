@@ -237,11 +237,9 @@ class ajaxModel extends Model{
         }
     }
     
-    public function getListaAlumnosAsignados($id){
-        $file = fopen("log.txt", "a");
-                fwrite($file, "select * from spListaAlumnosAsignados({$id})" . PHP_EOL);
-                fclose($file);
-        $post = $this->_db->query("select * from spListaAlumnosAsignados({$id}) order by carnet");
+    public function getListaAlumnosAsignados($id,$ciclo){
+        
+        $post = $this->_db->query("select * from spListaAlumnosAsignados({$id},{$ciclo}) order by carnet");
         if($post === false){
             return "1200/getListaAlumnosAsignados";
         }else{
