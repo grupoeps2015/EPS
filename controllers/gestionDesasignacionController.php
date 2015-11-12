@@ -44,7 +44,6 @@ class gestionDesasignacionController extends Controller {
     }
 
     public function index() {
-
         $this->_view->titulo = 'Desasignar Curso - ' . APP_TITULO;
         $this->_view->setJs(array('gestionDesasignacion'));
         $this->_view->setJs(array('jquery.dataTables.min'), "public");
@@ -73,28 +72,37 @@ class gestionDesasignacionController extends Controller {
 
     public function desasignarCurso($idEstado, $idAsignacion) {
         $carnet = $this->getInteger('hdCarnet');
-
+        $codigo = $this->getTexto('hdCodigo');
 
 //        session_start();
 //        $rol = $_SESSION["rol"];        
 //        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_ELIMINAREDIFICIO);
 //        if($rolValido[0]["valido"]== PERMISO_ELIMINAR){
         if ($idEstado == ESTADO_INACTIVO || $idEstado == ESTADO_ACTIVO) {
-            $info = $this->_post->activarDesactivarAsignacion($idAsignacion, $idEstado);
-            if (!is_array($info)) {
-                $this->redireccionar("error/sql/" . $info);
-                exit;
-            }
-            if ($this->getInteger('hdEnvio')) {
-                $vDescripcion = $this->getTexto('descripcion');
-                $carnet = $this->getInteger('hdCarnet');
-                $arrayDes['asignacion'] = $idAsignacion;
-                $arrayDes['descripcion'] = $vDescripcion;
-                $this->_post->agregarDesasignacion($arrayDes);
+            $infoDesasignacion = $this->_post->getdesasignacion($carnet, '%' . $codigo . "%");
+            if (is_array($infoDesasignacion)) {
                 echo "<script>
-                alert('Desasignacion de curso para el estudiante ". $carnet." realizada exitosamente.');
+                alert('No se puede realizar la desasignacion debido a que el estudiante ya ha realizado este proceso para este curso.');
                 </script>";
-                $this->redireccionar('gestionDesasignacion/listadoAsignaciones/'.$carnet);
+                $this->redireccionar('gestionDesasignacion/listadoAsignaciones/' . $carnet);
+            } else {
+                $info = $this->_post->activarDesactivarAsignacion($idAsignacion, $idEstado);
+                if (!is_array($info)) {
+                    $this->redireccionar("error/sql/" . $info);
+                    exit;
+                }
+                if ($this->getInteger('hdEnvio')) {
+                    $vDescripcion = $this->getTexto('descripcion');
+                    $carnet = $this->getInteger('hdCarnet');
+
+                    $arrayDes['asignacion'] = $idAsignacion;
+                    $arrayDes['descripcion'] = $vDescripcion;
+                    $this->_post->agregarDesasignacion($arrayDes);
+                    echo "<script>
+                alert('Desasignacion de curso para el estudiante " . $carnet . " realizada exitosamente.');
+                </script>";
+                    $this->redireccionar('gestionDesasignacion/listadoAsignaciones/' . $carnet);
+                }
             }
         } else {
             echo "Error al agregar desasignacion";
