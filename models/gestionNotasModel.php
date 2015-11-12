@@ -42,4 +42,13 @@ class gestionNotasModel extends Model {
         }
     }
     
+    public function getTipoActividad(){
+        $info = $this->_db->query("select * from spconsultageneral('tipoactividad, nombre','cur_tipoactividad') order by codigo;");
+        if($info === false){
+            return "1104/getActividades";
+        }else{
+            return $info->fetchall();
+        }
+    }
+    
 }

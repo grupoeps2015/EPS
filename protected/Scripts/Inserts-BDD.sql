@@ -488,8 +488,17 @@ INSERT INTO CUR_TipoSeccion (Nombre, Descripcion) VALUES ('Sabatino','');
 -- -----------------------------------------------------
 -- Insert cur_tipoactividad
 -- -----------------------------------------------------
-INSERT INTO cur_tipoactividad (tipoactividad,nombre,descripcion,estado) VALUES (1,'Zona','Ponderacion a lo largo del semestre',1);
-INSERT INTO cur_tipoactividad (tipoactividad,nombre,descripcion,estado) VALUES (2,'Examen final','Examen final de curso',1);
+INSERT INTO cur_tipoactividad (tipoactividad,nombre,descripcion,estado) VALUES (1,'ZONA','',1);
+INSERT INTO cur_tipoactividad (tipoactividad,nombre,descripcion,estado) VALUES (2,'EXAMEN FINAL','Examen final de curso',1);
+INSERT INTO cur_tipoactividad (tipoactividad,nombre,descripcion,estado) VALUES (3,'LABORATORIO','',1);
+INSERT INTO cur_tipoactividad (tipoactividad,nombre,descripcion,estado) VALUES (4,'TAREA','Cubre tareas, investigaciones y exposiciones',1);
+INSERT INTO cur_tipoactividad (tipoactividad,nombre,descripcion,estado) VALUES (5,'HOJA DE TRABAJO','',1);
+INSERT INTO cur_tipoactividad (tipoactividad,nombre,descripcion,estado) VALUES (6,'EXAMEN CORTO','Cubre comprobacion de lectura, examen teorico o practico',1);
+INSERT INTO cur_tipoactividad (tipoactividad,nombre,descripcion,estado) VALUES (7,'PRACTICA','',1);
+INSERT INTO cur_tipoactividad (tipoactividad,nombre,descripcion,estado) VALUES (8,'PROYECTO','',1);
+INSERT INTO cur_tipoactividad (tipoactividad,nombre,descripcion,estado) VALUES (9,'INFORME','',1);
+INSERT INTO cur_tipoactividad (tipoactividad,nombre,descripcion,estado) VALUES (10,'EXAMEN PARCIAL','',1);
+INSERT INTO cur_tipoactividad (tipoactividad,nombre,descripcion,estado) VALUES (11,'PUNTOS EXTRA','Puntos otorgados por el catedratico por actividades fuera del curso',1);
 
 -- -----------------------------------------------------
 -- Insert cur_tipociclo

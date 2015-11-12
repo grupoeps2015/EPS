@@ -101,10 +101,38 @@ class gestionNotasController extends Controller{
         $this->_view->renderizar('cursosXDocente','gestionNotas');
     }
     
-    public function actividades(){
+    public function actividades($idUsuario, $UnidadCentro){
+        $this->_view->id = $UnidadCentro;
+        $this->_view->idUsuario = $idUsuario;
+        
+        $datosCat = $this->_notas->getDocenteEspecifico($idUsuario);
+        if(is_array($datosCat)){
+            $this->_view->datosCat = $datosCat;
+        }else{
+            $this->redireccionar('error/sql/' . $datosCat);
+            exit;
+        }
+        
+        $lsTipoCiclo = $this->_ajax->getTipoCiclo();
+        if(is_array($lsTipoCiclo)){
+            $this->_view->lsTipoCiclo = $lsTipoCiclo;
+        }else{
+            $this->redireccionar('error/sql/' . $lsTipoCiclo);
+            exit;
+        }
+        
+        $lsTipoActividad = $this->_notas->getTipoActividad();
+        if(is_array($lsTipoActividad)){
+            $this->_view->lsTipoActividad = $lsTipoActividad;
+        }else{
+            $this->redireccionar('error/sql/' . $lsTipoActividad);
+            exit;
+        }
+        
         $this->_view->titulo = 'Gestión de notas - ' . APP_TITULO;
         $this->_view->setJs(array('actividades'));
         $this->_view->renderizar('actividades');
+        
     }
     
     public function guardarNota(){

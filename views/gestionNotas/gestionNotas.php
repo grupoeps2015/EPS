@@ -50,7 +50,8 @@
                         <th style="text-align:center">Nombre</th>
                         <th style="text-align:center">Tipo</th>
                         <?php if($this->permisoModificar == PERMISO_MODIFICAR): ?>
-                        <th style="text-align:center">&nbsp;</th>
+                        <th style="text-align:center">Ingresar Notas</th>
+                        <th style="text-align:center">Crear Actividades</th>
                         <?php endif;?>
                     </tr>
                 </thead>
@@ -64,6 +65,11 @@
                         <?php if($this->permisoModificar == PERMISO_MODIFICAR): ?>
                         <td style="text-align: center">
                             <a href="<?php echo BASE_URL?>gestionNotas/cursosXDocente/<?php echo $this->lstCat[$i]['usuario']?>/<?php echo $this->id;?>">
+                                Ver Cursos
+                            </a>
+                        </td>
+                        <td style="text-align: center">
+                            <a href="<?php echo BASE_URL?>gestionNotas/actividades/<?php echo $this->lstCat[$i]['usuario']?>/<?php echo $this->id;?>">
                                 Ver Cursos
                             </a>
                         </td>
