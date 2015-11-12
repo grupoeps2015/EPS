@@ -59,7 +59,7 @@ $(document).ready( function () {
                 cur: $("#slCursoxSeccion option:selected").text()
             },
             function(datos){
-                //alert($("#idCatedratico").val() + ' ' + $("#slCiclo").val() + ' ' + $("#slSeccion").val() + ' ' + $("#slCursoxSeccion option:selected").text());
+                //alert($("#idCatedratico").val() + ' ' + $("#slCiclo").val() + ' ' + $("#slCursoxSeccion option:selected").text() + ' ' + $("#slSeccion").val());
                 var tipo = $("#hdTipo").val();
                 if(datos.length>0){
                     if(tipo === "1") { 
@@ -68,10 +68,10 @@ $(document).ready( function () {
                     }
                     else{
                         var identificador = parseInt(datos[0].spidtrama);
-                        mostrarListado(identificador);
+                        mostrarListado(identificador, $("#slCiclo").val());
                     }
                 }else{
-                    mostrarListado(0);
+                    mostrarListado(0,0);
                 }
             },
             'json');
@@ -171,7 +171,7 @@ $(document).ready( function () {
     function mostrarListadoAsignados(id, ciclo){
         var notas = "";
         $.post(base_url+'ajax/getListaAlumnosAsignados',
-        { trama: id, ciclo: ciclo },            
+        { trama: id, ciclo: ciclo },
             function(datos){
                 $("#tbAsignados").css('display','block');
                 $("#bodyAsignados").html('');
@@ -193,12 +193,12 @@ $(document).ready( function () {
             'json');
     }
     
-    function mostrarListado(id){
+    function mostrarListado(id, idCiclo){
         var estado = parseInt($('#hdEstadoCiclo').val());
         var notas = "";
         $("#slCarnetxAsignacion").html('');
         $.post(base_url+'ajax/getListaAsignados',
-            'trama=' + id,
+            {trama: id, ciclo: idCiclo },
             function(datos){
                 $("#tbAsignados").css('display','block');
                 $("#bodyAsignados").html('');

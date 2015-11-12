@@ -143,7 +143,7 @@ CREATE TRIGGER tgAsignacionInicial AFTER INSERT
 -- Function: spListaAsignados()
 -- -----------------------------------------------------
 -- DROP FUNCTION spListaAsignados(int,int);
-CREATE OR REPLACE FUNCTION spListaAsignados(IN _idTrama integer,
+CREATE OR REPLACE FUNCTION spListaAsignados(IN _idTrama integer, IN _idCiclo integer,
 					    OUT idasignacion integer,
 					    OUT carnet integer,
 					    OUT nombre text,
@@ -167,7 +167,8 @@ BEGIN
     join cur_seccion cua on cua.seccion = dos.seccion
     join est_estudiante est on tres.estudiante = est.estudiante
     join cur_trama cin on cin.seccion = cua.seccion
-  where cin.trama = _idTrama;
+    join cur_horario cho on cho.trama = cin.trama
+  where cin.trama = _idTrama and cho.ciclo = _idCiclo;
 END;
 $BODY$
 LANGUAGE plpgsql;
