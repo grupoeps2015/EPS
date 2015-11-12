@@ -86,13 +86,16 @@ function generarPDF()
                                 <td style="text-align: center"><?php echo $this->lstCur[$i]['nombretipoaprobacion']; ?></td>
                                 <td style="text-align: center"><?php echo $this->lstCur[$i]['calificacionnumeros']; ?></td>
                                 <td style="text-align: center"><?php echo numtoletras($this->lstCur[$i]['calificacionnumeros']); ?></td>
-                                <td style="text-align: center"><?php echo $this->lstCur[$i]['fechaaprobacion']; ?></td>                                
+                                <td style="text-align: center"><?php echo $this->lstCur[$i]['fechaaprobacion']; ?></td>                                                                
                             </tr>
-                            <?php endfor;?>
+                            <?php endfor;?>                            
                         <?php endif;?> 
                         </tbody>
                     </table>
                     <br />
+                    <?php if(isset($this->lstCur[0]['codigo'])):?>
+                    <p>Promedio: </p>
+                    <?php endif;?> 
                 </div>
             </div>
     </div>   
