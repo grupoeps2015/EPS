@@ -2,7 +2,6 @@
 include("ParseXml.php");
 
 class verifica_usuario{
-    
     private $_parser;
     
     public function __construct() {

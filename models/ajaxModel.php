@@ -208,7 +208,7 @@ class ajaxModel extends Model{
     }
     
     public function getDocenteSeccion($cat,$ciclo){
-        $post = $this->_db->query("select * from spDocenteCicloCursos({$cat},{$ciclo})");
+        $post = $this->_db->query("select * from spDocenteCicloCursos({$cat},{$ciclo}) order by idCurso;");
         if($post === false){
             return "1200/getDocenteSeccion";
         }else{
@@ -227,8 +227,8 @@ class ajaxModel extends Model{
         }
     }
     
-    public function getListaAsignados($id){
-        $post = $this->_db->query("select * from spListaAsignados({$id}) order by carnet");
+    public function getListaAsignados($id,$ciclo){
+        $post = $this->_db->query("select * from spListaAsignados({$id},{$ciclo}) order by carnet");
         if($post === false){
             return "1200/getListaAsignados";
         }else{
