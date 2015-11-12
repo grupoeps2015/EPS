@@ -168,6 +168,7 @@ BEGIN
 		JOIN CUR_Horario h ON h.Trama = t.Trama
 		WHERE t.trama = _idTrama
 		AND h.Ciclo = _idCiclo
+		AND p.Ciclo = _idCiclo
 		AND a.Estado = 1;
 
 END;
