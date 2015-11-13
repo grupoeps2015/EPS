@@ -48,5 +48,15 @@ class gestionDesasignacionModel extends Model {
             return $info->fetchall();
         }
     }
+    
+    public function getdesasignacion($carnet, $curso) {
+        
+        $info = $this->_db->query("select * from spgetdesasignacion(".$carnet.",'".$curso."');");
+        if($info === false){
+            return "1104/getdesasignacion";
+        }else{
+            return $info->fetchall();
+        }
+    }
 
 }

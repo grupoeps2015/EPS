@@ -105,6 +105,7 @@
                     </div>
                     <input type="hidden" name="hdEnvio" value="1">
                     <input type="hidden" name="hdCarnet" value="<?php echo $this->asignacion[0]['carnet'];?>">
+                    <input type="hidden" name="hdCodigo" value="<?php echo $this->asignacion[0]['codigo'];?>">
                     
                 </form>
             </div>
