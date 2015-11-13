@@ -123,14 +123,15 @@
                                 <th style="width:25%; text-align:center">Agregar Actividad</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="tbodyAct" name="tbodyAct">
                             <tr>
-                                <td style="width:49%">FINAL</td>
+                                <td style="width:49%"><br/>FINAL<br/>&nbsp;</td>
                                 <td style="width:1%">&nbsp;</td>
-                                <td style="width:24%">25 pts.</td>
+                                <td style="width:24%"><br/>25 pts.<br/>&nbsp;</td>
                                 <td style="width:1%">&nbsp;</td>
                                 <td style="width:25%">
-                                    <input type="hidden" id="hd2" name="hdFinal" value="25"/>
+                                    <br/>
+                                    <input type="hidden" id="hd2" name="hd2" value="25"/>
                                 </td>
                             </tr>
                             <tr>
@@ -139,8 +140,12 @@
                                 <td style="width:24%">75 pts.</td>
                                 <td style="width:1%">&nbsp;</td>
                                 <td style="width:25%">
-                                    <input type="button" value="+" class="btn-warning input-sm" style="width: 25%" />
-                                    <input type="hidden" id="hd1" name="hdFinal" value="75"/>
+                                    <a href="#" class="upload" data-toggle="modal" data-target="#ModalActividades">
+                                        <div class="fileUpload btn btn-success input-sm" style="width: 25%">
+                                            <span>+</span>
+                                        </div>
+                                    </a>
+                                    <input type="hidden" id="hd1" name="hd1" value="75"/>
                                 </td>
                             </tr>
                         </tbody>
@@ -152,18 +157,64 @@
     <input type="hidden" id="idCatedratico" name="idCatedratico" value="<?php echo $this->datosCat[0][0];?>" >
 </section>
 
-<!--
-    METER TODO EN UN MODAL
-                        <select id="slTipoActividad" name="slTipoActividad" class="form-control input-lg">
-                            <?php if (isset($this->lsTipoActividad) && count($this->lsTipoActividad)): ?>
-                                <option value="">(Tipo Actividad)</option>
-                                <?php for ($i = 0; $i < count($this->lsTipoActividad); $i++) : ?>
+
+<!-- Div Crear Actividades -->
+<div id="ModalActividades" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                <h2 class="text-center text-info">Nueva Actividad</h2>
+            </div>
+            <div class="modal-body row">
+                <div class="form-group">
+                    <table align="center">
+                        <tr>
+                            <td tyle="width: 45%" class="text-info">
+                                <span>Actividades para zona del curso</span>
+                            </td>
+                            <td>&nbsp;</td>
+                            <td>
+                                <select id="slTipoActividad" name="slTipoActividad" class="form-control input-lg">
+                                <?php if(isset($this->lsTipoActividad) && count($this->lsTipoActividad)): ?>
+                                    <option value="">(Tipo Actividad)</option>
+                                    <?php for ($i = 0; $i < count($this->lsTipoActividad); $i++) : ?>
                                     <option value="<?php echo $this->lsTipoActividad[$i]['codigo']; ?>">
                                         <?php echo $this->lsTipoActividad[$i]['nombre']; ?>
                                     </option>
-                                <?php endfor; ?>
-                            <?php else : ?>
-                                <option value="">-- No existen tipos registrados --</option>
-                            <?php endif; ?>
-                            </select>
--->
+                                    <?php endfor;?>
+                                <?php else : ?>
+                                    <option value="">-- No existen tipos registrados --</option>
+                                <?php endif;?>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 45%">
+                                <br />Nombre:<br />
+                                <input id="txtNombreAct" name="txtNombreAct" type="text" class="form-control input-lg" value="" placeholder="Ej: Tarea#1, Corto#1, etc.">&nbsp;
+                            </td>
+                            <td>&nbsp;</td>
+                            <td>
+                                <br />Valor (puntos netos):&nbsp;<br />
+                                <input id="txtValorAct" name="txtValorAct" type="number" min="1" max="99" class="form-control input-lg" value="">&nbsp;
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">Descripcion:&nbsp;<br />
+                                <input id="txtDescAct" name="txtDescAct" type="text" class="form-control input-lg" value="">
+                            </td>                            
+                        </tr>
+                        <tr>
+                            <td tyle="width: 45%">&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td><br/>
+                                <input type="button" id="btnNvaActividad" name="btnNvaActividad" value="Agregar" class="btn btn-danger btn-lg btn-block">
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

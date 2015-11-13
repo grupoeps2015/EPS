@@ -43,6 +43,20 @@ $(document).ready( function () {
         mostrarCreadorActividades();
     });
     
+    $("#btnNvaActividad").click(function(){
+        $("#tbodyAct").append(
+            '<tr>' + 
+                '<td style="width:49%;">PRUEBA&nbsp;</td>' +
+                '<td style="width:1%">&nbsp;</td>' +
+                '<td style="width:24%">2 pts.&nbsp;</td>' +
+                '<td style="width:1%">&nbsp;</td>' +
+                '<td style="width:25%">' +
+                    '<input type="button" value="-" class="btn btn-danger input-sm" style="width: 25%" />' +
+                    '<input type="hidden" id="hd9" name="hd9" value="25"/>' +
+                '</td>' +
+            '</tr>');
+    });
+    
     function getAniosAjax(){
         $.post(base_url+'ajax/getAniosAjax',
                'tipo=' + $("#slTipos").val(),
