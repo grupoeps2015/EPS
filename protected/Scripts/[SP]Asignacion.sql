@@ -594,15 +594,15 @@ CREATE OR REPLACE FUNCTION splistadocursosaprobados(
 	out asignatura text,
 	out tipoaprobacion integer,
 	out nombretipoaprobacion text,
-	out calificacionnumeros float,
+	out calificacionnumeros text,
 	out fechaaprobacion date)
   RETURNS setof record AS
 $BODY$
 begin
   Return query
-  SELECT notas.cursoaprobado, notas.estudiante, notas.nombreestudiante, notas.carnet, notas.carrera, notas.nombrecarrera, notas.asignacion, notas.numero, notas.codigo, notas.asignatura, notas.tipoaprobacion, notas.nombretipoaprobacion, notas.calificacionnumeros, notas.fechaaprobacion
+  SELECT notas.cursoaprobado, notas.estudiante, notas.nombreestudiante, notas.carnet, notas.carrera, notas.nombrecarrera, notas.asignacion, notas.numero, notas.codigo, notas.asignatura, notas.tipoaprobacion, notas.nombretipoaprobacion, notas.calificacionennumeros, notas.fechaaprobacion
 FROM (
-	select ca.cursoaprobado, ciclo.estudiante, concat(est.primernombre || ' ' || est.segundonombre || ' ' || est.primerapellido || ' ' || est.segundoapellido) as nombreestudiante, est.carnet, estcar.carrera, car.nombre as nombrecarrera, asig.asignacion, curso.curso as numero, curso.codigo as codigo, curso.nombre as asignatura, tipo.tipoaprobacion, tipo.nombre as nombretipoaprobacion, coalesce(nota.total, -1) as calificacionnumeros, ca.fechaaprobacion 
+	select ca.cursoaprobado, ciclo.estudiante, concat(est.primernombre || ' ' || est.segundonombre || ' ' || est.primerapellido || ' ' || est.segundoapellido) as nombreestudiante, est.carnet, estcar.carrera, car.nombre as nombrecarrera, asig.asignacion, curso.curso as numero, curso.codigo as codigo, curso.nombre as asignatura, tipo.tipoaprobacion, tipo.nombre as nombretipoaprobacion, CASE WHEN nota.total = 0 and nota.aprobacion = 2 THEN 'APROBADO' WHEN nota.total = 0 and nota.aprobacion = -2 THEN 'REPROBADO' ELSE cast(nota.total as text) END as calificacionennumeros, ca.fechaaprobacion 
 	from est_cursoaprobado ca
 	join est_cur_asignacion asig on asig.asignacion = ca.asignacion
 	join est_ciclo_asignacion ciclo on ciclo.ciclo_asignacion = asig.ciclo_asignacion
@@ -618,7 +618,7 @@ FROM (
 
 	UNION
 
-	select ca.cursoaprobado, ciclo.estudiante, concat(est.primernombre || ' ' || est.segundonombre || ' ' || est.primerapellido || ' ' || est.segundoapellido) as nombreestudiante, est.carnet, estcar.carrera, car.nombre as nombrecarrera, asigretra.asignacionretrasada, curso.curso as numero, curso.codigo as codigo, curso.nombre as asignatura, tipo.tipoaprobacion as nombretipoaprobacion, tipo.nombre, coalesce(asigretra.notaretrasada,-1) as calificacionnumeros, ca.fechaaprobacion 
+	select ca.cursoaprobado, ciclo.estudiante, concat(est.primernombre || ' ' || est.segundonombre || ' ' || est.primerapellido || ' ' || est.segundoapellido) as nombreestudiante, est.carnet, estcar.carrera, car.nombre as nombrecarrera, asigretra.asignacionretrasada, curso.curso as numero, curso.codigo as codigo, curso.nombre as asignatura, tipo.tipoaprobacion as nombretipoaprobacion, tipo.nombre, cast(coalesce(asigretra.notaretrasada,0) as text) as calificacionennumeros, ca.fechaaprobacion 
 	from est_cursoaprobado ca
 	join est_asignacionretrasada asigretra on asigretra.asignacionretrasada = ca.asignacionretrasada
 	join est_cur_asignacion asig on asigretra.asignacion = asig.asignacion

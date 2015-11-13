@@ -2,7 +2,7 @@
 function generarPDF()
    {
        var strCarnet = "<?php echo $this->lstCur[0]['carnet']; ?>";
-            var pdf = new jsPDF('p', 'pt', 'letter');
+            var pdf = new jsPDF('p', 'pt', "A4");
             source = $('#divCursosAprobados')[0];
 
             specialElementHandlers = {
@@ -13,7 +13,7 @@ function generarPDF()
             margins = {
                 top: 80,
                 bottom: 60,
-                left: 40,
+                left: 20,
                 width: 522
             };
             pdf.fromHTML(
@@ -24,6 +24,9 @@ function generarPDF()
                         'elementHandlers': specialElementHandlers
                     },
             function(dispose) {
+                pdf.setFont("helvetica");
+                pdf.setFontType("bold");
+                pdf.setFontSize(7);
                 pdf.save("ListadoCursosAprobados - " + strCarnet + '.pdf');
             }
             , margins);
@@ -95,6 +98,8 @@ function generarPDF()
                     <br />
                     <?php if(isset($this->lstCur[0]['codigo'])):?>
                     <p>Promedio: </p>
+                    <br/>
+                    <p>Cr&eacute;ditos: </p>
                     <?php endif;?> 
                 </div>
             </div>

@@ -169,8 +169,6 @@ $(document).ready( function () {
     }
     
     function mostrarListadoAsignados(id, ciclo){
-        alert(id);
-        alert(ciclo);
         var notas = "";
         $.post(base_url+'ajax/getListaAlumnosAsignados',
         { trama: id, ciclo: ciclo },
