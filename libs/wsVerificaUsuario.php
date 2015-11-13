@@ -1,7 +1,7 @@
 <?php
 include("ParseXml.php");
 
-class verifica_usuario{
+class wsVerificaUsuario{
     private $_parser;
     
     public function __construct() {
