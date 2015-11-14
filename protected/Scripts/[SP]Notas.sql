@@ -164,11 +164,12 @@ BEGIN
     est_cur_nota uno
     join est_cur_asignacion dos on uno.asignacion = dos.asignacion
     join est_ciclo_asignacion tres on dos.ciclo_asignacion = tres.ciclo_asignacion
+    join adm_periodo per on tres.periodo = per.periodo
     join cur_seccion cua on cua.seccion = dos.seccion
     join est_estudiante est on tres.estudiante = est.estudiante
     join cur_trama cin on cin.seccion = cua.seccion
     join cur_horario cho on cho.trama = cin.trama
-  where cin.trama = _idTrama and cho.ciclo = _idCiclo;
+  where cin.trama = _idTrama and cho.ciclo = _idCiclo and per.ciclo = _idCiclo; 
 END;
 $BODY$
 LANGUAGE plpgsql;

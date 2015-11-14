@@ -2,7 +2,11 @@
     <div class="header">
         <div class="row">
             <div class="col-lg-12 text-center">
+                <?php if($this->tipo == 1): ?>
+                <h2 class="section-heading">Listado de alumnos asignados</h2>
+                <?php else:?>
                 <h2 class="section-heading">Gesti&oacute;n de notas</h2>
+                <?php endif;?>                
                 <hr class="primary">
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">

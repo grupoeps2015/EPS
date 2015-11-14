@@ -16,7 +16,7 @@ class loginController extends Controller{
     public function __construct() {
         parent::__construct();
         $this->getLibrary('encripted');
-        $this->getLibrary('verifica_usuario');
+        $this->getLibrary('wsVerificaUsuario');
         $this->_encriptar = new encripted();
         $this->_login = $this->loadModel('login');
         $this->_bitacora = $this->loadModel('bitacora');
@@ -211,7 +211,7 @@ class loginController extends Controller{
     }
 
     public function existe(){
-        $this->_verifica_usuario = new verifica_usuario();
+        $this->_verifica_usuario = new wsVerificaUsuario();
         echo $this->_verifica_usuario->consultar_estudiante(200516231,5391) . '<br/><br/>';
         echo $this->_verifica_usuario->consultar_estudiante(200611199,'ffb89b9c') . '<br/><br/>';
         echo $this->_verifica_usuario->consultar_estudiante(200410339,'UA2890061');

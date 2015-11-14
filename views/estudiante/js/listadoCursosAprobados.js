@@ -1,5 +1,6 @@
 $(document).ready(function(){
     $('#tbCursosAprobados').DataTable({
+       bFilter: false, bInfo: false, bPaginate: false,
         language:{
             emptyTable: "No hay informaci&oacute;n disponible.",
             sZeroRecords: "No se encontro informaci&oacute;n compatible con la busqueda",
