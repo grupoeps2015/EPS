@@ -32,6 +32,8 @@ define('PERIODO_INGRESO_NOTAS','2');
 define('ASIGN_JUNTADIRECTIVA','1');
 define('ASIGN_OTRAS','0');
 define('MSG_SINPERMISOS','alert(\'No tiene permisos para acceder a esta función.\');');
+define('CURSO_APROBADO','APROBADO');
+define('CURSO_REPROBADO','REPROBADO');
 
 //Constantes de base de datos
 define('DB_HOST','localhost');

@@ -58,5 +58,13 @@ class estudianteModel extends Model {
         }
     }
     
+    public function creditosEstudiante($idEstudiante,$idCarrera){
+        $info = $this->_db->query("select * from spcreditoscursosaprobados({$idEstudiante},{$idCarrera}) as creditos");
+        if ($info === false) {
+            return "1104/creditosEstudiante";
+        } else {
+            return $info->fetchall();
+        }
+    }
     
 }
