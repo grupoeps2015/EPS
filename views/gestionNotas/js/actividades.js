@@ -1,5 +1,35 @@
 $(document).ready( function () {
     var base_url = $("#hdBASE_URL").val();
+    var numTarea = 0;
+    
+    $('#frmGenerales').validate({
+        rules:{
+            slTipoActividad:{
+                required: true
+            },
+            txtNombreAct:{
+                required: true  
+            },
+            txtValorAct:{
+                required: true,
+                min: 1,
+                max: 100
+            }
+        },
+        messages:{
+            slTipoActividad:{
+                required: "Seleccione un tipo de actividad"
+            },
+            txtNombreAct:{
+                required: "Ingrese el nombre de la actividad segun el ejemplo"
+            },
+            txtValorAct:{
+                required: "Ingrese una zona, en caso de no existir, ingrese 0",
+                min: "La nota no puedes ser menor o igual a 0",
+                max: "La nota no puede ser mayor a 100 puntos"
+            }
+        }
+    });
     
     $("#slTipos").change(function(){
         if(!$("#slTipos").val()){
@@ -44,17 +74,38 @@ $(document).ready( function () {
     });
     
     $("#btnNvaActividad").click(function(){
-        $("#tbodyAct").append(
-            '<tr>' + 
-                '<td style="width:49%;">PRUEBA&nbsp;</td>' +
-                '<td style="width:1%">&nbsp;</td>' +
-                '<td style="width:24%">2 pts.&nbsp;</td>' +
-                '<td style="width:1%">&nbsp;</td>' +
-                '<td style="width:25%">' +
-                    '<input type="button" value="-" class="btn btn-danger input-sm" style="width: 25%" />' +
-                    '<input type="hidden" id="hd9" name="hd9" value="25"/>' +
-                '</td>' +
-            '</tr>');
+        var padre = $("#slActPadre").val();
+        var tipo = $("#slTipoActividad").val();
+        var nombre = $("#txtNombreAct").val();
+        var valor = $("#txtValorAct").val();
+        var desc = $("#txtDescAct").val();
+        if(nombre !== "" && valor !== "" && tipo !== ""){
+            $("#tbodyAct").append(
+                '<tr id="trAct'+numTarea+'" name="trAct'+numTarea+'">' + 
+                    '<td style="width:19%;">&nbsp;</td>' +
+                    '<td style="width:30%;">'+nombre+'&nbsp;</td>' +
+                    '<td style="width:1%">&nbsp;</td>' +
+                    '<td style="width:24%">'+valor+' pts.&nbsp;</td>' +
+                    '<td style="width:1%">&nbsp;</td>' +
+                    '<td style="width:25%">' +
+                        '<input type="button" id="hdPadre'+numTarea+'" name="hdPadre'+numTarea+'" value="-" class="btn btn-danger input-sm" style="width: 25%" />' +
+                        '<input type="hidden" id="hdPadre'+numTarea+'" name="hdPadre'+numTarea+'" value="'+padre+'"/>' +
+                        '<input type="hidden" id="hdTipo'+numTarea+'" name="hdTipo'+numTarea+'" value="'+tipo+'"/>' +
+                        '<input type="hidden" id="hdNombre'+numTarea+'" name="hdNombre'+numTarea+'" value="'+nombre+'"/>' +
+                        '<input type="hidden" id="hdValor'+numTarea+'" name="hdValor'+numTarea+'" value="'+valor+'"/>' +
+                        '<input type="hidden" id="hdDesc'+numTarea+'" name="hdDesc'+numTarea+'" value="'+desc+'"/>' +
+                    '</td>' +
+                '</tr>');
+            numTarea = numTarea + 1;
+            $("#slTipoActividad").val("");
+            $("#slTipoActividad").focus();
+            $("#txtNombreAct").val("");
+            $("#txtValorAct").val("");
+            $("#txtDescAct").val("");
+            $("#spanConfirma").html('('+numTarea+') Nueva Actividad Agregada');
+        }else{
+            $("#spanConfirma").html('Informaci&oacute;n incompleta');
+        }
     });
     
     function getAniosAjax(){

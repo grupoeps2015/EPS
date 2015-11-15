@@ -130,6 +130,7 @@ class gestionNotasController extends Controller{
         }
         
         $this->_view->titulo = 'Gestión de notas - ' . APP_TITULO;
+        $this->_view->setJs(array('jquery.validate'),"public");
         $this->_view->setJs(array('actividades'));
         $this->_view->renderizar('actividades');
         
