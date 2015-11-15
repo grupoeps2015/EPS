@@ -144,7 +144,7 @@ join est_ciclo_asignacion eca on e.estudiante = eca.estudiante
 join est_cur_asignacion ecra on ecra.ciclo_asignacion = eca.ciclo_asignacion
 join cur_desasignacion cd on cd.asignacion = ecra.asignacion
 join cur_seccion cs on cs.seccion = ecra.seccion
-and e.carnet = _carnet and cs.curso = _curso;
+and e.carnet = _carnet and cs.codigo = _curso;
 END;
 $BODY$
   LANGUAGE plpgsql VOLATILE
