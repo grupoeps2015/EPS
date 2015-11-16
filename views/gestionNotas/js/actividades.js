@@ -79,6 +79,16 @@ $(document).ready( function () {
         var nombre = $("#txtNombreAct").val();
         var valor = $("#txtValorAct").val();
         var desc = $("#txtDescAct").val();
+        var boton = $('<button/>',
+        {
+            id: 'btAct'+numTarea,
+            value: numTarea,
+            class: 'btn btn-danger input-sm',
+            text: '-',
+            style: 'width: 25%',
+            click: function(){ $('#trAct'+$(this).val()).remove(); return false;}
+        }).wrap('<td style="width:25%"></td>').closest('td');
+
         if(nombre !== "" && valor !== "" && tipo !== ""){
             $("#tbodyAct").append(
                 '<tr id="trAct'+numTarea+'" name="trAct'+numTarea+'">' + 
@@ -86,9 +96,7 @@ $(document).ready( function () {
                     '<td style="width:30%;">'+nombre+'&nbsp;</td>' +
                     '<td style="width:1%">&nbsp;</td>' +
                     '<td style="width:24%">'+valor+' pts.&nbsp;</td>' +
-                    '<td style="width:1%">&nbsp;</td>' +
-                    '<td style="width:25%">' +
-                        '<input type="button" id="hdPadre'+numTarea+'" name="hdPadre'+numTarea+'" value="-" class="btn btn-danger input-sm" style="width: 25%" />' +
+                    '<td style="width:1%">&nbsp;' +
                         '<input type="hidden" id="hdPadre'+numTarea+'" name="hdPadre'+numTarea+'" value="'+padre+'"/>' +
                         '<input type="hidden" id="hdTipo'+numTarea+'" name="hdTipo'+numTarea+'" value="'+tipo+'"/>' +
                         '<input type="hidden" id="hdNombre'+numTarea+'" name="hdNombre'+numTarea+'" value="'+nombre+'"/>' +
@@ -102,12 +110,29 @@ $(document).ready( function () {
             $("#txtNombreAct").val("");
             $("#txtValorAct").val("");
             $("#txtDescAct").val("");
-            $("#spanConfirma").html('('+numTarea+') Nueva Actividad Agregada');
+            $("#spanConfirma").html('Nueva Actividad Agregada ('+nombre+')');
+            $("#tbodyAct td:last").after(boton);
         }else{
             $("#spanConfirma").html('Informaci&oacute;n incompleta');
         }
     });
     
+    $("#btnGuardar").confirm({
+        text: "No podra modificar las actividaes ingresadas sin autorizacion de un usuario de unidad academica.<br/> ¿Esta seguro de agregar solo estas actividaes?",
+        title: "Confirmacion requerida",
+        confirm: function() {
+            $( "#frActividades" ).submit();
+        },
+        cancel: function() {
+            // No realiza ninguna accion
+        },
+        confirmButton: "Continuar",
+        cancelButton: "Cancelar",
+        post: true,
+        confirmButtonClass: "btn-default",
+        cancelButtonClass: "btn-default",
+        dialogClass: "modal-dialog modal-lg text-primary"
+    });
     function getAniosAjax(){
         $.post(base_url+'ajax/getAniosAjax',
                'tipo=' + $("#slTipos").val(),
@@ -169,7 +194,5 @@ $(document).ready( function () {
         $("#spanMsg").html('Por defecto se tiene zona de 75 puntos y final de 25 puntos<br/>Puede Guardar la informacion de esta manera, modificar la ponderacion que se le presenta o detallar actividades que conformen la zona');
         $("#tbActividades").css('display','block');
     }
-    
+        
 });
-
-
