@@ -1,16 +1,17 @@
 ﻿ 
--- Function: spgetasignaciones(integer);
+-- Function: spgetasignaciones(integer,integer);
 
--- DROP FUNCTION spgetasignaciones(integer);
+-- DROP FUNCTION spgetasignaciones(integer,integer);
 
 CREATE OR REPLACE FUNCTION spgetasignaciones(
-    IN _estudiante integer,
+    IN _estudiante integer, IN _carrera integer,
     OUT asignacion integer,
     OUT carnet integer,
     OUT nombreEstudiante text,
     OUT codigo text,
     OUT nombre text,
     OUT seccion integer,
+	OUT nombreseccion text,
     OUT fecha date,
     OUT oportunidadActual integer,
     OUT estado text)
@@ -19,7 +20,7 @@ $BODY$
 begin
  Return query
 	select eca.asignacion, ee.carnet, (ee.primerNombre || ' ' || ee.segundoNombre || ' ' || ee.primerApellido || '' || ee.segundoApellido) as nombreEstudiante, 
-	cc.codigo, cc.nombre, cs.seccion, ecla.fecha, eca.oportunidadActual, case 
+	cc.codigo, cc.nombre, cs.seccion, cs.nombre as nombreseccion, ecla.fecha, eca.oportunidadActual, case 
 	when eca.estado=-1 then 'Inactivo'
 	when eca.estado=1 then 'Activo'
 	end as "Estado" 
@@ -27,15 +28,17 @@ begin
 	join est_ciclo_asignacion ecla on eca.ciclo_asignacion = ecla.ciclo_asignacion 
 	join cur_seccion cs on eca.seccion = cs.seccion
 	join cur_curso cc on cs.curso = cc.curso and cc.estado = 1
-	join est_estudiante ee on ecla.estudiante=ee.estudiante and ee.estado = 1
+	join est_estudiante ee on ecla.estudiante=ee.estudiante
 	join adm_periodo ap on ecla.periodo = ap.periodo and ap.estado = 1
-	where  ee.carnet = _estudiante and eca.estado = 1;
+	join adm_centro_unidadacademica_usuario cua on cua.usuario = ee.usuario and cua.estado = 1
+	join est_estudiante_carrera ec on ec.estudiante = ee.estudiante
+	where cua.usuario = _estudiante and eca.estado = 1 and ec.carrera = _carrera;
 end;
 $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100
   ROWS 1000;
-ALTER FUNCTION spgetasignaciones(integer)
+ALTER FUNCTION spgetasignaciones(integer,integer)
   OWNER TO postgres;
   
   

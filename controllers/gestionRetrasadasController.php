@@ -10,10 +10,12 @@ class gestionRetrasadasController extends Controller {
     private $_post;
     private $_encriptar;
     private $_ajax;
+    private $_generaorden;
 
     public function __construct() {
         parent::__construct();
         $this->getLibrary('session');
+        $this->getLibrary('wsGeneraOrdenPago');
         $this->_session = new session();
         if (!$this->_session->validarSesion()) {
             $this->redireccionar('login/salir');
@@ -34,9 +36,13 @@ class gestionRetrasadasController extends Controller {
         $this->_view->renderizar('gestionRetrasadas');
     }
     
-     public function listadoAsignaciones($carnet) {
-
-        $info = $this->_post->allAsignaciones($carnet);
+     public function listadoAsignaciones() {
+        //$idCarrera = $this->getInteger('slCarreras'); 
+        //$idEstudiante = $this->getInteger('slEstudiantes');
+        $idUsuario = $_SESSION['usuario'];
+        $idCarrera = $_SESSION['carrera'];
+       
+        $info = $this->_post->allAsignaciones($idUsuario,$idCarrera);
         if (is_array($info)) {
             $this->_view->lstAsignaciones = $info;
         } else {
@@ -50,5 +56,11 @@ class gestionRetrasadasController extends Controller {
         $this->_view->setCSS(array('jquery.dataTables.min'));
 
         $this->_view->renderizar('listadoAsignaciones');
+    }
+    
+    public function generarOrdenPago(){
+        $this->_generaorden = new wsGeneraOrdenPago();
+        $cadena = implode(',', $this->_generaorden->generaOrdenPago());
+        echo $cadena;
     }
 }

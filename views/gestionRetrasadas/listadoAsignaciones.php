@@ -33,7 +33,7 @@
                         <option value="">-- Curso --</option>
                         <?php for ($i = 0; $i < count($this->lstAsignaciones); $i++) : ?>
                             <option value="<?php echo $this->lstAsignaciones[$i]['nombre'] . '-' . $this->lstAsignaciones[$i]['seccion']; ?>">
-                               <?php echo $this->lstAsignaciones[$i]['nombre'] . ' - "' . $this->lstAsignaciones[$i]['seccion']. '"'; ?>
+                               <?php echo $this->lstAsignaciones[$i]['nombre'] . ' - "' . $this->lstAsignaciones[$i]['nombreseccion']. '"'; ?>
                             </option>
                         <?php endfor; ?>
                     <?php else : ?>
@@ -43,4 +43,3 @@
             </div>
         </div>   
 </section>
-
