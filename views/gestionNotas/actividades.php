@@ -90,7 +90,7 @@
                         </td>
                         <td>&nbsp;</td>
                         <td><br/>
-                            <input type="submit" id="btnActividades" name="btnActividades" value="Ver Actividades" class="btn btn-danger btn-lg btn-block" disabled="disabled">
+                            <input type="submit" id="btnActividades" name="btnActividades" value="Ver Actividades" class="btn btn-warning btn-lg btn-block" disabled="disabled"/>
                         </td>
                     </tr>
                     <tr style="display:none">
@@ -112,8 +112,8 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <h4 align="center"><span id="spanMsg" name="spanMsg" class="text-warning"></span></h4>
-                <form>
-                    <table class="table-bordered" id="tbActividades" name="tbActividades"style="display:block; text-align: center; width:100%">
+                <form id="frActividades" name="frActividades">
+                    <table id="tbActividades" name="tbActividades"style="display:none; text-align: center; width:100%">
                         <thead>
                             <tr class="text-primary">
                                 <th style="width:19%; text-align:center">Nombre:</th>
@@ -150,6 +150,18 @@
                                 </td>
                             </tr>
                         </tbody>
+                        <tfoot>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>&nbsp;<br/>
+                                    <input type="submit" id="btnGuardar" name="btnGuardar" value="Guardar" class="btn btn-warning btn-sm btn-block"/>
+                                </td>
+                            </tr>
+                        </tfoot>
                     </table>
                 </form>
             </div>
