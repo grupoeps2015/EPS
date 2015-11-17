@@ -56,11 +56,27 @@ class gestionRetrasadasController extends Controller {
         $this->_view->setCSS(array('jquery.dataTables.min'));
 
         $this->_view->renderizar('listadoAsignaciones');
+        
     }
     
-    public function generarOrdenPago(){
+    public function generarOrdenPago($carnet,$nombre){
+        //$carnet=200610816;
+        $unidad=14;
+        $extension=0;
+        $carrera=1;
+        //$nombre='TRINIDAD PINEDA JORGE';
+        $nombre2 = strtoupper($nombre);
+        $monto=10;
+        $anio=2014;
+        $rubro=4;
+        $varianterubro=1;
+        $tipocurso='CURSO';
+        $curso='084';
+        $seccion='B';
+        $subtotal=10;
+        
         $this->_generaorden = new wsGeneraOrdenPago();
-        $cadena = implode(',', $this->_generaorden->generaOrdenPago());
+        $cadena = implode(',', $this->_generaorden->generaOrdenPago($carnet,$unidad,$extension,$carrera,$nombre2,$monto,$anio,$rubro,$varianterubro,$tipocurso,$curso,$seccion,$subtotal));
         echo $cadena;
     }
 }

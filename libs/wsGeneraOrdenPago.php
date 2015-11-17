@@ -8,24 +8,24 @@ class wsGeneraOrdenPago{
         $this->_parser = new ParseXml();
     }
     	
-    function generaOrdenPago(){
+    function generaOrdenPago($carnet,$unidad,$extension,$carrera,$nombre,$monto,$anio,$rubro,$varianterubro,$tipocurso,$curso,$seccion,$subtotal){
         require_once("nusoap/nusoap.php");
         $xml_consulta_usuario = ''.
             '<GENERAR_ORDEN>'.
-            '<CARNET>200610816</CARNET> '.
-            '<UNIDAD>14</UNIDAD>'.
-            '<EXTENSION>0</EXTENSION> '.
-            '<CARRERA>1</CARRERA> '.
-            '<NOMBRE>TRINIDAD PINEDA JORGE</NOMBRE> '.
-            '<MONTO>10</MONTO> '.
+            '<CARNET>'.$carnet.'</CARNET> '.
+            '<UNIDAD>'.$unidad.'</UNIDAD>'.
+            '<EXTENSION>'.$extension.'</EXTENSION> '.
+            '<CARRERA>'.$carrera.'</CARRERA> '.
+            '<NOMBRE>'.$nombre.'</NOMBRE> '.
+            '<MONTO>'.$monto.'</MONTO> '.
             '<DETALLE_ORDEN_PAGO> '.
-            '<ANIO_TEMPORADA>2014</ANIO_TEMPORADA> '.
-            '<ID_RUBRO>4</ID_RUBRO> '.
-            '<ID_VARIANTE_RUBRO>1</ID_VARIANTE_RUBRO> '.
-            '<TIPO_CURSO>CURSO</TIPO_CURSO>'.
-            '<CURSO>084</CURSO> '.
-            '<SECCION>B</SECCION> '.
-            '<SUBTOTAL>10</SUBTOTAL> '.
+            '<ANIO_TEMPORADA>'.$anio.'</ANIO_TEMPORADA> '.
+            '<ID_RUBRO>'.$rubro.'</ID_RUBRO> '.
+            '<ID_VARIANTE_RUBRO>'.$varianterubro.'</ID_VARIANTE_RUBRO> '.
+            '<TIPO_CURSO>'.$tipocurso.'</TIPO_CURSO>'.
+            '<CURSO>'.$curso.'</CURSO> '.
+            '<SECCION>'.$seccion.'</SECCION> '.
+            '<SUBTOTAL>'.$subtotal.'</SUBTOTAL> '.
             '</DETALLE_ORDEN_PAGO> '.
             '</GENERAR_ORDEN>';
  
