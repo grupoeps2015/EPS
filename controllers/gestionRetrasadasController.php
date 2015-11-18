@@ -93,10 +93,24 @@ class gestionRetrasadasController extends Controller {
         $this->_generaorden = new wsGeneraOrdenPago();
         $prueba = $this->_generaorden->generaOrdenPago($carnet,$unidad,$extension,$carrera,$nombre2,$monto,$anio,$rubro,$varianterubro,$tipocurso,$curso,$seccion,$subtotal);
         $cadena = implode(',', $prueba);
-        $this->_generaorden->parsear_resultado($cadena,"DESCRIPCION");
-        print_r($cadena);
-        date_default_timezone_set('America/Guatemala');
-        $this->_view->fecha = date("d-m-Y, H:i:s");
-        $this->_view->renderizar('ordenPago');
+        
+        if ($this->_generaorden->parsear_resultado($cadena,"CODIGO_RESP") == "1") {
+            //print_r($cadena);
+            date_default_timezone_set('America/Guatemala');
+            $this->_view->fecha = date("d-m-Y, H:i:s");
+            $this->_view->orden = $this->_generaorden->parsear_resultado($cadena,"ID_ORDEN_PAGO");
+            $this->_view->carnet = $this->_generaorden->parsear_resultado($cadena,"CARNET");
+            $this->_view->nombre = $nombre;
+            $this->_view->unidad = $this->_generaorden->parsear_resultado($cadena,"UNIDAD");
+            $this->_view->ext = $this->_generaorden->parsear_resultado($cadena,"EXTENSION");
+            $this->_view->carrera = $this->_generaorden->parsear_resultado($cadena,"CARRERA");
+            $this->_view->total = $this->_generaorden->parsear_resultado($cadena,"MONTO");
+            $this->_view->rubro = $this->_generaorden->parsear_resultado($cadena,"RUBROPAGO");
+            $this->_view->llave = $this->_generaorden->parsear_resultado($cadena,"CHECKSUM");
+            $this->_view->setJs(array('jquery.dataTables.min'), "public");
+            $this->_view->setCSS(array('jquery.dataTables.min'));
+            $this->_view->setJs(array('jspdf.debug'), "public");
+            $this->_view->renderizar('ordenPago');
+        }
     }
 }
