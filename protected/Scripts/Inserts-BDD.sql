@@ -823,6 +823,9 @@ INSERT INTO adm_funcionmenu (funcionmenu,nombre,tipo,url,funcionpadre,funcion,or
 -- -----------------------------------------------------
 INSERT INTO adm_tipoperiodo (tipoperiodo,nombre,descripcion,estado) VALUES (1,'Asignación de cursos','',1);
 INSERT INTO adm_tipoperiodo (tipoperiodo,nombre,descripcion,estado) VALUES (2,'Ingreso de notas','',1);
+INSERT INTO adm_tipoperiodo (tipoperiodo,nombre,descripcion,estado) VALUES (3,'Ingreso de actividades','',1);
+INSERT INTO adm_tipoperiodo (tipoperiodo,nombre,descripcion,estado) VALUES (4,'Asignacion de retrasadas','',1);
+INSERT INTO adm_tipoperiodo (tipoperiodo,nombre,descripcion,estado) VALUES (5,'Asignacion de suficiencias','',1);
 
 -- -----------------------------------------------------
 -- Insert adm_tipoasignacion

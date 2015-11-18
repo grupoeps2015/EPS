@@ -51,4 +51,21 @@ class gestionNotasModel extends Model {
         }
     }
     
+    public function estadoCicloActividades($idCiclo){
+        $info = $this->_db->query("select * from spobtenerestadocicloactividades({$idCiclo}) as estado;");
+        if($info === false){
+            return "1104/estadoCicloASignacion";
+        }else{
+            return $info->fetchall();
+        }
+    }
+    
+    public function guardarActividad($idPadre,$idTipo,$nombre,$valor,$desc){
+        $info = $this->_db->query("select * from spAgregarActividad({$idPadre},{$idTipo},'{$nombre}',{$valor},'{$desc}');");
+        if($info === false){
+            return "1101/guardarActividad";
+        }else{
+            return $info->fetchall();
+        }
+    }
 }

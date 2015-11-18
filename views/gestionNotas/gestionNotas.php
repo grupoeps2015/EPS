@@ -14,7 +14,7 @@
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 text-center"></div>
-                <div class="col-lg-3 col-md-6 text-center">
+                <div class="col-lg-3 col-md-6 text-center" style="display:none;">
                     <?php if($_SESSION["rol"] == ROL_ADMINISTRADOR): ?>
                     <div class="service-box">
                             <i class="fa fa-2x fa-pinterest wow bounceIn text-primary" data-wow-delay=".2s">
@@ -23,7 +23,7 @@
                     </div>
                     <?php endif; ?>
                 </div>
-                <div class="col-lg-3 col-md-6 text-center">
+                <div class="col-lg-3 col-md-6 text-center" style="display:none;">
                     <div class="service-box">
                         <?php if($_SESSION["rol"] == ROL_ADMINISTRADOR): ?>
                         <form method='post' name='frmPost' id='frmPost' action='<?php echo BASE_URL?>gestionParametro/parametroGeneral'>
@@ -49,10 +49,10 @@
                         <th style="text-align:center">Registro</th>
                         <th style="text-align:center">Nombre</th>
                         <th style="text-align:center">Tipo</th>
-                        <?php if($this->permisoModificar == PERMISO_MODIFICAR): ?>
+                    <?php if($this->permisoModificar == PERMISO_MODIFICAR): ?>
                         <th style="text-align:center">Ingresar Notas</th>
-                        <th style="text-align:center">Crear Actividades</th>
-                        <?php endif;?>
+                        <th style="text-align:center">Actividades</th>
+                    <?php endif;?>
                     </tr>
                 </thead>
                 <tbody id="infoTabla">
@@ -70,7 +70,7 @@
                         </td>
                         <td style="text-align: center">
                             <a href="<?php echo BASE_URL?>gestionNotas/actividades/<?php echo $this->lstCat[$i]['usuario']?>/<?php echo $this->id;?>">
-                                Ver Cursos
+                                Ver/Crear
                             </a>
                         </td>
                         <?php endif;?>

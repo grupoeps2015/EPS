@@ -35,39 +35,39 @@ class gestionNotasController extends Controller{
                 </script>";
         }
         
-            if($this->getInteger('hdCentroUnidad')){
-                $idCentroUnidad = $this->getInteger('hdCentroUnidad');
-            }else if ($id != 0){
-                $idCentroUnidad = $id;
-            }else{
-                //session_start();
-                $idCentroUnidad = $_SESSION["centrounidad"];
-            }
+        if($this->getInteger('hdCentroUnidad')){
+            $idCentroUnidad = $this->getInteger('hdCentroUnidad');
+        }else if ($id != 0){
+            $idCentroUnidad = $id;
+        }else{
+            //session_start();
+            $idCentroUnidad = $_SESSION["centrounidad"];
+        }
 
-            $this->_view->id = $idCentroUnidad;
+        $this->_view->id = $idCentroUnidad;
 
-            $lsCat = $this->_notas->getDocentesActivos($idCentroUnidad);
-            if(is_array($lsCat)){
-                $this->_view->lstCat = $lsCat;
-            }else{
-                $this->redireccionar("error/sql/" . $lsCat);
-                exit;
-            }
+        $lsCat = $this->_notas->getDocentesActivos($idCentroUnidad);
+        if(is_array($lsCat)){
+            $this->_view->lstCat = $lsCat;
+        }else{
+            $this->redireccionar("error/sql/" . $lsCat);
+            exit;
+        }
 
-            $infoCentroUnidad = $this->_ajax->spGetNombreCentroUnidad($idCentroUnidad);
-            if(is_array($infoCentroUnidad)){
-                $this->_view->infoCentroUnidad = $infoCentroUnidad;
-            }else{
-                $this->redireccionar("error/sql/" . $infoCentroUnidad);
-                exit;
-            }
-
-            $this->_view->setJs(array('gestionNotas'));
-            $this->_view->setJs(array('jquery.dataTables.min'), "public");
-            $this->_view->setCSS(array('jquery.dataTables.min'));
-            $this->_view->titulo = 'Gestión de notas - ' . APP_TITULO;
-            $this->_view->id = $idCentroUnidad;
-            $this->_view->renderizar('gestionNotas');
+        $infoCentroUnidad = $this->_ajax->spGetNombreCentroUnidad($idCentroUnidad);
+        if(is_array($infoCentroUnidad)){
+            $this->_view->infoCentroUnidad = $infoCentroUnidad;
+        }else{
+            $this->redireccionar("error/sql/" . $infoCentroUnidad);
+            exit;
+        }
+        
+        $this->_view->setJs(array('gestionNotas'));
+        $this->_view->setJs(array('jquery.dataTables.min'), "public");
+        $this->_view->setCSS(array('jquery.dataTables.min'));
+        $this->_view->titulo = 'Gestión de notas - ' . APP_TITULO;
+        $this->_view->id = $idCentroUnidad;
+        $this->_view->renderizar('gestionNotas');
        
     }
     
@@ -75,7 +75,6 @@ class gestionNotasController extends Controller{
         $this->_view->id = $UnidadCentro;
         $this->_view->idUsuario = $idUsuario;
         $this->_view->tipo = $Tipo;
-        
         
         $datosCat = $this->_notas->getDocenteEspecifico($idUsuario);
         if(is_array($datosCat)){
@@ -175,6 +174,35 @@ class gestionNotasController extends Controller{
             $respuesta->mensaje = "Todos los registros han sido cargados, verifique que la informacion sea la correcta y guarde los cambios";
         }else{
             $respuesta->mensaje = "La información no se pudo leer debido a que solo se admiten archivos .csv";
+        }
+        echo json_encode($respuesta);
+    }
+    
+    public function getEstadoCicloActividades(){
+        if($this->getInteger('cicloaver')){
+            echo json_encode($this->_notas->estadoCicloActividades($this->getInteger('cicloaver')));
+        }
+    }
+    
+    public function guardarActividad(){
+        $respuesta = new stdClass();
+        $respuesta->mensaje = "";
+        
+        $idPadre = $this->getInteger('idPadre');
+        $idTipo = $this->getInteger('idTipo');
+        $txtNombre = $this->getTexto('txtNombre');
+        $valor = floatval($this->getTexto('flValor'));
+        $desc = $this->getTexto('txtDesc');
+        
+        if($idPadre > 0 && $idTipo > 0 && $valor > 0){
+            $act = $this->_notas->guardarActividad($idPadre,$idTipo,$txtNombre,$valor,$desc);
+            if(is_array($act)){
+                $respuesta->mensaje = "Procesado: Actividad " . $txtNombre . " guardadas exitosamente";
+            }else{
+                $respuesta->mensaje = "error creando: " . $txtNombre;
+            }
+        }else{
+            $respuesta->mensaje = "Ocurrio un error al ingresar una nota";
         }
         echo json_encode($respuesta);
     }

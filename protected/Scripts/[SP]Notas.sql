@@ -206,4 +206,39 @@ END;
 $BODY$
 LANGUAGE plpgsql;
 
+-- -----------------------------------------------------
+-- Function: spobtenerestadocicloactividades()
+-- -----------------------------------------------------
+-- DROP FUNCTION spobtenerestadocicloactividades(int);
+CREATE OR REPLACE FUNCTION spobtenerestadocicloactividades(IN _idCiclo integer) RETURNS Integer AS
+$BODY$
+DECLARE estadociclo int;
+BEGIN
+ SELECT
+	COALESCE((select estado from adm_periodo where ciclo = _idCiclo and tipoasignacion = 2 and tipoperiodo = 3), 0)
+	FROM adm_periodo
+	LIMIT 1
+ into estadociclo;
+  return estadociclo;
+END;
+$BODY$
+LANGUAGE plpgsql;
+
+-- -----------------------------------------------------
+-- Function: spAgregarActividad()
+-- -----------------------------------------------------
+-- DROP FUNCTION spAgregarActividad(int, int, text, int, text);
+CREATE OR REPLACE FUNCTION spAgregarActividad(_padre integer, _tipo integer, _nombre text, _valor integer, _descripcion text) RETURNS void AS
+$BODY$
+Declare idActividad integer;
+BEGIN
+  select * from spobtenersecuencia('actividad','cur_actividad') into idActividad;
+  EXECUTE FORMAT(('INSERT INTO cur_actividad VALUES(%s,%s,''%s'',%s,''%s'',1,%s)'),idActividad,_valor,_nombre,_tipo,_descripcion,_padre);
+END
+$BODY$
+LANGUAGE plpgsql;
+
+
+
+
 Select 'Script para Gestion de Notas Instalado' as "Gestion Notas";

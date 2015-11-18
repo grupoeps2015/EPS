@@ -70,7 +70,20 @@ $(document).ready( function () {
     });
     
     $("#btnActividades").click(function() {
-        mostrarCreadorActividades();
+        $.post(base_url+'gestionNotas/getEstadoCicloActividades',
+            { cicloaver: $("#slCiclo").val() },
+            function(datos){
+                var estado = 0;
+                if(datos.length>0){
+                    estado = parseInt(datos[0].estado.toString());
+                    if(estado === 1){
+                        mostrarCreadorActividades();
+                    }else{
+                        $("#spanMsg").html('El periodo de ingreso de actividades no se encuentra activado');
+                    }
+                }
+            },
+            'json');
     });
     
     $("#btnNvaActividad").click(function(){
@@ -97,11 +110,11 @@ $(document).ready( function () {
                     '<td style="width:1%">&nbsp;</td>' +
                     '<td style="width:24%">'+valor+' pts.&nbsp;</td>' +
                     '<td style="width:1%">&nbsp;' +
-                        '<input type="hidden" id="hdPadre'+numTarea+'" name="hdPadre'+numTarea+'" value="'+padre+'"/>' +
-                        '<input type="hidden" id="hdTipo'+numTarea+'" name="hdTipo'+numTarea+'" value="'+tipo+'"/>' +
-                        '<input type="hidden" id="hdNombre'+numTarea+'" name="hdNombre'+numTarea+'" value="'+nombre+'"/>' +
-                        '<input type="hidden" id="hdValor'+numTarea+'" name="hdValor'+numTarea+'" value="'+valor+'"/>' +
-                        '<input type="hidden" id="hdDesc'+numTarea+'" name="hdDesc'+numTarea+'" value="'+desc+'"/>' +
+                        '<input type="hidden" id="hdPd'+numTarea+'" name="hdPd'+numTarea+'" value="'+padre+'"/>' +
+                        '<input type="hidden" id="hdTp'+numTarea+'" name="hdTp'+numTarea+'" value="'+tipo+'"/>' +
+                        '<input type="hidden" id="hdNm'+numTarea+'" name="hdNm'+numTarea+'" value="'+nombre+'"/>' +
+                        '<input type="hidden" id="hdVl'+numTarea+'" name="hdVl'+numTarea+'" value="'+valor+'"/>' +
+                        '<input type="hidden" id="hdDs'+numTarea+'" name="hdDs'+numTarea+'" value="'+desc+'"/>' +
                     '</td>' +
                 '</tr>');
             numTarea = numTarea + 1;
@@ -118,21 +131,24 @@ $(document).ready( function () {
     });
     
     $("#btnGuardar").confirm({
-        text: "No podra modificar las actividaes ingresadas sin autorizacion de un usuario de unidad academica.<br/> ¿Esta seguro de agregar solo estas actividaes?",
+        text: "No podrá modificar las actividades ingresadas sin autorización de un usuario de unidad académica.<br/> ¿Está seguro de agregar solo estas actividades?",
         title: "Confirmacion requerida",
         confirm: function() {
-            $( "#frActividades" ).submit();
+            // Por orden se utilizo el boton de confirmar como cancelar y vicebersa
         },
         cancel: function() {
-            // No realiza ninguna accion
+            //Esta es la accion al dar click en Continuar
+            guardarActividad();
+            //$( "#frActividades" ).submit();
         },
-        confirmButton: "Continuar",
-        cancelButton: "Cancelar",
+        cancelButton: "Continuar",
+        confirmButton: "Regresar",
         post: true,
-        confirmButtonClass: "btn-default",
-        cancelButtonClass: "btn-default",
+        cancelButtonClass: "btn-warning",
+        confirmButtonClass: "btn-warning",
         dialogClass: "modal-dialog modal-lg text-primary"
     });
+    
     function getAniosAjax(){
         $.post(base_url+'ajax/getAniosAjax',
                'tipo=' + $("#slTipos").val(),
@@ -194,5 +210,77 @@ $(document).ready( function () {
         $("#spanMsg").html('Por defecto se tiene zona de 75 puntos y final de 25 puntos<br/>Puede Guardar la informacion de esta manera, modificar la ponderacion que se le presenta o detallar actividades que conformen la zona');
         $("#tbActividades").css('display','block');
     }
-        
+       
+    function guardarActividad(){
+        $("#spanMsg").html('');
+        var TotalFinal = parseFloat($("#hd2").val());
+        var TotalZona = parseFloat($("#hd1").val());
+        var SumarZona = 0;
+        var Pd = 0;  //Id Actividad Padre
+        var Tp = 0;  //Id Tipo Actividad
+        var Nm = ""; //Nombre Actividad
+        var Vl = 0;  //Valor Actividad
+        var Ds = ""; //Descripcion Actividad
+        var Hd = ""; //Identificar del hidden
+        var inputs = $("#tbActividades :input");
+        $.each(inputs, function(i, field){
+            if(field.type === "hidden"){
+                Hd = field.name.substring(0,4);
+                if(Hd === "hdVl"){
+                    SumarZona = SumarZona + parseFloat(field.value);
+                }
+            }
+        });
+        if(SumarZona === 0){
+            //No agrego actividades, asi que no se hacen inserts
+            alert("Sin actividades "  + SumarZona + "=" + TotalZona);
+        }else{
+            if(SumarZona > TotalZona){
+                alert("Las actividades suman mas puntos que la zona actual, verifique las actividades ingresadas. " + SumarZona + ">" + TotalZona);
+            }else if(SumarZona < TotalZona){
+                alert("Las actividades suman menos puntos que la zona actual, agregue actividades para completar la nota o edite alguna de las ya existentes"  + SumarZona + "<" + TotalZona);
+            }else if(SumarZona === TotalZona){
+                //Las actividades suman la zona de forma correcta
+                $.each(inputs, function(i, field){
+                    if(field.type === "hidden"){
+                        Hd = field.name.substring(0,4);
+                        switch(Hd){
+                            case "hdPd":
+                                Pd = parseInt(field.value);
+                                break;
+                            case "hdTp":
+                                Tp = parseInt(field.value);
+                                break;
+                            case "hdNm":
+                                Nm = field.value;
+                                break;
+                            case "hdVl":
+                                Vl = parseFloat(field.value);
+                                break;
+                            case "hdDs":
+                                Ds = field.value;
+                                agregarActividad(Pd,Tp,Nm,Vl,Ds);
+                                break;
+                        }
+                    }
+                });
+            }
+        }
+    }
+    
+    function agregarActividad(padre,tipo,nombre,valor,descripcion){
+        $.post(
+            base_url+'gestionNotas/guardarActividad',{ 
+                idPadre: padre,
+                idTipo: tipo,
+                txtNombre: nombre,
+                flValor: valor,
+                txtDesc: descripcion
+            },
+            function(respuesta){
+                $("#spanMsg").append(respuesta.mensaje + '<br/>');
+            },
+            'json'
+        );
+    }
 });

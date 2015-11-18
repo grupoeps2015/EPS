@@ -87,11 +87,12 @@ $(document).ready( function () {
     
     $("#frFile").submit(function(){
         var datos = new FormData();
+        var path = base_url + "gestionNotas/notasCSV";
         datos.append('csvFile',$("#csvFile")[0].files[0]);
         $.ajax({
             type:"post",
             dataType:"json",
-            url:"http://localhost/EPS/gestionNotas/notasCSV",
+            url:path,
             contentType:false,
             data:datos,
             processData:false
