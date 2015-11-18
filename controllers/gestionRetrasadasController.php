@@ -91,7 +91,12 @@ class gestionRetrasadasController extends Controller {
         $subtotal=10;
         
         $this->_generaorden = new wsGeneraOrdenPago();
-        $cadena = implode(',', $this->_generaorden->generaOrdenPago($carnet,$unidad,$extension,$carrera,$nombre2,$monto,$anio,$rubro,$varianterubro,$tipocurso,$curso,$seccion,$subtotal));
-        echo $cadena;
+        $prueba = $this->_generaorden->generaOrdenPago($carnet,$unidad,$extension,$carrera,$nombre2,$monto,$anio,$rubro,$varianterubro,$tipocurso,$curso,$seccion,$subtotal);
+        $cadena = implode(',', $prueba);
+        $this->_generaorden->parsear_resultado($cadena,"DESCRIPCION");
+        print_r($cadena);
+        date_default_timezone_set('America/Guatemala');
+        $this->_view->fecha = date("d-m-Y, H:i:s");
+        $this->_view->renderizar('ordenPago');
     }
 }
