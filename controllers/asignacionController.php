@@ -32,7 +32,7 @@ class asignacionController extends Controller{
         if ($this->getInteger('slEstudiantes')) {
             $this->estudiante = $this->getInteger('slEstudiantes');
         }
-        else{
+        else if($_SESSION["rol"] == ROL_ESTUDIANTE){
             $estudiante = $this->_ajax->getEstudianteUsuario($_SESSION["usuario"]);
             if(is_array($estudiante)){
                 $this->estudiante = (isset($estudiante[0]['id']) ? $estudiante[0]['id'] : -1);
@@ -698,6 +698,10 @@ class asignacionController extends Controller{
             }
         }
         return $cursosDisponiblesEstudiante;
+    }
+    
+    public function auditarAsignaciones(){
+        
     }
 }
 
