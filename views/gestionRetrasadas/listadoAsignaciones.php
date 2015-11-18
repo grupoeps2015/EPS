@@ -22,6 +22,7 @@
     </div>
     <br/>
     <div>
+        <?php if (isset($this->lstAsignaciones) && count($this->lstAsignaciones)): ?>
         <form id="frAsignaciones" method="post" action="<?php echo BASE_URL; ?>gestionRetrasadas/generarOrdenPago/<?php echo $this->lstAsignaciones[0]['carnet']?>/<?php echo $this->lstAsignaciones[0]['nombreestudiante']?>">
         <div id="divAsignaciones" class="form-group" >
             <div style="margin-left: 10%; margin-right: 10%; font-size: 16px;">
@@ -43,7 +44,10 @@
             </div>
         </div> 
             <input type="submit" id="btnGenerarOrden" name="btnGenerarOrden" value="Generar orden de pago" class="btn btn-danger btn-lg btn-block" style="width:25%">
-            </form>        
+            </form>     
+        <?php else: ?>
+        No hay asignaciones disponibles.
+        <?php endif; ?>
 </section>
 
 <script text="text/javascript">
