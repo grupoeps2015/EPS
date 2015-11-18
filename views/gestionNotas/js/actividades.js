@@ -1,6 +1,7 @@
 $(document).ready( function () {
     var base_url = $("#hdBASE_URL").val();
     var numTarea = 0;
+    var totalAsignados = 0;
     
     $('#frmGenerales').validate({
         rules:{
@@ -77,10 +78,35 @@ $(document).ready( function () {
                 if(datos.length>0){
                     estado = parseInt(datos[0].estado.toString());
                     if(estado === 1){
-                        mostrarCreadorActividades();
+                        $("#spanMsg").html('Por defecto se tiene zona de 75 puntos y final de 25 puntos<br/>Puede Guardar la informacion de esta manera, modificar la ponderacion que se le presenta o detallar actividades que conformen la zona');
+                        $("#tbActividades").css('display','block');
+                        $("#slTipos").prop('disabled',true);
+                        $("#slAnio").prop('disabled',true);
+                        $("#slCiclo").prop('disabled',true);
+                        $("#slSeccion").prop('disabled',true);
+                        $("#btnActividades").prop('disabled',true);
                     }else{
                         $("#spanMsg").html('El periodo de ingreso de actividades no se encuentra activado');
+                        $("#tbActividades").css('display','none');
                     }
+                }
+            },
+            'json');
+            
+        $.post(base_url+'ajax/getIdTrama',
+            { 
+                cat: $("#idCatedratico").val(),
+                ciclo: $("#slCiclo").val(),
+                sec: $("#slSeccion").val(), 
+                cur: $("#slCursoxSeccion option:selected").text()
+            },
+            function(datos){
+                if(datos.length>0){
+                    var identificador = parseInt(datos[0].spidtrama);
+                    llenarAsignados(identificador, $("#slCiclo").val());
+                }else{
+                    $("#spanMsg").html('No se encontro ningun alumno asignado, por lo que no es necesario crear actividades');
+                    $("#tbActividades").css('display','none');
                 }
             },
             'json');
@@ -105,8 +131,8 @@ $(document).ready( function () {
         if(nombre !== "" && valor !== "" && tipo !== ""){
             $("#tbodyAct").append(
                 '<tr id="trAct'+numTarea+'" name="trAct'+numTarea+'">' + 
-                    '<td style="width:19%;">&nbsp;</td>' +
-                    '<td style="width:30%;">'+nombre+'&nbsp;</td>' +
+                    '<td style="width:19%;">'+$("#slTipoActividad option:selected").text()+'</td>' +
+                    '<td style="width:30%;">'+'-'+nombre+'&nbsp;</td>' +
                     '<td style="width:1%">&nbsp;</td>' +
                     '<td style="width:24%">'+valor+' pts.&nbsp;</td>' +
                     '<td style="width:1%">&nbsp;' +
@@ -139,6 +165,8 @@ $(document).ready( function () {
         cancel: function() {
             //Esta es la accion al dar click en Continuar
             guardarActividad();
+            $("#btnGuardar").prop('disabled',true);
+            $("#tbActividades").css('display','none');
             //$( "#frActividades" ).submit();
         },
         cancelButton: "Continuar",
@@ -205,11 +233,6 @@ $(document).ready( function () {
             },
             'json');
     }
-        
-    function mostrarCreadorActividades(){
-        $("#spanMsg").html('Por defecto se tiene zona de 75 puntos y final de 25 puntos<br/>Puede Guardar la informacion de esta manera, modificar la ponderacion que se le presenta o detallar actividades que conformen la zona');
-        $("#tbActividades").css('display','block');
-    }
        
     function guardarActividad(){
         $("#spanMsg").html('');
@@ -222,10 +245,12 @@ $(document).ready( function () {
         var Vl = 0;  //Valor Actividad
         var Ds = ""; //Descripcion Actividad
         var Hd = ""; //Identificar del hidden
+        var num = 0;
         var inputs = $("#tbActividades :input");
         $.each(inputs, function(i, field){
             if(field.type === "hidden"){
                 Hd = field.name.substring(0,4);
+                num = field.name.substring(5);
                 if(Hd === "hdVl"){
                     SumarZona = SumarZona + parseFloat(field.value);
                 }
@@ -279,8 +304,39 @@ $(document).ready( function () {
             },
             function(respuesta){
                 $("#spanMsg").append(respuesta.mensaje + '<br/>');
+                asociarActivida(respuesta.id);
             },
             'json'
         );
+    }
+
+    function llenarAsignados(id,idCiclo){
+        $.post(base_url+'ajax/getListaAsignados',
+            {trama: id, ciclo: idCiclo },
+            function(datos){
+                if(datos.length>0){
+                    totalAsignados = parseInt(datos.length.toString());
+                    for(var i =0; i < datos.length; i++){
+                        $("#slIdxAsignacion").append('<option value="' + i + '">' + datos[i].idasignacion + '</option>' );
+                    }
+                }else{
+                    $("#slSeccion").append('<option value="" disabled>No hay informaci&oacute;n disponible</option>' );
+                }
+            },
+            'json');
+    }
+
+    function asociarActivida(idActividad){
+        var idAsignado = 0;
+        for(var i=0; i < totalAsignados; i++){
+            $("#slIdxAsignacion").val(i);
+            idAsignado = $("#slIdxAsignacion option:selected").text();
+            $("#slIdxAsignacion").val(i);
+            $.post(base_url+'gestionNotas/setActividadAsignado',
+            {actividad: idActividad, asignado: idAsignado },
+            function(datos){
+                //alert('transaccion exitosa');
+            });
+        }
     }
 });

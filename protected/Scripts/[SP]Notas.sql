@@ -228,17 +228,27 @@ LANGUAGE plpgsql;
 -- Function: spAgregarActividad()
 -- -----------------------------------------------------
 -- DROP FUNCTION spAgregarActividad(int, int, text, int, text);
-CREATE OR REPLACE FUNCTION spAgregarActividad(_padre integer, _tipo integer, _nombre text, _valor integer, _descripcion text) RETURNS void AS
+CREATE OR REPLACE FUNCTION spAgregarActividad(_padre integer, _tipo integer, _nombre text, _valor integer, _descripcion text) RETURNS integer AS
 $BODY$
 Declare idActividad integer;
 BEGIN
   select * from spobtenersecuencia('actividad','cur_actividad') into idActividad;
   EXECUTE FORMAT(('INSERT INTO cur_actividad VALUES(%s,%s,''%s'',%s,''%s'',1,%s)'),idActividad,_valor,_nombre,_tipo,_descripcion,_padre);
+  return idActividad;
 END
 $BODY$
 LANGUAGE plpgsql;
 
-
-
+-- -----------------------------------------------------
+-- Function: spAsociarActividad()
+-- -----------------------------------------------------
+-- DROP FUNCTION spAsociarActividad(int, int);
+CREATE OR REPLACE FUNCTION spAgregarActividad(_idAsignacion integer, _idActividad integer) RETURNS void AS
+$BODY$
+BEGIN
+  EXECUTE FORMAT(('INSERT INTO est_cur_nota_actividad VALUES(%s,%s,current_timestamp,0,null,1)'),_idAsignacion,_idActividad);
+END
+$BODY$
+LANGUAGE plpgsql;
 
 Select 'Script para Gestion de Notas Instalado' as "Gestion Notas";

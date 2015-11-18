@@ -68,4 +68,13 @@ class gestionNotasModel extends Model {
             return $info->fetchall();
         }
     }
+    
+    public function asociarActividad($asignado,$actividad){
+        $info = $this->_db->query("select * from spAgregarActividad({$asignado},{$actividad});");
+        if($info === false){
+            return "1101/asociarActividad";
+        }else{
+            return $info->fetchall();
+        }
+    }
 }

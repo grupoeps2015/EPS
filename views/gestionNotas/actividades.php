@@ -98,9 +98,7 @@
                         <td colspan="4">
                             <select id="slCursoxSeccion" name="slCursoxSeccion" class="form-control input-lg"></select>
                         </td>
-                        <td colspan="4">
-                            <select id="slCarnetxAsignacion" name="slCarnetxAsignacion" class="form-control input-lg"></select>
-                        </td>
+                        <td colspan="4">&nbsp;</td>
                     </tr>
                     <tr>
                         <td colspan="8"><hr class="hr1"/></td>
@@ -120,7 +118,9 @@
                                 <th style="width:30%;">&nbsp;</th>
                                 <th style="width:1%">&nbsp;</th>
                                 <th style="width:24%; text-align:center">Punteo:</th>
-                                <th style="width:1%">&nbsp;</th>
+                                <th style="width:1%">&nbsp;
+                                    <select id="slIdxAsignacion" name="slIdxAsignacion" class="form-control input-lg" style="display:none;"></select>
+                                </th>
                                 <th style="width:25%; text-align:center">Agregar Actividad</th>
                             </tr>
                         </thead>
