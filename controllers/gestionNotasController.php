@@ -187,6 +187,7 @@ class gestionNotasController extends Controller{
     public function guardarActividad(){
         $respuesta = new stdClass();
         $respuesta->mensaje = "";
+        $respuesta->id = 0;
         
         $idPadre = $this->getInteger('idPadre');
         $idTipo = $this->getInteger('idTipo');
@@ -198,6 +199,7 @@ class gestionNotasController extends Controller{
             $act = $this->_notas->guardarActividad($idPadre,$idTipo,$txtNombre,$valor,$desc);
             if(is_array($act)){
                 $respuesta->mensaje = "Procesado: Actividad " . $txtNombre . " guardadas exitosamente";
+                $respuesta->id = $act[0][0];
             }else{
                 $respuesta->mensaje = "error creando: " . $txtNombre;
             }
@@ -207,4 +209,9 @@ class gestionNotasController extends Controller{
         echo json_encode($respuesta);
     }
     
+    public function setActividadAsignado(){
+        if($this->getInteger('asignado') && $this->getInteger('actividad')){
+            $this->_notas->asociarActividad($this->getInteger('asignado'),$this->getInteger('actividad'));
+        }
+    }
 }
