@@ -75,6 +75,26 @@ class wsGeneraOrdenPago{
         return $aRespuesta;
     }
     
+    function confirmacionPago()
+    {
+        require_once("nusoap/nusoap.php");
+        $xml_consulta_pago = ''.
+                        '<CONFIRMACION_PAGO>'.
+                        '<ID_ORDEN_PAGO></ID_ORDEN_PAGO>'.
+                        '<CARNET></CARNET>'.
+                        '<UNIDAD></UNIDAD>'.
+                        '<EXTENSION></EXTENSION>'.
+                        '<CARRERA></CARRERA>'.
+                        '<BANCO></BANCO>'.
+                        '<NO_BOLETA_DEPOSITO></NO_BOLETA_DEPOSITO>'.
+                        '<FECHA_CERTIF_BCO></FECHA_CERTIF_BCO>'.
+                        '<ANIO_TEMPORADA></ANIO_TEMPORADA>'.
+                        '<TIPO_PETICION></TIPO_PETICION>'.
+                        '</CONFIRMACION_PAGO>';
+    }
+    
+    
+    
     function parsear_resultado($xml,$busca){
         require_once("nusoap/nusoap.php");
         $pipe="|";

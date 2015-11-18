@@ -58,7 +58,7 @@ function generarPDF()
            pdf.cellInitialize();
     pdf.setFontSize(9);
     pdf.text(20, 20,  'Orden de pago<?php echo $this->lstAsignaciones[0]['carnet']?>');
-   
+    
     pdf.save("ListadoCursosAprobados - " + strCarnet + '.pdf');
           
         
