@@ -51,11 +51,26 @@ class gestionRetrasadasController extends Controller {
         }
 
         $this->_view->titulo = 'Asignacion de Retrasadas - ' . APP_TITULO;
-        $this->_view->setJs(array('listadoAsignaciones'));
-        $this->_view->setJs(array('jquery.dataTables.min'), "public");
-        $this->_view->setCSS(array('jquery.dataTables.min'));
+        //$this->_view->setJs(array('listadoAsignaciones'));
+        //$this->_view->setJs(array('jquery.dataTables.min'), "public");
+        //$this->_view->setCSS(array('jquery.dataTables.min'));
 
         $this->_view->renderizar('listadoAsignaciones');
+        
+    }
+    
+     public function inicio() {
+        //$idCarrera = $this->getInteger('slCarreras'); 
+        //$idEstudiante = $this->getInteger('slEstudiantes');
+        //$idUsuario = $_SESSION['usuario'];
+        //$idCarrera = $_SESSION['carrera'];
+       
+        $this->_view->titulo = 'Gestión de retrasadas - ' . APP_TITULO;
+        //$this->_view->setJs(array('listadoAsignaciones'));
+        //$this->_view->setJs(array('jquery.dataTables.min'), "public");
+        //$this->_view->setCSS(array('jquery.dataTables.min'));
+
+        $this->_view->renderizar('inicio');
         
     }
     
