@@ -646,7 +646,7 @@ ALTER FUNCTION splistadocursosaprobados(integer, integer)
   OWNER TO postgres;
   
   
-  -- Function: spcursosdisponiblesasignacionretrasada(integer, integer, integer)
+-- Function: spcursosdisponiblesasignacionretrasada(integer, integer, integer)
 
 -- DROP FUNCTION spcursosdisponiblesasignacionretrasada(integer, integer, integer);
 
@@ -658,15 +658,16 @@ CREATE OR REPLACE FUNCTION spcursosdisponiblesasignacionretrasada(
     OUT codigo text,
     OUT nombre text,
     OUT traslape boolean,
-	OUT seccion integer,
-	OUT nombreSeccion text,
-	OUT carnet integer,
-	OUT nombreEstudiante text)
+    OUT seccion integer,
+    OUT nombreseccion text,
+    OUT carnet integer,
+    OUT nombreestudiante text,
+    OUT asignacion integer)
   RETURNS SETOF record AS
 $BODY$
 begin
  Return query
- select distinct cc.curso, cc.codigo, cc.nombre, cc.traslape, cs.seccion, cs.nombre, ee.carnet, (ee.primerNombre || ' ' || ee.segundoNombre || ' ' || ee.primerApellido || '' || ee.segundoApellido)
+ select distinct cc.curso, cc.codigo, cc.nombre, cc.traslape, cs.seccion, cs.nombre, ee.carnet, (ee.primerNombre || ' ' || ee.segundoNombre || ' ' || ee.primerApellido || '' || ee.segundoApellido), eca.asignacion
 	     from est_cur_asignacion eca
 	join est_ciclo_asignacion ecla on eca.ciclo_asignacion = ecla.ciclo_asignacion and eca.estado = 1
 	join cur_seccion cs on eca.seccion = cs.seccion
@@ -713,5 +714,30 @@ $BODY$
   ROWS 1000;
 ALTER FUNCTION spdatosextraboletaretrasada(integer, integer)
   OWNER TO postgres;
+  
+  
+-- Function: spagregarasignacionretrasada(integer, integer, integer)
+
+-- DROP FUNCTION spagregarasignacionretrasada(integer, integer, integer);
+
+CREATE OR REPLACE FUNCTION spagregarasignacionretrasada(
+    _asignacion integer,
+    _pago integer,
+    _oportunidad integer)
+  RETURNS integer AS
+$BODY$
+DECLARE idAs INTEGER;
+begin
+ --SELECT current_date into fechaactual;
+ --SELECT current_time into horaactual;
+ INSERT INTO EST_AsignacionRetrasada (Asignacion, Pago, Oportunidad, NotaRetrasda) values (_asignacion, _pago, _oportunidad, -1.0) RETURNING AsignacionRetrasada INTO idAs;
+ RETURN idAs;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION spagregarasignacionretrasada(integer, integer, integer)
+  OWNER TO postgres;
+  
   
 Select 'Script de Asignaciones Instalado' as "Asignacion";

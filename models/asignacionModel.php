@@ -157,4 +157,14 @@ class asignacionModel extends Model{
             return $cursos->fetchall();
         }
     }
+    
+    public function agregarAsignacionCursoRetrasada($asignacion,$pago,$oportunidad) {
+        $info = $this->_db->query("SELECT * from spagregarasignacionretrasada({$asignacion},{$pago},{$oportunidad}) as Id;");
+        $info->setFetchMode(PDO::FETCH_ASSOC);
+        if($info === false){
+            return "1101/agregarAsignacionCursoRetrasada";
+        }else{
+            return $info->fetchall();
+        }
+    }
 }
