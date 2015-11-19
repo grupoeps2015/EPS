@@ -44,7 +44,8 @@
             </div>
         </div> 
             <input type="submit" id="btnGenerarOrden" name="btnGenerarOrden" value="Generar orden de pago" class="btn btn-danger btn-lg btn-block" style="width:25%">
-            </form>     
+            <input type="hidden" name="hdCiclo" id="hdCiclo" value="2">
+        </form>     
         <?php else: ?>
         No hay asignaciones disponibles.
         <?php endif; ?>

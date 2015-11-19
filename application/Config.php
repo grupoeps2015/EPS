@@ -38,6 +38,8 @@ define('ASIGN_OTRAS','0');
 define('MSG_SINPERMISOS','alert(\'No tiene permisos para acceder a esta función.\');');
 define('CURSO_APROBADO','APROBADO');
 define('CURSO_REPROBADO','REPROBADO');
+define('MONTO_1RETRASADA','10');
+define('MONTO_2RETRASADA','15');
 define('UNIDAD_ESCUELAHISTORIA','14');
 define('EXTENSION_ESCUELAHISTORIA','0');
 define('VARIANTERUBRO_RETRASADAS','1');

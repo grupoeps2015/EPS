@@ -90,6 +90,56 @@ class gestionRetrasadasController extends Controller {
     }
     
     public function generarOrdenPago($carnet,$nombre,$carrera){
+        if ($this->getInteger('hdCiclo')) {
+            $ciclo = $this->getInteger('hdCiclo');
+            if ($_SESSION["rol"] == ROL_ADMINISTRADOR || $_SESSION["rol"] == ROL_EMPLEADO) {
+                $tipoAs = ASIGN_JUNTADIRECTIVA;
+            }
+            else if ($_SESSION["rol"] == ROL_ESTUDIANTE) {
+                $tipoAs = ASIGN_OTRAS;
+            }
+            $periodo = $this->_post->getPeriodo($ciclo, PERIODO_ASIGNACION_1RETRASADA, $tipoAs, $_SESSION["centrounidad"]);
+            if(is_array($periodo)){
+                if(isset($periodo[0]['periodo'])){
+                    $datosExtra = $this->_post->getDatosExtraBoleta($ciclo,PERIODO_ASIGNACION_1RETRASADA);
+                    if(is_array($datosExtra)){
+                        if(isset($datosExtra[0]['rubro'])){
+                            $anio=$datosExtra[0]['anio'];
+                            $rubro=$datosExtra[0]['rubro'];
+                            $monto=MONTO_1RETRASADA;
+                        }
+                    }else{
+                        $this->redireccionar("error/sql/" . $datosExtra);
+                        exit;
+                    }
+                    
+                }
+                else{
+                    $periodo = $this->_post->getPeriodo($ciclo, PERIODO_ASIGNACION_2RETRASADA, $tipoAs, $_SESSION["centrounidad"]);
+                    if(is_array($periodo)){
+                        if(isset($periodo[0]['periodo'])){
+                            $datosExtra = $this->_post->getDatosExtraBoleta($ciclo,PERIODO_ASIGNACION_2RETRASADA);
+                            if(is_array($datosExtra)){
+                                if(isset($datosExtra[0]['rubro'])){
+                                    $anio=$datosExtra[0]['anio'];
+                                    $rubro=$datosExtra[0]['rubro'];
+                                    $monto=MONTO_2RETRASADA;
+                                }
+                            }else{
+                                $this->redireccionar("error/sql/" . $datosExtra);
+                                exit;
+                            }
+                        }
+                    }else{
+                        $this->redireccionar("error/sql/" . $periodo);
+                        exit;
+                    }
+                }                    
+            }else{
+                    $this->redireccionar("error/sql/" . $periodo);
+                    exit;
+            }
+        }
         //$carnet=200610816;
         $unidad=UNIDAD_ESCUELAHISTORIA;
         $extension=EXTENSION_ESCUELAHISTORIA;
@@ -103,6 +153,7 @@ class gestionRetrasadasController extends Controller {
         $tipocurso=TIPOCURSO_ESCUELAHISTORIA;
         $curso='084';
         $seccion='B';
+        $subtotal=$monto;
         $subtotal=10;
         
         $this->_generaorden = new wsGeneraOrdenPago();

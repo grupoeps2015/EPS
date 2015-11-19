@@ -678,4 +678,35 @@ ALTER FUNCTION spcursosdisponiblesasignacionretrasada(integer, integer, integer)
   OWNER TO postgres;
 
   
+-- Function: spdatosextraboletaretrasada(integer, integer)
+
+-- DROP FUNCTION spdatosextraboletaretrasada(integer, integer);
+
+CREATE OR REPLACE FUNCTION spdatosextraboletaretrasada(
+    IN _ciclo integer,
+    IN _retrasada integer,
+    OUT numerociclo integer,
+    OUT anio integer,
+    OUT tipociclo integer,
+    OUT rubro integer)
+  RETURNS SETOF record AS
+$BODY$
+begin
+ Return query
+ select c.numerociclo, c.anio, c.tipociclo, 
+ case 
+ when c.numerociclo = 1 and _retrasada = 4 then 4 
+ when c.numerociclo = 1 and _retrasada = 5 then 5
+ when c.numerociclo = 2 and _retrasada = 4 then 6
+ when c.numerociclo = 2 and _retrasada = 5 then 7
+ end
+	from cur_ciclo c where c.ciclo = _ciclo;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION spdatosextraboletaretrasada(integer, integer)
+  OWNER TO postgres;
+  
 Select 'Script de Asignaciones Instalado' as "Asignacion";
