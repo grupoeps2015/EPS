@@ -11,6 +11,8 @@ class gestionRetrasadasController extends Controller {
     private $_encriptar;
     private $_ajax;
     private $_generaorden;
+    private $estudiante;
+    private $carrera;
 
     public function __construct() {
         parent::__construct();
@@ -25,6 +27,24 @@ class gestionRetrasadasController extends Controller {
         $this->_encriptar = new encripted();
         $this->_post = $this->loadModel('gestionRetrasadas');
         $this->_ajax = $this->loadModel("ajax");
+        if ($this->getInteger('slEstudiantes')) {
+            $this->estudiante = $this->getInteger('slEstudiantes');
+        }
+        else if($_SESSION["rol"] == ROL_ESTUDIANTE){
+            $estudiante = $this->_ajax->getEstudianteUsuario($_SESSION["usuario"]);
+            if(is_array($estudiante)){
+                $this->estudiante = (isset($estudiante[0]['id']) ? $estudiante[0]['id'] : -1);
+            }else{
+                $this->redireccionar("error/sql/" . $estudiante);
+                exit;
+            }
+        }
+        if ($this->getInteger('slEstudiantes') && $this->getInteger('slCarreras')) {
+            $this->carrera = $this->getInteger('slCarreras');
+        }
+        else if (isset($_SESSION["carrera"])) {
+            $this->carrera = $_SESSION["carrera"];
+        }
     }
 
     public function index() {
@@ -39,13 +59,92 @@ class gestionRetrasadasController extends Controller {
      public function listadoAsignaciones() {
         //$idCarrera = $this->getInteger('slCarreras'); 
         //$idEstudiante = $this->getInteger('slEstudiantes');
+        $tipociclo = $_SESSION["tipociclo"];
+        $lsAnios = $this->_ajax->getAniosAjax($tipociclo);
+        if(is_array($lsAnios)){
+            $this->_view->lstAnios = $lsAnios;
+        }else{
+            $this->redireccionar("error/sql/" . $lsAnios);
+            exit;
+        }
+        
+        if ($this->getInteger('hdEnvio')) {
+            $anio = $this->getInteger('slAnio');            
+        }
+        else{
+            $anio = (isset($lsAnios[count($lsAnios)-1]['anio']) ? $lsAnios[count($lsAnios)-1]['anio'] : -1);
+        }
+        
+        $lsCiclos = $this->_ajax->getCiclosAjax($tipociclo, $anio);
+        if(is_array($lsCiclos)){
+            $this->_view->lstCiclos = $lsCiclos;
+        }else{
+            $this->redireccionar("error/sql/" . $lsCiclos);
+            exit;
+        }
+        
+        if ($this->getInteger('hdEnvio')) {
+            $ciclo = $this->getInteger('slCiclo');            
+        }
+        else{
+            $ciclo = (isset($lsCiclos[count($lsCiclos)-1]['codigo']) ? $lsCiclos[count($lsCiclos)-1]['codigo'] : -1);
+        }
+        
+        $this->_view->anio = $anio;
+        $this->_view->ciclo = $ciclo;
+        
+        if ($_SESSION["rol"] == ROL_ADMINISTRADOR || $_SESSION["rol"] == ROL_EMPLEADO) {
+            $tipoAs = ASIGN_JUNTADIRECTIVA;
+        }
+        else if ($_SESSION["rol"] == ROL_ESTUDIANTE) {
+            $tipoAs = ASIGN_OTRAS;
+        }
+        $periodo = $this->_post->getPeriodo($ciclo, PERIODO_ASIGNACION_CURSOS, $tipoAs, $_SESSION["centrounidad"]);
+        if(is_array($periodo)){
+            if(isset($periodo[0]['periodo'])){
+                //Sino continuar
+                //Mostrar cursos disponibles para asignación
+                
+                //TODO: Marlen: agregar listado de cursos
+                $this->_view->asignacion = $periodo[0]['periodo'];
+                $this->_view->lstAsignaciones = $this->cursosDisponiblesRetrasada($ciclo);
+                
+            }
+            else{
+                //TODO: Marlen: mostrar boleta de asignación de cursos
+                //$this->redireccionar("asignacion/boletaAsignacion/".$anio."/".$ciclo);
+                //exit;
+                //Si no hay de primera retrasada, buscar de segunda
+                $periodo = $this->_post->getPeriodo($ciclo, PERIODO_ASIGNACION_2RETRASADA, $tipoAs, $_SESSION["centrounidad"]);
+                if(is_array($periodo)){
+                    if(isset($periodo[0]['periodo'])){
+                        //TODO: Marlen: agregar listado de cursos
+                        $this->_view->asignacion = $periodo[0]['periodo'];
+                        $this->_view->lstAsignaciones = $this->cursosDisponiblesRetrasada($ciclo);
+
+                    }
+                    else{
+                        //TODO: Marlen: mostrar boleta de asignación de cursos
+                        //$this->redireccionar("asignacion/boletaAsignacion/".$anio."/".$ciclo);
+                        //exit;
+                    }
+                }else{
+                    $this->redireccionar("error/sql/" . $periodo);
+                    exit;
+                }
+            }
+        }else{
+            $this->redireccionar("error/sql/" . $periodo);
+            exit;
+        }
+        
         $idUsuario = $_SESSION['usuario'];
         $idCarrera = $_SESSION['carrera'];
         $this->_view->carrera=$idCarrera;
        
         $info = $this->_post->allAsignaciones($idUsuario,$idCarrera);
         if (is_array($info)) {
-            $this->_view->lstAsignaciones = $info;
+            //$this->_view->lstAsignaciones = $info;
         } else {
             $this->redireccionar("error/sql/" . $info);
             exit;
@@ -90,7 +189,10 @@ class gestionRetrasadasController extends Controller {
     }
     
     public function generarOrdenPago($carnet,$nombre,$carrera){
-        if ($this->getInteger('hdCiclo')) {
+        if ($this->getInteger('hdCiclo') && $this->getTexto('slCurso')) {
+            $slcurso = explode("-", $this->getTexto('slCurso'));
+            $curso = $slcurso[0];
+            $seccion = $slcurso[1];
             $ciclo = $this->getInteger('hdCiclo');
             if ($_SESSION["rol"] == ROL_ADMINISTRADOR || $_SESSION["rol"] == ROL_EMPLEADO) {
                 $tipoAs = ASIGN_JUNTADIRECTIVA;
@@ -178,6 +280,17 @@ class gestionRetrasadasController extends Controller {
             $this->_view->setJs(array('jspdf.debug'), "public");
             $this->_view->renderizar('ordenPago');
         }
+    }
+    
+    public function cursosDisponiblesRetrasada($ciclo){
+        $lsCursosDisponibles = $this->_post->getCursosDisponiblesRetrasada($ciclo, $this->carrera, $this->estudiante);
+        if(is_array($lsCursosDisponibles)){
+
+        }else{
+            $this->redireccionar("error/sql/" . $lsCursosDisponibles);
+            exit;
+        }
+        return $lsCursosDisponibles;
     }
     
     public function consultarOrdenPago($idPago,$carnet){

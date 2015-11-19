@@ -657,18 +657,23 @@ CREATE OR REPLACE FUNCTION spcursosdisponiblesasignacionretrasada(
     OUT curso integer,
     OUT codigo text,
     OUT nombre text,
-    OUT traslape boolean)
+    OUT traslape boolean,
+	OUT seccion integer,
+	OUT nombreSeccion text,
+	OUT carnet integer,
+	OUT nombreEstudiante text)
   RETURNS SETOF record AS
 $BODY$
 begin
  Return query
- select distinct cc.curso, cc.codigo, cc.nombre, cc.traslape
+ select distinct cc.curso, cc.codigo, cc.nombre, cc.traslape, cs.seccion, cs.nombre, ee.carnet, (ee.primerNombre || ' ' || ee.segundoNombre || ' ' || ee.primerApellido || '' || ee.segundoApellido)
 	     from est_cur_asignacion eca
 	join est_ciclo_asignacion ecla on eca.ciclo_asignacion = ecla.ciclo_asignacion and eca.estado = 1
 	join cur_seccion cs on eca.seccion = cs.seccion
 	join cur_curso cc on cs.curso = cc.curso and cc.estado = 1
 	join adm_periodo ap on ecla.periodo = ap.periodo and ap.ciclo = _ciclo and ap.estado = 1
-	join est_estudiante_carrera ec on ec.estudiante = _estudiante and ec.carrera = _carrera;
+	join est_estudiante_carrera ec on ec.estudiante = _estudiante and ec.carrera = _carrera
+	join est_estudiante ee on ee.estudiante = ec.estudiante;
 end;
 $BODY$
   LANGUAGE plpgsql VOLATILE

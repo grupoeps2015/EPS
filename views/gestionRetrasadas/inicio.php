@@ -21,18 +21,24 @@
         </div>
     </div>
     <br/>
-    <div class="col-md-4 col-md-offset-1">
-            <div class="service-box">
-                <i class="fa fa-2x fa-clipboard wow bounceIn text-primary">
-                    <a href="<?php echo BASE_URL . 'general/seleccionarCarreraEstudiante/gestionRetrasadas/listadoAsignaciones/'?>">Generaci&oacute;n de orden de pago</a>
-                </i>
-            </div>      
-        <?php if(isset($this->existePago)&&$this->existePago==2):?>
-            <div class="service-box">
-                <i class="fa fa-2x fa-book wow bounceIn text-primary" data-wow-delay=".1s">
-                    <a href="<?php echo BASE_URL . 'general/seleccionarCarreraEstudiante/asignacion/indexRetrasada'?>">Asignaci&oacute;n de retrasadas</a>
-                </i>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-9 text-center">
+                <div class="service-box">
+                    <i class="fa fa-2x fa-clipboard wow bounceIn text-primary">
+                        <a href="<?php echo BASE_URL . 'general/seleccionarCarreraEstudiante/gestionRetrasadas/listadoAsignaciones/'?>">Generaci&oacute;n de orden de pago</a>
+                    </i>
+                </div> 
             </div>
-        <?php endif;?>
-    </div>    
+            <div class="col-lg-6 col-md-9 text-center">
+                <?php if(isset($this->existePago)&&$this->existePago==2):?>
+                    <div class="service-box">
+                        <i class="fa fa-2x fa-book wow bounceIn text-primary" data-wow-delay=".1s">
+                            <a href="<?php echo BASE_URL . 'general/seleccionarCarreraEstudiante/asignacion/indexRetrasada'?>">Asignaci&oacute;n de retrasadas</a>
+                        </i>
+                    </div>
+                <?php endif;?>
+            </div>   
+        </div>
+    </div>
 </section>

@@ -73,34 +73,31 @@
                 </table>
             </form>
         </div>
-        
+        <div class="col-md-6 col-md-offset-3">
         <?php if (isset($this->lstAsignaciones) && count($this->lstAsignaciones)): ?>
         <form id="frAsignaciones" method="post" action="<?php echo BASE_URL; ?>gestionRetrasadas/generarOrdenPago/<?php echo $this->lstAsignaciones[0]['carnet']?>/<?php echo $this->lstAsignaciones[0]['nombreestudiante']?>/<?php echo $this->carrera;?>">
         <div id="divAsignaciones" class="form-group" >
-            <div style="margin-left: 10%; margin-right: 10%; font-size: 16px;">
-                <label style="margin-left: 155px;">
-                    1. Seleccione el curso al que desea asignarse una retrasada:
-                </label>
-                <select id="slCurso" name="slCurso" class="form-control" style="width: 500px; margin-left: 185px;">
+                Seleccione el curso a asignarse examen de retrasada:
+                <select id="slCurso" name="slCurso" class="form-control input-lg">
                     <?php if (isset($this->lstAsignaciones) && count($this->lstAsignaciones)): ?>
                         <option value="">-- Curso --</option>
                         <?php for ($i = 0; $i < count($this->lstAsignaciones); $i++) : ?>
-                            <option value="<?php echo $this->lstAsignaciones[$i]['nombre'] . '-' . $this->lstAsignaciones[$i]['seccion']; ?>">
-                               <?php echo $this->lstAsignaciones[$i]['nombre'] . ' - "' . $this->lstAsignaciones[$i]['nombreseccion']. '"'; ?>
+                            <option value="<?php echo $this->lstAsignaciones[$i]['codigo'] . '-' . $this->lstAsignaciones[$i]['nombreseccion']; ?>">
+                               <?php echo '['.$this->lstAsignaciones[$i]['codigo'] .'] '. $this->lstAsignaciones[$i]['nombre'] . ' - ' . $this->lstAsignaciones[$i]['nombreseccion']; ?>
                             </option>
                         <?php endfor; ?>
                     <?php else : ?>
                         <option value="">-- No existen cursos registrados para este periodo --</option>
                     <?php endif; ?>
                 </select>
-            </div>
         </div> 
-            <input type="submit" id="btnGenerarOrden" name="btnGenerarOrden" value="Generar orden de pago" class="btn btn-danger btn-lg btn-block" style="width:25%">
+            <input type="submit" id="btnGenerarOrden" name="btnGenerarOrden" value="Generar orden de pago" class="btn btn-danger btn-lg btn-warning">
             <input type="hidden" name="hdCiclo" id="hdCiclo" value="2">
         </form>     
         <?php else: ?>
         No hay asignaciones disponibles.
         <?php endif; ?>
+        </div>
     </div>
 </section>
 
