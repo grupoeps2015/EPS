@@ -30,13 +30,18 @@ define('PERMISO_ELIMINAR','1');
 define('PERIODO_ASIGNACION_CURSOS','1');
 define('PERIODO_INGRESO_NOTAS','2');
 define('PERIODO_INGRESO_ACTIVIDADES','3');
-define('PERIODO_ASIGNACION_RETRASADAS','4');
-define('PERIODO_ASIGNACION_SUFICIENCIAS','5');
+define('PERIODO_ASIGNACION_1RETRASADA','4');
+define('PERIODO_ASIGNACION_2RETRASADA','5');
+define('PERIODO_ASIGNACION_SUFICIENCIAS','6');
 define('ASIGN_JUNTADIRECTIVA','1');
 define('ASIGN_OTRAS','0');
 define('MSG_SINPERMISOS','alert(\'No tiene permisos para acceder a esta función.\');');
 define('CURSO_APROBADO','APROBADO');
 define('CURSO_REPROBADO','REPROBADO');
+define('UNIDAD_ESCUELAHISTORIA','14');
+define('EXTENSION_ESCUELAHISTORIA','0');
+define('VARIANTERUBRO_RETRASADAS','1');
+define('TIPOCURSO_ESCUELAHISTORIA','CURSO');
 
 //Constantes de base de datos
 define('DB_HOST','localhost');

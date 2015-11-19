@@ -75,6 +75,63 @@ class wsGeneraOrdenPago{
         return $aRespuesta;
     }
     
+    function confirmacionPago($idPago,$carnet)
+    {
+        require_once("nusoap/nusoap.php");
+        $xml_consulta_pago = ''.
+                '<CONSULTA_ORDEN>'.
+                '<ID_ORDEN_PAGO>'.$idPago.'</ID_ORDEN_PAGO>'.
+                '<ID_PERSONA>'.$carnet.'</ID_PERSONA>'.
+                '</CONSULTA_ORDEN>';
+        
+        $v_msg_error='';
+        $v_xml_retorno='';
+        $v_resultado_invoke='';	
+        // 0 indica que ha ocurrido algun error, el error quedara en $v_msg_error
+        // 1 indica que hubo exito en la transaccion, el xml resultante esta en $v_xml_retorno
+   	
+        $siif_url = 'http://testsiif.usac.edu.gt/WSGeneracionOrdenPagoV2/WSGeneracionOrdenPagoV2SoapHttpPort?wsdl';
+        $oSoapClient = new nusoap_client($siif_url, 'wsdl');
+        if ($sError = $oSoapClient->getError()) {
+            $v_msg_error = "No se pudo realizar la operacion [" . $sError . "]";
+            $v_resultado_invoke = 0;
+            return;
+        }
+        
+        $aParametros = array("pxml" => $xml_consulta_pago);
+        $aRespuesta = $oSoapClient->call("consultaOrdenPago", $aParametros);
+    
+        if ($oSoapClient->fault) {
+            //Existe alguna falla en el servicio
+            $v_msg_error = 'Existe una falla en el servicio &quot;consultaOrdenPago&quot;-->';
+            if ($sError = $oSoapClient->getError()) {
+                    $v_msg_error .= " [ Error: " . $sError . "]";
+            }
+            $v_resultado_invoke = 0;
+            echo $v_msg_error.'<br>';
+            return;
+        } 
+        else {
+            //No existe falla en el servicio
+            $sError = $oSoapClient->getError();
+            if ($sError) {
+                //Hubo un error
+                $v_msg_error = 'Error: ' . $sError;
+                $v_resultado_invoke = 0;
+                echo $v_msg_error.'<br>';
+                return;
+            }
+            else {
+                $v_resultado_invoke = 1;
+                $v_xml_retorno = $aRespuesta;
+                //print_r($aRespuesta);
+            }
+        }
+        return $aRespuesta;
+    }
+    
+    
+    
     function parsear_resultado($xml,$busca){
         require_once("nusoap/nusoap.php");
         $pipe="|";

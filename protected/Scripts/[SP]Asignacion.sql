@@ -645,4 +645,37 @@ $BODY$
 ALTER FUNCTION splistadocursosaprobados(integer, integer)
   OWNER TO postgres;
   
+  
+  -- Function: spcursosdisponiblesasignacionretrasada(integer, integer, integer)
+
+-- DROP FUNCTION spcursosdisponiblesasignacionretrasada(integer, integer, integer);
+
+CREATE OR REPLACE FUNCTION spcursosdisponiblesasignacionretrasada(
+    IN _ciclo integer,
+    IN _carrera integer,
+    IN _estudiante integer,
+    OUT curso integer,
+    OUT codigo text,
+    OUT nombre text,
+    OUT traslape boolean)
+  RETURNS SETOF record AS
+$BODY$
+begin
+ Return query
+ select distinct cc.curso, cc.codigo, cc.nombre, cc.traslape
+	     from est_cur_asignacion eca
+	join est_ciclo_asignacion ecla on eca.ciclo_asignacion = ecla.ciclo_asignacion and eca.estado = 1
+	join cur_seccion cs on eca.seccion = cs.seccion
+	join cur_curso cc on cs.curso = cc.curso and cc.estado = 1
+	join adm_periodo ap on ecla.periodo = ap.periodo and ap.ciclo = _ciclo and ap.estado = 1
+	join est_estudiante_carrera ec on ec.estudiante = _estudiante and ec.carrera = _carrera;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION spcursosdisponiblesasignacionretrasada(integer, integer, integer)
+  OWNER TO postgres;
+
+  
 Select 'Script de Asignaciones Instalado' as "Asignacion";

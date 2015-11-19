@@ -23,7 +23,7 @@
     <br/>
     <div>
         <?php if (isset($this->lstAsignaciones) && count($this->lstAsignaciones)): ?>
-        <form id="frAsignaciones" method="post" action="<?php echo BASE_URL; ?>gestionRetrasadas/generarOrdenPago/<?php echo $this->lstAsignaciones[0]['carnet']?>/<?php echo $this->lstAsignaciones[0]['nombreestudiante']?>">
+        <form id="frAsignaciones" method="post" action="<?php echo BASE_URL; ?>gestionRetrasadas/generarOrdenPago/<?php echo $this->lstAsignaciones[0]['carnet']?>/<?php echo $this->lstAsignaciones[0]['nombreestudiante']?>/<?php echo $this->carrera;?>">
         <div id="divAsignaciones" class="form-group" >
             <div style="margin-left: 10%; margin-right: 10%; font-size: 16px;">
                 <label style="margin-left: 155px;">
@@ -58,7 +58,7 @@ function generarPDF()
            pdf.cellInitialize();
     pdf.setFontSize(9);
     pdf.text(20, 20,  'Orden de pago<?php echo $this->lstAsignaciones[0]['carnet']?>');
-   
+    
     pdf.save("ListadoCursosAprobados - " + strCarnet + '.pdf');
           
         

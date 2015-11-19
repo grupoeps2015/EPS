@@ -746,7 +746,7 @@ class asignacionController extends Controller{
         else if ($_SESSION["rol"] == ROL_ESTUDIANTE) {
             $tipoAs = ASIGN_OTRAS;
         }
-        $periodo = $this->_asign->getPeriodo($ciclo, PERIODO_ASIGNACION_RETRASADAS, $tipoAs, $_SESSION["centrounidad"]);
+        $periodo = $this->_asign->getPeriodo($ciclo, PERIODO_ASIGNACION_1RETRASADA, $tipoAs, $_SESSION["centrounidad"]);
         if(is_array($periodo)){
             if(isset($periodo[0]['periodo'])){
                 //Hacer estas validaciones en rol estudiante
@@ -778,13 +778,58 @@ class asignacionController extends Controller{
                 
                 //TODO: Marlen: agregar listado de cursos
                 $this->_view->asignacion = $periodo[0]['periodo'];
-                $this->_view->lstCursos = $this->cursosDisponibles($ciclo);
+                $this->_view->lstCursos = $this->cursosDisponiblesRetrasada($ciclo);
                 
             }
             else{
                 //TODO: Marlen: mostrar boleta de asignación de cursos
                 //$this->redireccionar("asignacion/boletaAsignacion/".$anio."/".$ciclo);
                 //exit;
+                //Si no hay de primera retrasada, buscar de segunda
+                $periodo = $this->_asign->getPeriodo($ciclo, PERIODO_ASIGNACION_2RETRASADA, $tipoAs, $_SESSION["centrounidad"]);
+                if(is_array($periodo)){
+                    if(isset($periodo[0]['periodo'])){
+                        //Hacer estas validaciones en rol estudiante
+                        if ($_SESSION["rol"] == ROL_ESTUDIANTE) {
+                            //Si hay período activo, validar intentos de asignación
+                            $intentoAsign = $this->_asign->getIntentoAsignacion($ciclo, $this->estudiante, $this->carrera, PERIODO_ASIGNACION_CURSOS, $periodo[0]['tipoasign']);
+                            if(is_array($intentoAsign)){
+                                $intentoAsign = (isset($intentoAsign[0]['intento']) ? $intentoAsign[0]['intento'] : 0);
+                            }else{
+                                $this->redireccionar("error/sql/" . $intentoAsign);
+                                exit;
+                            }
+                            //Parámetro de máximo intento de asignaciones por ciclo
+                            $parametroMaxIntentosAsign = $this->_ajax->valorParametro(CONS_PARAM_APP_MAXINTENTOSASIGN, -1, -1);
+                            if(is_array($parametroMaxIntentosAsign)){
+                                $parametroMaxIntentosAsign = (isset($parametroMaxIntentosAsign[0]['valorparametro']) ? $parametroMaxIntentosAsign[0]['valorparametro'] : 1);
+                            }else{
+                                $this->redireccionar("error/sql/" . $parametroMaxIntentosAsign);
+                                exit;
+                            }
+                            //Si ha alcanzado o superado el máximo de intentos redirigir a boleta
+                            if ($intentoAsign >= $parametroMaxIntentosAsign) {
+                                $this->redireccionar("asignacion/boletaAsignacion/".$anio."/".$ciclo);
+                                exit;
+                            }
+                        }
+                        //Sino continuar
+                        //Mostrar cursos disponibles para asignación
+
+                        //TODO: Marlen: agregar listado de cursos
+                        $this->_view->asignacion = $periodo[0]['periodo'];
+                        $this->_view->lstCursos = $this->cursosDisponiblesRetrasada($ciclo);
+
+                    }
+                    else{
+                        //TODO: Marlen: mostrar boleta de asignación de cursos
+                        //$this->redireccionar("asignacion/boletaAsignacion/".$anio."/".$ciclo);
+                        //exit;
+                    }
+                }else{
+                    $this->redireccionar("error/sql/" . $periodo);
+                    exit;
+                }
             }
         }else{
             $this->redireccionar("error/sql/" . $periodo);
@@ -795,8 +840,19 @@ class asignacionController extends Controller{
         $this->_view->renderizar('asignarRetrasada');
     }
     
-    public function auditarAsignaciones(){
-        
+    public function cursosDisponiblesRetrasada($ciclo){
+        $lsCursosDisponibles = $this->_asign->getCursosDisponiblesRetrasada($ciclo, $this->carrera, $this->estudiante);
+        if(is_array($lsCursosDisponibles)){
+
+        }else{
+            $this->redireccionar("error/sql/" . $lsCursosDisponibles);
+            exit;
+        }
+        return $lsCursosDisponibles;
+    }
+    
+    public function asignarRetrasada(){
+        //GERSON AQUI VA TU CODIGO
     }
 }
 
