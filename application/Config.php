@@ -37,6 +37,10 @@ define('ASIGN_OTRAS','0');
 define('MSG_SINPERMISOS','alert(\'No tiene permisos para acceder a esta función.\');');
 define('CURSO_APROBADO','APROBADO');
 define('CURSO_REPROBADO','REPROBADO');
+define('UNIDAD_ESCUELAHISTORIA','14');
+define('EXTENSION_ESCUELAHISTORIA','0');
+define('VARIANTERUBRO_RETRASADAS','1');
+define('TIPOCURSO_ESCUELAHISTORIA','CURSO');
 
 //Constantes de base de datos
 define('DB_HOST','localhost');

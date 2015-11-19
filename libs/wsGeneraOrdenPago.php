@@ -79,18 +79,55 @@ class wsGeneraOrdenPago{
     {
         require_once("nusoap/nusoap.php");
         $xml_consulta_pago = ''.
-                        '<CONFIRMACION_PAGO>'.
-                        '<ID_ORDEN_PAGO></ID_ORDEN_PAGO>'.
-                        '<CARNET></CARNET>'.
-                        '<UNIDAD></UNIDAD>'.
-                        '<EXTENSION></EXTENSION>'.
-                        '<CARRERA></CARRERA>'.
-                        '<BANCO></BANCO>'.
-                        '<NO_BOLETA_DEPOSITO></NO_BOLETA_DEPOSITO>'.
-                        '<FECHA_CERTIF_BCO></FECHA_CERTIF_BCO>'.
-                        '<ANIO_TEMPORADA></ANIO_TEMPORADA>'.
-                        '<TIPO_PETICION></TIPO_PETICION>'.
-                        '</CONFIRMACION_PAGO>';
+                '<CONSULTA_ORDEN>'.
+                '<ID_ORDEN_PAGO>4802128</ID_ORDEN_PAGO>'.
+                '<ID_PERSONA>200610816</ID_PERSONA>'.
+                '</CONSULTA_ORDEN>';
+        
+        $v_msg_error='';
+        $v_xml_retorno='';
+        $v_resultado_invoke='';	
+        // 0 indica que ha ocurrido algun error, el error quedara en $v_msg_error
+        // 1 indica que hubo exito en la transaccion, el xml resultante esta en $v_xml_retorno
+   	
+        $siif_url = 'http://testsiif.usac.edu.gt/WSGeneracionOrdenPagoV2/WSGeneracionOrdenPagoV2SoapHttpPort?wsdl';
+        $oSoapClient = new nusoap_client($siif_url, 'wsdl');
+        if ($sError = $oSoapClient->getError()) {
+            $v_msg_error = "No se pudo realizar la operacion [" . $sError . "]";
+            $v_resultado_invoke = 0;
+            return;
+        }
+        
+        $aParametros = array("pxml" => $xml_consulta_usuario);
+        $aRespuesta = $oSoapClient->call("consultaOrdenPago", $aParametros);
+    
+        if ($oSoapClient->fault) {
+            //Existe alguna falla en el servicio
+            $v_msg_error = 'Existe una falla en el servicio &quot;consultaOrdenPago&quot;-->';
+            if ($sError = $oSoapClient->getError()) {
+                    $v_msg_error .= " [ Error: " . $sError . "]";
+            }
+            $v_resultado_invoke = 0;
+            echo $v_msg_error.'<br>';
+            return;
+        } 
+        else {
+            //No existe falla en el servicio
+            $sError = $oSoapClient->getError();
+            if ($sError) {
+                //Hubo un error
+                $v_msg_error = 'Error: ' . $sError;
+                $v_resultado_invoke = 0;
+                echo $v_msg_error.'<br>';
+                return;
+            }
+            else {
+                $v_resultado_invoke = 1;
+                $v_xml_retorno = $aRespuesta;
+                //print_r($aRespuesta);
+            }
+        }
+        return $aRespuesta;
     }
     
     

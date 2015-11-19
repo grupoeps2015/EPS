@@ -41,6 +41,7 @@ class gestionRetrasadasController extends Controller {
         //$idEstudiante = $this->getInteger('slEstudiantes');
         $idUsuario = $_SESSION['usuario'];
         $idCarrera = $_SESSION['carrera'];
+        $this->_view->carrera=$idCarrera;
        
         $info = $this->_post->allAsignaciones($idUsuario,$idCarrera);
         if (is_array($info)) {
@@ -74,18 +75,18 @@ class gestionRetrasadasController extends Controller {
         
     }
     
-    public function generarOrdenPago($carnet,$nombre){
+    public function generarOrdenPago($carnet,$nombre,$carrera){
         //$carnet=200610816;
-        $unidad=14;
-        $extension=0;
-        $carrera=1;
+        $unidad=UNIDAD_ESCUELAHISTORIA;
+        $extension=EXTENSION_ESCUELAHISTORIA;
+        //$carrera=1;
         //$nombre='TRINIDAD PINEDA JORGE';
         $nombre2 = strtoupper($nombre);
         $monto=10;
         $anio=2014;
         $rubro=4;
-        $varianterubro=1;
-        $tipocurso='CURSO';
+        $varianterubro=VARIANTERUBRO_RETRASADAS;
+        $tipocurso=TIPOCURSO_ESCUELAHISTORIA;
         $curso='084';
         $seccion='B';
         $subtotal=10;
