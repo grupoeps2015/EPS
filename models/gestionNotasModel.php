@@ -77,4 +77,24 @@ class gestionNotasModel extends Model {
             return $info->fetchall();
         }
     }
+    
+    public function contarActividades($idTrama){
+        $info = $this->_db->query("select * from spContarActividades({$idTrama});");
+        if($info === false){
+            return "1104/contarActividades";
+        }else{
+            return $info->fetchall();
+        }
+    }
+    
+    public function getEstadoCicloNotas($idCiclo,$tipoPeriodo,$tipoAsignacion,$centrounidad){
+        //$info = $this ->_db->query("select * from spobtenerestadociclonotas({$idCiclo}) as estadociclo");
+        $info = $this->_db->query("select * from spPeriodoActivo({$idCiclo},{$tipoPeriodo},{$tipoAsignacion},{$centrounidad});");
+        if($info === false){
+            return "1200/getEstadoCicloNotas";
+        }else{
+            $info->setFetchMode(PDO::FETCH_ASSOC);
+            return $info->fetchall();
+        }
+    }
 }

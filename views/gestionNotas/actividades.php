@@ -56,27 +56,27 @@
                         <td colspan="2">
                             <select id="slTipos" name="slTipos" class="form-control input-lg">
                             <?php if (isset($this->lsTipoCiclo) && count($this->lsTipoCiclo)): ?>
-                                    <option value="">-- Tipo Ciclo --</option>
+                                    <option value="-1">-- Tipo Ciclo --</option>
                                     <?php for ($i = 0; $i < count($this->lsTipoCiclo); $i++) : ?>
                                         <option value="<?php echo $this->lsTipoCiclo[$i]['codigo']; ?>">
                                             <?php echo $this->lsTipoCiclo[$i]['nombre']; ?>
                                         </option>
                                     <?php endfor; ?>
                             <?php else : ?>
-                                <option value="">-- No existen tipos registrados --</option>
+                                <option value="-1">-- No existen tipos registrados --</option>
                             <?php endif; ?>
                             </select>
                         </td>
                         <td>&nbsp;</td>
                         <td>
                             <select id="slAnio" name="slAnio" class="form-control input-lg">
-                                <option value="" disabled>-- A&ntilde;o --</option>
+                                <option value="-1" disabled>-- A&ntilde;o --</option>
                             </select>
                         </td>
                         <td>&nbsp;</td>
                         <td colspan="2">
                             <select id="slCiclo" name="slCiclo" class="form-control input-lg">
-                                <option value="" disabled>-- Ciclo --</option>
+                                <option value="-1" disabled>-- Ciclo --</option>
                             </select>
                         </td>
                     </tr>
@@ -85,7 +85,7 @@
                         <td>&nbsp;</td>
                         <td colspan="4">&nbsp;<br/>
                             <select id="slSeccion" name="slSeccion" class="form-control input-lg">
-                                <option value="" disabled>-- Secci&oacute;n Asignada --</option>
+                                <option value="-1" disabled>-- Secci&oacute;n Asignada --</option>
                             </select>
                         </td>
                         <td>&nbsp;</td>

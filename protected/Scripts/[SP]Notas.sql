@@ -251,4 +251,18 @@ END
 $BODY$
 LANGUAGE plpgsql;
 
+-- -----------------------------------------------------
+-- Function: spContarActividades()
+-- -----------------------------------------------------
+-- DROP FUNCTION spContarActividades(int);
+CREATE OR REPLACE FUNCTION spContarActividades(_idTrama int) RETURNS int AS
+$BODY$
+DECLARE total int;
+BEGIN
+  select count(actividad) as totalActividades from est_cur_nota_actividad where asignacion = _idTrama into total;
+  return total;
+END
+$BODY$
+LANGUAGE plpgsql;
+
 Select 'Script para Gestion de Notas Instalado' as "Gestion Notas";

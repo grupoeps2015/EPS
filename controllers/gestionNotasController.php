@@ -76,6 +76,15 @@ class gestionNotasController extends Controller{
         $this->_view->idUsuario = $idUsuario;
         $this->_view->tipo = $Tipo;
         
+        $tipociclo = $_SESSION["tipociclo"];
+        $lsAnios = $this->_ajax->getAniosAjax($tipociclo);
+        if(is_array($lsAnios)){
+            $this->_view->lstAnios = $lsAnios;
+        }else{
+            $this->redireccionar("error/sql/" . $lsAnios);
+            exit;
+        }
+        
         $datosCat = $this->_notas->getDocenteEspecifico($idUsuario);
         if(is_array($datosCat)){
             $this->_view->datosCat = $datosCat;
@@ -98,6 +107,24 @@ class gestionNotasController extends Controller{
         $this->_view->setJs(array('jquery.csv'), "public");
         $this->_view->setCSS(array('jquery.dataTables.min'));
         $this->_view->renderizar('cursosXDocente','gestionNotas');
+    }
+    
+    public function getEstadoCicloNotas(){
+        $datos = new stdClass();
+        $datos->estado = 0;
+        if($this->getInteger('cicloaver')){
+            $arr = $this->_notas->getEstadoCicloNotas($this->getInteger('cicloaver'),PERIODO_INGRESO_NOTAS,$this->getInteger('tipoAs'),$this->getInteger('centrounidad'));
+            if(is_array($arr)){
+                if(isset($arr[0]['periodo'])){
+                    $datos->estado = 1;
+                }else{
+                    $datos->estado = -3;
+                }
+            }else{
+                $datos->estado = -2;
+            }
+        }
+        echo json_encode($datos);
     }
     
     public function actividades($idUsuario, $UnidadCentro){
@@ -213,5 +240,17 @@ class gestionNotasController extends Controller{
         if($this->getInteger('asignado') && $this->getInteger('actividad')){
             $this->_notas->asociarActividad($this->getInteger('asignado'),$this->getInteger('actividad'));
         }
+    }
+    
+    public function contarActividades(){
+        $respuesta = new stdClass();
+        $respuesta->total = 0;
+        if($this->getInteger('trama')){
+            $act = $this->_notas->contarActividades($this->getInteger('trama'));
+            $respuesta->total = $act[0][0];
+        }else{
+            $respuesta->total = -2;
+        }
+        echo json_encode($respuesta);
     }
 }

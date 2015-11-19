@@ -37,9 +37,9 @@ $(document).ready( function () {
             $("#slAnio").html('');
             $("#slCiclo").html('');
             $("#slSeccion").html('');
-            $("#slAnio").append('<option value="" disabled>-- A&ntilde;o --</option>')
-            $("#slCiclo").append('<option value="" disabled>-- Ciclo --</option>')
-            $("#slSeccion").append('<option value="" disabled>-- Secci&oacute;n Asignada --</option>')
+            $("#slAnio").append('<option value="-1" disabled>-- A&ntilde;o --</option>')
+            $("#slCiclo").append('<option value="-1" disabled>-- Ciclo --</option>')
+            $("#slSeccion").append('<option value="-1" disabled>-- Secci&oacute;n Asignada --</option>')
         }else{
             getAniosAjax();
         }
@@ -49,8 +49,8 @@ $(document).ready( function () {
         if(!$("#slAnio").val()){
             $("#slCiclo").html('');
             $("#slSeccion").html('');
-            $("#slCiclo").append('<option value="" disabled>-- Ciclo --</option>')
-            $("#slSeccion").append('<option value="" disabled>-- Secci&oacute;n Asignada --</option>')
+            $("#slCiclo").append('<option value="-1" disabled>-- Ciclo --</option>')
+            $("#slSeccion").append('<option value="-1" disabled>-- Secci&oacute;n Asignada --</option>')
         }else{
             getCiclosAjax();
         }
@@ -59,7 +59,7 @@ $(document).ready( function () {
     $("#slCiclo").change(function(){
         if(!$("#slCiclo").val()){
             $("#slSeccion").html('');
-            $("#slSeccion").append('<option value="" disabled>-- Secci&oacute;n Asignada --</option>')
+            $("#slSeccion").append('<option value="-1" disabled>-- Secci&oacute;n Asignada --</option>')
         }else{
             getDocenteSeccion();
         }
@@ -71,28 +71,6 @@ $(document).ready( function () {
     });
     
     $("#btnActividades").click(function() {
-        $.post(base_url+'gestionNotas/getEstadoCicloActividades',
-            { cicloaver: $("#slCiclo").val() },
-            function(datos){
-                var estado = 0;
-                if(datos.length>0){
-                    estado = parseInt(datos[0].estado.toString());
-                    if(estado === 1){
-                        $("#spanMsg").html('Por defecto se tiene zona de 75 puntos y final de 25 puntos<br/>Puede Guardar la informacion de esta manera, modificar la ponderacion que se le presenta o detallar actividades que conformen la zona');
-                        $("#tbActividades").css('display','block');
-                        $("#slTipos").prop('disabled',true);
-                        $("#slAnio").prop('disabled',true);
-                        $("#slCiclo").prop('disabled',true);
-                        $("#slSeccion").prop('disabled',true);
-                        $("#btnActividades").prop('disabled',true);
-                    }else{
-                        $("#spanMsg").html('El periodo de ingreso de actividades no se encuentra activado');
-                        $("#tbActividades").css('display','none');
-                    }
-                }
-            },
-            'json');
-            
         $.post(base_url+'ajax/getIdTrama',
             { 
                 cat: $("#idCatedratico").val(),
@@ -104,6 +82,23 @@ $(document).ready( function () {
                 if(datos.length>0){
                     var identificador = parseInt(datos[0].spidtrama);
                     llenarAsignados(identificador, $("#slCiclo").val());
+                    
+                    $.post(base_url+'gestionNotas/getEstadoCicloActividades',
+                        { cicloaver: $("#slCiclo").val() },
+                        function(datos){
+                            var estado = 0;
+                            if(datos.length>0){
+                                estado = parseInt(datos[0].estado.toString());
+                                if(estado === 1){
+                                    verificarActividades();
+                                }else{
+                                    $("#spanMsg").html('El periodo de ingreso de actividades no se encuentra activado');
+                                    $("#tbActividades").css('display','none');
+                                }
+                            }
+                        },
+                        'json');
+                    
                 }else{
                     $("#spanMsg").html('No se encontro ningun alumno asignado, por lo que no es necesario crear actividades');
                     $("#tbActividades").css('display','none');
@@ -132,7 +127,7 @@ $(document).ready( function () {
             $("#tbodyAct").append(
                 '<tr id="trAct'+numTarea+'" name="trAct'+numTarea+'">' + 
                     '<td style="width:19%;">'+$("#slTipoActividad option:selected").text()+'</td>' +
-                    '<td style="width:30%;">'+'-'+nombre+'&nbsp;</td>' +
+                    '<td style="width:30%;">'+nombre+'&nbsp;</td>' +
                     '<td style="width:1%">&nbsp;</td>' +
                     '<td style="width:24%">'+valor+' pts.&nbsp;</td>' +
                     '<td style="width:1%">&nbsp;' +
@@ -167,7 +162,15 @@ $(document).ready( function () {
             guardarActividad();
             $("#btnGuardar").prop('disabled',true);
             $("#tbActividades").css('display','none');
-            //$( "#frActividades" ).submit();
+            $("#slTipos").prop('disabled',false);
+            $("#slTipos").val("-1");
+            $("#slAnio").prop('disabled',false);
+            $("#slAnio").val("-1");
+            $("#slCiclo").prop('disabled',false);
+            $("#slCiclo").val("-1");
+            $("#slSeccion").prop('disabled',false);
+            $("#slSeccion").val("-1");
+            $("#btnActividades").prop('disabled',false);
         },
         cancelButton: "Continuar",
         confirmButton: "Regresar",
@@ -183,12 +186,12 @@ $(document).ready( function () {
                function(datos){
                     $("#slAnio").html('');
                     if(datos.length>0 ){
-                        $("#slAnio").append('<option value="">-- A&ntilde;o --</option>' );
+                        $("#slAnio").append('<option value="-1">-- A&ntilde;o --</option>' );
                         for(var i =0; i < datos.length; i++){
                             $("#slAnio").append('<option value="' + datos[i].anio + '">' + datos[i].anio + '</option>' );
                         }
                     }else{
-                        $("#slAnio").append('<option value="" disabled>No hay info.</option>' );
+                        $("#slAnio").append('<option value="-1" disabled>No hay info.</option>' );
                     }
                },
                'json');
@@ -200,12 +203,12 @@ $(document).ready( function () {
                function(datos){
                     $("#slCiclo").html('');
                     if(datos.length>0){
-                        $("#slCiclo").append('<option value="">-- Ciclo --</option>' );
+                        $("#slCiclo").append('<option value="-1">-- Ciclo --</option>' );
                         for(var i=0; i < datos.length; i++){
                             $("#slCiclo").append('<option value="' + datos[i].codigo + '">' + datos[i].nombre + '</option>' );
                         }
                     }else{
-                        $("#slCiclo").append('<option value="" disabled>No hay info.</option>' );
+                        $("#slCiclo").append('<option value="-1" disabled>No hay info.</option>' );
                     }
                },
                'json');
@@ -227,11 +230,32 @@ $(document).ready( function () {
                      }
                      $("#btnActividades").prop("disabled",false);
                  }else{
-                     $("#slSeccion").append('<option value="" disabled>No hay informaci&oacute;n disponible</option>' );
+                     $("#slSeccion").append('<option value="-1" disabled>No hay informaci&oacute;n disponible</option>' );
                      $("#btnActividades").prop("disabled",true);
                  }
             },
             'json');
+    }
+       
+    function verificarActividades(){
+        $("#slIdxAsignacion").val(0);
+        var idTrama = $("#slIdxAsignacion option:selected").text();
+        $.post(base_url+'gestionNotas/contarActividades',
+            {trama: idTrama},
+            function(respuesta){
+                if(parseInt(respuesta.total) <= 2){
+                    $("#spanMsg").html('Por defecto se tiene zona de 75 puntos y final de 25 puntos<br/>Puede Guardar la informacion de esta manera, modificar la ponderacion que se le presenta o detallar actividades que conformen la zona');
+                }else{
+                    listarActividades();
+                }
+            },
+            'json');
+        $("#tbActividades").css('display','block');
+        $("#slTipos").prop('disabled',true);
+        $("#slAnio").prop('disabled',true);
+        $("#slCiclo").prop('disabled',true);
+        $("#slSeccion").prop('disabled',true);
+        $("#btnActividades").prop('disabled',true);
     }
        
     function guardarActividad(){
@@ -315,12 +339,13 @@ $(document).ready( function () {
             {trama: id, ciclo: idCiclo },
             function(datos){
                 if(datos.length>0){
+                    $("#slIdxAsignacion").html("");
                     totalAsignados = parseInt(datos.length.toString());
                     for(var i =0; i < datos.length; i++){
                         $("#slIdxAsignacion").append('<option value="' + i + '">' + datos[i].idasignacion + '</option>' );
                     }
                 }else{
-                    $("#slSeccion").append('<option value="" disabled>No hay informaci&oacute;n disponible</option>' );
+                    $("#slSeccion").append('<option value="-1" disabled>No hay informaci&oacute;n disponible</option>' );
                 }
             },
             'json');
@@ -338,5 +363,24 @@ $(document).ready( function () {
                 //alert('transaccion exitosa');
             });
         }
+    }
+    
+    function listarActividades(){
+          $("#tbodyAct").html('');
+          $("#spanMsg").html('Ya han sido agregadas actividades para este curso');
+//        $("#tbodyAct").append(
+//                '<tr id="trAct'+numTarea+'" name="trAct'+numTarea+'">' + 
+//                    '<td style="width:19%;">'+$("#slTipoActividad option:selected").text()+'</td>' +
+//                    '<td style="width:30%;">'+nombre+'&nbsp;</td>' +
+//                    '<td style="width:1%">&nbsp;</td>' +
+//                    '<td style="width:24%">'+valor+' pts.&nbsp;</td>' +
+//                    '<td style="width:1%">&nbsp;' +
+//                        '<input type="hidden" id="hdPd'+numTarea+'" name="hdPd'+numTarea+'" value="'+padre+'"/>' +
+//                        '<input type="hidden" id="hdTp'+numTarea+'" name="hdTp'+numTarea+'" value="'+tipo+'"/>' +
+//                        '<input type="hidden" id="hdNm'+numTarea+'" name="hdNm'+numTarea+'" value="'+nombre+'"/>' +
+//                        '<input type="hidden" id="hdVl'+numTarea+'" name="hdVl'+numTarea+'" value="'+valor+'"/>' +
+//                        '<input type="hidden" id="hdDs'+numTarea+'" name="hdDs'+numTarea+'" value="'+desc+'"/>' +
+//                    '</td>' +
+//                '</tr>');
     }
 });

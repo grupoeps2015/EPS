@@ -198,12 +198,6 @@ class ajaxController extends Controller{
         }
     }
     
-    public function getEstadoCicloNotas(){
-        if($this->getInteger('cicloaver')){
-            echo json_encode($this->_ajax->getEstadoCicloNotas($this->getInteger('cicloaver')));
-        }
-    }
-    
     public function getEstudiantesAnioInscripcionAjax(){
         if($this->getInteger('anio')){
             session_start();
