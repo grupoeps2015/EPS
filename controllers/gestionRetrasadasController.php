@@ -99,7 +99,7 @@ class gestionRetrasadasController extends Controller {
         else if ($_SESSION["rol"] == ROL_ESTUDIANTE) {
             $tipoAs = ASIGN_OTRAS;
         }
-        $periodo = $this->_post->getPeriodo($ciclo, PERIODO_ASIGNACION_CURSOS, $tipoAs, $_SESSION["centrounidad"]);
+        $periodo = $this->_post->getPeriodo($ciclo, PERIODO_ASIGNACION_1RETRASADA, $tipoAs, $_SESSION["centrounidad"]);
         if(is_array($periodo)){
             if(isset($periodo[0]['periodo'])){
                 //Sino continuar

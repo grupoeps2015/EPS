@@ -100,19 +100,3 @@
         </div>
     </div>
 </section>
-
-<script text="text/javascript">
-function generarPDF()
-   {
-       var strCarnet = "<?php echo $this->lstAsignaciones[0]['carnet']; ?>";
-            var pdf = new jsPDF('o', 'pt', 'a4');
-           pdf.cellInitialize();
-    pdf.setFontSize(9);
-    pdf.text(20, 20,  'Orden de pago<?php echo $this->lstAsignaciones[0]['carnet']?>');
-    
-    pdf.save("ListadoCursosAprobados - " + strCarnet + '.pdf');
-          
-        
-   }
-   
-</script>
