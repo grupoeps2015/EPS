@@ -23,7 +23,7 @@
     <br/>
     <div class="container" >
         <div class="col-md-6 col-md-offset-3">
-            <form id="frEstudiantes" method="post" action="<?php echo BASE_URL; ?>asignacion">
+            <form id="frEstudiantes" method="post" action="<?php echo BASE_URL; ?>asignacion/indexRetrasada">
                 <table style="width:100%">
                     <tr>
                         <td style="width:50%">
@@ -102,7 +102,7 @@
                     </tr>
                 </table>
             </form>
-            <form id="frAsignacionCursos" method="post" action="<?php echo BASE_URL; ?>asignacion/asignar">
+            <form id="frAsignacionCursos" method="post" action="<?php echo BASE_URL; ?>asignacion/asignarRetrasada">
             <table id="tabla" name="tabla" style="width:100%;">
                 <thead>
                     <tr>
@@ -143,7 +143,7 @@
             <?php else : ?>
         <div class="col-md-8 col-md-offset-2">
             <center>
-            <h4>No hay período de asignación habilitado para el ciclo seleccionado.</h4>
+            <h4>No hay período de asignación de retrasadas habilitado para el ciclo seleccionado.</h4>
             </center>
         </div>
     <?php endif; ?>

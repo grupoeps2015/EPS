@@ -778,7 +778,7 @@ class asignacionController extends Controller{
                 
                 //TODO: Marlen: agregar listado de cursos
                 $this->_view->asignacion = $periodo[0]['periodo'];
-                $this->_view->lstCursos = $this->cursosDisponibles($ciclo);
+                $this->_view->lstCursos = $this->cursosDisponiblesRetrasada($ciclo);
                 
             }
             else{
@@ -795,8 +795,19 @@ class asignacionController extends Controller{
         $this->_view->renderizar('asignarRetrasada');
     }
     
-    public function auditarAsignaciones(){
-        
+    public function cursosDisponiblesRetrasada($ciclo){
+        $lsCursosDisponibles = $this->_asign->getCursosDisponiblesRetrasada($ciclo, $this->carrera, $this->estudiante);
+        if(is_array($lsCursosDisponibles)){
+
+        }else{
+            $this->redireccionar("error/sql/" . $lsCursosDisponibles);
+            exit;
+        }
+        return $lsCursosDisponibles;
+    }
+    
+    public function asignarRetrasada(){
+        //GERSON AQUI VA TU CODIGO
     }
 }
 
