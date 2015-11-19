@@ -49,6 +49,7 @@ ALTER FUNCTION spgetasignaciones(integer,integer)
 CREATE OR REPLACE FUNCTION spgetasignacion(
     IN _asignacion integer,
     OUT asignacion integer,
+	OUT idestudiante integer,
     OUT carnet integer,
     OUT nombreEstudiante text,
     OUT codigo text,
@@ -61,7 +62,7 @@ CREATE OR REPLACE FUNCTION spgetasignacion(
 $BODY$
 begin
  Return query
-	select eca.asignacion, ee.carnet, (ee.primerNombre || ' ' || ee.segundoNombre || ' ' || ee.primerApellido || '' || ee.segundoApellido) as nombreEstudiante, 
+	select eca.asignacion, ee.estudiante, ee.carnet, (ee.primerNombre || ' ' || ee.segundoNombre || ' ' || ee.primerApellido || '' || ee.segundoApellido) as nombreEstudiante, 
 	cc.codigo, cc.nombre, cs.seccion, ecla.fecha, eca.oportunidadActual, case 
 	when eca.estado=-1 then 'Inactivo'
 	when eca.estado=1 then 'Activo'
@@ -147,7 +148,7 @@ join est_ciclo_asignacion eca on e.estudiante = eca.estudiante
 join est_cur_asignacion ecra on ecra.ciclo_asignacion = eca.ciclo_asignacion
 join cur_desasignacion cd on cd.asignacion = ecra.asignacion
 join cur_seccion cs on cs.seccion = ecra.seccion
-and e.carnet = _carnet and cs.codigo = _curso;
+and e.carnet = _carnet and cs.curso = _curso;
 END;
 $BODY$
   LANGUAGE plpgsql VOLATILE
@@ -155,3 +156,45 @@ $BODY$
   ROWS 1000;
 ALTER FUNCTION spgetdesasignacion(integer, integer)
   OWNER TO postgres;
+  
+  
+   
+-- Function: spgetasignaciones1(integer);
+
+-- DROP FUNCTION spgetasignaciones1(integer);
+
+CREATE OR REPLACE FUNCTION spgetasignaciones1(
+    IN _estudiante integer,
+    OUT asignacion integer,
+    OUT carnet integer,
+    OUT nombreEstudiante text,
+    OUT codigo text,
+    OUT nombre text,
+    OUT seccion integer,
+    OUT fecha date,
+    OUT oportunidadActual integer,
+    OUT estado text)
+  RETURNS SETOF record AS
+$BODY$
+begin
+ Return query
+	select eca.asignacion, ee.carnet, (ee.primerNombre || ' ' || ee.segundoNombre || ' ' || ee.primerApellido || '' || ee.segundoApellido) as nombreEstudiante, 
+	cc.codigo, cc.nombre, cs.seccion, ecla.fecha, eca.oportunidadActual, case 
+	when eca.estado=-1 then 'Inactivo'
+	when eca.estado=1 then 'Activo'
+	end as "Estado" 
+	from est_cur_asignacion eca
+	join est_ciclo_asignacion ecla on eca.ciclo_asignacion = ecla.ciclo_asignacion 
+	join cur_seccion cs on eca.seccion = cs.seccion
+	join cur_curso cc on cs.curso = cc.curso and cc.estado = 1
+	join est_estudiante ee on ecla.estudiante=ee.estudiante and ee.estado = 1
+	join adm_periodo ap on ecla.periodo = ap.periodo and ap.estado = 1
+	where  ee.estudiante = _estudiante and eca.estado = 1;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION spgetasignaciones1(integer)
+  OWNER TO postgres;
+  

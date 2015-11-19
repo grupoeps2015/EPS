@@ -7,6 +7,7 @@
  */
 class gestionDesasignacionController extends Controller {
 
+    private $estudiante;
     private $_post;
     private $_encriptar;
     private $_ajax;
@@ -23,14 +24,39 @@ class gestionDesasignacionController extends Controller {
         $this->_encriptar = new encripted();
         $this->_post = $this->loadModel('gestionDesasignacion');
         $this->_ajax = $this->loadModel("ajax");
+        if ($this->getInteger('slEstudiantes')) {
+            $this->estudiante = $this->getInteger('slEstudiantes');
+        }
+        else{
+            $estudiante = $this->_ajax->getEstudianteUsuario($_SESSION["usuario"]);
+            if(is_array($estudiante)){
+                $this->estudiante = (isset($estudiante[0]['id']) ? $estudiante[0]['id'] : -1);
+            }else{
+                $this->redireccionar("error/sql/" . $estudiante);
+                exit;
+            }
+        }
+        if ($this->getInteger('slEstudiantes') && $this->getInteger('slCarreras')) {
+            $this->carrera = $this->getInteger('slCarreras');
+        }
+        else if (isset($_SESSION["carrera"])) {
+            $this->carrera = $_SESSION["carrera"];
+        }
     }
 
-    public function listadoAsignaciones($carnet) {
-
-        $info = $this->_post->allAsignaciones($carnet);
+    public function listadoAsignaciones($idestudiante=0) {
+        $this->_view->estudiante = $this->estudiante;
+        if($idestudiante!=0){
+            $this->estudiante = $idestudiante;
+            $info = $this->_post->allAsignaciones($idestudiante);
+        }else{
+            $info = $this->_post->allAsignaciones($this->estudiante);
+        }
+            
         if (is_array($info)) {
             $this->_view->lstAsignaciones = $info;
-        } else {
+        }
+        else {
             $this->redireccionar("error/sql/" . $info);
             exit;
         }
@@ -84,7 +110,7 @@ class gestionDesasignacionController extends Controller {
                 echo "<script>
                 alert('No se puede realizar la desasignacion debido a que el estudiante ya ha realizado este proceso para este curso.');
                 </script>";
-                $this->redireccionar('gestionDesasignacion/listadoAsignaciones/' . $carnet);
+                $this->redireccionar('gestionDesasignacion/listadoAsignaciones/' . $this->estudiante);
             } else {
                 $info = $this->_post->activarDesactivarAsignacion($idAsignacion, $idEstado);
                 if (!is_array($info)) {

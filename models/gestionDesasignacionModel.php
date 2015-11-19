@@ -13,7 +13,7 @@ class gestionDesasignacionModel extends Model {
 
     
     public function allAsignaciones($carnet) {
-        $info = $this->_db->query("select * from spgetasignaciones(".$carnet.");");
+        $info = $this->_db->query("select * from spgetasignaciones1(".$carnet.");");
         if($info === false){
             return "1104/listadoAsignaciones";
         }else{

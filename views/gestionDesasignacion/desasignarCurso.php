@@ -7,11 +7,11 @@
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
                         <i class="fa fa-2x fa-backward wow bounceIn text-primary" data-wow-delay=".2s">
-                            <?php if (isset($this->asignacion) && count($this->asignacion)):?>
-                            <a href="<?php echo BASE_URL ?>gestionDesasignacion/listadoAsignaciones/<?php echo $this->asignacion[0]['carnet']; ?>">
-                                Regresar
-                            </a>
-                            <?php endif;?>
+                            <?php if (isset($this->asignacion) && count($this->asignacion)): ?>
+                                <a href="<?php echo BASE_URL ?>gestionDesasignacion/listadoAsignaciones/<?php echo $this->asignacion[0]['idestudiante']; ?>">
+                                    Regresar
+                                </a>
+                            <?php endif; ?>
                         </i>
                     </div>
                 </div>
@@ -29,7 +29,7 @@
                     <div id="divEstudiantes" class="form-group" >
                         <div class="col-md-6 col-md-offset-3">
                             <h3>Informacion del Estudiante</h3>
-                                <table class="text-primary table-hover" style="margin-left: 16px;">
+                            <table class="text-primary table-hover" style="margin-left: 16px;">
                                 <?php if (isset($this->asignacion) && count($this->asignacion)): ?>
 
                                     <tr> 
@@ -48,10 +48,10 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                         &nbsp;
+                                            &nbsp;
                                         </td>
                                     </tr>
-                                    
+
                                 <?php endif; ?>
                             </table>
                             <h3>Informacion General del Curso</h3>
@@ -80,7 +80,7 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                         &nbsp;
+                                            &nbsp;
                                         </td>
                                     </tr>
                                     <tr>
@@ -104,9 +104,10 @@
                         </div>
                     </div>
                     <input type="hidden" name="hdEnvio" value="1">
-                    <input type="hidden" name="hdCarnet" value="<?php echo $this->asignacion[0]['carnet'];?>">
-                    <input type="hidden" name="hdCodigo" value="<?php echo $this->asignacion[0]['codigo'];?>">
-                    
+                    <input type="hidden" name="hdEst" value="<?php echo $this->asignacion[0]['idestudiante']; ?>">
+                    <input type="hidden" name="hdCarnet" value="<?php echo $this->asignacion[0]['carnet']; ?>">
+                    <input type="hidden" name="hdCodigo" value="<?php echo $this->asignacion[0]['codigo']; ?>">
+
                 </form>
             </div>
         </div>
