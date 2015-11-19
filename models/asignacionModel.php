@@ -147,4 +147,14 @@ class asignacionModel extends Model{
             return $info->fetchall();
         }
     }
+    
+    public function getCursosDisponiblesRetrasada($ciclo, $carrera, $estudiante){
+        $cursos = $this->_db->query("select * from spcursosdisponiblesasignacionretrasada({$ciclo},{$carrera},{$estudiante}) order by codigo;");
+        $cursos->setFetchMode(PDO::FETCH_ASSOC);
+        if($cursos === false){
+            return "1200/getCursosDisponiblesRetrasada";
+        }else{
+            return $cursos->fetchall();
+        }
+    }
 }
