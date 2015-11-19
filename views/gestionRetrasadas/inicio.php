@@ -24,7 +24,7 @@
     <div class="col-md-4 col-md-offset-1">
             <div class="service-box">
                 <i class="fa fa-2x fa-clipboard wow bounceIn text-primary">
-                    <a href="<?php echo BASE_URL . 'gestionRetrasadas/listadoAsignaciones/'?>">Generaci&oacute;n de orden de pago</a>
+                    <a href="<?php echo BASE_URL . 'general/seleccionarCarreraEstudiante/gestionRetrasadas/listadoAsignaciones/'?>">Generaci&oacute;n de orden de pago</a>
                 </i>
             </div>      
         <?php if(isset($this->existePago)&&$this->existePago==2):?>
