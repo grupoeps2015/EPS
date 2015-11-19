@@ -172,6 +172,7 @@ class estudianteController extends Controller{
             $this->_view->setJs(array('jquery.validate'), "public");                 
             $this->_view->setJs(array('jspdf.debug'), "public");
             $this->_view->lstCur = $this->_est->listadoCursosAprobados($idEstudiante,$idCarrera);
+            $this->_view->creditos = $this->_est->creditosEstudiante($idEstudiante,$idCarrera);
             $this->_view->renderizar('listadoCursosAprobados','estudiante');
             
         }else{

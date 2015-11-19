@@ -823,6 +823,10 @@ INSERT INTO adm_funcionmenu (funcionmenu,nombre,tipo,url,funcionpadre,funcion,or
 -- -----------------------------------------------------
 INSERT INTO adm_tipoperiodo (tipoperiodo,nombre,descripcion,estado) VALUES (1,'Asignación de cursos','',1);
 INSERT INTO adm_tipoperiodo (tipoperiodo,nombre,descripcion,estado) VALUES (2,'Ingreso de notas','',1);
+INSERT INTO adm_tipoperiodo (tipoperiodo,nombre,descripcion,estado) VALUES (3,'Ingreso de actividades','',1);
+INSERT INTO adm_tipoperiodo (tipoperiodo,nombre,descripcion,estado) VALUES (4,'Asignación de primera retrasada','',1);
+INSERT INTO adm_tipoperiodo (tipoperiodo,nombre,descripcion,estado) VALUES (5,'Asignación de segunda retrasada','',1);
+INSERT INTO adm_tipoperiodo (tipoperiodo,nombre,descripcion,estado) VALUES (6,'Asignación de suficiencias','',1);
 
 -- -----------------------------------------------------
 -- Insert adm_tipoasignacion
@@ -858,7 +862,11 @@ INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademic
 INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (203,'Cantidad máxima de asignaciones por curso','3','',1,1,3,1);
 INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (204,'Cupo máximo por curso','60','Estudiantes asignados',1,1,3,1);
 INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (205,'Cantidad máxima de cursos a asignar por ciclo','8','Por estudiante',1,1,3,1);
-
+INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (206,'Nota de promocion','61','Sobre 100 puntos',1,1,3,1);
+INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (207,'Zona','80','Sobre 100 puntos',1,1,3,1);
+INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (208,'Examen','20','Sobre 100 puntos',1,1,3,1);
+INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (209,'Zona minima','41','Sobre 100 puntos',1,1,3,1);
+INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (210,'Nota de aprobacion de examen de suficiencia','80','Sobre 100 puntos',1,1,3,1);
 
 -- -----------------------------------------------------
 -- Insert est_estadonota

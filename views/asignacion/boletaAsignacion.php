@@ -98,7 +98,7 @@
                 </center>
                 <?php endif;?> 
                 <br />
-            <?php for($a =0; $a < count($this->asignacion); $a++) : ?>
+            <?php foreach($this->asignacion as $posicion=>$asigna) : ?>
                 <br />
                 <table id="tbBoleta" class="tbBoleta" border="2">
                     <thead>
@@ -115,7 +115,7 @@
                     <tbody>
                     <?php if(isset($this->lstPar) && count($this->lstPar)): ?>
                         <?php for($i =0; $i < count($this->lstPar); $i++) : ?>
-                        <?php if($this->lstPar[$i]['asignacion'] == $this->asignacion[$a]): ?>
+                        <?php if($this->lstPar[$i]['asignacion'] == $asigna): ?>
                         <tr>
                             <td style="text-align: center;"><?php echo $this->lstPar[$i]['codigocurso']; ?></td>
                             <td style="text-align: center;"><?php echo $this->lstPar[$i]['nombrecurso']; ?></td>
@@ -139,7 +139,7 @@
                                 <h4 style="color: red">ID de boleta de asignación:&nbsp;</h4>
                             </td>
                             <td>
-                                <h4>&nbsp;[<?php echo $this->_encriptarFacil->encode($this->asignacion[$a])?>]</h4>
+                                <h4>&nbsp;[<?php echo $this->_encriptarFacil->encode($asigna)?>]</h4>
                             </td>
                         </tr>
                         <tr>
@@ -162,7 +162,7 @@
                 </center>
                 <br />
                 <br />
-            <?php endfor;?>
+            <?php endforeach;?>
             <?php else : ?>
                 <center>
             <h4>No hay registro de asignación para el ciclo seleccionado.</h4>

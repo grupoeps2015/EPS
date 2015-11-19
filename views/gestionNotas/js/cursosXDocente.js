@@ -1,19 +1,6 @@
 $(document).ready( function () {
     var base_url = $("#hdBASE_URL").val();
     
-    $("#slTipos").change(function(){
-        if(!$("#slTipos").val()){
-            $("#slAnio").html('');
-            $("#slCiclo").html('');
-            $("#slSeccion").html('');
-            $("#slAnio").append('<option value="" disabled>-- A&ntilde;o --</option>')
-            $("#slCiclo").append('<option value="" disabled>-- Ciclo --</option>')
-            $("#slSeccion").append('<option value="" disabled>-- Secci&oacute;n Asignada --</option>')
-        }else{
-            getAniosAjax();
-        }
-    });
-    
     $("#slAnio").change(function(){
         if(!$("#slAnio").val()){
             $("#slCiclo").html('');
@@ -40,14 +27,15 @@ $(document).ready( function () {
     });
     
     $("#btnActividades").click(function() {
-        $.post(base_url+'ajax/getEstadoCicloNotas',
-            { cicloaver: $("#slCiclo").val() },
+        $.post(base_url+'gestionNotas/getEstadoCicloNotas',
+            { 
+                cicloaver: $("#slCiclo").val(),
+                tipoAs: $("#hdtipoAs").val(),
+                centrounidad: $("#hdcentrounidad").val()
+            },
             function(datos){
-                if(datos.length>0){
-                    $('#hdEstadoCiclo').val(datos[0].estadociclo.toString());
-                }else{
-                    $('#hdEstadoCiclo').val("0");
-                }
+                var est = parseInt(datos.estado);
+                $('#hdEstadoCiclo').val(est);
             },
             'json');
         
@@ -87,11 +75,12 @@ $(document).ready( function () {
     
     $("#frFile").submit(function(){
         var datos = new FormData();
+        var path = base_url + "gestionNotas/notasCSV";
         datos.append('csvFile',$("#csvFile")[0].files[0]);
         $.ajax({
             type:"post",
             dataType:"json",
-            url:"http://localhost/EPS/gestionNotas/notasCSV",
+            url:path,
             contentType:false,
             data:datos,
             processData:false
@@ -113,23 +102,6 @@ $(document).ready( function () {
         });
         return false;
     });
-    
-    function getAniosAjax(){
-        $.post(base_url+'ajax/getAniosAjax',
-               'tipo=' + $("#slTipos").val(),
-               function(datos){
-                    $("#slAnio").html('');
-                    if(datos.length>0 ){
-                        $("#slAnio").append('<option value="">-- A&ntilde;o --</option>' );
-                        for(var i =0; i < datos.length; i++){
-                            $("#slAnio").append('<option value="' + datos[i].anio + '">' + datos[i].anio + '</option>' );
-                        }
-                    }else{
-                        $("#slAnio").append('<option value="" disabled>No hay info.</option>' );
-                    }
-               },
-               'json');
-    }
     
     function getCiclosAjax(){
         $.post(base_url+'ajax/getCiclosAjax',
@@ -194,7 +166,7 @@ $(document).ready( function () {
     }
     
     function mostrarListado(id, idCiclo){
-        var estado = parseInt($('#hdEstadoCiclo').val());
+        var estado = 0;
         var notas = "";
         $("#slCarnetxAsignacion").html('');
         $.post(base_url+'ajax/getListaAsignados',
@@ -203,6 +175,7 @@ $(document).ready( function () {
                 $("#tbAsignados").css('display','block');
                 $("#bodyAsignados").html('');
                 if(datos.length>0){
+                    estado = parseInt($('#hdEstadoCiclo').val());
                     $('#hdTotalAsignados').val(datos.length.toString());
                     for(var i =0; i < datos.length; i++){
                         if(estado === 1){

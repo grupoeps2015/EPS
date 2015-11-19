@@ -575,6 +575,7 @@ $BODY$
   COST 100;
 ALTER FUNCTION spdesactivarasignacionanterior(integer, integer, integer, integer)
   OWNER TO postgres;
+  
 -- Function: splistadocursosaprobados(integer, integer)
 
 -- DROP FUNCTION splistadocursosaprobados(integer, integer);
@@ -595,14 +596,15 @@ CREATE OR REPLACE FUNCTION splistadocursosaprobados(
 	out tipoaprobacion integer,
 	out nombretipoaprobacion text,
 	out calificacionnumeros text,
-	out fechaaprobacion date)
+	out fechaaprobacion date,
+	out estadoasignacion integer)
   RETURNS setof record AS
 $BODY$
 begin
   Return query
-  SELECT notas.cursoaprobado, notas.estudiante, notas.nombreestudiante, notas.carnet, notas.carrera, notas.nombrecarrera, notas.asignacion, notas.numero, notas.codigo, notas.asignatura, notas.tipoaprobacion, notas.nombretipoaprobacion, notas.calificacionennumeros, notas.fechaaprobacion
+	SELECT notas.cursoaprobado, notas.estudiante, notas.nombreestudiante, notas.carnet, notas.carrera, notas.nombrecarrera, notas.asignacion, notas.numero, notas.codigo, notas.asignatura, notas.tipoaprobacion, notas.nombretipoaprobacion, notas.calificacionennumeros, notas.fechaaprobacion, notas.estadoasignacion
 FROM (
-	select ca.cursoaprobado, ciclo.estudiante, concat(est.primernombre || ' ' || est.segundonombre || ' ' || est.primerapellido || ' ' || est.segundoapellido) as nombreestudiante, est.carnet, estcar.carrera, car.nombre as nombrecarrera, asig.asignacion, curso.curso as numero, curso.codigo as codigo, curso.nombre as asignatura, tipo.tipoaprobacion, tipo.nombre as nombretipoaprobacion, CASE WHEN nota.total = 0 and nota.aprobacion = 2 THEN 'APROBADO' WHEN nota.total = 0 and nota.aprobacion = -2 THEN 'REPROBADO' ELSE cast(nota.total as text) END as calificacionennumeros, ca.fechaaprobacion 
+	select ca.cursoaprobado, ciclo.estudiante, concat(est.primernombre || ' ' || est.segundonombre || ' ' || est.primerapellido || ' ' || est.segundoapellido) as nombreestudiante, est.carnet, estcar.carrera, car.nombre as nombrecarrera, asig.asignacion, curso.curso as numero, curso.codigo as codigo, curso.nombre as asignatura, tipo.tipoaprobacion, tipo.nombre as nombretipoaprobacion, CASE WHEN nota.total = 0 and nota.aprobacion = 2 THEN 'APROBADO' WHEN nota.total = 0 and nota.aprobacion = -2 THEN 'REPROBADO' ELSE cast(nota.total as text) END as calificacionennumeros, ca.fechaaprobacion, asig.estado as estadoasignacion
 	from est_cursoaprobado ca
 	join est_cur_asignacion asig on asig.asignacion = ca.asignacion
 	join est_ciclo_asignacion ciclo on ciclo.ciclo_asignacion = asig.ciclo_asignacion
@@ -614,11 +616,11 @@ FROM (
 	join cur_pensum_area curpen on curpen.cursopensumarea = sec.curso
 	join cur_curso curso on curso.curso = curpen.curso
 	join cur_tipoaprobacion tipo on tipo.tipoaprobacion = ca.tipoaprobacion
-	where asig.estado = 1
+	where asig.estado IN (1,-3)
 
 	UNION
 
-	select ca.cursoaprobado, ciclo.estudiante, concat(est.primernombre || ' ' || est.segundonombre || ' ' || est.primerapellido || ' ' || est.segundoapellido) as nombreestudiante, est.carnet, estcar.carrera, car.nombre as nombrecarrera, asigretra.asignacionretrasada, curso.curso as numero, curso.codigo as codigo, curso.nombre as asignatura, tipo.tipoaprobacion as nombretipoaprobacion, tipo.nombre, cast(coalesce(asigretra.notaretrasada,0) as text) as calificacionennumeros, ca.fechaaprobacion 
+	select ca.cursoaprobado, ciclo.estudiante, concat(est.primernombre || ' ' || est.segundonombre || ' ' || est.primerapellido || ' ' || est.segundoapellido) as nombreestudiante, est.carnet, estcar.carrera, car.nombre as nombrecarrera, asigretra.asignacionretrasada, curso.curso as numero, curso.codigo as codigo, curso.nombre as asignatura, tipo.tipoaprobacion as nombretipoaprobacion, tipo.nombre, cast(coalesce(asigretra.notaretrasada,0) as text) as calificacionennumeros, ca.fechaaprobacion, asig.estado as estadoasignacion
 	from est_cursoaprobado ca
 	join est_asignacionretrasada asigretra on asigretra.asignacionretrasada = ca.asignacionretrasada
 	join est_cur_asignacion asig on asigretra.asignacion = asig.asignacion
@@ -630,7 +632,7 @@ FROM (
 	join cur_pensum_area curpen on curpen.cursopensumarea = sec.curso
 	join cur_curso curso on curso.curso = curpen.curso
 	join cur_tipoaprobacion tipo on tipo.tipoaprobacion = ca.tipoaprobacion
-	where asig.estado = 1
+	where asig.estado IN (1,-3)
 ) as notas
 WHERE notas.estudiante = _estudiante
 AND notas.carrera = _carrera
@@ -641,6 +643,70 @@ $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
 ALTER FUNCTION splistadocursosaprobados(integer, integer)
+  OWNER TO postgres;
+  
+  
+  -- Function: spcursosdisponiblesasignacionretrasada(integer, integer, integer)
+
+-- DROP FUNCTION spcursosdisponiblesasignacionretrasada(integer, integer, integer);
+
+CREATE OR REPLACE FUNCTION spcursosdisponiblesasignacionretrasada(
+    IN _ciclo integer,
+    IN _carrera integer,
+    IN _estudiante integer,
+    OUT curso integer,
+    OUT codigo text,
+    OUT nombre text,
+    OUT traslape boolean)
+  RETURNS SETOF record AS
+$BODY$
+begin
+ Return query
+ select distinct cc.curso, cc.codigo, cc.nombre, cc.traslape
+	     from est_cur_asignacion eca
+	join est_ciclo_asignacion ecla on eca.ciclo_asignacion = ecla.ciclo_asignacion and eca.estado = 1
+	join cur_seccion cs on eca.seccion = cs.seccion
+	join cur_curso cc on cs.curso = cc.curso and cc.estado = 1
+	join adm_periodo ap on ecla.periodo = ap.periodo and ap.ciclo = _ciclo and ap.estado = 1
+	join est_estudiante_carrera ec on ec.estudiante = _estudiante and ec.carrera = _carrera;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION spcursosdisponiblesasignacionretrasada(integer, integer, integer)
+  OWNER TO postgres;
+
+  
+-- Function: spdatosextraboletaretrasada(integer, integer)
+
+-- DROP FUNCTION spdatosextraboletaretrasada(integer, integer);
+
+CREATE OR REPLACE FUNCTION spdatosextraboletaretrasada(
+    IN _ciclo integer,
+    IN _retrasada integer,
+    OUT numerociclo integer,
+    OUT anio integer,
+    OUT tipociclo integer,
+    OUT rubro integer)
+  RETURNS SETOF record AS
+$BODY$
+begin
+ Return query
+ select c.numerociclo, c.anio, c.tipociclo, 
+ case 
+ when c.numerociclo = 1 and _retrasada = 4 then 4 
+ when c.numerociclo = 1 and _retrasada = 5 then 5
+ when c.numerociclo = 2 and _retrasada = 4 then 6
+ when c.numerociclo = 2 and _retrasada = 5 then 7
+ end
+	from cur_ciclo c where c.ciclo = _ciclo;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION spdatosextraboletaretrasada(integer, integer)
   OWNER TO postgres;
   
 Select 'Script de Asignaciones Instalado' as "Asignacion";

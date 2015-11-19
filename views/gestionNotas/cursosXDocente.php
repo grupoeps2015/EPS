@@ -58,12 +58,12 @@
                         <td>&nbsp;</td>
                         <td>&nbsp;</td>
                         <td colspan="2">
-                            <select id="slTipos" name="slTipos" class="form-control input-lg">
-                            <?php if (isset($this->lsTipoCiclo) && count($this->lsTipoCiclo)): ?>
-                                    <option value="">-- Tipo Ciclo --</option>
-                                    <?php for ($i = 0; $i < count($this->lsTipoCiclo); $i++) : ?>
-                                        <option value="<?php echo $this->lsTipoCiclo[$i]['codigo']; ?>">
-                                            <?php echo $this->lsTipoCiclo[$i]['nombre']; ?>
+                            <select id="slAnio" name="slAnio" class="form-control input-lg">
+                            <?php if (isset($this->lstAnios) && count($this->lstAnios)): ?>
+                                    <option value="">-- A&ntilde;o --</option>
+                                    <?php for ($i = 0; $i < count($this->lstAnios); $i++) : ?>
+                                        <option value="<?php echo $this->lstAnios[$i]['anio']; ?>">
+                                            <?php echo $this->lstAnios[$i]['anio']; ?>
                                         </option>
                                     <?php endfor; ?>
                             <?php else : ?>
@@ -72,17 +72,13 @@
                             </select>
                         </td>
                         <td>&nbsp;</td>
-                        <td>
-                            <select id="slAnio" name="slAnio" class="form-control input-lg">
-                                <option value="" disabled>-- A&ntilde;o --</option>
-                            </select>
-                        </td>
-                        <td>&nbsp;</td>
                         <td colspan="2">
                             <select id="slCiclo" name="slCiclo" class="form-control input-lg">
                                 <option value="" disabled>-- Ciclo --</option>
                             </select>
                         </td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
                     </tr>
                     <tr>
                         <td>&nbsp;</td>
@@ -157,6 +153,8 @@
                                     <input type="hidden" id="idCatedratico" name="idCatedratico" value="<?php echo $this->datosCat[0][0];?>" >
                                     <input type="hidden" id="hdEstadoCiclo" name="hdEstadoCiclo" value="0" >
                                     <input type="hidden" id="hdTipo" name="hdTipo" value="<?php echo $this->tipo; ?>" >
+                                    <input type="hidden" id="hdtipoAs" name="hdtipoAs" value="2">
+                                    <input type="hidden" id="hdcentrounidad" name="hdcentrounidad" value="<?php echo $_SESSION["centrounidad"]?>">
                                     <input type="hidden" id="hdTotalAsignados" name="hdTotalAsignados" value="0" >
                                     <input type="hidden" name="hdFile" value="1"/>
                                 </form>

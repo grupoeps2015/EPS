@@ -51,4 +51,50 @@ class gestionNotasModel extends Model {
         }
     }
     
+    public function estadoCicloActividades($idCiclo){
+        $info = $this->_db->query("select * from spobtenerestadocicloactividades({$idCiclo}) as estado;");
+        if($info === false){
+            return "1104/estadoCicloASignacion";
+        }else{
+            return $info->fetchall();
+        }
+    }
+    
+    public function guardarActividad($idPadre,$idTipo,$nombre,$valor,$desc){
+        $info = $this->_db->query("select * from spAgregarActividad({$idPadre},{$idTipo},'{$nombre}',{$valor},'{$desc}');");
+        if($info === false){
+            return "1101/guardarActividad";
+        }else{
+            return $info->fetchall();
+        }
+    }
+    
+    public function asociarActividad($asignado,$actividad){
+        $info = $this->_db->query("select * from spAgregarActividad({$asignado},{$actividad});");
+        if($info === false){
+            return "1101/asociarActividad";
+        }else{
+            return $info->fetchall();
+        }
+    }
+    
+    public function contarActividades($idTrama){
+        $info = $this->_db->query("select * from spContarActividades({$idTrama});");
+        if($info === false){
+            return "1104/contarActividades";
+        }else{
+            return $info->fetchall();
+        }
+    }
+    
+    public function getEstadoCicloNotas($idCiclo,$tipoPeriodo,$tipoAsignacion,$centrounidad){
+        //$info = $this ->_db->query("select * from spobtenerestadociclonotas({$idCiclo}) as estadociclo");
+        $info = $this->_db->query("select * from spPeriodoActivo({$idCiclo},{$tipoPeriodo},{$tipoAsignacion},{$centrounidad});");
+        if($info === false){
+            return "1200/getEstadoCicloNotas";
+        }else{
+            $info->setFetchMode(PDO::FETCH_ASSOC);
+            return $info->fetchall();
+        }
+    }
 }

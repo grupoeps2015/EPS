@@ -1,39 +1,4 @@
-<script text="text/javascript">
-function generarPDF()
-   {
-       var strCarnet = "<?php echo $this->lstCur[0]['carnet']; ?>";
-            var pdf = new jsPDF('p', 'pt', "A4");
-            source = $('#divCursosAprobados')[0];
 
-            specialElementHandlers = {
-                '#bypassme': function(element, renderer) {
-                    return true
-                }
-            };
-            margins = {
-                top: 80,
-                bottom: 60,
-                left: 20,
-                width: 522
-            };
-            pdf.fromHTML(
-                    source, 
-                    margins.left, 
-                    margins.top, {
-                        'width': margins.width, 
-                        'elementHandlers': specialElementHandlers
-                    },
-            function(dispose) {
-                pdf.setFont("helvetica");
-                pdf.setFontType("bold");
-                pdf.setFontSize(7);
-                pdf.save("ListadoCursosAprobados - " + strCarnet + '.pdf');
-            }
-            , margins);
-        
-   }
-   
-</script>
 <section id="" style="background-color: beige;">
     <div class="container">
         <div class="row">
@@ -66,7 +31,13 @@ function generarPDF()
         <br/>
         <?php endif;?>
             <div id="divCursosAprobados" class="form-group" >
+                 <?php if(isset($this->lstCur[0]['nombreestudiante']) && isset($this->lstCur[0]['carnet'])):?>
+                    Listado de cursos aprobados del estudiante: <?php echo $this->lstCur[0]['nombreestudiante']?> 
+                    , quien se identifica con el n&uacute;mero de carnet: <?php echo $this->lstCur[0]['carnet']?>
+                 <?php endif;?>
+                   
                 <div style="margin-left: 5%; margin-right: 5%">
+                     <br/>
                     <table id="tbCursosAprobados" border="2">
                         <thead>
                             <tr>                                
@@ -76,11 +47,13 @@ function generarPDF()
                                 <th style="text-align:center">Tipo Aprobaci&oacute;n</th>
                                 <th style="text-align:center">Calificaci&oacute;n</th>
                                 <th style="text-align:center">Calificaci&oacute;n en letras</th>
-                                <th style="text-align:center">Fecha Aprobaci&oacute;n</th>                                  
+                                <th style="text-align:center">Fecha Aprobaci&oacute;n</th>   
+                                <th style="text-align:center">Estado de Asignaci&oacute;n</th>   
                             </tr>
                         </thead>
                         <tbody>
                         <?php if(isset($this->lstCur) && count($this->lstCur)): ?>
+                            <?php $contadorPromedio = 0; $promedio = 0;?>
                             <?php for($i =0; $i < count($this->lstCur); $i++) : ?>
                             <tr>                                
                                 <td style="text-align: center;"><?php echo $this->lstCur[$i]['cursoaprobado']; ?></td>
@@ -90,21 +63,57 @@ function generarPDF()
                                 <td style="text-align: center"><?php echo $this->lstCur[$i]['calificacionnumeros']; ?></td>
                                 <td style="text-align: center"><?php echo numtoletras($this->lstCur[$i]['calificacionnumeros']); ?></td>
                                 <td style="text-align: center"><?php echo $this->lstCur[$i]['fechaaprobacion']; ?></td>                                                                
+                                <?php if($this->lstCur[$i]['estadoasignacion'] == -3):?>
+                                <td style="text-align: center">Curso con problemas</td>                                                                
+                                <?php else:?>
+                                <td style="text-align: center"></td>                                                                
+                                <?php endif;?>                                 
                             </tr>
+                                <?php if($this->lstCur[$i]['calificacionnumeros'] != CURSO_APROBADO && $this->lstCur[$i]['calificacionnumeros'] != CURSO_REPROBADO): ?>
+                                    <?php ++$contadorPromedio; $promedio = $promedio + $this->lstCur[$i]['calificacionnumeros'];?>
+                                <?php endif;?>
                             <?php endfor;?>                            
                         <?php endif;?> 
                         </tbody>
                     </table>
                     <br />
                     <?php if(isset($this->lstCur[0]['codigo'])):?>
-                    <p>Promedio: </p>
-                    <br/>
-                    <p>Cr&eacute;ditos: </p>
+                    <p>Promedio general: <?php $promedioGeneral =0; $promedioGeneral = $promedio / $contadorPromedio; echo $promedioGeneral; ?> </p>
+                        <?php if(isset($this->creditos[0]['creditos'])):?>
+                        <p>Cr&eacute;ditos obtenidos: <?php echo $this->creditos[0]['creditos']?></p>
+                        <?php else:?>
+                        <p>Cr&eacute;ditos obtenidos: 0?></p>
+                        <?php endif;?> 
                     <?php endif;?> 
                 </div>
             </div>
     </div>   
 </section>
+
+<script text="text/javascript">
+function generarPDF()
+   {
+       var strCarnet = "<?php echo $this->lstCur[0]['carnet']; ?>";
+            var pdf = new jsPDF('o', 'pt', 'a4');
+           pdf.cellInitialize();
+    pdf.setFontSize(9);
+    pdf.text(20, 20,  'Listado de cursos aprobados del estudiante: <?php echo $this->lstCur[0]['nombreestudiante']?>, quien se identifica con el número de carnet: <?php echo $this->lstCur[0]['carnet']?>');
+    $.each( $('#tbCursosAprobados tr'), function (i, row){
+        $.each( $(row).find("td, th"), function(j, cell){
+        	 var txt = $(cell).text().trim().split(" ").join("\n") || " ";
+             var width = (j==0) ? 70 : 70; //make with column smaller
+             //var height = (i==0) ? 40 : 30;
+             pdf.cell(10, 50, width, 50, txt, i);
+        });
+    });
+    pdf.text(20, 20,  'Listado de cursos aprobados del estudiante: <?php echo $this->lstCur[0]['nombreestudiante']?>, quien se identifica con el número de carnet: <?php echo $this->lstCur[0]['carnet']?> \n\n Promedio general: <?php echo $promedioGeneral;?> - Créditos obtenidos: <?php echo $this->creditos[0]['creditos']?>');
+   
+                pdf.save("ListadoCursosAprobados - " + strCarnet + '.pdf');
+          
+        
+   }
+   
+</script>
 
 <?php
  

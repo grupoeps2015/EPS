@@ -56,27 +56,27 @@
                         <td colspan="2">
                             <select id="slTipos" name="slTipos" class="form-control input-lg">
                             <?php if (isset($this->lsTipoCiclo) && count($this->lsTipoCiclo)): ?>
-                                    <option value="">-- Tipo Ciclo --</option>
+                                    <option value="-1">-- Tipo Ciclo --</option>
                                     <?php for ($i = 0; $i < count($this->lsTipoCiclo); $i++) : ?>
                                         <option value="<?php echo $this->lsTipoCiclo[$i]['codigo']; ?>">
                                             <?php echo $this->lsTipoCiclo[$i]['nombre']; ?>
                                         </option>
                                     <?php endfor; ?>
                             <?php else : ?>
-                                <option value="">-- No existen tipos registrados --</option>
+                                <option value="-1">-- No existen tipos registrados --</option>
                             <?php endif; ?>
                             </select>
                         </td>
                         <td>&nbsp;</td>
                         <td>
                             <select id="slAnio" name="slAnio" class="form-control input-lg">
-                                <option value="" disabled>-- A&ntilde;o --</option>
+                                <option value="-1" disabled>-- A&ntilde;o --</option>
                             </select>
                         </td>
                         <td>&nbsp;</td>
                         <td colspan="2">
                             <select id="slCiclo" name="slCiclo" class="form-control input-lg">
-                                <option value="" disabled>-- Ciclo --</option>
+                                <option value="-1" disabled>-- Ciclo --</option>
                             </select>
                         </td>
                     </tr>
@@ -85,12 +85,12 @@
                         <td>&nbsp;</td>
                         <td colspan="4">&nbsp;<br/>
                             <select id="slSeccion" name="slSeccion" class="form-control input-lg">
-                                <option value="" disabled>-- Secci&oacute;n Asignada --</option>
+                                <option value="-1" disabled>-- Secci&oacute;n Asignada --</option>
                             </select>
                         </td>
                         <td>&nbsp;</td>
                         <td><br/>
-                            <input type="submit" id="btnActividades" name="btnActividades" value="Ver Actividades" class="btn btn-danger btn-lg btn-block" disabled="disabled">
+                            <input type="submit" id="btnActividades" name="btnActividades" value="Ver Actividades" class="btn btn-warning btn-lg btn-block" disabled="disabled"/>
                         </td>
                     </tr>
                     <tr style="display:none">
@@ -98,9 +98,7 @@
                         <td colspan="4">
                             <select id="slCursoxSeccion" name="slCursoxSeccion" class="form-control input-lg"></select>
                         </td>
-                        <td colspan="4">
-                            <select id="slCarnetxAsignacion" name="slCarnetxAsignacion" class="form-control input-lg"></select>
-                        </td>
+                        <td colspan="4">&nbsp;</td>
                     </tr>
                     <tr>
                         <td colspan="8"><hr class="hr1"/></td>
@@ -112,20 +110,23 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <h4 align="center"><span id="spanMsg" name="spanMsg" class="text-warning"></span></h4>
-                <form>
-                    <table class="table-bordered" id="tbActividades" name="tbActividades"style="display:block; text-align: center; width:100%">
+                <form id="frActividades" name="frActividades">
+                    <table id="tbActividades" name="tbActividades"style="display:none; text-align: center; width:100%">
                         <thead>
                             <tr class="text-primary">
-                                <th style="width:49%; text-align:center">Nombre:</th>
+                                <th style="width:19%; text-align:center">Nombre:</th>
+                                <th style="width:30%;">&nbsp;</th>
                                 <th style="width:1%">&nbsp;</th>
                                 <th style="width:24%; text-align:center">Punteo:</th>
-                                <th style="width:1%">&nbsp;</th>
+                                <th style="width:1%">&nbsp;
+                                    <select id="slIdxAsignacion" name="slIdxAsignacion" class="form-control input-lg" style="display:none;"></select>
+                                </th>
                                 <th style="width:25%; text-align:center">Agregar Actividad</th>
                             </tr>
                         </thead>
                         <tbody id="tbodyAct" name="tbodyAct">
                             <tr>
-                                <td style="width:49%"><br/>FINAL<br/>&nbsp;</td>
+                                <td colspan="2"><br/>EXAMEN FINAL<br/>&nbsp;</td>
                                 <td style="width:1%">&nbsp;</td>
                                 <td style="width:24%"><br/>25 pts.<br/>&nbsp;</td>
                                 <td style="width:1%">&nbsp;</td>
@@ -135,7 +136,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td style="width:49%">ZONA</td>
+                                <td colspan="2">ZONA</td>
                                 <td style="width:1%">&nbsp;</td>
                                 <td style="width:24%">75 pts.</td>
                                 <td style="width:1%">&nbsp;</td>
@@ -149,6 +150,18 @@
                                 </td>
                             </tr>
                         </tbody>
+                        <tfoot>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>&nbsp;<br/>
+                                    <input type="submit" id="btnGuardar" name="btnGuardar" value="Guardar" class="btn btn-warning btn-sm btn-block"/>
+                                </td>
+                            </tr>
+                        </tfoot>
                     </table>
                 </form>
             </div>
@@ -167,53 +180,79 @@
                 <h2 class="text-center text-info">Nueva Actividad</h2>
             </div>
             <div class="modal-body row">
-                <div class="form-group">
-                    <table align="center">
-                        <tr>
-                            <td tyle="width: 45%" class="text-info">
-                                <span>Actividades para zona del curso</span>
-                            </td>
-                            <td>&nbsp;</td>
-                            <td>
-                                <select id="slTipoActividad" name="slTipoActividad" class="form-control input-lg">
-                                <?php if(isset($this->lsTipoActividad) && count($this->lsTipoActividad)): ?>
-                                    <option value="">(Tipo Actividad)</option>
-                                    <?php for ($i = 0; $i < count($this->lsTipoActividad); $i++) : ?>
-                                    <option value="<?php echo $this->lsTipoActividad[$i]['codigo']; ?>">
-                                        <?php echo $this->lsTipoActividad[$i]['nombre']; ?>
-                                    </option>
-                                    <?php endfor;?>
-                                <?php else : ?>
-                                    <option value="">-- No existen tipos registrados --</option>
-                                <?php endif;?>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="width: 45%">
-                                <br />Nombre:<br />
-                                <input id="txtNombreAct" name="txtNombreAct" type="text" class="form-control input-lg" value="" placeholder="Ej: Tarea#1, Corto#1, etc.">&nbsp;
-                            </td>
-                            <td>&nbsp;</td>
-                            <td>
-                                <br />Valor (puntos netos):&nbsp;<br />
-                                <input id="txtValorAct" name="txtValorAct" type="number" min="1" max="99" class="form-control input-lg" value="">&nbsp;
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="3">Descripcion:&nbsp;<br />
-                                <input id="txtDescAct" name="txtDescAct" type="text" class="form-control input-lg" value="">
-                            </td>                            
-                        </tr>
-                        <tr>
-                            <td tyle="width: 45%">&nbsp;</td>
-                            <td>&nbsp;</td>
-                            <td><br/>
-                                <input type="button" id="btnNvaActividad" name="btnNvaActividad" value="Agregar" class="btn btn-danger btn-lg btn-block">
-                            </td>
-                        </tr>
-                    </table>
-                </div>
+                <form id="frmGenerales" method="post" action="">
+                    <div class="form-group">
+                        <table align="center">
+                            <tr style="display:none;">
+                                <td tyle="width: 45%" class="text-info">
+                                    <span>Seleccione la actividad padre:</span>
+                                </td>
+                                <td>&nbsp;</td>
+                                <td>
+                                    <select id="slActPadre" name="$this" class="form-control input-lg">
+                                    <?php if(isset($this->lsTipoActividad) && count($this->lsTipoActividad)): ?>
+                                        <?php for ($i = 0; $i < count($this->lsTipoActividad); $i++) : ?>
+                                        <option value="<?php echo $this->lsTipoActividad[$i]['codigo']; ?>">
+                                            <?php echo $this->lsTipoActividad[$i]['nombre']; ?>
+                                        </option>
+                                        <?php endfor;?>
+                                    <?php else : ?>
+                                        <option value="">-- No existen tipos registrados --</option>
+                                    <?php endif;?>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td tyle="width: 45%" class="text-info">
+                                    <span>Actividades para zona del curso</span>
+                                </td>
+                                <td>&nbsp;</td>
+                                <td>
+                                    <select id="slTipoActividad" name="slTipoActividad" class="form-control input-lg">
+                                    <?php if(isset($this->lsTipoActividad) && count($this->lsTipoActividad)): ?>
+                                        <option value="">(Tipo Actividad)</option>
+                                        <?php for ($i = 0; $i < count($this->lsTipoActividad); $i++) : ?>
+                                        <option value="<?php echo $this->lsTipoActividad[$i]['codigo']; ?>">
+                                            <?php echo $this->lsTipoActividad[$i]['nombre']; ?>
+                                        </option>
+                                        <?php endfor;?>
+                                    <?php else : ?>
+                                        <option value="">-- No existen tipos registrados --</option>
+                                    <?php endif;?>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width: 45%">
+                                    <br />Nombre:<br />
+                                    <input id="txtNombreAct" name="txtNombreAct" type="text" class="form-control input-lg" value="" placeholder="Ej: Tarea#1, Corto#1, etc.">&nbsp;
+                                </td>
+                                <td>&nbsp;</td>
+                                <td>
+                                    <br />Valor (puntos netos):&nbsp;<br />
+                                    <input id="txtValorAct" name="txtValorAct" type="number" min="1" max="100" class="form-control input-lg" value="">&nbsp;
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">Descripcion:&nbsp;<br />
+                                    <input id="txtDescAct" name="txtDescAct" type="text" class="form-control input-lg" value="">
+                                </td>                            
+                            </tr>
+                            <tr>
+                                <td colspan="3" style="text-align: center">
+                                    <span id="spanConfirma" id="spanConfirma" class="text-success"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td tyle="width: 45%">&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td><br/>
+                                    <input type="button" id="btnNvaActividad" name="btnNvaActividad" value="Agregar" class="btn btn-danger btn-lg btn-block">
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

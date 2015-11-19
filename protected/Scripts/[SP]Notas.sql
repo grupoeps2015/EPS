@@ -206,4 +206,63 @@ END;
 $BODY$
 LANGUAGE plpgsql;
 
+-- -----------------------------------------------------
+-- Function: spobtenerestadocicloactividades()
+-- -----------------------------------------------------
+-- DROP FUNCTION spobtenerestadocicloactividades(int);
+CREATE OR REPLACE FUNCTION spobtenerestadocicloactividades(IN _idCiclo integer) RETURNS Integer AS
+$BODY$
+DECLARE estadociclo int;
+BEGIN
+ SELECT
+	COALESCE((select estado from adm_periodo where ciclo = _idCiclo and tipoasignacion = 2 and tipoperiodo = 3), 0)
+	FROM adm_periodo
+	LIMIT 1
+ into estadociclo;
+  return estadociclo;
+END;
+$BODY$
+LANGUAGE plpgsql;
+
+-- -----------------------------------------------------
+-- Function: spAgregarActividad()
+-- -----------------------------------------------------
+-- DROP FUNCTION spAgregarActividad(int, int, text, int, text);
+CREATE OR REPLACE FUNCTION spAgregarActividad(_padre integer, _tipo integer, _nombre text, _valor integer, _descripcion text) RETURNS integer AS
+$BODY$
+Declare idActividad integer;
+BEGIN
+  select * from spobtenersecuencia('actividad','cur_actividad') into idActividad;
+  EXECUTE FORMAT(('INSERT INTO cur_actividad VALUES(%s,%s,''%s'',%s,''%s'',1,%s)'),idActividad,_valor,_nombre,_tipo,_descripcion,_padre);
+  return idActividad;
+END
+$BODY$
+LANGUAGE plpgsql;
+
+-- -----------------------------------------------------
+-- Function: spAsociarActividad()
+-- -----------------------------------------------------
+-- DROP FUNCTION spAsociarActividad(int, int);
+CREATE OR REPLACE FUNCTION spAgregarActividad(_idAsignacion integer, _idActividad integer) RETURNS void AS
+$BODY$
+BEGIN
+  EXECUTE FORMAT(('INSERT INTO est_cur_nota_actividad VALUES(%s,%s,current_timestamp,0,null,1)'),_idAsignacion,_idActividad);
+END
+$BODY$
+LANGUAGE plpgsql;
+
+-- -----------------------------------------------------
+-- Function: spContarActividades()
+-- -----------------------------------------------------
+-- DROP FUNCTION spContarActividades(int);
+CREATE OR REPLACE FUNCTION spContarActividades(_idTrama int) RETURNS int AS
+$BODY$
+DECLARE total int;
+BEGIN
+  select count(actividad) as totalActividades from est_cur_nota_actividad where asignacion = _idTrama into total;
+  return total;
+END
+$BODY$
+LANGUAGE plpgsql;
+
 Select 'Script para Gestion de Notas Instalado' as "Gestion Notas";
