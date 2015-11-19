@@ -75,13 +75,13 @@ class wsGeneraOrdenPago{
         return $aRespuesta;
     }
     
-    function confirmacionPago()
+    function confirmacionPago($idPago,$carnet)
     {
         require_once("nusoap/nusoap.php");
         $xml_consulta_pago = ''.
                 '<CONSULTA_ORDEN>'.
-                '<ID_ORDEN_PAGO>4802128</ID_ORDEN_PAGO>'.
-                '<ID_PERSONA>200610816</ID_PERSONA>'.
+                '<ID_ORDEN_PAGO>'.$idPago.'</ID_ORDEN_PAGO>'.
+                '<ID_PERSONA>'.$carnet.'</ID_PERSONA>'.
                 '</CONSULTA_ORDEN>';
         
         $v_msg_error='';
@@ -98,7 +98,7 @@ class wsGeneraOrdenPago{
             return;
         }
         
-        $aParametros = array("pxml" => $xml_consulta_usuario);
+        $aParametros = array("pxml" => $xml_consulta_pago);
         $aRespuesta = $oSoapClient->call("consultaOrdenPago", $aParametros);
     
         if ($oSoapClient->fault) {

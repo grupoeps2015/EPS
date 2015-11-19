@@ -65,6 +65,20 @@ class gestionRetrasadasController extends Controller {
         //$idEstudiante = $this->getInteger('slEstudiantes');
         //$idUsuario = $_SESSION['usuario'];
         //$idCarrera = $_SESSION['carrera'];
+        $idPago2='4802128';
+        $carnet2='200610816';
+                
+        $this->_generaorden = new wsGeneraOrdenPago();
+        $prueba = $this->_generaorden->confirmacionPago($idPago2,$carnet2);
+        $cadena = implode(',', $prueba);
+        
+        if ($this->_generaorden->parsear_resultado($cadena,"CODIGO_RESP") == "1") {
+            $this->_view->existePago = 1;
+        }
+        else {
+            $this->_view->existePago = 2;
+        }
+ 
        
         $this->_view->titulo = 'Gestión de retrasadas - ' . APP_TITULO;
         //$this->_view->setJs(array('listadoAsignaciones'));
@@ -113,5 +127,9 @@ class gestionRetrasadasController extends Controller {
             $this->_view->setJs(array('jspdf.debug'), "public");
             $this->_view->renderizar('ordenPago');
         }
+    }
+    
+    public function consultarOrdenPago($idPago,$carnet){
+        
     }
 }

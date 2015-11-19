@@ -26,18 +26,13 @@
                 <i class="fa fa-2x fa-clipboard wow bounceIn text-primary">
                     <a href="<?php echo BASE_URL . 'gestionRetrasadas/listadoAsignaciones/'?>">Generaci&oacute;n de orden de pago</a>
                 </i>
-            </div>
-        <div class="service-box">
-                <i class="fa fa-2x fa-book wow bounceIn text-primary">
-                    <a href="<?php echo BASE_URL . 'gestionRetrasadas/asignacionRetrasada/' ?>">Asignaci&oacute;n de retrasadas</a>
-                </i>
-            </div>
-    </div>
-    <div class="col-md-4 col-md-offset-1">
+            </div>      
+        <?php if(isset($this->existePago)&&$this->existePago==2):?>
             <div class="service-box">
-                <i class="fa fa-2x fa-user wow bounceIn text-primary" data-wow-delay=".1s">
+                <i class="fa fa-2x fa-book wow bounceIn text-primary" data-wow-delay=".1s">
                     <a href="<?php echo BASE_URL . 'general/seleccionarCarreraEstudiante/asignacion/indexRetrasada'?>">Asignaci&oacute;n de retrasadas</a>
                 </i>
             </div>
+        <?php endif;?>
     </div>    
 </section>
