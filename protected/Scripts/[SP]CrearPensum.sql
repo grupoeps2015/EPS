@@ -23,7 +23,7 @@ BEGIN
 	INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (206,'Nota de promocion','61','Sobre 100 puntos',_centrounidadacademica,idCarrera,3,1);
 	INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (207,'Zona','80','Sobre 100 puntos',_centrounidadacademica,idCarrera,3,1);
 	INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (208,'Examen','20','Sobre 100 puntos',_centrounidadacademica,idCarrera,3,1);
-	INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (209,'Zona minima','41','Sobre 100 puntos',_centrounidadacademica,idCarrera,,3,1);
+	INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (209,'Zona minima','41','Sobre 100 puntos',_centrounidadacademica,idCarrera,3,1);
 	INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (210,'Nota de aprobacion de examen de suficiencia','80','Sobre 100 puntos',_centrounidadacademica,idCarrera,3,1);
 	--parámetros de tipo carrera
 	RETURN idCarrera;

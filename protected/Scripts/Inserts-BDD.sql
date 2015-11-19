@@ -875,3 +875,12 @@ INSERT INTO cur_estadonota VALUES (1,'Pendiente','',1);
 INSERT INTO cur_estadonota VALUES (2,'Pendiente de aprobacion','',1);
 INSERT INTO cur_estadonota VALUES (3,'Aprobada por control academico','',1);
 INSERT INTO cur_estadonota VALUES (4,'Reprobada por control academico','',1)
+
+-- -----------------------------------------------------
+-- Insert cur_tipoaprobacion
+-- -----------------------------------------------------
+INSERT INTO cur_tipoaprobacion (tipoaprobacion,nombre,estado,descripcion) VALUES (1,'Asignacion Regular',1,'');
+INSERT INTO cur_tipoaprobacion (tipoaprobacion,nombre,estado,descripcion) VALUES (2,'Asignacion Retrasada',1,'');
+INSERT INTO cur_tipoaprobacion (tipoaprobacion,nombre,estado,descripcion) VALUES (3,'Curso Suficiencia',1,'');
+INSERT INTO cur_tipoaprobacion (tipoaprobacion,nombre,estado,descripcion) VALUES (4,'Curso Equivalencia',1,'');
+INSERT INTO cur_tipoaprobacion (tipoaprobacion,nombre,estado,descripcion) VALUES (5,'Aprobado por Junta Directiva',1,'');

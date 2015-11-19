@@ -97,6 +97,7 @@
                             <form id="frRecargar" method="post" action="<?php echo BASE_URL; ?>gestionNotas/cursosXDocente/<?php echo $this->idUsuario; ?>/<?php echo $this->id; ?>">
                                <?php endif; ?>
                                 <input type="submit" id="btnNuevaBusqueda" name="btnNuevaBusqueda" value="Nueva Busqueda" class="btn btn-danger btn-lg btn-block" style="display:none;">
+                                <input type="hidden" id="hdNotaAprobacion" name="hdNotaAprobacion" value="<?php echo $this->notaAprobado;?>"/>
                             </form>
                         </td>
                     </tr>
@@ -142,24 +143,32 @@
 
                     </tbody>
                     <tfoot>
+                        <form id="frFile" name="frFile" method='post' enctype="multipart/form-data">
                         <tr>
                             <td colspan="5" align="center" id="tdBotones" name="tdBotones">
-                                <form id="frFile" name="frFile" method='post' enctype="multipart/form-data">
-                                    <div id="divcsvFile" class="fileUpload btn btn-warning" style="width:30%">
-                                        <span id="spanCat">Cargar CSV</span>
-                                        <input class="upload" type="file" id="csvFile" name="csvFile"/>
-                                    </div> &nbsp;
-                                    <input type="button" id="btnGuardar" name="btnGuardar" value="Guardar Cambios" class="btn btn-warning" style="width:30%"/>
-                                    <input type="hidden" id="idCatedratico" name="idCatedratico" value="<?php echo $this->datosCat[0][0];?>" >
-                                    <input type="hidden" id="hdEstadoCiclo" name="hdEstadoCiclo" value="0" >
-                                    <input type="hidden" id="hdTipo" name="hdTipo" value="<?php echo $this->tipo; ?>" >
-                                    <input type="hidden" id="hdtipoAs" name="hdtipoAs" value="2">
-                                    <input type="hidden" id="hdcentrounidad" name="hdcentrounidad" value="<?php echo $_SESSION["centrounidad"]?>">
-                                    <input type="hidden" id="hdTotalAsignados" name="hdTotalAsignados" value="0" >
-                                    <input type="hidden" name="hdFile" value="1"/>
-                                </form>
+                                <div id="divcsvFile" class="fileUpload btn btn-warning" style="width:30%">
+                                    <span id="spanCat">Cargar CSV</span>
+                                    <input class="upload" type="file" id="csvFile" name="csvFile"/>
+                                </div> &nbsp;
+                                <input type="button" id="btnGuardar" name="btnGuardar" value="Guardar Cambios" class="btn btn-warning" style="width:30%"/>
+                                <input type="hidden" id="idCatedratico" name="idCatedratico" value="<?php echo $this->datosCat[0][0];?>" >
+                                <input type="hidden" id="hdEstadoCiclo" name="hdEstadoCiclo" value="0" >
+                                <input type="hidden" id="hdTipo" name="hdTipo" value="<?php echo $this->tipo; ?>" >
+                                <input type="hidden" id="hdtipoAs" name="hdtipoAs" value="2">
+                                <input type="hidden" id="hdcentrounidad" name="hdcentrounidad" value="<?php echo $_SESSION["centrounidad"]?>">
+                                <input type="hidden" id="hdTotalAsignados" name="hdTotalAsignados" value="0" >
+                                <input type="hidden" name="hdFile" value="1"/>
+                                
                             </td>
                         </tr>
+                        <?php if($_SESSION['rol']==0 || $_SESSION['rol']==1):?>
+                        <tr>
+                            <td colspan="5" id="tdExtra" name="tdExtra">
+                                <input type="button" id="btnAprobarNotas" name="btnAprobarNotas" value="Aprobar Notas Ingresadas" class="btn btn-warning" style="width:50%"/>
+                            </td>
+                        </tr>
+                        <?php endif;?>
+                        </form>
                     </tfoot>
                 </table>
             </div>
