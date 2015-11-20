@@ -104,12 +104,20 @@ class gestionParametroModel extends Model{
     }
     
     public function actualizarPeriodoParametro($_datos) {
-        $info = $this->_db->prepare("SELECT * from spActualizarPeriodoParametro(:id,:ciclo,:tipoperiodo,:tipoasign,:fechainicial,:fechafinal) as Id;");
-        $data = $info->execute($_datos);
-        if($data === false){
+        try {
+        //$this->_db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        $info = $this->_db->query("SELECT * from spActualizarPeriodoParametro({$_datos['id']},{$_datos['ciclo']},{$_datos['tipoperiodo']},{$_datos['tipoasign']},'{$_datos['fechainicial']}','{$_datos['fechafinal']}') as Id;");
+        //$data = $info->execute($_datos);
+        if($info === false){
+            print_r("SELECT * from spActualizarPeriodoParametro({$_datos['id']},{$_datos['ciclo']},{$_datos['tipoperiodo']},{$_datos['tipoasign']},'{$_datos['fechainicial']}','{$_datos['fechafinal']}') as Id;");
             return "1103/actualizarPeriodoParametro";
         }else{
             return $info->fetchall();
+        }
+        } catch (PDOException $e) {
+            echo 'Falló la conexión: ' . $e->getMessage();
+            exit;
         }
     }
     
