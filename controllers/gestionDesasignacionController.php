@@ -45,6 +45,7 @@ class gestionDesasignacionController extends Controller {
     }
 
     public function listadoAsignaciones($idestudiante=0) {
+        
         $this->_view->estudiante = $this->estudiante;
         if($idestudiante!=0){
             $this->estudiante = $idestudiante;
@@ -52,7 +53,8 @@ class gestionDesasignacionController extends Controller {
         }else{
             $info = $this->_post->allAsignaciones($this->estudiante);
         }
-            
+        
+                 
         if (is_array($info)) {
             $this->_view->lstAsignaciones = $info;
         }
@@ -98,19 +100,22 @@ class gestionDesasignacionController extends Controller {
 
     public function desasignarCurso($idEstado, $idAsignacion) {
         $carnet = $this->getInteger('hdCarnet');
+        $idestudiante = $this->getInteger('hdEst');
         $codigo = $this->getTexto('hdCodigo');
 
+        
 //        session_start();
 //        $rol = $_SESSION["rol"];        
 //        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_ELIMINAREDIFICIO);
 //        if($rolValido[0]["valido"]== PERMISO_ELIMINAR){
         if ($idEstado == ESTADO_INACTIVO || $idEstado == ESTADO_ACTIVO) {
+
             $infoDesasignacion = $this->_post->getdesasignacion($carnet, '%' . $codigo . "%");
-            if (is_array($infoDesasignacion)) {
+            if (isset($infoDesasignacion) && count($infoDesasignacion)) {
                 echo "<script>
                 alert('No se puede realizar la desasignacion debido a que el estudiante ya ha realizado este proceso para este curso.');
                 </script>";
-                $this->redireccionar('gestionDesasignacion/listadoAsignaciones/' . $this->estudiante);
+                $this->redireccionar('gestionDesasignacion/listadoAsignaciones/' . $idestudiante);
             } else {
                 $info = $this->_post->activarDesactivarAsignacion($idAsignacion, $idEstado);
                 if (!is_array($info)) {
@@ -127,7 +132,7 @@ class gestionDesasignacionController extends Controller {
                     echo "<script>
                 alert('Desasignacion de curso para el estudiante " . $carnet . " realizada exitosamente.');
                 </script>";
-                    $this->redireccionar('gestionDesasignacion/listadoAsignaciones/' . $carnet);
+                    $this->redireccionar('gestionDesasignacion/listadoAsignaciones/' . $idestudiante);
                 }
             }
         } else {
