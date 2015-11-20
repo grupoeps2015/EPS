@@ -108,7 +108,7 @@ class gestionRetrasadasController extends Controller {
                 
                 //TODO: Marlen: agregar listado de cursos
                 $this->_view->asignacion = $periodo[0]['periodo'];
-                $this->_view->lstAsignaciones = $this->cursosDisponiblesRetrasada($ciclo);
+                $this->_view->lstAsignaciones = $this->cursosDisponiblesRetrasada($ciclo, $periodo[0]['periodo']);
                 
             }
             else{
@@ -311,8 +311,8 @@ class gestionRetrasadasController extends Controller {
         }
     }
     
-    public function cursosDisponiblesRetrasada($ciclo){
-        $lsCursosDisponibles = $this->_post->getCursosDisponiblesRetrasada($ciclo, $this->carrera, $this->estudiante);
+    public function cursosDisponiblesRetrasada($ciclo, $periodo){
+        $lsCursosDisponibles = $this->_post->getCursosDisponiblesRetrasada($ciclo, $this->carrera, $this->estudiante, $periodo);
         if(is_array($lsCursosDisponibles)){
 
         }else{

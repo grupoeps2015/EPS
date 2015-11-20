@@ -40,8 +40,8 @@ class gestionRetrasadasModel extends Model {
         }
     }
     
-    public function getCursosDisponiblesRetrasada($ciclo, $carrera, $estudiante){
-        $cursos = $this->_db->query("select * from spcursosdisponiblesasignacionretrasada({$ciclo},{$carrera},{$estudiante}) order by codigo;");
+    public function getCursosDisponiblesRetrasada($ciclo, $carrera, $estudiante, $periodo){
+        $cursos = $this->_db->query("select * from spcursosdisponiblesasignacionretrasada({$ciclo},{$carrera},{$estudiante},{$periodo}) order by codigo;");
         $cursos->setFetchMode(PDO::FETCH_ASSOC);
         if($cursos === false){
             return "1200/getCursosDisponiblesRetrasada";
