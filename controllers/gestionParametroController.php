@@ -326,6 +326,7 @@ class gestionParametroController extends Controller{
             }
             
             $this->redireccionar('gestionParametro/listadoPeriodo');
+            exit;
         }
         
         $tiposPeriodo = $this->_post->getTiposPeriodo();
@@ -393,6 +394,7 @@ class gestionParametroController extends Controller{
             $respuesta = $this->_post->actualizarPeriodoParametro($array);
             if (is_array($respuesta)){
                 $this->redireccionar('gestionParametro/listadoPeriodo');
+                exit;
             }else{
                 $this->redireccionar("error/sql/" . $respuesta);
                 exit;

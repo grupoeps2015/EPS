@@ -97,4 +97,22 @@ class gestionNotasModel extends Model {
             return $info->fetchall();
         }
     }
+    
+    public function aprobarNota($idAsignado){
+        $info = $this->_db->query("select * from spAprobarNota({$idAsignado});");
+        if($info === false){
+            return "1103/aprobarNota";
+        }else{
+            return $info->fetchall();
+        }
+    }
+    
+    public function reprobarNota($idAsignado){
+        $info = $this->_db->query("select * from spReprobarNota({$idAsignado});");
+        if($info === false){
+            return "1103/reprobarNota";
+        }else{
+            return $info->fetchall();
+        }
+    }
 }

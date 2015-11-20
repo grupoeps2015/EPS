@@ -133,12 +133,12 @@
                 </i>
             </div>
             <div class="service-box">
-                <i class="fa fa-2x fa-search wow bounceIn text-primary">
+                <i class="fa fa-2x fa-search-plus wow bounceIn text-primary">
                     <a href="<?php echo BASE_URL . 'general/seleccionarCarreraEstudiante/estudiante/cursosAprobados' ?>">Listado de cursos aprobados</a>
                 </i>
             </div>    
             <div class="service-box">
-                <i class="fa fa-2x fa-search wow bounceIn text-primary">
+                <i class="fa fa-2x fa-chain-broken wow bounceIn text-primary">
                     <a href="<?php echo BASE_URL . 'gestionRetrasadas/inicio' ?>">Asignaci&oacute;n de retrasadas</a>
                 </i>
             </div>  

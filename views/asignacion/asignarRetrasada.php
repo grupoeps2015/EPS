@@ -76,7 +76,7 @@
             
             <?php if(isset($this->asignacion)) :?>
         <div class="col-md-6 col-md-offset-3">
-            <form id="frm" method="post" action="">
+            <form id="frm" method="post" action="<?php echo BASE_URL; ?>asignacion/asignarRetrasada">
                 <table style="width:100%">
                     <tr>
                         <td style="width:30%">
@@ -89,8 +89,8 @@
                                 <?php if (isset($this->lstAnios) && count($this->lstCursos)): ?>
                                     <option value="">-- Curso --</option>
                                     <?php for ($i = 0; $i < count($this->lstCursos); $i++) : ?>
-                                        <option value="<?php echo $this->lstCursos[$i]['curso']; ?>">
-                                            <?php echo "[".$this->lstCursos[$i]['codigo']."] ".$this->lstCursos[$i]['nombre']; ?>
+                                        <option value="<?php echo $this->lstCursos[$i]['asignacion'];?>">
+                                            <?php echo "[".$this->lstCursos[$i]['codigo']."] ".$this->lstCursos[$i]['nombre']. ' - ' . $this->lstCursos[$i]['nombreseccion']; ?>
                                         </option>
                                     <?php endfor; ?>
                                 <?php else : ?>
@@ -101,13 +101,14 @@
                         <td>&nbsp;</td>
                     </tr>
                 </table>
+                <input type="submit" id="btnAsignarRetra" name="btnAsignarRetra" value="Asignar examen de retrasada" class="btn btn-danger btn-lg btn-warning">
             </form>
             <form id="frAsignacionCursos" method="post" action="<?php echo BASE_URL; ?>asignacion/asignarRetrasada">
             <table id="tabla" name="tabla" style="width:100%;">
                 <thead>
                     <tr>
                         <td colspan="3" align="right">
-                            <input type="button" value="Agregar curso" class="clsAgregarFila btn btn-danger btn-lg btn-warning" disabled>
+                            <input type="button" value="Agregar curso" class="clsAgregarFila btn btn-danger btn-lg btn-warning" disabled style="display: none">
                         </td>
                     </tr>
                     <tr>

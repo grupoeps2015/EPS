@@ -11,6 +11,7 @@
 --       CONNECTION LIMIT = -1;
 
 -- UPDATE pg_database SET encoding=6 WHERE datname='EPS'
+-- ALTER DATABASE "EPS" SET datestyle TO "ISO, DMY";
 
 
 -- -----------------------------------------------------

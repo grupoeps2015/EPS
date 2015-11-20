@@ -1,5 +1,7 @@
 $(document).ready( function () {
     var base_url = $("#hdBASE_URL").val();
+    var totalReprobados = 0;
+    var totalAprobados = 0;
     
     $("#slAnio").change(function(){
         if(!$("#slAnio").val()){
@@ -103,6 +105,40 @@ $(document).ready( function () {
         return false;
     });
     
+    $("#btnAprobarNotas").click(function(){
+        $("#spanMsg").html('');
+        var tipo = "";
+        var idAsignado = 0;;
+        var total;
+        
+        var notaAprobacion = parseInt($("#hdNotaAprobacion").val());
+        var estado = parseInt($("#hdEstadoCiclo").val());
+        if(estado===1){
+            $("#spanMsg").html('El periodo de ingreso de notas sigue vigente');
+        }else{
+            var inputs = $("#tbAsignados :input");
+            $.each(inputs, function(i, field){
+                if(field.type === "hidden"){
+                    tipo = field.name.substring(0,1);
+                    if(tipo === "t"){
+                        idAsignado = field.name.substring(1);
+                        total = field.value;
+                        if(total>=notaAprobacion){
+                            aprobarNota(idAsignado);
+                        }else{
+                            reprobarNota(idAsignado);
+                        }
+                        //bitacora(idAsignado);
+                    }
+
+                }
+            });
+            $("#spanMsg").html('Total Alumnos Aprobados: '+totalAprobados + '<br/>');
+            $("#spanMsg").append('Total Alumnos Reprobados: '+totalReprobados);
+            $("#btnAprobarNotas").prop('disabled',true);
+        }
+    });
+    
     function getCiclosAjax(){
         $.post(base_url+'ajax/getCiclosAjax',
                'anio=' + $("#slAnio").val(),
@@ -177,6 +213,11 @@ $(document).ready( function () {
                 if(datos.length>0){
                     estado = parseInt($('#hdEstadoCiclo').val());
                     $('#hdTotalAsignados').val(datos.length.toString());
+                    
+                    if(parseInt(datos[0].estado) !== 2){
+                        $("#tdExtra").remove();
+                    }
+                    
                     for(var i =0; i < datos.length; i++){
                         if(estado === 1){
                             $("#slCarnetxAsignacion").append('<option value="' + datos[i].carnet + '" name="' + datos[i].carnet + '" >' + datos[i].idasignacion + '</option>' );
@@ -187,7 +228,8 @@ $(document).ready( function () {
                         }else{
                             notas = '</td><td>' + datos[i].zona + 
                                     '</td><td>' + datos[i].final + 
-                                    '</td><td>' + datos[i].total;
+                                    '</td><td>' + datos[i].total +
+                                    '<input type="hidden" id="t' + datos[i].idasignacion + '" name="t' + datos[i].idasignacion + '" maxlength="5" value="' + datos[i].total + '"/>';
                         }
                         $("#bodyAsignados").append('<tr><td>' + datos[i].carnet + 
                                                    '</td><td>' + datos[i].nombre + 
@@ -196,6 +238,7 @@ $(document).ready( function () {
                 }
                 if(estado === 1){
                     $('#tdBotones').css('display','block');
+                    
                 }else{
                     $('#tdBotones').css('display','none');
                 }
@@ -264,6 +307,28 @@ $(document).ready( function () {
                 
             }    
         });
+    }
+    
+    function aprobarNota(idAsignado){
+        $.post(
+            base_url+'gestionNotas/aprobarNota',{
+                idAs: idAsignado
+            },
+            function(respuesta){
+            },
+            'json');
+        totalAprobados += 1;
+    }
+    
+    function reprobarNota(idAsignado){
+        $.post(
+            base_url+'gestionNotas/reprobarNota',{
+                idAs: idAsignado
+            },
+            function(respuesta){
+            },
+            'json');
+        totalReprobados += 1;
     }
     
     function bitacora(idRegistro){

@@ -852,7 +852,17 @@ class asignacionController extends Controller{
     }
     
     public function asignarRetrasada(){
-        //GERSON AQUI VA TU CODIGO
+        if ($this->getInteger('slCursos')) {
+            $asignacion = $this->getInteger('slCursos'); 
+            $res = $this->_asign->agregarAsignacionCursoRetrasada($asignacion, "1", "1");
+            if(is_array($res)){
+                $this->redireccionar("gestionRetrasadas/inicio");
+                exit;
+            }else{
+                $this->redireccionar("error/sql/" . $res);
+                exit;
+            }
+        }
     }
 }
 

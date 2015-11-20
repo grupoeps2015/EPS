@@ -101,6 +101,12 @@ class gestionNotasController extends Controller{
             exit;
         }
         
+        if(!isset($_SESSION["carrera"])){
+            $_SESSION["carrera"]=1;
+        }
+        $notaAprobado = $this->_ajax->valorParametro(CONS_PARAM_UNIDAD_NOTAPROMOCION, $_SESSION["carrera"], $_SESSION["centrounidad"]);
+        $this->_view->notaAprobado = $notaAprobado[0]['valorparametro'];
+        
         $this->_view->titulo = 'Gestión de notas - ' . APP_TITULO;
         $this->_view->setJs(array('cursosXDocente'));
         $this->_view->setJs(array('jquery.dataTables.min'), "public");
@@ -169,9 +175,13 @@ class gestionNotasController extends Controller{
         $zona = floatval($this->getTexto('zonaN'));
         $final = floatval($this->getTexto('finalN'));
         if($this->getInteger('idAs')){
-            $this->_notas->guardarNota($zona,$final,$this->getInteger('idAs'));
-            $respuesta->total = $zona + $final;
-            $respuesta->mensaje = "Procesado: Las notas seran guardadas con valores enteros";
+            $nota=$this->_notas->guardarNota($zona,$final,$this->getInteger('idAs'));
+            if(is_array($nota)){
+                $respuesta->total = $zona + $final;
+                $respuesta->mensaje = "Procesado: Las notas seran guardadas con valores enteros";
+            }else{
+                $respuesta->mensaje = "Ocurrio un error inesperado, notifique a control academico";
+            }
         }else{
             $respuesta->mensaje = "Ocurrio un error al ingresar una nota";
         }
@@ -250,6 +260,26 @@ class gestionNotasController extends Controller{
             $respuesta->total = $act[0][0];
         }else{
             $respuesta->total = -2;
+        }
+        echo json_encode($respuesta);
+    }
+    
+    public function aprobarNota(){
+        $respuesta = new stdClass();
+        $respuesta->aprobado = 0;
+        if($this->getInteger('idAs')){
+            $this->_notas->aprobarNota($this->getInteger('idAs'));
+            $respuesta->aprobado = 1;
+        }
+        echo json_encode($respuesta);
+    }
+    
+    public function reprobarNOta(){
+        $respuesta = new stdClass();
+        $respuesta->reprobado = 0;
+        if($this->getInteger('idAs')){
+            $this->_notas->reprobarNota($this->getInteger('idAs'));
+            $respuesta->reprobado = 1;
         }
         echo json_encode($respuesta);
     }

@@ -149,7 +149,8 @@ CREATE OR REPLACE FUNCTION spListaAsignados(IN _idTrama integer, IN _idCiclo int
 					    OUT nombre text,
 					    OUT zona float,
 					    OUT final float,
-					    OUT total float) RETURNS SETOF record AS
+					    OUT total float,
+					    OUT estado int) RETURNS SETOF record AS
 $BODY$
 BEGIN
   return query
@@ -159,7 +160,8 @@ BEGIN
     concat(est.primernombre || ' ' || est.segundonombre || ' ' || est.primerapellido || ' ' || est.segundoapellido ) as nombre,
     uno.zona,
     uno.final,
-    uno.total
+    uno.total,
+    uno.estadonota
   from 
     est_cur_nota uno
     join est_cur_asignacion dos on uno.asignacion = dos.asignacion
@@ -201,7 +203,7 @@ $BODY$
 DECLARE total float;
 BEGIN
   total = round(_zona) + round(_final);
-  EXECUTE format(('UPDATE est_cur_nota SET total = %s, final = %s, zona = %s where asignacion = %s'), total, round(_final), round(_zona), _idAsignacion);
+  EXECUTE format(('UPDATE est_cur_nota SET total = %s, final = %s, zona = %s, estadonota=2 where asignacion = %s'), total, round(_final), round(_zona), _idAsignacion);
 END;
 $BODY$
 LANGUAGE plpgsql;
@@ -261,6 +263,33 @@ DECLARE total int;
 BEGIN
   select count(actividad) as totalActividades from est_cur_nota_actividad where asignacion = _idTrama into total;
   return total;
+END
+$BODY$
+LANGUAGE plpgsql;
+
+-- -----------------------------------------------------
+-- Function: spAprobarNota()
+-- -----------------------------------------------------
+-- DROP FUNCTION spAprobarNota(int);
+CREATE OR REPLACE FUNCTION spAprobarNota(_idAsignacion int) RETURNS void AS
+$BODY$
+declare idSecuencia integer;
+BEGIN
+  select * from spobtenersecuencia('cursoaprobado','est_cursoaprobado') into idSecuencia;
+  EXECUTE format(('UPDATE est_cur_nota SET estadonota=3 where asignacion = %s'),_idAsignacion);
+  EXECUTE format(('INSERT into est_cursoaprobado (cursoaprobado,asignacion,tipoaprobacion,fechaaprobacion) VALUES (%s,%s,1,current_timestamp)'),idSecuencia,_idAsignacion);
+END
+$BODY$
+LANGUAGE plpgsql;
+
+-- -----------------------------------------------------
+-- Function: spReprobarNota()
+-- -----------------------------------------------------
+-- DROP FUNCTION spReprobarNota(int);
+CREATE OR REPLACE FUNCTION spReprobarNota(_idAsignacion int) RETURNS void AS
+$BODY$
+BEGIN
+  EXECUTE format(('UPDATE est_cur_nota SET estadonota=4 where asignacion = %s'),_idAsignacion);
 END
 $BODY$
 LANGUAGE plpgsql;
