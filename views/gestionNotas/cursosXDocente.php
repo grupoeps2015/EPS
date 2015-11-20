@@ -98,6 +98,8 @@
                                <?php endif; ?>
                                 <input type="submit" id="btnNuevaBusqueda" name="btnNuevaBusqueda" value="Nueva Busqueda" class="btn btn-danger btn-lg btn-block" style="display:none;">
                                 <input type="hidden" id="hdNotaAprobacion" name="hdNotaAprobacion" value="<?php echo $this->notaAprobado;?>"/>
+                                <input type="hidden" id="hdZonaTotal" name="hdZonaTotal" value="<?php echo $this->zonaTotal;?>"/>
+                                <input type="hidden" id="hdFinalTotal" name="hdFinalTotal" value="<?php echo $this->finalTotal;?>"/>
                             </form>
                         </td>
                     </tr>

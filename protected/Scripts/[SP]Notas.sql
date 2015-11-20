@@ -171,7 +171,7 @@ BEGIN
     join est_estudiante est on tres.estudiante = est.estudiante
     join cur_trama cin on cin.seccion = cua.seccion
     join cur_horario cho on cho.trama = cin.trama
-  where cin.trama = _idTrama and cho.ciclo = _idCiclo and per.ciclo = _idCiclo; 
+  where dos.estado = 1 and cin.trama = _idTrama and cho.ciclo = _idCiclo and per.ciclo = _idCiclo; 
 END;
 $BODY$
 LANGUAGE plpgsql;

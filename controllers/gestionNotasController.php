@@ -107,6 +107,12 @@ class gestionNotasController extends Controller{
         $notaAprobado = $this->_ajax->valorParametro(CONS_PARAM_UNIDAD_NOTAPROMOCION, $_SESSION["carrera"], $_SESSION["centrounidad"]);
         $this->_view->notaAprobado = $notaAprobado[0]['valorparametro'];
         
+        $zonaMaxima = $this->_ajax->valorParametro(CONS_PARAM_UNIDAD_NOTATOTALZONA, $_SESSION["carrera"], $_SESSION["centrounidad"]);
+        $this->_view->zonaTotal = $zonaMaxima[0]['valorparametro'];
+        
+        $notaFinalMaxima = $this->_ajax->valorParametro(CONS_PARAM_UNIDAD_NOTAEXAMENFINAL, $_SESSION["carrera"], $_SESSION["centrounidad"]);
+        $this->_view->finalTotal = $notaFinalMaxima[0]['valorparametro'];
+        
         $this->_view->titulo = 'Gestión de notas - ' . APP_TITULO;
         $this->_view->setJs(array('cursosXDocente'));
         $this->_view->setJs(array('jquery.dataTables.min'), "public");

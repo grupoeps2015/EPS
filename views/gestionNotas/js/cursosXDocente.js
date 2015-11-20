@@ -49,7 +49,6 @@ $(document).ready( function () {
                 cur: $("#slCursoxSeccion option:selected").text()
             },
             function(datos){
-                //alert($("#idCatedratico").val() + ' ' + $("#slCiclo").val() + ' ' + $("#slCursoxSeccion option:selected").text() + ' ' + $("#slSeccion").val());
                 var tipo = $("#hdTipo").val();
                 if(datos.length>0){
                     if(tipo === "1") { 
@@ -68,7 +67,38 @@ $(document).ready( function () {
     });
     
     $("#btnGuardar").click(function(){
-        guardarNota();
+        var zona = 0;
+        var final = 0;
+        var zonaMax = parseFloat($("#hdZonaTotal").val());
+        var finalMax = parseFloat($("#hdFinalTotal").val());
+        var todoOK = true;
+        
+        var inputs = $("#tbAsignados :input");
+        $.each(inputs, function(i, field){
+            if(field.type === "text"){
+                tipo = field.name.substring(0,1);
+                if(tipo === "z"){
+                    zona = parseFloat(field.value);
+                    if(zona > zonaMax){
+                        todoOK = false;
+                    }
+                }
+                
+                if(tipo === "f"){
+                    final = parseFloat(field.value);
+                    if(final > finalMax){
+                        todoOK = false;
+                    }
+                }
+                
+            }    
+        });
+        
+        if(todoOK){
+            guardarNota();
+        }else{
+            $("#spanMsg").html('Algunas de las notas ingresadas no cumplen con los <br/> valores establecidos para zona y examen final. <br/>Verifique y vuelva a intentar.');
+        }
     });
     
     $("#csvFile").change(function(){
