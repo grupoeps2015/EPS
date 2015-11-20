@@ -154,7 +154,7 @@ class gestionRetrasadasController extends Controller {
         //$this->_view->setJs(array('listadoAsignaciones'));
         //$this->_view->setJs(array('jquery.dataTables.min'), "public");
         //$this->_view->setCSS(array('jquery.dataTables.min'));
-
+        $this->_view->setJs(array('listadoAsignaciones'));
         $this->_view->renderizar('listadoAsignaciones');
         
     }

@@ -23,7 +23,7 @@
     <br/>
     <div class="container">
         <div class="col-md-6 col-md-offset-3">
-            <form id="frEstudiantes" method="post" action="<?php echo BASE_URL; ?>asignacion/indexRetrasada">
+            <form id="frEstudiantes" method="post" action="<?php echo BASE_URL; ?>gestionRetrasadas/listadoAsignaciones">
                 <table style="width:100%">
                     <tr>
                         <td style="width:50%">
@@ -73,6 +73,7 @@
                 </table>
             </form>
         </div>
+        <?php if(isset($this->asignacion)) :?>   
         <div class="col-md-6 col-md-offset-3">
         <?php if (isset($this->lstAsignaciones) && count($this->lstAsignaciones)): ?>
         <form id="frAsignaciones" method="post" action="<?php echo BASE_URL; ?>gestionRetrasadas/generarOrdenPago/<?php echo $this->lstAsignaciones[0]['carnet']?>/<?php echo $this->lstAsignaciones[0]['nombreestudiante']?>/<?php echo $this->carrera;?>">
@@ -92,11 +93,18 @@
                 </select>
         </div> 
             <input type="submit" id="btnGenerarOrden" name="btnGenerarOrden" value="Generar orden de pago" class="btn btn-danger btn-lg btn-warning">
-            <input type="hidden" name="hdCiclo" id="hdCiclo" value="2">
+            <input type="hidden" name="hdCiclo" id="hdCiclo" value="<?php if (isset($this->ciclo)) echo $this->ciclo;?>">
         </form>     
         <?php else: ?>
         No hay asignaciones disponibles.
         <?php endif; ?>
         </div>
+        <?php else : ?>
+        <div class="col-md-8 col-md-offset-2">
+            <center>
+            <h4>No hay período de asignación de retrasadas habilitado para el ciclo seleccionado.</h4>
+            </center>
+        </div>
+    <?php endif; ?>
     </div>
 </section>
