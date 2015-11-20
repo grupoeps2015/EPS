@@ -189,6 +189,19 @@ class gestionRetrasadasController extends Controller {
     }
     
     public function generarOrdenPago($carnet,$nombre,$carrera){
+        $idCarrera = $_SESSION['carrera'];
+        $idPeriodo = 0;
+        
+        if($_SESSION["rol"] == ROL_ESTUDIANTE){
+            $estudiante = $this->_ajax->getEstudianteUsuario($_SESSION["usuario"]);
+            if(is_array($estudiante)){
+                $this->estudiante = (isset($estudiante[0]['id']) ? $estudiante[0]['id'] : -1);
+            }else{
+                $this->redireccionar("error/sql/" . $estudiante);
+                exit;
+            }
+        }
+        
         if ($this->getInteger('hdCiclo') && $this->getTexto('slCurso')) {
             $slcurso = explode("-", $this->getTexto('slCurso'));
             $curso = $slcurso[0];
@@ -203,6 +216,7 @@ class gestionRetrasadasController extends Controller {
             $periodo = $this->_post->getPeriodo($ciclo, PERIODO_ASIGNACION_1RETRASADA, $tipoAs, $_SESSION["centrounidad"]);
             if(is_array($periodo)){
                 if(isset($periodo[0]['periodo'])){
+                    $idPeriodo = $periodo[0]['periodo'];
                     $datosExtra = $this->_post->getDatosExtraBoleta($ciclo,PERIODO_ASIGNACION_1RETRASADA);
                     if(is_array($datosExtra)){
                         if(isset($datosExtra[0]['rubro'])){
@@ -220,6 +234,7 @@ class gestionRetrasadasController extends Controller {
                     $periodo = $this->_post->getPeriodo($ciclo, PERIODO_ASIGNACION_2RETRASADA, $tipoAs, $_SESSION["centrounidad"]);
                     if(is_array($periodo)){
                         if(isset($periodo[0]['periodo'])){
+                            $idPeriodo = $periodo[0]['periodo'];
                             $datosExtra = $this->_post->getDatosExtraBoleta($ciclo,PERIODO_ASIGNACION_2RETRASADA);
                             if(is_array($datosExtra)){
                                 if(isset($datosExtra[0]['rubro'])){
@@ -262,8 +277,6 @@ class gestionRetrasadasController extends Controller {
         $prueba = $this->_generaorden->generaOrdenPago($carnet,$unidad,$extension,$carrera,$nombre2,$monto,$anio,$rubro,$varianterubro,$tipocurso,$curso,$seccion,$subtotal);
         $cadena = implode(',', $prueba);
         
-        $this->_generaorden->crearPago();
-        
         if ($this->_generaorden->parsear_resultado($cadena,"CODIGO_RESP") == "1") {
             //print_r($cadena);
             date_default_timezone_set('America/Guatemala');
@@ -281,6 +294,9 @@ class gestionRetrasadasController extends Controller {
             $this->_view->setCSS(array('jquery.dataTables.min'));
             $this->_view->setJs(array('jspdf.debug'), "public");
             $this->_view->renderizar('ordenPago');
+            
+            $this->_post->crearPago($this->_view->orden,$this->estudiante,$idPeriodo,$idCarrera);
+       
         }
     }
     

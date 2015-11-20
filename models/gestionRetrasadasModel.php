@@ -50,14 +50,13 @@ class gestionRetrasadasModel extends Model {
         }
     }
     
-    public function crearPago($boleta,$fechaPago,$estudiante,$periodo,$carrera) {
-        $info = $this->_db->query("select * from spgetasignaciones(".$carnet.",".$carrera.");");
+    public function crearPago($boleta,$estudiante,$periodo,$carrera) {
+        $info = $this->_db->query("select * from spagregarpago(".$boleta.",".$estudiante.",".$periodo.",".$carrera.");");
         if($info === false){
-            return "1104/listadoAsignaciones";
+            return "1101/crearPago";
         }else{
             return $info->fetchall();
         }
     }
-    
-    
+        
 }

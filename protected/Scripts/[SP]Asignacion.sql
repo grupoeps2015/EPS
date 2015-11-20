@@ -740,27 +740,25 @@ ALTER FUNCTION spagregarasignacionretrasada(integer, integer, integer)
   OWNER TO postgres;
   
 
-  -- Function: spagregarpago(integer, integer, integer)
+-- Function: spagregarpago(integer, integer, integer, integer)
 
--- DROP FUNCTION spagregarpago(integer, integer, integer);
+-- DROP FUNCTION spagregarpago(integer, integer, integer, integer);
 
 CREATE OR REPLACE FUNCTION spagregarpago(
-    _asignacion integer,
-    _pago integer,
-    _oportunidad integer)
-  RETURNS integer AS
+    _boleta integer,
+    _estudiante integer,
+    _periodo integer,
+	_carrera integer)
+RETURNS void AS 
 $BODY$
-DECLARE idAs INTEGER;
-begin
- --SELECT current_date into fechaactual;
- --SELECT current_time into horaactual;
- INSERT INTO EST_AsignacionRetrasada (Asignacion, Pago, Oportunidad, NotaRetrasda) values (_asignacion, _pago, _oportunidad, -1.0) RETURNING AsignacionRetrasada INTO idAs;
- RETURN idAs;
+BEGIN
+
+ INSERT INTO EST_Pago (Boleta, FechaPago, Estudiante, Periodo, Carrera) values (_boleta, current_date,_estudiante, _periodo,_carrera);
 end;
 $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
-ALTER FUNCTION spagregarasignacionretrasada(integer, integer, integer)
+ALTER FUNCTION spagregarpago(integer, integer, integer, integer)
   OWNER TO postgres;
   
   
