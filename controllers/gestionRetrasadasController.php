@@ -262,6 +262,8 @@ class gestionRetrasadasController extends Controller {
         $prueba = $this->_generaorden->generaOrdenPago($carnet,$unidad,$extension,$carrera,$nombre2,$monto,$anio,$rubro,$varianterubro,$tipocurso,$curso,$seccion,$subtotal);
         $cadena = implode(',', $prueba);
         
+        $this->_generaorden->crearPago();
+        
         if ($this->_generaorden->parsear_resultado($cadena,"CODIGO_RESP") == "1") {
             //print_r($cadena);
             date_default_timezone_set('America/Guatemala');

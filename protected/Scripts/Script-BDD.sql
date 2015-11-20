@@ -1032,14 +1032,26 @@ CREATE TABLE EST_TipoPago (
 -- -----------------------------------------------------
 CREATE TABLE EST_Pago (
   Pago SERIAL NOT NULL,
-  TipoPago INTEGER NOT NULL,
+  TipoPago INTEGER NULL,
   Boleta INTEGER NOT NULL,
   FechaPago DATE NOT NULL,
-  Banco TEXT NOT NULL,
+  Banco TEXT NULL,
+  Estudiante INTEGER NULL,
+  Periodo INTEGER NULL,
+  Carrera INTEGER NULL,
   PRIMARY KEY (Pago),
   CONSTRAINT fk_EST_Pago_EST_TipoPago1
     FOREIGN KEY (TipoPago)
-    REFERENCES EST_TipoPago (TipoPago));
+    REFERENCES EST_TipoPago (TipoPago),
+  CONSTRAINT fk_EST_Pago_EST_Estudiante
+    FOREIGN KEY (Estudiante)
+    REFERENCES EST_Estudiante (Estudiante),
+  CONSTRAINT fk_EST_Pago_ADM_Periodo
+    FOREIGN KEY (Periodo)
+    REFERENCES ADM_Periodo (Periodo),
+  CONSTRAINT fk_EST_Pago_CUR_Carrera
+    FOREIGN KEY (Carrera)
+    REFERENCES CUR_Carrera (Carrera));
 
 
 -- -----------------------------------------------------
@@ -1049,7 +1061,7 @@ CREATE TABLE EST_Inscripcion (
   Inscripcion SERIAL NOT NULL,
   Anio INTEGER NOT NULL,
   Fecha DATE NULL,
-  Pago INTEGER NOT NULL,
+  Pago INTEGER NULL,
   Estudiante INTEGER NOT NULL,
   Carrera INTEGER NOT NULL,
   PRIMARY KEY (Inscripcion),

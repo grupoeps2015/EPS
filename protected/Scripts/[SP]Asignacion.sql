@@ -739,5 +739,30 @@ $BODY$
 ALTER FUNCTION spagregarasignacionretrasada(integer, integer, integer)
   OWNER TO postgres;
   
+
+  -- Function: spagregarpago(integer, integer, integer)
+
+-- DROP FUNCTION spagregarpago(integer, integer, integer);
+
+CREATE OR REPLACE FUNCTION spagregarpago(
+    _asignacion integer,
+    _pago integer,
+    _oportunidad integer)
+  RETURNS integer AS
+$BODY$
+DECLARE idAs INTEGER;
+begin
+ --SELECT current_date into fechaactual;
+ --SELECT current_time into horaactual;
+ INSERT INTO EST_AsignacionRetrasada (Asignacion, Pago, Oportunidad, NotaRetrasda) values (_asignacion, _pago, _oportunidad, -1.0) RETURNING AsignacionRetrasada INTO idAs;
+ RETURN idAs;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION spagregarasignacionretrasada(integer, integer, integer)
+  OWNER TO postgres;
+  
+  
   
 Select 'Script de Asignaciones Instalado' as "Asignacion";
