@@ -730,7 +730,7 @@ DECLARE idAs INTEGER;
 begin
  --SELECT current_date into fechaactual;
  --SELECT current_time into horaactual;
- INSERT INTO EST_AsignacionRetrasada (Asignacion, Pago, Oportunidad, NotaRetrasda) values (_asignacion, _pago, _oportunidad, -1.0) RETURNING AsignacionRetrasada INTO idAs;
+ INSERT INTO EST_AsignacionRetrasada (Asignacion, Pago, Oportunidad, NotaRetrasada) values (_asignacion, _pago, _oportunidad, -1.0) RETURNING AsignacionRetrasada INTO idAs;
  RETURN idAs;
 end;
 $BODY$
