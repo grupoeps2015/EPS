@@ -673,8 +673,8 @@ begin
 	join cur_seccion cs on eca.seccion = cs.seccion
 	join cur_curso cc on cs.curso = cc.curso and cc.estado = 1
 	join adm_periodo ap on ecla.periodo = ap.periodo and ap.ciclo = _ciclo and ap.estado = 1
-	join est_estudiante_carrera ec on ec.estudiante = _estudiante and ec.carrera = _carrera
-	join est_estudiante ee on ee.estudiante = ec.estudiante;
+	join est_estudiante ee on ee.estudiante = ecla.estudiante and ecla.estudiante = _estudiante
+	where ecla.carrera = _carrera;
 end;
 $BODY$
   LANGUAGE plpgsql VOLATILE
@@ -730,7 +730,7 @@ DECLARE idAs INTEGER;
 begin
  --SELECT current_date into fechaactual;
  --SELECT current_time into horaactual;
- INSERT INTO EST_AsignacionRetrasada (Asignacion, Pago, Oportunidad, NotaRetrasda) values (_asignacion, _pago, _oportunidad, -1.0) RETURNING AsignacionRetrasada INTO idAs;
+ INSERT INTO EST_AsignacionRetrasada (Asignacion, Pago, Oportunidad, NotaRetrasada) values (_asignacion, _pago, _oportunidad, -1.0) RETURNING AsignacionRetrasada INTO idAs;
  RETURN idAs;
 end;
 $BODY$

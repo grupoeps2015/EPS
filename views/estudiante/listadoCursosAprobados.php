@@ -25,18 +25,15 @@
     </div>
     <br/>
     <div>
-        <?php if(isset($this->lstCur[0]['codigo'])):?>
-        <br/>        
-        <button id="generarPDF" onclick="generarPDF()" class="btn btn-danger btn-lg btn-block" style="width:25%">Generar PDF</button>
-        <br/>
-        <?php endif;?>
             <div id="divCursosAprobados" class="form-group" >
-                 <?php if(isset($this->lstCur[0]['nombreestudiante']) && isset($this->lstCur[0]['carnet'])):?>
-                    Listado de cursos aprobados del estudiante: <?php echo $this->lstCur[0]['nombreestudiante']?> 
-                    , quien se identifica con el n&uacute;mero de carnet: <?php echo $this->lstCur[0]['carnet']?>
+                <div class="col-lg-12 text-center">
+                    <?php if(isset($this->lstCur[0]['nombreestudiante']) && isset($this->lstCur[0]['carnet'])):?>
+                    Listado de cursos aprobados del estudiante: <?php echo $this->lstCur[0]['nombreestudiante']?>, quien se identifica con el n&uacute;mero de carnet: <?php echo $this->lstCur[0]['carnet']?>
                  <?php endif;?>
+                </div> 
                    
                 <div style="margin-left: 5%; margin-right: 5%">
+                     <br/>
                      <br/>
                     <table id="tbCursosAprobados" border="2">
                         <thead>
@@ -78,15 +75,25 @@
                     </table>
                     <br />
                     <?php if(isset($this->lstCur[0]['codigo'])):?>
-                    <p>Promedio general: <?php $promedioGeneral =0; $promedioGeneral = $promedio / $contadorPromedio; echo $promedioGeneral; ?> </p>
-                        <?php if(isset($this->creditos[0]['creditos'])):?>
-                        <p>Cr&eacute;ditos obtenidos: <?php echo $this->creditos[0]['creditos']?></p>
+                    <label>Promedio general: <?php $promedioGeneral =0; $promedioGeneral = $promedio / $contadorPromedio; echo $promedioGeneral; ?> </label>
+                    <br/>    
+                    <?php if(isset($this->creditos[0]['creditos'])):?>
+                        <label>Cr&eacute;ditos obtenidos: <?php echo $this->creditos[0]['creditos']?></label>
                         <?php else:?>
-                        <p>Cr&eacute;ditos obtenidos: 0?></p>
+                        <label>Cr&eacute;ditos obtenidos: 0?></label>
                         <?php endif;?> 
                     <?php endif;?> 
+                    
+                        <?php if(isset($this->lstCur[0]['codigo'])):?>
+                        <br/>
+                        <center>
+                        <button id="generarPDF" onclick="generarPDF()" class="btn btn-danger btn-lg btn-block" style="width:25%">Generar PDF</button>
+                        </center>
+                        <br/>
+                        <?php endif;?>
                 </div>
             </div>
+            
     </div>   
 </section>
 
