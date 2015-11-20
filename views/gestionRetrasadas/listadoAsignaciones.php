@@ -77,7 +77,9 @@
         <div class="col-md-6 col-md-offset-3">
         <?php if (isset($this->lstAsignaciones) && count($this->lstAsignaciones)): ?>
         <form id="frAsignaciones" method="post" action="<?php echo BASE_URL; ?>gestionRetrasadas/generarOrdenPago/<?php echo $this->lstAsignaciones[0]['carnet']?>/<?php echo $this->lstAsignaciones[0]['nombreestudiante']?>/<?php echo $this->carrera;?>">
-        <div id="divAsignaciones" class="form-group" >
+        <?php if(isset($this->existePago)):?>
+            <?php if($this->existePago==1):?>
+            <div id="divAsignaciones" class="form-group" >
                 Seleccione el curso a asignarse examen de retrasada:
                 <select id="slCurso" name="slCurso" class="form-control input-lg">
                     <?php if (isset($this->lstAsignaciones) && count($this->lstAsignaciones)): ?>
@@ -89,9 +91,11 @@
                         <?php endfor; ?>
                     <?php else : ?>
                         <option value="">-- No existen cursos registrados para este periodo --</option>
-                    <?php endif; ?>
+                        <?php endif; ?>
+                    <?php endif; ?>                        
                 </select>
         </div> 
+            <?php endif;?>
             <input type="submit" id="btnGenerarOrden" name="btnGenerarOrden" value="Generar orden de pago" class="btn btn-danger btn-lg btn-warning">
             <input type="hidden" name="hdCiclo" id="hdCiclo" value="<?php if (isset($this->ciclo)) echo $this->ciclo;?>">
         </form>     

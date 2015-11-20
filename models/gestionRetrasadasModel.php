@@ -58,5 +58,15 @@ class gestionRetrasadasModel extends Model {
             return $info->fetchall();
         }
     }
+    
+    public function getBoletasPago($estudiante, $periodo, $carrera){
+        $cursos = $this->_db->query("select * from spboletapagoporciclo({$estudiante},{$periodo},{$carrera});");
+        $cursos->setFetchMode(PDO::FETCH_ASSOC);
+        if($cursos === false){
+            return "1200/getBoletasPago";
+        }else{
+            return $cursos->fetchall();
+        }
+    }
         
 }

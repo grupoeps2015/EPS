@@ -102,6 +102,7 @@ class gestionRetrasadasController extends Controller {
         $periodo = $this->_post->getPeriodo($ciclo, PERIODO_ASIGNACION_1RETRASADA, $tipoAs, $_SESSION["centrounidad"]);
         if(is_array($periodo)){
             if(isset($periodo[0]['periodo'])){
+                $idPeriodo = $periodo[0]['periodo'];
                 //Sino continuar
                 //Mostrar cursos disponibles para asignación
                 
@@ -118,6 +119,7 @@ class gestionRetrasadasController extends Controller {
                 $periodo = $this->_post->getPeriodo($ciclo, PERIODO_ASIGNACION_2RETRASADA, $tipoAs, $_SESSION["centrounidad"]);
                 if(is_array($periodo)){
                     if(isset($periodo[0]['periodo'])){
+                        $idPeriodo = $periodo[0]['periodo'];
                         //TODO: Marlen: agregar listado de cursos
                         $this->_view->asignacion = $periodo[0]['periodo'];
                         $this->_view->lstAsignaciones = $this->cursosDisponiblesRetrasada($ciclo);
@@ -142,6 +144,29 @@ class gestionRetrasadasController extends Controller {
         $idCarrera = $_SESSION['carrera'];
         $this->_view->carrera=$idCarrera;
        
+         $boleta = $this->_post->getBoletasPago($idUsuario,$idPeriodo,$idCarrera);
+        if(is_array($boleta)){
+                $this->boleta = isset($boleta[0]['boleta']);
+            }else{
+                $this->redireccionar("error/sql/" . $boleta);
+                exit;
+            }
+            
+        $this->_generaorden = new wsGeneraOrdenPago();
+        $prueba = $this->_generaorden->confirmacionPago($this->boleta,200915205);
+        $cadena = implode(',', $prueba);
+        
+        if ($this->_generaorden->parsear_resultado($cadena,"CODIGO_RESP") == "1") {
+            $this->_view->existePago = 1;
+        }
+        else {
+            $this->_view->existePago = 2;
+        }
+        
+        $file = fopen("log.txt", "a");
+                fwrite($file, "existePago: " . $this->_view->existePago . PHP_EOL);
+                fclose($file);
+        
         $info = $this->_post->allAsignaciones($idUsuario,$idCarrera);
         if (is_array($info)) {
             //$this->_view->lstAsignaciones = $info;
@@ -164,21 +189,7 @@ class gestionRetrasadasController extends Controller {
         //$idEstudiante = $this->getInteger('slEstudiantes');
         //$idUsuario = $_SESSION['usuario'];
         //$idCarrera = $_SESSION['carrera'];
-        $idPago2='4802128';
-        $carnet2='200610816';
-                
-        $this->_generaorden = new wsGeneraOrdenPago();
-        $prueba = $this->_generaorden->confirmacionPago($idPago2,$carnet2);
-        $cadena = implode(',', $prueba);
-        
-        if ($this->_generaorden->parsear_resultado($cadena,"CODIGO_RESP") == "1") {
-            $this->_view->existePago = 1;
-        }
-        else {
-            $this->_view->existePago = 2;
-        }
- 
-       
+               
         $this->_view->titulo = 'Gestión de retrasadas - ' . APP_TITULO;
         //$this->_view->setJs(array('listadoAsignaciones'));
         //$this->_view->setJs(array('jquery.dataTables.min'), "public");

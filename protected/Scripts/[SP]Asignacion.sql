@@ -760,7 +760,36 @@ $BODY$
   COST 100;
 ALTER FUNCTION spagregarpago(integer, integer, integer, integer)
   OWNER TO postgres;
-  
+
+
+-- Function: spboletapagoporciclo(integer, integer, integer)
+
+-- DROP FUNCTION spboletapagoporciclo(integer, integer, integer);
+
+CREATE OR REPLACE FUNCTION spboletapagoporciclo(
+    IN _estudiante integer,
+    IN _periodo integer,
+    IN _carrera integer,
+    OUT pago integer,
+    OUT boleta integer)
+  RETURNS SETOF record AS
+$BODY$
+begin
+ Return query
+		 select p.pago,p.boleta
+		from est_pago p
+		where p.estudiante = _estudiante
+		and p.periodo = _periodo
+		and p.carrera = _carrera
+		order by p.fechapago desc
+		limit 1;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION spboletapagoporciclo(integer, integer, integer)
+  OWNER TO postgres;  
   
   
 Select 'Script de Asignaciones Instalado' as "Asignacion";

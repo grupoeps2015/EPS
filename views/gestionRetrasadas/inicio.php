@@ -31,13 +31,11 @@
                 </div> 
             </div>
             <div class="col-lg-6 col-md-9 text-center">
-                <?php if(isset($this->existePago)&&$this->existePago==2):?>
                     <div class="service-box">
                         <i class="fa fa-2x fa-book wow bounceIn text-primary" data-wow-delay=".1s">
                             <a href="<?php echo BASE_URL . 'general/seleccionarCarreraEstudiante/asignacion/indexRetrasada'?>">Asignaci&oacute;n de retrasadas</a>
                         </i>
                     </div>
-                <?php endif;?>
             </div>   
         </div>
     </div>
