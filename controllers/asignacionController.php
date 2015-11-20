@@ -47,7 +47,8 @@ class asignacionController extends Controller{
         else if (isset($_SESSION["carrera"])) {
             $this->carrera = $_SESSION["carrera"];
         }
-        
+        error_reporting(E_ALL);
+        ini_set('display_errors', '1');
     }
     
     public function inicio() {
@@ -852,6 +853,8 @@ class asignacionController extends Controller{
     }
     
     public function asignarRetrasada(){
+        try{
+        
         if ($this->getInteger('slCursos')) {
             $asignacion = $this->getInteger('slCursos'); 
             $res = $this->_asign->agregarAsignacionCursoRetrasada($asignacion, "1", "1");
@@ -862,6 +865,10 @@ class asignacionController extends Controller{
                 $this->redireccionar("error/sql/" . $res);
                 exit;
             }
+        }
+        } catch (Exception $e) {
+            echo 'Excepción capturada: ',  $e->getMessage(), "\n";
+            exit;
         }
     }
 }
