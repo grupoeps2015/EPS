@@ -22,3 +22,6 @@ boleta: 4802296
 estudiante: 1
 periodo: 3
 carrera: 1
+estudiante: 3
+periodo: 3
+carrera: 1

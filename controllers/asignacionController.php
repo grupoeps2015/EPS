@@ -20,6 +20,8 @@ class asignacionController extends Controller{
     public function __construct() {
         parent::__construct();
         $this->getLibrary('session');
+        $this->getLibrary('wsGeneraOrdenPago');       
+        $this->getLibrary('session');
         $this->_session = new session();
         if(!$this->_session->validarSesion()){
             $this->redireccionar('login/salir');
@@ -836,6 +838,37 @@ class asignacionController extends Controller{
             $this->redireccionar("error/sql/" . $periodo);
             exit;
         }
+        
+        if($_SESSION["rol"] == ROL_ESTUDIANTE){
+            $estudiante = $this->_ajax->getEstudianteUsuario($_SESSION["usuario"]);
+            if(is_array($estudiante)){
+                $this->estudiante = (isset($estudiante[0]['id']) ? $estudiante[0]['id'] : -1);
+            }else{
+                $this->redireccionar("error/sql/" . $estudiante);
+                exit;
+            }
+        }
+        
+        $boleta = $this->_asign->getBoletasPago($this->estudiante,$this->_view->asignacion ,$_SESSION["carrera"]);
+        if(is_array($boleta)){
+                $this->boleta = isset($boleta[0]['boleta']);
+                if(isset($boleta[0]['boleta'])&&$this->boleta!=""&&$this->boleta!=null&&$this->boleta!=0)
+                {
+                    $this->_generaorden = new wsGeneraOrdenPago();
+                    $prueba = $this->_generaorden->confirmacionPago($this->boleta,200915205);
+                    $cadena = implode(',', $prueba);
+
+                    if ($this->_generaorden->parsear_resultado($cadena,"CODIGO_RESP") == "1") {
+                        $this->_view->existePago = 1;
+                    }
+                    else {
+                        $this->_view->existePago = 2;
+                    }
+                }
+            }else{
+                $this->redireccionar("error/sql/" . $boleta);
+                exit;
+            }
         
         $this->_view->setJs(array('asignarRetrasada'));
         $this->_view->renderizar('asignarRetrasada');

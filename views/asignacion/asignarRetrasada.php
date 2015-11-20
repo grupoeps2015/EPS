@@ -73,7 +73,7 @@
                 </table>
             </form>
             </div>
-            
+          <?php if(isset($this->existePago)&&$this->existePago==2):?> 
             <?php if(isset($this->asignacion)) :?>
         <div class="col-md-6 col-md-offset-3">
             <form id="frm" method="post" action="<?php echo BASE_URL; ?>asignacion/asignarRetrasada">
@@ -148,6 +148,14 @@
             </center>
         </div>
     <?php endif; ?>
+        <?php else : ?>
+        <div class="col-md-8 col-md-offset-2">
+            <center>
+                <h4>No hay &oacute;rdenes de pago canceladas para proseguir.</h4>
+            </center>
+        </div>
+        <?php endif; ?>
+        
     </div>
     <br/>
 </section>

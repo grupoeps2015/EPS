@@ -144,7 +144,7 @@ class gestionRetrasadasController extends Controller {
         $idCarrera = $_SESSION['carrera'];
         $this->_view->carrera=$idCarrera;
        
-         $boleta = $this->_post->getBoletasPago($idUsuario,$idPeriodo,$idCarrera);
+        /* $boleta = $this->_post->getBoletasPago($idUsuario,$idPeriodo,$idCarrera);
         if(is_array($boleta)){
                 $this->boleta = isset($boleta[0]['boleta']);
             }else{
@@ -161,12 +161,8 @@ class gestionRetrasadasController extends Controller {
         }
         else {
             $this->_view->existePago = 2;
-        }
-        
-        $file = fopen("log.txt", "a");
-                fwrite($file, "existePago: " . $this->_view->existePago . PHP_EOL);
-                fclose($file);
-        
+        }*/
+                
         $info = $this->_post->allAsignaciones($idUsuario,$idCarrera);
         if (is_array($info)) {
             //$this->_view->lstAsignaciones = $info;
