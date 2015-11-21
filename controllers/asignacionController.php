@@ -851,13 +851,12 @@ class asignacionController extends Controller{
         
             $infoGeneral = $this->_ajax->getInfoGeneralEstudiante($_SESSION["usuario"]);
             if(is_array($infoGeneral)){
-                $this->carnet = (isset($infoGeneral[0]['carnet']));
+                $this->carnet = (isset($infoGeneral[0]['carnet']) ? $infoGeneral[0]['carnet'] : -1);
             }else{
                 $this->redireccionar("error/sql/" . $infoGeneral);
                 exit;
             }
         
-            
         $boleta = $this->_asign->getBoletasPago($this->estudiante,$this->_view->asignacion ,$_SESSION["carrera"]);
         if(is_array($boleta)){
                 $this->boleta = isset($boleta[0]['boleta']);

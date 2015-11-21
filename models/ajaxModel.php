@@ -427,6 +427,7 @@ class ajaxModel extends Model{
     }
     
      public function getInfoGeneralEstudiante($idUsuario){
+       
         $info = $this->_db->query("select * from spInfoGeneralEstudiante({$idUsuario})");
         if($info === false){
             return "1104/getInfoGeneral";
