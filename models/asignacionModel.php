@@ -175,5 +175,6 @@ class asignacionModel extends Model{
         }else{
             return $cursos->fetchall();
         }
-    }
+    }    
+   
 }

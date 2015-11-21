@@ -849,13 +849,22 @@ class asignacionController extends Controller{
             }
         }
         
+            $infoGeneral = $this->_ajax->getInfoGeneralEstudiante($_SESSION["usuario"]);
+            if(is_array($infoGeneral)){
+                $this->carnet = (isset($infoGeneral[0]['carnet']));
+            }else{
+                $this->redireccionar("error/sql/" . $infoGeneral);
+                exit;
+            }
+        
+            
         $boleta = $this->_asign->getBoletasPago($this->estudiante,$this->_view->asignacion ,$_SESSION["carrera"]);
         if(is_array($boleta)){
                 $this->boleta = isset($boleta[0]['boleta']);
                 if(isset($boleta[0]['boleta'])&&$this->boleta!=""&&$this->boleta!=null&&$this->boleta!=0)
                 {
                     $this->_generaorden = new wsGeneraOrdenPago();
-                    $prueba = $this->_generaorden->confirmacionPago($this->boleta,200915205);
+                    $prueba = $this->_generaorden->confirmacionPago($this->boleta,$this->carnet);
                     $cadena = implode(',', $prueba);
 
                     if ($this->_generaorden->parsear_resultado($cadena,"CODIGO_RESP") == "1") {
