@@ -54,23 +54,17 @@
                         <td>&nbsp;</td>
                         <td>&nbsp;</td>
                         <td colspan="2">
-                            <select id="slTipos" name="slTipos" class="form-control input-lg">
-                            <?php if (isset($this->lsTipoCiclo) && count($this->lsTipoCiclo)): ?>
-                                    <option value="-1">-- Tipo Ciclo --</option>
-                                    <?php for ($i = 0; $i < count($this->lsTipoCiclo); $i++) : ?>
-                                        <option value="<?php echo $this->lsTipoCiclo[$i]['codigo']; ?>">
-                                            <?php echo $this->lsTipoCiclo[$i]['nombre']; ?>
+                            <select id="slAnio" name="slAnio" class="form-control input-lg">
+                            <?php if (isset($this->lstAnios) && count($this->lstAnios)): ?>
+                                    <option value="">-- A&ntilde;o --</option>
+                                    <?php for ($i = 0; $i < count($this->lstAnios); $i++) : ?>
+                                        <option value="<?php echo $this->lstAnios[$i]['anio']; ?>">
+                                            <?php echo $this->lstAnios[$i]['anio']; ?>
                                         </option>
                                     <?php endfor; ?>
                             <?php else : ?>
-                                <option value="-1">-- No existen tipos registrados --</option>
+                                <option value="">-- No existen tipos registrados --</option>
                             <?php endif; ?>
-                            </select>
-                        </td>
-                        <td>&nbsp;</td>
-                        <td>
-                            <select id="slAnio" name="slAnio" class="form-control input-lg">
-                                <option value="-1" disabled>-- A&ntilde;o --</option>
                             </select>
                         </td>
                         <td>&nbsp;</td>
@@ -79,6 +73,8 @@
                                 <option value="-1" disabled>-- Ciclo --</option>
                             </select>
                         </td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
                     </tr>
                     <tr>
                         <td>&nbsp;</td>
@@ -90,7 +86,10 @@
                         </td>
                         <td>&nbsp;</td>
                         <td><br/>
-                            <input type="submit" id="btnActividades" name="btnActividades" value="Ver Actividades" class="btn btn-warning btn-lg btn-block" disabled="disabled"/>
+                            <input type="submit" id="btnActividades" name="btnActividades" value="Mostrar Listado" class="btn btn-danger btn-lg btn-block" disabled="disabled">
+                            <form id="frRecargar" method="post" action="<?php echo BASE_URL; ?>gestionNotas/actividades/<?php echo $this->idUsuario; ?>/<?php echo $this->id; ?>">
+                                <input type="submit" id="btnNuevaBusqueda" name="btnNuevaBusqueda" value="Nueva Busqueda" class="btn btn-danger btn-lg btn-block" style="display:none;">
+                            </form>
                         </td>
                     </tr>
                     <tr style="display:none">
@@ -128,17 +127,17 @@
                             <tr>
                                 <td colspan="2"><br/>EXAMEN FINAL<br/>&nbsp;</td>
                                 <td style="width:1%">&nbsp;</td>
-                                <td style="width:24%"><br/>25 pts.<br/>&nbsp;</td>
+                                <td style="width:24%"><br/><?php echo $this->finalTotal; ?> pts.<br/>&nbsp;</td>
                                 <td style="width:1%">&nbsp;</td>
                                 <td style="width:25%">
                                     <br/>
-                                    <input type="hidden" id="hd2" name="hd2" value="25"/>
+                                    <input type="hidden" id="hdFinalTotal" name="hdFinalTotal" value="<?php echo $this->finalTotal;?>"/>
                                 </td>
                             </tr>
                             <tr>
                                 <td colspan="2">ZONA</td>
                                 <td style="width:1%">&nbsp;</td>
-                                <td style="width:24%">75 pts.</td>
+                                <td style="width:24%"><?php echo $this->zonaTotal; ?> pts.</td>
                                 <td style="width:1%">&nbsp;</td>
                                 <td style="width:25%">
                                     <a href="#" class="upload" data-toggle="modal" data-target="#ModalActividades">
@@ -146,7 +145,7 @@
                                             <span>+</span>
                                         </div>
                                     </a>
-                                    <input type="hidden" id="hd1" name="hd1" value="75"/>
+                                    <input type="hidden" id="hdZonaTotal" name="hdZonaTotal" value="<?php echo $this->zonaTotal;?>"/>
                                 </td>
                             </tr>
                         </tbody>
