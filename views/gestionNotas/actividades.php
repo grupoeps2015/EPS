@@ -128,17 +128,17 @@
                             <tr>
                                 <td colspan="2"><br/>EXAMEN FINAL<br/>&nbsp;</td>
                                 <td style="width:1%">&nbsp;</td>
-                                <td style="width:24%"><br/>25 pts.<br/>&nbsp;</td>
+                                <td style="width:24%"><br/><?php echo $this->finalTotal; ?> pts.<br/>&nbsp;</td>
                                 <td style="width:1%">&nbsp;</td>
                                 <td style="width:25%">
                                     <br/>
-                                    <input type="hidden" id="hd2" name="hd2" value="25"/>
+                                    <input type="hidden" id="hdFinalTotal" name="hdFinalTotal" value="<?php echo $this->finalTotal;?>"/>
                                 </td>
                             </tr>
                             <tr>
                                 <td colspan="2">ZONA</td>
                                 <td style="width:1%">&nbsp;</td>
-                                <td style="width:24%">75 pts.</td>
+                                <td style="width:24%"><?php echo $this->zonaTotal; ?> pts.</td>
                                 <td style="width:1%">&nbsp;</td>
                                 <td style="width:25%">
                                     <a href="#" class="upload" data-toggle="modal" data-target="#ModalActividades">
@@ -146,7 +146,7 @@
                                             <span>+</span>
                                         </div>
                                     </a>
-                                    <input type="hidden" id="hd1" name="hd1" value="75"/>
+                                    <input type="hidden" id="hdZonaTotal" name="hdZonaTotal" value="<?php echo $this->zonaTotal;?>"/>
                                 </td>
                             </tr>
                         </tbody>

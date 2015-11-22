@@ -240,11 +240,13 @@ $(document).ready( function () {
     function verificarActividades(){
         $("#slIdxAsignacion").val(0);
         var idTrama = $("#slIdxAsignacion option:selected").text();
+        var zona = $("#hdZonaTotal").val();
+        var final = $("#hdFinalTotal").val();
         $.post(base_url+'gestionNotas/contarActividades',
             {trama: idTrama},
             function(respuesta){
                 if(parseInt(respuesta.total) <= 2){
-                    $("#spanMsg").html('Por defecto se tiene zona de 75 puntos y final de 25 puntos<br/>Puede Guardar la informacion de esta manera, modificar la ponderacion que se le presenta o detallar actividades que conformen la zona');
+                    $("#spanMsg").html('Por defecto se tiene zona de ' + zona + ' puntos y final de ' + final + ' puntos.<br/>Puede guardar la informacion de esta manera o crear actividades.<br/>Las actividades creadas seran asociadas a los puntos de zona.<br/>');
                 }else{
                     listarActividades();
                 }
@@ -260,8 +262,8 @@ $(document).ready( function () {
        
     function guardarActividad(){
         $("#spanMsg").html('');
-        var TotalFinal = parseFloat($("#hd2").val());
-        var TotalZona = parseFloat($("#hd1").val());
+        var TotalFinal = parseFloat($("#hdFinalTotal").val());
+        var TotalZona = parseFloat($("#hdZonaTotal").val());
         var SumarZona = 0;
         var Pd = 0;  //Id Actividad Padre
         var Tp = 0;  //Id Tipo Actividad

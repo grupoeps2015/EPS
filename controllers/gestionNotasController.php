@@ -101,16 +101,16 @@ class gestionNotasController extends Controller{
             exit;
         }
         
-        if(!isset($_SESSION["carrera"])){
-            $_SESSION["carrera"]=1;
-        }
-        $notaAprobado = $this->_ajax->valorParametro(CONS_PARAM_UNIDAD_NOTAPROMOCION, $_SESSION["carrera"], $_SESSION["centrounidad"]);
+        //if(!isset($_SESSION["carrera"])){
+            //$_SESSION["carrera"]=1;
+        //}
+        $notaAprobado = $this->_ajax->valorParametro(CONS_PARAM_UNIDAD_NOTAPROMOCION, -1, $_SESSION["centrounidad"]);
         $this->_view->notaAprobado = $notaAprobado[0]['valorparametro'];
         
         $zonaMaxima = $this->_ajax->valorParametro(CONS_PARAM_UNIDAD_NOTATOTALZONA, $_SESSION["carrera"], $_SESSION["centrounidad"]);
         $this->_view->zonaTotal = $zonaMaxima[0]['valorparametro'];
         
-        $notaFinalMaxima = $this->_ajax->valorParametro(CONS_PARAM_UNIDAD_NOTAEXAMENFINAL, $_SESSION["carrera"], $_SESSION["centrounidad"]);
+        $notaFinalMaxima = $this->_ajax->valorParametro(CONS_PARAM_UNIDAD_NOTAEXAMENFINAL, -1, $_SESSION["centrounidad"]);
         $this->_view->finalTotal = $notaFinalMaxima[0]['valorparametro'];
         
         $this->_view->titulo = 'Gestión de notas - ' . APP_TITULO;
@@ -166,6 +166,16 @@ class gestionNotasController extends Controller{
             $this->redireccionar('error/sql/' . $lsTipoActividad);
             exit;
         }
+        
+        //if(!isset($_SESSION["carrera"])){
+            //$_SESSION["carrera"]=1;
+        //}
+        
+        $zonaMaxima = $this->_ajax->valorParametro(CONS_PARAM_UNIDAD_NOTATOTALZONA, -1, $_SESSION["centrounidad"]);
+        $this->_view->zonaTotal = $zonaMaxima[0]['valorparametro'];
+        
+        $notaFinalMaxima = $this->_ajax->valorParametro(CONS_PARAM_UNIDAD_NOTAEXAMENFINAL, -1, $_SESSION["centrounidad"]);
+        $this->_view->finalTotal = $notaFinalMaxima[0]['valorparametro'];
         
         $this->_view->titulo = 'Gestión de notas - ' . APP_TITULO;
         $this->_view->setJs(array('jquery.validate'),"public");
