@@ -72,6 +72,17 @@ class asignacionController extends Controller{
             $this->_view->estudiante = $this->estudiante;
             $this->_view->carrera = $this->carrera;
         }
+        
+        $rol = $_SESSION["rol"];        
+        $rolValidoGestion = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_GESTIONASIGNACION);
+        $this->_view->permisoGestion = $rolValidoGestion[0]["valido"];
+        if($this->_view->permisoGestion!= PERMISO_GESTIONAR){
+           echo "<script>
+                ".MSG_SINPERMISOS."
+                window.location.href='" . BASE_URL . "login/inicio';
+                </script>";
+        }
+        
         $tipociclo = $_SESSION["tipociclo"];
         $lsAnios = $this->_ajax->getAniosAjax($tipociclo);
         if(is_array($lsAnios)){
@@ -708,6 +719,7 @@ class asignacionController extends Controller{
             $this->_view->estudiante = $this->estudiante;
             $this->_view->carrera = $this->carrera;
         }
+        
         $tipociclo = $_SESSION["tipociclo"];
         $lsAnios = $this->_ajax->getAniosAjax($tipociclo);
         if(is_array($lsAnios)){

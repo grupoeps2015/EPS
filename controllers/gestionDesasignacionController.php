@@ -63,6 +63,16 @@ class gestionDesasignacionController extends Controller {
             exit;
         }
 
+        $rol = $_SESSION["rol"];        
+        $rolValidoGestion = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_GESTIONDESASIGNACION);
+        $this->_view->permisoGestion = $rolValidoGestion[0]["valido"];
+        if($this->_view->permisoGestion!= PERMISO_GESTIONAR){
+           echo "<script>
+                ".MSG_SINPERMISOS."
+                window.location.href='" . BASE_URL . "login/inicio';
+                </script>";
+        }
+        
         $this->_view->titulo = 'Gestión de Desasignaciones - ' . APP_TITULO;
         $this->_view->setJs(array('listadoAsignaciones'));
         $this->_view->setJs(array('jquery.dataTables.min'), "public");

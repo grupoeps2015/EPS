@@ -25,7 +25,9 @@ class gestionNotasController extends Controller{
         $rol = $_SESSION["rol"];        
         $rolValidoGestion = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_GESTIONNOTA);
         $rolValidoModificar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_MODIFICARNOTA);
-        $this->_view->permisoGestion = $rolValidoGestion[0]["valido"];
+        $rolValidoGestionActividades = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_GESTIONACTIVIDADES);
+        $this->_view->permisoGestion = $rolValidoGestion[0]["valido"];        
+        $this->_view->permisoGestionActividades = $rolValidoGestionActividades[0]["valido"];
         $this->_view->permisoModificar = $rolValidoModificar[0]["valido"];
         
         if($this->_view->permisoGestion!= PERMISO_GESTIONAR){
@@ -140,6 +142,17 @@ class gestionNotasController extends Controller{
     }
     
     public function actividades($idUsuario, $UnidadCentro){
+        $rol = $_SESSION["rol"];        
+        $rolValidoGestion = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_GESTIONACTIVIDADES);
+        $this->_view->permisoGestion = $rolValidoGestion[0]["valido"];
+        
+        if($this->_view->permisoGestion!= PERMISO_GESTIONAR){
+            echo "<script>
+                ".MSG_SINPERMISOS."
+                window.location.href='" . BASE_URL . "login/inicio';
+                </script>";
+        }
+        
         $this->_view->id = $UnidadCentro;
         $this->_view->idUsuario = $idUsuario;
         

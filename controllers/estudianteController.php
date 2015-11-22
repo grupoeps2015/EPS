@@ -151,6 +151,16 @@ class estudianteController extends Controller{
     }
     
     public function listadoCursosAprobados(){
+        $rol = $_SESSION["rol"];        
+        $rolValidoGestion = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_GESTIONREPORTES);
+        $this->_view->permisoGestion = $rolValidoGestion[0]["valido"];
+        if($this->_view->permisoGestion!= PERMISO_GESTIONAR){
+           echo "<script>
+                ".MSG_SINPERMISOS."
+                window.location.href='" . BASE_URL . "login/inicio';
+                </script>";
+        }
+        
         if(isset($_SESSION['usuario'])){
             $idCarrera = $this->getInteger('slCarreras'); 
             $idEstudiante = $this->getInteger('slEstudiantes');
