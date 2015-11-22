@@ -143,6 +143,15 @@ class gestionNotasController extends Controller{
         $this->_view->id = $UnidadCentro;
         $this->_view->idUsuario = $idUsuario;
         
+        $tipociclo = $_SESSION["tipociclo"];
+        $lsAnios = $this->_ajax->getAniosAjax($tipociclo);
+        if(is_array($lsAnios)){
+            $this->_view->lstAnios = $lsAnios;
+        }else{
+            $this->redireccionar("error/sql/" . $lsAnios);
+            exit;
+        }
+        
         $datosCat = $this->_notas->getDocenteEspecifico($idUsuario);
         if(is_array($datosCat)){
             $this->_view->datosCat = $datosCat;
@@ -298,5 +307,12 @@ class gestionNotasController extends Controller{
             $respuesta->reprobado = 1;
         }
         echo json_encode($respuesta);
+    }
+    
+    public function listarActividades(){
+        if($this->getInteger('asig')){
+            $respuesta = $this->_notas->listarActividades($this->getInteger('asig'));
+            echo json_encode($respuesta);
+        }
     }
 }

@@ -115,4 +115,13 @@ class gestionNotasModel extends Model {
             return $info->fetchall();
         }
     }
+    
+    public function listarActividades($idAsignacion){
+        $info = $this->_db->query("select * from spListarActividades({$idAsignacion});");
+        if($info === false){
+            return "1104/listarActividades";
+        }else{
+            return $info->fetchall();
+        }
+    }
 }

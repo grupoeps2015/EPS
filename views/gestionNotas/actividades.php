@@ -54,23 +54,17 @@
                         <td>&nbsp;</td>
                         <td>&nbsp;</td>
                         <td colspan="2">
-                            <select id="slTipos" name="slTipos" class="form-control input-lg">
-                            <?php if (isset($this->lsTipoCiclo) && count($this->lsTipoCiclo)): ?>
-                                    <option value="-1">-- Tipo Ciclo --</option>
-                                    <?php for ($i = 0; $i < count($this->lsTipoCiclo); $i++) : ?>
-                                        <option value="<?php echo $this->lsTipoCiclo[$i]['codigo']; ?>">
-                                            <?php echo $this->lsTipoCiclo[$i]['nombre']; ?>
+                            <select id="slAnio" name="slAnio" class="form-control input-lg">
+                            <?php if (isset($this->lstAnios) && count($this->lstAnios)): ?>
+                                    <option value="">-- A&ntilde;o --</option>
+                                    <?php for ($i = 0; $i < count($this->lstAnios); $i++) : ?>
+                                        <option value="<?php echo $this->lstAnios[$i]['anio']; ?>">
+                                            <?php echo $this->lstAnios[$i]['anio']; ?>
                                         </option>
                                     <?php endfor; ?>
                             <?php else : ?>
-                                <option value="-1">-- No existen tipos registrados --</option>
+                                <option value="">-- No existen tipos registrados --</option>
                             <?php endif; ?>
-                            </select>
-                        </td>
-                        <td>&nbsp;</td>
-                        <td>
-                            <select id="slAnio" name="slAnio" class="form-control input-lg">
-                                <option value="-1" disabled>-- A&ntilde;o --</option>
                             </select>
                         </td>
                         <td>&nbsp;</td>
@@ -79,6 +73,8 @@
                                 <option value="-1" disabled>-- Ciclo --</option>
                             </select>
                         </td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
                     </tr>
                     <tr>
                         <td>&nbsp;</td>
@@ -90,7 +86,10 @@
                         </td>
                         <td>&nbsp;</td>
                         <td><br/>
-                            <input type="submit" id="btnActividades" name="btnActividades" value="Ver Actividades" class="btn btn-warning btn-lg btn-block" disabled="disabled"/>
+                            <input type="submit" id="btnActividades" name="btnActividades" value="Mostrar Listado" class="btn btn-danger btn-lg btn-block" disabled="disabled">
+                            <form id="frRecargar" method="post" action="<?php echo BASE_URL; ?>gestionNotas/actividades/<?php echo $this->idUsuario; ?>/<?php echo $this->id; ?>">
+                                <input type="submit" id="btnNuevaBusqueda" name="btnNuevaBusqueda" value="Nueva Busqueda" class="btn btn-danger btn-lg btn-block" style="display:none;">
+                            </form>
                         </td>
                     </tr>
                     <tr style="display:none">
