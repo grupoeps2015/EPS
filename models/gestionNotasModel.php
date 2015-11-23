@@ -124,4 +124,14 @@ class gestionNotasModel extends Model {
             return $info->fetchall();
         }
     }
+    
+    public function getListaAsignados($id,$ciclo){
+        $post = $this->_db->query("select * from spListaAsignados({$id},{$ciclo}) order by carnet");
+        if($post === false){
+            return "1200/getListaAsignados";
+        }else{
+            $post->setFetchMode(PDO::FETCH_ASSOC);
+            return $post->fetchall();
+        }
+    }
 }

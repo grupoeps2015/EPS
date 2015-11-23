@@ -198,7 +198,7 @@ class gestionRetrasadasController extends Controller {
     public function generarOrdenPago($carnet,$nombre,$carrera){
         $idCarrera = $_SESSION['carrera'];
         $idPeriodo = 0;
-        
+        $multiplicadorMonto = 0;
         if($_SESSION["rol"] == ROL_ESTUDIANTE){
             $estudiante = $this->_ajax->getEstudianteUsuario($_SESSION["usuario"]);
             if(is_array($estudiante)){
@@ -209,59 +209,77 @@ class gestionRetrasadasController extends Controller {
             }
         }
         
-        if ($this->getInteger('hdCiclo') && $this->getTexto('slCurso')) {
-            $slcurso = explode("-", $this->getTexto('slCurso'));
-            $curso = $slcurso[0];
-            $seccion = $slcurso[1];
-            $ciclo = $this->getInteger('hdCiclo');
-            if ($_SESSION["rol"] == ROL_ADMINISTRADOR || $_SESSION["rol"] == ROL_EMPLEADO) {
-                $tipoAs = ASIGN_JUNTADIRECTIVA;
-            }
-            else if ($_SESSION["rol"] == ROL_ESTUDIANTE) {
-                $tipoAs = ASIGN_OTRAS;
-            }
-            $periodo = $this->_post->getPeriodo($ciclo, PERIODO_ASIGNACION_1RETRASADA, $tipoAs, $_SESSION["centrounidad"]);
-            if(is_array($periodo)){
-                if(isset($periodo[0]['periodo'])){
-                    $idPeriodo = $periodo[0]['periodo'];
-                    $datosExtra = $this->_post->getDatosExtraBoleta($ciclo,PERIODO_ASIGNACION_1RETRASADA);
-                    if(is_array($datosExtra)){
-                        if(isset($datosExtra[0]['rubro'])){
-                            $anio=$datosExtra[0]['anio'];
-                            $rubro=$datosExtra[0]['rubro'];
-                            $monto=MONTO_1RETRASADA;
-                        }
-                    }else{
-                        $this->redireccionar("error/sql/" . $datosExtra);
-                        exit;
-                    }
+        if ($this->getInteger('hdCiclo') && $this->getTexto('hdCursos')) {
+            $listadoCursos = explode(";", $this->getTexto('hdCursos'));
+            if(count($listadoCursos)){
+                for($i=0;$i<count($listadoCursos);$i++){
+                    if($listadoCursos[$i] <> ""){
+                        $multiplicadorMonto++;
                     
-                }
-                else{
-                    $periodo = $this->_post->getPeriodo($ciclo, PERIODO_ASIGNACION_2RETRASADA, $tipoAs, $_SESSION["centrounidad"]);
-                    if(is_array($periodo)){
-                        if(isset($periodo[0]['periodo'])){
-                            $idPeriodo = $periodo[0]['periodo'];
-                            $datosExtra = $this->_post->getDatosExtraBoleta($ciclo,PERIODO_ASIGNACION_2RETRASADA);
-                            if(is_array($datosExtra)){
-                                if(isset($datosExtra[0]['rubro'])){
-                                    $anio=$datosExtra[0]['anio'];
-                                    $rubro=$datosExtra[0]['rubro'];
-                                    $monto=MONTO_2RETRASADA;
-                                }
-                            }else{
-                                $this->redireccionar("error/sql/" . $datosExtra);
-                                exit;
-                            }
+                        $slcurso = explode("-", $listadoCursos[0]);
+                        $curso = $slcurso[0];
+                        $seccion = $slcurso[1];
+                        $ciclo = $this->getInteger('hdCiclo');
+                        if ($_SESSION["rol"] == ROL_ADMINISTRADOR || $_SESSION["rol"] == ROL_EMPLEADO) {
+                            $tipoAs = ASIGN_JUNTADIRECTIVA;
                         }
-                    }else{
-                        $this->redireccionar("error/sql/" . $periodo);
-                        exit;
+                        else if ($_SESSION["rol"] == ROL_ESTUDIANTE) {
+                            $tipoAs = ASIGN_OTRAS;
+                        }
+                        $periodo = $this->_post->getPeriodo($ciclo, PERIODO_ASIGNACION_1RETRASADA, $tipoAs, $_SESSION["centrounidad"]);
+                        if(is_array($periodo)){
+                            if(isset($periodo[0]['periodo'])){
+                                $idPeriodo = $periodo[0]['periodo'];
+                                $datosExtra = $this->_post->getDatosExtraBoleta($ciclo,PERIODO_ASIGNACION_1RETRASADA);
+                                if(is_array($datosExtra)){
+                                    if(isset($datosExtra[0]['rubro'])){
+                                        $anio=$datosExtra[0]['anio'];
+                                        $rubro=$datosExtra[0]['rubro'];
+                                        $monto=MONTO_1RETRASADA;
+                                    }
+                                }else{
+                                    $this->redireccionar("error/sql/" . $datosExtra);
+                                    exit;
+                                }
+
+                            }
+                            else{
+                                $periodo = $this->_post->getPeriodo($ciclo, PERIODO_ASIGNACION_2RETRASADA, $tipoAs, $_SESSION["centrounidad"]);
+                                if(is_array($periodo)){
+                                    if(isset($periodo[0]['periodo'])){
+                                        $idPeriodo = $periodo[0]['periodo'];
+                                        $datosExtra = $this->_post->getDatosExtraBoleta($ciclo,PERIODO_ASIGNACION_2RETRASADA);
+                                        if(is_array($datosExtra)){
+                                            if(isset($datosExtra[0]['rubro'])){
+                                                $anio=$datosExtra[0]['anio'];
+                                                $rubro=$datosExtra[0]['rubro'];
+                                                $monto=MONTO_2RETRASADA;
+                                            }
+                                        }else{
+                                            $this->redireccionar("error/sql/" . $datosExtra);
+                                            exit;
+                                        }
+                                    }
+                                }else{
+                                    $this->redireccionar("error/sql/" . $periodo);
+                                    exit;
+                                }
+                            }                    
+                        }else{
+                                $this->redireccionar("error/sql/" . $periodo);
+                                exit;
+                        }
+                        
+                        $arreglo[$i]['anio'] = $anio;
+                        $arreglo[$i]['rubro'] = $rubro;
+                        $arreglo[$i]['varianterubro'] = VARIANTERUBRO_RETRASADAS;
+                        $arreglo[$i]['tipocurso'] = TIPOCURSO_ESCUELAHISTORIA;
+                        $arreglo[$i]['curso'] = $curso;
+                        $arreglo[$i]['seccion'] = $seccion;
+                        $arreglo[$i]['subtotal'] = $monto;
                     }
-                }                    
-            }else{
-                    $this->redireccionar("error/sql/" . $periodo);
-                    exit;
+                }
+                
             }
         }
         //$carnet=200610816;
@@ -270,18 +288,27 @@ class gestionRetrasadasController extends Controller {
         //$carrera=1;
         //$nombre='TRINIDAD PINEDA JORGE';
         $nombre2 = strtoupper($nombre);
-        $monto=10;
+        $montoTotal=$monto*$multiplicadorMonto;
         $anio=2014;
         $rubro=4;
         $varianterubro=VARIANTERUBRO_RETRASADAS;
         $tipocurso=TIPOCURSO_ESCUELAHISTORIA;
-        $curso='084';
+        $curso=83;
         $seccion='B';
-        $subtotal=$monto;
-        $subtotal=10;
+        
+        unset($arreglo);
+        for($i=0;$i<$multiplicadorMonto;$i++){
+            $arreglo[$i]['anio'] = $anio;
+            $arreglo[$i]['rubro'] = $rubro;
+            $arreglo[$i]['varianterubro'] = VARIANTERUBRO_RETRASADAS;
+            $arreglo[$i]['tipocurso'] = TIPOCURSO_ESCUELAHISTORIA;
+            $arreglo[$i]['curso'] = '0'.strval($curso+$i);
+            $arreglo[$i]['seccion'] = $seccion;
+            $arreglo[$i]['subtotal'] = $monto;
+        }
         
         $this->_generaorden = new wsGeneraOrdenPago();
-        $prueba = $this->_generaorden->generaOrdenPago($carnet,$unidad,$extension,$carrera,$nombre2,$monto,$anio,$rubro,$varianterubro,$tipocurso,$curso,$seccion,$subtotal);
+        $prueba = $this->_generaorden->generaOrdenPago($carnet,$unidad,$extension,$carrera,$nombre2,$montoTotal,$arreglo);
         $cadena = implode(',', $prueba);
         
         if ($this->_generaorden->parsear_resultado($cadena,"CODIGO_RESP") == "1") {

@@ -1039,6 +1039,7 @@ CREATE TABLE EST_Pago (
   Estudiante INTEGER NULL,
   Periodo INTEGER NULL,
   Carrera INTEGER NULL,
+  Estado INTEGER NOT NULL,
   PRIMARY KEY (Pago),
   CONSTRAINT fk_EST_Pago_EST_TipoPago1
     FOREIGN KEY (TipoPago)

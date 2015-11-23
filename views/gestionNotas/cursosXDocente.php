@@ -159,8 +159,8 @@
                                 <input type="hidden" id="hdtipoAs" name="hdtipoAs" value="2">
                                 <input type="hidden" id="hdcentrounidad" name="hdcentrounidad" value="<?php echo $_SESSION["centrounidad"]?>">
                                 <input type="hidden" id="hdTotalAsignados" name="hdTotalAsignados" value="0" >
-                                <input type="hidden" name="hdFile" value="1"/>
-                                
+                                <input type="hidden" id="hdFile" name="hdFile" value="1"/>
+                                <input type="hidden" id="hdActs" name="hdActs" value="-1"/>
                             </td>
                         </tr>
                         <?php if($_SESSION['rol']==0 || $_SESSION['rol']==1):?>

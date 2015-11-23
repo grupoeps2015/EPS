@@ -753,7 +753,7 @@ RETURNS void AS
 $BODY$
 BEGIN
 
- INSERT INTO EST_Pago (Boleta, FechaPago, Estudiante, Periodo, Carrera) values (_boleta, current_date,_estudiante, _periodo,_carrera);
+ INSERT INTO EST_Pago (Boleta, FechaPago, Estudiante, Periodo, Carrera, Estado) values (_boleta, current_date,_estudiante, _periodo,_carrera,1);
 end;
 $BODY$
   LANGUAGE plpgsql VOLATILE
@@ -781,6 +781,7 @@ begin
 		where p.estudiante = _estudiante
 		and p.periodo = _periodo
 		and p.carrera = _carrera
+		and p.estado = 1
 		order by p.fechapago desc
 		limit 1;
 end;
