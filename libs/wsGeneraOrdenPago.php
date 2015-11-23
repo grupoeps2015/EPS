@@ -8,7 +8,8 @@ class wsGeneraOrdenPago{
         $this->_parser = new ParseXml();
     }
     	
-    function generaOrdenPago($carnet,$unidad,$extension,$carrera,$nombre,$monto,$anio,$rubro,$varianterubro,$tipocurso,$curso,$seccion,$subtotal){
+    function generaOrdenPago($carnet,$unidad,$extension,$carrera,$nombre,$monto,$arreglo){
+        
         require_once("nusoap/nusoap.php");
         $xml_consulta_usuario = ''.
             '<GENERAR_ORDEN>'.
@@ -17,17 +18,20 @@ class wsGeneraOrdenPago{
             '<EXTENSION>'.$extension.'</EXTENSION> '.
             '<CARRERA>'.$carrera.'</CARRERA> '.
             '<NOMBRE>'.$nombre.'</NOMBRE> '.
-            '<MONTO>'.$monto.'</MONTO> '.
+            '<MONTO>'.$monto.'</MONTO> ';
+        for($i=0;$i<count($arreglo);$i++){
+            $xml_consulta_usuario = $xml_consulta_usuario .        
             '<DETALLE_ORDEN_PAGO> '.
-            '<ANIO_TEMPORADA>'.$anio.'</ANIO_TEMPORADA> '.
-            '<ID_RUBRO>'.$rubro.'</ID_RUBRO> '.
-            '<ID_VARIANTE_RUBRO>'.$varianterubro.'</ID_VARIANTE_RUBRO> '.
-            '<TIPO_CURSO>'.$tipocurso.'</TIPO_CURSO>'.
-            '<CURSO>'.$curso.'</CURSO> '.
-            '<SECCION>'.$seccion.'</SECCION> '.
-            '<SUBTOTAL>'.$subtotal.'</SUBTOTAL> '.
-            '</DETALLE_ORDEN_PAGO> '.
-            '</GENERAR_ORDEN>';
+            '<ANIO_TEMPORADA>'.$arreglo[$i]['anio'].'</ANIO_TEMPORADA> '.
+            '<ID_RUBRO>'.$arreglo[$i]['rubro'].'</ID_RUBRO> '.
+            '<ID_VARIANTE_RUBRO>'.$arreglo[$i]['varianterubro'].'</ID_VARIANTE_RUBRO> '.
+            '<TIPO_CURSO>'.$arreglo[$i]['tipocurso'].'</TIPO_CURSO>'.
+            '<CURSO>'.$arreglo[$i]['curso'].'</CURSO> '.
+            '<SECCION>'.$arreglo[$i]['seccion'].'</SECCION> '.
+            '<SUBTOTAL>'.$arreglo[$i]['subtotal'].'</SUBTOTAL> '.
+            '</DETALLE_ORDEN_PAGO> ';
+        }
+          $xml_consulta_usuario = $xml_consulta_usuario . '</GENERAR_ORDEN>';
  
         $v_msg_error='';
         $v_xml_retorno='';

@@ -87,8 +87,8 @@ $(document).ready(function(){
 		//agregar. pueden incluirse id's, nombres y cualquier tag... sigue siendo html
 		var strNueva_Fila='<tr>'+
 			'<td><label type="text" class="clsCurso">'+$("#slCursos option[value='"+$("#slCursos").val()+"']").text()+'</label><input type="hidden" value="'+$("#slCursos").val()+'"></td>'+
-			'<td><select class="clsSeccion form-control input-lg">'+getSeccionesCursoHorarioAjax($("#slCursos").val(),$("#slCiclo").val())+'</select></td>'+
-			'<td align="right"><input type="button" value="-" class="clsEliminarFila btn btn-danger btn-lg btn-warning"></td>'+
+			'<td><input type="hidden" value="'+$("#slCursos").val()+'"></td>'+
+                        '<td align="right"><input type="button" value="-" class="clsEliminarFila btn btn-danger btn-lg btn-warning"></td>'+
 		'</tr>';
 				
 		/*obtenemos el padre del boton presionado (en este caso queremos la tabla, por eso
@@ -104,7 +104,6 @@ $(document).ready(function(){
 		//agregamos la nueva fila a la tabla
 		$(objTabla).find('tbody').append(strNueva_Fila);
 		$("#lblCur").text("Curso");
-                $("#lblSec").text("Sección");
                 $("#btnAsignar").show();
 		//si el cuerpo la tabla esta oculto (al agregar una nueva fila) lo mostramos
 		if(!$(objTabla).find('tbody').is(':visible')){
@@ -197,15 +196,10 @@ $(document).ready(function(){
                 {
                     switch (index2) 
                     {
-                        case 1:campo2 = $(this).find('select').val();
+                        case 1:campo2 = $(this).find('input').val();
                                 break;
                     }
                 })
-                if(campo2 == -1){
-                    alert("Seleccione una sección");
-                    val = false;
-                    return;
-                }
                 $('#hdCursos').val($('#hdCursos').val()+campo2+";");
                 cant++;
             })
@@ -217,7 +211,7 @@ $(document).ready(function(){
                 }
             }
             if (val) {
-                $('#frAsignacionCursos').submit();
+                $('#frAsignaciones').submit();
             }
             
         });

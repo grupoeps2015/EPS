@@ -79,7 +79,7 @@
         <form id="frAsignaciones" method="post" action="<?php echo BASE_URL; ?>gestionRetrasadas/generarOrdenPago/<?php echo $this->lstAsignaciones[0]['carnet']?>/<?php echo $this->lstAsignaciones[0]['nombreestudiante']?>/<?php echo $this->carrera;?>">
         <div id="divAsignaciones" class="form-group" >
                 Seleccione el curso a asignarse examen de retrasada:
-                <select id="slCurso" name="slCurso" class="form-control input-lg">
+                <select id="slCursos" name="slCursos" class="form-control input-lg">
                     <?php if (isset($this->lstAsignaciones) && count($this->lstAsignaciones)): ?>
                         <option value="">-- Curso --</option>
                         <?php for ($i = 0; $i < count($this->lstAsignaciones); $i++) : ?>
@@ -91,8 +91,35 @@
                         <option value="">-- No existen cursos registrados para este periodo --</option>
                     <?php endif; ?>
                 </select>
-        </div> 
-            <input type="submit" id="btnGenerarOrden" name="btnGenerarOrden" value="Generar orden de pago" class="btn btn-danger btn-lg btn-warning">
+        </div>
+            <table id="tabla" name="tabla" style="width:100%;">
+                <thead>
+                    <tr>
+                        <td colspan="3" align="right">
+                            <input type="button" value="Agregar curso" class="clsAgregarFila btn btn-danger btn-lg btn-warning" disabled>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><h4><label id="lblCur"></label></h4></th>
+                        <th>&nbsp;</th>
+                        <th width="22">&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3" align="right">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" align="right">
+                            <input type="button" id="btnAsignar" value="Generar orden de pago" class="btn btn-danger btn-lg btn-warning" style="display: none;" disabled>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+            <input type="hidden" name="hdCursos" id="hdCursos">
+<!--            <input type="submit" id="btnGenerarOrden" name="btnGenerarOrden" value="Generar orden de pago" class="btn btn-danger btn-lg btn-warning">-->
             <input type="hidden" name="hdCiclo" id="hdCiclo" value="<?php if (isset($this->ciclo)) echo $this->ciclo;?>">
         </form>     
         <?php else: ?>
