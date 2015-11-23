@@ -102,7 +102,7 @@
                     </tr>
                 </table>
                 <input type="submit" id="btnAsignarRetra" name="btnAsignarRetra" value="Asignar examen de retrasada" class="btn btn-danger btn-lg btn-warning">
-                <input type="text" name="slPago" id="slPago" value="<?php if (isset($this->pago)) echo $this->pago ?>">
+                <input type="hidden" name="slPago" id="slPago" value="<?php if (isset($this->pago)) echo $this->pago ?>">
             </form>
             <form id="frAsignacionCursos" method="post" action="<?php echo BASE_URL; ?>asignacion/asignarRetrasada">
             <table id="tabla" name="tabla" style="width:100%;">

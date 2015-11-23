@@ -948,15 +948,19 @@ class asignacionController extends Controller{
         try{
         
         if ($this->getInteger('slCursos')) {
-            $asignacion = $this->getInteger('slCursos'); 
-            $res = $this->_asign->agregarAsignacionCursoRetrasada($asignacion, "1", "1");
-            if(is_array($res)){
-                $usarPago = $this->_asign->usarPago($this->pago,2);
-                $this->redireccionar("gestionRetrasadas/inicio");
-                exit;
-            }else{
-                $this->redireccionar("error/sql/" . $res);
-                exit;
+            if($this->getInteger('slPago'))
+            {
+                $this->pago = $this->getInteger('slPago');
+                $asignacion = $this->getInteger('slCursos'); 
+                $res = $this->_asign->agregarAsignacionCursoRetrasada($asignacion, "1", "1");
+                if(is_array($res)){
+                    $usarPago = $this->_asign->usarPago($this->pago,2);
+                    $this->redireccionar("gestionRetrasadas/inicio");
+                    exit;
+                }else{
+                    $this->redireccionar("error/sql/" . $res);
+                    exit;
+                }
             }
         }
         } catch (Exception $e) {
