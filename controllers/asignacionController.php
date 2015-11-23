@@ -952,7 +952,7 @@ class asignacionController extends Controller{
             {
                 $this->pago = $this->getInteger('slPago');
                 $asignacion = $this->getInteger('slCursos'); 
-                $res = $this->_asign->agregarAsignacionCursoRetrasada($asignacion, "1", "1");
+                $res = $this->_asign->agregarAsignacionCursoRetrasada($asignacion, $this->pago, "1");
                 if(is_array($res)){
                     $usarPago = $this->_asign->usarPago($this->pago,2);
                     $this->redireccionar("gestionRetrasadas/inicio");
