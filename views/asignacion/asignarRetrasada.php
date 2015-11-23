@@ -68,12 +68,12 @@
                     <input type="hidden" name="hdEnvio" value="1">
                     <?php if($_SESSION["rol"] == ROL_ADMINISTRADOR || $_SESSION["rol"] == ROL_EMPLEADO): ?>
                     <input type="hidden" name="slEstudiantes" value="<?php if (isset($this->estudiante)) echo $this->estudiante ?>">
-                    <input type="hidden" name="slCarreras" value="<?php if (isset($this->carrera)) echo $this->carrera ?>">
+                    <input type="hidden" name="slCarreras" value="<?php if (isset($this->carrera)) echo $this->carrera ?>">                    
                     <?php endif; ?>
                 </table>
             </form>
             </div>
-          <?php if(isset($this->existePago)&&$this->existePago==1):?> 
+          <?php if(isset($this->existePago)&&$this->existePago==2):?> 
             <?php if(isset($this->asignacion)) :?>
         <div class="col-md-6 col-md-offset-3">
             <form id="frm" method="post" action="<?php echo BASE_URL; ?>asignacion/asignarRetrasada">
@@ -102,6 +102,7 @@
                     </tr>
                 </table>
                 <input type="submit" id="btnAsignarRetra" name="btnAsignarRetra" value="Asignar examen de retrasada" class="btn btn-danger btn-lg btn-warning">
+                <input type="hidden" name="slPago" id="slPago" value="<?php if (isset($this->pago)) echo $this->pago ?>">
             </form>
             <form id="frAsignacionCursos" method="post" action="<?php echo BASE_URL; ?>asignacion/asignarRetrasada">
             <table id="tabla" name="tabla" style="width:100%;">
@@ -133,6 +134,7 @@
             <input type="hidden" name="hdCursos" id="hdCursos">
             <input type="hidden" name="hdCiclo" id="hdCiclo" value="<?php if (isset($this->ciclo)) echo $this->ciclo;?>">
             <input type="hidden" name="hdAnio" id="hdAnio" value="<?php if (isset($this->anio)) echo $this->anio;?>">
+            
             <input type="hidden" name="hdEnvio" value="1">
             <?php if($_SESSION["rol"] == ROL_ADMINISTRADOR || $_SESSION["rol"] == ROL_EMPLEADO): ?>
             <input type="hidden" name="slEstudiantes" value="<?php if (isset($this->estudiante)) echo $this->estudiante ?>">

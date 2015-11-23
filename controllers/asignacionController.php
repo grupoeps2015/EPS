@@ -874,6 +874,7 @@ class asignacionController extends Controller{
                 $this->boleta = isset($boleta[0]['boleta']);
                 if(isset($boleta[0]['boleta'])&&$this->boleta!=""&&$this->boleta!=null&&$this->boleta!=0)
                 {
+                    $this->_view->pago = $this->boleta;
                     $this->_generaorden = new wsGeneraOrdenPago();
                     $prueba = $this->_generaorden->confirmacionPago($this->boleta,$this->carnet);
                     $cadena = implode(',', $prueba);
@@ -907,10 +908,14 @@ class asignacionController extends Controller{
     
     public function asignarRetrasada(){
         try{
-        
+            if($this->getInteger('slPago'))
+            {
+                $this->pago = $this->getInteger('slPago');           
+            }
+           
         if ($this->getInteger('slCursos')) {
             $asignacion = $this->getInteger('slCursos'); 
-            $res = $this->_asign->agregarAsignacionCursoRetrasada($asignacion, "1", "1");
+            $res = $this->_asign->agregarAsignacionCursoRetrasada($asignacion, $this->pago, "1");
             if(is_array($res)){
                 $this->redireccionar("gestionRetrasadas/inicio");
                 exit;
@@ -922,7 +927,7 @@ class asignacionController extends Controller{
         } catch (Exception $e) {
             echo 'Excepción capturada: ',  $e->getMessage(), "\n";
             exit;
-        }
+        }*/
     }
     
     
