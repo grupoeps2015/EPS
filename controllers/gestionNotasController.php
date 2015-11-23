@@ -226,6 +226,25 @@ class gestionNotasController extends Controller{
         echo json_encode($respuesta);
     }
     
+    public function guardarRetrasada(){
+        $respuesta = new stdClass();
+        $respuesta->mensaje = "";
+        $zona = floatval($this->getTexto('zonaN'));
+        $final = floatval($this->getTexto('finalN'));
+        if($this->getInteger('idAs')){
+            $nota=$this->_notas->guardarRetra($final,$this->getInteger('idAs'));
+            if(is_array($nota)){
+                $respuesta->total = $zona + $final;
+                $respuesta->mensaje = "Procesado: Las notas seran guardadas con valores enteros";
+            }else{
+                $respuesta->mensaje = "Ocurrio un error inesperado, notifique a control academico";
+            }
+        }else{
+            $respuesta->mensaje = "Ocurrio un error al ingresar una nota";
+        }
+        echo json_encode($respuesta);
+    }
+    
     public function notasCSV(){
         $respuesta = new stdClass();
         $respuesta->mensaje = "";
@@ -332,6 +351,12 @@ class gestionNotasController extends Controller{
     public function getListaAsignados(){
         if($this->getInteger('trama') && $this->getInteger('ciclo')){
             echo json_encode($this->_notas->getListaAsignados($this->getInteger('trama'),$this->getInteger('ciclo')));
+        }
+    }
+    
+    public function getListaAsignadosRetra(){
+        if($this->getInteger('trama') && $this->getInteger('ciclo') && $this->getInteger('retra')){
+            echo json_encode($this->_notas->getListaAsignadosRetra($this->getInteger('trama'),$this->getInteger('ciclo'),$this->getInteger('retra')));
         }
     }
 }

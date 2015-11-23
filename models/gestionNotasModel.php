@@ -42,6 +42,15 @@ class gestionNotasModel extends Model {
         }
     }
     
+    public function guardarRetra($retra,$asignacionretra){
+        $info = $this->_db->query("select * from spActualizarRetra({$retra},{$asignacionretra});");
+        if($info === false){
+            return "1103/guardarRetra";
+        }else{
+            return $info->fetchall();
+        }
+    }
+    
     public function getTipoActividad(){
         $info = $this->_db->query("select * from spconsultageneral('tipoactividad, nombre','cur_tipoactividad') order by codigo;");
         if($info === false){
@@ -91,7 +100,7 @@ class gestionNotasModel extends Model {
         //$info = $this ->_db->query("select * from spobtenerestadociclonotas({$idCiclo}) as estadociclo");
         $info = $this->_db->query("select * from spPeriodoActivo({$idCiclo},{$tipoPeriodo},{$tipoAsignacion},{$centrounidad});");
         if($info === false){
-            return "1200/getEstadoCicloNotas";
+            return "1104/getEstadoCicloNotas";
         }else{
             $info->setFetchMode(PDO::FETCH_ASSOC);
             return $info->fetchall();
@@ -128,7 +137,17 @@ class gestionNotasModel extends Model {
     public function getListaAsignados($id,$ciclo){
         $post = $this->_db->query("select * from spListaAsignados({$id},{$ciclo}) order by carnet");
         if($post === false){
-            return "1200/getListaAsignados";
+            return "1104/getListaAsignados";
+        }else{
+            $post->setFetchMode(PDO::FETCH_ASSOC);
+            return $post->fetchall();
+        }
+    }
+    
+    public function getListaAsignadosRetra($id,$ciclo,$retra){
+        $post = $this->_db->query("select * from spListaAsignadosRetra({$id},{$ciclo},{$retra});");
+        if($post === false){
+            return "1104/getListaAsignadosRetra";
         }else{
             $post->setFetchMode(PDO::FETCH_ASSOC);
             return $post->fetchall();

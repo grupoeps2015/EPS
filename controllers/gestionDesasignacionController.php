@@ -11,6 +11,7 @@ class gestionDesasignacionController extends Controller {
     private $_post;
     private $_encriptar;
     private $_ajax;
+    private $_bitacora;
 
     public function __construct() {
         parent::__construct();
@@ -24,41 +25,39 @@ class gestionDesasignacionController extends Controller {
         $this->_encriptar = new encripted();
         $this->_post = $this->loadModel('gestionDesasignacion');
         $this->_ajax = $this->loadModel("ajax");
+        $this->_bitacora = $this->loadModel("bitacora");
         if ($this->getInteger('slEstudiantes')) {
             $this->estudiante = $this->getInteger('slEstudiantes');
-        }
-        else{
+        } else {
             $estudiante = $this->_ajax->getEstudianteUsuario($_SESSION["usuario"]);
-            if(is_array($estudiante)){
+            if (is_array($estudiante)) {
                 $this->estudiante = (isset($estudiante[0]['id']) ? $estudiante[0]['id'] : -1);
-            }else{
+            } else {
                 $this->redireccionar("error/sql/" . $estudiante);
                 exit;
             }
         }
         if ($this->getInteger('slEstudiantes') && $this->getInteger('slCarreras')) {
             $this->carrera = $this->getInteger('slCarreras');
-        }
-        else if (isset($_SESSION["carrera"])) {
+        } else if (isset($_SESSION["carrera"])) {
             $this->carrera = $_SESSION["carrera"];
         }
     }
 
-    public function listadoAsignaciones($idestudiante=0) {
-        
+    public function listadoAsignaciones($idestudiante = 0) {
+
         $this->_view->estudiante = $this->estudiante;
-        if($idestudiante!=0){
+        if ($idestudiante != 0) {
             $this->estudiante = $idestudiante;
             $info = $this->_post->allAsignaciones($idestudiante);
-        }else{
+        } else {
             $info = $this->_post->allAsignaciones($this->estudiante);
         }
-        
-                 
+
+
         if (is_array($info)) {
             $this->_view->lstAsignaciones = $info;
-        }
-        else {
+        } else {
             $this->redireccionar("error/sql/" . $info);
             exit;
         }
@@ -113,7 +112,7 @@ class gestionDesasignacionController extends Controller {
         $idestudiante = $this->getInteger('hdEst');
         $codigo = $this->getTexto('hdCodigo');
 
-        
+
 //        session_start();
 //        $rol = $_SESSION["rol"];        
 //        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_ELIMINAREDIFICIO);
@@ -139,6 +138,21 @@ class gestionDesasignacionController extends Controller {
                     $arrayDes['asignacion'] = $idAsignacion;
                     $arrayDes['descripcion'] = $vDescripcion;
                     $this->_post->agregarDesasignacion($arrayDes);
+                    //Insertar en bitácora            
+                    $arrayBitacora = array();
+                    $arrayBitacora[":usuario"] = $_SESSION["usuario"];
+                    $arrayBitacora[":nombreusuario"] = $_SESSION["nombre"];
+                    $arrayBitacora[":funcion"] = CONS_FUNC_LOGIN;
+                    $arrayBitacora[":ip"] = $this->get_ip_address();
+                    $arrayBitacora[":registro"] = 0; //no se que es esto
+                    $arrayBitacora[":tablacampo"] = ''; //tampoco se que es esto
+                    $arrayBitacora[":descripcion"] = 'Se ha realizado desasignacion de curso';
+                    $insert = $this->_bitacora->insertarBitacoraAsignacion($arrayBitacora);
+                    if (!is_array($insert)) {
+                        $this->redireccionar("error/sql/" . $insert);
+                        exit;
+                    }
+
                     echo "<script>
                 alert('Desasignacion de curso para el estudiante " . $carnet . " realizada exitosamente.');
                 </script>";
@@ -158,4 +172,38 @@ class gestionDesasignacionController extends Controller {
 //                </script>";
 //        }
 //}
+
+    private function get_ip_address() {
+        // check for shared internet/ISP IP
+        if (!empty($_SERVER['HTTP_CLIENT_IP']) && validate_ip($_SERVER['HTTP_CLIENT_IP'])) {
+            return $_SERVER['HTTP_CLIENT_IP'];
+        }
+
+        // check for IPs passing through proxies
+        if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            // check if multiple ips exist in var
+            if (strpos($_SERVER['HTTP_X_FORWARDED_FOR'], ',') !== false) {
+                $iplist = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+                foreach ($iplist as $ip) {
+                    if (validate_ip($ip))
+                        return $ip;
+                }
+            } else {
+                if (validate_ip($_SERVER['HTTP_X_FORWARDED_FOR']))
+                    return $_SERVER['HTTP_X_FORWARDED_FOR'];
+            }
+        }
+        if (!empty($_SERVER['HTTP_X_FORWARDED']) && validate_ip($_SERVER['HTTP_X_FORWARDED']))
+            return $_SERVER['HTTP_X_FORWARDED'];
+        if (!empty($_SERVER['HTTP_X_CLUSTER_CLIENT_IP']) && validate_ip($_SERVER['HTTP_X_CLUSTER_CLIENT_IP']))
+            return $_SERVER['HTTP_X_CLUSTER_CLIENT_IP'];
+        if (!empty($_SERVER['HTTP_FORWARDED_FOR']) && validate_ip($_SERVER['HTTP_FORWARDED_FOR']))
+            return $_SERVER['HTTP_FORWARDED_FOR'];
+        if (!empty($_SERVER['HTTP_FORWARDED']) && validate_ip($_SERVER['HTTP_FORWARDED']))
+            return $_SERVER['HTTP_FORWARDED'];
+
+        // return unreliable ip since all else failed
+        return $_SERVER['REMOTE_ADDR'];
+    }
+
 }

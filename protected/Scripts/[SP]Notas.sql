@@ -311,4 +311,52 @@ END
 $BODY$
 LANGUAGE plpgsql;
 
+-- -----------------------------------------------------
+-- Function: spListaAsignadosRetra()
+-- -----------------------------------------------------
+-- DROP FUNCTION spListaAsignadosRetra(int,int,int);
+CREATE OR REPLACE FUNCTION spListaAsignadosRetra(IN _idTrama integer, IN _idCiclo integer, IN _idTipoPago integer,
+					    OUT idasignacion integer,
+					    OUT carnet integer,
+					    OUT nombre text,
+					    OUT zona float,
+					    OUT retra float) RETURNS SETOF record AS
+$BODY$
+BEGIN
+  return query
+  select 
+    nueve.asignacionretrasada,
+    seis.carnet,
+    concat(seis.primernombre || ' ' || seis.segundonombre || ' ' || seis.primerapellido || ' ' || seis.segundoapellido ) as nombre,
+    uno.zona,
+    nueve.notaretrasada
+  from 
+    est_cur_nota uno
+    join est_cur_asignacion dos on uno.asignacion = dos.asignacion
+    join est_ciclo_asignacion tres on dos.ciclo_asignacion = tres.ciclo_asignacion
+    join adm_periodo cuatro on tres.periodo = cuatro.periodo
+    join cur_seccion cinco on cinco.seccion = dos.seccion
+    join est_estudiante seis on tres.estudiante = seis.estudiante
+    join cur_trama siete on siete.seccion = cinco.seccion
+    join cur_horario ocho on ocho.trama = siete.trama
+    join est_asignacionretrasada nueve on nueve.asignacion = uno.asignacion
+    join est_pago diez on diez.pago = nueve.pago
+  where dos.estado = 1 and siete.trama = _idTrama and ocho.ciclo = _idCiclo and cuatro.ciclo = _idCiclo and diez.tipopago = _idTipoPago;
+END
+$BODY$
+LANGUAGE plpgsql;
+
+-- -----------------------------------------------------
+-- Function: spActualizarRetra()
+-- -----------------------------------------------------
+-- DROP FUNCTION spActualizarRetra(float,float,float);
+CREATE OR REPLACE FUNCTION spActualizarRetra(IN _final float, IN _idAsignacion float) RETURNS Void AS
+$BODY$
+DECLARE total float;
+BEGIN
+  EXECUTE format(('UPDATE est_asignacionretrasada SET notaretrasada = %s where asignacionretrasada = %s'), round(_final), _idAsignacion);
+END;
+$BODY$
+LANGUAGE plpgsql;
+
 Select 'Script para Gestion de Notas Instalado' as "Gestion Notas";

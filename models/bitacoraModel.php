@@ -40,7 +40,16 @@ class bitacoraModel extends Model {
     }
     
     public function insertarBitacoraAsignacion($_datos) {
+        $tabla = 'EST_CUR_Asignacion_Bitacora';
+        $_datos[":tabla"] = $tabla;
         
+        $info = $this->_db->prepare("SELECT * from spInsertarBitacoraUsuario(:tabla,:usuario,:nombreusuario,:funcion,:ip,:registro,:tablacampo,:descripcion);");
+        $info->execute($_datos);
+        if($info === false){
+            return "1101/insertarBitacoraUsuario";
+        }else{
+            return $info->fetchall();
+        }
     }
     
     public function insertarBitacoraNota($_datos) {

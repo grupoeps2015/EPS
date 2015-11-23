@@ -43,6 +43,27 @@ class bitacoraController extends Controller{
         }
     }
     
+    public function insertarBitacoraRetra(){
+        if($this->getInteger('registro')){
+            session_start();
+            $bitacoraNotas = array();
+            $bitacoraNotas[":usuario"] = $_SESSION["usuario"];
+            $bitacoraNotas[":nombreusuario"] = $_SESSION["nombre"];
+            //falta agregar una fncion para retrasada
+            $bitacoraNotas[":funcion"] = CONS_FUNC_CUR_MODIFICARNOTA;
+            $bitacoraNotas[":ip"] = $this->get_ip_address();
+            $bitacoraNotas[":registro"] = $this->getInteger('registro');
+            $insert = $this->_bitacora->insertarBitacoraNota($bitacoraNotas);
+            if(!is_array($insert)){
+                $this->redireccionar("error/sql/" . $insert);
+                exit;
+            }
+            echo true;
+        }else{
+            echo false;
+        }
+    }
+    
     private function get_ip_address() {
         // check for shared internet/ISP IP
         if (!empty($_SERVER['HTTP_CLIENT_IP']) && validate_ip($_SERVER['HTTP_CLIENT_IP'])) {
