@@ -223,19 +223,49 @@ $(document).ready( function () {
                                                    notas + '</td><td>' + datos[i].telefonoemergencia);
                     }
                 }
-                
-                    $('#tdBotones').css('display','none');
-                
+                $('#tdBotones').css('display','none');
                 aplicarCss();
             },
             'json');
     }
     
     function mostrarListado(id, idCiclo){
+        $("#slCarnetxAsignacion").html('');
+        $.post(base_url+'gestionNotas/getListaAsignados',
+            {trama: id, ciclo: idCiclo },
+            function(datos){
+                var idAsignaActividad = -1;
+                if(datos.length>0){
+                    idAsignaActividad = parseInt(datos[0].idasignacion);
+                    hayActividades(idAsignaActividad,id,idCiclo);
+                }else{
+                    alert('Error inesperado, contacte con el administrador');
+                }
+            },
+            'json');
+    }
+    
+    function hayActividades(idAA,id,idCiclo){
+        var contador = 0;
+        $.post(base_url+'gestionNotas/contarActividades',
+            {trama: idAA},
+            function(respuesta){
+                //contador = respuesta.total;
+                if(parseInt(respuesta.total) <= 2){
+                    notaNormal(id,idCiclo);
+                }else{
+                    notaActividad(id,idCiclo);
+                }
+            },
+            'json');
+            return contador;
+    }
+    
+    function notaNormal(id,idCiclo){
         var estado = 0;
         var notas = "";
         $("#slCarnetxAsignacion").html('');
-        $.post(base_url+'ajax/getListaAsignados',
+        $.post(base_url+'gestionNotas/getListaAsignados',
             {trama: id, ciclo: idCiclo },
             function(datos){
                 $("#tbAsignados").css('display','block');
@@ -247,11 +277,10 @@ $(document).ready( function () {
                     if(parseInt(datos[0].estado) !== 2){
                         $("#tdExtra").remove();
                     }
-                    
-                    for(var i =0; i < datos.length; i++){
+
+                    for(var i=0; i < datos.length; i++){
                         if(estado === 1){
-                            $("#slCarnetxAsignacion").append('<option value="' + datos[i].carnet + '" name="' + datos[i].carnet + '" >' + datos[i].idasignacion + '</option>' );
-                            
+                            $("#slCarnetxAsignacion").append('<option value="' + datos[i].carnet + '" name="' + datos[i].carnet + '" >' + datos[i].idasignacion + '</option>' );                            
                             notas = '</td><td><input id="z' + datos[i].idasignacion + '" name="z' + datos[i].idasignacion + '" type="text" maxlength="5" value="' + datos[i].zona + '" style="width:60%; text-align:center;"/>' + 
                                     '</td><td><input id="f' + datos[i].idasignacion + '" name="f' + datos[i].idasignacion + '" type="text" maxlength="5" value="' + datos[i].final + '" style="width:60%; text-align:center;"/>' + 
                                     '</td><td><input id="t' + datos[i].idasignacion + '" name="t' + datos[i].idasignacion + '" type="text" maxlength="5" value="' + datos[i].total + '" style="width:60%; text-align:center;" readonly/>';
@@ -268,13 +297,16 @@ $(document).ready( function () {
                 }
                 if(estado === 1){
                     $('#tdBotones').css('display','block');
-                    
                 }else{
                     $('#tdBotones').css('display','none');
                 }
                 aplicarCss();
             },
             'json');
+    }
+    
+    function notaActividad(id,idCiclo){
+        alert(id +" - hay actividades - " + idCiclo);
     }
     
     function aplicarCss(){

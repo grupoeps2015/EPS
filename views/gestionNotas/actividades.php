@@ -2,7 +2,7 @@
     <div class="header">
         <div class="row">
             <div class="col-lg-12 text-center">
-                <h2 class="section-heading">Gesti&oacute;n de notas</h2>
+                <h2 class="section-heading">Gesti&oacute;n de actividades</h2>
                 <hr class="primary">
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
@@ -110,7 +110,7 @@
             <div class="col-md-8 col-md-offset-2">
                 <h4 align="center"><span id="spanMsg" name="spanMsg" class="text-warning"></span></h4>
                 <form id="frActividades" name="frActividades">
-                    <table id="tbActividades" name="tbActividades"style="display:none; text-align: center; width:100%">
+                    <table id="tbActividades" name="tbActividades" style="display:none; text-align: center; width:100%">
                         <thead>
                             <tr class="text-primary">
                                 <th style="width:19%; text-align:center">Nombre:</th>
