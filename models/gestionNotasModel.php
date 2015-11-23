@@ -128,7 +128,17 @@ class gestionNotasModel extends Model {
     public function getListaAsignados($id,$ciclo){
         $post = $this->_db->query("select * from spListaAsignados({$id},{$ciclo}) order by carnet");
         if($post === false){
-            return "1200/getListaAsignados";
+            return "1104/getListaAsignados";
+        }else{
+            $post->setFetchMode(PDO::FETCH_ASSOC);
+            return $post->fetchall();
+        }
+    }
+    
+    public function getListaAsignadosRetra($id,$ciclo,$retra){
+        $post = $this->_db->query("select * from spListaAsignadosRetra({$id},{$ciclo},{$retra});");
+        if($post === false){
+            return "1104/getListaAsignadosRetra";
         }else{
             $post->setFetchMode(PDO::FETCH_ASSOC);
             return $post->fetchall();

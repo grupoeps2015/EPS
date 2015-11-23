@@ -72,13 +72,17 @@
                             </select>
                         </td>
                         <td>&nbsp;</td>
-                        <td colspan="2">
+                        <td>
                             <select id="slCiclo" name="slCiclo" class="form-control input-lg">
                                 <option value="" disabled>-- Ciclo --</option>
                             </select>
                         </td>
                         <td>&nbsp;</td>
-                        <td>&nbsp;</td>
+                        <td>
+                            &nbsp;<input type="radio" id="rbTipoNota" name="rbTipoNota" value="10" checked>Ciclo regular<br>
+                            &nbsp;<input type="radio" id="rbTipoNota" name="rbTipoNota" value="20">1ra Retrasada<br>
+                            &nbsp;<input type="radio" id="rbTipoNota" name="rbTipoNota" value="30">2da Retrasada
+                        </td>
                     </tr>
                     <tr>
                         <td>&nbsp;</td>

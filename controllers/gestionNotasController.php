@@ -334,4 +334,10 @@ class gestionNotasController extends Controller{
             echo json_encode($this->_notas->getListaAsignados($this->getInteger('trama'),$this->getInteger('ciclo')));
         }
     }
+    
+    public function getListaAsignadosRetra(){
+        if($this->getInteger('trama') && $this->getInteger('ciclo') && $this->getInteger('retra')){
+            echo json_encode($this->_notas->getListaAsignadosRetra($this->getInteger('trama'),$this->getInteger('ciclo'),$this->getInteger('retra')));
+        }
+    }
 }
