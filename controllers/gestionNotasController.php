@@ -109,7 +109,7 @@ class gestionNotasController extends Controller{
         $notaAprobado = $this->_ajax->valorParametro(CONS_PARAM_UNIDAD_NOTAPROMOCION, -1, $_SESSION["centrounidad"]);
         $this->_view->notaAprobado = $notaAprobado[0]['valorparametro'];
         
-        $zonaMaxima = $this->_ajax->valorParametro(CONS_PARAM_UNIDAD_NOTATOTALZONA, $_SESSION["carrera"], $_SESSION["centrounidad"]);
+        $zonaMaxima = $this->_ajax->valorParametro(CONS_PARAM_UNIDAD_NOTATOTALZONA, -1, $_SESSION["centrounidad"]);
         $this->_view->zonaTotal = $zonaMaxima[0]['valorparametro'];
         
         $notaFinalMaxima = $this->_ajax->valorParametro(CONS_PARAM_UNIDAD_NOTAEXAMENFINAL, -1, $_SESSION["centrounidad"]);
@@ -326,6 +326,12 @@ class gestionNotasController extends Controller{
         if($this->getInteger('asig')){
             $respuesta = $this->_notas->listarActividades($this->getInteger('asig'));
             echo json_encode($respuesta);
+        }
+    }
+    
+    public function getListaAsignados(){
+        if($this->getInteger('trama') && $this->getInteger('ciclo')){
+            echo json_encode($this->_notas->getListaAsignados($this->getInteger('trama'),$this->getInteger('ciclo')));
         }
     }
 }

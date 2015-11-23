@@ -257,7 +257,9 @@ $(document).ready( function () {
         });
         if(SumarZona === 0){
             //No agrego actividades, asi que no se hacen inserts
-            alert("Sin actividades "  + SumarZona + "=" + TotalZona);
+            //alert("Sin actividades "  + SumarZona + "=" + TotalZona);
+            $('#btnActividades').css('display','none');
+            $('#btnNuevaBusqueda').css('display','block');
         }else{
             if(SumarZona > TotalZona){
                 alert("Las actividades suman mas puntos que la zona actual, verifique las actividades ingresadas. " + SumarZona + ">" + TotalZona);
@@ -327,14 +329,17 @@ $(document).ready( function () {
     }
 
     function asociarActivida(idActividad){
+        $("#spanMsg").html('');
         var idAsignado = 0;
         for(var i=0; i < totalAsignados; i++){
             $("#slIdxAsignacion").val(i);
             idAsignado = $("#slIdxAsignacion option:selected").text();
-            $("#slIdxAsignacion").val(i);
+            //alert(idAsignado + ' - ' + idActividad + '<br/>');
+            //$("#slIdxAsignacion").val(i);
             $.post(base_url+'gestionNotas/setActividadAsignado',
             {actividad: idActividad, asignado: idAsignado },
             function(datos){
+                //$("#spanMsg").append(idAsignado + ' - ' + idActividad + '<br/>');
                 //alert('transaccion exitosa');
             });
         }
