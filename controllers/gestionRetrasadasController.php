@@ -293,26 +293,20 @@ class gestionRetrasadasController extends Controller {
         $rubro=4;
         $varianterubro=VARIANTERUBRO_RETRASADAS;
         $tipocurso=TIPOCURSO_ESCUELAHISTORIA;
-        $curso='084';
+        $curso=83;
         $seccion='B';
         
         unset($arreglo);
-        $arreglo[0]['anio'] = $anio;
-        $arreglo[0]['rubro'] = $rubro;
-        $arreglo[0]['varianterubro'] = VARIANTERUBRO_RETRASADAS;
-        $arreglo[0]['tipocurso'] = TIPOCURSO_ESCUELAHISTORIA;
-        $arreglo[0]['curso'] = '083';
-        $arreglo[0]['seccion'] = $seccion;
-        $arreglo[0]['subtotal'] = $monto;
-        if($multiplicadorMonto == 2){
-        $arreglo[1]['anio'] = $anio;
-        $arreglo[1]['rubro'] = $rubro;
-        $arreglo[1]['varianterubro'] = VARIANTERUBRO_RETRASADAS;
-        $arreglo[1]['tipocurso'] = TIPOCURSO_ESCUELAHISTORIA;
-        $arreglo[1]['curso'] = '084';
-        $arreglo[1]['seccion'] = $seccion;
-        $arreglo[1]['subtotal'] = $monto;
+        for($i=0;$i<$multiplicadorMonto;$i++){
+            $arreglo[$i]['anio'] = $anio;
+            $arreglo[$i]['rubro'] = $rubro;
+            $arreglo[$i]['varianterubro'] = VARIANTERUBRO_RETRASADAS;
+            $arreglo[$i]['tipocurso'] = TIPOCURSO_ESCUELAHISTORIA;
+            $arreglo[$i]['curso'] = '0'.strval($curso+$i);
+            $arreglo[$i]['seccion'] = $seccion;
+            $arreglo[$i]['subtotal'] = $monto;
         }
+        
         $this->_generaorden = new wsGeneraOrdenPago();
         $prueba = $this->_generaorden->generaOrdenPago($carnet,$unidad,$extension,$carrera,$nombre2,$montoTotal,$arreglo);
         $cadena = implode(',', $prueba);
