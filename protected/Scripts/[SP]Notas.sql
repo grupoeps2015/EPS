@@ -314,7 +314,7 @@ LANGUAGE plpgsql;
 -- -----------------------------------------------------
 -- Function: spListaAsignadosRetra()
 -- -----------------------------------------------------
--- DROP FUNCTION spListaAsignadosRetra(int);
+-- DROP FUNCTION spListaAsignadosRetra(int,int,int);
 CREATE OR REPLACE FUNCTION spListaAsignadosRetra(IN _idTrama integer, IN _idCiclo integer, IN _idTipoPago integer,
 					    OUT idasignacion integer,
 					    OUT carnet integer,
@@ -325,7 +325,7 @@ $BODY$
 BEGIN
   return query
   select 
-    uno.asignacion,
+    nueve.asignacionretrasada,
     seis.carnet,
     concat(seis.primernombre || ' ' || seis.segundonombre || ' ' || seis.primerapellido || ' ' || seis.segundoapellido ) as nombre,
     uno.zona,
@@ -343,6 +343,19 @@ BEGIN
     join est_pago diez on diez.pago = nueve.pago
   where dos.estado = 1 and siete.trama = _idTrama and ocho.ciclo = _idCiclo and cuatro.ciclo = _idCiclo and diez.tipopago = _idTipoPago;
 END
+$BODY$
+LANGUAGE plpgsql;
+
+-- -----------------------------------------------------
+-- Function: spActualizarRetra()
+-- -----------------------------------------------------
+-- DROP FUNCTION spActualizarRetra(float,float,float);
+CREATE OR REPLACE FUNCTION spActualizarRetra(IN _final float, IN _idAsignacion float) RETURNS Void AS
+$BODY$
+DECLARE total float;
+BEGIN
+  EXECUTE format(('UPDATE est_asignacionretrasada SET notaretrasada = %s where asignacionretrasada = %s'), round(_final), _idAsignacion);
+END;
 $BODY$
 LANGUAGE plpgsql;
 

@@ -99,9 +99,9 @@ $(document).ready( function () {
             if(tipoIngresoNota === 10){
                 guardarNota();
             }else if(tipoIngresoNota === 20){
-                alert('Nota 1ra retrasada');
+                guardarRetrasada(1);
             }else if(tipoIngresoNota === 30){
-                alert('Nota 2da retrasada'); 
+                guardarRetrasada(2);
             }
         }else{
             $("#spanMsg").html('Algunas de las notas ingresadas no cumplen con los <br/> valores establecidos para zona y examen final. <br/>Verifique y vuelva a intentar.');
@@ -386,6 +386,43 @@ $(document).ready( function () {
         });
     }
     
+    function guardarRetrasada(){
+        $("#spanMsg").html('');
+        var tipo = "";
+        var idAsignado = 0;
+        var zonaAsignada = 0;
+        var finalAsignado = 0;
+        var inputs = $("#tbAsignados :input");
+        $.each(inputs, function(i, field){
+            if(field.type === "text"){
+                tipo = field.name.substring(0,1);
+                if(tipo === "z"){
+                    idAsignado = field.name.substring(1);
+                    zonaAsignada = field.value;
+                }
+                
+                if(tipo === "f"){
+                    finalAsignado = field.value;
+                    $.post(
+                        base_url+'gestionNotas/guardarRetrasada',{ 
+                            zonaN: zonaAsignada,
+                            finalN: finalAsignado, 
+                            idAs: idAsignado
+                        },
+                        function(respuesta){
+                            $("#t"+field.name.substring(1)).val(respuesta.total);
+                            $("#spanMsg").html(respuesta.mensaje);
+                        },
+                        'json'
+                    );
+                    
+                    bitacoraretra(idAsignado);
+                }
+                
+            }    
+        });
+    }
+    
     function aprobarNota(idAsignado){
         $.post(
             base_url+'gestionNotas/aprobarNota',{
@@ -465,6 +502,19 @@ $(document).ready( function () {
             }
         );
     }
+    
+    function bitacoraretra(idRegistro){
+        $.post(
+            base_url+'bitacora/insertarBitacoraRetra',
+            { 
+                registro: idRegistro
+            },
+            function(info){
+                //alert(info);
+            }
+        );
+    }
+    
 });
 
 
