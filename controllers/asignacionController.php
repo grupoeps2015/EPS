@@ -871,10 +871,12 @@ class asignacionController extends Controller{
         
         $boleta = $this->_asign->getBoletasPago($this->estudiante,$this->_view->asignacion ,$_SESSION["carrera"]);
         if(is_array($boleta)){
-                $this->boleta = isset($boleta[0]['boleta']);
+                $this->boleta = (isset($boleta[0]['boleta']) ? $boleta[0]['boleta'] : -1);
                 if(isset($boleta[0]['boleta'])&&$this->boleta!=""&&$this->boleta!=null&&$this->boleta!=0)
-                {
-                    $this->_view->pago = $this->boleta;
+                {           
+                    $this->pago = (isset($boleta[0]['pago']) ? $boleta[0]['pago'] : -1);
+                
+                    $this->_view->pago = $this->pago;
                     $this->_generaorden = new wsGeneraOrdenPago();
                     $prueba = $this->_generaorden->confirmacionPago($this->boleta,$this->carnet);
                     $cadena = implode(',', $prueba);
@@ -917,6 +919,7 @@ class asignacionController extends Controller{
             $asignacion = $this->getInteger('slCursos'); 
             $res = $this->_asign->agregarAsignacionCursoRetrasada($asignacion, $this->pago, "1");
             if(is_array($res)){
+                $usarPago = $this->_asign->usarPago($this->pago,2);
                 $this->redireccionar("gestionRetrasadas/inicio");
                 exit;
             }else{
@@ -927,7 +930,7 @@ class asignacionController extends Controller{
         } catch (Exception $e) {
             echo 'Excepción capturada: ',  $e->getMessage(), "\n";
             exit;
-        }*/
+        }
     }
     
     
