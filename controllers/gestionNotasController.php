@@ -141,6 +141,26 @@ class gestionNotasController extends Controller{
         echo json_encode($datos);
     }
     
+    public function getEstadoCicloRetra(){
+        $datos = new stdClass();
+        $datos->estado = 0;
+        if($this->getInteger('retra') == 1){
+            $arr = $this->_notas->getEstadoCicloNotas($this->getInteger('cicloaver'),PERIODO_INGRESO_1RETRASADA,$this->getInteger('tipoAs'),$this->getInteger('centrounidad'));
+        }else if($this->getInteger('retra') == 2){
+            $arr = $this->_notas->getEstadoCicloNotas($this->getInteger('cicloaver'),PERIODO_INGRESO_2RETRASADA,$this->getInteger('tipoAs'),$this->getInteger('centrounidad'));
+        }
+        if(isset($arr) && is_array($arr)){
+            if(isset($arr[0]['periodo'])){
+                $datos->estado = 1;
+            }else{
+                $datos->estado = -3;
+            }
+        }else{
+            $datos->estado = -2;
+        }
+        echo json_encode($datos);
+    }
+    
     public function actividades($idUsuario, $UnidadCentro){
         $rol = $_SESSION["rol"];        
         $rolValidoGestion = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_GESTIONACTIVIDADES);

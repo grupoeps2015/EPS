@@ -872,6 +872,8 @@ INSERT INTO adm_tipoperiodo (tipoperiodo,nombre,descripcion,estado) VALUES (3,'I
 INSERT INTO adm_tipoperiodo (tipoperiodo,nombre,descripcion,estado) VALUES (4,'Asignación de primera retrasada','',1);
 INSERT INTO adm_tipoperiodo (tipoperiodo,nombre,descripcion,estado) VALUES (5,'Asignación de segunda retrasada','',1);
 INSERT INTO adm_tipoperiodo (tipoperiodo,nombre,descripcion,estado) VALUES (6,'Asignación de suficiencias','',1);
+INSERT INTO adm_tipoperiodo (tipoperiodo,nombre,descripcion,estado) VALUES (7,'Ingreso de primera retrasada','',1);
+INSERT INTO adm_tipoperiodo (tipoperiodo,nombre,descripcion,estado) VALUES (8,'Ingreso de segunda retrasada','',1);
 
 -- -----------------------------------------------------
 -- Insert adm_tipoasignacion

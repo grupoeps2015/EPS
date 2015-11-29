@@ -33,6 +33,8 @@ define('PERIODO_INGRESO_ACTIVIDADES','3');
 define('PERIODO_ASIGNACION_1RETRASADA','4');
 define('PERIODO_ASIGNACION_2RETRASADA','5');
 define('PERIODO_ASIGNACION_SUFICIENCIAS','6');
+define('PERIODO_INGRESO_1RETRASADA','7');
+define('PERIODO_INGRESO_2RETRASADA','8');
 define('ASIGN_JUNTADIRECTIVA','1');
 define('ASIGN_OTRAS','0');
 define('MSG_SINPERMISOS','alert(\'No tiene permisos para acceder a esta función.\');');

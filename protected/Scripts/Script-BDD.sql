@@ -1120,8 +1120,10 @@ CREATE TABLE EST_AsignacionRetrasada (
     REFERENCES EST_CUR_Nota (Asignacion),
   CONSTRAINT fk_EST_Asignacion_Retrasada_EST_Pago1
     FOREIGN KEY (Pago)
-    REFERENCES EST_Pago (Pago));
-
+    REFERENCES EST_Pago (Pago),
+  CONSTRAINT fk_EST_Asignacion_Retrasada_CUR_Estado_Nota1
+    FOREIGN KEY (estadonota)
+    REFERENCES CUR_EstadoNota (estadonota));
 
 -- -----------------------------------------------------
 -- Table EST_CursoAprobado

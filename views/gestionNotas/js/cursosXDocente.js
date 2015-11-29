@@ -30,15 +30,29 @@ $(document).ready( function () {
     });
     
     $("#btnActividades").click(function() {
-        $.post(base_url+'gestionNotas/getEstadoCicloNotas',
-            { 
+        var tpretra = 0;
+        var funcion = "/getEstadoCicloNotas";
+        
+        tipoIngresoNota = parseInt($("input[type='radio'][name='rbTipoNota']:checked").val());
+        if(tipoIngresoNota === 20){
+            funcion = "/getEstadoCicloRetra";
+            tpretra=1;
+        }else if(tipoIngresoNota === 30){
+            funcion = "/getEstadoCicloRetra";
+            tpretra=2;
+        }
+        
+        $.post(base_url+'gestionNotas'+funcion,
+            {
                 cicloaver: $("#slCiclo").val(),
                 tipoAs: $("#hdtipoAs").val(),
-                centrounidad: $("#hdcentrounidad").val()
+                centrounidad: $("#hdcentrounidad").val(),
+                retra: tpretra
             },
             function(datos){
                 var est = parseInt(datos.estado);
                 $('#hdEstadoCiclo').val(est);
+                alert("Estado: - " + est);
             },
             'json');
         
@@ -237,7 +251,6 @@ $(document).ready( function () {
     }
     
     function mostrarListado(id, idCiclo){
-        tipoIngresoNota = parseInt($("input[type='radio'][name='rbTipoNota']:checked").val());
         if(tipoIngresoNota === 10 ){
             $("#slCarnetxAsignacion").html('');
             $.post(base_url+'gestionNotas/getListaAsignados',
@@ -457,29 +470,32 @@ $(document).ready( function () {
                 $("#bodyAsignados").html('');
                 if(datos.length>0){
                     //CAMBIAR EL ESTADO A UN CICLO DE INGRESO DE RETRA ACTIVO
-                    //estado = parseInt($('#hdEstadoCiclo').val());
-                    //if(parseInt(datos[0].estado) !== 2){
+                    estado = parseInt($('#hdEstadoCiclo').val());
+                    if(parseInt(datos[0].estado) !== 2){
                         $("#tdExtra").remove();
-                    //}
+                    }
 
                     $('#hdTotalAsignados').val(datos.length.toString());
                     for(var i=0; i < datos.length; i++){
+                        total = parseFloat(datos[i].zona) + parseFloat(datos[i].retra);
                         if(estado === 1){
-                            total = parseFloat(datos[i].zona) + parseFloat(datos[i].retra);
                             $("#slCarnetxAsignacion").append('<option value="' + datos[i].carnet + '" name="' + datos[i].carnet + '" >' + datos[i].idasignacion + '</option>' );                            
                             notas = '</td><td><input id="z' + datos[i].idasignacion + '" name="z' + datos[i].idasignacion + '" type="text" maxlength="5" value="' + datos[i].zona + '" style="width:60%; text-align:center;" readonly/>' + 
                                     '</td><td><input id="f' + datos[i].idasignacion + '" name="f' + datos[i].idasignacion + '" type="text" maxlength="5" value="' + datos[i].retra + '" style="width:60%; text-align:center;"/>' + 
                                     '</td><td><input id="t' + datos[i].idasignacion + '" name="t' + datos[i].idasignacion + '" type="text" maxlength="5" value="' + total + '" style="width:60%; text-align:center;" readonly/>';
                         }else{
                             notas = '</td><td>' + datos[i].zona + 
-                                    '</td><td>' + datos[i].final + 
-                                    '</td><td>' + datos[i].total +
+                                    '</td><td>' + datos[i].retra + 
+                                    '</td><td>' + total +
                                     '<input type="hidden" id="t' + datos[i].idasignacion + '" name="t' + datos[i].idasignacion + '" maxlength="5" value="' + datos[i].total + '"/>';
                         }
                         $("#bodyAsignados").append('<tr><td>' + datos[i].carnet + 
                                                    '</td><td>' + datos[i].nombre + 
                                                    notas + '</td>');
                     }
+                }else{
+                    $("#tdExtra").remove();
+                    $('#tdBotones').remove();
                 }
                 if(estado === 1){
                     $('#tdBotones').css('display','block');
@@ -516,5 +532,3 @@ $(document).ready( function () {
     }
     
 });
-
-
