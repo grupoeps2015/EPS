@@ -905,6 +905,8 @@ class asignacionController extends Controller{
                 exit;
             }
         
+        if(isset($this->_view->asignacion))
+        {
         $boleta = $this->_asign->getBoletasPago($this->estudiante,$this->_view->asignacion ,$_SESSION["carrera"]);
         if(is_array($boleta)){
                 $this->boleta = (isset($boleta[0]['boleta']) ? $boleta[0]['boleta'] : -1);
@@ -928,6 +930,7 @@ class asignacionController extends Controller{
                 $this->redireccionar("error/sql/" . $boleta);
                 exit;
             }
+        }
         
         $this->_view->setJs(array('asignarRetrasada'));
         $this->_view->renderizar('asignarRetrasada');
