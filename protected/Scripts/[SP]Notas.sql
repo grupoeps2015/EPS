@@ -283,6 +283,21 @@ $BODY$
 LANGUAGE plpgsql;
 
 -- -----------------------------------------------------
+-- Function: spAprobarRetra()
+-- -----------------------------------------------------
+-- DROP FUNCTION spAprobarRetra(int);
+CREATE OR REPLACE FUNCTION spAprobarRetra(_idAsignacion int) RETURNS void AS
+$BODY$
+declare idSecuencia integer;
+BEGIN
+  select * from spobtenersecuencia('cursoaprobado','est_cursoaprobado') into idSecuencia;
+  EXECUTE format(('UPDATE est_asignacionretrasada SET estadonota=3 where asignacionRetrasada = %s'),_idAsignacion);
+  EXECUTE format(('INSERT into est_cursoaprobado (cursoaprobado,asignacionRetrasada,tipoaprobacion,fechaaprobacion) VALUES (%s,%s,2,current_timestamp)'),idSecuencia,_idAsignacion);
+END
+$BODY$
+LANGUAGE plpgsql;
+
+-- -----------------------------------------------------
 -- Function: spReprobarNota()
 -- -----------------------------------------------------
 -- DROP FUNCTION spReprobarNota(int);
@@ -290,6 +305,18 @@ CREATE OR REPLACE FUNCTION spReprobarNota(_idAsignacion int) RETURNS void AS
 $BODY$
 BEGIN
   EXECUTE format(('UPDATE est_cur_nota SET estadonota=4 where asignacion = %s'),_idAsignacion);
+END
+$BODY$
+LANGUAGE plpgsql;
+
+-- -----------------------------------------------------
+-- Function: spReprobarRetra()
+-- -----------------------------------------------------
+-- DROP FUNCTION spReprobarRetra(int);
+CREATE OR REPLACE FUNCTION spReprobarRetra(_idAsignacion int) RETURNS void AS
+$BODY$
+BEGIN
+  EXECUTE format(('UPDATE est_asignacionretrasada SET estadonota=4 where asignacionRetrasada = %s'),_idAsignacion);
 END
 $BODY$
 LANGUAGE plpgsql;
@@ -320,7 +347,8 @@ CREATE OR REPLACE FUNCTION spListaAsignadosRetra(IN _idTrama integer, IN _idCicl
 					    OUT carnet integer,
 					    OUT nombre text,
 					    OUT zona float,
-					    OUT retra float) RETURNS SETOF record AS
+					    OUT retra float,
+					    OUT estado int) RETURNS SETOF record AS
 $BODY$
 BEGIN
   return query
@@ -329,7 +357,8 @@ BEGIN
     seis.carnet,
     concat(seis.primernombre || ' ' || seis.segundonombre || ' ' || seis.primerapellido || ' ' || seis.segundoapellido ) as nombre,
     uno.zona,
-    nueve.notaretrasada
+    nueve.notaretrasada,
+    nueve.estadonota
   from 
     est_cur_nota uno
     join est_cur_asignacion dos on uno.asignacion = dos.asignacion
@@ -354,7 +383,7 @@ CREATE OR REPLACE FUNCTION spActualizarRetra(IN _final float, IN _idAsignacion f
 $BODY$
 DECLARE total float;
 BEGIN
-  EXECUTE format(('UPDATE est_asignacionretrasada SET notaretrasada = %s where asignacionretrasada = %s'), round(_final), _idAsignacion);
+  EXECUTE format(('UPDATE est_asignacionretrasada SET notaretrasada = %s, estadonota = 2 where asignacionretrasada = %s'), round(_final), _idAsignacion);
 END;
 $BODY$
 LANGUAGE plpgsql;

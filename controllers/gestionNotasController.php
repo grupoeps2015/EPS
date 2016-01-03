@@ -351,11 +351,33 @@ class gestionNotasController extends Controller{
         echo json_encode($respuesta);
     }
     
-    public function reprobarNOta(){
+    public function aprobarRetra(){
+        $respuesta = new stdClass();
+        $respuesta->aprobado = 0;
+        $respuesta->msg = "";
+        if($this->getInteger('idAs')){
+            $this->_notas->aprobarRetra($this->getInteger('idAs'));
+            $respuesta->aprobado = 1;
+            $respuesta->msg = "aprobo sin problema";
+        }
+        echo json_encode($respuesta);
+    }
+    
+    public function reprobarNota(){
         $respuesta = new stdClass();
         $respuesta->reprobado = 0;
         if($this->getInteger('idAs')){
             $this->_notas->reprobarNota($this->getInteger('idAs'));
+            $respuesta->reprobado = 1;
+        }
+        echo json_encode($respuesta);
+    }
+    
+    public function reprobarRetra(){
+        $respuesta = new stdClass();
+        $respuesta->reprobado = 0;
+        if($this->getInteger('idAs')){
+            $this->_notas->reprobarRetra($this->getInteger('idAs'));
             $respuesta->reprobado = 1;
         }
         echo json_encode($respuesta);

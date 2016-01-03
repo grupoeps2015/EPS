@@ -52,26 +52,24 @@ $(document).ready( function () {
             function(datos){
                 var est = parseInt(datos.estado);
                 $('#hdEstadoCiclo').val(est);
-                alert("Estado: - " + est);
             },
             'json');
         
         $.post(base_url+'ajax/getIdTrama',
-            { 
+            {
                 cat: $("#idCatedratico").val(),
                 ciclo: $("#slCiclo").val(),
                 sec: $("#slSeccion").val(), 
                 cur: $("#slCursoxSeccion option:selected").text()
             },
             function(datos){
-                var tipo = $("#hdTipo").val();
+                var tipo = $("#hdTipo").val(); 
                 if(datos.length>0){
+                    var identificador = parseInt(datos[0].spidtrama);
                     if(tipo === "1") { 
-                        var identificador = parseInt(datos[0].spidtrama);
                         mostrarListadoAsignados(identificador, $("#slCiclo").val());
                     }
                     else{
-                        var identificador = parseInt(datos[0].spidtrama);
                         mostrarListado(identificador, $("#slCiclo").val());
                     }
                 }else{
@@ -167,6 +165,7 @@ $(document).ready( function () {
         if(estado===1){
             $("#spanMsg").html('El periodo de ingreso de notas sigue vigente');
         }else{
+            
             var inputs = $("#tbAsignados :input");
             $.each(inputs, function(i, field){
                 if(field.type === "hidden"){
@@ -174,10 +173,19 @@ $(document).ready( function () {
                     if(tipo === "t"){
                         idAsignado = field.name.substring(1);
                         total = field.value;
-                        if(total>=notaAprobacion){
-                            aprobarNota(idAsignado);
+                        
+                        if(tipoIngresoNota === 10){
+                            if(total>=notaAprobacion){
+                                aprobarNota(idAsignado);
+                            }else{
+                                reprobarNota(idAsignado);
+                            }
                         }else{
-                            reprobarNota(idAsignado);
+                            if(total>=notaAprobacion){
+                                aprobarRetra(idAsignado);
+                            }else{
+                                reprobarRetra(idAsignado);
+                            }
                         }
                         //bitacora(idAsignado);
                     }
@@ -458,6 +466,28 @@ $(document).ready( function () {
         totalReprobados += 1;
     }
     
+    function aprobarRetra(idAsignado){
+        $.post(
+            base_url+'gestionNotas/aprobarRetra',{
+                idAs: idAsignado
+            },
+            function(respuesta){
+            },
+            'json');
+        totalAprobados += 1;
+    }
+    
+    function reprobarRetra(idAsignado){
+        $.post(
+            base_url+'gestionNotas/reprobarRetra',{
+                idAs: idAsignado
+            },
+            function(respuesta){
+            },
+            'json');
+        totalReprobados += 1;
+    }
+    
     function datosRetrasada(id,idCiclo,tipoRetra){
         var estado = 1;
         var notas = "";
@@ -487,7 +517,7 @@ $(document).ready( function () {
                             notas = '</td><td>' + datos[i].zona + 
                                     '</td><td>' + datos[i].retra + 
                                     '</td><td>' + total +
-                                    '<input type="hidden" id="t' + datos[i].idasignacion + '" name="t' + datos[i].idasignacion + '" maxlength="5" value="' + datos[i].total + '"/>';
+                                    '<input type="hidden" id="t' + datos[i].idasignacion + '" name="t' + datos[i].idasignacion + '" maxlength="5" value="' + total + '"/>';
                         }
                         $("#bodyAsignados").append('<tr><td>' + datos[i].carnet + 
                                                    '</td><td>' + datos[i].nombre + 
