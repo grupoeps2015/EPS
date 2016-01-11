@@ -1,6 +1,0 @@
-estudiante: 1
-pago: 1
-estudiante: 1
-periodo: 3
-carrera: 1
-pago: 1
