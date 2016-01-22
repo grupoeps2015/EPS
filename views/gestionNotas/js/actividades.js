@@ -312,7 +312,7 @@ $(document).ready( function () {
     }
 
     function llenarAsignados(id,idCiclo){
-        $.post(base_url+'ajax/getListaAsignados',
+        $.post(base_url+'gestionNotas/getListaAsignados',
             {trama: id, ciclo: idCiclo },
             function(datos){
                 if(datos.length>0){
