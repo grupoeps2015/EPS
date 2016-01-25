@@ -348,4 +348,27 @@ class gestionRetrasadasController extends Controller {
     public function consultarOrdenPago($idPago,$carnet){
         
     }
+    
+    public function gestionCursoArchivo() {
+        
+            $idCentroUnidad = $_SESSION["centrounidad"];
+
+            $this->_view->titulo = 'Cat&aacute;logo de cursos - ' . APP_TITULO;
+            $this->_view->id = $idCentroUnidad;
+
+            $lstCur = $this->_post->informacionCursoActivo($idCentroUnidad);
+            if(is_array($lstCur)){
+                $this->_view->lstCur = $lstCur;
+            }else{
+                $this->redireccionar("error/sql/" . $lstCur);
+                exit;
+            }
+
+            $this->_view->setJs(array('gestionCursoArchivo'));
+            $this->_view->setJs(array('jquery.dataTables.min'), "public");
+            $this->_view->setCSS(array('jquery.dataTables.min'));
+
+            $this->_view->renderizar('gestionCursoArchivo');
+        
+    }
 }

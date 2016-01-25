@@ -63,6 +63,43 @@ $BODY$
 ALTER FUNCTION spinformacioncurso(integer)
   OWNER TO postgres;
 
+  -- Function: spinformacioncursoactivo(integer)
+
+-- DROP FUNCTION spinformacioncursoactivo(integer);
+
+CREATE OR REPLACE FUNCTION spinformacioncursoactivo(
+    IN _centrounidadacademica integer,
+    OUT id integer,
+    OUT codigo text,
+    OUT nombre text,
+    OUT tipocurso text,
+    OUT estado integer,
+    OUT traslape text)
+  RETURNS SETOF record AS
+$BODY$
+BEGIN
+  RETURN query
+  Select 
+    c.curso,
+    c.codigo,
+    c.nombre,
+    t.nombre as "tipocurso",
+    c.estado,
+	case
+	when c.traslape=true then 'Sí'
+	when c.traslape=false then 'No'
+    end as "Traslape"
+  from 
+    CUR_Curso c join CUR_Tipo t on c.tipocurso = t.tipocurso where c.centro_unidadacademica = _centrounidadacademica and c.estado = 1;
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION spinformacioncursoactivo(integer)
+  OWNER TO postgres;
+  
+  
 ---------------------------------------------------------------------------
 -- Function: spactivardesactivarcurso(integer, integer)
 ---------------------------------------------------------------------------
