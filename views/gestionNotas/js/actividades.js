@@ -71,17 +71,20 @@ $(document).ready( function () {
                     llenarAsignados(identificador, $("#slCiclo").val());
                     
                     $.post(base_url+'gestionNotas/getEstadoCicloActividades',
-                        { cicloaver: $("#slCiclo").val() },
+                        { 
+                            cicloaver: $("#slCiclo").val(), 
+                            tipoAs: $("#hdtipoAs").val(),
+                            centrounidad: $("#hdcentrounidad").val()
+                        },
                         function(datos){
-                            var estado = 0;
-                            if(datos.length>0){
-                                estado = parseInt(datos[0].estado.toString());
-                                if(estado === 1){
-                                    verificarActividades();
-                                }else{
-                                    $("#spanMsg").html('El periodo de ingreso de actividades no se encuentra activado');
-                                    $("#tbActividades").css('display','none');
-                                }
+                            var estado = parseInt(datos.estado);
+                            //$('#hdEstadoCiclo').val(estado);
+                            if(estado === 1){
+                                verificarActividades(true);
+                            }else{
+                                $("#spanMsg").html('El periodo de ingreso de actividades no se encuentra activado');
+                                $("#tbActividades").css('display','none');
+                                verificarActividades(false);
                             }
                         },
                         'json');
@@ -167,6 +170,23 @@ $(document).ready( function () {
         dialogClass: "modal-dialog modal-lg text-primary"
     });
     
+    $("#btnActualizar").confirm({
+        text: "Usted está actualizando actividades.<br/> ¿Está seguro continuar actividades?",
+        title: "Confirmacion requerida",
+        confirm: function() {
+            // Por orden se utilizo el boton de confirmar como cancelar y vicebersa
+        },
+        cancel: function() {
+            //Esta es la accion al dar click en Continuar
+            
+        },
+        cancelButton: "Continuar",
+        confirmButton: "Regresar",
+        post: true,
+        cancelButtonClass: "btn-warning",
+        confirmButtonClass: "btn-warning",
+        dialogClass: "modal-dialog modal-lg text-primary"
+    });
     function getCiclosAjax(){
         $.post(base_url+'ajax/getCiclosAjax',
                'anio=' + $("#slAnio").val(),
@@ -206,8 +226,8 @@ $(document).ready( function () {
             },
             'json');
     }
-       
-    function verificarActividades(){
+    
+    function verificarActividades(periodoActivado){
         $("#slIdxAsignacion").val(0);
         var idAsignacion = $("#slIdxAsignacion option:selected").text();
         var zona = $("#hdZonaTotal").val();
@@ -215,11 +235,37 @@ $(document).ready( function () {
         $.post(base_url+'gestionNotas/contarActividades',
             {trama: idAsignacion},
             function(respuesta){
-                if(parseInt(respuesta.total) <= 2){
-                    $("#spanMsg").html('Por defecto se tiene zona de ' + zona + ' puntos y final de ' + final + ' puntos.<br/>Puede guardar la informacion de esta manera o crear actividades.<br/>Las actividades creadas seran asociadas a los puntos de zona.<br/>');
-                    $("#btnGuardar").prop('disabled',false);
+                if(periodoActivado){
+                    if(parseInt(respuesta.total) <= 2){
+                        $("#spanMsg").html('Por defecto se tiene zona de ' + zona + ' puntos y final de ' + final + ' puntos.<br/>Puede guardar la informacion de esta manera o crear actividades.<br/>Las actividades creadas seran asociadas a los puntos de zona.<br/>');
+                        $("#btnGuardar").prop('disabled',false);
+                    }else{
+                        listarActividades(idAsignacion);
+                        $("#btnGuardar").css('display','none');
+                        $("#btnActualizar").css('display','block');
+                    }
                 }else{
-                    listarActividades(idAsignacion);
+                    if(parseInt(respuesta.total) > 2){
+                        listarActividades2(idAsignacion);
+                    }else{
+                        $("#tbodyAct").html(
+                            '<tr>' +
+                                '<td colspan="2"><br/>EXAMEN FINAL<br/>&nbsp;</td>' +
+                                '<td style="width:1%;">&nbsp;</td>' +
+                                '<td style="width:24%"><br/>' + final + ' pts.<br/></td>' +
+                                '<td style="width:1%">&nbsp;</td>' +
+                                '<td style="width:25%"><br/></td>' +
+                            '</tr>' +
+                            '<tr>' +
+                                '<td colspan="2"><br/>ZONA<br/>&nbsp;</td>' +
+                                '<td style="width:1%;">&nbsp;</td>' +
+                                '<td style="width:24%"><br/>' + zona + ' pts.<br/></td>' +
+                                '<td style="width:1%">&nbsp;</td>' +
+                                '<td style="width:25%"><br/></td>' +
+                            '</tr>');
+                    }
+                    $("#btnGuardar").css('display','none');
+                    $("#btnActualizar").css('display','none');
                 }
             },
             'json');
@@ -234,6 +280,67 @@ $(document).ready( function () {
     }
        
     function guardarActividad(){
+        $("#spanMsg").html('');
+        var TotalFinal = parseFloat($("#hdFinalTotal").val());
+        var TotalZona = parseFloat($("#hdZonaTotal").val());
+        var SumarZona = 0;
+        var Pd = 0;  //Id Actividad Padre
+        var Tp = 0;  //Id Tipo Actividad
+        var Nm = ""; //Nombre Actividad
+        var Vl = 0;  //Valor Actividad
+        var Ds = ""; //Descripcion Actividad
+        var Hd = ""; //Identificar del hidden
+        var num = 0;
+        var inputs = $("#tbActividades :input");
+        $.each(inputs, function(i, field){
+            if(field.type === "hidden"){
+                Hd = field.name.substring(0,4);
+                num = field.name.substring(5);
+                if(Hd === "hdVl"){
+                    SumarZona = SumarZona + parseFloat(field.value);
+                }
+            }
+        });
+        if(SumarZona === 0){
+            //No agrego actividades, asi que no se hacen inserts
+            //alert("Sin actividades "  + SumarZona + "=" + TotalZona);
+            $('#btnActividades').css('display','none');
+            $('#btnNuevaBusqueda').css('display','block');
+        }else{
+            if(SumarZona > TotalZona){
+                alert("Las actividades suman mas puntos que la zona actual, verifique las actividades ingresadas. " + SumarZona + ">" + TotalZona);
+            }else if(SumarZona < TotalZona){
+                alert("Las actividades suman menos puntos que la zona actual, agregue actividades para completar la nota o edite alguna de las ya existentes "  + SumarZona + "<" + TotalZona);
+            }else if(SumarZona === TotalZona){
+                //Las actividades suman la zona de forma correcta
+                $.each(inputs, function(i, field){
+                    if(field.type === "hidden"){
+                        Hd = field.name.substring(0,4);
+                        switch(Hd){
+                            case "hdPd":
+                                Pd = parseInt(field.value);
+                                break;
+                            case "hdTp":
+                                Tp = parseInt(field.value);
+                                break;
+                            case "hdNm":
+                                Nm = field.value;
+                                break;
+                            case "hdVl":
+                                Vl = parseFloat(field.value);
+                                break;
+                            case "hdDs":
+                                Ds = field.value;
+                                agregarActividad(Pd,Tp,Nm,Vl,Ds);
+                                break;
+                        }
+                    }
+                });
+            }
+        }
+    }
+    
+    function actualizarActividad(){
         $("#spanMsg").html('');
         var TotalFinal = parseFloat($("#hdFinalTotal").val());
         var TotalZona = parseFloat($("#hdZonaTotal").val());
@@ -348,6 +455,17 @@ $(document).ready( function () {
     function listarActividades(idAsignacion){
         var zona = $("#hdZonaTotal").val();
         var final = $("#hdFinalTotal").val();
+        var selector="";
+        var actividades;
+        $.post(base_url+'gestionNotas/getActividadesPadre',
+            {nul:0},
+            function(acts){
+                if(acts.length>0){
+                    actividades = acts;
+                }
+            },
+            'json');
+            
         $("#tbodyAct").html('');
         $("#btnGuardar").prop('disabled',true);
         $("#spanMsg").html('Ya han sido agregadas actividades para este curso');
@@ -373,15 +491,78 @@ $(document).ready( function () {
                 if(datos.length>0){
                     for(var i=0; i < datos.length; i++){
                         $("#tbodyAct").append(
-                            '<tr id="trAct'+numTarea+'" name="trAct'+numTarea+'">' +
-                            '<td style="width:19%;">' + datos[i].nombrepadre + '</td>' +
-                            '<td style="width:30%;">' + datos[i].nombreact + '&nbsp;</td>' +
+                            '<tr id="trAct'+numTarea+'" name="trAct'+numTarea+'">'
+                            //'<td style="width:19%;">' + datos[i].nombrepadre + '</td>'
+                        );
+                
+                        selector = "<select id='slActPadre"+datos[i].ide+"'>";
+                        for(var r=0; r < actividades.length; r++){
+                            if(datos[i].nombrepadre === actividades[r].nombre)
+                                selector += "<option value='"+actividades[r].codigo+"' selected>";
+                            else
+                                selector += "<option value='"+actividades[r].codigo+"'>";
+                            selector += actividades[r].nombre + "</option>";
+                        }
+                        selector += "</select>";
+                        
+                        $("#tbodyAct").append('<td style="width:19%;">' + selector + '</td>' +
+                            '<td style="width:30%;"><input type="text" id="nact'+datos[i].ide+'" maxlength="50" value="' + datos[i].nombreact + '"/>&nbsp;</td>' +
                             '<td style="width:1%">&nbsp;</td>' +
-                            '<td style="width:24%">'+datos[i].valor+' pts.&nbsp;</td>' +
+                            '<td style="width:24%"><input type="number" id="pact'+datos[i].ide+'" size="3" maxlength="2" value="'+datos[i].valor+'"/> pts.&nbsp;</td>' +
                             '<td style="width:1%">&nbsp;</td></tr>'
                         );
                     
-                        $("#slCiclo").append('<option value="' +  + '">' + datos[i].nombre + '</option>' );
+                        //$("#slCiclo").append('<option value="' +  + '">' + datos[i].nombre + '</option>' );
+                    }
+                }
+            },
+            'json');
+    }
+
+    function listarActividades2(idAsignacion){
+        var zona = $("#hdZonaTotal").val();
+        var final = $("#hdFinalTotal").val();
+        var actividades;
+        $.post(base_url+'gestionNotas/getActividadesPadre',
+            {nul:0},
+            function(acts){
+                if(acts.length>0){
+                    actividades = acts;
+                }
+            },
+            'json');
+            
+        $("#tbodyAct").html('');
+        $("#btnGuardar").prop('disabled',true);
+        $("#tbodyAct").html(
+            '<tr>' +
+                '<td colspan="2"><br/>EXAMEN FINAL<br/>&nbsp;</td>' +
+                '<td style="width:1%;">&nbsp;</td>' +
+                '<td style="width:24%"><br/>' + final + ' pts.<br/></td>' +
+                '<td style="width:1%">&nbsp;</td>' +
+                '<td style="width:25%"><br/></td>' +
+            '</tr>' +
+            '<tr>' +
+                '<td colspan="2"><br/>ZONA<br/>&nbsp;</td>' +
+                '<td style="width:1%;">&nbsp;</td>' +
+                '<td style="width:24%"><br/>' + zona + ' pts.<br/></td>' +
+                '<td style="width:1%">&nbsp;</td>' +
+                '<td style="width:25%"><br/></td>' +
+            '</tr>');
+        
+        $.post(base_url+'gestionNotas/listarActividades',
+            {asig: idAsignacion},
+            function(datos){
+                if(datos.length>0){
+                    for(var i=0; i < datos.length; i++){
+                        $("#tbodyAct").append(
+                            '<tr id="trAct'+numTarea+'" name="trAct'+numTarea+'">'+
+                            '<td style="width:19%;">' + datos[i].nombrepadre + '</td>'+
+                            '<td style="width:30%;">' + datos[i].nombreact + '</td>' +
+                            '<td style="width:1%">&nbsp;</td>' +
+                            '<td style="width:24%">'+datos[i].valor+'</td>' +
+                            '<td style="width:1%">&nbsp;</td></tr>'
+                        );
                     }
                 }
             },

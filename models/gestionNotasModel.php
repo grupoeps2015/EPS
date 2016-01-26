@@ -171,4 +171,14 @@ class gestionNotasModel extends Model {
             return $post->fetchall();
         }
     }
+    
+    public function getActividadesPadre(){
+        $post = $this->_db->query("select * from spconsultageneral('tipoactividad, nombre','cur_tipoactividad') order by codigo;");
+        if($post === false){
+            return "1104/getActividadesPadre";
+        }else{
+            $post->setFetchMode(PDO::FETCH_ASSOC);
+            return $post->fetchall();
+        }
+    }
 }

@@ -158,6 +158,9 @@
                                 <td></td>
                                 <td>&nbsp;<br/>
                                     <input type="submit" id="btnGuardar" name="btnGuardar" value="Guardar" class="btn btn-warning btn-sm btn-block"/>
+                                    <input type="submit" id="btnActualizar" name="btnActualizar" value="Actualizar" style="display:none;" class="btn btn-warning btn-sm btn-block"/>
+                                    <input type="hidden" id="hdcentrounidad" name="hdcentrounidad" value="<?php echo $_SESSION["centrounidad"]?>">
+                                    <input type="hidden" id="hdtipoAs" name="hdtipoAs" value="2">
                                 </td>
                             </tr>
                         </tfoot>

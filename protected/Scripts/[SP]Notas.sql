@@ -325,11 +325,11 @@ LANGUAGE plpgsql;
 -- Function: spListarActividades()
 -- -----------------------------------------------------
 -- DROP FUNCTION spListarActividades(int);
-CREATE OR REPLACE FUNCTION spListarActividades(_idAsignacion int, OUT nombrePadre text, OUT nombreAct text, OUT valor float) RETURNS SETOF record AS
+CREATE OR REPLACE FUNCTION spListarActividades(_idAsignacion int,OUT ide integer, OUT nombrePadre text, OUT nombreAct text, OUT valor float) RETURNS SETOF record AS
 $BODY$
 BEGIN
   return query
-  select 
+  select act.actividad as id,
     (select sub.nombre from cur_tipoactividad sub where sub.tipoactividad=act.tipo) as tipo, act.nombre, act.valor from cur_actividad act
   join cur_tipoactividad tact on tact.tipoactividad=act.actividadpadre
   join est_cur_nota_actividad nact on act.actividad=nact.actividad 

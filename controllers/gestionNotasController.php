@@ -293,9 +293,24 @@ class gestionNotasController extends Controller{
     }
     
     public function getEstadoCicloActividades(){
+//        if($this->getInteger('cicloaver')){
+//            echo json_encode($this->_notas->estadoCicloActividades($this->getInteger('cicloaver')));
+//        }
+        $datos = new stdClass();
+        $datos->estado = 0;
         if($this->getInteger('cicloaver')){
-            echo json_encode($this->_notas->estadoCicloActividades($this->getInteger('cicloaver')));
+            $arr = $this->_notas->getEstadoCicloNotas($this->getInteger('cicloaver'),PERIODO_INGRESO_ACTIVIDADES,$this->getInteger('tipoAs'),$this->getInteger('centrounidad'));
+            if(is_array($arr)){
+                if(isset($arr[0]['periodo'])){
+                    $datos->estado = 1;
+                }else{
+                    $datos->estado = -3;
+                }
+            }else{
+                $datos->estado = -2;
+            }
         }
+        echo json_encode($datos);
     }
     
     public function guardarActividad(){
@@ -400,5 +415,9 @@ class gestionNotasController extends Controller{
         if($this->getInteger('trama') && $this->getInteger('ciclo') && $this->getInteger('retra')){
             echo json_encode($this->_notas->getListaAsignadosRetra($this->getInteger('trama'),$this->getInteger('ciclo'),$this->getInteger('retra')));
         }
+    }
+    public function getActividadesPadre(){
+        $respuesta = $this->_notas->getActividadesPadre();
+        echo json_encode($respuesta);
     }
 }
