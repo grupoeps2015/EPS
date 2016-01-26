@@ -178,7 +178,7 @@ $(document).ready( function () {
         },
         cancel: function() {
             //Esta es la accion al dar click en Continuar
-            
+            actualizarActividad();
         },
         cancelButton: "Continuar",
         confirmButton: "Regresar",
@@ -187,6 +187,7 @@ $(document).ready( function () {
         confirmButtonClass: "btn-warning",
         dialogClass: "modal-dialog modal-lg text-primary"
     });
+    
     function getCiclosAjax(){
         $.post(base_url+'ajax/getCiclosAjax',
                'anio=' + $("#slAnio").val(),
@@ -342,31 +343,25 @@ $(document).ready( function () {
     
     function actualizarActividad(){
         $("#spanMsg").html('');
-        var TotalFinal = parseFloat($("#hdFinalTotal").val());
         var TotalZona = parseFloat($("#hdZonaTotal").val());
         var SumarZona = 0;
-        var Pd = 0;  //Id Actividad Padre
         var Tp = 0;  //Id Tipo Actividad
         var Nm = ""; //Nombre Actividad
         var Vl = 0;  //Valor Actividad
-        var Ds = ""; //Descripcion Actividad
         var Hd = ""; //Identificar del hidden
         var num = 0;
         var inputs = $("#tbActividades :input");
         $.each(inputs, function(i, field){
-            if(field.type === "hidden"){
+            if(field.type === "input"){
                 Hd = field.name.substring(0,4);
                 num = field.name.substring(5);
-                if(Hd === "hdVl"){
+                if(Hd === "pact"){
                     SumarZona = SumarZona + parseFloat(field.value);
                 }
             }
         });
         if(SumarZona === 0){
-            //No agrego actividades, asi que no se hacen inserts
-            //alert("Sin actividades "  + SumarZona + "=" + TotalZona);
-            $('#btnActividades').css('display','none');
-            $('#btnNuevaBusqueda').css('display','block');
+            alert("Las actividades suman 0 puntos en total. No se realizarón cambios");
         }else{
             if(SumarZona > TotalZona){
                 alert("Las actividades suman mas puntos que la zona actual, verifique las actividades ingresadas. " + SumarZona + ">" + TotalZona);
@@ -374,29 +369,7 @@ $(document).ready( function () {
                 alert("Las actividades suman menos puntos que la zona actual, agregue actividades para completar la nota o edite alguna de las ya existentes "  + SumarZona + "<" + TotalZona);
             }else if(SumarZona === TotalZona){
                 //Las actividades suman la zona de forma correcta
-                $.each(inputs, function(i, field){
-                    if(field.type === "hidden"){
-                        Hd = field.name.substring(0,4);
-                        switch(Hd){
-                            case "hdPd":
-                                Pd = parseInt(field.value);
-                                break;
-                            case "hdTp":
-                                Tp = parseInt(field.value);
-                                break;
-                            case "hdNm":
-                                Nm = field.value;
-                                break;
-                            case "hdVl":
-                                Vl = parseFloat(field.value);
-                                break;
-                            case "hdDs":
-                                Ds = field.value;
-                                agregarActividad(Pd,Tp,Nm,Vl,Ds);
-                                break;
-                        }
-                    }
-                });
+                alert("todo ok");
             }
         }
     }

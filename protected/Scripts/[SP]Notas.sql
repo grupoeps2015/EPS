@@ -378,7 +378,7 @@ LANGUAGE plpgsql;
 -- -----------------------------------------------------
 -- Function: spActualizarRetra()
 -- -----------------------------------------------------
--- DROP FUNCTION spActualizarRetra(float,float,float);
+-- DROP FUNCTION spActualizarRetra(float,float);
 CREATE OR REPLACE FUNCTION spActualizarRetra(IN _final float, IN _idAsignacion float) RETURNS Void AS
 $BODY$
 DECLARE total float;
@@ -387,5 +387,18 @@ BEGIN
 END;
 $BODY$
 LANGUAGE plpgsql;
+
+-- -----------------------------------------------------
+-- Function: spActualizarActividad()
+-- -----------------------------------------------------
+-- DROP FUNCTION spActualizarActividad(int,float,text);
+CREATE OR REPLACE FUNCTION spActualizarActividad(IN _tipo int, IN _valor float, IN _nombre text) RETURNS Void AS
+$BODY$
+BEGIN
+  EXECUTE format(('update cur_actividad set tipo=%s, valor=%s, nombre=%L, descripcion = %L where actividad = 1'), _tipo, round(_valor),_nombre, concat('Actualizado ', current_date));
+END;
+$BODY$
+LANGUAGE plpgsql;
+
 
 Select 'Script para Gestion de Notas Instalado' as "Gestion Notas";
