@@ -29,6 +29,7 @@
             </div>
         </div>
     </div>
+    
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
@@ -126,7 +127,7 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <h3 align="center"><span id="spanMsg" name="spanMsg" class="text-warning"></span></h3>
-                <table class="table-hover" id="tbAsignados" name="tbAsignados" border="2" style="display:none; text-align: center;">
+                <table class="table-hover nowrap" cellspacing="0" align="center" id="tbAsignados" name="tbAsignados" border="2" style="display:none; overflow:auto; text-align: center;">
                     <thead>
                         <tr>
                             <?php if($this->tipo == 1): ?>

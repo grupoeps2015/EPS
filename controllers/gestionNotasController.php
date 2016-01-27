@@ -416,6 +416,7 @@ class gestionNotasController extends Controller{
             echo json_encode($this->_notas->getListaAsignadosRetra($this->getInteger('trama'),$this->getInteger('ciclo'),$this->getInteger('retra')));
         }
     }
+    
     public function getActividadesPadre(){
         $respuesta = $this->_notas->getActividadesPadre();
         echo json_encode($respuesta);

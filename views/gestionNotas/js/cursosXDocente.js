@@ -289,8 +289,8 @@ $(document).ready( function () {
                 if(parseInt(respuesta.total) <= 2){
                     notaNormal(id,idCiclo);
                 }else{
-                    notaNormal(id,idCiclo);
-                    //notaActividad(id,idCiclo);
+                    //notaNormal(id,idCiclo);
+                    notaActividad(id,idCiclo);
                 }
             },
             'json');
