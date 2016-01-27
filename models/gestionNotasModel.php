@@ -182,8 +182,8 @@ class gestionNotasModel extends Model {
         }
     }
     
-    public function actualizarActividad($tipo,$valor,$nombre){
-        $info = $this->_db->query("select * from spActualizarActividad({$tipo},{$valor},{$nombre});");
+    public function actualizarActividad($id,$tipo,$valor,$nombre){
+        $info = $this->_db->query("select * from spActualizarActividad({$id},{$tipo},{$valor},'{$nombre}');");
         if($info === false){
             return "1103/actualizarActividad";
         }else{

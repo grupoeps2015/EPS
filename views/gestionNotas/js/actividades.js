@@ -178,7 +178,22 @@ $(document).ready( function () {
         },
         cancel: function() {
             //Esta es la accion al dar click en Continuar
-            actualizarActividad();
+            var Hd = "";
+            var proseguir=true;
+            var inputs = $("#tbActividades :input");
+            $.each(inputs, function(i, field){
+                if(field.type === "text"){
+                    Hd = field.name.substring(0,4);
+                    if(Hd === "nact" && $.trim(field.value) === ""){
+                        proseguir=false;
+                    }
+                }
+            });
+            if(proseguir){ 
+                actualizarActividad();
+            }else{
+                alert("Una o más actividades no tienen nombre, verifique los datos e intente de nuevo.");
+            }
         },
         cancelButton: "Continuar",
         confirmButton: "Regresar",
@@ -345,33 +360,42 @@ $(document).ready( function () {
         $("#spanMsg").html('');
         var TotalZona = parseFloat($("#hdZonaTotal").val());
         var SumarZona = 0;
+        var num = 0; //Id de la actvidad
         var Tp = 0;  //Id Tipo Actividad
         var Nm = ""; //Nombre Actividad
         var Vl = 0;  //Valor Actividad
-        var Hd = ""; //Identificar del hidden
-        var num = 0;
+        var Hd = ""; //Identificor para nombre del input
         var inputs = $("#tbActividades :input");
         $.each(inputs, function(i, field){
             if(field.type === "number"){
-                
                 Hd = field.name.substring(0,4);
-                num = field.name.substring(5);
                 if(Hd === "pact"){
                     SumarZona = SumarZona + parseFloat(field.value);
                 }
             }
         });
-        alert("total: "+SumarZona + "=" +TotalZona)
+
         if(SumarZona === 0){
             alert("Las actividades suman 0 puntos en total. No se realizarón cambios");
         }else{
             if(SumarZona > TotalZona){
                 alert("Las actividades suman mas puntos que la zona actual, verifique las actividades ingresadas. " + SumarZona + ">" + TotalZona);
             }else if(SumarZona < TotalZona){
-                alert("Las actividades suman menos puntos que la zona actual, agregue actividades para completar la nota o edite alguna de las ya existentes "  + SumarZona + "<" + TotalZona);
+                alert("Las actividades suman menos puntos que la zona actual, verifique las actividades ingresadas. "  + SumarZona + "<" + TotalZona);
             }else if(SumarZona === TotalZona){
                 //Las actividades suman la zona de forma correcta
-                alert("todo ok");
+                $.each(inputs, function(i, field){
+                    if(field.type === "select-one"){
+                        num = field.name.substring(4);
+                        Tp = field.value;
+                        Nm = $("#nact"+num).val();
+                        Vl = $("#pact"+num).val();
+                        actualizarActividades(num,Tp,Nm,Vl);
+                    }
+                });
+                $("#tbActividades").css('display','none');
+            }else{
+                alert("Ocurrio un error, verifique que todos los valores ingresados sean correctos");
             }
         }
     }
@@ -388,6 +412,22 @@ $(document).ready( function () {
             function(respuesta){
                 $("#spanMsg").append(respuesta.mensaje + '<br/>');
                 asociarActivida(respuesta.id);
+            },
+            'json'
+        );
+    }
+
+    function actualizarActividades(id,tipo,nombre,valor){
+        $("#spanMsg").html('');
+        $.post(
+            base_url+'gestionNotas/actualizarActividad',{ 
+                id: id,
+                idTipo: tipo,
+                txtNombre: nombre,
+                flValor: valor
+            },
+            function(respuesta){
+                $("#spanMsg").append(respuesta.actualizado + '<br/>');
             },
             'json'
         );
@@ -470,7 +510,7 @@ $(document).ready( function () {
                             //'<td style="width:19%;">' + datos[i].nombrepadre + '</td>'
                         );
                 
-                        selector = "<select id='slActPadre"+datos[i].ide+"'>";
+                        selector = "<select id='slAc"+datos[i].ide+"' name='slAc"+datos[i].ide+"'>";
                         for(var r=0; r < actividades.length; r++){
                             if(datos[i].nombrepadre === actividades[r].nombre)
                                 selector += "<option value='"+actividades[r].codigo+"' selected>";

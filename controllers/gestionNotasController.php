@@ -423,10 +423,10 @@ class gestionNotasController extends Controller{
     
     public function actualizarActividad(){
         $respuesta = new stdClass();
-        $respuesta->actualizado = 0;
-        if($this->getInteger('idtipo')){
-            $this->_notas->actualizarActividad($this->getInteger('idtipo'),$this->getTexto('valor'),$this->getTexto('nombre'));
-            $respuesta->actualizado = 1;
+        $respuesta->actualizado = "";
+        if($this->getInteger('id') && $this->getInteger('idTipo')){
+            $this->_notas->actualizarActividad($this->getInteger('id'),$this->getInteger('idTipo'),$this->getTexto('flValor'),$this->getTexto('txtNombre'));
+            $respuesta->actualizado = $this->getTexto('txtNombre') . " Actualizado";
         }
         echo json_encode($respuesta);
     }
