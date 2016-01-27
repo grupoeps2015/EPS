@@ -121,6 +121,8 @@
                                     <select id="slIdxAsignacion" name="slIdxAsignacion" class="form-control input-lg" style="display:none;"></select>
                                 </th>
                                 <th style="width:25%; text-align:center">Agregar Actividad</th>
+                                <input type="hidden" id="hdFinalTotal" name="hdFinalTotal" value="<?php echo $this->finalTotal;?>"/>
+                                <input type="hidden" id="hdZonaTotal" name="hdZonaTotal" value="<?php echo $this->zonaTotal;?>"/>
                             </tr>
                         </thead>
                         <tbody id="tbodyAct" name="tbodyAct">
@@ -131,7 +133,6 @@
                                 <td style="width:1%">&nbsp;</td>
                                 <td style="width:25%">
                                     <br/>
-                                    <input type="hidden" id="hdFinalTotal" name="hdFinalTotal" value="<?php echo $this->finalTotal;?>"/>
                                 </td>
                             </tr>
                             <tr>
@@ -145,7 +146,7 @@
                                             <span>+</span>
                                         </div>
                                     </a>
-                                    <input type="hidden" id="hdZonaTotal" name="hdZonaTotal" value="<?php echo $this->zonaTotal;?>"/>
+                                    
                                 </td>
                             </tr>
                         </tbody>

@@ -352,7 +352,8 @@ $(document).ready( function () {
         var num = 0;
         var inputs = $("#tbActividades :input");
         $.each(inputs, function(i, field){
-            if(field.type === "input"){
+            if(field.type === "number"){
+                
                 Hd = field.name.substring(0,4);
                 num = field.name.substring(5);
                 if(Hd === "pact"){
@@ -360,6 +361,7 @@ $(document).ready( function () {
                 }
             }
         });
+        alert("total: "+SumarZona + "=" +TotalZona)
         if(SumarZona === 0){
             alert("Las actividades suman 0 puntos en total. No se realizarón cambios");
         }else{
@@ -479,9 +481,9 @@ $(document).ready( function () {
                         selector += "</select>";
                         
                         $("#tbodyAct").append('<td style="width:19%;">' + selector + '</td>' +
-                            '<td style="width:30%;"><input type="text" id="nact'+datos[i].ide+'" maxlength="50" value="' + datos[i].nombreact + '"/>&nbsp;</td>' +
+                            '<td style="width:30%;"><input type="text" id="nact'+datos[i].ide+'" name="nact'+datos[i].ide+'" maxlength="50" value="' + datos[i].nombreact + '"/>&nbsp;</td>' +
                             '<td style="width:1%">&nbsp;</td>' +
-                            '<td style="width:24%"><input type="number" id="pact'+datos[i].ide+'" size="3" maxlength="2" value="'+datos[i].valor+'"/> pts.&nbsp;</td>' +
+                            '<td style="width:24%"><input type="number" min="0" max="99" id="pact'+datos[i].ide+'" name="pact'+datos[i].ide+'" style="width:50%" maxlength="2" value="'+datos[i].valor+'"/> pts.&nbsp;</td>' +
                             '<td style="width:1%">&nbsp;</td></tr>'
                         );
                     
