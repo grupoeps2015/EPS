@@ -129,7 +129,7 @@
                 <h3 align="center"><span id="spanMsg" name="spanMsg" class="text-warning"></span></h3>
                 <table class="table-hover nowrap" cellspacing="0" align="center" id="tbAsignados" name="tbAsignados" border="2" style="display:none; overflow:auto; text-align: center;">
                     <thead>
-                        <tr>
+                        <tr id="headAsignados" name="headAsignados">
                             <?php if($this->tipo == 1): ?>
                             <th style="text-align: center; width:20%;">Carnet</th>
                             <th style="text-align: center; width:40%;">Nombre</th>
@@ -137,7 +137,6 @@
                             <th style="text-align: center; width:15%;">Repitencia</th>
                             <th style="text-align: center; width:15%;">Tel&eacute;fono de emergencia</th>
                             <?php else : ?>
-
                             <th style="text-align: center; width:20%;">Carnet</th>
                             <th style="text-align: center; width:40%;">Nombre</th>
                             <th style="text-align: center; width:15%;">Zona</th>
@@ -151,7 +150,7 @@
                     </tbody>
                     <tfoot>
                         <form id="frFile" name="frFile" method='post' enctype="multipart/form-data">
-                        <tr>
+                        <tr align="center">
                             <td colspan="5" align="center" id="tdBotones" name="tdBotones">
                                 <div id="divcsvFile" class="fileUpload btn btn-warning" style="width:30%">
                                     <span id="spanCat">Cargar CSV</span>

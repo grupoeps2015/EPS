@@ -144,7 +144,7 @@ class gestionNotasModel extends Model {
     }
     
     public function listarActividades($idAsignacion){
-        $info = $this->_db->query("select * from spListarActividades({$idAsignacion});");
+        $info = $this->_db->query("select * from spListarActividades({$idAsignacion}) order by ide;");
         if($info === false){
             return "1104/listarActividades";
         }else{

@@ -391,7 +391,7 @@ LANGUAGE plpgsql;
 -- -----------------------------------------------------
 -- Function: spActualizarActividad()
 -- -----------------------------------------------------
--- DROP FUNCTION spActualizarActividad(int,float,text);
+-- DROP FUNCTION spActualizarActividad(int,int,float,text);
 CREATE OR REPLACE FUNCTION spActualizarActividad(IN _id int, IN _tipo int, IN _valor float, IN _nombre text) RETURNS Void AS
 $BODY$
 BEGIN
@@ -400,5 +400,29 @@ END;
 $BODY$
 LANGUAGE plpgsql;
 
+-- -----------------------------------------------------
+-- Function: spActividadesXEstudiante()
+-- -----------------------------------------------------
+-- DROP FUNCTION spActividadesXEstudiante(int);
+CREATE OR REPLACE FUNCTION spActividadesXEstudiante(IN _idAsigna integer,
+						    OUT actividad integer,
+						    OUT nombre text,
+						    OUT valor float) RETURNS SETOF record AS
+$BODY$
+BEGIN
+  return query
+  select 
+    act.actividad,
+    act.nombre, 
+    asac.nota
+  from 
+    est_cur_nota_actividad asac, 
+    cur_actividad act
+  where 
+    asac.actividad = act.actividad and asac.asignacion = _idAsigna;
+END
+$BODY$
+LANGUAGE plpgsql;
 
 Select 'Script para Gestion de Notas Instalado' as "Gestion Notas";
+
