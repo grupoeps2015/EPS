@@ -153,7 +153,7 @@ class gestionNotasModel extends Model {
     }
     
     public function getListaAsignados($id,$ciclo){
-        $post = $this->_db->query("select * from spListaAsignados({$id},{$ciclo}) order by carnet");
+        $post = $this->_db->query("select * from spListaAsignados({$id},{$ciclo}) order by carnet;");
         if($post === false){
             return "1104/getListaAsignados";
         }else{
@@ -163,7 +163,7 @@ class gestionNotasModel extends Model {
     }
     
     public function getListaAsignadosRetra($id,$ciclo,$retra){
-        $post = $this->_db->query("select * from spListaAsignadosRetra({$id},{$ciclo},{$retra});");
+        $post = $this->_db->query("select * from spListaAsignadosRetra({$id},{$ciclo},{$retra}) order by carnet;");
         if($post === false){
             return "1104/getListaAsignadosRetra";
         }else{
@@ -188,6 +188,16 @@ class gestionNotasModel extends Model {
             return "1103/actualizarActividad";
         }else{
             return $info->fetchall();
+        }
+    }
+    
+    public function getNotaActividad($idAsigna){
+        $post = $this->_db->query("select * from spActividadesXEstudiante({$idAsigna}) order by actividad;");
+        if($post === false){
+            return "1104/getNotaActividad";
+        }else{
+            $post->setFetchMode(PDO::FETCH_ASSOC);
+            return $post->fetchall();
         }
     }
 }

@@ -431,4 +431,11 @@ class gestionNotasController extends Controller{
         }
         echo json_encode($respuesta);
     }
+    
+    public function getNotaActividad(){
+        if($this->getInteger('id')){
+            $respuesta = $this->_notas->getNotaActividad($this->getInteger('id'));
+            echo json_encode($respuesta);
+        }
+    }
 }

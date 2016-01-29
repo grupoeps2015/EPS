@@ -365,10 +365,8 @@ $(document).ready( function () {
         //alert(id + " Hay Actividades " + idCiclo);
         //$("#tbAsignados").css('display','block');
         //$("#bodyAsignados").html('');
-        $("#tdBotones").attr('colspan', totalAct+5);
-        $("#tdExtra").attr('colspan', totalAct+5);
         //aplicarCss();
-                var estado = 0;
+        var estado = 0;
         var notas = "";
         $("#slCarnetxAsignacion").html('');
         $.post(base_url+'gestionNotas/getListaAsignados',
@@ -386,9 +384,6 @@ $(document).ready( function () {
 
                     for(var i=0; i < datos.length; i++){
                         var asignadoId = datos[i].idasignacion;
-                        
-                        
-                        
                         if(estado === 1){
                             $("#slCarnetxAsignacion").append('<option value="' + datos[i].carnet + '" name="' + datos[i].carnet + '" >' + datos[i].idasignacion + '</option>' );                            
                             notas = '</td><td><input id="z' + datos[i].idasignacion + '" name="z' + datos[i].idasignacion + '" type="text" maxlength="5" value="' + datos[i].zona + '" style="width:60%; text-align:center;"/>' + 
@@ -400,11 +395,8 @@ $(document).ready( function () {
                                     '</td><td>' + datos[i].total +
                                     '<input type="hidden" id="t' + datos[i].idasignacion + '" name="t' + datos[i].idasignacion + '" maxlength="5" value="' + datos[i].total + '"/>';
                         }
-                        var extraAc='</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-';
-                        $("#bodyAsignados").append('<tr><td>' + datos[i].carnet + 
-                                                   '</td><td>' + datos[i].nombre + 
-                                                   extraAc +
-                                                   notas + '</td>');
+                        
+                        getNotaActividad(datos[i].carnet,datos[i].nombre,asignadoId,notas,estado);
                     }
                 }
                 if(estado === 1){
@@ -413,10 +405,11 @@ $(document).ready( function () {
                     $('#tdBotones').css('display','none');
                 }
                 
-                aplicarCss();
+                //aplicarCss();
             },
             'json');
-
+        $("#tdBotones").attr('colspan', totalAct+5);
+        $("#tdExtra").attr('colspan', totalAct+5);
     }
     
     function aplicarCss(){
@@ -560,6 +553,31 @@ $(document).ready( function () {
             },
             'json');
         totalReprobados += 1;
+    }
+    
+    function getNotaActividad(carnet,nombreAl,idAA,notas,estado){
+        $.post(base_url+'gestionNotas/getNotaActividad',
+            {id: idAA},
+            function(respuesta){
+                if(respuesta.length>0){
+                    var actis="";
+                    for(var sig=0; sig<respuesta.length; sig++){
+                        if(estado===1){
+                            //actis += "</td><td>" + respuesta[sig].valor;
+                            actis += '</td><td><input id="act_' + respuesta[sig].actividad + "_" + idAA +
+                                                   '" name="act_' + respuesta[sig].actividad + "_" + idAA +
+                                                   '" type="text" maxlength="5" value="' + 
+                                                   respuesta[sig].valor + 
+                                                   '" style="width:60%; text-align:center;"/>';
+                        }else{
+                            actis += "</td><td>" + respuesta[sig].valor;
+                        }
+                    }
+                    $("#bodyAsignados").append('<tr><td>' + carnet + '</td><td>' + nombreAl + actis + notas + '</td></tr>');
+                }
+            },
+            'json');
+        //return actividadXalumno;
     }
     
     function datosRetrasada(id,idCiclo,tipoRetra){
