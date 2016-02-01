@@ -3,6 +3,7 @@ $(document).ready( function () {
     var tipoIngresoNota = 10;
     var totalReprobados = 0;
     var totalAprobados = 0;
+    var hayActs = false;
     
     $("#slAnio").change(function(){
         if(!$("#slAnio").val()){
@@ -82,10 +83,15 @@ $(document).ready( function () {
     $("#btnGuardar").click(function(){
         var zona = 0;
         var final = 0;
+        var tipo = "";
         var zonaMax = parseFloat($("#hdZonaTotal").val());
         var finalMax = parseFloat($("#hdFinalTotal").val());
         var todoOK = true;
-
+        
+        if(hayActs){
+            guardarNotaActividad();
+        }
+        
         var inputs = $("#tbAsignados :input");
         $.each(inputs, function(i, field){
             if(field.type === "text"){
@@ -287,9 +293,9 @@ $(document).ready( function () {
                 if(parseInt(respuesta.total) <= 2){
                     notaNormal(id,idCiclo);
                 }else{
-                    //notaNormal(id,idCiclo);
-                    llenarEncabezadoAct(idAA);
-                    notaActividad(id,idCiclo,respuesta.total);
+                    hayActs=true;
+                    llenarEncabezadoAct(idAA,respuesta.total);
+                    notaActividad(id,idCiclo);
                 }
             },
             'json');
@@ -339,41 +345,41 @@ $(document).ready( function () {
             'json');
     }
     
-    function llenarEncabezadoAct(idAA){
+    function llenarEncabezadoAct(idAA,totalAct){
         $.post(base_url+'gestionNotas/listarActividades',
             {asig: idAA},
             function(respuesta){
+                var thwidth = Math.round(40/(respuesta.length+3));
                 $("#headAsignados").html("");
+                $("#bodyAsignados").empty();
                 $("#headAsignados").append(
-                    "<th style='text-align: center; width:20%;'>Carnet</th>" +
-                    "<th style='text-align: center; width:40%;'>Nombre</th>"
+                    "<th style='text-align: center; width:225px;'>Carnet</th>" +
+                    "<th style='text-align: center; width:450px'>Nombre</th>"
                 );
                 for(var res=0;res < respuesta.length; res++){
-                    $("#headAsignados").append("<th style='text-align: center;'>"+respuesta[res].nombreact+"</th>");
+                    $("#headAsignados").append("<th style='text-align: center; width:50px;'>"+respuesta[res].nombreact+"</th>");
                 }
                 $("#headAsignados").append(
-                    "<th style='text-align: center; width:15%;'>Zona</th>" +
-                    "<th style='text-align: center; width:15%;'>Final</th>" +
-                    "<th style='text-align: center; width:10%;'>Total</th>"
+                    "<th style='text-align: center; width:50px;'>Zona</th>" +
+                    "<th style='text-align: center; width:50px;'>Final</th>" +
+                    "<th style='text-align: center; width:50px;'>Total</th>"
                 );
             },
             'json');
         
+        $("#tdExtra").attr('colspan', totalAct+5);
+        $("#tdBotones").attr('colspan', totalAct+5);
+        $("#tbAsignados").css('display','block');
+        aplicarCss2();
     }
     
-    function notaActividad(id,idCiclo,totalAct){
-        //alert(id + " Hay Actividades " + idCiclo);
-        //$("#tbAsignados").css('display','block');
-        //$("#bodyAsignados").html('');
-        //aplicarCss();
+    function notaActividad(id,idCiclo){
         var estado = 0;
         var notas = "";
         $("#slCarnetxAsignacion").html('');
         $.post(base_url+'gestionNotas/getListaAsignados',
             {trama: id, ciclo: idCiclo },
             function(datos){
-                $("#tbAsignados").css('display','block');
-                $("#bodyAsignados").html('');
                 if(datos.length>0){
                     estado = parseInt($('#hdEstadoCiclo').val());
                     $('#hdTotalAsignados').val(datos.length.toString());
@@ -385,10 +391,10 @@ $(document).ready( function () {
                     for(var i=0; i < datos.length; i++){
                         var asignadoId = datos[i].idasignacion;
                         if(estado === 1){
-                            $("#slCarnetxAsignacion").append('<option value="' + datos[i].carnet + '" name="' + datos[i].carnet + '" >' + datos[i].idasignacion + '</option>' );                            
-                            notas = '</td><td><input id="z' + datos[i].idasignacion + '" name="z' + datos[i].idasignacion + '" type="text" maxlength="5" value="' + datos[i].zona + '" style="width:60%; text-align:center;"/>' + 
-                                    '</td><td><input id="f' + datos[i].idasignacion + '" name="f' + datos[i].idasignacion + '" type="text" maxlength="5" value="' + datos[i].final + '" style="width:60%; text-align:center;"/>' + 
-                                    '</td><td><input id="t' + datos[i].idasignacion + '" name="t' + datos[i].idasignacion + '" type="text" maxlength="5" value="' + datos[i].total + '" style="width:60%; text-align:center;" readonly/>';
+                            $("#slCarnetxAsignacion").append('<option value="' + datos[i].carnet + '" name="' + datos[i].carnet + '" >' + datos[i].idasignacion + '</option>' );
+                            notas = '</td><td><input id="z' + datos[i].idasignacion + '" name="z' + datos[i].idasignacion + '" type="text" maxlength="5" value="' + datos[i].zona + '" style="text-align:center;width:50px;"/>' + 
+                                    '</td><td><input id="f' + datos[i].idasignacion + '" name="f' + datos[i].idasignacion + '" type="text" maxlength="5" value="' + datos[i].final + '" style="text-align:center;width:50px;"/>' + 
+                                    '</td><td><input id="t' + datos[i].idasignacion + '" name="t' + datos[i].idasignacion + '" type="text" maxlength="5" value="' + datos[i].total + '" style="text-align:center;width:50px;" readonly/>';
                         }else{
                             notas = '</td><td>' + datos[i].zona + 
                                     '</td><td>' + datos[i].final + 
@@ -404,12 +410,9 @@ $(document).ready( function () {
                 }else{
                     $('#tdBotones').css('display','none');
                 }
-                
                 //aplicarCss();
             },
             'json');
-        $("#tdBotones").attr('colspan', totalAct+5);
-        $("#tdExtra").attr('colspan', totalAct+5);
     }
     
     function aplicarCss(){
@@ -435,6 +438,15 @@ $(document).ready( function () {
                 iDisplayLength: 100
             }
         });
+    }
+    
+    function aplicarCss2(){
+        $('#slTipos').prop('disabled',true);
+        $('#slAnio').prop('disabled',true);
+        $('#slCiclo').prop('disabled',true);
+        $('#slSeccion').prop('disabled',true);
+        $('#btnActividades').css('display','none');
+        $('#btnNuevaBusqueda').css('display','block');
     }
     
     function guardarNota(){
@@ -563,21 +575,57 @@ $(document).ready( function () {
                     var actis="";
                     for(var sig=0; sig<respuesta.length; sig++){
                         if(estado===1){
-                            //actis += "</td><td>" + respuesta[sig].valor;
                             actis += '</td><td><input id="act_' + respuesta[sig].actividad + "_" + idAA +
                                                    '" name="act_' + respuesta[sig].actividad + "_" + idAA +
                                                    '" type="text" maxlength="5" value="' + 
                                                    respuesta[sig].valor + 
-                                                   '" style="width:60%; text-align:center;"/>';
+                                                   '" style="text-align:center;width:50px;"/>';
                         }else{
                             actis += "</td><td>" + respuesta[sig].valor;
                         }
                     }
-                    $("#bodyAsignados").append('<tr><td>' + carnet + '</td><td>' + nombreAl + actis + notas + '</td></tr>');
-                }
+                    //$("#bodyAsignados").append('<tr><td style="width:50px;">' + carnet + '</td><td style="width:50px;">' + nombreAl + actis + notas + '</td></tr>');
+                    var t = $('#tbAsignados').DataTable();
+                    t.row.add( [
+                            carnet,
+                            nombreAl,
+                            '<input id="act_1_1'+
+                                    '" name="act_1_1' +
+                                    '" type="text" maxlength="5" value="' + 1 + 
+                                    '" style="text-align:center;width:50px;"/>',
+                            2,
+                            3,
+                            4,
+                            5,
+                            6,
+                            7,
+                            8
+                        ] ).draw( false );
+                    }
             },
             'json');
-        //return actividadXalumno;
+    }
+    
+    function guardarNotaActividad(){
+        var arreglo;
+        var inputs = $("#tbAsignados :input");
+        $.each(inputs, function(i, field){
+            if(field.type === "text"){
+                arreglo = field.name.split("_");
+                if(arreglo[0] === "act"){
+                    arreglo = field.name.split("_");
+                    $.post(
+                        base_url+'gestionNotas/setNotaActividad',{
+                            idAsg: arreglo[2],
+                            idAct: arreglo[1],
+                            flValor: field.value
+                        },
+                        function(respuesta){
+                        },
+                        'json');
+                }
+            }    
+        });
     }
     
     function datosRetrasada(id,idCiclo,tipoRetra){

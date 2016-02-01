@@ -200,4 +200,13 @@ class gestionNotasModel extends Model {
             return $post->fetchall();
         }
     }
+    
+    public function setNotaActividad($idAsigna,$idActi,$valor){
+        $info = $this->_db->query("select * from spActualizarNotaActividad({$idAsigna},{$idActi},{$valor});");
+        if($info === false){
+            return "1103/setNotaActividad";
+        }else{
+            return $info->fetchall();
+        }
+    }
 }

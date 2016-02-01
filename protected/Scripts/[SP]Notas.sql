@@ -395,7 +395,8 @@ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION spActualizarActividad(IN _id int, IN _tipo int, IN _valor float, IN _nombre text) RETURNS Void AS
 $BODY$
 BEGIN
-  EXECUTE format(('update cur_actividad set tipo=%s, valor=%s, nombre=%L, descripcion = %L where actividad = %s'), _tipo, round(_valor),_nombre, concat('Actualizado ', current_date), _id);
+  EXECUTE format(('update cur_actividad set tipo=%s, valor=%s, nombre=%L, descripcion = %L where actividad = %s'), 
+				         _tipo, round(_valor),_nombre, concat('Actualizado ', current_date), _id);
 END;
 $BODY$
 LANGUAGE plpgsql;
@@ -420,6 +421,17 @@ BEGIN
     cur_actividad act
   where 
     asac.actividad = act.actividad and asac.asignacion = _idAsigna;
+END
+$BODY$
+LANGUAGE plpgsql;
+
+-- ------------------------------------------------------
+-- Function: spActualizarNotaActividad(int,int,float)
+-- ------------------------------------------------------
+CREATE OR REPLACE FUNCTION spActualizarNotaActividad(IN _idAsigna int, IN _idActividad int, IN valor float) RETURNS void AS
+$BODY$
+BEGIN
+  
 END
 $BODY$
 LANGUAGE plpgsql;

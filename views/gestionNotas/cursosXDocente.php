@@ -150,30 +150,30 @@
                     </tbody>
                     <tfoot>
                         <form id="frFile" name="frFile" method='post' enctype="multipart/form-data">
-                        <tr align="center">
-                            <td colspan="5" align="center" id="tdBotones" name="tdBotones">
-                                <div id="divcsvFile" class="fileUpload btn btn-warning" style="width:30%">
-                                    <span id="spanCat">Cargar CSV</span>
-                                    <input class="upload" type="file" id="csvFile" name="csvFile"/>
-                                </div> &nbsp;
-                                <input type="button" id="btnGuardar" name="btnGuardar" value="Guardar Cambios" class="btn btn-warning" style="width:30%"/>
-                                <input type="hidden" id="idCatedratico" name="idCatedratico" value="<?php echo $this->datosCat[0][0];?>" >
-                                <input type="hidden" id="hdEstadoCiclo" name="hdEstadoCiclo" value="0" >
-                                <input type="hidden" id="hdTipo" name="hdTipo" value="<?php echo $this->tipo; ?>" >
-                                <input type="hidden" id="hdtipoAs" name="hdtipoAs" value="2">
-                                <input type="hidden" id="hdcentrounidad" name="hdcentrounidad" value="<?php echo $_SESSION["centrounidad"]?>">
-                                <input type="hidden" id="hdTotalAsignados" name="hdTotalAsignados" value="0" >
-                                <input type="hidden" id="hdFile" name="hdFile" value="1"/>
-                                <input type="hidden" id="hdActs" name="hdActs" value="-1"/>
-                            </td>
-                        </tr>
-                        <?php if($_SESSION['rol']==0 || $_SESSION['rol']==1):?>
-                        <tr>
-                            <td colspan="5" id="tdExtra" name="tdExtra">
-                                <input type="button" id="btnAprobarNotas" name="btnAprobarNotas" value="Aprobar Notas Ingresadas" class="btn btn-warning" style="width:50%"/>
-                            </td>
-                        </tr>
-                        <?php endif;?>
+                            <tr>
+                                <td colspan="5" id="tdBotones" name="tdBotones">
+                                    <div id="divcsvFile" class="fileUpload btn btn-warning" style="width:225px">
+                                        <span id="spanCat">Cargar CSV</span>
+                                        <input class="upload" type="file" id="csvFile" name="csvFile"/>
+                                    </div> &nbsp;
+                                    <input type="button" id="btnGuardar" name="btnGuardar" value="Guardar Cambios" class="btn btn-warning" style="width:225px"/>
+                                </td>
+                            </tr>
+                            <?php if($_SESSION['rol']==0 || $_SESSION['rol']==1):?>
+                            <tr>
+                                <td colspan="5" id="tdExtra" name="tdExtra">
+                                    <input type="button" id="btnAprobarNotas" name="btnAprobarNotas" value="Aprobar Notas Ingresadas" class="btn btn-warning" style="width:350px"/>
+                                </td>
+                            </tr>
+                            <?php endif;?>
+                            <input type="hidden" id="idCatedratico" name="idCatedratico" value="<?php echo $this->datosCat[0][0];?>" >
+                            <input type="hidden" id="hdEstadoCiclo" name="hdEstadoCiclo" value="0" >
+                            <input type="hidden" id="hdTipo" name="hdTipo" value="<?php echo $this->tipo; ?>" >
+                            <input type="hidden" id="hdtipoAs" name="hdtipoAs" value="2">
+                            <input type="hidden" id="hdcentrounidad" name="hdcentrounidad" value="<?php echo $_SESSION["centrounidad"]?>">
+                            <input type="hidden" id="hdTotalAsignados" name="hdTotalAsignados" value="0" >
+                            <input type="hidden" id="hdFile" name="hdFile" value="1"/>
+                            <input type="hidden" id="hdActs" name="hdActs" value="-1"/>
                         </form>
                     </tfoot>
                 </table>

@@ -438,4 +438,15 @@ class gestionNotasController extends Controller{
             echo json_encode($respuesta);
         }
     }
+    
+    public function setNotaActividad(){
+        $respuesta = new stdClass();
+        $respuesta->actualizado = "";
+        if($this->getInteger('idAsg') && $this->getInteger('idAct')){
+            $this->_notas->setNotaActividad($this->getInteger('idAsg'),
+                                            $this->getInteger('idAct'),
+                                            $this->getTexto('flValor'));
+        }
+        echo json_encode($respuesta);
+    }
 }
