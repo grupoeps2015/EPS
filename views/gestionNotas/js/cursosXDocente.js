@@ -447,6 +447,9 @@ $(document).ready( function () {
         $('#slSeccion').prop('disabled',true);
         $('#btnActividades').css('display','none');
         $('#btnNuevaBusqueda').css('display','block');
+        /*$('#tbAsignados').DataTable(
+            {scollX:true}
+        );*/
     }
     
     function guardarNota(){
@@ -584,24 +587,8 @@ $(document).ready( function () {
                             actis += "</td><td>" + respuesta[sig].valor;
                         }
                     }
-                    //$("#bodyAsignados").append('<tr><td style="width:50px;">' + carnet + '</td><td style="width:50px;">' + nombreAl + actis + notas + '</td></tr>');
-                    var t = $('#tbAsignados').DataTable();
-                    t.row.add( [
-                            carnet,
-                            nombreAl,
-                            '<input id="act_1_1'+
-                                    '" name="act_1_1' +
-                                    '" type="text" maxlength="5" value="' + 1 + 
-                                    '" style="text-align:center;width:50px;"/>',
-                            2,
-                            3,
-                            4,
-                            5,
-                            6,
-                            7,
-                            8
-                        ] ).draw( false );
-                    }
+                    $("#bodyAsignados").append('<tr><td style="width:50px;">' + carnet + '</td><td style="width:50px;">' + nombreAl + actis + notas + '</td></tr>');
+                }
             },
             'json');
     }

@@ -428,10 +428,11 @@ LANGUAGE plpgsql;
 -- ------------------------------------------------------
 -- Function: spActualizarNotaActividad(int,int,float)
 -- ------------------------------------------------------
-CREATE OR REPLACE FUNCTION spActualizarNotaActividad(IN _idAsigna int, IN _idActividad int, IN valor float) RETURNS void AS
+CREATE OR REPLACE FUNCTION spActualizarNotaActividad(IN _idAsigna int, IN _idActividad int, IN _valor float) RETURNS void AS
 $BODY$
 BEGIN
-  
+  EXECUTE format(('UPDATE est_cur_nota_actividad set nota=%s, fecha=current_date, estado=1 where actividad = %s and asignacion = %s'), 
+				         round(_valor), _idActividad, _idAsigna);
 END
 $BODY$
 LANGUAGE plpgsql;
