@@ -349,7 +349,6 @@ $(document).ready( function () {
         $.post(base_url+'gestionNotas/listarActividades',
             {asig: idAA},
             function(respuesta){
-                var thwidth = Math.round(40/(respuesta.length+3));
                 $("#headAsignados").html("");
                 $("#bodyAsignados").empty();
                 $("#headAsignados").append(
@@ -375,7 +374,6 @@ $(document).ready( function () {
     
     function notaActividad(id,idCiclo){
         var estado = 0;
-        var notas = "";
         $("#slCarnetxAsignacion").html('');
         $.post(base_url+'gestionNotas/getListaAsignados',
             {trama: id, ciclo: idCiclo },
@@ -390,19 +388,9 @@ $(document).ready( function () {
 
                     for(var i=0; i < datos.length; i++){
                         var asignadoId = datos[i].idasignacion;
-                        if(estado === 1){
+                        if(estado === 1)
                             $("#slCarnetxAsignacion").append('<option value="' + datos[i].carnet + '" name="' + datos[i].carnet + '" >' + datos[i].idasignacion + '</option>' );
-                            notas = '</td><td><input id="z' + datos[i].idasignacion + '" name="z' + datos[i].idasignacion + '" type="text" maxlength="5" value="' + datos[i].zona + '" style="text-align:center;width:50px;"/>' + 
-                                    '</td><td><input id="f' + datos[i].idasignacion + '" name="f' + datos[i].idasignacion + '" type="text" maxlength="5" value="' + datos[i].final + '" style="text-align:center;width:50px;"/>' + 
-                                    '</td><td><input id="t' + datos[i].idasignacion + '" name="t' + datos[i].idasignacion + '" type="text" maxlength="5" value="' + datos[i].total + '" style="text-align:center;width:50px;" readonly/>';
-                        }else{
-                            notas = '</td><td>' + datos[i].zona + 
-                                    '</td><td>' + datos[i].final + 
-                                    '</td><td>' + datos[i].total +
-                                    '<input type="hidden" id="t' + datos[i].idasignacion + '" name="t' + datos[i].idasignacion + '" maxlength="5" value="' + datos[i].total + '"/>';
-                        }
-                        
-                        getNotaActividad(datos[i].carnet,datos[i].nombre,asignadoId,notas,estado);
+                        getNotaActividad(datos,i,asignadoId,estado);
                     }
                 }
                 if(estado === 1){
@@ -411,7 +399,6 @@ $(document).ready( function () {
                     $('#tdBotones').css('display','none');
                 }
                 $('#tbAsignados').DataTable({scrollX:true});
-                //aplicarCss();
             },
             'json');
     }
@@ -568,39 +555,33 @@ $(document).ready( function () {
         totalReprobados += 1;
     }
     
-    function getNotaActividad(carnet,nombreAl,idAA,notas,estado){
+    function getNotaActividad(notas,indice,idAA,estado){
         $.post(base_url+'gestionNotas/getNotaActividad',
             {id: idAA},
             function(respuesta){
+                var filaNueva = [notas[indice].carnet,notas[indice].nombre];
                 if(respuesta.length>0){
-                    var actis="";
                     for(var sig=0; sig<respuesta.length; sig++){
                         if(estado===1){
-                            actis += '</td><td><input id="act_' + respuesta[sig].actividad + "_" + idAA +
+                            filaNueva.push('</td><td><input id="act_' + respuesta[sig].actividad + "_" + idAA +
                                                    '" name="act_' + respuesta[sig].actividad + "_" + idAA +
                                                    '" type="text" maxlength="5" value="' + 
                                                    respuesta[sig].valor + 
-                                                   '" style="text-align:center;width:50px;"/>';
+                                                   '" style="text-align:center;width:50px;"/>');
                         }else{
-                            actis += "</td><td>" + respuesta[sig].valor;
+                            filaNueva.push("</td><td>" + respuesta[sig].valor);
                         }
                     }
-                    //$("#bodyAsignados").append('<tr><td style="width:50px;">' + carnet + '</td><td style="width:50px;">' + nombreAl + actis + notas + '</td></tr>');
-                    $('#tbAsignados').DataTable().row.add( [
-                            carnet,
-                            nombreAl,
-                            '<input id="act_1_1'+
-                                    '" name="act_1_1' +
-                                    '" type="text" maxlength="5" value="' + 1 + 
-                                    '" style="text-align:center;width:50px;"/>',
-                            2,
-                            3,
-                            4,
-                            5,
-                            6,
-                            7,
-                            8
-                    ]).draw( false );
+                    if(estado === 1){
+                        filaNueva.push('<input id="z' + notas[indice].idasignacion + '" name="z' + notas[indice].idasignacion + '" type="text" maxlength="5" value="' + notas[indice].zona + '" style="text-align:center;width:50px;"/>');
+                        filaNueva.push('<input id="f' + notas[indice].idasignacion + '" name="f' + notas[indice].idasignacion + '" type="text" maxlength="5" value="' + notas[indice].final + '" style="text-align:center;width:50px;"/>');
+                        filaNueva.push('<input id="t' + notas[indice].idasignacion + '" name="t' + notas[indice].idasignacion + '" type="text" maxlength="5" value="' + notas[indice].total + '" style="text-align:center;width:50px;" readonly/>');
+                    }else{
+                        filaNueva.push(notas[indice].zona);
+                        filaNueva.push(notas[indice].final);
+                        filaNueva.push(notas[indice].total+'<input type="hidden" id="t' + notas[indice].idasignacion + '" name="t' + notas[indice].idasignacion + '" maxlength="5" value="' + notas[indice].total + '"/>');
+                    }
+                    $('#tbAsignados').DataTable().row.add(filaNueva).draw( false );
                 }
             },
             'json');
