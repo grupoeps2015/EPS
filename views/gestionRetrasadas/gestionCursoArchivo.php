@@ -24,13 +24,17 @@
     </div>
     <br/>
     <div>
-        <form id="frCursos" method="post" action="<?php echo BASE_URL; ?>gestionRetrasadas/gestionCursoArchivo">
+            <div class="col-md-8 col-md-offset-2">
+            <br/>
+            <button id="generarArchivo" onclick="generarArchivo()" class="btn btn-danger btn-lg btn-block" style="width:40%; float: left">Generar Archivo</button>
+            </div>
+            
             <div id="divCursos" class="form-group" >
                 <div style="margin-left: 10%; margin-right: 10%">
                     <table id="tbCursos" border="2">
                         <thead>
                             <tr>
-                                <th style="text-align:center">Seleccionar<br><br><input class="_cursos" type="checkbox" name="marcarTodos" id="marcarTodos" value="-1">Marcar todos</th>
+                                <th style="text-align:center">Seleccionar<br><br><input type="checkbox" name="marcarTodos" id="marcarTodos" value="-1">Marcar todos</th>
                                 <th style="text-align:center">Código</th>
                                 <th style="text-align:center">Nombre</th>
                                 <th style="text-align:center">Tipo</th>
@@ -41,7 +45,7 @@
                         <?php if(isset($this->lstCur) && count($this->lstCur)): ?>
                             <?php for($i =0; $i < count($this->lstCur); $i++) : ?>
                             <tr>
-                                <td style="text-align: center"><input class="_cursos" type="checkbox" name="<?php echo $this->lstCur[$i]['codigo']; ?>" value="<?php echo $this->lstCur[$i]['codigo']; ?>"/></td>
+                                <td style="text-align: center"><input class="_cursos" type="checkbox" id="<?php echo $this->lstCur[$i]['codigo']; ?>" nombre="<?php echo $this->lstCur[$i]['nombre']; ?>" value="<?php echo $this->lstCur[$i]['codigo']; ?>"/></td>
                                 <td style="text-align: center"><?php echo $this->lstCur[$i]['codigo']; ?></td>
                                 <td style="text-align: center"><?php echo $this->lstCur[$i]['nombre']; ?></td>
                                 <td style="text-align: center"><?php echo $this->lstCur[$i]['tipocurso']; ?></td>
@@ -54,6 +58,21 @@
                     <br />
                 </div>
             </div>
-        </form>
     </div>   
 </section>
+
+<script text="text/javascript">
+function generarArchivo()
+   {
+        $("._cursos:checked").each(function () {
+            var id = $(this).attr("id");
+            var nombre = $(this).attr("nombre");
+            var unidad = "<?php echo $this->id; ?>";
+            var extension = "<?php echo EXTENSION_ESCUELAHISTORIA; ?>";
+            var carrera = "<?php echo $this->carrera; ?>";
+       
+            console.log(unidad + " " + extension + " " + carrera + " " + id + " " + nombre + " " + "CURSO");
+        });
+       
+   }
+</script>

@@ -15,17 +15,16 @@ $(document).ready(function(){
         "bPaginate": false
     } );
     
-    $("#marcarTodos").change(function() {
-        var checkboxes = $(this).closest('form').find(':checkbox');
-        if(this.checked) {        
-            checkboxes.prop('checked', true);
+    $("#marcarTodos").change(function() {        
+        if(this.checked) {   
+            $("input[type=checkbox]").prop('checked', true);
         }
         else
-        {
-            checkboxes.prop('checked', false);
+        {            
+            $("input[type=checkbox]").prop('checked', false);
         }
     
-    });
+    });    
     
 });
 

@@ -57,7 +57,7 @@
             <div class="col-lg-3 col-md-6 text-center">
                 <div class="service-box">
                     <i class="fa fa-4x fa-star wow bounceIn text-primary" data-wow-delay=".2s"></i>
-                    <h3><a href="<?php echo BASE_URL; ?>general/seleccionarCentroUnidad/gestionRetrasadas/gestionCursoArchivo">Gesti&oacute;n de cursos</a></h3>
+                    <h3><a href="<?php echo BASE_URL; ?>general/seleccionarCentroUnidad/general/seleccionarCarrera/gestionRetrasadas/gestionCursoArchivo">Gesti&oacute;n de cursos</a></h3>
                     <p class="text-muted">Crear temporada de pagos</p>
                 </div>
             </div>

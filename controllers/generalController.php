@@ -187,6 +187,50 @@ class generalController extends Controller{
         $this->_view->renderizar('seleccionarCarreraEstudiante');
     }
     
+    public function seleccionarCarrera(){
+        $url = "";
+        $numargs = func_num_args();
+        if($numargs > 0){
+            for($i =0; $i < $numargs; $i++){
+                $url .= func_get_arg($i) . "/" ;
+            }
+        }
+        if ($_SESSION["rol"] == ROL_ADMINISTRADOR || $_SESSION["rol"] == ROL_EMPLEADO) {
+                       
+            $carreras = $this->_ajax->getCarrerasCentroUnidad($_SESSION["centrounidad"]);
+            if(is_array($carreras)){
+                if(count($carreras) > 1){
+                    $this->_view->lstCarreras = $carreras;
+                    $this->_view->url = 'general/seleccionarCarrera/'.$url;
+                }else if(count($carreras) == 1){
+                    $_SESSION["carrera"] = $carreras[0]['codigo'];
+                    $this->redireccionar($url);
+                    exit;
+                }else{
+                    $this->redireccionar("login/salir");
+                    exit;
+                }
+
+            }else{
+                $this->redireccionar("error/sql/" . $carreras);
+                exit;
+            }
+            if($this->getInteger('slCarreras')){
+                $carreraEstudiante = $this->getInteger('slCarreras');
+                if(in_array($carreraEstudiante, array_column($carreras, 'codigo'))){
+                    $_SESSION["carrera"] = $this->getInteger('slCarreras');
+                    $this->redireccionar($url);
+                    exit;
+                }
+            }
+        }
+        
+        $this->_view->titulo = 'Seleccionar Carrera - ' . APP_TITULO;
+        $this->_view->setJs(array('jquery-ui'), "public");
+        $this->_view->setCss(array('jquery-ui'), "public");
+        $this->_view->setJs(array('seleccionarCarrera'));
+        $this->_view->renderizar('seleccionarCarrera');
+    }
 }
 
     if(!function_exists("array_column")){

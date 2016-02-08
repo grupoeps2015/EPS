@@ -352,11 +352,12 @@ class gestionRetrasadasController extends Controller {
     public function gestionCursoArchivo() {
         
             $idCentroUnidad = $_SESSION["centrounidad"];
-
+            $idCarrera = $_SESSION['carrera'];
+            $this->_view->carrera = $idCarrera;
             $this->_view->titulo = 'Cat&aacute;logo de cursos - ' . APP_TITULO;
             $this->_view->id = $idCentroUnidad;
 
-            $lstCur = $this->_post->informacionCursoActivo($idCentroUnidad);
+            $lstCur = $this->_post->informacionCursoActivo($idCentroUnidad, $idCarrera);
             if(is_array($lstCur)){
                 $this->_view->lstCur = $lstCur;
             }else{
