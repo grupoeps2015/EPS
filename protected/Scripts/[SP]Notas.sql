@@ -325,11 +325,11 @@ LANGUAGE plpgsql;
 -- Function: spListarActividades()
 -- -----------------------------------------------------
 -- DROP FUNCTION spListarActividades(int);
-CREATE OR REPLACE FUNCTION spListarActividades(_idAsignacion int, OUT nombrePadre text, OUT nombreAct text, OUT valor float) RETURNS SETOF record AS
+CREATE OR REPLACE FUNCTION spListarActividades(_idAsignacion int,OUT ide integer, OUT nombrePadre text, OUT nombreAct text, OUT valor float) RETURNS SETOF record AS
 $BODY$
 BEGIN
   return query
-  select 
+  select act.actividad as id,
     (select sub.nombre from cur_tipoactividad sub where sub.tipoactividad=act.tipo) as tipo, act.nombre, act.valor from cur_actividad act
   join cur_tipoactividad tact on tact.tipoactividad=act.actividadpadre
   join est_cur_nota_actividad nact on act.actividad=nact.actividad 
@@ -378,7 +378,7 @@ LANGUAGE plpgsql;
 -- -----------------------------------------------------
 -- Function: spActualizarRetra()
 -- -----------------------------------------------------
--- DROP FUNCTION spActualizarRetra(float,float,float);
+-- DROP FUNCTION spActualizarRetra(float,float);
 CREATE OR REPLACE FUNCTION spActualizarRetra(IN _final float, IN _idAsignacion float) RETURNS Void AS
 $BODY$
 DECLARE total float;
@@ -388,4 +388,54 @@ END;
 $BODY$
 LANGUAGE plpgsql;
 
+-- -----------------------------------------------------
+-- Function: spActualizarActividad()
+-- -----------------------------------------------------
+-- DROP FUNCTION spActualizarActividad(int,int,float,text);
+CREATE OR REPLACE FUNCTION spActualizarActividad(IN _id int, IN _tipo int, IN _valor float, IN _nombre text) RETURNS Void AS
+$BODY$
+BEGIN
+  EXECUTE format(('update cur_actividad set tipo=%s, valor=%s, nombre=%L, descripcion = %L where actividad = %s'), 
+				         _tipo, round(_valor),_nombre, concat('Actualizado ', current_date), _id);
+END;
+$BODY$
+LANGUAGE plpgsql;
+
+-- -----------------------------------------------------
+-- Function: spActividadesXEstudiante()
+-- -----------------------------------------------------
+-- DROP FUNCTION spActividadesXEstudiante(int);
+CREATE OR REPLACE FUNCTION spActividadesXEstudiante(IN _idAsigna integer,
+						    OUT actividad integer,
+						    OUT nombre text,
+						    OUT valor float) RETURNS SETOF record AS
+$BODY$
+BEGIN
+  return query
+  select 
+    act.actividad,
+    act.nombre, 
+    asac.nota
+  from 
+    est_cur_nota_actividad asac, 
+    cur_actividad act
+  where 
+    asac.actividad = act.actividad and asac.asignacion = _idAsigna;
+END
+$BODY$
+LANGUAGE plpgsql;
+
+-- ------------------------------------------------------
+-- Function: spActualizarNotaActividad(int,int,float)
+-- ------------------------------------------------------
+CREATE OR REPLACE FUNCTION spActualizarNotaActividad(IN _idAsigna int, IN _idActividad int, IN _valor float) RETURNS void AS
+$BODY$
+BEGIN
+  EXECUTE format(('UPDATE est_cur_nota_actividad set nota=%s, fecha=current_date, estado=1 where actividad = %s and asignacion = %s'), 
+				         round(_valor), _idActividad, _idAsigna);
+END
+$BODY$
+LANGUAGE plpgsql;
+
 Select 'Script para Gestion de Notas Instalado' as "Gestion Notas";
+

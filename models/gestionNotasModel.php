@@ -144,7 +144,7 @@ class gestionNotasModel extends Model {
     }
     
     public function listarActividades($idAsignacion){
-        $info = $this->_db->query("select * from spListarActividades({$idAsignacion});");
+        $info = $this->_db->query("select * from spListarActividades({$idAsignacion}) order by ide;");
         if($info === false){
             return "1104/listarActividades";
         }else{
@@ -153,7 +153,7 @@ class gestionNotasModel extends Model {
     }
     
     public function getListaAsignados($id,$ciclo){
-        $post = $this->_db->query("select * from spListaAsignados({$id},{$ciclo}) order by carnet");
+        $post = $this->_db->query("select * from spListaAsignados({$id},{$ciclo}) order by carnet;");
         if($post === false){
             return "1104/getListaAsignados";
         }else{
@@ -163,12 +163,50 @@ class gestionNotasModel extends Model {
     }
     
     public function getListaAsignadosRetra($id,$ciclo,$retra){
-        $post = $this->_db->query("select * from spListaAsignadosRetra({$id},{$ciclo},{$retra});");
+        $post = $this->_db->query("select * from spListaAsignadosRetra({$id},{$ciclo},{$retra}) order by carnet;");
         if($post === false){
             return "1104/getListaAsignadosRetra";
         }else{
             $post->setFetchMode(PDO::FETCH_ASSOC);
             return $post->fetchall();
+        }
+    }
+    
+    public function getActividadesPadre(){
+        $post = $this->_db->query("select * from spconsultageneral('tipoactividad, nombre','cur_tipoactividad') order by codigo;");
+        if($post === false){
+            return "1104/getActividadesPadre";
+        }else{
+            $post->setFetchMode(PDO::FETCH_ASSOC);
+            return $post->fetchall();
+        }
+    }
+    
+    public function actualizarActividad($id,$tipo,$valor,$nombre){
+        $info = $this->_db->query("select * from spActualizarActividad({$id},{$tipo},{$valor},'{$nombre}');");
+        if($info === false){
+            return "1103/actualizarActividad";
+        }else{
+            return $info->fetchall();
+        }
+    }
+    
+    public function getNotaActividad($idAsigna){
+        $post = $this->_db->query("select * from spActividadesXEstudiante({$idAsigna}) order by actividad;");
+        if($post === false){
+            return "1104/getNotaActividad";
+        }else{
+            $post->setFetchMode(PDO::FETCH_ASSOC);
+            return $post->fetchall();
+        }
+    }
+    
+    public function setNotaActividad($idAsigna,$idActi,$valor){
+        $info = $this->_db->query("select * from spActualizarNotaActividad({$idAsigna},{$idActi},{$valor});");
+        if($info === false){
+            return "1103/setNotaActividad";
+        }else{
+            return $info->fetchall();
         }
     }
 }
