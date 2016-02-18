@@ -127,7 +127,7 @@
                                         <br/>
                                     </td>
                                     <td>&nbsp;</td>
-                                    <td><input type="checkbox" id="cbGenerarCodigoCat" name="cbGenerarCodigoCat" value="Generar Nuevo">&nbsp;Generar codigo nuevo</td>
+                                    <td><!--<input type="checkbox" id="cbGenerarCodigoCat" name="cbGenerarCodigoCat" value="Generar Nuevo">&nbsp;Generar codigo nuevo!-->&nbsp;</td>
                                     <td>&nbsp;</td>
                                     <td rowspan="2" style="text-align:center">Foto<br/>
                                         <img src="<?php echo $_layoutParams['ruta_img']?>profile_picture.jpg" width="100px" height="50px" align="center" /><br/>
@@ -194,11 +194,14 @@
                                         </div>
                                     </td>
                                     <td>&nbsp;</td>
+                                    <!--
                                     <td style="text-align:right;">
                                         Generar codigo nuevo&nbsp;
                                         <input type="checkbox" id="cbGenerarCodigoEmp" name="cbGenerarCodigoEmp" value="Generar Nuevo">
                                         <br />
                                     </td>
+                                    -->
+                                    <td><!--<input type="checkbox" id="cbGenerarCodigoCat" name="cbGenerarCodigoCat" value="Generar Nuevo">&nbsp;Generar codigo nuevo-->&nbsp;</td>
                                     <td>&nbsp;</td>
                                     <td>*Codigo Empleado
                                         <input type="number" id="txtCodigoEmp" name="txtCodigoEmp" class="form-control input-lg" value="">

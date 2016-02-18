@@ -333,7 +333,7 @@ BEGIN
     (select sub.nombre from cur_tipoactividad sub where sub.tipoactividad=act.tipo) as tipo, act.nombre, act.valor from cur_actividad act
   join cur_tipoactividad tact on tact.tipoactividad=act.actividadpadre
   join est_cur_nota_actividad nact on act.actividad=nact.actividad 
-  where nact.asignacion = _idAsignacion order by act.tipo;
+  where nact.asignacion = _idAsignacion and act.estado=1 order by act.tipo;
 END
 $BODY$
 LANGUAGE plpgsql;
@@ -420,7 +420,7 @@ BEGIN
     est_cur_nota_actividad asac, 
     cur_actividad act
   where 
-    asac.actividad = act.actividad and asac.asignacion = _idAsigna;
+    asac.actividad = act.actividad and asac.asignacion = _idAsigna and asac.estado=1;
 END
 $BODY$
 LANGUAGE plpgsql;
