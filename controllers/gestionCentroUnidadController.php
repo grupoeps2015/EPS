@@ -366,4 +366,86 @@ class gestionCentroUnidadController extends Controller {
         }
     }
     
+    public function listadoExtensiones($centroUnidad = -1) {
+        //TODO: MARLEN: permisos para gestión de extensiones
+        $rol = $_SESSION["rol"];
+        $rolValidoGestion = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_GESTIONCARRERA);
+        $rolValidoAgregar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_CREARCARRERA);
+        $rolValidoModificar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_MODIFICARCARRERA);
+        $rolValidoEliminar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_ELIMINARCARRERA);
+        $this->_view->permisoGestion = $rolValidoGestion[0]["valido"];
+        $this->_view->permisoAgregar = $rolValidoAgregar[0]["valido"];
+        $this->_view->permisoModificar = $rolValidoModificar[0]["valido"];
+        $this->_view->permisoEliminar = $rolValidoEliminar[0]["valido"];
+
+        if ($this->_view->permisoGestion != PERMISO_GESTIONAR) {
+            echo "<script>
+                ".MSG_SINPERMISOS."
+                window.location.href='" . BASE_URL . "gestionPensum/inicio';
+                </script>";
+        }
+
+        if($centroUnidad <= 0){
+            $idCentroUnidad = $_SESSION["centrounidad"];
+        }else{
+            $idCentroUnidad = $centroUnidad;
+            $this->_view->vieneDeUnidad = true;
+        }
+
+        $this->_view->id = $idCentroUnidad;
+
+        $info = $this->_gCenUni->getExtensionesCentroUnidad($idCentroUnidad);
+        $info = json_decode($info[0][0], true);
+        if (is_array($info) || $info == '') {            
+            $this->_view->lstExt = $info;
+        } else {
+            $this->redireccionar("error/sql/" . $info);
+            exit;
+        }
+
+        $this->_view->titulo = 'Gestión de extensiones - ' . APP_TITULO;
+        $this->_view->setJs(array('gestionExtension'));
+        $this->_view->setJs(array('jquery.dataTables.min'), "public");
+        $this->_view->setCSS(array('jquery.dataTables.min'));
+
+        $this->_view->renderizar('gestionExtension');
+    }
+    
+    public function agregarExtension($centroUnidad = -1) {
+
+        $idCentroUnidad = $_SESSION["centrounidad"];
+        $rol = $_SESSION["rol"];
+        $rolValido = $this->_ajax->getPermisosRolFuncion($rol, CONS_FUNC_CUR_CREARCARRERA);
+
+        if ($rolValido[0]["valido"] != PERMISO_CREAR) {
+            echo "<script>
+                ".MSG_SINPERMISOS."
+                window.location.href='" . BASE_URL . "gestionPensum/listadoCarrera/" . "';
+                </script>";
+        }
+
+        $this->_view->idCentroUnidad = $idCentroUnidad;
+
+        $this->_view->titulo = 'Agregar Extensión - ' . APP_TITULO;
+        $this->_view->setJs(array('agregarExtension'));
+        $this->_view->setJs(array('jquery.validate'), "public");
+        $arrayCar = array();
+
+        if ($this->getInteger('hdEnvio')) {
+            $codigoCarrera = $this->getTexto('txtCodigo');
+            $nombreCarrera = $this->getTexto('txtNombre');
+            $arrayCar['codigo'] = $codigoCarrera;
+            $arrayCar['nombre'] = $nombreCarrera;
+            $arrayCar['estado'] = ESTADO_PENDIENTE;
+            $arrayCar['centrounidadacademica'] = $idCentroUnidad;
+
+            $info = $this->_post->agregarCarrera($arrayCar);
+            if (!is_array($info)) {
+                $this->redireccionar("error/sql/" . $info);
+                exit;
+            }
+            $this->redireccionar('gestionCentroUnidad/listadoExtensiones');
+        }
+        $this->_view->renderizar('agregarExtension', 'gestionCentroUnidad');
+    }
 }

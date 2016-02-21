@@ -41,6 +41,24 @@
                                         <input type="text" id="txtNombre" name="txtNombre" class="form-control input-lg" value="<?php if(isset($this->datos['txtNombre'])) echo $this->datos['txtNombre']?>">
                                         <br/>
                                     </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" width="100%">
+                                        *Extensi&oacute;n:
+                                        <select id="slExtensiones" name="slExtensiones" class="form-control input-lg">
+                                        <?php if (isset($this->lstExtensiones) && count($this->lstExtensiones)): ?>
+                                            <option value="">-- Extensi&oacute;n --</option>
+                                                <?php for ($i = 0; $i < count($this->lstExtensiones); $i++) : ?>
+                                                    <option value="<?php echo $this->lstExtensiones[$i]['codigo']; ?>">
+                                                        <?php echo $this->lstExtensiones[$i]['nombre']; ?>
+                                                    </option>
+                                                <?php endfor; ?>
+                                        <?php else : ?>
+                                            <option value="">-- No existen extensiones registradas --</option>
+                                        <?php endif; ?>
+                                        </select>
+                                        <br/>
+                                    </td>
                                     <td>&nbsp;</td>
                                     <td>
                                         <input type="submit" id="btnAgregarCar" name="btnAgregarCar" value="Nueva Carrera" class="btn btn-danger btn-lg btn-block">

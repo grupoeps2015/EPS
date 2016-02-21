@@ -111,4 +111,13 @@ class gestionCentroUnidadModel extends Model{
             return $info->fetchall();
         }
     }
+    
+    public function getExtensionesCentroUnidad($idCentroUnidad){
+        $extensiones = $this->_db->query("select * from spObtenerExtensionesCentroUnidad({$idCentroUnidad});");
+        if($extensiones === false){
+            return "1104/getExtensionesCentroUnidad";
+        }else{
+            return $extensiones->fetchall();
+        }
+    }
 }

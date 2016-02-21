@@ -198,7 +198,7 @@ class gestionPensumController extends Controller {
         }
 
         $this->_view->idCentroUnidad = $idCentroUnidad;
-
+        
         $this->_view->titulo = 'Agregar Carrera - ' . APP_TITULO;
         $this->_view->setJs(array('agregarCarrera'));
         $this->_view->setJs(array('jquery.validate'), "public");

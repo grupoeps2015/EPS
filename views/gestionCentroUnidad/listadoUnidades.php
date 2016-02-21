@@ -108,7 +108,7 @@
             </div> 
         </div>
         <div class ="row">
-            <div class="col-md-10 col-md-offset-1">
+            <div class="col-md-12 col-md-offset-0">
                 <table id="tbUnidadesAcademicas" border="2" style="width: 100%;">
                     <thead>
                         <tr>
@@ -120,6 +120,10 @@
                             <?php if($this->permisoEliminar == PERMISO_ELIMINAR): ?>
                             <th style="text-align:center;">&nbsp;</th>
                             <?php endif;?>
+                            <?php if($this->permisoGestionCarreras == PERMISO_GESTIONAR): ?>
+                            <th style="text-align:center;">&nbsp;</th>
+                            <?php endif;?>
+                            <!-- @todo: Crear permiso de gestion de extensiones -->
                             <?php if($this->permisoGestionCarreras == PERMISO_GESTIONAR): ?>
                             <th style="text-align:center;">&nbsp;</th>
                             <?php endif;?>
@@ -149,7 +153,17 @@
                             <?php if($this->permisoGestionCarreras == PERMISO_GESTIONAR): ?>
                             <td style="text-align: center;">
                                 <?php if(strcmp($this->lstUnidades[$i]['estado'], 'Activado') == 0): ?>
-                                <a href="<?php echo BASE_URL . 'gestionPensum/listadoCarrera/';?>">Ver Carreras</a>
+                                <a href="<?php echo BASE_URL . 'gestionPensum/listadoCarrera/'.$this->lstUnidades[$i]['centrounidad'];?>">Ver Carreras</a>
+                                <?php else : ?>
+                                &nbsp;
+                                <?php endif;?>
+                            </td>
+                            <?php endif;?>
+                            <!--TODO: Crear permiso de gestion de extensiones -->
+                            <?php if($this->permisoGestionCarreras == PERMISO_GESTIONAR): ?>
+                            <td style="text-align: center;">
+                                <?php if(strcmp($this->lstUnidades[$i]['estado'], 'Activado') == 0): ?>
+                                <a href="<?php echo BASE_URL . 'gestionCentroUnidad/listadoExtensiones/'.$this->lstUnidades[$i]['centrounidad'];?>">Ver Extensiones</a>
                                 <?php else : ?>
                                 &nbsp;
                                 <?php endif;?>
