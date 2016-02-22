@@ -34,6 +34,24 @@
                                         <input type="text" id="txtNombre" name="txtNombre" class="form-control input-lg" value="<?php if(isset($this->datosCar[0]['nombre'])) echo $this->datosCar[0]['nombre']?>">
                                         <br/>
                                     </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" width="100%">
+                                        *Extensi&oacute;n:
+                                        <select id="slExtensiones" name="slExtensiones" class="form-control input-lg">
+                                        <?php if (isset($this->lstExtensiones) && count($this->lstExtensiones)): ?>
+                                            <option value="">-- Extensi&oacute;n --</option>
+                                                <?php for ($i = 0; $i < count($this->lstExtensiones); $i++) : ?>
+                                                    <option value="<?php echo $this->lstExtensiones[$i]['id']; ?>" <?php if(isset($this->datosCar[0]['extension']) && $this->datosCar[0]['extension'] == $this->lstExtensiones[$i]['id']) echo "selected"?>>
+                                                        <?php echo '['.$this->lstExtensiones[$i]['id'].']'.' '. $this->lstExtensiones[$i]['nombre']; ?>
+                                                    </option>
+                                                <?php endfor; ?>
+                                        <?php else : ?>
+                                            <option value="">-- No existen extensiones registradas --</option>
+                                        <?php endif; ?>
+                                        </select>
+                                        <br/>
+                                    </td>
                                     <td>&nbsp;</td>
                                     <td>
                                         <input type="submit" id="btnActualizarCar" name="btnActualizarCar" value="Actualizar" class="btn btn-danger btn-lg btn-block">
@@ -50,36 +68,5 @@
     </div>
     <br />
 
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-3 col-md-6 text-center">
-                <div class="service-box">
-                    <i class="fa fa-4x fa-building wow bounceIn text-primary"></i>
-                    <h3>Gesti&oacute;n de edificios</h3>
-                    <p class="text-muted">Capacidad de salones y gestion de uso</p>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 text-center">
-                <div class="service-box">
-                    <i class="fa fa-4x fa-mortar-board wow bounceIn text-primary"></i>
-                    <h3>Gesti&oacute;n de Unidades Acad&eacute;micas</h3>
-                    <p class="text-muted">Faculades, Escuelas y Centros Regionales</p>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 text-center">
-                <div class="service-box">
-                    <i class="fa fa-4x fa-group wow bounceIn text-primary" data-wow-delay=".1s"></i>
-                    <h3>Gesti&oacute;n de personal</h3>
-                    <p class="text-muted">Directores, Control Academico, Catedraticos</p>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 text-center">
-                <div class="service-box">
-                    <i class="fa fa-4x fa-pencil wow bounceIn text-primary" data-wow-delay=".2s"></i>
-                    <h3>Gesti&oacute;n de estudiantes</h3>
-                    <p class="text-muted">Alumnos regulares</p>
-                </div>
-            </div>
-        </div>
-    </div>
+
 </section>

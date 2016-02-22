@@ -45,6 +45,7 @@
                             <tr>
                                 <th style="text-align:center">Nombre</th>
                                 <th style="text-align:center">Estado</th>
+                                <th style="text-align:center">Extensi&oacute;n</th>
                                 <?php if($this->permisoModificar == PERMISO_MODIFICAR): ?>
                                 <th style="text-align:center">&nbsp;</th>
                                 <?php endif;?>
@@ -62,6 +63,7 @@
                                     <tr>
                                         <td style="text-align: center"><?php echo $this->lstCar[$i]['nombre']; ?></td>
                                         <td style="text-align: center"><?php echo $this->lstCar[$i]['estado']; ?></td>
+                                        <td style="text-align: center"><?php echo $this->lstCar[$i]['extension']; ?></td>
                                         <?php if($this->permisoModificar == PERMISO_MODIFICAR): ?>
                                         <td style="text-align: center;"><a href="<?php echo BASE_URL . 'gestionPensum/actualizarCarrera/' . $this->lstCar[$i]['id']; ?>">Modificar</a></td>
                                         <?php endif; ?>

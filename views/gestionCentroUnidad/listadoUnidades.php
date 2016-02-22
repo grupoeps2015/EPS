@@ -21,7 +21,7 @@
                         <?php if($this->permisoAgregar == PERMISO_CREAR): ?>
                         <i class="fa fa-2x fa-book wow bounceIn text-primary" data-wow-delay=".2s">
                             <a href="<?php echo BASE_URL?>gestionCentroUnidad/agregarUnidad/<?php echo $this->id;?>">
-                                Crear Nueva Unidad
+                                Crear Unidad
                             </a>
                         </i>
                         <?php endif; ?>

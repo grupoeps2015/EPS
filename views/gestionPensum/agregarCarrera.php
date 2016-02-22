@@ -49,8 +49,8 @@
                                         <?php if (isset($this->lstExtensiones) && count($this->lstExtensiones)): ?>
                                             <option value="">-- Extensi&oacute;n --</option>
                                                 <?php for ($i = 0; $i < count($this->lstExtensiones); $i++) : ?>
-                                                    <option value="<?php echo $this->lstExtensiones[$i]['codigo']; ?>">
-                                                        <?php echo $this->lstExtensiones[$i]['nombre']; ?>
+                                                    <option value="<?php echo $this->lstExtensiones[$i]['id']; ?>">
+                                                        <?php echo '['.$this->lstExtensiones[$i]['id'].']'.' '. $this->lstExtensiones[$i]['nombre']; ?>
                                                     </option>
                                                 <?php endfor; ?>
                                         <?php else : ?>

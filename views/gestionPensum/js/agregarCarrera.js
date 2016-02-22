@@ -6,6 +6,9 @@ $(document).ready(function(){
             },
             txtNombre:{
                 required: true
+            },
+            slExtensiones:{
+                required: true
             }
         },
         messages:{
@@ -14,6 +17,9 @@ $(document).ready(function(){
             },
             txtNombre:{
                 required: "Ingrese el nombre de la carrera"
+            },
+            slExtensiones:{
+                required: "Seleccione una extensión"
             }
         }
     });
