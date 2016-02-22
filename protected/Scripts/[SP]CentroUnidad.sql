@@ -208,4 +208,24 @@ END;
 $BODY$
 LANGUAGE 'plpgsql';
 
+-- Function: spactualizarextensiones(integer, text)
+
+-- DROP FUNCTION spactualizarextensiones(integer, text);
+
+CREATE OR REPLACE FUNCTION spactualizarextensiones(
+    _centrounidad integer, 
+	_extensiones text)
+  RETURNS integer AS
+$BODY$
+DECLARE idCU integer;
+BEGIN
+	UPDATE adm_centro_unidadacademica SET extensiones = _extensiones
+	WHERE centro_unidadacademica = _centrounidad RETURNING centro_unidadacademica into idCU;
+	RETURN idCU;
+END; $BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION spactualizarextensiones(integer, text)
+  OWNER TO postgres;
+
 Select 'Script para Gestion Centro-Unidad Instalado' as "Gestion Centro Unidad";

@@ -23,15 +23,15 @@
                 </div>
                 <div class="col-lg-3 col-md-6 text-center"></div>
                 <div class="col-lg-3 col-md-6 text-center"></div>
-<!--                <div class="col-lg-3 col-md-6 text-center">
+                <div class="col-lg-3 col-md-6 text-center">
                     <?php if($this->permisoAgregar == PERMISO_CREAR): ?>
-                    <form method='post' name='frmPost' id='frmPost' action='<?php echo BASE_URL ?>gestionCentroUnidad/agregarExtension'>
+                    <form method='post' name='frmPost' id='frmPost' action='<?php echo BASE_URL ?>gestionCentroUnidad/agregarExtension/<?php echo $this->id ?>'>
                         <i class="fa fa-2x fa-user-plus wow bounceIn text-primary" data-wow-delay=".2s">
                             <a id="linkNuevoExt" href="#">Agregar Extensi&oacute;n</a>
                         </i>
                     </form>
                     <?php endif; ?>
-                </div>-->
+                </div>
             </div>
         </div>
     </div>

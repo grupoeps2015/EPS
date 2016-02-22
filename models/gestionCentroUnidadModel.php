@@ -120,4 +120,13 @@ class gestionCentroUnidadModel extends Model{
             return $extensiones->fetchall();
         }
     }
+    
+    public function actualizarExtensiones($idCentro, $extensiones) {
+        $info = $this->_db->query("SELECT * from spactualizarextensiones({$idCentro},'{$extensiones}');");
+        if($info === false){
+            return "1101/actualizarExtensiones";
+        }else{
+            return $info->fetchall();
+        }
+    }
 }

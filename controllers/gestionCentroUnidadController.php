@@ -413,14 +413,20 @@ class gestionCentroUnidadController extends Controller {
     
     public function agregarExtension($centroUnidad = -1) {
 
-        $idCentroUnidad = $_SESSION["centrounidad"];
+        if($centroUnidad <= 0){
+            $idCentroUnidad = $_SESSION["centrounidad"];
+        }else{
+            $idCentroUnidad = $centroUnidad;
+            $this->_view->vieneDeUnidad = true;
+        }
+        
         $rol = $_SESSION["rol"];
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol, CONS_FUNC_CUR_CREARCARRERA);
 
         if ($rolValido[0]["valido"] != PERMISO_CREAR) {
             echo "<script>
                 ".MSG_SINPERMISOS."
-                window.location.href='" . BASE_URL . "gestionPensum/listadoCarrera/" . "';
+                window.location.href='" . BASE_URL . "gestionCentroUnidad/listadoExtensiones/" . $idCentroUnidad . "';
                 </script>";
         }
 
@@ -429,19 +435,36 @@ class gestionCentroUnidadController extends Controller {
         $this->_view->titulo = 'Agregar Extensión - ' . APP_TITULO;
         $this->_view->setJs(array('agregarExtension'));
         $this->_view->setJs(array('jquery.validate'), "public");
-        $arrayCar = array();
 
         if ($this->getInteger('hdEnvio')) {
-            $codigoCarrera = $this->getTexto('txtCodigo');
-            $nombreCarrera = $this->getTexto('txtNombre');
-            $arrayCar['codigo'] = $codigoCarrera;
-            $arrayCar['nombre'] = $nombreCarrera;
-            $arrayCar['estado'] = ESTADO_PENDIENTE;
-            $arrayCar['centrounidadacademica'] = $idCentroUnidad;
-
-            $info = $this->_post->agregarCarrera($arrayCar);
-            if (!is_array($info)) {
+            
+            $codigoExtension = $this->getTexto('txtCodigo');
+            $nombreExtension = $this->getTexto('txtNombre');
+            
+            
+            $info = $this->_gCenUni->getExtensionesCentroUnidad($idCentroUnidad);
+            $info = json_decode($info[0][0], true);
+            if (is_array($info)) {     
+                $arrayExt['id'] = $codigoExtension;
+                $arrayExt['nombre'] = $nombreExtension;
+                $arrayExt['estado'] = ESTADO_PENDIENTE;
+                array_push($info, $arrayExt);
+                $info = json_encode($info);
+            } 
+            else if($info == ''){
+                $arrayExt[0]['id'] = $codigoExtension;
+                $arrayExt[0]['nombre'] = $nombreExtension;
+                $arrayExt[0]['estado'] = ESTADO_PENDIENTE;
+                $info = json_encode($arrayExt);
+            }
+            else {
                 $this->redireccionar("error/sql/" . $info);
+                exit;
+            }
+            
+            $ext = $this->_gCenUni->actualizarExtensiones($idCentroUnidad, $info);
+            if (!is_array($ext)) {
+                $this->redireccionar("error/sql/" . $ext);
                 exit;
             }
             $this->redireccionar('gestionCentroUnidad/listadoExtensiones');
