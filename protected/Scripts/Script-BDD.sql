@@ -95,6 +95,7 @@ CREATE TABLE ADM_Centro_UnidadAcademica (
   Centro INTEGER NOT NULL,
   UnidadAcademica INTEGER NOT NULL,
   Estado INTEGER NOT NULL,
+  Extensiones TEXT NULL,
   PRIMARY KEY (Centro_UnidadAcademica),
   CONSTRAINT Centro
     FOREIGN KEY (UnidadAcademica)
@@ -432,6 +433,7 @@ CREATE TABLE CUR_Carrera_Area (
   Carrera INTEGER NOT NULL,
   Area INTEGER NOT NULL,
   Estado INTEGER NOT NULL,
+  Extension TEXT NULL,
   PRIMARY KEY (CarreraArea),
   CONSTRAINT fk_CUR_Carrera_ADM_Area1
     FOREIGN KEY (Carrera)

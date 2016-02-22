@@ -1,4 +1,5 @@
 <section id="" style="background-color: beige;">
+    <form id="frCursoArchivo" name="frCursoArchivo" method='post' enctype="multipart/form-data" action='<?php echo BASE_URL; ?>gestionRetrasadas/crearArchivo'>
     <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center">
@@ -26,7 +27,7 @@
     <div>
             <div class="col-md-8 col-md-offset-2">
             <br/>
-            <button id="generarArchivo" onclick="generarArchivo()" class="btn btn-danger btn-lg btn-block" style="width:40%; float: left">Generar Archivo</button>
+            <button type="button" id="btnSubmit" onclick="generarArchivo()" class="btn btn-danger btn-lg btn-block" style="width:40%; float: left">Generar Archivo</button>
             </div>
             
             <div id="divCursos" class="form-group" >
@@ -58,21 +59,28 @@
                     <br />
                 </div>
             </div>
+        <input type="hidden" id="_texto" name="_texto" value="">        
     </div>   
+    </form>
 </section>
 
 <script text="text/javascript">
 function generarArchivo()
    {
-        $("._cursos:checked").each(function () {
+       var strListaCursos="";
+       $("._cursos:checked").each(function () {
             var id = $(this).attr("id");
             var nombre = $(this).attr("nombre");
             var unidad = "<?php echo $this->id; ?>";
             var extension = "<?php echo EXTENSION_ESCUELAHISTORIA; ?>";
             var carrera = "<?php echo $this->carrera; ?>";
        
-            console.log(unidad + " " + extension + " " + carrera + " " + id + " " + nombre + " " + "CURSO");
+            //console.log(unidad + " " + extension + " " + carrera + " " + id + " " + nombre + " " + "CURSO");
+          strListaCursos += unidad + "|" + extension + "|" + carrera + "|" + id + "|" + nombre + "|" + "CURSO" + "%%";
         });
-       
+       //console.log(strListaCursos);
+       document.getElementById("_texto").value = strListaCursos;
+       document.frCursoArchivo.submit();
    }
+   
 </script>

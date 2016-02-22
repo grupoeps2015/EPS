@@ -47,6 +47,9 @@ define('EXTENSION_ESCUELAHISTORIA','0');
 define('VARIANTERUBRO_RETRASADAS','1');
 define('TIPOCURSO_ESCUELAHISTORIA','CURSO');
 
+//Dirección en donde se generan los archivos de activación de temporadas
+define('DIRECCION_ARCHIVOTEMPORADAS','public/archivos/');
+
 //Constantes de base de datos
 define('DB_HOST','localhost');
 define('DB_USER','postgres');
