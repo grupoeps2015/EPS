@@ -1,13 +1,10 @@
 $(document).ready(function(){
-    $('#frCarreras').validate({
+    $('#frExtensiones').validate({
         rules:{
             txtCodigo:{
                 required: true
             },
             txtNombre:{
-                required: true
-            },
-            slExtensiones:{
                 required: true
             }
         },
@@ -17,9 +14,6 @@ $(document).ready(function(){
             },
             txtNombre:{
                 required: "Ingrese el nombre de la carrera"
-            },
-            slExtensiones:{
-                required: "Seleccione una extensión"
             }
         }
     });

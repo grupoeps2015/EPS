@@ -198,7 +198,16 @@ class gestionPensumController extends Controller {
         }
 
         $this->_view->idCentroUnidad = $idCentroUnidad;
-
+        
+        $info = $this->_post->getExtensionesCentroUnidad($idCentroUnidad);
+        $info = json_decode($info[0][0], true);
+        if (is_array($info) || $info == '') {            
+            $this->_view->lstExtensiones = $info;
+        } else {
+            $this->redireccionar("error/sql/" . $info);
+            exit;
+        }
+        
         $this->_view->titulo = 'Agregar Carrera - ' . APP_TITULO;
         $this->_view->setJs(array('agregarCarrera'));
         $this->_view->setJs(array('jquery.validate'), "public");
@@ -207,11 +216,12 @@ class gestionPensumController extends Controller {
         if ($this->getInteger('hdEnvio')) {
             $codigoCarrera = $this->getTexto('txtCodigo');
             $nombreCarrera = $this->getTexto('txtNombre');
+            $extension = $this->getTexto('slExtensiones');
             $arrayCar['codigo'] = $codigoCarrera;
             $arrayCar['nombre'] = $nombreCarrera;
             $arrayCar['estado'] = ESTADO_PENDIENTE;
             $arrayCar['centrounidadacademica'] = $idCentroUnidad;
-
+            $arrayCar['extension'] = $extension;
             $info = $this->_post->agregarCarrera($arrayCar);
             if (!is_array($info)) {
                 $this->redireccionar("error/sql/" . $info);
@@ -270,7 +280,7 @@ class gestionPensumController extends Controller {
     }
 
     public function actualizarCarrera($intIdCarrera = 0) {
-
+        $idCentroUnidad = $_SESSION["centrounidad"];
         $this->_view->setJs(array('jquery.validate'), "public");
         $this->_view->setJs(array('actualizarCarrera'));
 
@@ -287,6 +297,15 @@ class gestionPensumController extends Controller {
                 window.location.href='" . BASE_URL . "gestionPensum/listadoCarrera" . "';
                 </script>";
         }
+        
+        $ext = $this->_post->getExtensionesCentroUnidad($idCentroUnidad);
+        $ext = json_decode($ext[0][0], true);
+        if (is_array($ext) || $ext == '') {            
+            $this->_view->lstExtensiones = $ext;
+        } else {
+            $this->redireccionar("error/sql/" . $ext);
+            exit;
+        }
 
         $info = $this->_post->datosCarrera($intIdCarrera);
         if (is_array($info)) {
@@ -300,9 +319,10 @@ class gestionPensumController extends Controller {
         $this->_view->renderizar('actualizarCarrera', 'gestionPensum');
         if ($this->getInteger('hdEnvio')) {
             $nombreCarrera = $this->getTexto('txtNombre');
-
+            $extension = $this->getTexto('slExtensiones');
             $arrayCar['id'] = $intIdCarrera;
             $arrayCar['nombre'] = $nombreCarrera;
+            $arrayCar['extension'] = $extension;
             $respuesta = $this->_post->actualizarCarrera($arrayCar);
             if (is_array($respuesta)) {
                 $this->redireccionar('gestionPensum/actualizarCarrera/' . $intIdCarrera);

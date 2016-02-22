@@ -2,13 +2,13 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center">
-                <h2 class="section-heading">Agregar Carrera</h2>
+                <h2 class="section-heading">Agregar Extensi&oacute;n</h2>
                 <p><?php if(isset($this->query)) echo $this->query; ?></p>
                 <hr class="primary">
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
                         <i class="fa fa-2x fa-backward wow bounceIn text-primary" data-wow-delay=".2s">
-                            <a href="<?php echo BASE_URL?>gestionPensum/listadoCarrera">
+                            <a href="<?php echo BASE_URL?>gestionCentroUnidad/listadoExtensiones/"<?php echo $this->idCentroUnidad?>>
                                 Regresar
                             </a>
                         </i>
@@ -23,9 +23,9 @@
 
     <div class="header-content">
         <div class="header-content-inner">
-            <div id="divCentros" class="row">
-                <form id="frCarreras" method="post" action="<?php echo BASE_URL; ?>gestionPensum/agregarCarrera">
-                    <div id="divEstudiantes" class="form-group" >
+            <div id="divExtensiones" class="row">
+                <form id="frExtensiones" method="post" action="<?php echo BASE_URL; ?>gestionCentroUnidad/agregarExtension/<?php echo $this->idCentroUnidad; ?>">
+                    <div id="divExt" class="form-group" >
                         <div class="col-md-6 col-md-offset-3">
                             <table>
                                 <tr>
@@ -41,27 +41,9 @@
                                         <input type="text" id="txtNombre" name="txtNombre" class="form-control input-lg" value="<?php if(isset($this->datos['txtNombre'])) echo $this->datos['txtNombre']?>">
                                         <br/>
                                     </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3" width="100%">
-                                        *Extensi&oacute;n:
-                                        <select id="slExtensiones" name="slExtensiones" class="form-control input-lg">
-                                        <?php if (isset($this->lstExtensiones) && count($this->lstExtensiones)): ?>
-                                            <option value="">-- Extensi&oacute;n --</option>
-                                                <?php for ($i = 0; $i < count($this->lstExtensiones); $i++) : ?>
-                                                    <option value="<?php echo $this->lstExtensiones[$i]['id']; ?>">
-                                                        <?php echo '['.$this->lstExtensiones[$i]['id'].']'.' '. $this->lstExtensiones[$i]['nombre']; ?>
-                                                    </option>
-                                                <?php endfor; ?>
-                                        <?php else : ?>
-                                            <option value="">-- No existen extensiones registradas --</option>
-                                        <?php endif; ?>
-                                        </select>
-                                        <br/>
-                                    </td>
                                     <td>&nbsp;</td>
                                     <td>
-                                        <input type="submit" id="btnAgregarCar" name="btnAgregarCar" value="Nueva Carrera" class="btn btn-danger btn-lg btn-block">
+                                        <input type="submit" id="btnAgregarExt" name="btnAgregarExt" value="Nueva Extensión" class="btn btn-danger btn-lg btn-block">
                                     </td>
                                 </tr>
                             </table>

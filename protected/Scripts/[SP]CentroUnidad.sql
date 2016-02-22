@@ -98,7 +98,7 @@ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION spInfoUnidades(IN _idCentro int, OUT unidad int, 
 					  OUT nombre text, OUT idPadre int, 
 					  OUT nombrepadre text, OUT tipo text, 
-					  OUT estado text) RETURNS setof record as 
+					  OUT estado text, OUT centroUnidad integer) RETURNS setof record as 
 $BODY$
 BEGIN 
   RETURN query
@@ -112,7 +112,8 @@ BEGIN
 	    when cau.estado = -1 then 'Desactivado'
 	    when cau.estado = 1  then 'Activado'
 	    else 'Desconocido'
-	  End as estado
+	  End as estado,
+	  cau.centro_unidadacademica
 	from adm_centro_unidadacademica cau
 	join adm_unidadacademica ua on ua.unidadacademica = cau.unidadacademica
 	join adm_tipounidadacademica tp on ua.tipo = tp.tipounidadacademica
@@ -192,5 +193,39 @@ BEGIN
 END;
 $BODY$
 LANGUAGE 'plpgsql';
+
+-- -----------------------------------------------------
+-- Function: spObtenerExtensionesCentroUnidad()
+-- -----------------------------------------------------
+-- DROP FUNCTION spObtenerExtensionesCentroUnidad(int);
+CREATE OR REPLACE FUNCTION spObtenerExtensionesCentroUnidad(IN _centroUnidad int) RETURNS text as
+$BODY$
+declare exten text;
+BEGIN 
+  select cu.Extensiones from adm_centro_unidadacademica cu where cu.centro_unidadacademica = _centroUnidad into exten;
+  return exten;
+END;
+$BODY$
+LANGUAGE 'plpgsql';
+
+-- Function: spactualizarextensiones(integer, text)
+
+-- DROP FUNCTION spactualizarextensiones(integer, text);
+
+CREATE OR REPLACE FUNCTION spactualizarextensiones(
+    _centrounidad integer, 
+	_extensiones text)
+  RETURNS integer AS
+$BODY$
+DECLARE idCU integer;
+BEGIN
+	UPDATE adm_centro_unidadacademica SET extensiones = _extensiones
+	WHERE centro_unidadacademica = _centrounidad RETURNING centro_unidadacademica into idCU;
+	RETURN idCU;
+END; $BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION spactualizarextensiones(integer, text)
+  OWNER TO postgres;
 
 Select 'Script para Gestion Centro-Unidad Instalado' as "Gestion Centro Unidad";
