@@ -292,6 +292,38 @@ class gestionNotasController extends Controller{
         echo json_encode($respuesta);
     }
     
+    public function notasCSV2($acts){
+        $respuesta = new stdClass();
+        $respuesta->mensaje = "";
+        $respuesta->info = array();
+        $fileName=$_FILES['csvFile']['name'];
+        $fileExt = explode(".",$fileName);
+        if(strtolower(end($fileExt)) == "csv"){
+            $fileName=$_FILES['csvFile']['tmp_name'];
+            $handle = fopen($fileName, "r");
+            $i = 0;
+            while(($data = fgetcsv($handle, 1000, ",")) !== FALSE){
+                $contador = 1;
+                $carnet = trim($data[0]);
+                for($c = 1; $c <= intval($acts); $c++){
+                    $respuesta->info[$i][$c] = trim($data[$c]);
+                    $contador = $c;
+                }
+                $zona = trim($data[$contador+1]);
+                $final = trim($data[$contador+2]);
+                $respuesta->info[$i]['carnet'] = $carnet;
+                $respuesta->info[$i]['zona'] =  $zona;
+                $respuesta->info[$i]['final'] = $final;
+                $i=$i+1;
+            }
+            fclose($handle);
+            $respuesta->mensaje = "Todos los registros han sido cargados, verifique que la informacion sea la correcta, especialmente respecto a la nota de actividades y guarde los cambios.";
+        }else{
+            $respuesta->mensaje = "La información no se pudo leer debido a que solo se admiten archivos .csv";
+        }
+        echo json_encode($respuesta);
+    }
+    
     public function getEstadoCicloActividades(){
 //        if($this->getInteger('cicloaver')){
 //            echo json_encode($this->_notas->estadoCicloActividades($this->getInteger('cicloaver')));
@@ -450,3 +482,4 @@ class gestionNotasController extends Controller{
         echo json_encode($respuesta);
     }
 }
+ 
