@@ -1,9 +1,10 @@
-$(document).ready( function () {
+$(document).ready( function () { 
     var base_url = $("#hdBASE_URL").val();
     var tipoIngresoNota = 10;
     var totalReprobados = 0;
     var totalAprobados = 0;
     var hayActs = false;
+    var totalActividades = 0;
     
     $("#slAnio").change(function(){
         if(!$("#slAnio").val()){
@@ -127,7 +128,45 @@ $(document).ready( function () {
     });
     
     $("#csvFile").change(function(){
-        $("#frFile").submit();
+        if(hayActs){
+            $("#spanMsg").html("");
+            var datos = new FormData();
+            var path = base_url + "gestionNotas/notasCSV2/"+totalActividades;
+            datos.append('csvFile',$("#csvFile")[0].files[0]);
+            $.ajax({
+                type:"post",
+                dataType:"json",
+                url:path,
+                contentType:false,
+                data:datos,
+                processData:false
+            }).done(function(respuesta){
+                //alert(respuesta.mensaje);
+                for(var i =0; i < respuesta.info.length; i++){
+                    var indice = respuesta.info[i]['carnet'];
+                    $("#slCarnetxAsignacion").val(indice);
+                    var idAsigna = $("#slCarnetxAsignacion option:selected").text();
+                    var totalAsignado = parseFloat(respuesta.info[i]['zona']) + parseFloat(respuesta.info[i]['final']);
+                    
+                    var idActi = "";
+                    for(var j = 1; j <= totalActividades; j++){
+                        $("#slIdxActividad").val("act"+j);
+                        idActi = $("#slIdxActividad option:selected").text();
+                        $("#act_"+idActi+"_"+idAsigna).val(respuesta.info[i][j]);
+                    }
+                    
+                    $("#z"+idAsigna).val(respuesta.info[i]['zona']);
+                    $("#f"+idAsigna).val(respuesta.info[i]['final']);
+                    $("#t"+idAsigna).val(totalAsignado);
+                }
+                $("#spanMsg").append(respuesta.mensaje);
+            })
+            .error(function(respuesta){
+                alert('Error inesperado: ' + respuesta.mensaje);
+            });
+        }else{
+            $("#frFile").submit();
+        }
     });
     
     $("#frFile").submit(function(){
@@ -152,7 +191,7 @@ $(document).ready( function () {
                 $("#f"+idAsigna).val(respuesta.info[i]['final']);
                 $("#t"+idAsigna).val(totalAsignado);
             }
-            $("#spanMsg").append(respuesta.mensaje);
+            $("#spanMsg").html(respuesta.mensaje);
         })
         .error(function(respuesta){
             alert('Error inesperado: ' + respuesta.mensaje);
@@ -350,6 +389,7 @@ $(document).ready( function () {
             {asig: idAA},
             function(respuesta){
                 $("#headAsignados").html("");
+                $("#slIdxActividad").html("");
                 $("#bodyAsignados").empty();
                 $("#headAsignados").append(
                     "<th style='text-align: center; width:225px;'>Carnet</th>" +
@@ -357,7 +397,9 @@ $(document).ready( function () {
                 );
                 for(var res=0;res < respuesta.length; res++){
                     $("#headAsignados").append("<th style='text-align: center; width:50px;'>"+respuesta[res].nombreact+"</th>");
+                    $("#slIdxActividad").append('<option value="act' + parseInt(res+1) + '" name="act' + parseInt(res+1)  + '" >' + respuesta[res].ide + '</option>' );
                 }
+                totalActividades = parseInt(respuesta.length);
                 $("#headAsignados").append(
                     "<th style='text-align: center; width:50px;'>Zona</th>" +
                     "<th style='text-align: center; width:50px;'>Final</th>" +

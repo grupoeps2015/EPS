@@ -1,4 +1,4 @@
-<section id="" style="background-color: beige;">
+<section id="" style="background-color: beige;"> 
     <div class="header">
         <div class="row">
             <div class="col-lg-12 text-center">
@@ -110,11 +110,14 @@
                     </tr>
                     <tr style="display:none">
                         <td>&nbsp;</td>
-                        <td colspan="4">
+                        <td colspan="3">
                             <select id="slCursoxSeccion" name="slCursoxSeccion" class="form-control input-lg"></select>
                         </td>
-                        <td colspan="4">
+                        <td colspan="3">
                             <select id="slCarnetxAsignacion" name="slCarnetxAsignacion" class="form-control input-lg"></select>
+                        </td>
+                        <td colspan="2">
+                            <select id="slIdxActividad" name="slIdxActividad" class="form-control input-lg"></select>
                         </td>
                     </tr>
                     <tr>
