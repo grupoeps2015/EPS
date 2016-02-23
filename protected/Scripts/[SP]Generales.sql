@@ -499,6 +499,21 @@ begin
 end;
 $BODY$
 LANGUAGE 'plpgsql';  
+
+-- -----------------------------------------------------
+-- Function: spExtensionPorCarrera(int)
+-- -----------------------------------------------------
+-- DROP FUNCTION spExtensionPorCarrera(int);
+
+CREATE OR REPLACE FUNCTION spExtensionPorCarrera(IN _carrera int) RETURNS TEXT AS
+$BODY$
+DECLARE EXTENSION TEXT;
+begin
+ select c.extension INTO EXTENSION from cur_carrera c where c.carrera = _carrera;
+ RETURN EXTENSION;
+end;
+$BODY$
+LANGUAGE 'plpgsql';
   
   
  Select 'Script para funciones generales Instalado' as "Generales";

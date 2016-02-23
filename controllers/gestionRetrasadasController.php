@@ -356,7 +356,15 @@ class gestionRetrasadasController extends Controller {
             $this->_view->carrera = $idCarrera;
             $this->_view->titulo = 'Cat&aacute;logo de cursos - ' . APP_TITULO;
             $this->_view->id = $idCentroUnidad;
-           
+            $extension= $this->_ajax->extensionCarrera($idCarrera);
+            
+            if(is_array($extension)){
+                $this->_view->extension = $extension;
+            }else{
+                $this->redireccionar("error/sql/" . $extension);
+                exit;
+            }
+            
             $lstCur = $this->_post->informacionCursoActivo($idCentroUnidad, $idCarrera);
             if(is_array($lstCur)){
                 $this->_view->lstCur = $lstCur;
@@ -364,7 +372,9 @@ class gestionRetrasadasController extends Controller {
                 $this->redireccionar("error/sql/" . $lstCur);
                 exit;
             }
-
+            
+            
+            
             $this->_view->setJs(array('gestionCursoArchivo'));
             $this->_view->setJs(array('jquery.dataTables.min'), "public");
             $this->_view->setCSS(array('jquery.dataTables.min'));

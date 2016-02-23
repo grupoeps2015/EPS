@@ -77,5 +77,6 @@ class gestionRetrasadasModel extends Model {
             return $info->fetchall();
         }
     }
+          
         
 }

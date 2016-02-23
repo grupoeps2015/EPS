@@ -438,4 +438,13 @@ class ajaxModel extends Model{
         }
     }
     
+    public function extensionCarrera($idCarrera){
+         $info = $this->_db->query("select * from spextensionporcarrera(" . $idCarrera . ") as extension;");
+         if($info === false){
+            return "1104/extensionCarrera";
+        }else{
+            return $info->fetchall();
+        }
+    }
+    
 }

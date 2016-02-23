@@ -72,7 +72,7 @@ function generarArchivo()
             var id = $(this).attr("id");
             var nombre = $(this).attr("nombre");
             var unidad = "<?php echo $this->id; ?>";
-            var extension = "<?php echo EXTENSION_ESCUELAHISTORIA; ?>";
+            var extension = "<?php echo $this->extension[0]['extension']; ?>";
             var carrera = "<?php echo $this->carrera; ?>";
        
             //console.log(unidad + " " + extension + " " + carrera + " " + id + " " + nombre + " " + "CURSO");
