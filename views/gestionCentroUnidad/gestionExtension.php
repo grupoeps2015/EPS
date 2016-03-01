@@ -63,7 +63,7 @@
                                         <td style="text-align: center"><?php echo $this->lstExt[$i]['nombre']; ?></td>
                                         <td style="text-align: center"><?php echo $this->lstExt[$i]['estado']; ?></td>
                                         <?php if($this->permisoModificar == PERMISO_MODIFICAR): ?>
-                                        <td style="text-align: center;"><a href="<?php echo BASE_URL . 'gestionCentroUnidad/actualizarExtension/' . $this->lstExt[$i]['id']; ?>">Modificar</a></td>
+                                        <td style="text-align: center;"><a href="<?php echo BASE_URL . 'gestionCentroUnidad/actualizarExtension/' . $this->lstExt[$i]['id'] . '/' . $this->id; ?>">Modificar</a></td>
                                         <?php endif; ?>
                                         <?php if($this->permisoEliminar == PERMISO_ELIMINAR): ?>
                                         <td style="text-align: center;">

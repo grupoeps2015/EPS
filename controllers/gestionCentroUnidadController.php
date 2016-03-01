@@ -467,8 +467,73 @@ class gestionCentroUnidadController extends Controller {
                 $this->redireccionar("error/sql/" . $ext);
                 exit;
             }
-            $this->redireccionar('gestionCentroUnidad/listadoExtensiones');
+            $this->redireccionar('gestionCentroUnidad/listadoExtensiones/'.$idCentroUnidad);
+            exit;
         }
         $this->_view->renderizar('agregarExtension', 'gestionCentroUnidad');
+    }
+    
+    public function actualizarExtension($strIdExt, $centroUnidad = -1) {
+        if($centroUnidad <= 0){
+            $idCentroUnidad = $_SESSION["centrounidad"];
+        }else{
+            $idCentroUnidad = $centroUnidad;
+            $this->_view->vieneDeUnidad = true;
+        }
+        
+        $this->_view->setJs(array('jquery.validate'), "public");
+        $this->_view->setJs(array('actualizarExtension'));
+
+        $arrayCar = array();
+        
+        $this->_view->idCU = $idCentroUnidad;
+        $this->_view->id = $strIdExt;
+
+        $rol = $_SESSION["rol"];
+        $rolValido = $this->_ajax->getPermisosRolFuncion($rol, CONS_FUNC_CUR_MODIFICARCARRERA);
+
+        //TODO: permisos
+        if ($rolValido[0]["valido"] != PERMISO_MODIFICAR) {
+            echo "<script>
+                ".MSG_SINPERMISOS."
+                window.location.href='" . BASE_URL . "gestionPensum/listadoCarrera" . "';
+                </script>";
+        }
+        
+        $ext = $this->_gCenUni->getExtensionesCentroUnidad($idCentroUnidad);
+        $ext = json_decode($ext[0][0], true);
+        if (is_array($ext) || $ext == '') {            
+            $this->_view->lstExtensiones = $ext;
+            $key = array_search($strIdExt, array_column($ext, 'id'));
+            $this->_view->datosExt = $ext[$key];
+//            echo $key;
+//            exit;
+        } else {
+            $this->redireccionar("error/sql/" . $ext);
+            exit;
+        }
+
+//        $info = $this->_post->datosCarrera($intIdCarrera);
+//        if (is_array($info)) {
+//            $this->_view->datosCar = $info;
+//        } else {
+//            $this->redireccionar("error/sql/" . $info);
+//            exit;
+//        }
+
+        $this->_view->titulo = 'Actualizar Extensión - ' . APP_TITULO;
+        $this->_view->renderizar('actualizarExtension', 'gestionCentroUnidad');
+        if ($this->getInteger('hdEnvio')) {
+            $nombreExt = $this->getTexto('txtNombre');
+            $ext[$key]['nombre'] = $nombreExt;
+            $info = json_encode($ext);
+            $extension = $this->_gCenUni->actualizarExtensiones($idCentroUnidad, $info);
+            if (!is_array($extension)) {
+                $this->redireccionar("error/sql/" . $extension);
+                exit;
+            }
+            $this->redireccionar('gestionCentroUnidad/listadoExtensiones'.$idCentroUnidad);
+            exit;
+        }
     }
 }
