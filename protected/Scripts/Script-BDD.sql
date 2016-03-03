@@ -1116,6 +1116,7 @@ CREATE TABLE EST_AsignacionRetrasada (
   Pago INTEGER NOT NULL,
   Oportunidad INTEGER NOT NULL,
   NotaRetrasada FLOAT NOT NULL,
+  estadonota INTEGER NOT NULL,
   PRIMARY KEY (AsignacionRetrasada),
   CONSTRAINT fk_EST_Asignacion_Retrasada_EST_CUR_Nota1
     FOREIGN KEY (Asignacion)
