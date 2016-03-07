@@ -590,7 +590,8 @@ class gestionUsuarioController extends Controller {
                     $arrayUsr["nombreUsr"] = $data[1];
                     $arrayUsr["correoUsr"] = $data[5];
                     $arrayUsr["fotoUsr"] = "";
-                    $claveAleatoria = $this->_encriptar->keyGenerator();
+                    //$claveAleatoria = $this->_encriptar->keyGenerator();
+                    $claveAleatoria = $data[0]."USAC";         
                     $arrayUsr["claveUsr"] = $this->_encriptar->encrypt($claveAleatoria, DB_KEY);
                     $arrayUsr["preguntaUsr"] = 0;
                     $arrayUsr["respuestaUsr"] = "USAC";
