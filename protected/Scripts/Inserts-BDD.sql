@@ -406,7 +406,7 @@ INSERT INTO adm_unidadacademica(unidadacademica, unidadacademicasuperior, nombre
 -- -----------------------------------------------------
 -- Insert ADM_Centro_UnidadAcademica
 -- -----------------------------------------------------
-INSERT INTO adm_centro_unidadacademica (centro_unidadacademica, centro, unidadacademica, estado) VALUES (1,1,1,1);
+INSERT INTO adm_centro_unidadacademica (centro_unidadacademica, centro, unidadacademica, estado,extensiones) VALUES (1,1,1,1,'update adm_centro_unidadacademica set extenciones = '[{"id":"00","nombre":"Plan Diario","estado":"Activo"},{"id":"01","nombre":"Plan Sabatino","estado":"Activo"}]';');
 
 -- -----------------------------------------------------
 -- Insert cur_carrera / escuela de historia
