@@ -1,4 +1,4 @@
-<section id="" style="background-color: beige;">
+<section id="" style="background-color: beige;"> 
     <div class="header">
         <div class="row">
             <div class="col-lg-12 text-center">
@@ -29,6 +29,7 @@
             </div>
         </div>
     </div>
+    
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
@@ -72,13 +73,17 @@
                             </select>
                         </td>
                         <td>&nbsp;</td>
-                        <td colspan="2">
+                        <td>
                             <select id="slCiclo" name="slCiclo" class="form-control input-lg">
                                 <option value="" disabled>-- Ciclo --</option>
                             </select>
                         </td>
                         <td>&nbsp;</td>
-                        <td>&nbsp;</td>
+                        <td>
+                            &nbsp;<input type="radio" id="rbTipoNota" name="rbTipoNota" value="10" checked>Ciclo regular<br>
+                            &nbsp;<input type="radio" id="rbTipoNota" name="rbTipoNota" value="20">1ra Retrasada<br>
+                            &nbsp;<input type="radio" id="rbTipoNota" name="rbTipoNota" value="30">2da Retrasada
+                        </td>
                     </tr>
                     <tr>
                         <td>&nbsp;</td>
@@ -105,11 +110,14 @@
                     </tr>
                     <tr style="display:none">
                         <td>&nbsp;</td>
-                        <td colspan="4">
+                        <td colspan="3">
                             <select id="slCursoxSeccion" name="slCursoxSeccion" class="form-control input-lg"></select>
                         </td>
-                        <td colspan="4">
+                        <td colspan="3">
                             <select id="slCarnetxAsignacion" name="slCarnetxAsignacion" class="form-control input-lg"></select>
+                        </td>
+                        <td colspan="2">
+                            <select id="slIdxActividad" name="slIdxActividad" class="form-control input-lg"></select>
                         </td>
                     </tr>
                     <tr>
@@ -122,9 +130,9 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <h3 align="center"><span id="spanMsg" name="spanMsg" class="text-warning"></span></h3>
-                <table class="table-hover" id="tbAsignados" name="tbAsignados" border="2" style="display:none; text-align: center;">
+                <table class="table-hover nowrap" cellspacing="0" align="center" id="tbAsignados" name="tbAsignados" border="1" style="display:none; text-align: center;">
                     <thead>
-                        <tr>
+                        <tr id="headAsignados" name="headAsignados">
                             <?php if($this->tipo == 1): ?>
                             <th style="text-align: center; width:20%;">Carnet</th>
                             <th style="text-align: center; width:40%;">Nombre</th>
@@ -132,7 +140,6 @@
                             <th style="text-align: center; width:15%;">Repitencia</th>
                             <th style="text-align: center; width:15%;">Tel&eacute;fono de emergencia</th>
                             <?php else : ?>
-
                             <th style="text-align: center; width:20%;">Carnet</th>
                             <th style="text-align: center; width:40%;">Nombre</th>
                             <th style="text-align: center; width:15%;">Zona</th>
@@ -146,30 +153,30 @@
                     </tbody>
                     <tfoot>
                         <form id="frFile" name="frFile" method='post' enctype="multipart/form-data">
-                        <tr>
-                            <td colspan="5" align="center" id="tdBotones" name="tdBotones">
-                                <div id="divcsvFile" class="fileUpload btn btn-warning" style="width:30%">
-                                    <span id="spanCat">Cargar CSV</span>
-                                    <input class="upload" type="file" id="csvFile" name="csvFile"/>
-                                </div> &nbsp;
-                                <input type="button" id="btnGuardar" name="btnGuardar" value="Guardar Cambios" class="btn btn-warning" style="width:30%"/>
-                                <input type="hidden" id="idCatedratico" name="idCatedratico" value="<?php echo $this->datosCat[0][0];?>" >
-                                <input type="hidden" id="hdEstadoCiclo" name="hdEstadoCiclo" value="0" >
-                                <input type="hidden" id="hdTipo" name="hdTipo" value="<?php echo $this->tipo; ?>" >
-                                <input type="hidden" id="hdtipoAs" name="hdtipoAs" value="2">
-                                <input type="hidden" id="hdcentrounidad" name="hdcentrounidad" value="<?php echo $_SESSION["centrounidad"]?>">
-                                <input type="hidden" id="hdTotalAsignados" name="hdTotalAsignados" value="0" >
-                                <input type="hidden" id="hdFile" name="hdFile" value="1"/>
-                                <input type="hidden" id="hdActs" name="hdActs" value="-1"/>
-                            </td>
-                        </tr>
-                        <?php if($_SESSION['rol']==0 || $_SESSION['rol']==1):?>
-                        <tr>
-                            <td colspan="5" id="tdExtra" name="tdExtra">
-                                <input type="button" id="btnAprobarNotas" name="btnAprobarNotas" value="Aprobar Notas Ingresadas" class="btn btn-warning" style="width:50%"/>
-                            </td>
-                        </tr>
-                        <?php endif;?>
+                            <tr>
+                                <td colspan="5" id="tdBotones" name="tdBotones">
+                                    <div id="divcsvFile" class="fileUpload btn btn-warning" style="width:225px">
+                                        <span id="spanCat">Cargar CSV</span>
+                                        <input class="upload" type="file" id="csvFile" name="csvFile"/>
+                                    </div> &nbsp;
+                                    <input type="button" id="btnGuardar" name="btnGuardar" value="Guardar Cambios" class="btn btn-warning" style="width:225px"/>
+                                </td>
+                            </tr>
+                            <?php if($_SESSION['rol']==0 || $_SESSION['rol']==1):?>
+                            <tr>
+                                <td colspan="5" id="tdExtra" name="tdExtra">
+                                    <input type="button" id="btnAprobarNotas" name="btnAprobarNotas" value="Aprobar Notas Ingresadas" class="btn btn-warning" style="width:350px"/>
+                                </td>
+                            </tr>
+                            <?php endif;?>
+                            <input type="hidden" id="idCatedratico" name="idCatedratico" value="<?php echo $this->datosCat[0][0];?>" >
+                            <input type="hidden" id="hdEstadoCiclo" name="hdEstadoCiclo" value="0" >
+                            <input type="hidden" id="hdTipo" name="hdTipo" value="<?php echo $this->tipo; ?>" >
+                            <input type="hidden" id="hdtipoAs" name="hdtipoAs" value="2">
+                            <input type="hidden" id="hdcentrounidad" name="hdcentrounidad" value="<?php echo $_SESSION["centrounidad"]?>">
+                            <input type="hidden" id="hdTotalAsignados" name="hdTotalAsignados" value="0" >
+                            <input type="hidden" id="hdFile" name="hdFile" value="1"/>
+                            <input type="hidden" id="hdActs" name="hdActs" value="-1"/>
                         </form>
                     </tfoot>
                 </table>

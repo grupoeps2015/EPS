@@ -143,6 +143,19 @@ $BODY$
 LANGUAGE 'plpgsql';
 
 -- -----------------------------------------------------
+-- Function: spcarreraxcentrounidad()
+-- -----------------------------------------------------
+-- DROP FUNCTION spcarreraxcentrounidad(integer);
+
+CREATE OR REPLACE FUNCTION spcarreraxcentrounidad(IN _centrounidad int, OUT codigo int, OUT nombre text) RETURNS setof record AS
+$BODY$
+begin
+ Return query select c.carrera, c.nombre from cur_carrera c where c.centro_unidadacademica =_centrounidad and c.estado = 1;
+end;
+$BODY$
+LANGUAGE 'plpgsql';
+
+-- -----------------------------------------------------
 -- Function: spRolxUsuario()
 -- -----------------------------------------------------
 -- DROP FUNCTION spRolxUsuario(integer);
@@ -486,6 +499,21 @@ begin
 end;
 $BODY$
 LANGUAGE 'plpgsql';  
+
+-- -----------------------------------------------------
+-- Function: spExtensionPorCarrera(int)
+-- -----------------------------------------------------
+-- DROP FUNCTION spExtensionPorCarrera(int);
+
+CREATE OR REPLACE FUNCTION spExtensionPorCarrera(IN _carrera int) RETURNS TEXT AS
+$BODY$
+DECLARE EXTENSION TEXT;
+begin
+ select c.extension INTO EXTENSION from cur_carrera c where c.carrera = _carrera;
+ RETURN EXTENSION;
+end;
+$BODY$
+LANGUAGE 'plpgsql';
   
   
  Select 'Script para funciones generales Instalado' as "Generales";

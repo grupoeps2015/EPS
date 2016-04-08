@@ -67,7 +67,7 @@ class gestionCursoController extends Controller {
             $this->_view->renderizar('gestionCurso');
         
     }
-
+    
     public function agregarCurso() {
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_CREARCURSO);

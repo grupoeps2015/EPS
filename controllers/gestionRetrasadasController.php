@@ -348,4 +348,68 @@ class gestionRetrasadasController extends Controller {
     public function consultarOrdenPago($idPago,$carnet){
         
     }
+    
+    public function gestionCursoArchivo() {
+        
+            $idCentroUnidad = $_SESSION["centrounidad"];
+            $idCarrera = $_SESSION['carrera'];
+            $this->_view->carrera = $idCarrera;
+            $this->_view->titulo = 'Cat&aacute;logo de cursos - ' . APP_TITULO;
+            $this->_view->id = $idCentroUnidad;
+            $extension= $this->_ajax->extensionCarrera($idCarrera);
+            
+            if(is_array($extension)){
+                $this->_view->extension = $extension;
+            }else{
+                $this->redireccionar("error/sql/" . $extension);
+                exit;
+            }
+            
+            $lstCur = $this->_post->informacionCursoActivo($idCentroUnidad, $idCarrera);
+            if(is_array($lstCur)){
+                $this->_view->lstCur = $lstCur;
+            }else{
+                $this->redireccionar("error/sql/" . $lstCur);
+                exit;
+            }
+            
+            
+            
+            $this->_view->setJs(array('gestionCursoArchivo'));
+            $this->_view->setJs(array('jquery.dataTables.min'), "public");
+            $this->_view->setCSS(array('jquery.dataTables.min'));
+
+            $this->_view->renderizar('gestionCursoArchivo');
+        
+    }
+    
+    public function crearArchivo() {    
+        if($this->getTexto('_texto'))
+        {
+            $texto_archivo = str_replace("%%", PHP_EOL, $this->getTexto('_texto'));
+            $this->_view->setJs(array('jquery.dataTables.min'), "public");
+
+            $this->_view->setCSS(array('jquery.dataTables.min'));
+            //$this->_view->renderizar('crearArchivo');
+            
+            $filename = "TemporadaCursos.txt";
+            $fileurl = DIRECCION_ARCHIVOTEMPORADAS ."TemporadaCursos.txt";
+            /*
+            file_put_contents($fileurl, $texto_archivo);
+            echo file_get_contents($fileurl);*/
+            
+            $file = fopen(DIRECCION_ARCHIVOTEMPORADAS . $filename, "w+");
+                fwrite($file, $texto_archivo . PHP_EOL);
+                fclose($file);
+           
+            header("Content-disposition: attachment; filename=" . $filename);
+            header("Content-type: text/plain");
+            readfile($fileurl);            
+
+        }
+        else
+        {
+            $this->redireccionar("gestionRetrasadas/gestionCursoArchivo/");
+        }        
+    }
 }

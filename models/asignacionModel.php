@@ -176,5 +176,15 @@ class asignacionModel extends Model{
             return $cursos->fetchall();
         }
     }    
+    
+    public function usarPago($pago, $estado){
+        $cursos = $this->_db->query("select * from spmodificarpago({$pago},{$estado});");
+        $cursos->setFetchMode(PDO::FETCH_ASSOC);
+        if($cursos === false){
+            return "1200/usarPago";
+        }else{
+            return $cursos->fetchall();
+        }
+    } 
    
 }

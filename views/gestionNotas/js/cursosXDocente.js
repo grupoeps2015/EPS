@@ -1,7 +1,10 @@
-$(document).ready( function () {
+$(document).ready( function () { 
     var base_url = $("#hdBASE_URL").val();
+    var tipoIngresoNota = 10;
     var totalReprobados = 0;
     var totalAprobados = 0;
+    var hayActs = false;
+    var totalActividades = 0;
     
     $("#slAnio").change(function(){
         if(!$("#slAnio").val()){
@@ -29,11 +32,24 @@ $(document).ready( function () {
     });
     
     $("#btnActividades").click(function() {
-        $.post(base_url+'gestionNotas/getEstadoCicloNotas',
-            { 
+        var tpretra = 0;
+        var funcion = "/getEstadoCicloNotas";
+        
+        tipoIngresoNota = parseInt($("input[type='radio'][name='rbTipoNota']:checked").val());
+        if(tipoIngresoNota === 20){
+            funcion = "/getEstadoCicloRetra";
+            tpretra=1;
+        }else if(tipoIngresoNota === 30){
+            funcion = "/getEstadoCicloRetra";
+            tpretra=2;
+        }
+        
+        $.post(base_url+'gestionNotas'+funcion,
+            {
                 cicloaver: $("#slCiclo").val(),
                 tipoAs: $("#hdtipoAs").val(),
-                centrounidad: $("#hdcentrounidad").val()
+                centrounidad: $("#hdcentrounidad").val(),
+                retra: tpretra
             },
             function(datos){
                 var est = parseInt(datos.estado);
@@ -42,21 +58,20 @@ $(document).ready( function () {
             'json');
         
         $.post(base_url+'ajax/getIdTrama',
-            { 
+            {
                 cat: $("#idCatedratico").val(),
                 ciclo: $("#slCiclo").val(),
                 sec: $("#slSeccion").val(), 
                 cur: $("#slCursoxSeccion option:selected").text()
             },
             function(datos){
-                var tipo = $("#hdTipo").val();
+                var tipo = $("#hdTipo").val(); 
                 if(datos.length>0){
+                    var identificador = parseInt(datos[0].spidtrama);
                     if(tipo === "1") { 
-                        var identificador = parseInt(datos[0].spidtrama);
                         mostrarListadoAsignados(identificador, $("#slCiclo").val());
                     }
                     else{
-                        var identificador = parseInt(datos[0].spidtrama);
                         mostrarListado(identificador, $("#slCiclo").val());
                     }
                 }else{
@@ -69,9 +84,14 @@ $(document).ready( function () {
     $("#btnGuardar").click(function(){
         var zona = 0;
         var final = 0;
+        var tipo = "";
         var zonaMax = parseFloat($("#hdZonaTotal").val());
         var finalMax = parseFloat($("#hdFinalTotal").val());
         var todoOK = true;
+        
+        if(hayActs){
+            guardarNotaActividad();
+        }
         
         var inputs = $("#tbAsignados :input");
         $.each(inputs, function(i, field){
@@ -83,26 +103,70 @@ $(document).ready( function () {
                         todoOK = false;
                     }
                 }
-                
+
                 if(tipo === "f"){
                     final = parseFloat(field.value);
                     if(final > finalMax){
                         todoOK = false;
                     }
                 }
-                
+
             }    
         });
-        
+
         if(todoOK){
-            guardarNota();
+            if(tipoIngresoNota === 10){
+                guardarNota();
+            }else if(tipoIngresoNota === 20){
+                guardarRetrasada(1);
+            }else if(tipoIngresoNota === 30){
+                guardarRetrasada(2);
+            }
         }else{
             $("#spanMsg").html('Algunas de las notas ingresadas no cumplen con los <br/> valores establecidos para zona y examen final. <br/>Verifique y vuelva a intentar.');
         }
     });
     
     $("#csvFile").change(function(){
-        $("#frFile").submit();
+        if(hayActs){
+            $("#spanMsg").html("");
+            var datos = new FormData();
+            var path = base_url + "gestionNotas/notasCSV2/"+totalActividades;
+            datos.append('csvFile',$("#csvFile")[0].files[0]);
+            $.ajax({
+                type:"post",
+                dataType:"json",
+                url:path,
+                contentType:false,
+                data:datos,
+                processData:false
+            }).done(function(respuesta){
+                //alert(respuesta.mensaje);
+                for(var i =0; i < respuesta.info.length; i++){
+                    var indice = respuesta.info[i]['carnet'];
+                    $("#slCarnetxAsignacion").val(indice);
+                    var idAsigna = $("#slCarnetxAsignacion option:selected").text();
+                    var totalAsignado = parseFloat(respuesta.info[i]['zona']) + parseFloat(respuesta.info[i]['final']);
+                    
+                    var idActi = "";
+                    for(var j = 1; j <= totalActividades; j++){
+                        $("#slIdxActividad").val("act"+j);
+                        idActi = $("#slIdxActividad option:selected").text();
+                        $("#act_"+idActi+"_"+idAsigna).val(respuesta.info[i][j]);
+                    }
+                    
+                    $("#z"+idAsigna).val(respuesta.info[i]['zona']);
+                    $("#f"+idAsigna).val(respuesta.info[i]['final']);
+                    $("#t"+idAsigna).val(totalAsignado);
+                }
+                $("#spanMsg").append(respuesta.mensaje);
+            })
+            .error(function(respuesta){
+                alert('Error inesperado: ' + respuesta.mensaje);
+            });
+        }else{
+            $("#frFile").submit();
+        }
     });
     
     $("#frFile").submit(function(){
@@ -121,13 +185,13 @@ $(document).ready( function () {
             for(var i =0; i < respuesta.info.length; i++){
                 var indice = respuesta.info[i]['carnet'];
                 $("#slCarnetxAsignacion").val(indice);
-                var idAsigna = $("#slCarnetxAsignacion option:selected").text()
+                var idAsigna = $("#slCarnetxAsignacion option:selected").text();
                 var totalAsignado = parseFloat(respuesta.info[i]['zona']) + parseFloat(respuesta.info[i]['final']);
                 $("#z"+idAsigna).val(respuesta.info[i]['zona']);
                 $("#f"+idAsigna).val(respuesta.info[i]['final']);
                 $("#t"+idAsigna).val(totalAsignado);
             }
-            $("#spanMsg").append(respuesta.mensaje);
+            $("#spanMsg").html(respuesta.mensaje);
         })
         .error(function(respuesta){
             alert('Error inesperado: ' + respuesta.mensaje);
@@ -146,6 +210,7 @@ $(document).ready( function () {
         if(estado===1){
             $("#spanMsg").html('El periodo de ingreso de notas sigue vigente');
         }else{
+            
             var inputs = $("#tbAsignados :input");
             $.each(inputs, function(i, field){
                 if(field.type === "hidden"){
@@ -153,10 +218,19 @@ $(document).ready( function () {
                     if(tipo === "t"){
                         idAsignado = field.name.substring(1);
                         total = field.value;
-                        if(total>=notaAprobacion){
-                            aprobarNota(idAsignado);
+                        
+                        if(tipoIngresoNota === 10){
+                            if(total>=notaAprobacion){
+                                aprobarNota(idAsignado);
+                            }else{
+                                reprobarNota(idAsignado);
+                            }
                         }else{
-                            reprobarNota(idAsignado);
+                            if(total>=notaAprobacion){
+                                aprobarRetra(idAsignado);
+                            }else{
+                                reprobarRetra(idAsignado);
+                            }
                         }
                         //bitacora(idAsignado);
                     }
@@ -230,35 +304,40 @@ $(document).ready( function () {
     }
     
     function mostrarListado(id, idCiclo){
-        $("#slCarnetxAsignacion").html('');
-        $.post(base_url+'gestionNotas/getListaAsignados',
-            {trama: id, ciclo: idCiclo },
-            function(datos){
-                var idAsignaActividad = -1;
-                if(datos.length>0){
-                    idAsignaActividad = parseInt(datos[0].idasignacion);
-                    hayActividades(idAsignaActividad,id,idCiclo);
-                }else{
-                    alert('Error inesperado, contacte con el administrador');
-                }
-            },
-            'json');
+        if(tipoIngresoNota === 10 ){
+            $("#slCarnetxAsignacion").html('');
+            $.post(base_url+'gestionNotas/getListaAsignados',
+                {trama: id, ciclo: idCiclo },
+                function(datos){
+                    var idAsignaActividad = -1;
+                    if(datos.length>0){
+                        idAsignaActividad = parseInt(datos[0].idasignacion);
+                        hayActividades(idAsignaActividad,id,idCiclo);
+                    }else{
+                        alert('Error inesperado, contacte con el administrador');
+                    }
+                },
+                'json');
+        }else if(tipoIngresoNota === 20){
+            datosRetrasada(id,idCiclo,1);
+        }else if(tipoIngresoNota === 30){
+            datosRetrasada(id,idCiclo,2);
+        }
     }
     
     function hayActividades(idAA,id,idCiclo){
-        var contador = 0;
         $.post(base_url+'gestionNotas/contarActividades',
             {trama: idAA},
             function(respuesta){
-                //contador = respuesta.total;
                 if(parseInt(respuesta.total) <= 2){
                     notaNormal(id,idCiclo);
                 }else{
+                    hayActs=true;
+                    llenarEncabezadoAct(idAA,respuesta.total);
                     notaActividad(id,idCiclo);
                 }
             },
             'json');
-            return contador;
     }
     
     function notaNormal(id,idCiclo){
@@ -280,7 +359,7 @@ $(document).ready( function () {
 
                     for(var i=0; i < datos.length; i++){
                         if(estado === 1){
-                            $("#slCarnetxAsignacion").append('<option value="' + datos[i].carnet + '" name="' + datos[i].carnet + '" >' + datos[i].idasignacion + '</option>' );                            
+                            $("#slCarnetxAsignacion").append('<option value="' + datos[i].carnet + '" name="' + datos[i].carnet + '" >' + datos[i].idasignacion + '</option>' );
                             notas = '</td><td><input id="z' + datos[i].idasignacion + '" name="z' + datos[i].idasignacion + '" type="text" maxlength="5" value="' + datos[i].zona + '" style="width:60%; text-align:center;"/>' + 
                                     '</td><td><input id="f' + datos[i].idasignacion + '" name="f' + datos[i].idasignacion + '" type="text" maxlength="5" value="' + datos[i].final + '" style="width:60%; text-align:center;"/>' + 
                                     '</td><td><input id="t' + datos[i].idasignacion + '" name="t' + datos[i].idasignacion + '" type="text" maxlength="5" value="' + datos[i].total + '" style="width:60%; text-align:center;" readonly/>';
@@ -305,8 +384,65 @@ $(document).ready( function () {
             'json');
     }
     
+    function llenarEncabezadoAct(idAA,totalAct){
+        $.post(base_url+'gestionNotas/listarActividades',
+            {asig: idAA},
+            function(respuesta){
+                $("#headAsignados").html("");
+                $("#slIdxActividad").html("");
+                $("#bodyAsignados").empty();
+                $("#headAsignados").append(
+                    "<th style='text-align: center; width:225px;'>Carnet</th>" +
+                    "<th style='text-align: center; width:450px'>Nombre</th>"
+                );
+                for(var res=0;res < respuesta.length; res++){
+                    $("#headAsignados").append("<th style='text-align: center; width:50px;'>"+respuesta[res].nombreact+"</th>");
+                    $("#slIdxActividad").append('<option value="act' + parseInt(res+1) + '" name="act' + parseInt(res+1)  + '" >' + respuesta[res].ide + '</option>' );
+                }
+                totalActividades = parseInt(respuesta.length);
+                $("#headAsignados").append(
+                    "<th style='text-align: center; width:50px;'>Zona</th>" +
+                    "<th style='text-align: center; width:50px;'>Final</th>" +
+                    "<th style='text-align: center; width:50px;'>Total</th>"
+                );
+            },
+            'json');
+        
+        $("#tdExtra").attr('colspan', totalAct+5);
+        $("#tdBotones").attr('colspan', totalAct+5);
+        $("#tbAsignados").css('display','block');
+        aplicarCss2();
+    }
+    
     function notaActividad(id,idCiclo){
-        alert(id +" - hay actividades - " + idCiclo);
+        var estado = 0;
+        $("#slCarnetxAsignacion").html('');
+        $.post(base_url+'gestionNotas/getListaAsignados',
+            {trama: id, ciclo: idCiclo },
+            function(datos){
+                if(datos.length>0){
+                    estado = parseInt($('#hdEstadoCiclo').val());
+                    $('#hdTotalAsignados').val(datos.length.toString());
+                    
+                    if(parseInt(datos[0].estado) !== 2){
+                        $("#tdExtra").remove();
+                    }
+
+                    for(var i=0; i < datos.length; i++){
+                        var asignadoId = datos[i].idasignacion;
+                        if(estado === 1)
+                            $("#slCarnetxAsignacion").append('<option value="' + datos[i].carnet + '" name="' + datos[i].carnet + '" >' + datos[i].idasignacion + '</option>' );
+                        getNotaActividad(datos,i,asignadoId,estado);
+                    }
+                }
+                if(estado === 1){
+                    $('#tdBotones').css('display','block');
+                }else{
+                    $('#tdBotones').css('display','none');
+                }
+                $('#tbAsignados').DataTable({scrollX:true});
+            },
+            'json');
     }
     
     function aplicarCss(){
@@ -332,6 +468,15 @@ $(document).ready( function () {
                 iDisplayLength: 100
             }
         });
+    }
+    
+    function aplicarCss2(){
+        $('#slTipos').prop('disabled',true);
+        $('#slAnio').prop('disabled',true);
+        $('#slCiclo').prop('disabled',true);
+        $('#slSeccion').prop('disabled',true);
+        $('#btnActividades').css('display','none');
+        $('#btnNuevaBusqueda').css('display','block');
     }
     
     function guardarNota(){
@@ -371,6 +516,43 @@ $(document).ready( function () {
         });
     }
     
+    function guardarRetrasada(){
+        $("#spanMsg").html('');
+        var tipo = "";
+        var idAsignado = 0;
+        var zonaAsignada = 0;
+        var finalAsignado = 0;
+        var inputs = $("#tbAsignados :input");
+        $.each(inputs, function(i, field){
+            if(field.type === "text"){
+                tipo = field.name.substring(0,1);
+                if(tipo === "z"){
+                    idAsignado = field.name.substring(1);
+                    zonaAsignada = field.value;
+                }
+                
+                if(tipo === "f"){
+                    finalAsignado = field.value;
+                    $.post(
+                        base_url+'gestionNotas/guardarRetrasada',{ 
+                            zonaN: zonaAsignada,
+                            finalN: finalAsignado, 
+                            idAs: idAsignado
+                        },
+                        function(respuesta){
+                            $("#t"+field.name.substring(1)).val(respuesta.total);
+                            $("#spanMsg").html(respuesta.mensaje);
+                        },
+                        'json'
+                    );
+                    
+                    bitacoraretra(idAsignado);
+                }
+                
+            }    
+        });
+    }
+    
     function aprobarNota(idAsignado){
         $.post(
             base_url+'gestionNotas/aprobarNota',{
@@ -393,6 +575,131 @@ $(document).ready( function () {
         totalReprobados += 1;
     }
     
+    function aprobarRetra(idAsignado){
+        $.post(
+            base_url+'gestionNotas/aprobarRetra',{
+                idAs: idAsignado
+            },
+            function(respuesta){
+            },
+            'json');
+        totalAprobados += 1;
+    }
+    
+    function reprobarRetra(idAsignado){
+        $.post(
+            base_url+'gestionNotas/reprobarRetra',{
+                idAs: idAsignado
+            },
+            function(respuesta){
+            },
+            'json');
+        totalReprobados += 1;
+    }
+    
+    function getNotaActividad(notas,indice,idAA,estado){
+        $.post(base_url+'gestionNotas/getNotaActividad',
+            {id: idAA},
+            function(respuesta){
+                var filaNueva = [notas[indice].carnet,notas[indice].nombre];
+                if(respuesta.length>0){
+                    for(var sig=0; sig<respuesta.length; sig++){
+                        if(estado===1){
+                            filaNueva.push('</td><td><input id="act_' + respuesta[sig].actividad + "_" + idAA +
+                                                   '" name="act_' + respuesta[sig].actividad + "_" + idAA +
+                                                   '" type="text" maxlength="5" value="' + 
+                                                   respuesta[sig].valor + 
+                                                   '" style="text-align:center;width:50px;"/>');
+                        }else{
+                            filaNueva.push("</td><td>" + respuesta[sig].valor);
+                        }
+                    }
+                    if(estado === 1){
+                        filaNueva.push('<input id="z' + notas[indice].idasignacion + '" name="z' + notas[indice].idasignacion + '" type="text" maxlength="5" value="' + notas[indice].zona + '" style="text-align:center;width:50px;"/>');
+                        filaNueva.push('<input id="f' + notas[indice].idasignacion + '" name="f' + notas[indice].idasignacion + '" type="text" maxlength="5" value="' + notas[indice].final + '" style="text-align:center;width:50px;"/>');
+                        filaNueva.push('<input id="t' + notas[indice].idasignacion + '" name="t' + notas[indice].idasignacion + '" type="text" maxlength="5" value="' + notas[indice].total + '" style="text-align:center;width:50px;" readonly/>');
+                    }else{
+                        filaNueva.push(notas[indice].zona);
+                        filaNueva.push(notas[indice].final);
+                        filaNueva.push(notas[indice].total+'<input type="hidden" id="t' + notas[indice].idasignacion + '" name="t' + notas[indice].idasignacion + '" maxlength="5" value="' + notas[indice].total + '"/>');
+                    }
+                    $('#tbAsignados').DataTable().row.add(filaNueva).draw( false );
+                }
+            },
+            'json');
+    }
+    
+    function guardarNotaActividad(){
+        var arreglo;
+        var inputs = $("#tbAsignados :input");
+        $.each(inputs, function(i, field){
+            if(field.type === "text"){
+                arreglo = field.name.split("_");
+                if(arreglo[0] === "act"){
+                    arreglo = field.name.split("_");
+                    $.post(
+                        base_url+'gestionNotas/setNotaActividad',{
+                            idAsg: arreglo[2],
+                            idAct: arreglo[1],
+                            flValor: field.value
+                        },
+                        function(respuesta){
+                        },
+                        'json');
+                }
+            }    
+        });
+    }
+    
+    function datosRetrasada(id,idCiclo,tipoRetra){
+        var estado = 1;
+        var notas = "";
+        var total = -1;
+        $("#slCarnetxAsignacion").html('');
+        $.post(base_url+'gestionNotas/getListaAsignadosRetra',
+            {trama: id, ciclo: idCiclo, retra: tipoRetra },
+            function(datos){
+                $("#tbAsignados").css('display','block');
+                $("#bodyAsignados").html('');
+                if(datos.length>0){
+                    //CAMBIAR EL ESTADO A UN CICLO DE INGRESO DE RETRA ACTIVO
+                    estado = parseInt($('#hdEstadoCiclo').val());
+                    if(parseInt(datos[0].estado) !== 2){
+                        $("#tdExtra").remove();
+                    }
+
+                    $('#hdTotalAsignados').val(datos.length.toString());
+                    for(var i=0; i < datos.length; i++){
+                        total = parseFloat(datos[i].zona) + parseFloat(datos[i].retra);
+                        if(estado === 1){
+                            $("#slCarnetxAsignacion").append('<option value="' + datos[i].carnet + '" name="' + datos[i].carnet + '" >' + datos[i].idasignacion + '</option>' );                            
+                            notas = '</td><td><input id="z' + datos[i].idasignacion + '" name="z' + datos[i].idasignacion + '" type="text" maxlength="5" value="' + datos[i].zona + '" style="width:60%; text-align:center;" readonly/>' + 
+                                    '</td><td><input id="f' + datos[i].idasignacion + '" name="f' + datos[i].idasignacion + '" type="text" maxlength="5" value="' + datos[i].retra + '" style="width:60%; text-align:center;"/>' + 
+                                    '</td><td><input id="t' + datos[i].idasignacion + '" name="t' + datos[i].idasignacion + '" type="text" maxlength="5" value="' + total + '" style="width:60%; text-align:center;" readonly/>';
+                        }else{
+                            notas = '</td><td>' + datos[i].zona + 
+                                    '</td><td>' + datos[i].retra + 
+                                    '</td><td>' + total +
+                                    '<input type="hidden" id="t' + datos[i].idasignacion + '" name="t' + datos[i].idasignacion + '" maxlength="5" value="' + total + '"/>';
+                        }
+                        $("#bodyAsignados").append('<tr><td>' + datos[i].carnet + 
+                                                   '</td><td>' + datos[i].nombre + 
+                                                   notas + '</td>');
+                    }
+                }else{
+                    $("#tdExtra").remove();
+                    $('#tdBotones').remove();
+                }
+                if(estado === 1){
+                    $('#tdBotones').css('display','block');
+                }else{
+                    $('#tdBotones').css('display','none');
+                }
+                aplicarCss();
+            },
+            'json');
+    }
+    
     function bitacora(idRegistro){
         $.post(
             base_url+'bitacora/insertarBitacoraNota',
@@ -404,6 +711,17 @@ $(document).ready( function () {
             }
         );
     }
+    
+    function bitacoraretra(idRegistro){
+        $.post(
+            base_url+'bitacora/insertarBitacoraRetra',
+            { 
+                registro: idRegistro
+            },
+            function(info){
+                //alert(info);
+            }
+        );
+    }
+    
 });
-
-

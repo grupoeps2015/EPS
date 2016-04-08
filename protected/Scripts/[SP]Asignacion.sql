@@ -793,4 +793,24 @@ ALTER FUNCTION spboletapagoporciclo(integer, integer, integer)
   OWNER TO postgres;  
   
   
+-- Function: spmodificarpago(integer, integer)
+
+-- DROP FUNCTION spmodificarpago(integer, integer);
+
+CREATE OR REPLACE FUNCTION spmodificarpago(
+    _pago integer,
+    _estado integer)
+  RETURNS integer AS
+$BODY$
+begin
+ UPDATE EST_Pago set Estado = _estado WHERE pago = _pago;
+ RETURN 1;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION spmodificarpago(integer, integer)
+  OWNER TO postgres;
+  
+  
 Select 'Script de Asignaciones Instalado' as "Asignacion";

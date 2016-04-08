@@ -14,6 +14,7 @@
                     </div>
                 </div>
                 <div class="col-lg-2 col-md-6 text-cenater"></div>
+                
                 <div class="col-lg-4 col-md-6 text-center">
                     <?php if($this->permisoGestionSecciones == PERMISO_GESTIONAR): ?>
                         <?php if(isset($this->lstCur) && count($this->lstCur)): ?>
@@ -39,7 +40,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>        
     </div>
     <br/>
     <div>

@@ -1,18 +1,19 @@
 ﻿-- Function: spagregarcarrera()
 
--- DROP FUNCTION spagregarcarrera(integer, text, integer, integer);
+-- DROP FUNCTION spagregarcarrera(integer, text, integer, integer, text);
 
 CREATE OR REPLACE FUNCTION spagregarcarrera(
 	_codigo integer,
     _nombre text,
     _estado integer,
-    _centrounidadacademica integer)
+    _centrounidadacademica integer,
+	_extension text)
   RETURNS integer AS
 $BODY$
 DECLARE idCarrera integer;
 BEGIN
-	INSERT INTO cur_carrera (codigo, nombre, estado, centro_unidadacademica) 
-	VALUES (_codigo, _nombre, _estado, _centrounidadacademica) RETURNING Carrera into idCarrera;
+	INSERT INTO cur_carrera (codigo, nombre, estado, centro_unidadacademica, extension) 
+	VALUES (_codigo, _nombre, _estado, _centrounidadacademica, _extension) RETURNING Carrera into idCarrera;
 	--parámetros de tipo carrera
 	INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (200,'Número máximo de cursos traslapados','3','',_centrounidadacademica,idCarrera,3,1);
 	INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (201,'Tiempo máximo de traslape entre 2 cursos','60','En minutos',_centrounidadacademica,idCarrera,3,1);
@@ -30,7 +31,7 @@ BEGIN
 END; $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
-ALTER FUNCTION spagregarcarrera(integer,text, integer, integer)
+ALTER FUNCTION spagregarcarrera(integer, text, integer, integer, text)
   OWNER TO postgres;
 
 
@@ -42,7 +43,8 @@ CREATE OR REPLACE FUNCTION spinformacioncarrera(
     IN _centrounidadacademica integer,
     OUT id integer,
     OUT nombre text,
-    OUT estado text)
+    OUT estado text,
+	OUT extension text)
   RETURNS SETOF record AS
 $BODY$
 BEGIN
@@ -54,7 +56,8 @@ BEGIN
 	when c.estado=0 then 'Validación Pendiente'
 	when c.estado=1 then 'Activo'
 	when c.estado=-1 then 'Desactivado'
-    end as "Estado"
+    end as "Estado",
+	c.extension
   from 
     CUR_Carrera c where c.centro_unidadacademica = _centrounidadacademica;
 END;
@@ -93,12 +96,13 @@ ALTER FUNCTION spactivardesactivarcarrera(integer, integer)
 CREATE OR REPLACE FUNCTION spdatoscarrera(
     IN id integer,
     OUT nombre text,
-    OUT estado integer)
+    OUT estado integer,
+	OUT extension text)
   RETURNS SETOF record AS
 $BODY$
 BEGIN
   RETURN query
-  SELECT c.nombre, c.estado FROM CUR_Carrera c where c.carrera = id;
+  SELECT c.nombre, c.estado, c.extension FROM CUR_Carrera c where c.carrera = id;
 END;
 $BODY$
   LANGUAGE plpgsql VOLATILE
@@ -108,24 +112,25 @@ ALTER FUNCTION spdatoscarrera(integer)
   OWNER TO postgres;
 
 
--- Function: spactualizarcarrera(text, integer)
+-- Function: spactualizarcarrera(text, integer, text)
 
--- DROP FUNCTION spactualizarcarrera(text, integer);
+-- DROP FUNCTION spactualizarcarrera(text, integer, text);
 
 CREATE OR REPLACE FUNCTION spactualizarcarrera(
     _nombre text,
-    _id integer)
+    _id integer, 
+	_extension text)
   RETURNS integer AS
 $BODY$
 DECLARE idCarrera integer;
 BEGIN
-	UPDATE CUR_Carrera SET nombre = _nombre
+	UPDATE CUR_Carrera SET nombre = _nombre, extension = _extension
 	WHERE carrera = _id RETURNING Carrera into idCarrera;
 	RETURN idCarrera;
 END; $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
-ALTER FUNCTION spactualizarcarrera(text, integer)
+ALTER FUNCTION spactualizarcarrera(text, integer, text)
   OWNER TO postgres;
   
 --select * from spagregarpensum(1, 1, '12/12/2014', '5', 'lalalalala', 1);

@@ -7,7 +7,7 @@
             </div>
         </div>
     </div>
-    
+    <?php if($_SESSION["rol"]==ROL_ADMINISTRADOR): ?>
     <div class="container">
         <div class="row">
             <!-- Menu Opcion 1 -->
@@ -121,4 +121,89 @@
             </div>
         </div>
     </div>
+    <?php else: ?>
+    <div class="container">
+        <div class="row">
+            <!-- Menu Opcion 1 -->
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="service-box">
+                    <i class="fa fa-4x fa-group wow bounceIn text-primary" data-wow-delay=".1s"></i>
+                    <h3>
+                        <a href="<?php echo BASE_URL; ?>general/seleccionarCentroUnidad/gestionUsuario">
+                                Gesti&oacute;n de Usuarios
+                        </a>
+                    </h3>
+                    <p class="text-muted">Directores, Control Acad&eacute;mico, Catedr&aacute;ticos y Estudiantes</p>
+                </div>
+            </div>
+            
+            <!-- Menu Opcion 4 -->
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="service-box">
+                    <i class="fa fa-4x fa-navicon wow bounceIn text-primary" data-wow-delay=".2s"></i>
+                    <h3><a href="<?php echo BASE_URL; ?>general/seleccionarCentroUnidad/gestionParametro">Parametrizaci&oacute;n</a></h3>
+                    <p class="text-muted">M&oacute;dulo de parametrizaci&oacute;n diseñado para administradores</p>
+                </div>
+            </div>
+            
+            <!-- Menu Opcion 5 -->
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="service-box">
+                    <i class="fa fa-4x fa-shekel wow bounceIn text-primary"></i>
+                    <h3><a href="<?php echo BASE_URL; ?>gestionPensum/inicio">Gesti&oacute;n de P&eacute;nsum de estudios</a></h3>
+                    <p class="text-muted">Creaci&oacute;n y actualizaci&oacute;n de p&eacute;nsums seg&uacute;n carreras</p>
+                </div>
+            </div>
+            
+            <!-- Menu Opcion 6 -->
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="service-box">
+                    <i class="fa fa-4x fa-pencil wow bounceIn text-primary"></i>
+                    <h3><a href="<?php echo BASE_URL; ?>general/seleccionarCentroUnidad/gestionCurso">Gesti&oacute;n de Cursos</a></h3>
+                    <p class="text-muted">Creaci&oacute;n y actualizaci&oacute;n de cursos</p>
+                </div>
+            </div>            
+        </div>
+        <div class="row">
+            <!-- Menu Opcion 7 -->
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="service-box">
+                    <i class="fa fa-4x fa-file wow bounceIn text-primary"></i>
+                    <h3>
+                        <a href="<?php echo BASE_URL; ?>asignacion/inicio">Asignaciones</a>
+                    </h3>
+                    <p class="text-muted">Consultas, asignaci&oacute;n y desasignaci&oacute;n de cursos por estudiante</p>
+                </div>
+            </div>
+            <!-- Menu Opcion 8 -->
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="service-box">
+                    <i class="fa fa-4x fa-wrench wow bounceIn text-primary"></i>
+                    <h3>
+                        <a href="<?php echo BASE_URL; ?>general/seleccionarCentroUnidad/gestionNotas">Gesti&oacute;n de Notas</a>
+                    </h3>
+                    <p class="text-muted">Ingreso y consulta de notas por curso</p>
+                </div>
+            </div>
+            <!-- Menu Opcion 9 -->
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="service-box">
+                    <i class="fa fa-4x fa-area-chart wow bounceIn text-primary"></i>
+                    <h3>
+                        <a href="<?php echo BASE_URL; ?>general/seleccionarCentroUnidad/general/seleccionarCarreraEstudiante/estudiante/listadoCursosAprobados">Reportes</a>
+                    </h3>
+                    <p class="text-muted">Reporte de listado de cursos aprobados</p>
+                </div>
+            </div>
+            <!-- Menu Opcion 10 -->
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="service-box">
+                    <i class="fa fa-4x fa-calendar wow bounceIn text-primary"></i>
+                    <h3><a href="<?php echo BASE_URL; ?>general/seleccionarCentroUnidad/gestionHorario/seleccionarCicloCurso">Gesti&oacute;n de Horarios</a></h3>
+                    <p class="text-muted">Asignaci&oacute;n de salones, catedr&aacute;ticos y horarios de clase</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php endif;?>
 </section>

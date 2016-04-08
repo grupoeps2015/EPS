@@ -7,15 +7,21 @@
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
                         <i class="fa fa-2x fa-backward wow bounceIn text-primary" data-wow-delay=".2s">
+                            <?php if($_SESSION["rol"] == ROL_ADMINISTRADOR):?>
                             <a href="<?php echo BASE_URL; ?>general/seleccionarCentroUnidad/gestionParametro">
                                 Regresar
                             </a>
+                            <?php else:?>
+                            <a href="<?php echo BASE_URL; ?>login/inicio">
+                                Regresar
+                            </a>
+                            <?php endif;?>
                         </i>
                     </div>
                 </div>
                 <div class="col-lg-1 col-md-6 text-cenater"></div>
                 <div class="col-lg-4 col-md-6 text-center">
-                    <?php if($_SESSION["rol"] == ROL_ADMINISTRADOR && $this->permisoGestionPeriodo == PERMISO_GESTIONAR): ?>
+                    <?php if($this->permisoGestionPeriodo == PERMISO_GESTIONAR): ?>
                     <div class="service-box">
                             <i class="fa fa-2x fa-edit wow bounceIn text-primary" data-wow-delay=".2s">
                                 <a href="<?php echo BASE_URL?>gestionParametro/listadoPeriodo">Gesti&oacute;n de Per&iacute;odos</a>

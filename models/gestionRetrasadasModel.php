@@ -68,5 +68,15 @@ class gestionRetrasadasModel extends Model {
             return $cursos->fetchall();
         }
     }
+    
+     public function informacionCursoActivo($idCentroUnidad, $idCarrera) {
+        $info = $this->_db->query("select * from spinformacioncursocarreraactivo(" . $idCentroUnidad . "," . $idCarrera . ")  order by codigo;");
+        if($info === false){
+            return "1104/informacionCurso";
+        }else{
+            return $info->fetchall();
+        }
+    }
+          
         
 }

@@ -131,9 +131,21 @@ class ajaxModel extends Model{
     }
     
     public function getCarreras($unidad){
+        
         $carreras = $this->_db->query("select * from spcarreraxunidad({$unidad})");
         if($carreras === false){
             return "1200/getCarreras";
+        }else{
+            $carreras->setFetchMode(PDO::FETCH_ASSOC);
+            return $carreras->fetchall();
+        }
+    }
+    
+    public function getCarrerasCentroUnidad($centrounidad){
+        
+        $carreras = $this->_db->query("select * from spcarreraxcentrounidad({$centrounidad})");
+        if($carreras === false){
+            return "1200/getCarrerasCentroUnidad";
         }else{
             $carreras->setFetchMode(PDO::FETCH_ASSOC);
             return $carreras->fetchall();
@@ -277,7 +289,7 @@ class ajaxModel extends Model{
             return $info->fetchall();
         }
     }
-    
+       
     public function getCentroUnidadUsuario($usuario){
         $info = $this ->_db->query("select * from spcentrounidadxusuario({$usuario})");
         if($info === false){
@@ -421,6 +433,15 @@ class ajaxModel extends Model{
         $info = $this->_db->query("select * from spInfoGeneralEstudiante({$idUsuario})");
         if($info === false){
             return "1104/getInfoGeneral";
+        }else{
+            return $info->fetchall();
+        }
+    }
+    
+    public function extensionCarrera($idCarrera){
+         $info = $this->_db->query("select * from spextensionporcarrera(" . $idCarrera . ") as extension;");
+         if($info === false){
+            return "1104/extensionCarrera";
         }else{
             return $info->fetchall();
         }

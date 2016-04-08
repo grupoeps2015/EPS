@@ -95,6 +95,7 @@ CREATE TABLE ADM_Centro_UnidadAcademica (
   Centro INTEGER NOT NULL,
   UnidadAcademica INTEGER NOT NULL,
   Estado INTEGER NOT NULL,
+  Extensiones TEXT NULL,
   PRIMARY KEY (Centro_UnidadAcademica),
   CONSTRAINT Centro
     FOREIGN KEY (UnidadAcademica)
@@ -432,6 +433,7 @@ CREATE TABLE CUR_Carrera_Area (
   Carrera INTEGER NOT NULL,
   Area INTEGER NOT NULL,
   Estado INTEGER NOT NULL,
+  Extension TEXT NULL,
   PRIMARY KEY (CarreraArea),
   CONSTRAINT fk_CUR_Carrera_ADM_Area1
     FOREIGN KEY (Carrera)
@@ -1114,14 +1116,17 @@ CREATE TABLE EST_AsignacionRetrasada (
   Pago INTEGER NOT NULL,
   Oportunidad INTEGER NOT NULL,
   NotaRetrasada FLOAT NOT NULL,
+  estadonota INTEGER NOT NULL,
   PRIMARY KEY (AsignacionRetrasada),
   CONSTRAINT fk_EST_Asignacion_Retrasada_EST_CUR_Nota1
     FOREIGN KEY (Asignacion)
     REFERENCES EST_CUR_Nota (Asignacion),
   CONSTRAINT fk_EST_Asignacion_Retrasada_EST_Pago1
     FOREIGN KEY (Pago)
-    REFERENCES EST_Pago (Pago));
-
+    REFERENCES EST_Pago (Pago),
+  CONSTRAINT fk_EST_Asignacion_Retrasada_CUR_Estado_Nota1
+    FOREIGN KEY (estadonota)
+    REFERENCES CUR_EstadoNota (estadonota));
 
 -- -----------------------------------------------------
 -- Table EST_CursoAprobado

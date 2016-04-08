@@ -12,7 +12,7 @@ class gestionPensumModel extends Model {
     }
 
     public function agregarCarrera($_datos) {
-        $info = $this->_db->prepare("SELECT * from spAgregarCarrera(:codigo,:nombre,:estado,:centrounidadacademica) as Id;");
+        $info = $this->_db->prepare("SELECT * from spAgregarCarrera(:codigo,:nombre,:estado,:centrounidadacademica,:extension) as Id;");
         $info->execute($_datos);
         if ($info === false) {
             return "1101/agregarCarrera";
@@ -69,7 +69,7 @@ class gestionPensumModel extends Model {
     }
 
     public function actualizarCarrera($_datos) {
-        $info = $this->_db->prepare("SELECT * from spActualizarCarrera(:nombre,:id) as Id;");
+        $info = $this->_db->prepare("SELECT * from spActualizarCarrera(:nombre,:id,:extension) as Id;");
         $info->execute($_datos);
         if ($info === false) {
             return "1103/actualizarCarrera";
@@ -273,4 +273,12 @@ class gestionPensumModel extends Model {
         }
     }
 
+    public function getExtensionesCentroUnidad($idCentroUnidad){
+        $extensiones = $this->_db->query("select * from spObtenerExtensionesCentroUnidad({$idCentroUnidad});");
+        if($extensiones === false){
+            return "1104/getExtensionesCentroUnidad";
+        }else{
+            return $extensiones->fetchall();
+        }
+    }
 }

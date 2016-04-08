@@ -141,6 +141,26 @@ class gestionNotasController extends Controller{
         echo json_encode($datos);
     }
     
+    public function getEstadoCicloRetra(){
+        $datos = new stdClass();
+        $datos->estado = 0;
+        if($this->getInteger('retra') == 1){
+            $arr = $this->_notas->getEstadoCicloNotas($this->getInteger('cicloaver'),PERIODO_INGRESO_1RETRASADA,$this->getInteger('tipoAs'),$this->getInteger('centrounidad'));
+        }else if($this->getInteger('retra') == 2){
+            $arr = $this->_notas->getEstadoCicloNotas($this->getInteger('cicloaver'),PERIODO_INGRESO_2RETRASADA,$this->getInteger('tipoAs'),$this->getInteger('centrounidad'));
+        }
+        if(isset($arr) && is_array($arr)){
+            if(isset($arr[0]['periodo'])){
+                $datos->estado = 1;
+            }else{
+                $datos->estado = -3;
+            }
+        }else{
+            $datos->estado = -2;
+        }
+        echo json_encode($datos);
+    }
+    
     public function actividades($idUsuario, $UnidadCentro){
         $rol = $_SESSION["rol"];        
         $rolValidoGestion = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_GESTIONACTIVIDADES);
@@ -226,6 +246,25 @@ class gestionNotasController extends Controller{
         echo json_encode($respuesta);
     }
     
+    public function guardarRetrasada(){
+        $respuesta = new stdClass();
+        $respuesta->mensaje = "";
+        $zona = floatval($this->getTexto('zonaN'));
+        $final = floatval($this->getTexto('finalN'));
+        if($this->getInteger('idAs')){
+            $nota=$this->_notas->guardarRetra($final,$this->getInteger('idAs'));
+            if(is_array($nota)){
+                $respuesta->total = $zona + $final;
+                $respuesta->mensaje = "Procesado: Las notas seran guardadas con valores enteros";
+            }else{
+                $respuesta->mensaje = "Ocurrio un error inesperado, notifique a control academico";
+            }
+        }else{
+            $respuesta->mensaje = "Ocurrio un error al ingresar una nota";
+        }
+        echo json_encode($respuesta);
+    }
+    
     public function notasCSV(){
         $respuesta = new stdClass();
         $respuesta->mensaje = "";
@@ -253,10 +292,57 @@ class gestionNotasController extends Controller{
         echo json_encode($respuesta);
     }
     
-    public function getEstadoCicloActividades(){
-        if($this->getInteger('cicloaver')){
-            echo json_encode($this->_notas->estadoCicloActividades($this->getInteger('cicloaver')));
+    public function notasCSV2($acts){
+        $respuesta = new stdClass();
+        $respuesta->mensaje = "";
+        $respuesta->info = array();
+        $fileName=$_FILES['csvFile']['name'];
+        $fileExt = explode(".",$fileName);
+        if(strtolower(end($fileExt)) == "csv"){
+            $fileName=$_FILES['csvFile']['tmp_name'];
+            $handle = fopen($fileName, "r");
+            $i = 0;
+            while(($data = fgetcsv($handle, 1000, ",")) !== FALSE){
+                $contador = 1;
+                $carnet = trim($data[0]);
+                for($c = 1; $c <= intval($acts); $c++){
+                    $respuesta->info[$i][$c] = trim($data[$c]);
+                    $contador = $c;
+                }
+                $zona = trim($data[$contador+1]);
+                $final = trim($data[$contador+2]);
+                $respuesta->info[$i]['carnet'] = $carnet;
+                $respuesta->info[$i]['zona'] =  $zona;
+                $respuesta->info[$i]['final'] = $final;
+                $i=$i+1;
+            }
+            fclose($handle);
+            $respuesta->mensaje = "Todos los registros han sido cargados, verifique que la informacion sea la correcta, especialmente respecto a la nota de actividades y guarde los cambios.";
+        }else{
+            $respuesta->mensaje = "La información no se pudo leer debido a que solo se admiten archivos .csv";
         }
+        echo json_encode($respuesta);
+    }
+    
+    public function getEstadoCicloActividades(){
+//        if($this->getInteger('cicloaver')){
+//            echo json_encode($this->_notas->estadoCicloActividades($this->getInteger('cicloaver')));
+//        }
+        $datos = new stdClass();
+        $datos->estado = 0;
+        if($this->getInteger('cicloaver')){
+            $arr = $this->_notas->getEstadoCicloNotas($this->getInteger('cicloaver'),PERIODO_INGRESO_ACTIVIDADES,$this->getInteger('tipoAs'),$this->getInteger('centrounidad'));
+            if(is_array($arr)){
+                if(isset($arr[0]['periodo'])){
+                    $datos->estado = 1;
+                }else{
+                    $datos->estado = -3;
+                }
+            }else{
+                $datos->estado = -2;
+            }
+        }
+        echo json_encode($datos);
     }
     
     public function guardarActividad(){
@@ -312,11 +398,33 @@ class gestionNotasController extends Controller{
         echo json_encode($respuesta);
     }
     
-    public function reprobarNOta(){
+    public function aprobarRetra(){
+        $respuesta = new stdClass();
+        $respuesta->aprobado = 0;
+        $respuesta->msg = "";
+        if($this->getInteger('idAs')){
+            $this->_notas->aprobarRetra($this->getInteger('idAs'));
+            $respuesta->aprobado = 1;
+            $respuesta->msg = "aprobo sin problema";
+        }
+        echo json_encode($respuesta);
+    }
+    
+    public function reprobarNota(){
         $respuesta = new stdClass();
         $respuesta->reprobado = 0;
         if($this->getInteger('idAs')){
             $this->_notas->reprobarNota($this->getInteger('idAs'));
+            $respuesta->reprobado = 1;
+        }
+        echo json_encode($respuesta);
+    }
+    
+    public function reprobarRetra(){
+        $respuesta = new stdClass();
+        $respuesta->reprobado = 0;
+        if($this->getInteger('idAs')){
+            $this->_notas->reprobarRetra($this->getInteger('idAs'));
             $respuesta->reprobado = 1;
         }
         echo json_encode($respuesta);
@@ -334,4 +442,44 @@ class gestionNotasController extends Controller{
             echo json_encode($this->_notas->getListaAsignados($this->getInteger('trama'),$this->getInteger('ciclo')));
         }
     }
+    
+    public function getListaAsignadosRetra(){
+        if($this->getInteger('trama') && $this->getInteger('ciclo') && $this->getInteger('retra')){
+            echo json_encode($this->_notas->getListaAsignadosRetra($this->getInteger('trama'),$this->getInteger('ciclo'),$this->getInteger('retra')));
+        }
+    }
+    
+    public function getActividadesPadre(){
+        $respuesta = $this->_notas->getActividadesPadre();
+        echo json_encode($respuesta);
+    }
+    
+    public function actualizarActividad(){
+        $respuesta = new stdClass();
+        $respuesta->actualizado = "";
+        if($this->getInteger('id') && $this->getInteger('idTipo')){
+            $this->_notas->actualizarActividad($this->getInteger('id'),$this->getInteger('idTipo'),$this->getTexto('flValor'),$this->getTexto('txtNombre'));
+            $respuesta->actualizado = $this->getTexto('txtNombre') . " Actualizado";
+        }
+        echo json_encode($respuesta);
+    }
+    
+    public function getNotaActividad(){
+        if($this->getInteger('id')){
+            $respuesta = $this->_notas->getNotaActividad($this->getInteger('id'));
+            echo json_encode($respuesta);
+        }
+    }
+    
+    public function setNotaActividad(){
+        $respuesta = new stdClass();
+        $respuesta->actualizado = "";
+        if($this->getInteger('idAsg') && $this->getInteger('idAct')){
+            $this->_notas->setNotaActividad($this->getInteger('idAsg'),
+                                            $this->getInteger('idAct'),
+                                            $this->getTexto('flValor'));
+        }
+        echo json_encode($respuesta);
+    }
 }
+ 

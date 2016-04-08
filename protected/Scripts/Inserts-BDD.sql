@@ -406,7 +406,7 @@ INSERT INTO adm_unidadacademica(unidadacademica, unidadacademicasuperior, nombre
 -- -----------------------------------------------------
 -- Insert ADM_Centro_UnidadAcademica
 -- -----------------------------------------------------
-INSERT INTO adm_centro_unidadacademica (centro_unidadacademica, centro, unidadacademica, estado) VALUES (1,1,1,1);
+INSERT INTO adm_centro_unidadacademica (centro_unidadacademica, centro, unidadacademica, estado,extensiones) VALUES (1,1,1,1,'update adm_centro_unidadacademica set extenciones = '[{"id":"00","nombre":"Plan Diario","estado":"Activo"},{"id":"01","nombre":"Plan Sabatino","estado":"Activo"}]';');
 
 -- -----------------------------------------------------
 -- Insert cur_carrera / escuela de historia
@@ -588,10 +588,10 @@ INSERT INTO adm_modulo (modulo,nombre,descripcion,estado) values (4,'EST','Estud
 --INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (2,1,null,'Logout',1,'Logout');
 */
 
-INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (3,1,null,'Administracion',1,'Gestión de usuarios');
-INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (4,1,null,'Cursos',1,'Gestión de usuarios');
-INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (5,1,null,'Catedraticos',1,'Gestión de usuarios');
-INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (6,1,null,'Estudiantes',1,'Gestión de usuarios');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (3,1,null,'Administracion',1,'Gestión Administrativa');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (4,2,null,'Cursos',1,'Gestión de Cursos');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (5,3,null,'Catedraticos',1,'Gestión de Docente');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (6,4,null,'Estudiantes',1,'Gestión de Estudiantes');
 
 INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (7,1,3,'GestionUsuario',1,'Gestión de usuarios');
 INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (8,1,7,'ConsultarUsuario',1,'Consultar usuario');
@@ -719,6 +719,23 @@ INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) V
 INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (110,1,107,'ModificarActividades',1,'Modificar actividades');
 INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (111,1,107,'EliminarActividades',1,'Eliminar actividades');
 
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (112,3,5,'GestionAlumnos',1,'Gestión de alumnos');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (113,3,112,'ConsultarAlumno',1,'Consultar alumno');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (114,3,112,'CrearAlumno',1,'Crear alumno');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (115,3,112,'ModificarAlumno',1,'Modificar alumno');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (116,3,112,'EliminarAlumno',1,'Eliminar alumno');
+
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (117,4,6,'GestionCursoAprobado',1,'Gestión de cursos aprobados');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (118,4,117,'ConsultarCursoAprobado',1,'Consultar curso aprobado');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (119,4,117,'CrearCursoAprobado',1,'Crear curso aprobado');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (120,4,117,'ModificarCursoAprobado',1,'Modificar curso aprobado');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (121,4,117,'EliminarCursoAprobado',1,'Eliminar curso aprobado');
+
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (122,4,6,'GestionAsignacionRetrasada',1,'Gestión de asignación de retrasadas');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (123,4,122,'ConsultarAsignacionRetrasada',1,'Consultar asignación de retrasada');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (124,4,122,'CrearAsignacionRetrasada',1,'Crear asignación de retrasada');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (125,4,122,'ModificarAsignacionRetrasada',1,'Modificar asignación de retrasada');
+INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) VALUES (126,4,122,'EliminarAsignacionRetrasada',1,'Eliminar asignación de retrasada');
 
 -- -----------------------------------------------------
 -- Insert adm_rol_funcion
@@ -728,7 +745,6 @@ INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,3);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,4);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,5);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,6);
-INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,3);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,7);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,8);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,9);
@@ -841,7 +857,131 @@ INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,108);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,109);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,110);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,111);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (2,112);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (2,113);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (2,114);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (2,115);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (2,116);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (1,117);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (1,118);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (1,119);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (1,120);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (1,121);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (1,122);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (1,123);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (1,124);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (1,125);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (1,126);
 
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,3);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,4);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,5);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,6);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,7);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,8);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,9);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,10);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,11);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,12);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,13);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,14);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,15);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,16);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,17);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,18);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,19);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,20);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,21);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,22);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,23);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,24);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,25);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,26);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,27);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,28);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,29);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,30);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,31);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,32);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,33);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,34);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,35);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,36);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,37);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,38);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,39);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,40);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,41);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,42);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,43);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,44);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,45);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,46);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,47);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,48);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,49);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,50);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,51);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,52);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,53);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,54);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,55);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,56);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,57);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,58);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,59);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,60);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,61);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,62);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,63);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,64);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,65);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,66);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,67);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,68);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,69);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,70);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,71);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,72);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,73);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,74);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,75);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,76);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,77);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,78);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,79);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,80);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,81);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,82);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,83);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,84);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,85);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,86);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,87);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,88);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,89);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,90);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,91);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,92);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,93);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,94);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,95);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,96);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,97);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,98);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,99);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,100);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,101);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,102);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,103);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,104);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,105);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,106);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,107);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,108);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,109);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,110);
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (3,111);
 
 -- -----------------------------------------------------
 -- Insert adm_funcionmenu
@@ -872,6 +1012,8 @@ INSERT INTO adm_tipoperiodo (tipoperiodo,nombre,descripcion,estado) VALUES (3,'I
 INSERT INTO adm_tipoperiodo (tipoperiodo,nombre,descripcion,estado) VALUES (4,'Asignación de primera retrasada','',1);
 INSERT INTO adm_tipoperiodo (tipoperiodo,nombre,descripcion,estado) VALUES (5,'Asignación de segunda retrasada','',1);
 INSERT INTO adm_tipoperiodo (tipoperiodo,nombre,descripcion,estado) VALUES (6,'Asignación de suficiencias','',1);
+INSERT INTO adm_tipoperiodo (tipoperiodo,nombre,descripcion,estado) VALUES (7,'Ingreso de primera retrasada','',1);
+INSERT INTO adm_tipoperiodo (tipoperiodo,nombre,descripcion,estado) VALUES (8,'Ingreso de segunda retrasada','',1);
 
 -- -----------------------------------------------------
 -- Insert adm_tipoasignacion

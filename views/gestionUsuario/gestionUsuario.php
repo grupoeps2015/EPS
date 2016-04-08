@@ -7,9 +7,15 @@
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
                         <i class="fa fa-2x fa-backward wow bounceIn text-primary" data-wow-delay=".2s">
+                            <?php if($_SESSION["rol"]==ROL_ADMINISTRADOR):?>
                             <a href="<?php echo BASE_URL; ?>general/seleccionarCentroUnidad/gestionUsuario">
                                 Regresar
                             </a>
+                            <?php else:?>
+                            <a href="<?php echo BASE_URL; ?>login/inicio">
+                                Regresar
+                            </a>
+                            <?php endif;?>
                         </i>
                     </div>
                 </div>
@@ -39,7 +45,7 @@
                 <table id="tbUsuarios" border="2">
                     <thead>
                         <tr>
-                            <th style="text-align:center">Codigo</th>
+                            <!--<th style="text-align:center">Codigo</th>-->
                             <th style="text-align:center">Carnet /<br/>Registro</th>
                             <th style="text-align:center">Nombre Usuario</th>
                             <th style="text-align:center">Rol</th>
@@ -56,30 +62,57 @@
                     <tbody id="infoTabla">
                     <?php if(isset($this->lstUsr) && count($this->lstUsr)): ?>
                         <?php for($i =0; $i < count($this->lstUsr); $i++) : ?>
-                        <tr>
-                            <td style="text-align: center"><?php echo $this->lstUsr[$i]['id']; ?></td>
-                            <td style="text-align: center"><?php echo $this->lstUsr[$i]['registro']; ?></td>
-                            <td style="text-align: center"><?php echo $this->lstUsr[$i]['nombre']; ?></td>
-                            <td style="text-align: center"><?php echo $this->lstUsr[$i]['rol']; ?></td>
-                            <td style="text-align: center"><?php echo $this->lstUsr[$i]['correo']; ?></td>
-                            <td style="text-align: center"><?php echo $this->lstUsr[$i]['estado']; ?></td>
-                            <?php if($this->permisoModificar == PERMISO_MODIFICAR): ?>
-                            <td style="text-align: center;">
-                                <a href="<?php echo BASE_URL . 'gestionUsuario/actualizarUsuario/' . $this->lstUsr[$i]['id'];?>">
-                                    Modificar
-                                </a>
-                            </td>
-                            <?php endif;?>
-                            <?php if($this->permisoEliminar == PERMISO_ELIMINAR): ?>
-                            <td style="text-align: center;">
-                                <?php if(strcmp($this->lstUsr[$i]['estado'], 'Activo') == 0): ?>
-                                <a href="<?php echo BASE_URL . 'gestionUsuario/eliminarUsuario/-1/' . $this->lstUsr[$i]['id'];?>">Desactivar</a>
-                                <?php else : ?>
-                                <a href="<?php echo BASE_URL . 'gestionUsuario/eliminarUsuario/1/' . $this->lstUsr[$i]['id'];?>">Activar</a>
+                            <?php if($_SESSION["rol"]== ROL_EMPLEADO && $this->lstUsr[$i]['rol'] !== "Administrador"): ?>
+                            <tr>
+                                <!--<td style="text-align: center"><?php echo $this->lstUsr[$i]['id']; ?></td>-->
+                                <td style="text-align: center"><?php echo $this->lstUsr[$i]['registro']; ?></td>
+                                <td style="text-align: center"><?php echo $this->lstUsr[$i]['nombre']; ?></td>
+                                <td style="text-align: center"><?php echo $this->lstUsr[$i]['rol']; ?></td>
+                                <td style="text-align: center"><?php echo $this->lstUsr[$i]['correo']; ?></td>
+                                <td style="text-align: center"><?php echo $this->lstUsr[$i]['estado']; ?></td>
+                                <?php if($this->permisoModificar == PERMISO_MODIFICAR): ?>
+                                <td style="text-align: center;">
+                                    <a href="<?php echo BASE_URL . 'gestionUsuario/actualizarUsuario/' . $this->lstUsr[$i]['id'];?>">
+                                        Modificar
+                                    </a>
+                                </td>
                                 <?php endif;?>
-                            </td>
+                                <?php if($this->permisoEliminar == PERMISO_ELIMINAR): ?>
+                                <td style="text-align: center;">
+                                    <?php if(strcmp($this->lstUsr[$i]['estado'], 'Activo') == 0): ?>
+                                    <a href="<?php echo BASE_URL . 'gestionUsuario/eliminarUsuario/-1/' . $this->lstUsr[$i]['id'];?>">Desactivar</a>
+                                    <?php else : ?>
+                                    <a href="<?php echo BASE_URL . 'gestionUsuario/eliminarUsuario/1/' . $this->lstUsr[$i]['id'];?>">Activar</a>
+                                    <?php endif;?>
+                                </td>
+                                <?php endif;?>
+                            </tr>
+                            <?php elseif($_SESSION["rol"]==ROL_ADMINISTRADOR):?>
+                            <tr>
+                                <!--<td style="text-align: center"><?php echo $this->lstUsr[$i]['id']; ?></td>-->
+                                <td style="text-align: center"><?php echo $this->lstUsr[$i]['registro']; ?></td>
+                                <td style="text-align: center"><?php echo $this->lstUsr[$i]['nombre']; ?></td>
+                                <td style="text-align: center"><?php echo $this->lstUsr[$i]['rol']; ?></td>
+                                <td style="text-align: center"><?php echo $this->lstUsr[$i]['correo']; ?></td>
+                                <td style="text-align: center"><?php echo $this->lstUsr[$i]['estado']; ?></td>
+                                <?php if($this->permisoModificar == PERMISO_MODIFICAR): ?>
+                                <td style="text-align: center;">
+                                    <a href="<?php echo BASE_URL . 'gestionUsuario/actualizarUsuario/' . $this->lstUsr[$i]['id'];?>">
+                                        Modificar
+                                    </a>
+                                </td>
+                                <?php endif;?>
+                                <?php if($this->permisoEliminar == PERMISO_ELIMINAR): ?>
+                                <td style="text-align: center;">
+                                    <?php if(strcmp($this->lstUsr[$i]['estado'], 'Activo') == 0): ?>
+                                    <a href="<?php echo BASE_URL . 'gestionUsuario/eliminarUsuario/-1/' . $this->lstUsr[$i]['id'];?>">Desactivar</a>
+                                    <?php else : ?>
+                                    <a href="<?php echo BASE_URL . 'gestionUsuario/eliminarUsuario/1/' . $this->lstUsr[$i]['id'];?>">Activar</a>
+                                    <?php endif;?>
+                                </td>
+                                <?php endif;?>
+                            </tr>
                             <?php endif;?>
-                        </tr>
                         <?php endfor;?>
                     <?php endif;?>
                     </tbody>
