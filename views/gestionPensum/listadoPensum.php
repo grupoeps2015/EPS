@@ -7,9 +7,15 @@
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
                         <i class="fa fa-2x fa-backward wow bounceIn text-primary" data-wow-delay=".2s">
+                            <?php if($_SESSION["rol"]==ROL_ADMINISTRADOR):?>
                             <a href="<?php echo BASE_URL ?>general/seleccionarCentroUnidad/gestionPensum/listadoPensum">
                                 Regresar
                             </a>
+                            <?php else:?>
+                            <a href="<?php echo BASE_URL; ?>gestionPensum/inicio">
+                                Regresar
+                            </a>
+                            <?php endif;?>
                         </i>
                     </div>
                 </div>
@@ -33,24 +39,24 @@
     <div>
         <form id="frPensum" method="post" action="<?php echo BASE_URL; ?>gestionPensum/listadoPensum">
             <div id="divPensum" class="form-group" >
-                <div style="margin-left: 5%; margin-right: 5%">
+                <div style="margin-left: 10%; margin-right: 10%">
                     <table id="tbPensum" border="2" align="center">
                         <thead>
                             <tr>
                                 <th style="text-align:center; width: 250px;">Carrera</th>
                                 <th style="text-align:center; width: 250px;">Descripción</th>
-                                <th style="text-align:center; width: 200px;">Tipo</th>
-                                <th style="text-align:center; width: 100px;">Fecha Inicial</th>
-                                <th style="text-align:center; width: 100px;">Fecha Final</th>
-                                <th style="text-align:center; width: 100px;">Duración(años)</th>
+                                <th style="text-align:center; width: 150px;">Tipo</th>
+                                <th style="text-align:center; width: 150px;">Fecha Inicial</th>
+                                <th style="text-align:center; width: 150px;">Fecha Final</th>
+                                <th style="text-align:center; width: 80px;">Duración<br/>(ciclos)</th>
                                 <?php if($this->permisoEliminar == PERMISO_ELIMINAR): ?>
-                                <th style="text-align:center; width: 200px;"></th>
+                                <th style="text-align:center; width: 50px;"></th>
                                 <?php endif;?>
                                 <?php if($this->permisoGestionCursosPensum == PERMISO_GESTIONAR): ?>
-                                <th style="text-align:center; width: 150px;"></th>
+                                <th style="text-align:center; width: 50px;"></th>
                                 <?php endif;?>
                                 <?php if($this->permisoModificar == PERMISO_MODIFICAR): ?>
-                                <th style="text-align:center; width: 150px;"></th>
+                                <th style="text-align:center; width: 50px;"></th>
                                 <?php endif;?>
                             </tr>
                         </thead>
@@ -68,9 +74,9 @@
                                         <?php if($this->permisoEliminar == PERMISO_ELIMINAR): ?>
                                         <td style="text-align: center; padding-right: 20px;">
                                             <?php if ((strcmp($this->lstPensum[$i]['estado'], 'Activo') == 0)): ?>
-                                                <a href="<?php echo BASE_URL . 'gestionPensum/finalizarVigenciaPensum/' . $this->lstPensum[$i]['id'] . '/-1' ?>">Desactivar Pensum</a>
+                                                <a href="<?php echo BASE_URL . 'gestionPensum/finalizarVigenciaPensum/' . $this->lstPensum[$i]['id'] . '/-1' ?>">Desactivar</a>
                                             <?php else : ?>
-                                                <a href="<?php echo BASE_URL . 'gestionPensum/activarPensum/' . $this->lstPensum[$i]['id'] ?>">Activar Pensum</a>
+                                                <a href="<?php echo BASE_URL . 'gestionPensum/activarPensum/' . $this->lstPensum[$i]['id'] ?>">Activar</a>
                                             <?php endif; ?>
                                         <?php endif; ?>
                                         </td>

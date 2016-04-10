@@ -314,7 +314,7 @@ $(document).ready( function () {
                         idAsignaActividad = parseInt(datos[0].idasignacion);
                         hayActividades(idAsignaActividad,id,idCiclo);
                     }else{
-                        alert('Error inesperado, contacte con el administrador');
+                        alert('No existen alumnos asignados a este curso');
                     }
                 },
                 'json');
