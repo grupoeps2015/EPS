@@ -327,7 +327,7 @@ class gestionCursoController extends Controller {
             exit;
         }
         
-        $cursos = $this->_post->informacionCurso($idCentroUnidad);
+        $cursos = $this->_post->informacionCurso($idCentroUnidad, ESTADO_ACTIVO);
         if(is_array($cursos)){
             $this->_view->cursos = $cursos;
         }else{

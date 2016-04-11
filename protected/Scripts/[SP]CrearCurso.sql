@@ -23,12 +23,13 @@ ALTER FUNCTION spagregarcurso(text, text, boolean, integer, integer, integer)
   OWNER TO postgres;
 
 
--- Function: spinformacioncurso(integer)
+-- Function: spinformacioncurso(integer, integer)
 
--- DROP FUNCTION spinformacioncurso(integer);
+-- DROP FUNCTION spinformacioncurso(integer, integer);
 
 CREATE OR REPLACE FUNCTION spinformacioncurso(
     IN _centrounidadacademica integer,
+    IN _estado integer default null,
     OUT id integer,
     OUT codigo text,
     OUT nombre text,
@@ -38,66 +39,51 @@ CREATE OR REPLACE FUNCTION spinformacioncurso(
   RETURNS SETOF record AS
 $BODY$
 BEGIN
-  RETURN query
-  Select 
-    c.curso,
-    c.codigo,
-    c.nombre,
-    t.nombre as "tipocurso",
-    case 
-	when c.estado=0 then 'Validación Pendiente'
-	when c.estado=1 then 'Activo'
-	when c.estado=-1 then 'Desactivado'
-    end as "Estado",
-    case 
-	when c.traslape=true then 'Sí'
-	when c.traslape=false then 'No'
-    end as "Traslape"
-  from 
-    CUR_Curso c join CUR_Tipo t on c.tipocurso = t.tipocurso where c.centro_unidadacademica = _centrounidadacademica;
+	IF _estado IS NOT NULL THEN
+	  RETURN query
+	  Select 
+	    c.curso,
+	    c.codigo,
+	    c.nombre,
+	    t.nombre as "tipocurso",
+	    case 
+		when c.estado=0 then 'Validación Pendiente'
+		when c.estado=1 then 'Activo'
+		when c.estado=-1 then 'Desactivado'
+	    end as "Estado",
+	    case 
+		when c.traslape=true then 'Sí'
+		when c.traslape=false then 'No'
+	    end as "Traslape"
+	  from 
+	    CUR_Curso c join CUR_Tipo t on c.tipocurso = t.tipocurso where c.centro_unidadacademica = _centrounidadacademica and c.estado = _estado;
+	ELSE
+	  RETURN query
+	  Select 
+	    c.curso,
+	    c.codigo,
+	    c.nombre,
+	    t.nombre as "tipocurso",
+	    case 
+		when c.estado=0 then 'Validación Pendiente'
+		when c.estado=1 then 'Activo'
+		when c.estado=-1 then 'Desactivado'
+	    end as "Estado",
+	    case 
+		when c.traslape=true then 'Sí'
+		when c.traslape=false then 'No'
+	    end as "Traslape"
+	  from 
+	    CUR_Curso c join CUR_Tipo t on c.tipocurso = t.tipocurso where c.centro_unidadacademica = _centrounidadacademica;
+	END IF;
 END;
 $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100
   ROWS 1000;
-ALTER FUNCTION spinformacioncurso(integer)
+ALTER FUNCTION spinformacioncurso(integer, integer)
   OWNER TO postgres;
 
--- Function: spinformacioncursoactivo(integer)
-
--- DROP FUNCTION spinformacioncursoactivo(integer);
-
-CREATE OR REPLACE FUNCTION spinformacioncursoactivo(
-    IN _centrounidadacademica integer,
-    OUT id integer,
-    OUT codigo text,
-    OUT nombre text,
-    OUT tipocurso text,
-    OUT estado integer,
-    OUT traslape text)
-  RETURNS SETOF record AS
-$BODY$
-BEGIN
-  RETURN query
-  Select 
-    c.curso,
-    c.codigo,
-    c.nombre,
-    t.nombre as "tipocurso",
-    c.estado,
-	case
-	when c.traslape=true then 'Sí'
-	when c.traslape=false then 'No'
-    end as "Traslape"
-  from 
-    CUR_Curso c join CUR_Tipo t on c.tipocurso = t.tipocurso where c.centro_unidadacademica = _centrounidadacademica and c.estado = 1;
-END;
-$BODY$
-  LANGUAGE plpgsql VOLATILE
-  COST 100
-  ROWS 1000;
-ALTER FUNCTION spinformacioncursoactivo(integer)
-  OWNER TO postgres;
   
 
 -- Function: spinformacioncursocarreraactivo(integer, integer)

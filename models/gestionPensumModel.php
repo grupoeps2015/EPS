@@ -133,8 +133,8 @@ class gestionPensumModel extends Model {
         }
     }
 
-    public function listadoCursos($intIdCentroUnidad) {
-        $info = $this->_db->query("SELECT * from spinformacioncurso(" . $intIdCentroUnidad . ");");
+    public function listadoCursos($intIdCentroUnidad, $estado = null) {
+        $info = $this->_db->query("SELECT * from spinformacioncurso(" . $intIdCentroUnidad . ($estado == null ? "" : "," . $estado) . ");");
         if ($info === false) {
             return "1104/listadoCursos";
         } else {

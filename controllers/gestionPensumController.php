@@ -621,7 +621,7 @@ class gestionPensumController extends Controller {
         $this->_view->setJs(array('tree.jquery'), "public");
         $this->_view->setJs(array('agregarCursoPensum'));
 
-        $info = $this->_post->listadoCursos($idCentroUnidad);
+        $info = $this->_post->listadoCursos($idCentroUnidad, ESTADO_ACTIVO);
         if (is_array($info)) {
             $this->_view->lstCursos = $info;
         } else {
