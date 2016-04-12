@@ -84,7 +84,7 @@
                                         </option>
                                     <?php endfor; ?>
                             <?php else : ?>
-                                <option value="">-- A&ntilde;o --</option>
+                                <option value=""><?php if (isset($this->error)){echo $this->error;} else {echo "-- A&ntilde;o --";}?></option>
                             <?php endif; ?>
                             </select><br />
                         </td>

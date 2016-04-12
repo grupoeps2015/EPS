@@ -112,14 +112,13 @@ class generalController extends Controller{
             $this->_view->url = 'general/seleccionarCarreraEstudiante/'.$url;
             $anios = $this->_ajax->getAniosInscripcion();
             if(is_array($anios)){
-                if(count($anios)){
-                    
-                    $this->_view->lstAnios = $anios;
-                    $this->_view->url = $url;
-                }else{
-                    $this->redireccionar("login/salir");
-                    exit;
+                                    
+                $this->_view->lstAnios = $anios;
+                $this->_view->url = $url;
+                if(!count($anios)){
+                    $this->_view->error = "No hay registros de estudiantes inscritos";
                 }
+
 
             }else{
                 $this->redireccionar("error/sql/" . $anios);
