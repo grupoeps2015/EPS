@@ -365,6 +365,7 @@ Declare _idEstudiante integer;
 BEGIN
   SELECT estudiante from est_estudiante where usuario = _idUsuario into _idEstudiante;
   EXECUTE format('INSERT INTO est_estudiante_carrera VALUES(%s,%s,current_timestamp,1)',_idEstudiante,_idCarrera);
+  EXECUTE format('UPDATE est_estudiante set estado = 1 where estudiante=%s',_idEstudiante);
 END;
 $BODY$
 LANGUAGE plpgsql;

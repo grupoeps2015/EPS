@@ -2,6 +2,7 @@ $(document).ready( function () {
     var base_url = $("#hdBASE_URL").val();
     var numTarea = 0;
     var totalAsignados = 0;
+	var respuestaAct = "";
     
     $('#frmGenerales').validate({
         rules:{
@@ -142,7 +143,7 @@ $(document).ready( function () {
     });
     
     $("#btnGuardar").confirm({
-        text: "No podrá modificar las actividades ingresadas sin autorización de un usuario de unidad académica.<br/> ¿Está seguro de agregar solo estas actividades?",
+        text: "No podrá eliminar las actividades ingresadas una vez guardados los cambios.<br/> ¿Está seguro de agregar solo estas actividades?",
         title: "Confirmacion requerida",
         confirm: function() {
             // Por orden se utilizo el boton de confirmar como cancelar y vicebersa
@@ -410,7 +411,8 @@ $(document).ready( function () {
                 txtDesc: descripcion
             },
             function(respuesta){
-                $("#spanMsg").append(respuesta.mensaje + '<br/>');
+				respuestaAct += respuesta.mensaje + '<br/>';
+                //$("#spanMsg").append(respuesta.mensaje + '<br/>');
                 asociarActivida(respuesta.id);
             },
             'json'
@@ -465,6 +467,7 @@ $(document).ready( function () {
                 //alert('transaccion exitosa');
             });
         }
+		$("#spanMsg").append(respuestaAct);
     }
     
     function listarActividades(idAsignacion){
