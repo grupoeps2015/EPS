@@ -1026,6 +1026,8 @@ CREATE TABLE EST_TipoPago (
   TipoPago SERIAL NOT NULL,
   Nombre TEXT NOT NULL,
   Monto TEXT NOT NULL,
+  Rubro INT NOT NULL,
+  Variante INT NOT NULL,
   PRIMARY KEY (TipoPago));
 
 

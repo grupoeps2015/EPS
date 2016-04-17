@@ -1071,3 +1071,14 @@ INSERT INTO cur_tipoaprobacion (tipoaprobacion,nombre,estado,descripcion) VALUES
 INSERT INTO cur_tipoaprobacion (tipoaprobacion,nombre,estado,descripcion) VALUES (3,'Curso Suficiencia',1,'');
 INSERT INTO cur_tipoaprobacion (tipoaprobacion,nombre,estado,descripcion) VALUES (4,'Curso Equivalencia',1,'');
 INSERT INTO cur_tipoaprobacion (tipoaprobacion,nombre,estado,descripcion) VALUES (5,'Aprobado por Junta Directiva',1,'');
+
+
+-- -----------------------------------------------------
+-- Insert est_tipopago
+-- -----------------------------------------------------
+insert into est_tipopago (nombre,monto,rubro,variante) values ('Primera retrasada Primer Semestre',10,4,1);
+insert into est_tipopago (nombre,monto,rubro,variante) values ('Segunda retrasada Primer Semestre',15,5,1);
+insert into est_tipopago (nombre,monto,rubro,variante) values ('Primera retrasada Segundo Semestre',10,6,1);
+insert into est_tipopago (nombre,monto,rubro,variante) values ('Segunda retrasada Segundo Semestre',15,7,1);
+
+
