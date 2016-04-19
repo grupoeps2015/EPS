@@ -447,4 +447,12 @@ class ajaxModel extends Model{
         }
     }
     
+    public function informacionHorarioConsolidado($ciclo, $centrounidad) {
+        $info = $this->_db->query("select * from spInformacionHorarioConsolidado({$ciclo},{$centrounidad});");
+        if($info === false){
+            return "1104/informacionHorarioConsolidado";
+        }else{
+            return $info->fetchall();
+        }
+    }
 }

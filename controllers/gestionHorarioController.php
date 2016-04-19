@@ -128,6 +128,8 @@ class gestionHorarioController extends Controller {
         $this->_view->setJs(array('seleccionarCicloCurso'));
         $this->_view->setJs(array('jquery-ui'), "public");
         $this->_view->setCss(array('jquery-ui'), "public");
+        $this->_view->setJs(array('jquery.dataTables.min'), "public");
+        $this->_view->setCSS(array('jquery.dataTables.min'));
         $this->_view->renderizar('seleccionarCicloCurso');
     }
 

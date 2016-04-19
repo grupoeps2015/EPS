@@ -46,8 +46,8 @@ class gestionHorarioModel extends Model {
         }else{
             return $info->fetchall();
         }
-    }
-    
+    } 
+        
     public function informacionHorario($ciclo, $seccion) {
         $info = $this->_db->query("select * from spInformacionHorario({$ciclo},{$seccion});");
         if($info === false){

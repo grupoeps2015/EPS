@@ -428,5 +428,49 @@ ALTER FUNCTION spcopiarhorariodecicloaciclo(integer, integer, integer)
   OWNER TO postgres;
 
   
+-- Function: spinformacionhorarioconsolidado(integer, integer)
+
+-- DROP FUNCTION spinformacionhorarioconsolidado(integer, integer);
+
+CREATE OR REPLACE FUNCTION spinformacionhorarioconsolidado(
+    IN _ciclo integer,
+    IN _centrounidad integer,    
+    OUT idhorario integer,
+    OUT codigo text,
+    OUT nombre text,
+    OUT seccion text,
+    OUT edificio text,
+    OUT salon text,
+    OUT inicio text,
+    OUT fin text,
+    OUT dia text)
+  RETURNS SETOF record AS
+$BODY$
+BEGIN
+  RETURN query
+  Select 
+    h.horario, cu.codigo, cu.nombre, se.nombre, e.nombre, s.nombre, to_char(t.inicio, 'HH24:MI'), to_char(t.fin, 'HH24:MI'), d.nombre
+  from 
+    CUR_Horario h 
+    join CUR_Trama t on h.trama = t.trama
+    join CUR_Seccion se on t.seccion = se.seccion
+    join CUR_Curso cu on se.curso = cu.curso
+    join CUR_Jornada j on j.jornada = h.jornada 
+    join CUR_Dia d on d.codigo = t.dia 
+    join CUR_Horario_Salon hs on h.horario = hs.horario 
+    join CUR_Salon s on s.salon = hs.salon 
+    join CUR_Periodo p on p.periodo = t.periodo 
+    join CUR_Edificio e on e.edificio = s.edificio 
+    join CUR_Curso_Catedratico cc on cc.curso_catedratico = t.curso_catedratico
+    join CAT_Catedratico c on c.catedratico = cc.catedratico
+  where h.ciclo = _ciclo and h.estado = 1 and cu.centro_unidadacademica = _centrounidad
+  order by cu.codigo, cu.nombre, se.nombre, e.nombre, s.nombre, to_char(t.inicio, 'HH24:MI'), to_char(t.fin, 'HH24:MI');
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION spinformacionhorarioconsolidado(integer, integer)
+  OWNER TO postgres;  
   
   Select 'Script para Gestion de Horarios Instalado' as "Gestion Horario";

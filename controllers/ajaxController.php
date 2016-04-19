@@ -209,6 +209,15 @@ class ajaxController extends Controller{
             }
         }
     }
+    
+    public function getHorarioConsolidadoAjax(){
+        if($this->getInteger('ciclo')){
+            session_start();
+            if ($_SESSION["rol"] == ROL_ADMINISTRADOR || $_SESSION["rol"] == ROL_EMPLEADO) {
+                echo json_encode($this->_ajax->informacionHorarioConsolidado($this->getInteger('ciclo'),$_SESSION["centrounidad"]));
+            }
+        }
+    }
 }
 
 ?>

@@ -106,6 +106,31 @@
             </form>
         </div>
     </div>
+    <br/>
+    <div>
+        <div id="divHorarios" class="form-group" >
+            <div style="margin-left: 10%; margin-right: 10%">
+                <table id="tbHorarios" border="2">
+                    <thead>
+                        <tr>
+                            <th style="text-align:center">C&oacute;digo</th>
+                            <th style="text-align:center">Nombre</th>
+                            <th style="text-align:center">Secci&oacute;n</th>
+                            <th style="text-align:center">Edificio</th>
+                            <th style="text-align:center">Sal&oacute;n</th>                            
+                            <th style="text-align:center">Inicio</th>                            
+                            <th style="text-align:center">Fin</th>
+                            <th style="text-align:center">D&iacute;a</th>                          
+                        </tr>
+                    </thead>
+                    <tbody>
+                    
+                    </tbody>
+                </table>
+                <br />
+            </div>
+        </div>
+    </div>   
 </section>
 
 <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

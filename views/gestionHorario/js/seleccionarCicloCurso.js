@@ -168,9 +168,10 @@ $(document).ready( function () {
     });
     
     $("#slCiclo").change(function(){
-        if(!$("#slCiclo").val()){
+        if(!$("#slCiclo").val()){            
             $('#btnConsultar').prop("disabled",true);
         }else{
+            getHorarioConsolidadoAjax();
         }
     });
     
@@ -252,4 +253,52 @@ $(document).ready( function () {
                'json');
     }
     
+    function getHorarioConsolidadoAjax(){
+        var base_url = $("#hdBASE_URL").val();
+        $.post(base_url+'ajax/getHorarioConsolidadoAjax',
+               {ciclo: $("#slCiclo").val()},
+               function(datos){
+                    $("#tbHorarios").dataTable().fnClearTable();
+                    if(datos.length>0){
+                        $("#tbHorarios").find('tbody').html('');
+                        for(var i =0; i < datos.length; i++){
+                            $("#tbHorarios").find('tbody').append("<tr><td>"+
+                                datos[i].codigo+
+                                "</td><td>"
+                                +datos[i].nombre+
+                                "</td><td>"
+                                +datos[i].seccion+
+                                "</td><td>"
+                                +datos[i].edificio+
+                                "</td><td>"
+                                +datos[i].salon+
+                                "</td><td>"
+                                +datos[i].inicio+
+                                "</td><td>"
+                                +datos[i].fin+
+                                "</td><td>"
+                                +datos[i].dia+
+                                "</td></tr>");
+                        }
+                    }
+                    $("#tbHorarios").ajax.reload();
+               },
+               'json');
+    }
+    
+    //$("#tbHorarios").find('tbody').append("<tr><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td></tr>");
+    $('#tbHorarios').DataTable({
+        language:{
+            emptyTable: "No hay informaci&oacute;n disponible.",
+            sZeroRecords: "No se encontro informaci&oacute;n compatible con la busqueda",
+            info: "Se muestran del _START_ al _END_ de _TOTAL_ registros",
+            infoEmpty: "No hay registros que mostrar",
+            paginate:{
+                next: "Siguiente",
+                previous: "Anterior"
+            },
+            search: "Buscar:",
+            lengthMenu: "Mostrar _MENU_ registros"
+        }
+    });
 } );
