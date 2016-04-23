@@ -48,11 +48,11 @@
                                         <select id="slExtensiones" name="slExtensiones" class="form-control input-lg">
                                         <?php if (isset($this->lstExtensiones) && count($this->lstExtensiones)): ?>
                                             <option value="">-- Extensi&oacute;n --</option>
-                                                <?php for ($i = 0; $i < count($this->lstExtensiones); $i++) : ?>
-                                                    <option value="<?php echo $this->lstExtensiones[$i]['id']; ?>">
-                                                        <?php echo '['.$this->lstExtensiones[$i]['id'].']'.' '. $this->lstExtensiones[$i]['nombre']; ?>
+                                                <?php foreach(array_keys($this->lstExtensiones) as $key): ?>
+                                                    <option value="<?php echo $this->lstExtensiones[$key]['id']; ?>">
+                                                        <?php echo '['.$this->lstExtensiones[$key]['id'].']'.' '. $this->lstExtensiones[$key]['nombre']; ?>
                                                     </option>
-                                                <?php endfor; ?>
+                                                <?php endforeach; ?>
                                         <?php else : ?>
                                             <option value="">-- No existen extensiones registradas --</option>
                                         <?php endif; ?>

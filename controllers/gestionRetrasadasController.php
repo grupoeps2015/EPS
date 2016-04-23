@@ -105,8 +105,6 @@ class gestionRetrasadasController extends Controller {
                 $idPeriodo = $periodo[0]['periodo'];
                 //Sino continuar
                 //Mostrar cursos disponibles para asignación
-                
-                //TODO: Marlen: agregar listado de cursos
                 $this->_view->asignacion = $periodo[0]['periodo'];
                 $this->_view->lstAsignaciones = $this->cursosDisponiblesRetrasada($ciclo, $periodo[0]['periodo']);
                 
@@ -120,7 +118,6 @@ class gestionRetrasadasController extends Controller {
                 if(is_array($periodo)){
                     if(isset($periodo[0]['periodo'])){
                         $idPeriodo = $periodo[0]['periodo'];
-                        //TODO: Marlen: agregar listado de cursos
                         $this->_view->asignacion = $periodo[0]['periodo'];
                         $this->_view->lstAsignaciones = $this->cursosDisponiblesRetrasada($ciclo);
 

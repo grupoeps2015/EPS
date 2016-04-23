@@ -367,12 +367,18 @@ class gestionCentroUnidadController extends Controller {
     }
     
     public function listadoExtensiones($centroUnidad = -1) {
-        //TODO: MARLEN: permisos para gestión de extensiones
+        if($centroUnidad <= 0){
+            $idCentroUnidad = $_SESSION["centrounidad"];
+        }else{
+            $idCentroUnidad = $centroUnidad;
+            $this->_view->vieneDeUnidad = true;
+        }
+        
         $rol = $_SESSION["rol"];
-        $rolValidoGestion = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_GESTIONCARRERA);
-        $rolValidoAgregar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_CREARCARRERA);
-        $rolValidoModificar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_MODIFICARCARRERA);
-        $rolValidoEliminar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_ELIMINARCARRERA);
+        $rolValidoGestion = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_GESTIONEXTENSION);
+        $rolValidoAgregar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_CREAREXTENSION);
+        $rolValidoModificar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_MODIFICAREXTENSION);
+        $rolValidoEliminar = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_ELIMINAREXTENSION);
         $this->_view->permisoGestion = $rolValidoGestion[0]["valido"];
         $this->_view->permisoAgregar = $rolValidoAgregar[0]["valido"];
         $this->_view->permisoModificar = $rolValidoModificar[0]["valido"];
@@ -381,16 +387,9 @@ class gestionCentroUnidadController extends Controller {
         if ($this->_view->permisoGestion != PERMISO_GESTIONAR) {
             echo "<script>
                 ".MSG_SINPERMISOS."
-                window.location.href='" . BASE_URL . "gestionPensum/inicio';
+                window.location.href='" . BASE_URL . "gestionCentroUnidad/listadoUnidades/".$idCentroUnidad."';
                 </script>";
-        }
-
-        if($centroUnidad <= 0){
-            $idCentroUnidad = $_SESSION["centrounidad"];
-        }else{
-            $idCentroUnidad = $centroUnidad;
-            $this->_view->vieneDeUnidad = true;
-        }
+        }        
 
         $this->_view->id = $idCentroUnidad;
 
@@ -421,7 +420,7 @@ class gestionCentroUnidadController extends Controller {
         }
         
         $rol = $_SESSION["rol"];
-        $rolValido = $this->_ajax->getPermisosRolFuncion($rol, CONS_FUNC_CUR_CREARCARRERA);
+        $rolValido = $this->_ajax->getPermisosRolFuncion($rol, CONS_FUNC_ADM_CREAREXTENSION);
 
         if ($rolValido[0]["valido"] != PERMISO_CREAR) {
             echo "<script>
@@ -490,13 +489,13 @@ class gestionCentroUnidadController extends Controller {
         $this->_view->id = $strIdExt;
 
         $rol = $_SESSION["rol"];
-        $rolValido = $this->_ajax->getPermisosRolFuncion($rol, CONS_FUNC_CUR_MODIFICARCARRERA);
+        $rolValido = $this->_ajax->getPermisosRolFuncion($rol, CONS_FUNC_ADM_MODIFICAREXTENSION);
 
         //TODO: permisos
         if ($rolValido[0]["valido"] != PERMISO_MODIFICAR) {
             echo "<script>
                 ".MSG_SINPERMISOS."
-                window.location.href='" . BASE_URL . "gestionPensum/listadoCarrera" . "';
+                window.location.href='" . BASE_URL . "gestionCentroUnidad/listadoExtensiones/" .$centroUnidad. "';
                 </script>";
         }
         
@@ -506,8 +505,6 @@ class gestionCentroUnidadController extends Controller {
             $this->_view->lstExtensiones = $ext;
             $key = array_search($strIdExt, array_column($ext, 'id'));
             $this->_view->datosExt = $ext[$key];
-//            echo $key;
-//            exit;
         } else {
             $this->redireccionar("error/sql/" . $ext);
             exit;
@@ -520,9 +517,7 @@ class gestionCentroUnidadController extends Controller {
 //            $this->redireccionar("error/sql/" . $info);
 //            exit;
 //        }
-
-        $this->_view->titulo = 'Actualizar Extensión - ' . APP_TITULO;
-        $this->_view->renderizar('actualizarExtension', 'gestionCentroUnidad');
+        
         if ($this->getInteger('hdEnvio')) {
             $nombreExt = $this->getTexto('txtNombre');
             $ext[$key]['nombre'] = $nombreExt;
@@ -532,8 +527,53 @@ class gestionCentroUnidadController extends Controller {
                 $this->redireccionar("error/sql/" . $extension);
                 exit;
             }
-            $this->redireccionar('gestionCentroUnidad/listadoExtensiones'.$idCentroUnidad);
+            $this->redireccionar('gestionCentroUnidad/listadoExtensiones/'.$idCentroUnidad);
             exit;
+        }
+        
+        $this->_view->titulo = 'Actualizar Extensión - ' . APP_TITULO;
+        $this->_view->renderizar('actualizarExtension', 'gestionCentroUnidad');
+        
+    }
+    
+    public function eliminarExtension($estado, $strIdExt, $centroUnidad = -1){
+        if($centroUnidad <= 0){
+            $idCentroUnidad = $_SESSION["centrounidad"];
+        }else{
+            $idCentroUnidad = $centroUnidad;
+            $this->_view->vieneDeUnidad = true;
+        }
+        $rol = $_SESSION["rol"];  
+        $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_ELIMINAREXTENSION);
+        
+        if($rolValido[0]["valido"]== PERMISO_ELIMINAR){
+            if ($estado == -1 || $estado == 1) {
+                $ext = $this->_gCenUni->getExtensionesCentroUnidad($idCentroUnidad);
+                $ext = json_decode($ext[0][0], true);
+                if (is_array($ext) || $ext == '') {            
+                    $this->_view->lstExtensiones = $ext;
+                    $key = array_search($strIdExt, array_column($ext, 'id'));
+                    $this->_view->datosExt = $ext[$key];
+                } else {
+                    $this->redireccionar("error/sql/" . $ext);
+                    exit;
+                }
+                $ext[$key]['estado'] = $estado;
+                $info = json_encode($ext);
+                $extension = $this->_gCenUni->actualizarExtensiones($idCentroUnidad, $info);
+                if (!is_array($extension)) {
+                    $this->redireccionar("error/sql/" . $extension);
+                    exit;
+                }                
+            }
+            $this->redireccionar('gestionCentroUnidad/listadoExtensiones/' . $idCentroUnidad);
+            }
+        else
+        {         
+            echo "<script>
+                ".MSG_SINPERMISOS."
+                window.location.href='" . BASE_URL . "gestionCentroUnidad/listadoExtensiones/" . $idCentroUnidad . "';
+                </script>";
         }
     }
 }

@@ -201,7 +201,13 @@ class gestionPensumController extends Controller {
         
         $info = $this->_post->getExtensionesCentroUnidad($idCentroUnidad);
         $info = json_decode($info[0][0], true);
-        if (is_array($info) || $info == '') {            
+        if (is_array($info) || $info == '') {
+            foreach(array_keys(array_column($info, 'estado'), '-1') as $key){
+                unset($info[$key]);
+            }
+            foreach(array_keys(array_column($info, 'estado'), '0') as $key){
+                unset($info[$key]);
+            }
             $this->_view->lstExtensiones = $info;
         } else {
             $this->redireccionar("error/sql/" . $info);
