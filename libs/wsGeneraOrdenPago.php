@@ -32,7 +32,9 @@ class wsGeneraOrdenPago{
             '</DETALLE_ORDEN_PAGO> ';
         }
           $xml_consulta_usuario = $xml_consulta_usuario . '</GENERAR_ORDEN>';
- 
+        /*$file = fopen("log.txt", "a");
+            fwrite($file, $xml_consulta_usuario . PHP_EOL);
+            fclose($file);*/
         $v_msg_error='';
         $v_xml_retorno='';
         $v_resultado_invoke='';	

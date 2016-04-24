@@ -107,7 +107,7 @@ class gestionRetrasadasController extends Controller {
                 //Mostrar cursos disponibles para asignación
                 $this->_view->asignacion = $periodo[0]['periodo'];
                 $this->_view->lstAsignaciones = $this->cursosDisponiblesRetrasada($ciclo, $periodo[0]['periodo']);
-                
+                $this->_view->lstAsignaciones[0]['nombreestudiante'] = preg_replace('/\s+/', '_',$this->_view->lstAsignaciones[0]['nombreestudiante']);
             }
             else{
                 //TODO: Marlen: mostrar boleta de asignación de cursos
@@ -120,7 +120,7 @@ class gestionRetrasadasController extends Controller {
                         $idPeriodo = $periodo[0]['periodo'];
                         $this->_view->asignacion = $periodo[0]['periodo'];
                         $this->_view->lstAsignaciones = $this->cursosDisponiblesRetrasada($ciclo);
-
+                        $this->_view->lstAsignaciones[0]['nombreestudiante'] = preg_replace('/\s+/', '_',$this->_view->lstAsignaciones[0]['nombreestudiante']);
                     }
                     else{
                         //TODO: Marlen: mostrar boleta de asignación de cursos
@@ -174,7 +174,7 @@ class gestionRetrasadasController extends Controller {
         //$this->_view->setCSS(array('jquery.dataTables.min'));
         $this->_view->setJs(array('listadoAsignaciones'));
         $this->_view->renderizar('listadoAsignaciones');
-        
+       
     }
     
      public function inicio() {
@@ -193,6 +193,7 @@ class gestionRetrasadasController extends Controller {
     }
     
     public function generarOrdenPago($carnet,$nombre,$carrera){
+        $nombre = str_replace("_", " ",$nombre);
         $idCarrera = $_SESSION['carrera'];
         $idPeriodo = 0;
         $multiplicadorMonto = 0;
@@ -292,7 +293,7 @@ class gestionRetrasadasController extends Controller {
         //$tipocurso=TIPOCURSO_ESCUELAHISTORIA;
         //$curso=83;
         //$seccion='B';
-        
+       
         unset($arreglo);
         for($i=0;$i<$multiplicadorMonto;$i++){
             $arreglo[$i]['anio'] = $anio;
@@ -307,7 +308,7 @@ class gestionRetrasadasController extends Controller {
         $this->_generaorden = new wsGeneraOrdenPago();
         $prueba = $this->_generaorden->generaOrdenPago($carnet,$unidad,$extension,$carrera,$nombre2,$montoTotal,$arreglo);
         $cadena = implode(',', $prueba);
-        
+           
         if ($this->_generaorden->parsear_resultado($cadena,"CODIGO_RESP") == "1") {
             //print_r($cadena);
             date_default_timezone_set('America/Guatemala');
@@ -328,6 +329,10 @@ class gestionRetrasadasController extends Controller {
             
             $this->_post->crearPago($this->_view->orden,$this->estudiante,$idPeriodo,$idCarrera);
        
+        }
+        
+        else if($this->_generaorden->parsear_resultado($cadena,"CODIGO_RESP") == "0") {
+            print_r("No se puede generar la orden de pago porque la temporada acad&eacute;mica no est&aacute; habilitada.");
         }
     }
     
