@@ -86,7 +86,6 @@ class generalController extends Controller{
                 exit;
             }
             
-            //TODO: Marlen: validar que el escogido este en el listado de centrounidad asignados al usuario
             $this->_view->titulo = 'Seleccionar Centro y Unidad - ' . APP_TITULO;
             $this->_view->url = 'general/seleccionarCentroUnidad/'.$url;
             $this->_view->setJs(array('seleccionarCentroUnidad'));

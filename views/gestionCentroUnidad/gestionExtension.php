@@ -14,7 +14,7 @@
                         </i>
                         <?php else: ?>
                         <i class="fa fa-2x fa-backward wow bounceIn text-primary" data-wow-delay=".2s">
-                            <a href="<?php echo BASE_URL ?>gestionCentroUnidad/listadoUnidades/<?php echo $this->id ?>">
+                            <a href="<?php echo BASE_URL ?>gestionCentroUnidad/listadoExtensiones/<?php echo $this->id ?>">
                                 Regresar
                             </a>
                         </i>
@@ -52,7 +52,7 @@
                                 <th style="text-align:center">&nbsp;</th>
                                 <?php endif;?>
                                 <?php if($this->permisoModificar == PERMISO_MODIFICAR): ?>
-                                <th style="text-align:center">&nbsp;</th>
+<!--                                <th style="text-align:center">&nbsp;</th>-->
                                 <?php endif;?>
                             </tr>
                         </thead>
@@ -61,13 +61,13 @@
                                 <?php for ($i = 0; $i < count($this->lstExt); $i++) : ?>
                                     <tr>
                                         <td style="text-align: center"><?php echo $this->lstExt[$i]['nombre']; ?></td>
-                                        <td style="text-align: center"><?php echo $this->lstExt[$i]['estado']; ?></td>
+                                        <td style="text-align: center"><?php if($this->lstExt[$i]['estado'] == ESTADO_ACTIVO){echo 'Activo';}else if($this->lstExt[$i]['estado'] == ESTADO_INACTIVO){echo 'Desactivado';}else{echo 'Validación Pendiente';} ?></td>
                                         <?php if($this->permisoModificar == PERMISO_MODIFICAR): ?>
                                         <td style="text-align: center;"><a href="<?php echo BASE_URL . 'gestionCentroUnidad/actualizarExtension/' . $this->lstExt[$i]['id'] . '/' . $this->id; ?>">Modificar</a></td>
                                         <?php endif; ?>
                                         <?php if($this->permisoEliminar == PERMISO_ELIMINAR): ?>
                                         <td style="text-align: center;">
-                                            <?php if (strcmp($this->lstExt[$i]['estado'], 'Activo') == 0): ?>
+                                            <?php if (strcmp($this->lstExt[$i]['estado'], ESTADO_ACTIVO) == 0): ?>
                                                 <a href="<?php echo BASE_URL . 'gestionCentroUnidad/eliminarExtension/-1/' . $this->lstExt[$i]['id']; ?>">Desactivar</a>
                                             <?php else : ?>
                                                 <a href="<?php echo BASE_URL . 'gestionCentroUnidad/eliminarExtension/1/' . $this->lstExt[$i]['id']; ?>">Activar</a>
@@ -75,9 +75,9 @@
                                         </td>
                                         <?php endif; ?>
                                         <?php if($this->permisoModificar == PERMISO_MODIFICAR): ?>
-                                        <td style="text-align: center;">
+<!--                                        <td style="text-align: center;">
                                             <a href="<?php echo BASE_URL . 'gestionCentroUnidad/asignarAreaCarrera/' . $this->lstExt[$i]['id']; ?>">Asignar Areas</a>
-                                        </td>
+                                        </td>-->
                                         <?php endif; ?>
                                     </tr>
                                 <?php endfor; ?>

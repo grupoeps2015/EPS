@@ -145,7 +145,6 @@ class asignacionController extends Controller{
                 //Sino continuar
                 //Mostrar cursos disponibles para asignación
                 
-                //TODO: Marlen: agregar listado de cursos
                 $this->_view->asignacion = $periodo[0]['periodo'];
                 $this->_view->lstCursos = $this->cursosDisponibles($ciclo);
                 
@@ -196,7 +195,6 @@ class asignacionController extends Controller{
                     $periodo = $periodo[0]['periodo'];
                 }
                 else{
-                    //TODO: Marlen: Redirigir a página de error de asignación
                     //echo "No existe período de asignación activo para este ciclo";
                     $this->redireccionar("error/asign/1300/10");
                     exit;
@@ -228,7 +226,6 @@ class asignacionController extends Controller{
                     }
                     //Si ha alcanzado o superado el máximo de intentos redirigir a boleta
                     if ($intentoAsign >= $parametroMaxIntentosAsign) {
-                        //TODO: Marlen: Redirigir a página de error de asignación
                         //echo "Cantidad de intentos de asignación por ciclo excede el límite establecido en parámetro";
                         $this->redireccionar("error/asign/1300/11");
                         exit;
@@ -244,7 +241,6 @@ class asignacionController extends Controller{
                     }
                     if($parametroMaxCursosAAsignar > 0){
                         if (count(array_filter($cursos))> $parametroMaxCursosAAsignar) {
-                            //TODO: Marlen: Redirigir a página de error de asignación
                             //echo "Cursos a asignar superan el límite establecido en parámetro";
                             $this->redireccionar("error/asign/1300/12");
                             exit;
@@ -267,7 +263,6 @@ class asignacionController extends Controller{
                         for($cu=0;$cu<$cursosTraslapadosCantidad;$cu++){
                             //Si el curso traslapado no acepta traslape
                             if(!$cursosTraslapados[$cu]['traslapecurso']){
-                                //TODO: Marlen: Redirigir a página de error de asignación
                                 //echo "Curso no acepta traslape";
                                 $this->redireccionar("error/asign/1300/13");
                                 exit;
@@ -280,7 +275,6 @@ class asignacionController extends Controller{
 
                     //Si $cursosTraslapados > $parametroMaxCursosTraslapados redirigir a error
                     if($cursosTraslapadosCantidad > $parametroMaxCursosTraslapados){
-                        //TODO: Marlen: Redirigir a página de error de asignación
                         //echo "Cursos traslapados sobrepasan el máximo establecido por parámetro";
                         $this->redireccionar("error/asign/1300/14");
                         exit;
@@ -313,7 +307,6 @@ class asignacionController extends Controller{
                             if(is_array($traslapes)){
                                 //Si no está vacío redirigir a página de error
                                 if(count($traslapes)){
-                                    //TODO: Marlen: Redirigir a página de error de asignación
                                     //echo "Tiempo de traslape entre cursos sobrepasa el máximo establecido por parámetro";
                                     $this->redireccionar("error/asign/1300/15");
                                     exit;
@@ -330,7 +323,6 @@ class asignacionController extends Controller{
                             if(is_array($traslapes)){
                                 //Si no está vacío redirigir a página de error
                                 if(count($traslapes)){
-                                    //TODO: Marlen: Redirigir a página de error de asignación
                                     //echo "Tiempo de traslape entre cursos sobrepasa el máximo establecido por parámetro";
                                     $this->redireccionar("error/asign/1300/16");
                                     exit;
@@ -342,16 +334,12 @@ class asignacionController extends Controller{
                             }
                         }
                         else{
-                            //TODO: Marlen: Redirigir a página de error de asignación
                             //echo "No existe criterio de tiempo de traslape entre cursos";
                             $this->redireccionar("error/asign/1300/17");
                             exit;
                         }
                     }
-//                echo "Pasó todas las validaciones";
-//                exit;
-                //TODO: Marlen: Validar cupo de las secciones a asignar
-                //
+                    
                     for($i=0;$i<count($cursos);$i++){
                         if($cursos[$i] <> ""){
                             //Parámetro de cupo máximo por sección
@@ -375,7 +363,6 @@ class asignacionController extends Controller{
                                     //Si aún hay cupo continuar
                                 }
                                 else{
-                                    //TODO: Marlen: Redirigir a página de error de asignación
                                     //echo "No hay cupo disponible en esta sección";
                                     $this->redireccionar("error/asign/1300/18");
                                     exit;
@@ -397,7 +384,6 @@ class asignacionController extends Controller{
                             }
                             //Verificar que está en el listado
                             if(!in_array($cursoSeccion, array_column($this->cursosDisponibles($this->getInteger('hdCiclo')), 'curso'))){
-                                //TODO: Marlen: Redirigir a página de error de asignación
                                 //echo "Este curso no está disponible para asignación";
                                 $this->redireccionar("error/asign/1300/19");
                                 exit;
@@ -706,8 +692,6 @@ class asignacionController extends Controller{
                                             $this->redireccionar("error/sql/" . $cursoAprobado);
                                             exit;
                                         }
-                                        //$idCurso en est_cursoaprobado
-                                        //TODO: Marlen: consultar curpensumarea, obtener curso y consultarlo en est_cursoaprobado
                                         if(!count($cursoAprobado)){
                                             $requisitosAprobados = false;
                                         }
@@ -827,7 +811,6 @@ class asignacionController extends Controller{
                 //Sino continuar
                 //Mostrar cursos disponibles para asignación
                 
-                //TODO: Marlen: agregar listado de cursos
                 $this->_view->asignacion = $periodo[0]['periodo'];
                 $this->_view->lstCursos = $this->cursosDisponiblesRetrasada($ciclo, $periodo[0]['periodo']);
                 
@@ -867,7 +850,6 @@ class asignacionController extends Controller{
                         //Sino continuar
                         //Mostrar cursos disponibles para asignación
 
-                        //TODO: Marlen: agregar listado de cursos
                         $this->_view->asignacion = $periodo[0]['periodo'];
                         $this->_view->lstCursos = $this->cursosDisponiblesRetrasada($ciclo);
 
