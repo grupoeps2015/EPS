@@ -289,12 +289,12 @@ class gestionRetrasadasController extends Controller {
         //$nombre='TRINIDAD PINEDA JORGE';
         $nombre2 = strtoupper($nombre);
         $montoTotal=$monto*$multiplicadorMonto;
-        $anio=2014;
-        $rubro=4;
-        $varianterubro=VARIANTERUBRO_RETRASADAS;
-        $tipocurso=TIPOCURSO_ESCUELAHISTORIA;
-        $curso=83;
-        $seccion='B';
+        //$anio=2014;
+        //$rubro=4;
+        //$varianterubro=VARIANTERUBRO_RETRASADAS;
+        //$tipocurso=TIPOCURSO_ESCUELAHISTORIA;
+        //$curso=83;
+        //$seccion='B';
         
         unset($arreglo);
         for($i=0;$i<$multiplicadorMonto;$i++){
