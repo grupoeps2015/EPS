@@ -482,27 +482,36 @@ class gestionNotasController extends Controller{
         echo json_encode($respuesta);
     }
 
-    public function imprimirActa(){
+    public function imprimirActa($parametros){
+        $fecha = getdate();
+        list($cat,$zona, $final, $promocion, $usr, $ciclo, $sec, $cur) = split('RmGm', $parametros);
         $this->getLibrary('fpdf');
+        $trama = $this->_ajax->getIdTrama($cat,$ciclo,$sec,$cur);
         
         $this->_pdf = new FPDF('P', 'mm', 'legal');
         $this->_pdf->AddPage();
         $this->_pdf->SetFont('Times','',8);
         $this->_pdf->Ln(35);
         
+        $nomSec = $this->_notas->getNombreSeccion($sec);
+        $nomCiclo = $this->_notas->getCategoriaCiclo($ciclo);
+        $nomCurso = $this->_notas->getNombreCursoImpartido($cur);
         //Datos generales del acta
         $this->_pdf->SetLeftMargin(30);
         $this->_pdf->Cell(120,7,'Carrera:          <query para buscar carrera>');
         $this->_pdf->Cell(40,7,'Ciclo:       <query para buscar ciclo>');
         $this->_pdf->Ln(4);
-        $this->_pdf->Cell(120,7,'Zona:             <query para zona>');
-        $this->_pdf->Cell(40,7,'Seccion:    <query para buscar seccion>');
+        $this->_pdf->Cell(120,7,'Zona: '.$zona);
+        $this->_pdf->Cell(40,7,'Seccion: '.$nomSec[0]['nombre']);
         $this->_pdf->Ln(4);
-        $this->_pdf->Cell(60,7,'Promocion:     <query para nota aprobacion>');
-        $this->_pdf->Cell(60,7,'Examen Final:     <query para nota aprobacion>');
-        $this->_pdf->Cell(40,7,'Categoria:  <query para buscar categoria>');
+        $this->_pdf->Cell(60,7,'Promocion: '.$promocion);
+        $this->_pdf->Cell(60,7,'Examen Final: '.$final);
+        $this->_pdf->Cell(40,7,'Categoria:  '.$this->numCiclo($nomCiclo[0]['numerociclo']).$nomCiclo[0]['nombre']);
+        $this->_pdf->Ln(4);
+        $this->_pdf->Cell(120,7,'Curso: '.$nomCurso[0]['nombre']);
+        $this->_pdf->Cell(40,7,$fecha["mday"]." de ".$this->nombreMes($fecha["mon"])." de ".$fecha["year"]);
         $this->_pdf->SetLeftMargin(10);
-        $this->_pdf->Ln(10);
+        $this->_pdf->Ln(5);
         
         //Encabezados de la tabla
         $this->_pdf->Cell(5,7,'No.',1,0,"C");
@@ -517,32 +526,109 @@ class gestionNotasController extends Controller{
         
         //cuerpo de la tabla
         $this->_pdf->Ln(10);
-        for($i=1;$i<=6;$i++){
-            $this->_pdf->Cell(5,3,$i);
-            $this->_pdf->Cell(30,3,"<Carnet>");
-            $this->_pdf->Cell(80,3,"<Nombre alumno>");
+        $datos = $this->_notas->getListaAsignados($trama[0]['spidtrama'],$ciclo);
+        for($i=0;$i<count($datos);$i++){
+            $this->_pdf->Cell(7,3,$i+1);
+            $this->_pdf->Cell(30,3,$datos[$i]['carnet']);
+            $this->_pdf->Cell(80,3,$datos[$i]['nombre']);
             $this->_pdf->Cell(8,3,"01");
-            $this->_pdf->Cell(8,3,"02");
-            $this->_pdf->Cell(10,3,"80.00");
-            $this->_pdf->Cell(14,3,"20.00");
-            $this->_pdf->Cell(10,3,"100.00");
-            $this->_pdf->Cell(30,3,"<Buscar de catalogo>",0,1);
+            $this->_pdf->Cell(8,3,"01");
+            $this->_pdf->Cell(10,3,$datos[$i]['zona'].".00");
+            $this->_pdf->Cell(14,3,$datos[$i]['final'].".00");
+            $this->_pdf->Cell(10,3,$datos[$i]['total'].".00");
+            if(intval($datos[$i]['zona'])+$final < $promocion){
+                $this->_pdf->Cell(30,3,"Sin derecho a examen",0,1);
+            }elseif(intval($datos[$i]['final']) == 0){
+                $this->_pdf->Cell(30,3,"No se presento",0,1);
+            }elseif(intval($datos[$i]['total']) <  intval($promocion)){
+                $this->_pdf->Cell(30,3,"Reprobado",0,1);
+            }elseif(intval($datos[$i]['total']) >= intval($promocion)){
+                $this->_pdf->Cell(30,3,"Aprobado",0,1);
+            }else{
+                $this->_pdf->Cell(30,3,"----------------",0,1);
+            }
+            
         }
         
         //Pie de pagina con firmas
+        $datosCat = $this->_notas->getDocenteEspecifico($usr);
         $this->_pdf->SetY(-50);
         $this->_pdf->Cell(100,7,'________________________________________________',0,0,"C");
         $this->_pdf->Cell(100,7,'________________________________________________',0,0,"C");
         $this->_pdf->Ln(4);
         $this->_pdf->Cell(100,7,'Licda. Olga Perez Molina',0,0,"C");
-        $this->_pdf->Cell(100,7,'<Nombre Catedratico>',0,0,"C");
+        $this->_pdf->Cell(100,7,$datosCat[0]['nombrecompleto'],0,0,"C");
         $this->_pdf->Ln(4);
-        $this->_pdf->Cell(100,7,'Secretaria Academica',0,0,"C");
+        $this->_pdf->Cell(100,7,'Secretaria Academica Trama',0,0,"C");
         $this->_pdf->Cell(100,7,'Catedratico',0,0,"C");
         
         //Imprimir PDF en navegador
-        $this->_pdf->Output('Acta.pdf','D',false);
+        $this->_pdf->Output();
     }
     
+    private function nombreMes($id){
+        switch ($id){
+            case 1:
+                return "enero";
+                break;
+            case 2:
+                return "febrero";
+                break;
+            case 3:
+                return "marzo";
+                break;
+            case 4:
+                return "abril";
+                break;
+            case 5:
+                return "mayo";
+                break;
+            case 6:
+                return "junio";
+                break;
+            case 7:
+                return "julio";
+                break;
+            case 8:
+                return "agosto";
+                break;
+            case 9:
+                return "septiembre";
+                break;
+            case 10:
+                return "octubre";
+                break;
+            case 11:
+                return "noviembre";
+                break;
+            case 12:
+                return "diciembre";
+                break;
+        }
+        
+    }
+
+    private function numCiclo($num){
+        switch($num){
+            case 1:
+                return "1r. ";
+                break;
+            case 2:
+                return "2do. ";
+                break;
+            case 3:
+                return "3ro. ";
+                break;
+            case 4:
+                return "4to. ";
+                break;
+            case 5:
+                return "5to. ";
+                break;
+            case 6:
+                return "6to. ";
+                break;
+        }
+    }
 }
  

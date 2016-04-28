@@ -15,6 +15,33 @@ class gestionNotasModel extends Model {
         }
     }
     
+    public function getNombreSeccion($idSec){
+        $info = $this->_db->query("select nombre from cur_seccion where seccion ={$idSec};");
+        if($info === false){
+            return "1104/getNombreSeccion";
+        }else{
+            return $info->fetchall();
+        }
+    }
+    
+    public function getCategoriaCiclo($idCiclo){
+        $info = $this->_db->query("select b.nombre,a.numerociclo from cur_ciclo a,cur_tipociclo b where a.tipociclo=b.tipociclo and a.ciclo={$idCiclo};");
+        if($info === false){
+            return "1104/getCategoriaCiclo";
+        }else{
+            return $info->fetchall();
+        }
+    }
+    
+    public function getNombreCursoImpartido($idCurso){
+        $info = $this->_db->query("select nombre from cur_curso where curso = {$idCurso};");
+        if($info === false){
+            return "1104/getCategoriaCiclo";
+        }else{
+            return $info->fetchall();
+        }
+    }
+    
     public function getDocentesActivos($centrounidad){
         $info = $this->_db->query("SELECT * from spListaDocentesActivos(" . $centrounidad . ");");
         if($info === false){

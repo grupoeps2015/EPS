@@ -36,7 +36,7 @@
                 <table class="table-hover" style="width:100%">
                     <tr>
                         <td class="text-primary" style="width:10%">Nombre:&nbsp;</td>
-                        <td style="width: 1%"></td>
+                        <td style="width: 1%"><input type="hidden" name="hdIdUsr" id="hdIdUsr" value="<?php echo $this->idUsuario;?>"/></td>
                         <td colspan="2" style="width: 39%"><?php echo $this->datosCat[0][2];?></td>
                         <td style="width: 1%">&nbsp;</td>
                         <td style="width: 24%">&nbsp;</td>

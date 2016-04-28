@@ -244,22 +244,22 @@ $(document).ready( function () {
     });
     
     $("#btnImprimirActa").click(function(){
-        $("#spanMsg").html('');
-        var tipo = "";
-        var idAsignado = 0;;
-        var total;
-        
-        var notaAprobacion = parseInt($("#hdNotaAprobacion").val());
         var estado = parseInt($("#hdEstadoCiclo").val());
         if(estado===1){
             $("#spanMsg").html('El periodo de ingreso de notas sigue vigente');
         }else{
-            alert("accion");
-            $.post(base_url+'gestionNotas/imprimirActa',
-               'nada=0',
-               function(datos){
-                    
-               });
+            var separador = "RmGm"
+            var datos = "/";
+            datos += $("#idCatedratico").val();
+            datos += separador+$("#hdZonaTotal").val();
+            datos += separador+$("#hdFinalTotal").val();
+            datos += separador+$("#hdNotaAprobacion").val();
+            datos += separador+$("#hdIdUsr").val();
+            datos += separador+$("#slCiclo").val();
+            datos += separador+$("#slSeccion").val();
+            datos += separador+$("#slCursoxSeccion option:selected").text();
+            datos += separador+".pdf"
+            window.open(base_url+'gestionNotas/imprimirActa'+datos,'_blank');
         }
     });
     
