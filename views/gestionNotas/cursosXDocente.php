@@ -165,7 +165,8 @@
                             <?php if($_SESSION['rol']==0 || $_SESSION['rol']==1):?>
                             <tr>
                                 <td colspan="5" id="tdExtra" name="tdExtra">
-                                    <input type="button" id="btnAprobarNotas" name="btnAprobarNotas" value="Aprobar Notas Ingresadas" class="btn btn-warning" style="width:350px"/>
+                                    <input type="button" id="btnAprobarNotas" name="btnAprobarNotas" value="Aprobar Notas Ingresadas" class="btn btn-warning" style="width:300px"/>&nbsp;
+                                    <input type="button" id="btnImprimirActa" name="btnImprimirActa" value="Imprimir Acta de Notas" class="btn btn-warning" style="width:300px"/>
                                 </td>
                             </tr>
                             <?php endif;?>

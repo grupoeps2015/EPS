@@ -481,5 +481,68 @@ class gestionNotasController extends Controller{
         }
         echo json_encode($respuesta);
     }
+
+    public function imprimirActa(){
+        $this->getLibrary('fpdf');
+        
+        $this->_pdf = new FPDF('P', 'mm', 'legal');
+        $this->_pdf->AddPage();
+        $this->_pdf->SetFont('Times','',8);
+        $this->_pdf->Ln(35);
+        
+        //Datos generales del acta
+        $this->_pdf->SetLeftMargin(30);
+        $this->_pdf->Cell(120,7,'Carrera:          <query para buscar carrera>');
+        $this->_pdf->Cell(40,7,'Ciclo:       <query para buscar ciclo>');
+        $this->_pdf->Ln(4);
+        $this->_pdf->Cell(120,7,'Zona:             <query para zona>');
+        $this->_pdf->Cell(40,7,'Seccion:    <query para buscar seccion>');
+        $this->_pdf->Ln(4);
+        $this->_pdf->Cell(60,7,'Promocion:     <query para nota aprobacion>');
+        $this->_pdf->Cell(60,7,'Examen Final:     <query para nota aprobacion>');
+        $this->_pdf->Cell(40,7,'Categoria:  <query para buscar categoria>');
+        $this->_pdf->SetLeftMargin(10);
+        $this->_pdf->Ln(10);
+        
+        //Encabezados de la tabla
+        $this->_pdf->Cell(5,7,'No.',1,0,"C");
+        $this->_pdf->Cell(30,7,'Carnet',1,0,"C");
+        $this->_pdf->Cell(80,7,'Nombre',1,0,"C");
+        $this->_pdf->Cell(8,7,'Ex.',1,0,"C");
+        $this->_pdf->Cell(8,7,'Ca.',1,0,"C");
+        $this->_pdf->Cell(10,7,'Zona',1,0,"C");
+        $this->_pdf->Cell(14,7,'Ex.Final',1,0,"C");
+        $this->_pdf->Cell(10,7,'Nota',1,0,"C");
+        $this->_pdf->Cell(30,7,'Observaciones',1,0,"C");
+        
+        //cuerpo de la tabla
+        $this->_pdf->Ln(10);
+        for($i=1;$i<=6;$i++){
+            $this->_pdf->Cell(5,3,$i);
+            $this->_pdf->Cell(30,3,"<Carnet>");
+            $this->_pdf->Cell(80,3,"<Nombre alumno>");
+            $this->_pdf->Cell(8,3,"01");
+            $this->_pdf->Cell(8,3,"02");
+            $this->_pdf->Cell(10,3,"80.00");
+            $this->_pdf->Cell(14,3,"20.00");
+            $this->_pdf->Cell(10,3,"100.00");
+            $this->_pdf->Cell(30,3,"<Buscar de catalogo>",0,1);
+        }
+        
+        //Pie de pagina con firmas
+        $this->_pdf->SetY(-50);
+        $this->_pdf->Cell(100,7,'________________________________________________',0,0,"C");
+        $this->_pdf->Cell(100,7,'________________________________________________',0,0,"C");
+        $this->_pdf->Ln(4);
+        $this->_pdf->Cell(100,7,'Licda. Olga Perez Molina',0,0,"C");
+        $this->_pdf->Cell(100,7,'<Nombre Catedratico>',0,0,"C");
+        $this->_pdf->Ln(4);
+        $this->_pdf->Cell(100,7,'Secretaria Academica',0,0,"C");
+        $this->_pdf->Cell(100,7,'Catedratico',0,0,"C");
+        
+        //Imprimir PDF en navegador
+        $this->_pdf->Output('Acta.pdf','D',false);
+    }
+    
 }
  

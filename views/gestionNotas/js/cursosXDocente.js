@@ -243,6 +243,26 @@ $(document).ready( function () {
         }
     });
     
+    $("#btnImprimirActa").click(function(){
+        $("#spanMsg").html('');
+        var tipo = "";
+        var idAsignado = 0;;
+        var total;
+        
+        var notaAprobacion = parseInt($("#hdNotaAprobacion").val());
+        var estado = parseInt($("#hdEstadoCiclo").val());
+        if(estado===1){
+            $("#spanMsg").html('El periodo de ingreso de notas sigue vigente');
+        }else{
+            alert("accion");
+            $.post(base_url+'gestionNotas/imprimirActa',
+               'nada=0',
+               function(datos){
+                    
+               });
+        }
+    });
+    
     function getCiclosAjax(){
         $.post(base_url+'ajax/getCiclosAjax',
                'anio=' + $("#slAnio").val(),
