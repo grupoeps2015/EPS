@@ -158,16 +158,21 @@ $(document).ready( function () {
     });
     
     $("#slAnio").change(function(){
+        $("#tbHorarios").dataTable().fnClearTable();
+        $("#tbHorarios").dataTable().fnFilter('');
         if(!$("#slAnio").val()){
             $("#slCiclo").html('');
             $("#slCiclo").append('<option value="" disabled>-- Ciclo --</option>')
             $('#btnConsultar').prop("disabled",true);
         }else{
             getCiclosAjax("slAnio","slCiclo");
+            
         }
     });
     
     $("#slCiclo").change(function(){
+        $("#tbHorarios").dataTable().fnClearTable();
+        $("#tbHorarios").dataTable().fnFilter('');
         if(!$("#slCiclo").val()){            
             $('#btnConsultar').prop("disabled",true);
         }else{
@@ -257,31 +262,21 @@ $(document).ready( function () {
         var base_url = $("#hdBASE_URL").val();
         $.post(base_url+'ajax/getHorarioConsolidadoAjax',
                {ciclo: $("#slCiclo").val()},
-               function(datos){
-                    $("#tbHorarios").dataTable().fnClearTable();
+               function(datos){                    
                     if(datos.length>0){
-                        $("#tbHorarios").find('tbody').html('');
                         for(var i =0; i < datos.length; i++){
-                            $("#tbHorarios").find('tbody').append("<tr><td>"+
-                                datos[i].codigo+
-                                "</td><td>"
-                                +datos[i].nombre+
-                                "</td><td>"
-                                +datos[i].seccion+
-                                "</td><td>"
-                                +datos[i].edificio+
-                                "</td><td>"
-                                +datos[i].salon+
-                                "</td><td>"
-                                +datos[i].inicio+
-                                "</td><td>"
-                                +datos[i].fin+
-                                "</td><td>"
-                                +datos[i].dia+
-                                "</td></tr>");
+                            $('#tbHorarios').dataTable().fnAddData( [
+                                datos[i].codigo,
+                                datos[i].nombre,
+                                datos[i].seccion,
+                                datos[i].edificio,
+                                datos[i].salon,
+                                datos[i].inicio,
+                                datos[i].fin,
+                                datos[i].dia]
+                            );
                         }
                     }
-                    $("#tbHorarios").ajax.reload();
                },
                'json');
     }
