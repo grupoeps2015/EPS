@@ -107,7 +107,10 @@ class gestionRetrasadasController extends Controller {
                 //Mostrar cursos disponibles para asignación
                 $this->_view->asignacion = $periodo[0]['periodo'];
                 $this->_view->lstAsignaciones = $this->cursosDisponiblesRetrasada($ciclo, $periodo[0]['periodo']);
-                $this->_view->lstAsignaciones[0]['nombreestudiante'] = preg_replace('/\s+/', '_',$this->_view->lstAsignaciones[0]['nombreestudiante']);
+                if(isset($this->_view->lstAsignaciones[0]['nombreestudiante']))
+                {
+                    $this->_view->lstAsignaciones[0]['nombreestudiante'] = preg_replace('/\s+/', '_',$this->_view->lstAsignaciones[0]['nombreestudiante']);
+                }
             }
             else{
                 //TODO: Marlen: mostrar boleta de asignación de cursos
