@@ -62,16 +62,16 @@ class gestionDesasignacionController extends Controller {
             exit;
         }
 
-        $rol = $_SESSION["rol"];        
-        $rolValidoGestion = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_ADM_GESTIONDESASIGNACION);
+        $rol = $_SESSION["rol"];
+        $rolValidoGestion = $this->_ajax->getPermisosRolFuncion($rol, CONS_FUNC_ADM_GESTIONDESASIGNACION);
         $this->_view->permisoGestion = $rolValidoGestion[0]["valido"];
-        if($this->_view->permisoGestion!= PERMISO_GESTIONAR){
-           echo "<script>
-                ".MSG_SINPERMISOS."
+        if ($this->_view->permisoGestion != PERMISO_GESTIONAR) {
+            echo "<script>
+                " . MSG_SINPERMISOS . "
                 window.location.href='" . BASE_URL . "login/inicio';
                 </script>";
         }
-        
+
         $this->_view->titulo = 'Gestión de Desasignaciones - ' . APP_TITULO;
         $this->_view->setJs(array('listadoAsignaciones'));
         $this->_view->setJs(array('jquery.dataTables.min'), "public");
@@ -120,11 +120,14 @@ class gestionDesasignacionController extends Controller {
         if ($idEstado == ESTADO_INACTIVO || $idEstado == ESTADO_ACTIVO) {
 
             $infoDesasignacion = $this->_post->getdesasignacion($carnet, '%' . $codigo . "%");
-            if (isset($infoDesasignacion) && count($infoDesasignacion)) {
-                echo "<script>
+            if (!empty($infoDesasignacion)) {
+                if (isset($infoDesasignacion) && count($infoDesasignacion)) {
+
+                    echo "<script>
                 alert('No se puede realizar la desasignacion debido a que el estudiante ya ha realizado este proceso para este curso.');
                 </script>";
-                $this->redireccionar('gestionDesasignacion/listadoAsignaciones/' . $idestudiante);
+                    $this->redireccionar('gestionDesasignacion/listadoAsignaciones/' . $idestudiante);
+                }
             } else {
                 $info = $this->_post->activarDesactivarAsignacion($idAsignacion, $idEstado);
                 if (!is_array($info)) {
