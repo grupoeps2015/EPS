@@ -80,7 +80,7 @@
    }
     function agregarSubMenus(&$menu){
         
-            $sql = "SELECT * FROM spFuncionMenuHijo(" .$menu["funcionmenu"] ."," ."0);";
+            $sql = "SELECT * FROM spFuncionMenuHijo(" .$menu["funcionmenu"] ."," . $_SESSION["rol"] . ");";
             $result=pg_query($GLOBALS['conn'], $sql); 
             $cantidadFilas=pg_num_rows($result);		
             if ($cantidadFilas > 0) {
