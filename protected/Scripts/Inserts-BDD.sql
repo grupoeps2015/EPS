@@ -1030,6 +1030,7 @@ INSERT INTO adm_funcionmenu (funcionmenu,nombre,tipo,url,funcionpadre,funcion,or
 INSERT INTO adm_funcionmenu (funcionmenu,nombre,tipo,url,funcionpadre,funcion,orden,estado) VALUES (10,'Gestión de carreras',3,'general/seleccionarCentroUnidad/gestionPensum/listadoCarrera',9,33,1,1);
 INSERT INTO adm_funcionmenu (funcionmenu,nombre,tipo,url,funcionpadre,funcion,orden,estado) VALUES (11,'Gestión de horarios',3,'general/seleccionarCentroUnidad/gestionHorario/seleccionarCicloCurso',2,38,1,1);
 INSERT INTO adm_funcionmenu (funcionmenu,nombre,tipo,url,funcionpadre,funcion,orden,estado) VALUES (12,'Gestión de notas',3,'general/seleccionarCentroUnidad/gestionNotas',2,43,1,1);
+INSERT INTO adm_funcionmenu (funcionmenu,nombre,tipo,url,funcionpadre,funcion,orden,estado) VALUES (13,'Gestión de asignaciones',2,'asignacion/',4,132,1,1);
 --UPDATE adm_funcionmenu set url = 'general/seleccionarCentroUnidad/gestionParametro' where funcionmenu = 6
 
 
