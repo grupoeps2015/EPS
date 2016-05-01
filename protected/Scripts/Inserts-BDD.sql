@@ -1014,6 +1014,12 @@ insert into adm_rol_funcion (rol,funcion) values (1,134);
 insert into adm_rol_funcion (rol,funcion) values (1,135);
 insert into adm_rol_funcion (rol,funcion) values (1,136);
 
+insert into adm_rol_funcion (rol,funcion) values (0,132);
+insert into adm_rol_funcion (rol,funcion) values (0,133);
+insert into adm_rol_funcion (rol,funcion) values (0,134);
+insert into adm_rol_funcion (rol,funcion) values (0,135);
+insert into adm_rol_funcion (rol,funcion) values (0,136);
+
 -- -----------------------------------------------------
 -- Insert adm_funcionmenu
 -- -----------------------------------------------------
