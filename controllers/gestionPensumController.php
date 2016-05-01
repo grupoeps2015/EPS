@@ -196,9 +196,7 @@ class gestionPensumController extends Controller {
                 window.location.href='" . BASE_URL . "gestionPensum/listadoCarrera/" . "';
                 </script>";
         }
-
         $this->_view->idCentroUnidad = $idCentroUnidad;
-        
         $info = $this->_post->getExtensionesCentroUnidad($idCentroUnidad);
         $info = json_decode($info[0][0], true);
         if (is_array($info) || $info == '') {
@@ -213,12 +211,10 @@ class gestionPensumController extends Controller {
             $this->redireccionar("error/sql/" . $info);
             exit;
         }
-        
         $this->_view->titulo = 'Agregar Carrera - ' . APP_TITULO;
         $this->_view->setJs(array('agregarCarrera'));
         $this->_view->setJs(array('jquery.validate'), "public");
         $arrayCar = array();
-
         if ($this->getInteger('hdEnvio')) {
             $codigoCarrera = $this->getTexto('txtCodigo');
             $nombreCarrera = $this->getTexto('txtNombre');
@@ -896,3 +892,13 @@ class gestionPensumController extends Controller {
     
     
 }
+if(!function_exists("array_column")){
+
+    function array_column($array,$column_name){
+
+        return array_map(function($element) use($column_name){return $element[$column_name];}, $array);
+
+    }
+
+}
+?>
