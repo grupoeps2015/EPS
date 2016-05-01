@@ -98,6 +98,9 @@
 
     function imprimirMenu(&$menu){
             if($menu["url"]!=''){
+                if($menu["funcionmenu"] == 13 && $_SESSION["rol"] == 0){
+                    $menu["url"] = "asignacion/inicio";
+                }
             $GLOBALS['listamenu'] .= '<li class="padres"><a href="'.BASE_URL.$menu["url"].'">'.$menu["nombre"]."</a>\n";
             }
             else {

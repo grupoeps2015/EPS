@@ -80,7 +80,7 @@
                     <?php if(isset($this->creditos[0]['creditos'])):?>
                         <label>Cr&eacute;ditos obtenidos: <?php echo $this->creditos[0]['creditos']?></label>
                         <?php else:?>
-                        <label>Cr&eacute;ditos obtenidos: 0?></label>
+                        <label>Cr&eacute;ditos obtenidos: 0</label>
                         <?php endif;?> 
                     <?php endif;?> 
                     

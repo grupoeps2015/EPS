@@ -76,6 +76,7 @@ function generarPDF()
                         </thead>
                         <tbody>
                         <?php if(isset($this->lstCur) && count($this->lstCur)): ?>
+                            <?php $contadorPromedio = 0; $promedio = 0;?>
                             <?php for($i =0; $i < count($this->lstCur); $i++) : ?>
                             <tr>                                
                                 <td style="text-align: center;"><?php echo $this->lstCur[$i]['codigo']; ?></td>
@@ -84,11 +85,18 @@ function generarPDF()
                                 <td style="text-align: center"><?php echo $this->lstCur[$i]['calificacionnumeros']; ?></td>
                                 <td style="text-align: center"><?php echo $this->lstCur[$i]['fechaaprobacion']; ?></td>                                
                             </tr>
+                            <?php if($this->lstCur[$i]['calificacionnumeros'] != CURSO_APROBADO && $this->lstCur[$i]['calificacionnumeros'] != CURSO_REPROBADO): ?>
+                                    <?php ++$contadorPromedio; $promedio = $promedio + $this->lstCur[$i]['calificacionnumeros'];?>
+                                <?php endif;?>
                             <?php endfor;?>
                         <?php endif;?> 
                         </tbody>
                     </table>
                     <br />
+                    <?php if(isset($this->lstCur[0]['codigo'])):?>
+                    <label>Promedio general: <?php $promedioGeneral =0; $promedioGeneral = $promedio / $contadorPromedio; echo $promedioGeneral; ?> </label>
+                    <br/>    
+                    <?php endif;?> 
                 </div>
             </div>
     </div>   
