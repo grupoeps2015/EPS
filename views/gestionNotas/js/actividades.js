@@ -172,7 +172,7 @@ $(document).ready( function () {
     });
     
     $("#btnActualizar").confirm({
-        text: "Usted está actualizando actividades.<br/> ¿Está seguro continuar actividades?",
+        text: "Usted está actualizando actividades.<br/> ¿Está seguro continuar con esta accion?",
         title: "Confirmacion requerida",
         confirm: function() {
             // Por orden se utilizo el boton de confirmar como cancelar y vicebersa
