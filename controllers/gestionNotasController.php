@@ -499,8 +499,8 @@ class gestionNotasController extends Controller{
         $nomCurso = $this->_notas->getNombreCursoImpartido($cur);
         //Datos generales del acta
         $this->_pdf->SetLeftMargin(30);
-        $this->_pdf->Cell(120,7,'Carrera:          <query para buscar carrera>');
-        $this->_pdf->Cell(40,7,'Ciclo:       <query para buscar ciclo>');
+        $this->_pdf->Cell(120,7,'Carrera: '.$nomCurso[0]['nomcar']);
+        $this->_pdf->Cell(40,7,'Ciclo: '.$nomCurso[0]['numerociclo']);
         $this->_pdf->Ln(4);
         $this->_pdf->Cell(120,7,'Zona: '.$zona);
         $this->_pdf->Cell(40,7,'Seccion: '.$nomSec[0]['nombre']);
@@ -583,8 +583,8 @@ class gestionNotasController extends Controller{
         $nomCurso = $this->_notas->getNombreCursoImpartido($cur);
         //Datos generales del acta
         $this->_pdf->SetLeftMargin(30);
-        $this->_pdf->Cell(120,7,'Carrera:          <query para buscar carrera>');
-        $this->_pdf->Cell(40,7,'Ciclo:       <query para buscar ciclo>');
+        $this->_pdf->Cell(120,7,'Carrera: '.$nomCurso[0]['nomcar']);
+        $this->_pdf->Cell(40,7,'Ciclo: '.$nomCurso[0]['numerociclo']);
         $this->_pdf->Ln(4);
         $this->_pdf->Cell(120,7,'Curso: '.$nomCurso[0]['nombre']);
         $this->_pdf->Cell(40,7,'Seccion: '.$nomSec[0]['nombre']);

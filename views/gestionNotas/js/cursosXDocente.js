@@ -746,6 +746,7 @@ $(document).ready( function () {
         if(estado===1){
             $("#spanMsg").html('El periodo de ingreso de notas sigue vigente');
         }else{
+            $("#spanMsg").html('Se ha generado un acta de notas finales');
             var separador = "RmGm"
             var datos = "/";
             datos += $("#idCatedratico").val();
