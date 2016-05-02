@@ -114,9 +114,8 @@ $(document).ready(function(){
         $.post(base_url+'ajax/getSalonesAjax',
                'edificio=' + $("#slEdificios").val(),
                function(datos){
-                    
-                    if(datos.length>0){
-                        $("#slSalones").html('');
+                    $("#slSalones").html('');
+                    if(datos.length>0){                        
                         for(var i =0; i < datos.length; i++){
                             $("#slSalones").append('<option value="' + datos[i].codigo + '">' + datos[i].nombre + '</option>' );
                         }
