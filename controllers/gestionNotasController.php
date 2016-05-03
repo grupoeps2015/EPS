@@ -118,6 +118,7 @@ class gestionNotasController extends Controller{
         $this->_view->titulo = 'Gestión de notas - ' . APP_TITULO;
         $this->_view->setJs(array('cursosXDocente'));
         $this->_view->setJs(array('jquery.dataTables.min'), "public");
+        $this->_view->setJs(array('jquery.confirm'),"public");
         $this->_view->setJs(array('jquery.csv'), "public");
         $this->_view->setCSS(array('jquery.dataTables.min'));
         $this->_view->renderizar('cursosXDocente','gestionNotas');
@@ -498,8 +499,8 @@ class gestionNotasController extends Controller{
         $nomCurso = $this->_notas->getNombreCursoImpartido($cur);
         //Datos generales del acta
         $this->_pdf->SetLeftMargin(30);
-        $this->_pdf->Cell(120,7,'Carrera:          <query para buscar carrera>');
-        $this->_pdf->Cell(40,7,'Ciclo:       <query para buscar ciclo>');
+        $this->_pdf->Cell(120,7,'Carrera: '.$nomCurso[0]['nomcar']);
+        $this->_pdf->Cell(40,7,'Ciclo: '.$nomCurso[0]['numerociclo']);
         $this->_pdf->Ln(4);
         $this->_pdf->Cell(120,7,'Zona: '.$zona);
         $this->_pdf->Cell(40,7,'Seccion: '.$nomSec[0]['nombre']);
@@ -560,6 +561,67 @@ class gestionNotasController extends Controller{
         $this->_pdf->Cell(100,7,$datosCat[0]['nombrecompleto'],0,0,"C");
         $this->_pdf->Ln(4);
         $this->_pdf->Cell(100,7,'Secretaria Academica Trama',0,0,"C");
+        $this->_pdf->Cell(100,7,'Catedratico',0,0,"C");
+        
+        //Imprimir PDF en navegador
+        $this->_pdf->Output();
+    }
+    
+    public function imprimirListado($parametros){
+        $fecha = getdate();
+        list($cat,$usr, $ciclo, $sec, $cur) = split('RmGm', $parametros);
+        $this->getLibrary('fpdf');
+        $trama = $this->_ajax->getIdTrama($cat,$ciclo,$sec,$cur);
+        
+        $this->_pdf = new FPDF('P', 'mm', 'legal');
+        $this->_pdf->AddPage();
+        $this->_pdf->SetFont('Times','',8);
+        $this->_pdf->Ln(35);
+        
+        $nomSec = $this->_notas->getNombreSeccion($sec);
+        $nomCiclo = $this->_notas->getCategoriaCiclo($ciclo);
+        $nomCurso = $this->_notas->getNombreCursoImpartido($cur);
+        //Datos generales del acta
+        $this->_pdf->SetLeftMargin(30);
+        $this->_pdf->Cell(120,7,'Carrera: '.$nomCurso[0]['nomcar']);
+        $this->_pdf->Cell(40,7,'Ciclo: '.$nomCurso[0]['numerociclo']);
+        $this->_pdf->Ln(4);
+        $this->_pdf->Cell(120,7,'Curso: '.$nomCurso[0]['nombre']);
+        $this->_pdf->Cell(40,7,'Seccion: '.$nomSec[0]['nombre']);
+        $this->_pdf->Ln(4);
+        $this->_pdf->Cell(40,7,'Categoria:  '.$this->numCiclo($nomCiclo[0]['numerociclo']).$nomCiclo[0]['nombre']);
+        $this->_pdf->Cell(40,7,$this->nombreMes($fecha["mon"])." de ".$fecha["year"]);
+        $this->_pdf->Ln(4);
+        
+        $this->_pdf->SetLeftMargin(10);
+        $this->_pdf->Ln(5);
+        
+        //Encabezados de la tabla
+        $this->_pdf->Cell(5,7,'No.',1,0,"C");
+        $this->_pdf->Cell(50,7,'Carnet',1,0);
+        $this->_pdf->Cell(120,7,'Nombre',1,0);
+        $this->_pdf->Cell(10,7,'Ex.',1,0,"C");
+        $this->_pdf->Cell(10,7,'Ca.',1,0,"C");
+        
+        //cuerpo de la tabla
+        $this->_pdf->Ln(10);
+        $datos = $this->_notas->getListaAsignados($trama[0]['spidtrama'],$ciclo);
+        for($i=0;$i<count($datos);$i++){
+            $this->_pdf->Cell(7,3,$i+1,0,0,"C");
+            $this->_pdf->Cell(50,3,$datos[$i]['carnet']);
+            $this->_pdf->Cell(120,3,$datos[$i]['nombre']);
+            $this->_pdf->Cell(10,3,"01");
+            $this->_pdf->Cell(10,3,"01",0,1);
+        }
+        
+        //Pie de pagina con firmas
+        $datosCat = $this->_notas->getDocenteEspecifico($usr);
+        $this->_pdf->SetY(-50);
+        $this->_pdf->Ln(4);
+        $this->_pdf->Cell(100,7,'',0,0,"C");
+        $this->_pdf->Cell(100,7,$datosCat[0]['nombrecompleto'],0,0,"C");
+        $this->_pdf->Ln(4);
+        $this->_pdf->Cell(100,7,'',0,0,"C");
         $this->_pdf->Cell(100,7,'Catedratico',0,0,"C");
         
         //Imprimir PDF en navegador

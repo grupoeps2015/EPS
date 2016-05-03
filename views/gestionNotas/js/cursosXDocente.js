@@ -243,24 +243,21 @@ $(document).ready( function () {
         }
     });
     
-    $("#btnImprimirActa").click(function(){
-        var estado = parseInt($("#hdEstadoCiclo").val());
-        if(estado===1){
-            $("#spanMsg").html('El periodo de ingreso de notas sigue vigente');
-        }else{
-            var separador = "RmGm"
-            var datos = "/";
-            datos += $("#idCatedratico").val();
-            datos += separador+$("#hdZonaTotal").val();
-            datos += separador+$("#hdFinalTotal").val();
-            datos += separador+$("#hdNotaAprobacion").val();
-            datos += separador+$("#hdIdUsr").val();
-            datos += separador+$("#slCiclo").val();
-            datos += separador+$("#slSeccion").val();
-            datos += separador+$("#slCursoxSeccion option:selected").text();
-            datos += separador+".pdf"
-            window.open(base_url+'gestionNotas/imprimirActa'+datos,'_blank');
-        }
+    $("#btnImprimir").confirm({
+        text: "¿Qu&eacute; desea imprimir?",
+        title: "Seleccione una opci&oacute;n",
+        confirm: function() {
+            imprimirActa();
+        },
+        cancel: function() {
+            imprimirListado();
+        },
+        cancelButton: "Listado de alumnos asignados",
+        confirmButton: "Acta de notas finales",
+        post: true,
+        cancelButtonClass: "btn-warning",
+        confirmButtonClass: "btn-warning",
+        dialogClass: "modal-dialog modal-lg text-primary"
     });
     
     function getCiclosAjax(){
@@ -744,4 +741,37 @@ $(document).ready( function () {
         );
     }
     
+    function imprimirActa(){
+        var estado = parseInt($("#hdEstadoCiclo").val());
+        if(estado===1){
+            $("#spanMsg").html('El periodo de ingreso de notas sigue vigente');
+        }else{
+            $("#spanMsg").html('Se ha generado un acta de notas finales');
+            var separador = "RmGm"
+            var datos = "/";
+            datos += $("#idCatedratico").val();
+            datos += separador+$("#hdZonaTotal").val();
+            datos += separador+$("#hdFinalTotal").val();
+            datos += separador+$("#hdNotaAprobacion").val();
+            datos += separador+$("#hdIdUsr").val();
+            datos += separador+$("#slCiclo").val();
+            datos += separador+$("#slSeccion").val();
+            datos += separador+$("#slCursoxSeccion option:selected").text();
+            datos += separador+".pdf"
+            window.open(base_url+'gestionNotas/imprimirActa'+datos,'_blank');
+        }
+    }
+    
+    function imprimirListado(){
+        $("#spanMsg").html('Se ha generado un listado de alumnos asignados');
+        var separador = "RmGm"
+        var datos = "/";
+        datos += $("#idCatedratico").val();
+        datos += separador+$("#hdIdUsr").val();
+        datos += separador+$("#slCiclo").val();
+        datos += separador+$("#slSeccion").val();
+        datos += separador+$("#slCursoxSeccion option:selected").text();
+        datos += separador+".pdf"
+        window.open(base_url+'gestionNotas/imprimirListado'+datos,'_blank');
+    }
 });

@@ -120,15 +120,8 @@ class gestionDesasignacionController extends Controller {
         if ($idEstado == ESTADO_INACTIVO || $idEstado == ESTADO_ACTIVO) {
 
             $infoDesasignacion = $this->_post->getdesasignacion($carnet, '%' . $codigo . "%");
-            if (!empty($infoDesasignacion)) {
-                if (isset($infoDesasignacion) && count($infoDesasignacion)) {
-
-                    echo "<script>
-                alert('No se puede realizar la desasignacion debido a que el estudiante ya ha realizado este proceso para este curso.');
-                </script>";
-                    $this->redireccionar('gestionDesasignacion/listadoAsignaciones/' . $idestudiante);
-                }
-            } else {
+            if (empty($infoDesasignacion)) {
+                
                 $info = $this->_post->activarDesactivarAsignacion($idAsignacion, $idEstado);
                 if (!is_array($info)) {
                     $this->redireccionar("error/sql/" . $info);
@@ -158,6 +151,12 @@ class gestionDesasignacionController extends Controller {
 
                     echo "<script>
                 alert('Desasignacion de curso para el estudiante " . $carnet . " realizada exitosamente.');
+                </script>";
+                    $this->redireccionar('gestionDesasignacion/listadoAsignaciones/' . $idestudiante);
+                }else{
+
+                    echo "<script>
+                alert('No se puede realizar la desasignacion debido a que el estudiante ya ha realizado este proceso para este curso.');
                 </script>";
                     $this->redireccionar('gestionDesasignacion/listadoAsignaciones/' . $idestudiante);
                 }

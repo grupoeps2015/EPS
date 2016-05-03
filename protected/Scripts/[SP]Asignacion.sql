@@ -857,4 +857,20 @@ ALTER FUNCTION spmodificarpago(integer, integer)
   OWNER TO postgres;
   
   
+-- Function: spextensionporcarrera(integer)
+
+-- DROP FUNCTION spextensionporcarrera(integer);
+
+CREATE OR REPLACE FUNCTION spextensionporcarrera(IN _carrera int) RETURNS text as
+$BODY$
+declare exten text;
+BEGIN 
+  select ca.Extension from cur_carrera ca where ca.carrera = _carrera limit 1 into exten;
+  return exten;
+END;
+$BODY$
+LANGUAGE 'plpgsql';
+
+
+  
 Select 'Script de Asignaciones Instalado' as "Asignacion";

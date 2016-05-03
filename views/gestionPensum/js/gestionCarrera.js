@@ -14,7 +14,4 @@ $(document).ready(function(){
         }
     });
     
-    $('#linkNuevoCar').click(function(){
-       $('#frmPost').submit();
-    });
 } );

@@ -25,11 +25,9 @@
                 <div class="col-lg-3 col-md-6 text-center"></div>
                 <div class="col-lg-3 col-md-6 text-center">
                     <?php if($this->permisoAgregar == PERMISO_CREAR): ?>
-                    <form method='post' name='frmPost' id='frmPost' action='<?php echo BASE_URL ?>gestionPensum/agregarCarrera'>
                         <i class="fa fa-2x fa-user-plus wow bounceIn text-primary" data-wow-delay=".2s">
-                            <a id="linkNuevoCar" href="#">Agregar Carrera</a>
+                            <a id="linkNuevoCar" href="<?php echo BASE_URL ?>gestionPensum/agregarCarrera">Agregar Carrera</a>
                         </i>
-                    </form>
                     <?php endif; ?>
                 </div>
             </div>
