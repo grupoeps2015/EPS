@@ -34,7 +34,7 @@ class gestionNotasModel extends Model {
     }
     
     public function getNombreCursoImpartido($idCurso){
-        $info = $this->_db->query("select nombre from cur_curso where curso = {$idCurso};");
+        $info = $this->_db->query("select cur.nombre, cp.numerociclo, pen.carrera, car.nombre nomcar from cur_curso cur join cur_pensum_area cp on cp.curso=cur.curso join adm_pensum pen on pen.pensum = cp.pensum join cur_carrera car on pen.carrera = car.carrera where cur.curso = {$idCurso};");
         if($info === false){
             return "1104/getCategoriaCiclo";
         }else{
