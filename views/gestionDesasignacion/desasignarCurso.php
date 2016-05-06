@@ -25,7 +25,7 @@
     <div class="header-content">
         <div class="header-content-inner">
             <div id="divCentros" class="row">
-                <form id="frAsignacion" method="post" action="<?php echo BASE_URL; ?>gestionDesasignacion/desasignarCurso/-1/<?php echo $this->asignacion[0]['asignacion']; ?>">
+                <form id="frAsignacion" method="post" action="<?php echo BASE_URL; ?>gestionDesasignacion/desasignarCurso/-1/<?php echo $this->asignacion[0]['asignacion']; ?>/<?php echo $this->asignacion[0]['codigo']; ?>">
                     <div id="divEstudiantes" class="form-group" >
                         <div class="col-md-6 col-md-offset-3">
                             <h3>Informacion del Estudiante</h3>

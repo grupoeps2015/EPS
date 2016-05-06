@@ -51,10 +51,14 @@ class gestionDesasignacionModel extends Model {
     
     public function getdesasignacion($carnet, $curso) {
         
-        $info = $this->_db->query("select * from spgetdesasignacion(".$carnet.",'".$curso."');");
-        if($info === false){
+        $info = $this->_db->query("select * from spgetdesasignacion(".$carnet.",".$curso.");");
+        print_r("select * from spgetdesasignacion(".$carnet.",".$curso.")");
+        if($info === false ){
+             print_r("----");
             return "1104/getdesasignacion";
         }else{
+            print_r("--------------------".count($info->fetchall())."-----)");
+             
             return $info->fetchall();
         }
     }
