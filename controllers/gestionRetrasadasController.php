@@ -196,6 +196,8 @@ class gestionRetrasadasController extends Controller {
     }
     
     public function generarOrdenPago($carnet,$nombre,$carrera){
+        $idCentroUnidad = $_SESSION["centrounidad"];
+                        
         $nombre = str_replace("_", " ",$nombre);
         $idCarrera = $_SESSION['carrera'];
         $idPeriodo = 0;
@@ -283,19 +285,26 @@ class gestionRetrasadasController extends Controller {
                 
             }
         }
-        //$carnet=200610816;
+        
+        
+        /**Datos de prueba
+            $carnet=200610816;
+            $carrera=1;
+            $nombre='TRINIDAD PINEDA JORGE';
+            $anio=2014;
+            $rubro=4;
+            $varianterubro=VARIANTERUBRO_RETRASADAS;
+            $tipocurso=TIPOCURSO_ESCUELAHISTORIA;
+            $curso=83;
+            $seccion='B';
+         **/
+        
         $unidad=UNIDAD_ESCUELAHISTORIA;
         $extension=EXTENSION_ESCUELAHISTORIA;
-        //$carrera=1;
-        //$nombre='TRINIDAD PINEDA JORGE';
+        
         $nombre2 = strtoupper($nombre);
         $montoTotal=$monto*$multiplicadorMonto;
-        //$anio=2014;
-        //$rubro=4;
-        //$varianterubro=VARIANTERUBRO_RETRASADAS;
-        //$tipocurso=TIPOCURSO_ESCUELAHISTORIA;
-        //$curso=83;
-        //$seccion='B';
+        
        
         unset($arreglo);
         for($i=0;$i<$multiplicadorMonto;$i++){

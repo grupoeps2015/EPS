@@ -630,66 +630,30 @@ class gestionNotasController extends Controller{
     
     private function nombreMes($id){
         switch ($id){
-            case 1:
-                return "enero";
-                break;
-            case 2:
-                return "febrero";
-                break;
-            case 3:
-                return "marzo";
-                break;
-            case 4:
-                return "abril";
-                break;
-            case 5:
-                return "mayo";
-                break;
-            case 6:
-                return "junio";
-                break;
-            case 7:
-                return "julio";
-                break;
-            case 8:
-                return "agosto";
-                break;
-            case 9:
-                return "septiembre";
-                break;
-            case 10:
-                return "octubre";
-                break;
-            case 11:
-                return "noviembre";
-                break;
-            case 12:
-                return "diciembre";
-                break;
+            case 1: return "enero";
+            case 2: return "febrero";
+            case 3: return "marzo";
+            case 4: return "abril";
+            case 5: return "mayo";
+            case 6: return "junio";
+            case 7: return "julio";
+            case 8: return "agosto";
+            case 9: return "septiembre";
+            case 10: return "octubre";
+            case 11: return "noviembre";
+            case 12: return "diciembre";
         }
         
     }
 
     private function numCiclo($num){
         switch($num){
-            case 1:
-                return "1r. ";
-                break;
-            case 2:
-                return "2do. ";
-                break;
-            case 3:
-                return "3ro. ";
-                break;
-            case 4:
-                return "4to. ";
-                break;
-            case 5:
-                return "5to. ";
-                break;
-            case 6:
-                return "6to. ";
-                break;
+            case 1: return "1r. ";
+            case 2: return "2do. ";
+            case 3: return "3ro. ";
+            case 4: return "4to. ";
+            case 5: return "5to. ";
+            case 6: return "6to. ";
         }
     }
 }
