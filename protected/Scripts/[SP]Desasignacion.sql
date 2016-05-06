@@ -135,7 +135,7 @@ ALTER FUNCTION spagregardesasignacion(integer, text)
 
 CREATE OR REPLACE FUNCTION spgetdesasignacion(
     IN _carnet integer,
-	IN _curso integer,
+	IN _codigo text,
     OUT desasignacion integer,
     OUT carnet integer
     )
@@ -143,18 +143,19 @@ CREATE OR REPLACE FUNCTION spgetdesasignacion(
 $BODY$
 BEGIN
   RETURN query
-  Select  cd.desasignacion, e.carnet from est_estudiante e 
+Select  cd.desasignacion, e.carnet from est_estudiante e 
 join est_ciclo_asignacion eca on e.estudiante = eca.estudiante
 join est_cur_asignacion ecra on ecra.ciclo_asignacion = eca.ciclo_asignacion
 join cur_desasignacion cd on cd.asignacion = ecra.asignacion
 join cur_seccion cs on cs.seccion = ecra.seccion
-and e.carnet = _carnet and cs.curso = _curso;
+join cur_curso cc on cc.curso = cs.curso
+where e.carnet = _carnet and cc.codigo = _codigo;
 END;
 $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100
   ROWS 1000;
-ALTER FUNCTION spgetdesasignacion(integer, integer)
+ALTER FUNCTION spgetdesasignacion(integer, text)
   OWNER TO postgres;
   
   
