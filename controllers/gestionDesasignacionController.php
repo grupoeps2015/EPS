@@ -111,9 +111,7 @@ class gestionDesasignacionController extends Controller {
         $carnet = $this->getInteger('hdCarnet');
         $idestudiante = $this->getInteger('hdEst');
         $codigo = $this->getInteger('hdCodigo');
-        echo "<script>
-                alert('----".$codigoCurso."----');
-                </script>";
+        
 
 //        session_start();
 //        $rol = $_SESSION["rol"];        
@@ -123,20 +121,7 @@ class gestionDesasignacionController extends Controller {
 
             $infoDesasignacion = $this->_post->getdesasignacion($carnet, $codigoCurso);
             
-            if (is_array($infoDesasignacion)) {
-                if(count($infoDesasignacion)>0){
-                    
-                    echo "<script>
-                alert('Aaaaaaaaaaaaaaaaaaaaaaaa');
-                </script>";
-                $this->redireccionar('gestionDesasignacion/listadoAsignaciones/' . $idestudiante);
-                }else{
-                    echo "<script>
-                alert('bbbbbbbbbbbbbbbbbbbbb');
-                </script>";
-                $this->redireccionar('gestionDesasignacion/listadoAsignaciones/' . $idestudiante);
-                    
-                }
+            if (count($infoDesasignacion)>0 && is_array($infoDesasignacion)) {
                 echo "<script>
                 alert('No se puede realizar la desasignacion debido a que el estudiante ya ha realizado este proceso para este curso.');
                 </script>";
