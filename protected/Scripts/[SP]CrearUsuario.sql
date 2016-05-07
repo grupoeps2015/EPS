@@ -362,10 +362,16 @@ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION spEstudianteCarrera(_idUsuario int, _idCarrera int) returns void as
 $BODY$
 Declare _idEstudiante integer;
+Declare _idPago integer;
+Declare _banco text;
 BEGIN
+  Select 'banrural' into _banco;
   SELECT estudiante from est_estudiante where usuario = _idUsuario into _idEstudiante;
   EXECUTE format('INSERT INTO est_estudiante_carrera VALUES(%s,%s,current_timestamp,1)',_idEstudiante,_idCarrera);
   EXECUTE format('UPDATE est_estudiante set estado = 1 where estudiante=%s',_idEstudiante);
+  EXECUTE format('INSERT INTO est_pago values(default,1,1000+%s,current_timestamp,%L,%s,1,%s,1);',_idEstudiante,_banco,_idEstudiante,_idCarrera);
+  SELECT pago from est_pago where estudiante=_idEstudiante order by pago desc limit 1 into _idPago;
+  EXECUTE format('INSERT INTO est_inscripcion values(default,2016,current_timestamp,%s,%s,%s);',_idPago,_idEstudiante,_idCarrera);
 END;
 $BODY$
 LANGUAGE plpgsql;
