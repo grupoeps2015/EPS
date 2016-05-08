@@ -77,6 +77,15 @@ class gestionRetrasadasModel extends Model {
             return $info->fetchall();
         }
     }
+    
+    public function getextensionporcarrera($idCarrera) {
+        $info = $this->_db->query("select * from spextensionporcarrera(" . $idCarrera . ") as extension;");
+        if($info === false){
+            return "1104/getextensionporcarrera";
+        }else{
+            return $info->fetchall();
+        }
+    }
           
         
 }

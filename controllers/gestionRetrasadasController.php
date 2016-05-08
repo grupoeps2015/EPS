@@ -196,7 +196,6 @@ class gestionRetrasadasController extends Controller {
     }
     
     public function generarOrdenPago($carnet,$nombre,$carrera){
-        $idCentroUnidad = $_SESSION["centrounidad"];
                         
         $nombre = str_replace("_", " ",$nombre);
         $idCarrera = $_SESSION['carrera'];
@@ -300,8 +299,16 @@ class gestionRetrasadasController extends Controller {
          **/
         
         $unidad=UNIDAD_ESCUELAHISTORIA;
-        $extension=EXTENSION_ESCUELAHISTORIA;
+        //$extension=EXTENSION_ESCUELAHISTORIA;
         
+        $extension = $this->_post->getextensionporcarrera($idCarrera);
+        if(is_array($extension)){
+                $extensionobtenida = (isset($extension[0]['extension']) ? $extension[0]['extension'] : '01');
+            }else{
+                $this->redireccionar("error/sql/" . $extension);
+                exit;
+            }
+    
         $nombre2 = strtoupper($nombre);
         $montoTotal=$monto*$multiplicadorMonto;
         
@@ -318,7 +325,7 @@ class gestionRetrasadasController extends Controller {
         }
         
         $this->_generaorden = new wsGeneraOrdenPago();
-        $prueba = $this->_generaorden->generaOrdenPago($carnet,$unidad,$extension,$carrera,$nombre2,$montoTotal,$arreglo);
+        $prueba = $this->_generaorden->generaOrdenPago($carnet,$unidad,$extensionobtenida,$carrera,$nombre2,$montoTotal,$arreglo);
         $cadena = implode(',', $prueba);
            
         if ($this->_generaorden->parsear_resultado($cadena,"CODIGO_RESP") == "1") {
