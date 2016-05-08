@@ -296,11 +296,11 @@ class gestionRetrasadasController extends Controller {
             $tipocurso=TIPOCURSO_ESCUELAHISTORIA;
             $curso=83;
             $seccion='B';
+            $extension=EXTENSION_ESCUELAHISTORIA;
          **/
         
         $unidad=UNIDAD_ESCUELAHISTORIA;
-        //$extension=EXTENSION_ESCUELAHISTORIA;
-        
+             
         $extension = $this->_post->getextensionporcarrera($idCarrera);
         if(is_array($extension)){
                 $extensionobtenida = (isset($extension[0]['extension']) ? $extension[0]['extension'] : '01');
