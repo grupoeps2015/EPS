@@ -22,6 +22,7 @@ class gestionCursoController extends Controller {
         }
         $this->getLibrary('encripted');
         $this->_encriptar = new encripted();
+        $this->_bitacora = $this->loadModel('bitacora');
         $this->_post = $this->loadModel('gestionCurso');
         $this->_ajax = $this->loadModel("ajax");
     }
@@ -63,12 +64,27 @@ class gestionCursoController extends Controller {
             $this->_view->setJs(array('gestionCurso'));
             $this->_view->setJs(array('jquery.dataTables.min'), "public");
             $this->_view->setCSS(array('jquery.dataTables.min'));
-
+            
+            //Insertar en bitácora            
+            $arrayBitacora = array();
+            $arrayBitacora[":usuario"] = $_SESSION["usuario"];
+            $arrayBitacora[":nombreusuario"] = $_SESSION["nombre"];
+            $arrayBitacora[":funcion"] = CONS_FUNC_CUR_CONSULTARCURSO;
+            $arrayBitacora[":ip"] = $this->get_ip_address();
+            $arrayBitacora[":registro"] = 0;
+            $arrayBitacora[":tablacampo"] = '';
+            $arrayBitacora[":descripcion"] = 'El usuario ha consultado el catálogo de cursos';
+            $insert = $this->_bitacora->insertarBitacoraUsuario($arrayBitacora, $_SESSION["rol"]);
+            if(!is_array($insert)){
+                $this->redireccionar("error/sql/" . $insert);
+                exit;
+            }
+                
             $this->_view->renderizar('gestionCurso');
         
     }
     
-    public function agregarCurso() {
+    public function agregarCurso() {                
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_CREARCURSO);
          
@@ -77,7 +93,7 @@ class gestionCursoController extends Controller {
                 ".MSG_SINPERMISOS."
                 window.location.href='" . BASE_URL . "gestionCurso';
                 </script>";
-        }
+        }         
         
         $idCentroUnidad = $_SESSION["centrounidad"];
         if ($this->getInteger('hdEnvio')) {
@@ -99,6 +115,21 @@ class gestionCursoController extends Controller {
                 exit;
             }
             
+            //Insertar en bitácora            
+            $arrayBitacora = array();
+            $arrayBitacora[":usuario"] = $_SESSION["usuario"];
+            $arrayBitacora[":nombreusuario"] = $_SESSION["nombre"];
+            $arrayBitacora[":funcion"] = CONS_FUNC_CUR_CREARCURSO;
+            $arrayBitacora[":ip"] = $this->get_ip_address();
+            $arrayBitacora[":registro"] = 0;
+            $arrayBitacora[":tablacampo"] = '';
+            $arrayBitacora[":descripcion"] = 'El usuario ha agregado un nuevo curso: ' . $codigoCurso . ' - ' . $nombreCurso;
+            $insert = $this->_bitacora->insertarBitacoraUsuario($arrayBitacora, $_SESSION["rol"]);
+            if(!is_array($insert)){
+                $this->redireccionar("error/sql/" . $insert);
+                exit;
+            }
+
             $this->redireccionar('gestionCurso');
             exit;
         }
@@ -134,6 +165,22 @@ class gestionCursoController extends Controller {
                     $this->redireccionar("error/sql/" . $info);
                     exit;
                 }
+                
+                //Insertar en bitácora            
+                $arrayBitacora = array();
+                $arrayBitacora[":usuario"] = $_SESSION["usuario"];
+                $arrayBitacora[":nombreusuario"] = $_SESSION["nombre"];
+                $arrayBitacora[":funcion"] = CONS_FUNC_CUR_ELIMINARCURSO;
+                $arrayBitacora[":ip"] = $this->get_ip_address();
+                $arrayBitacora[":registro"] = 0;
+                $arrayBitacora[":tablacampo"] = '';
+                $arrayBitacora[":descripcion"] = 'El usuario ha cambiado el estado del curso: ' . $intIdCurso . ' a ' . $intNuevoEstado;
+                $insert = $this->_bitacora->insertarBitacoraUsuario($arrayBitacora, $_SESSION["rol"]);
+                if(!is_array($insert)){
+                    $this->redireccionar("error/sql/" . $insert);
+                    exit;
+                }
+                
                 $this->redireccionar('gestionCurso');
             } else {
                 echo "Error al desactivar curso";
@@ -198,6 +245,22 @@ class gestionCursoController extends Controller {
 
             $respuesta = $this->_post->actualizarCurso($arrayCur);
             if (is_array($respuesta)){
+                
+                //Insertar en bitácora            
+                $arrayBitacora = array();
+                $arrayBitacora[":usuario"] = $_SESSION["usuario"];
+                $arrayBitacora[":nombreusuario"] = $_SESSION["nombre"];
+                $arrayBitacora[":funcion"] = CONS_FUNC_CUR_MODIFICARCURSO;
+                $arrayBitacora[":ip"] = $this->get_ip_address();
+                $arrayBitacora[":registro"] = 0;
+                $arrayBitacora[":tablacampo"] = '';
+                $arrayBitacora[":descripcion"] = 'El usuario ha actualizado el curso: ' . $intIdCurso;
+                $insert = $this->_bitacora->insertarBitacoraUsuario($arrayBitacora, $_SESSION["rol"]);
+                if(!is_array($insert)){
+                    $this->redireccionar("error/sql/" . $insert);
+                    exit;
+                }
+                
                 $this->redireccionar('gestionCurso');
                 exit;
             }else{
@@ -281,6 +344,21 @@ class gestionCursoController extends Controller {
             $this->_view->setJs(array('gestionSeccion'));
             $this->_view->setJs(array('jquery.dataTables.min'), "public");
             $this->_view->setCSS(array('jquery.dataTables.min'));
+            
+            //Insertar en bitácora            
+            $arrayBitacora = array();
+            $arrayBitacora[":usuario"] = $_SESSION["usuario"];
+            $arrayBitacora[":nombreusuario"] = $_SESSION["nombre"];
+            $arrayBitacora[":funcion"] = CONS_FUNC_CUR_CONSULTARSECCION;
+            $arrayBitacora[":ip"] = $this->get_ip_address();
+            $arrayBitacora[":registro"] = 0;
+            $arrayBitacora[":tablacampo"] = '';
+            $arrayBitacora[":descripcion"] = 'El usuario ha consultado el catálogo de secciones';
+            $insert = $this->_bitacora->insertarBitacoraUsuario($arrayBitacora, $_SESSION["rol"]);
+            if(!is_array($insert)){
+                $this->redireccionar("error/sql/" . $insert);
+                exit;
+            }
             $this->_view->renderizar('gestionSeccion');
         
     }
@@ -316,7 +394,23 @@ class gestionCursoController extends Controller {
                 exit;
             }
             
+            //Insertar en bitácora            
+            $arrayBitacora = array();
+            $arrayBitacora[":usuario"] = $_SESSION["usuario"];
+            $arrayBitacora[":nombreusuario"] = $_SESSION["nombre"];
+            $arrayBitacora[":funcion"] = CONS_FUNC_CUR_CREARSECCION;
+            $arrayBitacora[":ip"] = $this->get_ip_address();
+            $arrayBitacora[":registro"] = 0;
+            $arrayBitacora[":tablacampo"] = '';
+            $arrayBitacora[":descripcion"] = 'El usuario ha creado una nueva sección para el curso: ' . $curso . ' - ' . $nombreSeccion;
+            $insert = $this->_bitacora->insertarBitacoraUsuario($arrayBitacora, $_SESSION["rol"]);
+            if(!is_array($insert)){
+                $this->redireccionar("error/sql/" . $insert);
+                exit;
+            }
+            
             $this->redireccionar('gestionCurso/listadoSeccion');
+            exit;
         }
         
         $secciones = $this->_post->getTiposSeccion();
@@ -356,7 +450,25 @@ class gestionCursoController extends Controller {
                     $this->redireccionar("error/sql/" . $info);
                     exit;
                 }
+                
+                //Insertar en bitácora            
+                $arrayBitacora = array();
+                $arrayBitacora[":usuario"] = $_SESSION["usuario"];
+                $arrayBitacora[":nombreusuario"] = $_SESSION["nombre"];
+                $arrayBitacora[":funcion"] = CONS_FUNC_CUR_CREARSECCION;
+                $arrayBitacora[":ip"] = $this->get_ip_address();
+                $arrayBitacora[":registro"] = 0;
+                $arrayBitacora[":tablacampo"] = '';
+                $arrayBitacora[":descripcion"] = 'El usuario ha cambiado el estado de la sección: ' . $intIdSeccion . ' a ' . $intNuevoEstado;
+                $insert = $this->_bitacora->insertarBitacoraUsuario($arrayBitacora, $_SESSION["rol"]);
+                if(!is_array($insert)){
+                    $this->redireccionar("error/sql/" . $insert);
+                    exit;
+                }
+                
                 $this->redireccionar('gestionCurso/listadoSeccion');
+                exit;
+                
             } else {
                 echo "Error al desactivar sección";
             }
@@ -396,7 +508,24 @@ class gestionCursoController extends Controller {
 
             $respuesta = $this->_post->actualizarSeccion($arraySec);
             if (is_array($respuesta)){
+                
+                //Insertar en bitácora            
+                $arrayBitacora = array();
+                $arrayBitacora[":usuario"] = $_SESSION["usuario"];
+                $arrayBitacora[":nombreusuario"] = $_SESSION["nombre"];
+                $arrayBitacora[":funcion"] = CONS_FUNC_CUR_MODIFICARCURSO;
+                $arrayBitacora[":ip"] = $this->get_ip_address();
+                $arrayBitacora[":registro"] = 0;
+                $arrayBitacora[":tablacampo"] = '';
+                $arrayBitacora[":descripcion"] = 'El usuario ha actualizado la sección: ' . $intIdSeccion;
+                $insert = $this->_bitacora->insertarBitacoraUsuario($arrayBitacora, $_SESSION["rol"]);
+                if(!is_array($insert)){
+                    $this->redireccionar("error/sql/" . $insert);
+                    exit;
+                }
+                
                 $this->redireccionar('gestionCurso/listadoSeccion');
+                exit;
             }else{
                 $this->redireccionar("error/sql/" . $respuesta);
                 exit;
