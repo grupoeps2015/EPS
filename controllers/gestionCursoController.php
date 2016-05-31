@@ -455,7 +455,7 @@ class gestionCursoController extends Controller {
                 $arrayBitacora = array();
                 $arrayBitacora[":usuario"] = $_SESSION["usuario"];
                 $arrayBitacora[":nombreusuario"] = $_SESSION["nombre"];
-                $arrayBitacora[":funcion"] = CONS_FUNC_CUR_CREARSECCION;
+                $arrayBitacora[":funcion"] = CONS_FUNC_CUR_ELIMINARSECCION;
                 $arrayBitacora[":ip"] = $this->get_ip_address();
                 $arrayBitacora[":registro"] = 0;
                 $arrayBitacora[":tablacampo"] = '';
@@ -513,7 +513,7 @@ class gestionCursoController extends Controller {
                 $arrayBitacora = array();
                 $arrayBitacora[":usuario"] = $_SESSION["usuario"];
                 $arrayBitacora[":nombreusuario"] = $_SESSION["nombre"];
-                $arrayBitacora[":funcion"] = CONS_FUNC_CUR_MODIFICARCURSO;
+                $arrayBitacora[":funcion"] = CONS_FUNC_CUR_MODIFICARSECCION;
                 $arrayBitacora[":ip"] = $this->get_ip_address();
                 $arrayBitacora[":registro"] = 0;
                 $arrayBitacora[":tablacampo"] = '';
