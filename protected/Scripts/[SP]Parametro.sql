@@ -141,6 +141,26 @@ BEGIN
 END;
 $$;
 
+
+-- Function: spactivardesactivarparametro(integer, integer)
+
+-- DROP FUNCTION spactivardesactivarparametro(integer, integer);
+
+CREATE OR REPLACE FUNCTION spactivardesactivarparametro(
+    _idparametro integer,
+    _estadonuevo integer)
+  RETURNS void AS
+$BODY$
+BEGIN
+  EXECUTE format('UPDATE adm_parametro SET estado = %L WHERE parametro = %L',_estadoNuevo,_idparametro);
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION spactivardesactivarparametro(integer, integer)
+  OWNER TO postgres;
+
+
 -- -----------------------------------------------------
 -- Function: spConsultaCentroUnidadacademica()
 -- -----------------------------------------------------

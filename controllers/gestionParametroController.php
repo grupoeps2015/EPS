@@ -18,6 +18,7 @@ class gestionParametroController extends Controller{
             $this->redireccionar('login/salir');
             exit;
         }
+        $this->_bitacora = $this->loadModel('bitacora');
         $this->_post = $this->loadModel('gestionParametro');
         $this->_ajax = $this->loadModel("ajax");
     }
@@ -53,6 +54,21 @@ class gestionParametroController extends Controller{
             $this->_view->setJs(array('jquery.dataTables.min'), "public");
             $this->_view->setCSS(array('jquery.dataTables.min'));
             $this->_view->lstPar = $this->_post->informacionParametro($idCentroUnidad);
+            
+            //Insertar en bitácora            
+            $arrayBitacora = array();
+            $arrayBitacora[":usuario"] = $_SESSION["usuario"];
+            $arrayBitacora[":nombreusuario"] = $_SESSION["nombre"];
+            $arrayBitacora[":funcion"] = CONS_FUNC_ADM_CONSULTARPARAMETRO;
+            $arrayBitacora[":ip"] = $this->get_ip_address();
+            $arrayBitacora[":registro"] = 0;
+            $arrayBitacora[":tablacampo"] = '';
+            $arrayBitacora[":descripcion"] = 'El usuario ha consultado el listado de parámetros';
+            $insert = $this->_bitacora->insertarBitacoraUsuario($arrayBitacora, $_SESSION["rol"]);
+            if(!is_array($insert)){
+                $this->redireccionar("error/sql/" . $insert);
+                exit;
+            }
             
             //se renderiza la vista a mostrar
             $this->_view->renderizar('gestionParametro');
@@ -115,6 +131,7 @@ class gestionParametroController extends Controller{
             }
             
             $this->redireccionar('gestionParametro');
+            exit;
         }
         
         $this->_view->renderizar('agregarParametro', 'gestionParametro');
@@ -132,7 +149,24 @@ class gestionParametroController extends Controller{
                     $this->redireccionar("error/sql/" . $info);
                     exit;
                 }
+                
+                //Insertar en bitácora            
+                $arrayBitacora = array();
+                $arrayBitacora[":usuario"] = $_SESSION["usuario"];
+                $arrayBitacora[":nombreusuario"] = $_SESSION["nombre"];
+                $arrayBitacora[":funcion"] = CONS_FUNC_ADM_ELIMINARPARAMETRO;
+                $arrayBitacora[":ip"] = $this->get_ip_address();
+                $arrayBitacora[":registro"] = 0;
+                $arrayBitacora[":tablacampo"] = '';
+                $arrayBitacora[":descripcion"] = 'El usuario ha cambiado el estado del parámetro: ' . $intIdParametro . ' a ' . $intNuevoEstado;
+                $insert = $this->_bitacora->insertarBitacoraUsuario($arrayBitacora, $_SESSION["rol"]);
+                if(!is_array($insert)){
+                    $this->redireccionar("error/sql/" . $insert);
+                    exit;
+                }
+                
                 $this->redireccionar('gestionParametro');
+                exit;
             }else{
                 $this->_view->cambio = "No reconocio ningun parametro";    
             }
@@ -215,6 +249,21 @@ class gestionParametroController extends Controller{
                 exit;
             }
             
+            //Insertar en bitácora            
+            $arrayBitacora = array();
+            $arrayBitacora[":usuario"] = $_SESSION["usuario"];
+            $arrayBitacora[":nombreusuario"] = $_SESSION["nombre"];
+            $arrayBitacora[":funcion"] = CONS_FUNC_ADM_MODIFICARPARAMETRO;
+            $arrayBitacora[":ip"] = $this->get_ip_address();
+            $arrayBitacora[":registro"] = 0;
+            $arrayBitacora[":tablacampo"] = '';
+            $arrayBitacora[":descripcion"] = 'El usuario ha actualizado el parámetro: ' . $intIdParametro;
+            $insert = $this->_bitacora->insertarBitacoraUsuario($arrayBitacora, $_SESSION["rol"]);
+            if(!is_array($insert)){
+                $this->redireccionar("error/sql/" . $insert);
+                exit;
+            }
+            
             $this->redireccionar('gestionParametro/actualizarParametro/' . $intIdParametro );
             exit;
         }
@@ -257,6 +306,22 @@ class gestionParametroController extends Controller{
             $this->_view->setJs(array('gestionPeriodo'));
             $this->_view->setJs(array('jquery.dataTables.min'), "public");
             $this->_view->setCSS(array('jquery.dataTables.min'));
+            
+            //Insertar en bitácora            
+            $arrayBitacora = array();
+            $arrayBitacora[":usuario"] = $_SESSION["usuario"];
+            $arrayBitacora[":nombreusuario"] = $_SESSION["nombre"];
+            $arrayBitacora[":funcion"] = CONS_FUNC_ADM_CONSULTAPERIODO;
+            $arrayBitacora[":ip"] = $this->get_ip_address();
+            $arrayBitacora[":registro"] = 0;
+            $arrayBitacora[":tablacampo"] = '';
+            $arrayBitacora[":descripcion"] = 'El usuario ha consultado el listado de periodos';
+            $insert = $this->_bitacora->insertarBitacoraUsuario($arrayBitacora, $_SESSION["rol"]);
+            if(!is_array($insert)){
+                $this->redireccionar("error/sql/" . $insert);
+                exit;
+            }
+            
             $this->_view->renderizar('gestionPeriodo');
         
     }
@@ -274,7 +339,24 @@ class gestionParametroController extends Controller{
                     $this->redireccionar("error/sql/" . $info);
                     exit;
                 }
+                
+                //Insertar en bitácora            
+                $arrayBitacora = array();
+                $arrayBitacora[":usuario"] = $_SESSION["usuario"];
+                $arrayBitacora[":nombreusuario"] = $_SESSION["nombre"];
+                $arrayBitacora[":funcion"] = CONS_FUNC_ADM_ELIMINARPERIODO;
+                $arrayBitacora[":ip"] = $this->get_ip_address();
+                $arrayBitacora[":registro"] = 0;
+                $arrayBitacora[":tablacampo"] = '';
+                $arrayBitacora[":descripcion"] = 'El usuario ha cambiado el estado del período: ' . $intIdPeriodo . ' a ' . $intNuevoEstado;
+                $insert = $this->_bitacora->insertarBitacoraUsuario($arrayBitacora, $_SESSION["rol"]);
+                if(!is_array($insert)){
+                    $this->redireccionar("error/sql/" . $insert);
+                    exit;
+                }
+                
                 $this->redireccionar('gestionParametro/listadoPeriodo');
+                exit;
             } else {
                 echo "Error al desactivar período";
             }
@@ -322,6 +404,21 @@ class gestionParametroController extends Controller{
             $info = $this->_post->agregarPeriodoParametro($array);
             if(!is_array($info)){
                 $this->redireccionar("error/sql/" . $info);
+                exit;
+            }
+            
+            //Insertar en bitácora            
+            $arrayBitacora = array();
+            $arrayBitacora[":usuario"] = $_SESSION["usuario"];
+            $arrayBitacora[":nombreusuario"] = $_SESSION["nombre"];
+            $arrayBitacora[":funcion"] = CONS_FUNC_ADM_CREARPERIODO;
+            $arrayBitacora[":ip"] = $this->get_ip_address();
+            $arrayBitacora[":registro"] = 0;
+            $arrayBitacora[":tablacampo"] = '';
+            $arrayBitacora[":descripcion"] = 'El usuario ha agregado un nuevo período: ' . $fechaInicial . ' - ' . $fechaFinal;
+            $insert = $this->_bitacora->insertarBitacoraUsuario($arrayBitacora, $_SESSION["rol"]);
+            if(!is_array($insert)){
+                $this->redireccionar("error/sql/" . $insert);
                 exit;
             }
             
@@ -393,6 +490,22 @@ class gestionParametroController extends Controller{
 
             $respuesta = $this->_post->actualizarPeriodoParametro($array);
             if (is_array($respuesta)){
+                
+                //Insertar en bitácora            
+                $arrayBitacora = array();
+                $arrayBitacora[":usuario"] = $_SESSION["usuario"];
+                $arrayBitacora[":nombreusuario"] = $_SESSION["nombre"];
+                $arrayBitacora[":funcion"] = CONS_FUNC_ADM_MODIFICARPERIODO;
+                $arrayBitacora[":ip"] = $this->get_ip_address();
+                $arrayBitacora[":registro"] = 0;
+                $arrayBitacora[":tablacampo"] = '';
+                $arrayBitacora[":descripcion"] = 'El usuario ha actualizado el periodo: ' . $idPeriodo;
+                $insert = $this->_bitacora->insertarBitacoraUsuario($arrayBitacora, $_SESSION["rol"]);
+                if(!is_array($insert)){
+                    $this->redireccionar("error/sql/" . $insert);
+                    exit;
+                }
+            
                 $this->redireccionar('gestionParametro/listadoPeriodo');
                 exit;
             }else{
@@ -486,6 +599,21 @@ class gestionParametroController extends Controller{
             $this->_view->setJs(array('jquery.dataTables.min'), "public");
             $this->_view->setCSS(array('jquery.dataTables.min'));
             $this->_view->lstPar = $this->_post->informacionParametro(-1);
+            
+            //Insertar en bitácora            
+            $arrayBitacora = array();
+            $arrayBitacora[":usuario"] = $_SESSION["usuario"];
+            $arrayBitacora[":nombreusuario"] = $_SESSION["nombre"];
+            $arrayBitacora[":funcion"] = CONS_FUNC_ADM_CONSULTARPARAMETRO;
+            $arrayBitacora[":ip"] = $this->get_ip_address();
+            $arrayBitacora[":registro"] = 0;
+            $arrayBitacora[":tablacampo"] = '';
+            $arrayBitacora[":descripcion"] = 'El usuario ha consultado el listado de parámetros generales';
+            $insert = $this->_bitacora->insertarBitacoraUsuario($arrayBitacora, $_SESSION["rol"]);
+            if(!is_array($insert)){
+                $this->redireccionar("error/sql/" . $insert);
+                exit;
+            }
             
             //se renderiza la vista a mostrar
             $this->_view->renderizar('gestionParametroGeneral');

@@ -38,7 +38,7 @@ class gestionParametroModel extends Model{
     }
     
     public function eliminarParametro($intIdParametro, $intEstadoNuevo){
-        $info = $this->_db->query("SELECT * from spModificarParametro(" . $intIdParametro . ",null,null,null,null,null,null," . $intEstadoNuevo . ",null);");
+        $info = $this->_db->query("SELECT * from spactivardesactivarparametro(" . $intIdParametro . "," . $intEstadoNuevo . ");");
         if($info === false){
             return "1102/eliminarParametro";
         }else{
