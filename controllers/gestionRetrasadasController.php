@@ -363,6 +363,20 @@ class gestionRetrasadasController extends Controller {
             
             $this->_post->crearPago($this->_view->orden,$this->estudiante,$idPeriodo,$idCarrera);
        
+            //Insertar en bitácora            
+                $arrayBitacora = array();
+                $arrayBitacora[":usuario"] = $_SESSION["usuario"];
+                $arrayBitacora[":nombreusuario"] = $_SESSION["nombre"];
+                $arrayBitacora[":funcion"] = CONS_FUNC_EST_CREARASIGNACIONRETRASADA;
+                $arrayBitacora[":ip"] = $this->get_ip_address();
+                $arrayBitacora[":registro"] = 0;
+                $arrayBitacora[":tablacampo"] = '';
+                $arrayBitacora[":descripcion"] = 'El usuario ha generado una nueva orden de pago para examen de retrasada: ' . $this->_view->orden;
+                $insert = $this->_bitacora->insertarBitacoraUsuario($arrayBitacora, $_SESSION["rol"]);
+                if(!is_array($insert)){
+                    $this->redireccionar("error/sql/" . $insert);
+                    exit;
+                }
         }
         
         else if($this->_generaorden->parsear_resultado($cadena,"CODIGO_RESP") == "0") {
