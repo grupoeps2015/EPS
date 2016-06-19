@@ -27,6 +27,7 @@ class gestionRetrasadasController extends Controller {
         $this->_encriptar = new encripted();
         $this->_post = $this->loadModel('gestionRetrasadas');
         $this->_ajax = $this->loadModel("ajax");
+        $this->_bitacora = $this->loadModel('bitacora');
         if ($this->getInteger('slEstudiantes')) {
             $this->estudiante = $this->getInteger('slEstudiantes');
         }
@@ -177,7 +178,21 @@ class gestionRetrasadasController extends Controller {
         //$this->_view->setCSS(array('jquery.dataTables.min'));
         $this->_view->setJs(array('listadoAsignaciones'));
         $this->_view->renderizar('listadoAsignaciones');
-       
+                        
+                //Insertar en bitácora            
+                $arrayBitacora = array();
+                $arrayBitacora[":usuario"] = $_SESSION["usuario"];
+                $arrayBitacora[":nombreusuario"] = $_SESSION["nombre"];
+                $arrayBitacora[":funcion"] = CONS_FUNC_EST_CONSULTARASIGNACIONRETRASADA;
+                $arrayBitacora[":ip"] = $this->get_ip_address();
+                $arrayBitacora[":registro"] = 0;
+                $arrayBitacora[":tablacampo"] = '';
+                $arrayBitacora[":descripcion"] = 'El usuario ha consultado el listado de cursos disponibles para asignarse un examen de retrasada.';
+                $insert = $this->_bitacora->insertarBitacoraUsuario($arrayBitacora, $_SESSION["rol"]);
+                if(!is_array($insert)){
+                    $this->redireccionar("error/sql/" . $insert);
+                    exit;
+                }
     }
     
      public function inicio() {
