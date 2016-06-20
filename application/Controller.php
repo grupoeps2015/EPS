@@ -2,9 +2,11 @@
 
 abstract class Controller{
     protected $_view;
+    private $_bitacora;
 //    
     public function __construct(){
         $this->_view = new View(new Request);
+        $this->_bitacora = $this->loadModel('bitacora');
     }
     
     abstract public function index();
@@ -97,6 +99,24 @@ abstract class Controller{
         // return unreliable ip since all else failed
         return $_SERVER['REMOTE_ADDR'];
     }
+
+    protected function insertarBitacoraUsuario($funcion, $descripcion){
+        //Insertar en bitácora 
+        $arrayBitacora = array();
+        $arrayBitacora[":usuario"] = $_SESSION["usuario"];
+        $arrayBitacora[":nombreusuario"] = $_SESSION["nombre"];
+        $arrayBitacora[":funcion"] = $funcion;//CONS_FUNC_CUR_CONSULTARCURSO;
+        $arrayBitacora[":ip"] = $this->get_ip_address();
+        $arrayBitacora[":registro"] = 0;
+        $arrayBitacora[":tablacampo"] = '';
+        $arrayBitacora[":descripcion"] = $descripcion;//'El usuario ha consultado el catálogo de cursos';
+        $insert = $this->_bitacora->insertarBitacoraUsuario($arrayBitacora, $_SESSION["rol"]);
+        if(!is_array($insert)){
+            $this->redireccionar("error/sql/" . $insert);
+            exit;
+        }
+    }
+    
 }
 
 ?>
