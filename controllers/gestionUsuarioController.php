@@ -244,6 +244,7 @@ class gestionUsuarioController extends Controller {
                 }
             }
             //$this->notificacionEMAIL();
+            $this->insertarBitacoraUsuario(CONS_FUNC_ADM_CREARUSUARIO, "Nuevo usuario con id ".$idUsr."' creado ");
             $this->redireccionar('gestionUsuario');
             exit;
         }
@@ -273,6 +274,7 @@ class gestionUsuarioController extends Controller {
             } else {
                 $this->_view->cambio = "No reconocio ningun parametro";
             }
+            $this->insertarBitacoraUsuario(CONS_FUNC_ADM_ELIMINARUSUARIO, "Se cambio el estado del usuario ".$intIdUsuario);
             $this->redireccionar('gestionUsuario');
         }
         else
@@ -413,7 +415,7 @@ class gestionUsuarioController extends Controller {
                 $this->redireccionar("error/sql/" . $actualizarUsr);
                 exit;
             }
-            
+            $this->insertarBitacoraUsuario(CONS_FUNC_ADM_MODIFICARUSUARIO, "Se actualizo la información del usuario ".$intIdUsuario);
             $this->redireccionar('gestionUsuario/actualizarUsuario/'.$intIdUsuario);
         }
         $this->_view->renderizar('actualizarUsuario', 'gestionUsuario');
@@ -481,7 +483,7 @@ class gestionUsuarioController extends Controller {
         $this->_view->setJs(array('validarUsuario'));
         $this->_view->setJs(array('jquery.validate'), "public");
         
-        
+        $this->insertarBitacoraUsuario(CONS_FUNC_ADM_MODIFICAR, "Usuario con id ".$intIdUsuario." validado exitosamente");
         $this->_view->renderizar('validarUsuario');
     }
     
@@ -561,6 +563,7 @@ class gestionUsuarioController extends Controller {
             $this->redireccionar("error/sql/" . $activar);
             exit;
         }
+        $this->insertarBitacoraUsuario(CONS_FUNC_ADM_MODIFICAR, "Usuario con id ".$intIdUsuario." activado exitosamente");
         $this->redireccionar('login/bienvenida');
     }
     
@@ -723,6 +726,7 @@ class gestionUsuarioController extends Controller {
                     $clave1 = $this->_encriptar->encrypt($clave2, DB_KEY);
                     $nueva = $this->_post->setClaveNueva($datos[0]['usr'],$clave1);
                     if(!is_array($nueva)){
+                        $this->insertarBitacoraUsuario(CONS_FUNC_ADM_MODIFICAR, "Usuario con id ".$intIdUsuario." reestablecio su clave de login");
                         $this->redireccionar('error/sql/'.$nueva);
                         exit;
                     }
