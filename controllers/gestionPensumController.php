@@ -129,6 +129,7 @@ class gestionPensumController extends Controller {
                         $arrayAsignacion['estado'] = ESTADO_ACTIVO;
                         $asignacion = $this->_post->asignarAreaCarrera($arrayAsignacion);
                         if (is_array($asignacion)) {
+                            $this->insertarBitacoraUsuario(CONS_FUNC_PENSUM_ASIGNARAREACARRERA, "Asignacion ".$intIdCarrera." en el sistema"); 
                             $this->redireccionar('gestionPensum/asignarAreaCarrera/' . $intIdCarrera);
                         } else {
                             $this->redireccionar("error/sql/" . $asignacion);
@@ -229,6 +230,7 @@ class gestionPensumController extends Controller {
                 $this->redireccionar("error/sql/" . $info);
                 exit;
             }
+            $this->insertarBitacoraUsuario(CONS_FUNC_CUR_CREARCARRERA, "Carrera ".$nombreCarrera." registrada en el sistema"); 
             $this->redireccionar('gestionPensum/listadoCarrera');
         }
         $this->_view->renderizar('agregarCarrera', 'gestionPensum');
@@ -246,6 +248,7 @@ class gestionPensumController extends Controller {
                     $this->redireccionar("error/sql/" . $info);
                     exit;
                 }
+                $this->insertarBitacoraUsuario(CONS_FUNC_CUR_ELIMINARCARRERAAREA, "Carrera ".$intIdCarrera." - ".$intIdCarreraArea." eliminada del sistema"); 
                 $this->redireccionar('gestionPensum/asignarAreaCarrera/'.$intIdCarrera);
             } else {
                 echo "Error al desactivar carrera";
@@ -269,6 +272,7 @@ class gestionPensumController extends Controller {
                     $this->redireccionar("error/sql/" . $info);
                     exit;
                 }
+                $this->insertarBitacoraUsuario(CONS_FUNC_CUR_ELIMINARCARRERA, "Carrera ".$intIdCarrera." eliminada del sistema"); 
                 $this->redireccionar('gestionPensum/listadoCarrera');
             } else {
                 echo "Error al desactivar carrera";
@@ -327,6 +331,7 @@ class gestionPensumController extends Controller {
             $arrayCar['extension'] = $extension;
             $respuesta = $this->_post->actualizarCarrera($arrayCar);
             if (is_array($respuesta)) {
+                $this->insertarBitacoraUsuario(CONS_FUNC_CUR_MODIFICARCARRERA, "Carrera ".$intIdCarrera." modificada en el sistema");
                 $this->redireccionar('gestionPensum/actualizarCarrera/' . $intIdCarrera);
             } else {
                 $this->redireccionar("error/sql/" . $respuesta);
@@ -483,6 +488,7 @@ class gestionPensumController extends Controller {
                 $this->redireccionar("error/sql/" . $info);
                 exit;
             }
+            $this->insertarBitacoraUsuario(CONS_FUNC_CUR_CREARCURSOPENSUM, "Pensum ".$pensum." agregado al sistema");
             $this->redireccionar('gestionPensum/listadoPensum');
         }
         $this->_view->renderizar('agregarPensum', 'gestionPensum');
@@ -500,6 +506,7 @@ class gestionPensumController extends Controller {
             $this->redireccionar("error/sql/" . $info);
             exit;
         }
+        $this->insertarBitacoraUsuario(CONS_FUNC_CUR_ELIMINARPENSUM, "Pensum ".$intIdPensum." eliminado del sistema");
         $this->redireccionar('gestionPensum/listadoPensum');
         } else {
             echo "<script>
@@ -521,6 +528,7 @@ class gestionPensumController extends Controller {
             $this->redireccionar("error/sql/" . $info);
             exit;
         }
+        $this->insertarBitacoraUsuario(CONS_FUNC_CUR_ELIMINARPENSUM, "Pensum ".$intIdPensum." activado en el sistema");
         $this->redireccionar('gestionPensum/listadoPensum');
         } else {
             echo "<script>
@@ -593,6 +601,7 @@ class gestionPensumController extends Controller {
                     $this->redireccionar("error/sql/" . $info);
                     exit;
                 }
+                $this->insertarBitacoraUsuario(CONS_FUNC_CUR_ELIMINARCURSOPENSUM, "Curso ".$intIdCursoPensum." elimanado del pensum en el sistema");
                 $this->redireccionar('gestionPensum/gestionCursoPensum/' . $intIdPensum . '/' . $intIdCarrera);
             } else {
                 $this->_view->cambio = "No reconocio ningun parametro";
@@ -674,7 +683,7 @@ class gestionPensumController extends Controller {
                 $this->redireccionar("error/sql/" . $info);
                 exit;
             }
-
+            $this->insertarBitacoraUsuario(CONS_FUNC_CUR_CREARCURSOPENSUM, "Curso creado en el pensum ".$idPensum." en el sistema");
             $this->redireccionar('gestionPensum/gestionCursoPensum/' . $idPensum . '/' . $idCarrera);
         }
 
@@ -750,7 +759,7 @@ class gestionPensumController extends Controller {
                 $this->redireccionar("error/sql/" . $info);
                 exit;
             }
-
+            $this->insertarBitacoraUsuario(CONS_FUNC_CUR_MODIFICARSALON, "Curso modificando en el pensum ".$idCursoPensum." en el sistema");
             $this->redireccionar('gestionPensum/actualizarCursoPensum/'.$idCursoPensum.'/'.$idPensum.'/'.$idCarrera);
         }
         
@@ -823,7 +832,7 @@ class gestionPensumController extends Controller {
                 $this->redireccionar("error/sql/" . $info);
                 exit;
             }
-
+            $this->insertarBitacoraUsuario(CONS_FUNC_CUR_CREARPENSUM, "Pensum ".$pensum." creado en el sistema");
             $this->redireccionar('gestionPensum/gestionCursoPensum/'.$pensum.'/'.$carrera);
             
         }
@@ -883,7 +892,7 @@ class gestionPensumController extends Controller {
                 $this->redireccionar("error/sql/" . $info);
                 exit;
             }
-
+            $this->insertarBitacoraUsuario(CONS_FUNC_CUR_MODIFICARPENSUM, "Pensum ".$intIdPensum." actualizado en el sistema");
             $this->redireccionar('gestionPensum/listadoPensum');
         }
         $this->_view->renderizar('actualizarPensum', 'gestionPensum');

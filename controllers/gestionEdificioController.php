@@ -161,7 +161,7 @@ class gestionEdificioController extends Controller {
                 $this->redireccionar("error/sql/" . $info);
                 exit;
             }
-            
+            $this->insertarBitacoraUsuario(CONS_FUNC_ADM_MODIFICARASIGNACIONEDIFICIO, "Asignacion de edificio modificada ".$intIdAsignacion." en el sistema");
             $this->redireccionar('gestionEdificio/actualizarAsignacion/' . $intIdAsignacion . '/' . $intIdEdificio);
        
         }
@@ -206,7 +206,7 @@ class gestionEdificioController extends Controller {
                 $this->redireccionar("error/sql/" . $info);
                 exit;
             }
-             
+            $this->insertarBitacoraUsuario(CONS_FUNC_ADM_MODIFICAREDIFICIO, "Edificio ".$intIdEdificio." modificado en el sistema");
             $this->redireccionar('gestionEdificio/actualizarEdificio/' . $intIdEdificio);
        
         }
@@ -237,9 +237,10 @@ class gestionEdificioController extends Controller {
             $arrayCar['descripcion'] = $nombreDescripcion;
             $arrayCar['estado'] = ESTADO_PENDIENTE;
             $this->_post->agregarEdificio($arrayCar);
+            $this->insertarBitacoraUsuario(CONS_FUNC_ADM_CREAREDIFICIO, "Edificio ".$nombreEdificio." agregado en el sistema");
             $this->redireccionar('gestionEdificio/listadoEdificio');
         }
-
+        
         $this->_view->renderizar('agregarEdificio', 'gestionEdificio');
     }
     
@@ -255,6 +256,7 @@ class gestionEdificioController extends Controller {
                     $this->redireccionar("error/sql/" . $info);
                     exit;
                 }
+                $this->insertarBitacoraUsuario(CONS_FUNC_ADM_ELIMINAREDIFICIO, "Edificio ".$intIdEdificio." eliminado del sistema");
                 $this->redireccionar('gestionEdificio/listadoEdificio');
             } else {
                 echo "Error al desactivar el edificio";
@@ -313,6 +315,7 @@ class gestionEdificioController extends Controller {
             $arrayAsignacion['jornada'] = $jornada;
             $arrayAsignacion['estado'] = ESTADO_PENDIENTE;
             $this->_post->asignarUnidadEdificio($arrayAsignacion);
+            $this->insertarBitacoraUsuario(CONS_FUNC_ADM_CREARASIGNACIONEDIFICIO, "Edificio ".$intIdEdificio." asignado en el sistema");
             $this->redireccionar('gestionEdificio/gestionEdificio/'. $intIdEdificio);
         }
 
@@ -332,6 +335,7 @@ class gestionEdificioController extends Controller {
                     $this->redireccionar("error/sql/" . $info);
                     exit;
                 }
+                $this->insertarBitacoraUsuario(CONS_FUNC_ADM_ELIMINARASIGNACIONEDIFICIO, "Asignacion de edificio ".$intIdAsignacion." eliminado del sistema");
                 $this->redireccionar('gestionEdificio/gestionEdificio/' . $idEdificio);
             }else{
                 $this->_view->cambio = "No reconocio ningun parametro";    
@@ -387,6 +391,7 @@ class gestionEdificioController extends Controller {
 
         $rol = $_SESSION["rol"];        
         $rolValido = $this->_ajax->getPermisosRolFuncion($rol,CONS_FUNC_CUR_ELIMINARSALON);
+        
         if($rolValido[0]["valido"]== PERMISO_ELIMINAR){
             
             if($intNuevoEstado == ESTADO_INACTIVO || $intNuevoEstado == ESTADO_ACTIVO){
@@ -395,6 +400,7 @@ class gestionEdificioController extends Controller {
                     $this->redireccionar("error/sql/" . $info);
                     exit;
                 }
+                $this->insertarBitacoraUsuario(CONS_FUNC_CUR_ELIMINARSALON, "Salon ".$intIdSalon." eliminado del sistema");
                 $this->redireccionar('gestionEdificio/gestionSalon/' . $intIdEdificio);
             }else{
                 $this->_view->cambio = "No reconocio ningun parametro";    
@@ -442,7 +448,7 @@ class gestionEdificioController extends Controller {
                 $this->redireccionar("error/sql/" . $info);
                 exit;
             }
-            
+            $this->insertarBitacoraUsuario(CONS_FUNC_CUR_CREARSALON, "Salon ".$this->getTexto('txtNombre')." creado en el sistema");
             $this->redireccionar('gestionEdificio/gestionSalon/'.$intIdEdificio);
         }
         
@@ -489,7 +495,7 @@ class gestionEdificioController extends Controller {
                 $this->redireccionar("error/sql/" . $info);
                 exit;
             }
-             
+            $this->insertarBitacoraUsuario(CONS_FUNC_CUR_MODIFICARSALON, "Salon ".$intIdSalon." modificado en el sistema"); 
             $this->redireccionar('gestionEdificio/actualizarSalon/' . $intIdSalon .'/' . $intIdEdificio);
         
         }

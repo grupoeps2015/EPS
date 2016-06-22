@@ -124,7 +124,7 @@ class gestionAreaController extends Controller {
                 $this->redireccionar("error/sql/" . $info);
                 exit;
             }
-             
+            $this->insertarBitacoraUsuario(CONS_FUNC_ADM_MODIFICARAREA, "Area Actualizada ".$intIdArea." al sistema");
             $this->redireccionar('gestionArea/listadoArea');
        
         }
@@ -155,6 +155,7 @@ class gestionAreaController extends Controller {
             $arrayCar['descripcion'] = $nombreDescripcion;
             $arrayCar['estado'] = ESTADO_PENDIENTE;
             $this->_post->agregarArea($arrayCar);
+            $this->insertarBitacoraUsuario(CONS_FUNC_ADM_CREARAREA, "Area agregada ".$nombreArea." al sistema");
             $this->redireccionar('gestionArea/listadoArea');
         }
 
@@ -174,6 +175,7 @@ class gestionAreaController extends Controller {
                     $this->redireccionar("error/sql/" . $info);
                     exit;
                 }
+                $this->insertarBitacoraUsuario(CONS_FUNC_ADM_ELIMINARAREA, "Area elminada ".$intIdArea." del sistema");
                 $this->redireccionar('gestionArea/listadoArea');
             } else {
                 echo "Error al desactivar el area";
