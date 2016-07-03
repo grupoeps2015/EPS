@@ -406,7 +406,7 @@ INSERT INTO adm_unidadacademica(unidadacademica, unidadacademicasuperior, nombre
 -- -----------------------------------------------------
 -- Insert ADM_Centro_UnidadAcademica
 -- -----------------------------------------------------
-INSERT INTO adm_centro_unidadacademica (centro_unidadacademica, centro, unidadacademica, estado,extensiones) VALUES (1,1,1,1,'[{"id":"00","nombre":"Plan Diario","estado":"Activo"},{"id":"01","nombre":"Plan Sabatino","estado":"Activo"}]');
+INSERT INTO adm_centro_unidadacademica (centro_unidadacademica, centro, unidadacademica, estado,extensiones) VALUES (1,1,1,1,'[{"id":"00","nombre":"Plan Diario","estado":"1"},{"id":"01","nombre":"Plan Sabatino","estado":"1"}]');
 
 -- -----------------------------------------------------
 -- Insert cur_carrera / escuela de historia
