@@ -406,12 +406,12 @@ INSERT INTO adm_unidadacademica(unidadacademica, unidadacademicasuperior, nombre
 -- -----------------------------------------------------
 -- Insert ADM_Centro_UnidadAcademica
 -- -----------------------------------------------------
-INSERT INTO adm_centro_unidadacademica (centro_unidadacademica, centro, unidadacademica, estado,extensiones) VALUES (1,1,1,1,'update adm_centro_unidadacademica set extenciones = '[{"id":"00","nombre":"Plan Diario","estado":"Activo"},{"id":"01","nombre":"Plan Sabatino","estado":"Activo"}]';');
+INSERT INTO adm_centro_unidadacademica (centro_unidadacademica, centro, unidadacademica, estado,extensiones) VALUES (1,1,1,1,'[{"id":"00","nombre":"Plan Diario","estado":"Activo"},{"id":"01","nombre":"Plan Sabatino","estado":"Activo"}]');
 
 -- -----------------------------------------------------
 -- Insert cur_carrera / escuela de historia
 -- -----------------------------------------------------
-INSERT INTO cur_carrera(codigo, carrera, nombre, estado, centro_unidadacademica) VALUES (default,1, 'Licenciatura en Historia', 1, 1);
+INSERT INTO cur_carrera(codigo, carrera, nombre, estado, centro_unidadacademica) VALUES (1,1, 'Licenciatura en Historia', 1, 1);
 --INSERT INTO cur_carrera(carrera, nombre, estado, centro_unidadacademica) VALUES (2,2, 'Licenciatura en Arqueologia', 1, 1);
 --INSERT INTO cur_carrera(carrera, nombre, estado, centro_unidadacademica) VALUES (3,3, 'Licenciatura en Antropologia', 1, 1);
 --INSERT INTO cur_carrera(carrera, nombre, estado, centro_unidadacademica) VALUES (4,4, 'Licenciatura para la Enseñanza de la Historia', 1, 1);
@@ -756,9 +756,9 @@ INSERT INTO adm_funcion (funcion,modulo,funcionpadre,nombre,orden,descripcion) V
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,3);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,4);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,5);
-INSERT INTO adm_rol_funcion (rol,funcion) VALUES (2,5)
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (2,5);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,6);
-INSERT INTO adm_rol_funcion (rol,funcion) VALUES (1,6)
+INSERT INTO adm_rol_funcion (rol,funcion) VALUES (1,6);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,7);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,8);
 INSERT INTO adm_rol_funcion (rol,funcion) VALUES (0,9);
@@ -1100,7 +1100,7 @@ INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademic
 INSERT INTO cur_estadonota VALUES (1,'Pendiente','',1);
 INSERT INTO cur_estadonota VALUES (2,'Pendiente de aprobacion','',1);
 INSERT INTO cur_estadonota VALUES (3,'Aprobada por control academico','',1);
-INSERT INTO cur_estadonota VALUES (4,'Reprobada por control academico','',1)
+INSERT INTO cur_estadonota VALUES (4,'Reprobada por control academico','',1);
 
 -- -----------------------------------------------------
 -- Insert cur_tipoaprobacion
