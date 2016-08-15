@@ -139,72 +139,20 @@ class gestionDesasignacionController extends Controller {
                     $arrayDes['asignacion'] = $idAsignacion;
                     $arrayDes['descripcion'] = $vDescripcion;
                     $this->_post->agregarDesasignacion($arrayDes);
-                    //Insertar en bitácora            
-                    $arrayBitacora = array();
-                    $arrayBitacora[":usuario"] = $_SESSION["usuario"];
-                    $arrayBitacora[":nombreusuario"] = $_SESSION["nombre"];
-                    $arrayBitacora[":funcion"] = CONS_FUNC_LOGIN;
-                    $arrayBitacora[":ip"] = $this->get_ip_address();
-                    $arrayBitacora[":registro"] = 0; //no se que es esto
-                    $arrayBitacora[":tablacampo"] = ''; //tampoco se que es esto
-                    $arrayBitacora[":descripcion"] = 'Se ha realizado desasignacion de curso';
-                    $insert = $this->_bitacora->insertarBitacoraAsignacion($arrayBitacora);
-                    if (!is_array($insert)) {
-                        $this->redireccionar("error/sql/" . $insert);
-                        exit;
-                    }
-
+                    
+                    //Insertar en bitácora
+                    $this->insertarBitacoraUsuario(CONS_FUNC_LOGIN, 'Se ha desactivado la desasignacion: ' . $idAsignacion . ' del curso: ' . $codigoCurso);            
+             
                     echo "<script>
                 alert('Desasignacion de curso para el estudiante " . $carnet . " realizada exitosamente.');
                 </script>";
                     $this->redireccionar('gestionDesasignacion/listadoAsignaciones/' . $idestudiante);
+                    exit;
                 }
             }
         } else {
             echo "Error al agregar desasignacion";
         }
-    }
-
-//        else
-//        {
-//            echo "<script>
-//                alert('No tiene permisos suficientes para acceder a esta función.');
-//                window.location.href='" . BASE_URL . "gestionArea/listadoArea" . "';
-//                </script>";
-//        }
-//}
-
-    private function get_ip_address() {
-        // check for shared internet/ISP IP
-        if (!empty($_SERVER['HTTP_CLIENT_IP']) && validate_ip($_SERVER['HTTP_CLIENT_IP'])) {
-            return $_SERVER['HTTP_CLIENT_IP'];
-        }
-
-        // check for IPs passing through proxies
-        if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-            // check if multiple ips exist in var
-            if (strpos($_SERVER['HTTP_X_FORWARDED_FOR'], ',') !== false) {
-                $iplist = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
-                foreach ($iplist as $ip) {
-                    if (validate_ip($ip))
-                        return $ip;
-                }
-            } else {
-                if (validate_ip($_SERVER['HTTP_X_FORWARDED_FOR']))
-                    return $_SERVER['HTTP_X_FORWARDED_FOR'];
-            }
-        }
-        if (!empty($_SERVER['HTTP_X_FORWARDED']) && validate_ip($_SERVER['HTTP_X_FORWARDED']))
-            return $_SERVER['HTTP_X_FORWARDED'];
-        if (!empty($_SERVER['HTTP_X_CLUSTER_CLIENT_IP']) && validate_ip($_SERVER['HTTP_X_CLUSTER_CLIENT_IP']))
-            return $_SERVER['HTTP_X_CLUSTER_CLIENT_IP'];
-        if (!empty($_SERVER['HTTP_FORWARDED_FOR']) && validate_ip($_SERVER['HTTP_FORWARDED_FOR']))
-            return $_SERVER['HTTP_FORWARDED_FOR'];
-        if (!empty($_SERVER['HTTP_FORWARDED']) && validate_ip($_SERVER['HTTP_FORWARDED']))
-            return $_SERVER['HTTP_FORWARDED'];
-
-        // return unreliable ip since all else failed
-        return $_SERVER['REMOTE_ADDR'];
     }
 
 }

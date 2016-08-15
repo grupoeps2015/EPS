@@ -171,28 +171,18 @@ class gestionRetrasadasController extends Controller {
             $this->redireccionar("error/sql/" . $info);
             exit;
         }
-
+        
+        //Insertar en bitácora
+        $this->insertarBitacoraUsuario(CONS_FUNC_EST_CONSULTARASIGNACIONRETRASADA, 'El usuario ha consultado el listado de cursos disponibles para asignarse un examen de retrasada'); 
+        
         $this->_view->titulo = 'Asignacion de Retrasadas - ' . APP_TITULO;
         //$this->_view->setJs(array('listadoAsignaciones'));
         //$this->_view->setJs(array('jquery.dataTables.min'), "public");
         //$this->_view->setCSS(array('jquery.dataTables.min'));
-        $this->_view->setJs(array('listadoAsignaciones'));
+        $this->_view->setJs(array('listadoAsignaciones'));  
         $this->_view->renderizar('listadoAsignaciones');
                         
-                //Insertar en bitácora            
-                $arrayBitacora = array();
-                $arrayBitacora[":usuario"] = $_SESSION["usuario"];
-                $arrayBitacora[":nombreusuario"] = $_SESSION["nombre"];
-                $arrayBitacora[":funcion"] = CONS_FUNC_EST_CONSULTARASIGNACIONRETRASADA;
-                $arrayBitacora[":ip"] = $this->get_ip_address();
-                $arrayBitacora[":registro"] = 0;
-                $arrayBitacora[":tablacampo"] = '';
-                $arrayBitacora[":descripcion"] = 'El usuario ha consultado el listado de cursos disponibles para asignarse un examen de retrasada.';
-                $insert = $this->_bitacora->insertarBitacoraUsuario($arrayBitacora, $_SESSION["rol"]);
-                if(!is_array($insert)){
-                    $this->redireccionar("error/sql/" . $insert);
-                    exit;
-                }
+        
     }
     
      public function inicio() {
@@ -347,7 +337,8 @@ class gestionRetrasadasController extends Controller {
             //print_r($cadena);
             date_default_timezone_set('America/Guatemala');
             $this->_view->fecha = date("d-m-Y, H:i:s");
-            $this->_view->orden = $this->_generaorden->parsear_resultado($cadena,"ID_ORDEN_PAGO");
+            $orden = $this->_generaorden->parsear_resultado($cadena,"ID_ORDEN_PAGO");
+            $this->_view->orden = $orden;
             $this->_view->carnet = $this->_generaorden->parsear_resultado($cadena,"CARNET");
             $this->_view->nombre = $nombre;
             $this->_view->unidad = $this->_generaorden->parsear_resultado($cadena,"UNIDAD");
@@ -356,27 +347,16 @@ class gestionRetrasadasController extends Controller {
             $this->_view->total = $this->_generaorden->parsear_resultado($cadena,"MONTO");
             $this->_view->rubro = $this->_generaorden->parsear_resultado($cadena,"RUBROPAGO");
             $this->_view->llave = $this->_generaorden->parsear_resultado($cadena,"CHECKSUM");
+                        
+            $this->_post->crearPago($this->_view->orden,$this->estudiante,$idPeriodo,$idCarrera);
+       
+            //Insertar en bitácora  
+            $this->insertarBitacoraUsuario(CONS_FUNC_EST_CREARASIGNACIONRETRASADA, 'El usuario ha generado una nueva orden de pago para examen de retrasada: ' . $orden); 
+        
             $this->_view->setJs(array('jquery.dataTables.min'), "public");
             $this->_view->setCSS(array('jquery.dataTables.min'));
             $this->_view->setJs(array('jspdf.debug'), "public");
             $this->_view->renderizar('ordenPago');
-            
-            $this->_post->crearPago($this->_view->orden,$this->estudiante,$idPeriodo,$idCarrera);
-       
-            //Insertar en bitácora            
-                $arrayBitacora = array();
-                $arrayBitacora[":usuario"] = $_SESSION["usuario"];
-                $arrayBitacora[":nombreusuario"] = $_SESSION["nombre"];
-                $arrayBitacora[":funcion"] = CONS_FUNC_EST_CREARASIGNACIONRETRASADA;
-                $arrayBitacora[":ip"] = $this->get_ip_address();
-                $arrayBitacora[":registro"] = 0;
-                $arrayBitacora[":tablacampo"] = '';
-                $arrayBitacora[":descripcion"] = 'El usuario ha generado una nueva orden de pago para examen de retrasada: ' . $this->_view->orden;
-                $insert = $this->_bitacora->insertarBitacoraUsuario($arrayBitacora, $_SESSION["rol"]);
-                if(!is_array($insert)){
-                    $this->redireccionar("error/sql/" . $insert);
-                    exit;
-                }
         }
         
         else if($this->_generaorden->parsear_resultado($cadena,"CODIGO_RESP") == "0") {

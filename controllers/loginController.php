@@ -109,20 +109,8 @@ class loginController extends Controller{
             $_SESSION["nombre"] = $respuesta[0]['nombre'];
             $_SESSION["tiempo"] = time();
             
-            //Insertar en bitácora            
-            $arrayBitacora = array();
-            $arrayBitacora[":usuario"] = $_SESSION["usuario"];
-            $arrayBitacora[":nombreusuario"] = $_SESSION["nombre"];
-            $arrayBitacora[":funcion"] = CONS_FUNC_LOGIN;
-            $arrayBitacora[":ip"] = $this->get_ip_address();
-            $arrayBitacora[":registro"] = 0; 
-            $arrayBitacora[":tablacampo"] = ''; 
-            $arrayBitacora[":descripcion"] = 'El usuario ha iniciado sesión.';
-            $insert = $this->_bitacora->insertarBitacoraUsuario($arrayBitacora, $_SESSION["rol"]);
-            if(!is_array($insert)){
-                $this->redireccionar("error/sql/" . $insert);
-                exit;
-            }
+            //Insertar en bitácora
+            $this->insertarBitacoraUsuario(CONS_FUNC_LOGIN, 'El usuario ha iniciado sesión'); 
 
             $actualizarAutenticacion = $this->_login->actualizarAutenticacion($_SESSION["usuario"]);
             if(!is_array($actualizarAutenticacion)){
@@ -147,6 +135,7 @@ class loginController extends Controller{
             }
             else{
                 $this->redireccionar('login/salir');
+                exit;
             }
         }
         else{
@@ -158,23 +147,13 @@ class loginController extends Controller{
     public function salir(){
         session_start();
         if(isset($_SESSION["usuario"])){
-            //Insertar en bitácora            
-            $arrayBitacora = array();
-            $arrayBitacora[":usuario"] = $_SESSION["usuario"];
-            $arrayBitacora[":nombreusuario"] = $_SESSION["nombre"];
-            $arrayBitacora[":funcion"] = CONS_FUNC_LOGOUT;
-            $arrayBitacora[":ip"] = $this->get_ip_address();
-            $arrayBitacora[":registro"] = 0;
-            $arrayBitacora[":tablacampo"] = '';
-            $arrayBitacora[":descripcion"] = 'El usuario ha finalizado sesión.';
-            $insert = $this->_bitacora->insertarBitacoraUsuario($arrayBitacora, $_SESSION["rol"]);
-            if(!is_array($insert)){
-                $this->redireccionar("error/sql/" . $insert);
-                exit;
-            }
+            //Insertar en bitácora       
+            $this->insertarBitacoraUsuario(CONS_FUNC_LOGOUT, 'El usuario ha finalizado sesión'); 
+            
             session_destroy();
         }
         $this->redireccionar('login');
+        exit;
     }
     
     public function existe(){

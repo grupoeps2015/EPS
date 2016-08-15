@@ -75,12 +75,15 @@ class gestionHorarioController extends Controller {
             }
             $lstParametros = $idCiclo . '$' . $idSeccion;
 
+            //Insertar en bitácora
+            $this->insertarBitacoraUsuario(CONS_FUNC_CUR_CONSULTARHORARIO, 'El usuario ha consultado los horarios para la sección: ' . $idSeccion . ' en el ciclo: ' . $idCiclo); 
+            
+            
             $this->_view->parametros = $lstParametros;
             $this->_view->titulo = 'Gestión de horarios - ' . APP_TITULO;
             $this->_view->setJs(array('gestionHorario'));
             $this->_view->setJs(array('jquery.dataTables.min'), "public");
             $this->_view->setCSS(array('jquery.dataTables.min'));
-
             $this->_view->renderizar('gestionHorario');
         
     }
@@ -293,7 +296,11 @@ class gestionHorarioController extends Controller {
                 exit;
             }
             
+            //Insertar en bitácora
+            $this->insertarBitacoraUsuario(CONS_FUNC_CUR_CREARHORARIO, 'El usuario ha creado un nuevo horario para la sección: ' . $idSeccion . ' en el ciclo: ' . $idCiclo); 
+             
             $this->redireccionar("gestionHorario/index/" . $lstParametros);
+            exit;
         }
         
         $this->_view->renderizar('agregarHorario', 'gestionHorario');    
@@ -311,7 +318,11 @@ class gestionHorarioController extends Controller {
                     $this->redireccionar("error/sql/" . $info);
                     exit;
                 }
+                //Insertar en bitácora
+                $this->insertarBitacoraUsuario(CONS_FUNC_CUR_ELIMINARHORARIO, 'El usuario ha cambiado el estado del horario: ' . $intIdHorario . ' a estado: ' . $intNuevoEstado); 
+            
                 $this->redireccionar("gestionHorario/index/{$parametros}");
+                exit;
             } else {
                 echo "Error al desactivar horario";
             }
@@ -514,7 +525,11 @@ class gestionHorarioController extends Controller {
                 exit;
             }
             
+            //Insertar en bitácora
+            $this->insertarBitacoraUsuario(CONS_FUNC_CUR_MODIFICARHORARIO, 'El usuario ha actualizado el horario: ' . $intIdHorario); 
+            
             $this->redireccionar("gestionHorario/index/" . $parametros);
+            exit;
         }
         //print_r($hor);
         $this->_view->renderizar('actualizarHorario', 'gestionHorario');  
@@ -545,7 +560,7 @@ class gestionHorarioController extends Controller {
             }
         }
         $this->redireccionar("gestionHorario/seleccionarCicloCurso");
-        
+        exit;
     }
     
     public function copiarHorario(){
@@ -570,38 +585,7 @@ class gestionHorarioController extends Controller {
             }
         }
         $this->redireccionar("gestionHorario/seleccionarCicloCurso");
-        
+        exit;
     }
     
-    public function cargarCSV(){
-//        $iden = $this->getInteger('hdFile');
-//        $fileName = "";
-//        $fileExt = "";
-//        $rol = "";
-//        
-//        if($iden == 1){
-//            $fileName=$_FILES['csvFile']['name'];
-//            $fileExt = explode(".",$fileName);
-//            if(strtolower(end($fileExt)) == "csv"){
-//                $fileName=$_FILES['csvFile']['tmp_name'];
-//                $handle = fopen($fileName, "r");
-//                while(($data = fgetcsv($handle, 1000, ",")) !== FALSE){
-//                    $arrayCur = array();
-//                    $arrayCur['tipocurso'] = $data[2];
-//                    $arrayCur['codigo'] = $data[0];
-//                    $arrayCur['nombre'] = $data[1];
-//                    $arrayCur['traslape'] = $data[3];
-//                    $arrayCur['estado'] = $data[4];
-//                    $this->_post->agregarCurso($arrayCur);
-//    
-//                }
-//                fclose($handle);
-//                $this->redireccionar('gestionCurso');
-//            }else{
-//                echo "<script>alert('El archivo cargado no cumple con el formato csv');</script>";
-//            }
-//        }
-//        $this->redireccionar('gestionCurso/agregarCurso');
-        
-    }
 }

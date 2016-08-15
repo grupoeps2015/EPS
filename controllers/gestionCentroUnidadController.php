@@ -362,6 +362,7 @@ class gestionCentroUnidadController extends Controller {
             }
             //$this->insertarBitacoraUsuario(CONS_FUNC_ADM_ELIMINAREXTENSION, "Extension ".$ext." eliminada ");
             $this->redireccionar('gestionCentroUnidad/listadoUnidades/' . $centro);
+            exit;
             }
         else
         {         
