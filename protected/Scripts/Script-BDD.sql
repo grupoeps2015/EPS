@@ -379,6 +379,7 @@ CREATE TABLE CUR_Carrera (
   Nombre TEXT NOT NULL,
   Estado INTEGER NOT NULL,
   Centro_UnidadAcademica INTEGER NOT NULL,
+  Extension TEXT NOT NULL,
   PRIMARY KEY (Carrera),
   CONSTRAINT Centro
     FOREIGN KEY (Centro_UnidadAcademica)
@@ -433,7 +434,6 @@ CREATE TABLE CUR_Carrera_Area (
   Carrera INTEGER NOT NULL,
   Area INTEGER NOT NULL,
   Estado INTEGER NOT NULL,
-  Extension TEXT NULL,
   PRIMARY KEY (CarreraArea),
   CONSTRAINT fk_CUR_Carrera_ADM_Area1
     FOREIGN KEY (Carrera)
