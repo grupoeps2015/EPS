@@ -76,7 +76,7 @@ class gestionHorarioController extends Controller {
             $lstParametros = $idCiclo . '$' . $idSeccion;
 
             //Insertar en bitácora
-            $this->insertarBitacoraUsuario(CONS_FUNC_CUR_CONSULTARHORARIO, 'El usuario ha consultado los horarios para la sección: ' . $idSeccion . ' en el ciclo: ' . $idCiclo); 
+            $this->insertarBitacoraUsuario(CONS_FUNC_CUR_CONSULTARHORARIO, 'El usuario ha consultado los horarios para la sección ' . $idSeccion . ' en el ciclo ' . $idCiclo); 
             
             
             $this->_view->parametros = $lstParametros;
@@ -297,7 +297,7 @@ class gestionHorarioController extends Controller {
             }
             
             //Insertar en bitácora
-            $this->insertarBitacoraUsuario(CONS_FUNC_CUR_CREARHORARIO, 'El usuario ha creado un nuevo horario para la sección: ' . $idSeccion . ' en el ciclo: ' . $idCiclo); 
+            $this->insertarBitacoraUsuario(CONS_FUNC_CUR_CREARHORARIO, 'El usuario ha creado un nuevo horario para la sección ' . $idSeccion . ' en el ciclo ' . $idCiclo); 
              
             $this->redireccionar("gestionHorario/index/" . $lstParametros);
             exit;
@@ -319,7 +319,7 @@ class gestionHorarioController extends Controller {
                     exit;
                 }
                 //Insertar en bitácora
-                $this->insertarBitacoraUsuario(CONS_FUNC_CUR_ELIMINARHORARIO, 'El usuario ha cambiado el estado del horario: ' . $intIdHorario . ' a estado: ' . $intNuevoEstado); 
+                $this->insertarBitacoraUsuario(CONS_FUNC_CUR_ELIMINARHORARIO, 'El usuario ha cambiado el estado del horario ' . $intIdHorario . ' a estado ' . $intNuevoEstado); 
             
                 $this->redireccionar("gestionHorario/index/{$parametros}");
                 exit;
@@ -526,7 +526,7 @@ class gestionHorarioController extends Controller {
             }
             
             //Insertar en bitácora
-            $this->insertarBitacoraUsuario(CONS_FUNC_CUR_MODIFICARHORARIO, 'El usuario ha actualizado el horario: ' . $intIdHorario); 
+            $this->insertarBitacoraUsuario(CONS_FUNC_CUR_MODIFICARHORARIO, 'El usuario ha actualizado el horario ' . $intIdHorario); 
             
             $this->redireccionar("gestionHorario/index/" . $parametros);
             exit;
@@ -560,7 +560,7 @@ class gestionHorarioController extends Controller {
             }
             
             //Insertar en bitácora
-            $this->insertarBitacoraUsuario(CONS_FUNC_CUR_CREARCICLO, 'El usuario ha creado un nuevo ciclo para el año: ' . $anio); 
+            $this->insertarBitacoraUsuario(CONS_FUNC_CUR_CREARCICLO, 'El usuario ha creado un nuevo ciclo para el año ' . $anio); 
             
         }
         $this->redireccionar("gestionHorario/seleccionarCicloCurso");
@@ -589,7 +589,7 @@ class gestionHorarioController extends Controller {
             }
             
             //Insertar en bitácora
-            $this->insertarBitacoraUsuario(CONS_FUNC_CUR_CREARHORARIO, 'El usuario ha creado un nuevo horario para el ciclo: ' . $this->getInteger('slCicloD') . ' a partir del ciclo: ' . $this->getInteger('slCicloO')); 
+            $this->insertarBitacoraUsuario(CONS_FUNC_CUR_CREARHORARIO, 'El usuario ha creado un nuevo horario para el ciclo ' . $this->getInteger('slCicloD') . ' a partir del ciclo ' . $this->getInteger('slCicloO')); 
             
         }
         $this->redireccionar("gestionHorario/seleccionarCicloCurso");

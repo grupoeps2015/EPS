@@ -139,7 +139,7 @@ class gestionParametroController extends Controller{
                 }
                 
                 //Insertar en bitácora    
-                $this->insertarBitacoraUsuario(CONS_FUNC_ADM_ELIMINARPARAMETRO, 'El usuario ha cambiado el estado del parámetro: ' . $intIdParametro . ' a estado: ' . $intNuevoEstado);            
+                $this->insertarBitacoraUsuario(CONS_FUNC_ADM_ELIMINARPARAMETRO, 'El usuario ha cambiado el estado del parámetro ' . $intIdParametro . ' a estado ' . $intNuevoEstado);            
                 
                 $this->redireccionar('gestionParametro');
                 exit;
@@ -226,7 +226,7 @@ class gestionParametroController extends Controller{
             }
             
             //Insertar en bitácora        
-            $this->insertarBitacoraUsuario(CONS_FUNC_ADM_MODIFICARPARAMETRO, 'El usuario ha actualizado el parámetro: ' . $intIdParametro);            
+            $this->insertarBitacoraUsuario(CONS_FUNC_ADM_MODIFICARPARAMETRO, 'El usuario ha actualizado el parámetro ' . $intIdParametro);            
                         
             $this->redireccionar('gestionParametro/actualizarParametro/' . $intIdParametro );
             exit;
@@ -293,7 +293,7 @@ class gestionParametroController extends Controller{
                 }
                 
                 //Insertar en bitácora  
-                $this->insertarBitacoraUsuario(CONS_FUNC_ADM_ELIMINARPERIODO, 'El usuario ha cambiado el estado del período: ' . $intIdPeriodo . ' a estado: ' . $intNuevoEstado);            
+                $this->insertarBitacoraUsuario(CONS_FUNC_ADM_ELIMINARPERIODO, 'El usuario ha cambiado el estado del período ' . $intIdPeriodo . ' a estado ' . $intNuevoEstado);            
                             
                 $this->redireccionar('gestionParametro/listadoPeriodo');
                 exit;
@@ -348,7 +348,7 @@ class gestionParametroController extends Controller{
             }
             
             //Insertar en bitácora    
-            $this->insertarBitacoraUsuario(CONS_FUNC_ADM_CREARPERIODO, 'El usuario ha agregado un nuevo período: ' . $fechaInicial . ' - ' . $fechaFinal);            
+            $this->insertarBitacoraUsuario(CONS_FUNC_ADM_CREARPERIODO, 'El usuario ha agregado un nuevo período ' . $fechaInicial . ' - ' . $fechaFinal);            
                         
             $this->redireccionar('gestionParametro/listadoPeriodo');
             exit;
@@ -420,7 +420,7 @@ class gestionParametroController extends Controller{
             if (is_array($respuesta)){
                 
                 //Insertar en bitácora
-                $this->insertarBitacoraUsuario(CONS_FUNC_ADM_MODIFICARPERIODO, 'El usuario ha actualizado el periodo: ' . $idPeriodo);            
+                $this->insertarBitacoraUsuario(CONS_FUNC_ADM_MODIFICARPERIODO, 'El usuario ha actualizado el periodo ' . $idPeriodo);            
                          
                 $this->redireccionar('gestionParametro/listadoPeriodo');
                 exit;

@@ -250,7 +250,7 @@ class gestionPensumController extends Controller {
                     $this->redireccionar("error/sql/" . $info);
                     exit;
                 }
-                $this->insertarBitacoraUsuario(CONS_FUNC_CUR_ELIMINARCARRERAAREA, "Carrera ".$intIdCarrera." - ".$intIdCarreraArea." cambiada a estado: " . $intNuevoEstado); 
+                $this->insertarBitacoraUsuario(CONS_FUNC_CUR_ELIMINARCARRERAAREA, "Carrera ".$intIdCarrera." - ".$intIdCarreraArea." cambiada a estado " . $intNuevoEstado); 
                 $this->redireccionar('gestionPensum/asignarAreaCarrera/'.$intIdCarrera);
                 exit;
             } else {
@@ -275,7 +275,7 @@ class gestionPensumController extends Controller {
                     $this->redireccionar("error/sql/" . $info);
                     exit;
                 }
-                $this->insertarBitacoraUsuario(CONS_FUNC_CUR_ELIMINARCARRERA, "Carrera ".$intIdCarrera." cambiada a estado: ".$intNuevoEstado); 
+                $this->insertarBitacoraUsuario(CONS_FUNC_CUR_ELIMINARCARRERA, "Carrera ".$intIdCarrera." cambiada a estado ".$intNuevoEstado); 
                 $this->redireccionar('gestionPensum/listadoCarrera');
                 exit;
             } else {
@@ -609,7 +609,7 @@ class gestionPensumController extends Controller {
                     $this->redireccionar("error/sql/" . $info);
                     exit;
                 }
-                $this->insertarBitacoraUsuario(CONS_FUNC_CUR_ELIMINARCURSOPENSUM, 'Curso: ' . $intIdCursoPensum . ' en el pensum:'. $intIdPensum . ' cambiado a estado: ' . $intNuevoEstado);
+                $this->insertarBitacoraUsuario(CONS_FUNC_CUR_ELIMINARCURSOPENSUM, 'Curso ' . $intIdCursoPensum . ' en el pensum '. $intIdPensum . ' cambiado a estado ' . $intNuevoEstado);
                 $this->redireccionar('gestionPensum/gestionCursoPensum/' . $intIdPensum . '/' . $intIdCarrera);
                 exit;
             } else {

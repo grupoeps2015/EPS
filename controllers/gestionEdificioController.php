@@ -161,7 +161,7 @@ class gestionEdificioController extends Controller {
                 $this->redireccionar("error/sql/" . $info);
                 exit;
             }
-            $this->insertarBitacoraUsuario(CONS_FUNC_ADM_MODIFICARASIGNACIONEDIFICIO, "Asignacion de edificio modificada ".$intIdAsignacion." en el sistema");
+            $this->insertarBitacoraUsuario(CONS_FUNC_ADM_MODIFICARASIGNACIONEDIFICIO, "Asignación de edificio modificada ".$intIdAsignacion." en el sistema");
             $this->redireccionar('gestionEdificio/actualizarAsignacion/' . $intIdAsignacion . '/' . $intIdEdificio);
        
         }
@@ -256,7 +256,7 @@ class gestionEdificioController extends Controller {
                     $this->redireccionar("error/sql/" . $info);
                     exit;
                 }
-                $this->insertarBitacoraUsuario(CONS_FUNC_ADM_ELIMINAREDIFICIO, "Edificio ".$intIdEdificio." eliminado del sistema");
+                $this->insertarBitacoraUsuario(CONS_FUNC_ADM_ELIMINAREDIFICIO, "Edificio ".$intIdEdificio." cambiado a estado ".$intNuevoEstado);
                 $this->redireccionar('gestionEdificio/listadoEdificio');
             } else {
                 echo "Error al desactivar el edificio";
@@ -335,7 +335,7 @@ class gestionEdificioController extends Controller {
                     $this->redireccionar("error/sql/" . $info);
                     exit;
                 }
-                $this->insertarBitacoraUsuario(CONS_FUNC_ADM_ELIMINARASIGNACIONEDIFICIO, "Asignacion de edificio ".$intIdAsignacion." eliminado del sistema");
+                $this->insertarBitacoraUsuario(CONS_FUNC_ADM_ELIMINARASIGNACIONEDIFICIO, "Asignación de edificio ".$intIdAsignacion." cambiada a estado ".$intNuevoEstado);
                 $this->redireccionar('gestionEdificio/gestionEdificio/' . $idEdificio);
             }else{
                 $this->_view->cambio = "No reconocio ningun parametro";    
@@ -400,7 +400,7 @@ class gestionEdificioController extends Controller {
                     $this->redireccionar("error/sql/" . $info);
                     exit;
                 }
-                $this->insertarBitacoraUsuario(CONS_FUNC_CUR_ELIMINARSALON, "Salon ".$intIdSalon." eliminado del sistema");
+                $this->insertarBitacoraUsuario(CONS_FUNC_CUR_ELIMINARSALON, "Salón ".$intIdSalon." cambiado a estado ".$intNuevoEstado);
                 $this->redireccionar('gestionEdificio/gestionSalon/' . $intIdEdificio);
             }else{
                 $this->_view->cambio = "No reconocio ningun parametro";    
@@ -448,7 +448,7 @@ class gestionEdificioController extends Controller {
                 $this->redireccionar("error/sql/" . $info);
                 exit;
             }
-            $this->insertarBitacoraUsuario(CONS_FUNC_CUR_CREARSALON, "Salon ".$this->getTexto('txtNombre')." creado en el sistema");
+            $this->insertarBitacoraUsuario(CONS_FUNC_CUR_CREARSALON, "Salón ".$this->getTexto('txtNombre')." creado en el sistema");
             $this->redireccionar('gestionEdificio/gestionSalon/'.$intIdEdificio);
         }
         
@@ -495,7 +495,7 @@ class gestionEdificioController extends Controller {
                 $this->redireccionar("error/sql/" . $info);
                 exit;
             }
-            $this->insertarBitacoraUsuario(CONS_FUNC_CUR_MODIFICARSALON, "Salon ".$intIdSalon." modificado en el sistema"); 
+            $this->insertarBitacoraUsuario(CONS_FUNC_CUR_MODIFICARSALON, "Salón ".$intIdSalon." modificado en el sistema"); 
             $this->redireccionar('gestionEdificio/actualizarSalon/' . $intIdSalon .'/' . $intIdEdificio);
         
         }

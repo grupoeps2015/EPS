@@ -27,7 +27,6 @@ class gestionRetrasadasController extends Controller {
         $this->_encriptar = new encripted();
         $this->_post = $this->loadModel('gestionRetrasadas');
         $this->_ajax = $this->loadModel("ajax");
-        $this->_bitacora = $this->loadModel('bitacora');
         if ($this->getInteger('slEstudiantes')) {
             $this->estudiante = $this->getInteger('slEstudiantes');
         }
@@ -351,7 +350,7 @@ class gestionRetrasadasController extends Controller {
             $this->_post->crearPago($this->_view->orden,$this->estudiante,$idPeriodo,$idCarrera);
        
             //Insertar en bitácora  
-            $this->insertarBitacoraUsuario(CONS_FUNC_EST_CREARASIGNACIONRETRASADA, 'El usuario ha generado una nueva orden de pago para examen de retrasada: ' . $orden); 
+            $this->insertarBitacoraUsuario(CONS_FUNC_EST_CREARASIGNACIONRETRASADA, 'El usuario ha generado una nueva orden de pago para examen de retrasada ' . $orden); 
         
             $this->_view->setJs(array('jquery.dataTables.min'), "public");
             $this->_view->setCSS(array('jquery.dataTables.min'));

@@ -274,7 +274,7 @@ class gestionUsuarioController extends Controller {
             } else {
                 $this->_view->cambio = "No reconocio ningun parametro";
             }
-            $this->insertarBitacoraUsuario(CONS_FUNC_ADM_ELIMINARUSUARIO, "Se cambio el estado del usuario ".$intIdUsuario);
+            $this->insertarBitacoraUsuario(CONS_FUNC_ADM_ELIMINARUSUARIO, "Usuario ".$intIdUsuario. " cambiado a estado ".$intNuevoEstado);
             $this->redireccionar('gestionUsuario');
         }
         else
@@ -415,7 +415,7 @@ class gestionUsuarioController extends Controller {
                 $this->redireccionar("error/sql/" . $actualizarUsr);
                 exit;
             }
-            $this->insertarBitacoraUsuario(CONS_FUNC_ADM_MODIFICARUSUARIO, "Se actualizo la información del usuario ".$intIdUsuario);
+            $this->insertarBitacoraUsuario(CONS_FUNC_ADM_MODIFICARUSUARIO, "Información actualizada del usuario ".$intIdUsuario);
             $this->redireccionar('gestionUsuario/actualizarUsuario/'.$intIdUsuario);
         }
         $this->_view->renderizar('actualizarUsuario', 'gestionUsuario');
@@ -726,7 +726,7 @@ class gestionUsuarioController extends Controller {
                     $clave1 = $this->_encriptar->encrypt($clave2, DB_KEY);
                     $nueva = $this->_post->setClaveNueva($datos[0]['usr'],$clave1);
                     if(!is_array($nueva)){
-                        $this->insertarBitacoraUsuario(CONS_FUNC_ADM_MODIFICAR, "Usuario con id ".$intIdUsuario." reestablecio su clave de login");
+                        $this->insertarBitacoraUsuario(CONS_FUNC_ADM_MODIFICAR, "Usuario con id ".$intIdUsuario." ha reestablecido su clave de login");
                         $this->redireccionar('error/sql/'.$nueva);
                         exit;
                     }

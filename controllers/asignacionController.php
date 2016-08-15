@@ -405,7 +405,7 @@ class asignacionController extends Controller{
                             $asignacionCurso = (isset($asignacionCurso[0]['id']) ? $asignacionCurso[0]['id'] : -1);
                             
                             //Insertar en bitácora            
-                            $this->insertarBitacoraAsignacion('Asignación de curso: ' . $cursos[$i] . ' para el estudiante: ' . $this->estudiante . ' en el ciclo asignación: ' . $asignacionEstudiante); 
+                            $this->insertarBitacoraAsignacion('Asignación de curso ' . $cursos[$i] . ' para el estudiante ' . $this->estudiante . ' en el ciclo asignación ' . $asignacionEstudiante); 
             
                         }else{
                             $this->redireccionar("error/sql/" . $asignacionCurso);

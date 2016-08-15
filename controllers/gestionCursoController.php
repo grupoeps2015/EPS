@@ -103,7 +103,7 @@ class gestionCursoController extends Controller {
             }
             
             //Insertar en bitácora   
-            $this->insertarBitacoraUsuario(CONS_FUNC_CUR_CREARCURSO, 'El usuario ha agregado un nuevo curso: ' . $codigoCurso . ' - ' . $nombreCurso); 
+            $this->insertarBitacoraUsuario(CONS_FUNC_CUR_CREARCURSO, 'El usuario ha agregado un nuevo curso ' . $codigoCurso . ' - ' . $nombreCurso); 
             
             $this->redireccionar('gestionCurso');
             exit;
@@ -142,7 +142,7 @@ class gestionCursoController extends Controller {
                 }
                 
                 //Insertar en bitácora     
-                $this->insertarBitacoraUsuario(CONS_FUNC_CUR_ELIMINARCURSO, 'El usuario ha cambiado el estado del curso: ' . $intIdCurso . ' a estado: ' . $intNuevoEstado); 
+                $this->insertarBitacoraUsuario(CONS_FUNC_CUR_ELIMINARCURSO, 'El usuario ha cambiado el estado del curso ' . $intIdCurso . ' a estado ' . $intNuevoEstado); 
             
                 $this->redireccionar('gestionCurso');
                 exit;
@@ -211,7 +211,7 @@ class gestionCursoController extends Controller {
             if (is_array($respuesta)){
                 
                 //Insertar en bitácora   
-                $this->insertarBitacoraUsuario(CONS_FUNC_CUR_MODIFICARCURSO, 'El usuario ha actualizado el curso: ' . $intIdCurso); 
+                $this->insertarBitacoraUsuario(CONS_FUNC_CUR_MODIFICARCURSO, 'El usuario ha actualizado el curso ' . $intIdCurso); 
                             
                 $this->redireccionar('gestionCurso');
                 exit;
@@ -335,7 +335,7 @@ class gestionCursoController extends Controller {
             }
             
             //Insertar en bitácora     
-            $this->insertarBitacoraUsuario(CONS_FUNC_CUR_CREARSECCION, 'El usuario ha creado una nueva sección para el curso: ' . $curso . ' - ' . $nombreSeccion); 
+            $this->insertarBitacoraUsuario(CONS_FUNC_CUR_CREARSECCION, 'El usuario ha creado una nueva sección para el curso ' . $curso . ' - ' . $nombreSeccion); 
                         
             $this->redireccionar('gestionCurso/listadoSeccion');
             exit;
@@ -380,7 +380,7 @@ class gestionCursoController extends Controller {
                 }
                 
                 //Insertar en bitácora   
-                $this->insertarBitacoraUsuario(CONS_FUNC_CUR_ELIMINARSECCION, 'El usuario ha cambiado el estado de la sección: ' . $intIdSeccion . ' a estado: ' . $intNuevoEstado); 
+                $this->insertarBitacoraUsuario(CONS_FUNC_CUR_ELIMINARSECCION, 'El usuario ha cambiado el estado de la sección ' . $intIdSeccion . ' a estado ' . $intNuevoEstado); 
                             
                 $this->redireccionar('gestionCurso/listadoSeccion');
                 exit;
@@ -426,7 +426,7 @@ class gestionCursoController extends Controller {
             if (is_array($respuesta)){
                 
                 //Insertar en bitácora
-                $this->insertarBitacoraUsuario(CONS_FUNC_CUR_MODIFICARSECCION, 'El usuario ha actualizado la sección: ' . $intIdSeccion); 
+                $this->insertarBitacoraUsuario(CONS_FUNC_CUR_MODIFICARSECCION, 'El usuario ha actualizado la sección ' . $intIdSeccion); 
                                  
                 $this->redireccionar('gestionCurso/listadoSeccion');
                 exit;

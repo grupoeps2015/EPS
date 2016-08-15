@@ -9,7 +9,6 @@ class gestionCentroUnidadController extends Controller {
 
     private $_gCenUni;
     private $_ajax;
-    private $_bitacora;
     
     public function __construct() {
         parent::__construct();
@@ -20,7 +19,6 @@ class gestionCentroUnidadController extends Controller {
             exit;
         }
         $this->_ajax = $this->loadModel("ajax");
-        $this->_bitacora = $this->loadModel('bitacora');
         $this->_gCenUni = $this->loadModel('gestionCentroUnidad');
     }
 
@@ -96,7 +94,7 @@ class gestionCentroUnidadController extends Controller {
                 $this->redireccionar("error/sql/" . $info);
                 exit;
             }
-            $this->insertarBitacoraUsuario(CONS_FUNC_ADM_CREARCENTROUNIDAD, "Agregado Centro Universitario ".$this->getTexto('txtNombreCen')." al sistema");
+            $this->insertarBitacoraUsuario(CONS_FUNC_ADM_CREARCENTROUNIDAD, "Agregado centro universitario ".$this->getTexto('txtNombreCen')." al sistema");
             $this->redireccionar('gestionCentroUnidad');
             exit;
         }
@@ -155,7 +153,7 @@ class gestionCentroUnidadController extends Controller {
             }else{
                 $this->_view->exito = "Informaci&oacute;n actualizada con &eacute;xito";
             }
-            $this->insertarBitacoraUsuario(CONS_FUNC_ADM_MODIFICARCENTROUNIDAD, "Se actualizo el centro universitario ".$this->getTexto('txtNombreCen'));
+            $this->insertarBitacoraUsuario(CONS_FUNC_ADM_MODIFICARCENTROUNIDAD, "Se actualizó el centro universitario ".$this->getTexto('txtNombreCen'));
             $this->redireccionar('gestionCentroUnidad');
             exit;
         }
@@ -256,7 +254,7 @@ class gestionCentroUnidadController extends Controller {
         $this->_view->setJs(array('listadoUnidades'));
         $this->_view->setJs(array('jquery.dataTables.min'), "public");
         $this->_view->setCSS(array('jquery.dataTables.min'));
-        $this->insertarBitacoraUsuario(CONS_FUNC_ADM_CONSULTACENTROUNIDAD, "Consulta listado de unidades academicas");
+        $this->insertarBitacoraUsuario(CONS_FUNC_ADM_CONSULTACENTROUNIDAD, "Consulta listado de unidades académicas");
         $this->_view->renderizar('listadoUnidades', 'gestionCentroUnidad');
     }
     
@@ -340,7 +338,7 @@ class gestionCentroUnidadController extends Controller {
                     exit;
                 }
             }
-            $this->insertarBitacoraUsuario(CONS_FUNC_ADM_CREARCENTROUNIDAD, "Agregada Unidad Academica al sistema ".$this->getTexto('txtNombreUni'));
+            $this->insertarBitacoraUsuario(CONS_FUNC_ADM_CREARCENTROUNIDAD, "Agregada unidad académica al sistema ".$this->getTexto('txtNombreUni'));
             $this->redireccionar('gestionCentroUnidad/listadoUnidades/'.$idCentro);
             exit;   
         }
@@ -472,7 +470,7 @@ class gestionCentroUnidadController extends Controller {
                 $this->redireccionar("error/sql/" . $ext);
                 exit;
             }
-            $this->insertarBitacoraUsuario(CONS_FUNC_ADM_CREAREXTENSION, "Nueva extension ".$nombreExtension." creada ");
+            $this->insertarBitacoraUsuario(CONS_FUNC_ADM_CREAREXTENSION, "Nueva extensión ".$nombreExtension." creada");
             $this->redireccionar('gestionCentroUnidad/listadoExtensiones/'.$idCentroUnidad);
             exit;
         }
@@ -534,7 +532,7 @@ class gestionCentroUnidadController extends Controller {
                 $this->redireccionar("error/sql/" . $extension);
                 exit;
             }
-            $this->insertarBitacoraUsuario(CONS_FUNC_ADM_MODIFICAREXTENSION, "Extension ".$nombreExt." modificada ");
+            $this->insertarBitacoraUsuario(CONS_FUNC_ADM_MODIFICAREXTENSION, "Extensión ".$nombreExt." modificada ");
             $this->redireccionar('gestionCentroUnidad/listadoExtensiones/'.$idCentroUnidad);
             exit;
         }
@@ -574,7 +572,7 @@ class gestionCentroUnidadController extends Controller {
                     exit;
                 }                
             }
-            $this->insertarBitacoraUsuario(CONS_FUNC_ADM_ELIMINAREXTENSION, "Extension ".$ext." eliminada ");
+            $this->insertarBitacoraUsuario(CONS_FUNC_ADM_ELIMINAREXTENSION, "Extensión ".$ext." cambiada a estado ".$estado);
             $this->redireccionar('gestionCentroUnidad/listadoExtensiones/' . $idCentroUnidad);
             }
         else

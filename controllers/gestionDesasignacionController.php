@@ -11,7 +11,6 @@ class gestionDesasignacionController extends Controller {
     private $_post;
     private $_encriptar;
     private $_ajax;
-    private $_bitacora;
 
     public function __construct() {
         parent::__construct();
@@ -25,7 +24,6 @@ class gestionDesasignacionController extends Controller {
         $this->_encriptar = new encripted();
         $this->_post = $this->loadModel('gestionDesasignacion');
         $this->_ajax = $this->loadModel("ajax");
-        $this->_bitacora = $this->loadModel("bitacora");
         if ($this->getInteger('slEstudiantes')) {
             $this->estudiante = $this->getInteger('slEstudiantes');
         } else {
@@ -141,7 +139,7 @@ class gestionDesasignacionController extends Controller {
                     $this->_post->agregarDesasignacion($arrayDes);
                     
                     //Insertar en bitácora
-                    $this->insertarBitacoraUsuario(CONS_FUNC_LOGIN, 'Se ha desactivado la desasignacion: ' . $idAsignacion . ' del curso: ' . $codigoCurso);            
+                    $this->insertarBitacoraUsuario(CONS_FUNC_LOGIN, 'Se ha desactivado la desasignacion ' . $idAsignacion . ' del curso ' . $codigoCurso);            
              
                     echo "<script>
                 alert('Desasignacion de curso para el estudiante " . $carnet . " realizada exitosamente.');
