@@ -105,11 +105,11 @@ abstract class Controller{
         $arrayBitacora = array();
         $arrayBitacora[":usuario"] = $_SESSION["usuario"];
         $arrayBitacora[":nombreusuario"] = $_SESSION["nombre"];
-        $arrayBitacora[":funcion"] = $funcion;//CONS_FUNC_CUR_CONSULTARCURSO;
+        $arrayBitacora[":funcion"] = $funcion;
         $arrayBitacora[":ip"] = $this->get_ip_address();
         $arrayBitacora[":registro"] = 0;
         $arrayBitacora[":tablacampo"] = '';
-        $arrayBitacora[":descripcion"] = $descripcion;//'El usuario ha consultado el catálogo de cursos';
+        $arrayBitacora[":descripcion"] = $descripcion;
         $insert = $this->_bitacora->insertarBitacoraUsuario($arrayBitacora, $_SESSION["rol"]);
         if(!is_array($insert)){
             $this->redireccionar("error/sql/" . $insert);
@@ -117,6 +117,21 @@ abstract class Controller{
         }
     }
     
+    protected function insertarBitacoraAsignacion($descripcion){
+        $arrayBitacora = array();
+        $arrayBitacora[":usuario"] = $_SESSION["usuario"];
+        $arrayBitacora[":nombreusuario"] = $_SESSION["nombre"];
+        $arrayBitacora[":funcion"] = CONS_FUNC_ADM_CREARASIGNACION;
+        $arrayBitacora[":ip"] = $this->get_ip_address();
+        $arrayBitacora[":registro"] = 0; 
+        $arrayBitacora[":tablacampo"] = ''; 
+        $arrayBitacora[":descripcion"] = $descripcion;
+        $insert = $this->_bitacora->insertarBitacoraAsignacion($arrayBitacora);
+        if (!is_array($insert)) {
+            $this->redireccionar("error/sql/" . $insert);
+            exit;
+        }
+    }
 }
 
 ?>

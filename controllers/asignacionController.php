@@ -16,7 +16,6 @@ class asignacionController extends Controller{
     private $estudiante;
     private $carrera;
     private $_encriptarFacil;
-     private $_bitacora;
     
     public function __construct() {
         parent::__construct();
@@ -32,7 +31,6 @@ class asignacionController extends Controller{
         $this->_encriptarFacil = new encriptedEasy();
         $this->_asign=$this->loadModel('asignacion');
         $this->_ajax = $this->loadModel("ajax");
-        $this->_bitacora = $this->loadModel("bitacora");
         if ($this->getInteger('slEstudiantes')) {
             $this->estudiante = $this->getInteger('slEstudiantes');
         }
@@ -405,20 +403,10 @@ class asignacionController extends Controller{
                         $asignacionCurso = $this->_asign->agregarAsignacionCurso($this->estudiante,$asignacionEstudiante,$cursos[$i],"");
                         if(is_array($asignacionCurso)){
                             $asignacionCurso = (isset($asignacionCurso[0]['id']) ? $asignacionCurso[0]['id'] : -1);
-                                                     //Insertar en bitácora            
-                            $arrayBitacora = array();
-                            $arrayBitacora[":usuario"] = $_SESSION["usuario"];
-                            $arrayBitacora[":nombreusuario"] = $_SESSION["nombre"];
-                            $arrayBitacora[":funcion"] = CONS_FUNC_LOGIN;
-                            $arrayBitacora[":ip"] = $this->get_ip_address();
-                            $arrayBitacora[":registro"] = 0; //no se que es esto
-                            $arrayBitacora[":tablacampo"] = ''; //tampoco se que es esto
-                            $arrayBitacora[":descripcion"] = 'Se ha realizado asignacion de curso';
-                            $insert = $this->_bitacora->insertarBitacoraAsignacion($arrayBitacora);
-                            if (!is_array($insert)) {
-                                $this->redireccionar("error/sql/" . $insert);
-                                exit;
-                            }
+                            
+                            //Insertar en bitácora            
+                            $this->insertarBitacoraAsignacion('Asignación de curso: ' . $cursos[$i] . ' para el estudiante: ' . $this->estudiante . ' en el ciclo asignación: ' . $asignacionEstudiante); 
+            
                         }else{
                             $this->redireccionar("error/sql/" . $asignacionCurso);
                             exit;
@@ -439,40 +427,7 @@ class asignacionController extends Controller{
                 exit;
             }
         }
-    }
-    
-     private function get_ip_address() {
-        // check for shared internet/ISP IP
-        if (!empty($_SERVER['HTTP_CLIENT_IP']) && validate_ip($_SERVER['HTTP_CLIENT_IP'])) {
-            return $_SERVER['HTTP_CLIENT_IP'];
-        }
-
-        // check for IPs passing through proxies
-        if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-            // check if multiple ips exist in var
-            if (strpos($_SERVER['HTTP_X_FORWARDED_FOR'], ',') !== false) {
-                $iplist = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
-                foreach ($iplist as $ip) {
-                    if (validate_ip($ip))
-                        return $ip;
-                }
-            } else {
-                if (validate_ip($_SERVER['HTTP_X_FORWARDED_FOR']))
-                    return $_SERVER['HTTP_X_FORWARDED_FOR'];
-            }
-        }
-        if (!empty($_SERVER['HTTP_X_FORWARDED']) && validate_ip($_SERVER['HTTP_X_FORWARDED']))
-            return $_SERVER['HTTP_X_FORWARDED'];
-        if (!empty($_SERVER['HTTP_X_CLUSTER_CLIENT_IP']) && validate_ip($_SERVER['HTTP_X_CLUSTER_CLIENT_IP']))
-            return $_SERVER['HTTP_X_CLUSTER_CLIENT_IP'];
-        if (!empty($_SERVER['HTTP_FORWARDED_FOR']) && validate_ip($_SERVER['HTTP_FORWARDED_FOR']))
-            return $_SERVER['HTTP_FORWARDED_FOR'];
-        if (!empty($_SERVER['HTTP_FORWARDED']) && validate_ip($_SERVER['HTTP_FORWARDED']))
-            return $_SERVER['HTTP_FORWARDED'];
-
-        // return unreliable ip since all else failed
-        return $_SERVER['REMOTE_ADDR'];
-    }
+    }     
     
     public function boletaAsignacion($anioA = -1, $cicloA = -1){
         if ($_SESSION["rol"] == ROL_ADMINISTRADOR || $_SESSION["rol"] == ROL_EMPLEADO) {

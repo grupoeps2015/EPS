@@ -131,6 +131,7 @@ class gestionPensumController extends Controller {
                         if (is_array($asignacion)) {
                             $this->insertarBitacoraUsuario(CONS_FUNC_PENSUM_ASIGNARAREACARRERA, "Asignacion ".$intIdCarrera." en el sistema"); 
                             $this->redireccionar('gestionPensum/asignarAreaCarrera/' . $intIdCarrera);
+                            exit;
                         } else {
                             $this->redireccionar("error/sql/" . $asignacion);
                             exit;
@@ -232,6 +233,7 @@ class gestionPensumController extends Controller {
             }
             $this->insertarBitacoraUsuario(CONS_FUNC_CUR_CREARCARRERA, "Carrera ".$nombreCarrera." registrada en el sistema"); 
             $this->redireccionar('gestionPensum/listadoCarrera');
+            exit;
         }
         $this->_view->renderizar('agregarCarrera', 'gestionPensum');
     }
@@ -250,6 +252,7 @@ class gestionPensumController extends Controller {
                 }
                 $this->insertarBitacoraUsuario(CONS_FUNC_CUR_ELIMINARCARRERAAREA, "Carrera ".$intIdCarrera." - ".$intIdCarreraArea." eliminada del sistema"); 
                 $this->redireccionar('gestionPensum/asignarAreaCarrera/'.$intIdCarrera);
+                exit;
             } else {
                 echo "Error al desactivar carrera";
             }
@@ -274,6 +277,7 @@ class gestionPensumController extends Controller {
                 }
                 $this->insertarBitacoraUsuario(CONS_FUNC_CUR_ELIMINARCARRERA, "Carrera ".$intIdCarrera." eliminada del sistema"); 
                 $this->redireccionar('gestionPensum/listadoCarrera');
+                exit;
             } else {
                 echo "Error al desactivar carrera";
             }
@@ -333,6 +337,7 @@ class gestionPensumController extends Controller {
             if (is_array($respuesta)) {
                 $this->insertarBitacoraUsuario(CONS_FUNC_CUR_MODIFICARCARRERA, "Carrera ".$intIdCarrera." modificada en el sistema");
                 $this->redireccionar('gestionPensum/actualizarCarrera/' . $intIdCarrera);
+                exit;
             } else {
                 $this->redireccionar("error/sql/" . $respuesta);
                 exit;
@@ -490,6 +495,7 @@ class gestionPensumController extends Controller {
             }
             $this->insertarBitacoraUsuario(CONS_FUNC_CUR_CREARCURSOPENSUM, "Pensum ".$pensum." agregado al sistema");
             $this->redireccionar('gestionPensum/listadoPensum');
+            exit;
         }
         $this->_view->renderizar('agregarPensum', 'gestionPensum');
     }
@@ -508,6 +514,7 @@ class gestionPensumController extends Controller {
         }
         $this->insertarBitacoraUsuario(CONS_FUNC_CUR_ELIMINARPENSUM, "Pensum ".$intIdPensum." eliminado del sistema");
         $this->redireccionar('gestionPensum/listadoPensum');
+        exit;
         } else {
             echo "<script>
                 ".MSG_SINPERMISOS."
@@ -530,6 +537,7 @@ class gestionPensumController extends Controller {
         }
         $this->insertarBitacoraUsuario(CONS_FUNC_CUR_ELIMINARPENSUM, "Pensum ".$intIdPensum." activado en el sistema");
         $this->redireccionar('gestionPensum/listadoPensum');
+        exit;
         } else {
             echo "<script>
                 ".MSG_SINPERMISOS."
@@ -601,8 +609,9 @@ class gestionPensumController extends Controller {
                     $this->redireccionar("error/sql/" . $info);
                     exit;
                 }
-                $this->insertarBitacoraUsuario(CONS_FUNC_CUR_ELIMINARCURSOPENSUM, "Curso ".$intIdCursoPensum." elimanado del pensum en el sistema");
+                $this->insertarBitacoraUsuario(CONS_FUNC_CUR_ELIMINARCURSOPENSUM, "Curso ".$intIdCursoPensum." eliminado del pensum en el sistema");
                 $this->redireccionar('gestionPensum/gestionCursoPensum/' . $intIdPensum . '/' . $intIdCarrera);
+                exit;
             } else {
                 $this->_view->cambio = "No reconocio ningun parametro";
             }

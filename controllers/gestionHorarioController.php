@@ -558,6 +558,10 @@ class gestionHorarioController extends Controller {
                 $this->redireccionar("error/sql/" . $ciclo);
                 exit;
             }
+            
+            //Insertar en bitácora
+            $this->insertarBitacoraUsuario(CONS_FUNC_CUR_CREARCICLO, 'El usuario ha creado un nuevo ciclo para el año: ' . $anio); 
+            
         }
         $this->redireccionar("gestionHorario/seleccionarCicloCurso");
         exit;
@@ -583,6 +587,10 @@ class gestionHorarioController extends Controller {
                 $this->redireccionar("error/sql/" . $resp);
                 exit;
             }
+            
+            //Insertar en bitácora
+            $this->insertarBitacoraUsuario(CONS_FUNC_CUR_CREARHORARIO, 'El usuario ha creado un nuevo horario para el ciclo: ' . $this->getInteger('slCicloD') . ' a partir del ciclo: ' . $this->getInteger('slCicloO')); 
+            
         }
         $this->redireccionar("gestionHorario/seleccionarCicloCurso");
         exit;
