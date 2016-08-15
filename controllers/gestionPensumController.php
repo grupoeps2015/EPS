@@ -694,6 +694,7 @@ class gestionPensumController extends Controller {
             }
             $this->insertarBitacoraUsuario(CONS_FUNC_CUR_CREARCURSOPENSUM, "Curso creado en el pensum ".$idPensum." en el sistema");
             $this->redireccionar('gestionPensum/gestionCursoPensum/' . $idPensum . '/' . $idCarrera);
+            exit;
         }
 
         $this->_view->renderizar('agregarCursoPensum', 'gestionPensum');
@@ -770,6 +771,8 @@ class gestionPensumController extends Controller {
             }
             $this->insertarBitacoraUsuario(CONS_FUNC_CUR_MODIFICARSALON, "Curso modificando en el pensum ".$idCursoPensum." en el sistema");
             $this->redireccionar('gestionPensum/actualizarCursoPensum/'.$idCursoPensum.'/'.$idPensum.'/'.$idCarrera);
+            exit;
+            
         }
         
         $this->_view->renderizar('actualizarCursoPensum', 'gestionPensum');
@@ -843,7 +846,7 @@ class gestionPensumController extends Controller {
             }
             $this->insertarBitacoraUsuario(CONS_FUNC_CUR_CREARPENSUM, "Pensum ".$pensum." creado en el sistema");
             $this->redireccionar('gestionPensum/gestionCursoPensum/'.$pensum.'/'.$carrera);
-            
+            exit;
         }
 
         $this->_view->renderizar('crearPensum', 'gestionPensum');
@@ -903,6 +906,7 @@ class gestionPensumController extends Controller {
             }
             $this->insertarBitacoraUsuario(CONS_FUNC_CUR_MODIFICARPENSUM, "Pensum ".$intIdPensum." actualizado en el sistema");
             $this->redireccionar('gestionPensum/listadoPensum');
+            exit;
         }
         $this->_view->renderizar('actualizarPensum', 'gestionPensum');
     }
