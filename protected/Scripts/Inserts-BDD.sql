@@ -1080,7 +1080,7 @@ INSERT INTO CUR_TipoPrerrequisito (tipoprerrequisito,descripcion) values (2,'Cr�
 INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (1,'Número máximo de reintentos de login','5','',NULL,NULL,1,1);
 INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (2,'Tiempo máximo de sesión activa','60','En minutos',NULL,NULL,1,1);
 INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (3,'Cantidad máxima de intentos de asignación','5','',NULL,NULL,1,1);
-INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (100,'Tipo de ciclo','1','En minutos',1,NULL,2,1);
+INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (100,'Tipo de ciclo','1','',1,NULL,2,1);
 INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (101,'Nota de promoción','61','Sobre 100 puntos',1,NULL,2,1);
 INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (102,'Zona','80','Sobre 100 puntos',1,NULL,2,1);
 INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (103,'Examen','20','Sobre 100 puntos',1,NULL,2,1);

@@ -164,7 +164,7 @@ BEGIN
   INSERT INTO adm_centro_unidadacademica(centro_unidadacademica, centro, unidadacademica,estado)
 	 VALUES (id, _centro, _unidad, 1);
 	--parámetros de tipo centro - unidad académica
-	INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (100,'Tipo de ciclo','1','En minutos',id,NULL,2,1);
+	INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (100,'Tipo de ciclo','1','',id,NULL,2,1);
 	INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (101,'Nota de promoción','61','Sobre 100 puntos',id,NULL,2,1);
 	INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (102,'Zona','80','Sobre 100 puntos',id,NULL,2,1);
 	INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (103,'Examen','20','Sobre 100 puntos',id,NULL,2,1);
