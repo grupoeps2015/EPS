@@ -165,6 +165,12 @@ BEGIN
 	 VALUES (id, _centro, _unidad, 1);
 	--parámetros de tipo centro - unidad académica
 	INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (100,'Tipo de ciclo','1','En minutos',id,NULL,2,1);
+	INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (101,'Nota de promoción','61','Sobre 100 puntos',id,NULL,2,1);
+	INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (102,'Zona','80','Sobre 100 puntos',id,NULL,2,1);
+	INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (103,'Examen','20','Sobre 100 puntos',id,NULL,2,1);
+	INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (104,'Zona mínima','41','Sobre 100 puntos',id,NULL,2,1);
+	INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (105,'Nota de aprobación de examen de suficiencia','80','Sobre 100 puntos',id,NULL,2,1);
+	INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (106,'Nota mínima de examen final','1','Sobre 100 puntos',id,NULL,2,1);
 	--parámetros de tipo centro - unidad académica
 END;
 $BODY$

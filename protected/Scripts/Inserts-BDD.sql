@@ -1081,18 +1081,19 @@ INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademic
 INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (2,'Tiempo máximo de sesión activa','60','En minutos',NULL,NULL,1,1);
 INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (3,'Cantidad máxima de intentos de asignación','5','',NULL,NULL,1,1);
 INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (100,'Tipo de ciclo','1','En minutos',1,NULL,2,1);
+INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (101,'Nota de promoción','61','Sobre 100 puntos',1,NULL,2,1);
+INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (102,'Zona','80','Sobre 100 puntos',1,NULL,2,1);
+INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (103,'Examen','20','Sobre 100 puntos',1,NULL,2,1);
+INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (104,'Zona mínima','41','Sobre 100 puntos',1,NULL,2,1);
+INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (105,'Nota de aprobación de examen de suficiencia','80','Sobre 100 puntos',1,NULL,2,1);
+INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (106,'Nota mínima de examen final','1','Sobre 100 puntos',1,NULL,2,1);
 INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (200,'Número máximo de cursos traslapados','3','',1,1,3,1);
 INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (201,'Tiempo máximo de traslape entre 2 cursos','60','En minutos',1,1,3,1);
 INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (202,'Criterio de tiempo de traslape entre 2 cursos','S','S: Semanal, D: Diario',1,1,3,1);
 INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (203,'Cantidad máxima de asignaciones por curso','3','',1,1,3,1);
 INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (204,'Cupo máximo por curso','60','Estudiantes asignados',1,1,3,1);
 INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (205,'Cantidad máxima de cursos a asignar por ciclo','8','Por estudiante',1,1,3,1);
-INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (206,'Nota de promoción','61','Sobre 100 puntos',1,1,3,1);
-INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (207,'Zona','80','Sobre 100 puntos',1,1,3,1);
-INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (208,'Examen','20','Sobre 100 puntos',1,1,3,1);
-INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (209,'Zona mínima','41','Sobre 100 puntos',1,1,3,1);
-INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (210,'Nota de aprobación de examen de suficiencia','80','Sobre 100 puntos',1,1,3,1);
-INSERT INTO adm_parametro (codigo,nombre,valor,descripcion,centro_unidadacademica,carrera,tipoparametro,estado) values (211,'Nota mínima de examen final','1','Sobre 100 puntos',1,1,3,1);
+
 
 -- -----------------------------------------------------
 -- Insert est_estadonota

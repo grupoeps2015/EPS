@@ -24,7 +24,7 @@ class loginController extends Controller{
     }
 
     public function index(){
-        $this->_view->titulo = 'Escuela de Historia - USAC';
+        $this->_view->titulo = APP_TITULO;
         $this->_view->setJs(array('logearUsuario'));
         $this->_view->setJs(array('jquery.validate'),"public");
         $this->_view->renderizar('login');
