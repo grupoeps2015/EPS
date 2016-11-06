@@ -16,7 +16,8 @@ class loginController extends Controller{
     public function __construct() {
         parent::__construct();
         $this->getLibrary('encripted');
-        $this->getLibrary('wsVerificaUsuario');
+        //$this->getLibrary('wsVerificaUsuario');
+        $this->getLibrary('wsConsultaEstudiante');
         $this->_encriptar = new encripted();
         $this->_login = $this->loadModel('login');
         $this->_bitacora = $this->loadModel('bitacora');
@@ -156,10 +157,22 @@ class loginController extends Controller{
         exit;
     }
     
-    public function existe(){
+    /*public function existe(){
         $this->_verifica_usuario = new wsVerificaUsuario();
         echo $this->_verifica_usuario->consultar_estudiante(200516231,5391) . '<br/><br/>';
         echo $this->_verifica_usuario->consultar_estudiante(200611199,'ffb89b9c') . '<br/><br/>';
         echo $this->_verifica_usuario->consultar_estudiante(200410339,'UA2890061');
+    }*/
+    
+    public function verificaEstudiante(){
+         $this->_verifica_usuario = new wsConsultaEstudiante();
+         $prueba = $this->_verifica_usuario->verificaEstudiante(200915207);
+         echo $prueba;
+    }
+    
+    public function verificaInscripcion(){
+         $this->_verifica_usuario = new wsConsultaEstudiante();
+         $prueba = $this->_verifica_usuario->verificaInscripcion(200915207);
+         echo $prueba;
     }
 }
