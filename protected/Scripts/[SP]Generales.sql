@@ -257,7 +257,7 @@ begin
 		cic.numerociclo
 	      from 
 	        cur_ciclo cic, cur_tipociclo tip 
-	      where cic.tipociclo = tip.tipociclo and cic.tipociclo = _tipo and cic.anio = _anio order by cic.numerociclo asc;
+	      where cic.tipociclo = tip.tipociclo and cic.tipociclo = _tipo and cic.anio = _anio and cic.numerociclo > 0 order by cic.numerociclo asc;
 end;
 $BODY$
   LANGUAGE plpgsql VOLATILE
